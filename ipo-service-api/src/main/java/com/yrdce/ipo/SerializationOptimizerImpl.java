@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,18 +15,13 @@
  */
 package com.yrdce.ipo;
 
-import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
-import com.yrdce.ipo.bid.BidRequest;
-import com.yrdce.ipo.bid.BidResponse;
-import com.yrdce.ipo.bid.Device;
-import com.yrdce.ipo.bid.Geo;
-import com.yrdce.ipo.bid.Impression;
-import com.yrdce.ipo.bid.SeatBid;
-import com.yrdce.ipo.user.User;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
+import com.yrdce.ipo.modules.sys.entity.Dict;
+import com.yrdce.ipo.modules.sys.entity.User;
 
 /**
  * This class must be accessible from both the provider and consumer
@@ -35,15 +30,10 @@ import java.util.List;
  */
 public class SerializationOptimizerImpl implements SerializationOptimizer {
 
-    public Collection<Class> getSerializableClasses() {
-        List<Class> classes = new LinkedList<Class>();
-        classes.add(BidRequest.class);
-        classes.add(BidResponse.class);
-        classes.add(Device.class);
-        classes.add(Geo.class);
-        classes.add(Impression.class);
-        classes.add(SeatBid.class);
-        classes.add(User.class);
-        return classes;
-    }
+	public Collection<Class> getSerializableClasses() {
+		List<Class> classes = new LinkedList<Class>();
+		classes.add(User.class);
+		classes.add(Dict.class);
+		return classes;
+	}
 }

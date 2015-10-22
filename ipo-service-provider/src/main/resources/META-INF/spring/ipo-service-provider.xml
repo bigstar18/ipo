@@ -28,7 +28,7 @@
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
 
-	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" />
+	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" port="8888" />
     <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.yrdce.ipo.SerializationOptimizerImpl"/>-->
 
     <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
@@ -45,13 +45,13 @@
     <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
 
     <!-- use tomcat server -->
-	<dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500"
+	<!-- <dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500"
 		extension="com.yrdce.ipo.extension.TraceInterceptor,
                     com.yrdce.ipo.extension.TraceFilter,
                     com.yrdce.ipo.extension.ClientTraceFilter,
                     com.yrdce.ipo.extension.DynamicTraceBinding,
                     com.yrdce.ipo.extension.CustomExceptionMapper,
-                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter" />
+                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter" /> -->
 
     <!-- use the external tomcat or other server with the servlet approach; the port and contextpath must be exactly the same as those in external server -->
     <!--<dubbo:protocol name="rest" port="8888" contextpath="services" server="servlet"/>-->
@@ -63,9 +63,19 @@
 	<dubbo:service interface="com.yrdce.ipo.bid.BidService" ref="bidService" protocol="dubbo" />
 
     <!-- we add the group property since there's another annotation-configured service impl: com.yrdce.ipo.user.facade.AnnotationDrivenUserRestServiceImpl -->
-	<dubbo:service interface="com.yrdce.ipo.user.UserService" ref="userService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.UserService" ref="userService" protocol="dubbo" />
 
 	<bean id="bidService" class="com.yrdce.ipo.bid.BidServiceImpl" />
 
-	<bean id="userService" class="com.yrdce.ipo.user.UserServiceImpl" />
+	<bean id="userService" class="com.yrdce.ipo.modules.sys.service.UserServiceImpl" />
+	
+<!-- 	当一个接口有多种实现时，可以用group区分。
+从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
+读写分离：
+method = find*,list*,get*,is* => host = 172.22.3.94,172.22.3.95,172.22.3.96
+method != find*,list*,get*,is* => host = 172.22.3.97,172.22.3.98 
+
+-->
+	<!-- 使用多个协议暴露服务 -->
+    <!-- <dubbo:service id="helloService" interface="com.alibaba.hello.api.HelloService" version="1.0.0" protocol="dubbo,hessian" /> -->
 </beans>
