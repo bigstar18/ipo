@@ -17,7 +17,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.yrdce.ipo.modules.sys.entity.User;
+import com.yrdce.ipo.modules.sys.vo.User;
 
 /**
  * @author lishen

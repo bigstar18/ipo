@@ -20,8 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
-import com.yrdce.ipo.modules.sys.entity.Dict;
-import com.yrdce.ipo.modules.sys.entity.User;
+import com.yrdce.ipo.modules.sys.vo.Dict;
+import com.yrdce.ipo.modules.sys.vo.User;
 
 /**
  * This class must be accessible from both the provider and consumer

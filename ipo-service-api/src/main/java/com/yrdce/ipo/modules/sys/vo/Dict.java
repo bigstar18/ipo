@@ -1,45 +1,43 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import org.hibernate.validator.constraints.Length;
-
-import com.yrdce.ipo.common.persistence.DataEntity;
+import com.yrdce.ipo.common.vo.BaseData;
 
 /**
  * 字典Entity
+ * 
  * @author ThinkGem
  * @version 2013-05-15
  */
-public class Dict extends DataEntity<Dict> {
+public class Dict extends BaseData<Dict> {
 
 	private static final long serialVersionUID = 1L;
-	private String value;	// 数据值
-	private String label;	// 标签名
-	private String type;	// 类型
+	private String value; // 数据值
+	private String label; // 标签名
+	private String type; // 类型
 	private String description;// 描述
-	private Integer sort;	// 排序
-	private String parentId;//父Id
+	private Integer sort; // 排序
+	private String parentId;// 父Id
 
 	public Dict() {
 		super();
 	}
-	
-	public Dict(String id){
+
+	public Dict(String id) {
 		super(id);
 	}
-	
-	public Dict(String value, String label){
+
+	public Dict(String value, String label) {
 		this.value = value;
 		this.label = label;
 	}
-	
+
 	@XmlAttribute
-	@Length(min=1, max=100)
 	public String getValue() {
 		return value;
 	}
@@ -47,9 +45,8 @@ public class Dict extends DataEntity<Dict> {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	@XmlAttribute
-	@Length(min=1, max=100)
 	public String getLabel() {
 		return label;
 	}
@@ -58,7 +55,6 @@ public class Dict extends DataEntity<Dict> {
 		this.label = label;
 	}
 
-	@Length(min=1, max=100)
 	public String getType() {
 		return type;
 	}
@@ -68,7 +64,6 @@ public class Dict extends DataEntity<Dict> {
 	}
 
 	@XmlAttribute
-	@Length(min=0, max=100)
 	public String getDescription() {
 		return description;
 	}
@@ -86,7 +81,6 @@ public class Dict extends DataEntity<Dict> {
 		this.sort = sort;
 	}
 
-	@Length(min=1, max=100)
 	public String getParentId() {
 		return parentId;
 	}
@@ -94,7 +88,7 @@ public class Dict extends DataEntity<Dict> {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-	
+
 	@Override
 	public String toString() {
 		return label;

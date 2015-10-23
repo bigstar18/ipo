@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.yrdce.ipo.common.dao.CrudDao;
 import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.Dict;
+import com.yrdce.ipo.modules.sys.entity.Dict2;
 
 /**
  * 字典DAO接口
@@ -16,8 +16,8 @@ import com.yrdce.ipo.modules.sys.entity.Dict;
  * @version 2014-05-16
  */
 @MyBatisDao
-public interface DictDao extends CrudDao<Dict> {
+public interface DictDao extends CrudDao<Dict2> {
 
-	public List<String> findTypeList(Dict dict);
+	public List<String> findTypeList(Dict2 dict);
 
 }

@@ -22,6 +22,13 @@ import com.yrdce.ipo.common.utils.StringUtils;
 public class Global {
 
 	/**
+	 * 删除标记（0：正常；1：删除；2：审核；）
+	 */
+	public static final String DEL_FLAG_NORMAL = "0";
+	public static final String DEL_FLAG_DELETE = "1";
+	public static final String DEL_FLAG_AUDIT = "2";
+
+	/**
 	 * 当前对象实例
 	 */
 	private static Global global = new Global();

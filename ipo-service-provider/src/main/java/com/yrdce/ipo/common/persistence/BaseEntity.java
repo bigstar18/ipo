@@ -14,7 +14,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import com.google.common.collect.Maps;
 import com.yrdce.ipo.common.config.Global;
 import com.yrdce.ipo.common.utils.StringUtils;
-import com.yrdce.ipo.modules.sys.entity.User;
+import com.yrdce.ipo.common.vo.Page;
+import com.yrdce.ipo.modules.sys.vo.User;
 
 /**
  * Entity支持类

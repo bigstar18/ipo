@@ -8,7 +8,7 @@ import java.io.Serializable;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.yrdce.ipo.modules.sys.entity.User;
+import com.yrdce.ipo.modules.sys.vo.User;
 
 /**
  * 用户工具类

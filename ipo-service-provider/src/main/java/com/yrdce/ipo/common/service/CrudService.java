@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.dao.CrudDao;
-import com.yrdce.ipo.common.persistence.DataEntity;
-import com.yrdce.ipo.common.persistence.Page;
+import com.yrdce.ipo.common.persistence.BaseEntity;
+import com.yrdce.ipo.common.vo.Page;
 
 /**
  * Service基类
@@ -19,7 +19,7 @@ import com.yrdce.ipo.common.persistence.Page;
  * @version 2014-05-16
  */
 @Transactional(readOnly = true)
-public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
+public abstract class CrudService<D extends CrudDao<T>, T extends BaseEntity<T>> extends BaseService {
 
 	/**
 	 * 持久层对象

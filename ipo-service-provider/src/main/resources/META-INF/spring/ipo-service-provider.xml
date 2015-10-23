@@ -28,7 +28,7 @@
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
 
-	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" port="8888" />
+	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" port="88888" />
     <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.yrdce.ipo.SerializationOptimizerImpl"/>-->
 
     <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
@@ -60,12 +60,12 @@
 	<dubbo:protocol name="hessian" port="8890" />
 	<dubbo:protocol name="webservice" port="8892" /> -->
 
-	<dubbo:service interface="com.yrdce.ipo.bid.BidService" ref="bidService" protocol="dubbo" />
+	<!-- <dubbo:service interface="com.yrdce.ipo.bid.BidService" ref="bidService" protocol="dubbo" /> -->
 
     <!-- we add the group property since there's another annotation-configured service impl: com.yrdce.ipo.user.facade.AnnotationDrivenUserRestServiceImpl -->
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.UserService" ref="userService" protocol="dubbo" />
 
-	<bean id="bidService" class="com.yrdce.ipo.bid.BidServiceImpl" />
+	<!-- <bean id="bidService" class="com.yrdce.ipo.bid.BidServiceImpl" /> -->
 
 	<bean id="userService" class="com.yrdce.ipo.modules.sys.service.UserServiceImpl" />
 	

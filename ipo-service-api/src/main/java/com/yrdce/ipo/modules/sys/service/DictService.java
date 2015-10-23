@@ -5,7 +5,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.util.List;
 
-import com.yrdce.ipo.modules.sys.entity.Dict;
+import com.yrdce.ipo.modules.sys.vo.Dict;
 
 /**
  * 字典Service
