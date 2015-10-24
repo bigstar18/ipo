@@ -10,7 +10,7 @@
 	<name>${project.artifactId}</name>
 	<properties>
 		<!-- Common libs -->
-		<spring.bom.version>3.2.9.RELEASE</spring.bom.version>
+		<spring.bom.version>3.2.14.RELEASE</spring.bom.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<netty.version>3.7.0.Final</netty.version>
 		<mina.version>1.1.7</mina.version>
@@ -31,7 +31,7 @@
 		<jfreechart.version>1.0.13</jfreechart.version>
 		<hessian.version>4.0.7</hessian.version>
 		<servlet.version>3.1.0</servlet.version>
-		<jetty.version>6.1.26</jetty.version>
+		<!-- <jetty.version>6.1.26</jetty.version> -->
 		<validation.version>1.0.0.GA</validation.version>
 		<hibernate_validator.version>4.2.0.Final</hibernate_validator.version>
 		<jcache.version>0.4</jcache.version>
@@ -87,7 +87,6 @@
 		<!-- environment setting -->
 		<jdk.version>1.6</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
-		<jetty.version>7.6.14.v20131031</jetty.version>
 		<webserver.port>8181</webserver.port>
 		<downloadSources>true</downloadSources>
 
@@ -267,11 +266,12 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${servlet.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty</artifactId>
-				<version>${jetty.version}</version>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-webapp</artifactId>
+				<version>9.3.4.v20151007</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
@@ -1111,9 +1111,9 @@
 			
 			<!-- jetty插件 -->
 				<plugin>
-					<groupId>org.mortbay.jetty</groupId>
+					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>${jetty.version}</version>
+					<version>9.3.4.v20151007</version>
 					<configuration>
 						<connectors>
 							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
@@ -1135,4 +1135,9 @@
 		</pluginManagement>
 
 	</build>
+	<modules>
+		<module>ipo-service-api</module>
+		<module>ipo-service-provider</module>
+		<module>ipo-web-front</module>
+	</modules>
 </project>

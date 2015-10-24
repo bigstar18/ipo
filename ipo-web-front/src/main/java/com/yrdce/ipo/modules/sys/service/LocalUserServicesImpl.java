@@ -8,7 +8,7 @@ import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 用户工具类
@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ThinkGem
  * @version 2013-12-05
  */
+@Service
 public class LocalUserServicesImpl implements LocalUserServices {
 
-	@Autowired
 	private UserService userService;
 
 	/**

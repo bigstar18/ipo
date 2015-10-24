@@ -108,7 +108,7 @@
   <function>
     <description>获取字典标签</description>
     <name>getDictLabel</name>
-    <function-class>com.yrdce.ipo.modules.sys.utils.DictUtils</function-class>
+    <function-class>com.yrdce.ipo.common.utils.DictUtils</function-class>
     <function-signature>java.lang.String getDictLabel(java.lang.String, java.lang.String, java.lang.String)</function-signature>
     <example>${fns:getDictLabel(value, type, defaultValue)}</example>  
   </function>
@@ -116,7 +116,7 @@
   <function>
     <description>获取字典标签(多个)</description>
     <name>getDictLabels</name>
-    <function-class>com.yrdce.ipo.modules.sys.utils.DictUtils</function-class>
+    <function-class>com.yrdce.ipo.common.utils.DictUtils</function-class>
     <function-signature>java.lang.String getDictLabels(java.lang.String, java.lang.String, java.lang.String)</function-signature>
     <example>${fns:getDictLabels(values, type, defaultValue)}</example>  
   </function>
@@ -124,7 +124,7 @@
   <function>
     <description>获取字典值</description>
     <name>getDictValue</name>
-    <function-class>com.yrdce.ipo.modules.sys.utils.DictUtils</function-class>
+    <function-class>com.yrdce.ipo.common.utils.DictUtils</function-class>
     <function-signature>java.lang.String getDictValue(java.lang.String, java.lang.String, java.lang.String)</function-signature>
     <example>${fns:getDictValue(label, type, defaultValue)}</example>  
   </function>
@@ -132,7 +132,7 @@
   <function>
     <description>获取字典对象列表</description>
     <name>getDictList</name>
-    <function-class>com.yrdce.ipo.modules.sys.utils.DictUtils</function-class>
+    <function-class>com.yrdce.ipo.common.utils.DictUtils</function-class>
     <function-signature>java.util.List getDictList(java.lang.String)</function-signature>
     <example>${fns:getDictList(type)}</example>  
   </function>
@@ -140,7 +140,7 @@
   <function>
     <description>获取字典对象列表</description>
     <name>getDictListJson</name>
-    <function-class>com.yrdce.ipo.modules.sys.utils.DictUtils</function-class>
+    <function-class>com.yrdce.ipo.common.utils.DictUtils</function-class>
     <function-signature>java.lang.String getDictListJson(java.lang.String)</function-signature>
     <example>${fns:getDictListJson(type)}</example>  
   </function>

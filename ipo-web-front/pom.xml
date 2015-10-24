@@ -109,9 +109,13 @@
 			</exclusions>
 		</dependency>
 			
-		<!-- spring orm -->
+		<!-- spring orm -->		
 		
 		<!-- bean validate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>	
 		<!-- SPRING end -->
 		
 		<!-- AOP begin -->
@@ -428,7 +432,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>${webserver.port}</port>
+					<port>55555</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
