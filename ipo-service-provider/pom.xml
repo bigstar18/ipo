@@ -158,9 +158,12 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 		</dependency>
-		
+				
 		<!-- connection pool -->
-		
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>			
 		<!-- jdbc driver -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -356,7 +359,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>${webserver.port}</port>
+					<port>55566</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>

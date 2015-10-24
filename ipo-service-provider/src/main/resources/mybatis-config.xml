@@ -41,7 +41,7 @@
 	
 	<!-- 类型别名 -->
 	<typeAliases>
-		<typeAlias alias="Page" type="com.yrdce.ipo.common.persistence.Page" /><!--分页  -->
+		<typeAlias alias="Page" type="com.yrdce.ipo.common.vo.Page" /><!--分页  -->
 	</typeAliases>
 	
 	<!-- 插件配置 -->
