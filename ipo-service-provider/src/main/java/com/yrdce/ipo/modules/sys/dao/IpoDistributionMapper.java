@@ -6,9 +6,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.CrudDao;
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoDistributionExample;
 
+@MyBatisDao
 public interface IpoDistributionMapper extends CrudDao<IpoDistribution> {
 	int countByExample(IpoDistributionExample example);
 

@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.CrudDao;
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.VFFirmcurfunds;
 import com.yrdce.ipo.modules.sys.entity.VFFirmcurfundsExample;
 
+@MyBatisDao
 public interface VFFirmcurfundsMapper extends CrudDao<VFFirmcurfunds> {
 	int countByExample(VFFirmcurfundsExample example);
 

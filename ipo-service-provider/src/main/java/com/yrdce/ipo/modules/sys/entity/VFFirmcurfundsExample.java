@@ -7,6 +7,11 @@ import java.util.List;
 import com.yrdce.ipo.common.persistence.DataEntity;
 
 public class VFFirmcurfundsExample extends DataEntity<VFFirmcurfundsExample> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected String orderByClause;
 
 	protected boolean distinct;
