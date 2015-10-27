@@ -21,6 +21,7 @@ import com.yrdce.ipo.modules.sys.vo.User;
  * @author lishen
  */
 public interface UserService {
+	// 获取用户信息
 	User getUser(Long id);
 
 	Long registerUser(User user);
