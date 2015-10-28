@@ -255,4 +255,11 @@
       end_time = #{endTime,jdbcType=DATE}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+    <select id="getAll" resultMap="BaseResultMap" parameterType="map">  
+     select * from tbl_sys_module  
+    limit #{curRow},#{pageSize}       
+    </select>  
+  
+  
 </mapper>

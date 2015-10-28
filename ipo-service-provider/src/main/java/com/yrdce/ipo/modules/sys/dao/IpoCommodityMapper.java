@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -21,6 +22,8 @@ public interface IpoCommodityMapper {
 	int insertSelective(IpoCommodity record);
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
+	
+	List<IpoCommodity>  getAll(Map<String, Object> page);
 
 	IpoCommodity selectByPrimaryKey(String id);
 
