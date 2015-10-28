@@ -6,8 +6,8 @@
     <result column="commodityid" property="commodityid" jdbcType="VARCHAR" />
     <result column="commodityname" property="commodityname" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="unit" property="unit" jdbcType="DECIMAL" />
-    <result column="count" property="count" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="DECIMAL" />
+    <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="end_time" property="endTime" jdbcType="DATE" />
   </resultMap>
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, commodityid, commodityname, price, unit, count, start_time, end_time
+    id, commodityid, commodityname, price, UNIT, COUNTS, start_time, end_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" >
     select
@@ -104,10 +104,10 @@
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     insert into IPO_COMMODITY (id, commodityid, commodityname, 
-      price, unit, count, 
+      price, UNIT, COUNTS, 
       start_time, end_time)
     values (#{id,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{unit,jdbcType=DECIMAL}, #{count,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL}, #{unit,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
       #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
@@ -126,10 +126,10 @@
         price,
       </if>
       <if test="unit != null" >
-        unit,
+        UNIT,
       </if>
-      <if test="count != null" >
-        count,
+      <if test="counts != null" >
+        COUNTS,
       </if>
       <if test="startTime != null" >
         start_time,
@@ -154,8 +154,8 @@
       <if test="unit != null" >
         #{unit,jdbcType=DECIMAL},
       </if>
-      <if test="count != null" >
-        #{count,jdbcType=DECIMAL},
+      <if test="counts != null" >
+        #{counts,jdbcType=DECIMAL},
       </if>
       <if test="startTime != null" >
         #{startTime,jdbcType=DATE},
@@ -187,10 +187,10 @@
         price = #{record.price,jdbcType=DECIMAL},
       </if>
       <if test="record.unit != null" >
-        unit = #{record.unit,jdbcType=DECIMAL},
+        UNIT = #{record.unit,jdbcType=DECIMAL},
       </if>
-      <if test="record.count != null" >
-        count = #{record.count,jdbcType=DECIMAL},
+      <if test="record.counts != null" >
+        COUNTS = #{record.counts,jdbcType=DECIMAL},
       </if>
       <if test="record.startTime != null" >
         start_time = #{record.startTime,jdbcType=DATE},
@@ -209,8 +209,8 @@
       commodityid = #{record.commodityid,jdbcType=VARCHAR},
       commodityname = #{record.commodityname,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
-      unit = #{record.unit,jdbcType=DECIMAL},
-      count = #{record.count,jdbcType=DECIMAL},
+      UNIT = #{record.unit,jdbcType=DECIMAL},
+      COUNTS = #{record.counts,jdbcType=DECIMAL},
       start_time = #{record.startTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE}
     <if test="_parameter != null" >
@@ -230,10 +230,10 @@
         price = #{price,jdbcType=DECIMAL},
       </if>
       <if test="unit != null" >
-        unit = #{unit,jdbcType=DECIMAL},
+        UNIT = #{unit,jdbcType=DECIMAL},
       </if>
-      <if test="count != null" >
-        count = #{count,jdbcType=DECIMAL},
+      <if test="counts != null" >
+        COUNTS = #{counts,jdbcType=DECIMAL},
       </if>
       <if test="startTime != null" >
         start_time = #{startTime,jdbcType=DATE},
@@ -249,17 +249,17 @@
     set commodityid = #{commodityid,jdbcType=VARCHAR},
       commodityname = #{commodityname,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
-      unit = #{unit,jdbcType=DECIMAL},
-      count = #{count,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=DECIMAL},
+      COUNTS = #{counts,jdbcType=DECIMAL},
       start_time = #{startTime,jdbcType=DATE},
       end_time = #{endTime,jdbcType=DATE}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-    <select id="getAll" resultMap="BaseResultMap" parameterType="map">  
-     select * from tbl_sys_module  
+   <select id="getAll" resultMap="BaseResultMap" parameterType="map">  
+    select 
+    <include refid="Base_Column_List" />
+    from IPO_COMMODITY
     limit #{curRow},#{pageSize}       
     </select>  
-  
   
 </mapper>

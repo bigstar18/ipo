@@ -3,91 +3,84 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.yrdce.ipo.common.persistence.DataEntity;
+public class IpoCommodity {
+    private String id;
 
-public class IpoCommodity extends DataEntity<IpoCommodity> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private String commodityid;
 
-	private String id;
+    private String commodityname;
 
-	private String commodityid;
+    private BigDecimal price;
 
-	private String commodityname;
+    private BigDecimal unit;
 
-	private BigDecimal price;
+    private BigDecimal counts;
 
-	private BigDecimal unit;
+    private Date startTime;
 
-	private BigDecimal count;
+    private Date endTime;
 
-	private Date startTime;
+    public String getId() {
+        return id;
+    }
 
-	private Date endTime;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getCommodityid() {
+        return commodityid;
+    }
 
-	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
-	}
+    public void setCommodityid(String commodityid) {
+        this.commodityid = commodityid == null ? null : commodityid.trim();
+    }
 
-	public String getCommodityid() {
-		return commodityid;
-	}
+    public String getCommodityname() {
+        return commodityname;
+    }
 
-	public void setCommodityid(String commodityid) {
-		this.commodityid = commodityid == null ? null : commodityid.trim();
-	}
+    public void setCommodityname(String commodityname) {
+        this.commodityname = commodityname == null ? null : commodityname.trim();
+    }
 
-	public String getCommodityname() {
-		return commodityname;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public BigDecimal getUnit() {
+        return unit;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setUnit(BigDecimal unit) {
+        this.unit = unit;
+    }
 
-	public BigDecimal getUnit() {
-		return unit;
-	}
+    public BigDecimal getCounts() {
+        return counts;
+    }
 
-	public void setUnit(BigDecimal unit) {
-		this.unit = unit;
-	}
+    public void setCounts(BigDecimal counts) {
+        this.counts = counts;
+    }
 
-	public BigDecimal getCount() {
-		return count;
-	}
+    public Date getStartTime() {
+        return startTime;
+    }
 
-	public void setCount(BigDecimal count) {
-		this.count = count;
-	}
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public Date getEndTime() {
+        return endTime;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 }
