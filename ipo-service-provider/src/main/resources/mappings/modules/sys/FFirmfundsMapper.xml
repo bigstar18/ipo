@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.FFirmfunds" >
+    <id column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="FROZENFUNDS" property="frozenfunds" jdbcType="DECIMAL" />
+    <result column="LASTBALANCE" property="lastbalance" jdbcType="DECIMAL" />
+    <result column="LASTWARRANTY" property="lastwarranty" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGIN" property="settlemargin" jdbcType="DECIMAL" />
+    <result column="LASTSETTLEMARGIN" property="lastsettlemargin" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    FIRMID, BALANCE, FROZENFUNDS, LASTBALANCE, LASTWARRANTY, SETTLEMARGIN, LASTSETTLEMARGIN
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfundsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_FIRMFUNDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from F_FIRMFUNDS
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from F_FIRMFUNDS
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfundsExample" >
+    delete from F_FIRMFUNDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfunds" >
+    insert into F_FIRMFUNDS (FIRMID, BALANCE, FROZENFUNDS, 
+      LASTBALANCE, LASTWARRANTY, SETTLEMARGIN, 
+      LASTSETTLEMARGIN)
+    values (#{firmid,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, #{frozenfunds,jdbcType=DECIMAL}, 
+      #{lastbalance,jdbcType=DECIMAL}, #{lastwarranty,jdbcType=DECIMAL}, #{settlemargin,jdbcType=DECIMAL}, 
+      #{lastsettlemargin,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfunds" >
+    insert into F_FIRMFUNDS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="firmid != null" >
+        FIRMID,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="frozenfunds != null" >
+        FROZENFUNDS,
+      </if>
+      <if test="lastbalance != null" >
+        LASTBALANCE,
+      </if>
+      <if test="lastwarranty != null" >
+        LASTWARRANTY,
+      </if>
+      <if test="settlemargin != null" >
+        SETTLEMARGIN,
+      </if>
+      <if test="lastsettlemargin != null" >
+        LASTSETTLEMARGIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="firmid != null" >
+        #{firmid,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenfunds != null" >
+        #{frozenfunds,jdbcType=DECIMAL},
+      </if>
+      <if test="lastbalance != null" >
+        #{lastbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="lastwarranty != null" >
+        #{lastwarranty,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemargin != null" >
+        #{settlemargin,jdbcType=DECIMAL},
+      </if>
+      <if test="lastsettlemargin != null" >
+        #{lastsettlemargin,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfundsExample" resultType="java.lang.Integer" >
+    select count(*) from F_FIRMFUNDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update F_FIRMFUNDS
+    <set >
+      <if test="record.firmid != null" >
+        FIRMID = #{record.firmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.balance != null" >
+        BALANCE = #{record.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.frozenfunds != null" >
+        FROZENFUNDS = #{record.frozenfunds,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastbalance != null" >
+        LASTBALANCE = #{record.lastbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastwarranty != null" >
+        LASTWARRANTY = #{record.lastwarranty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemargin != null" >
+        SETTLEMARGIN = #{record.settlemargin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastsettlemargin != null" >
+        LASTSETTLEMARGIN = #{record.lastsettlemargin,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update F_FIRMFUNDS
+    set FIRMID = #{record.firmid,jdbcType=VARCHAR},
+      BALANCE = #{record.balance,jdbcType=DECIMAL},
+      FROZENFUNDS = #{record.frozenfunds,jdbcType=DECIMAL},
+      LASTBALANCE = #{record.lastbalance,jdbcType=DECIMAL},
+      LASTWARRANTY = #{record.lastwarranty,jdbcType=DECIMAL},
+      SETTLEMARGIN = #{record.settlemargin,jdbcType=DECIMAL},
+      LASTSETTLEMARGIN = #{record.lastsettlemargin,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfunds" >
+    update F_FIRMFUNDS
+    <set >
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenfunds != null" >
+        FROZENFUNDS = #{frozenfunds,jdbcType=DECIMAL},
+      </if>
+      <if test="lastbalance != null" >
+        LASTBALANCE = #{lastbalance,jdbcType=DECIMAL},
+      </if>
+      <if test="lastwarranty != null" >
+        LASTWARRANTY = #{lastwarranty,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemargin != null" >
+        SETTLEMARGIN = #{settlemargin,jdbcType=DECIMAL},
+      </if>
+      <if test="lastsettlemargin != null" >
+        LASTSETTLEMARGIN = #{lastsettlemargin,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.FFirmfunds" >
+    update F_FIRMFUNDS
+    set BALANCE = #{balance,jdbcType=DECIMAL},
+      FROZENFUNDS = #{frozenfunds,jdbcType=DECIMAL},
+      LASTBALANCE = #{lastbalance,jdbcType=DECIMAL},
+      LASTWARRANTY = #{lastwarranty,jdbcType=DECIMAL},
+      SETTLEMARGIN = #{settlemargin,jdbcType=DECIMAL},
+      LASTSETTLEMARGIN = #{lastsettlemargin,jdbcType=DECIMAL}
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </update>
+</mapper>

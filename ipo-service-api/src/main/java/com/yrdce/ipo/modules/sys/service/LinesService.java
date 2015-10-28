@@ -2,6 +2,9 @@ package com.yrdce.ipo.modules.sys.service;
 
 public interface LinesService {
 
-	// 获取商品额度
-	public int getLines();
+	/**
+	 * 
+	 * Methods:获得商品额度 variable :传入商品id
+	 */
+	public int getLines(String id);
 }

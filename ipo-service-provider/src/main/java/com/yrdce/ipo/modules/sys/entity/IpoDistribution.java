@@ -11,34 +11,44 @@ public class IpoDistribution extends DataEntity<IpoDistribution> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private BigDecimal id;
+	private String id;
 
-	private BigDecimal orderid;
+	private String userid;
+
+	private String commodityname;
 
 	private BigDecimal startNumber;
 
 	private BigDecimal distributionQuantity;
 
-	private String distributionNumber;
-
 	private Date distributionTime;
 
-	private String number;
+	private BigDecimal count;
 
-	public BigDecimal getId() {
+	private byte[] number;
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
-		this.id = id;
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
 	}
 
-	public BigDecimal getOrderid() {
-		return orderid;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setOrderid(BigDecimal orderid) {
-		this.orderid = orderid;
+	public void setUserid(String userid) {
+		this.userid = userid == null ? null : userid.trim();
+	}
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public BigDecimal getStartNumber() {
@@ -57,14 +67,6 @@ public class IpoDistribution extends DataEntity<IpoDistribution> {
 		this.distributionQuantity = distributionQuantity;
 	}
 
-	public String getDistributionNumber() {
-		return distributionNumber;
-	}
-
-	public void setDistributionNumber(String distributionNumber) {
-		this.distributionNumber = distributionNumber == null ? null : distributionNumber.trim();
-	}
-
 	public Date getDistributionTime() {
 		return distributionTime;
 	}
@@ -73,11 +75,19 @@ public class IpoDistribution extends DataEntity<IpoDistribution> {
 		this.distributionTime = distributionTime;
 	}
 
-	public String getNumber() {
+	public BigDecimal getCount() {
+		return count;
+	}
+
+	public void setCount(BigDecimal count) {
+		this.count = count;
+	}
+
+	public byte[] getNumber() {
 		return number;
 	}
 
-	public void setNumber(String number) {
-		this.number = number == null ? null : number.trim();
+	public void setNumber(byte[] number) {
+		this.number = number;
 	}
 }

@@ -11,13 +11,13 @@ public class IpoOrder extends DataEntity<IpoOrder> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private BigDecimal orderid;
+	private String orderid;
 
-	private BigDecimal userid;
+	private String userid;
 
 	private String username;
 
-	private BigDecimal commodityid;
+	private String commodityid;
 
 	private String commodityname;
 
@@ -25,22 +25,22 @@ public class IpoOrder extends DataEntity<IpoOrder> {
 
 	private Date date;
 
-	private BigDecimal moneyisfrozen;
+	private BigDecimal frozenfunds;
 
-	public BigDecimal getOrderid() {
+	public String getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(BigDecimal orderid) {
-		this.orderid = orderid;
+	public void setOrderid(String orderid) {
+		this.orderid = orderid == null ? null : orderid.trim();
 	}
 
-	public BigDecimal getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(BigDecimal userid) {
-		this.userid = userid;
+	public void setUserid(String userid) {
+		this.userid = userid == null ? null : userid.trim();
 	}
 
 	public String getUsername() {
@@ -51,12 +51,12 @@ public class IpoOrder extends DataEntity<IpoOrder> {
 		this.username = username == null ? null : username.trim();
 	}
 
-	public BigDecimal getCommodityid() {
+	public String getCommodityid() {
 		return commodityid;
 	}
 
-	public void setCommodityid(BigDecimal commodityid) {
-		this.commodityid = commodityid;
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid == null ? null : commodityid.trim();
 	}
 
 	public String getCommodityname() {
@@ -83,11 +83,11 @@ public class IpoOrder extends DataEntity<IpoOrder> {
 		this.date = date;
 	}
 
-	public BigDecimal getMoneyisfrozen() {
-		return moneyisfrozen;
+	public BigDecimal getFrozenfunds() {
+		return frozenfunds;
 	}
 
-	public void setMoneyisfrozen(BigDecimal moneyisfrozen) {
-		this.moneyisfrozen = moneyisfrozen;
+	public void setFrozenfunds(BigDecimal frozenfunds) {
+		this.frozenfunds = frozenfunds;
 	}
 }

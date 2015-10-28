@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.yrdce.ipo.common.persistence.DataEntity;
 
-public class IpoDistributionExample extends DataEntity<IpoDistributionExample> {
+public class IpoCommodityExample extends DataEntity<IpoCommodityExample> {
 	/**
 	 * 
 	 */
@@ -20,7 +20,7 @@ public class IpoDistributionExample extends DataEntity<IpoDistributionExample> {
 
 	protected List<Criteria> oredCriteria;
 
-	public IpoDistributionExample() {
+	public IpoCommodityExample() {
 		oredCriteria = new ArrayList<Criteria>();
 	}
 
@@ -210,73 +210,73 @@ public class IpoDistributionExample extends DataEntity<IpoDistributionExample> {
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridIsNull() {
-			addCriterion("userid is null");
+		public Criteria andCommodityidIsNull() {
+			addCriterion("commodityid is null");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridIsNotNull() {
-			addCriterion("userid is not null");
+		public Criteria andCommodityidIsNotNull() {
+			addCriterion("commodityid is not null");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridEqualTo(String value) {
-			addCriterion("userid =", value, "userid");
+		public Criteria andCommodityidEqualTo(String value) {
+			addCriterion("commodityid =", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotEqualTo(String value) {
-			addCriterion("userid <>", value, "userid");
+		public Criteria andCommodityidNotEqualTo(String value) {
+			addCriterion("commodityid <>", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridGreaterThan(String value) {
-			addCriterion("userid >", value, "userid");
+		public Criteria andCommodityidGreaterThan(String value) {
+			addCriterion("commodityid >", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridGreaterThanOrEqualTo(String value) {
-			addCriterion("userid >=", value, "userid");
+		public Criteria andCommodityidGreaterThanOrEqualTo(String value) {
+			addCriterion("commodityid >=", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridLessThan(String value) {
-			addCriterion("userid <", value, "userid");
+		public Criteria andCommodityidLessThan(String value) {
+			addCriterion("commodityid <", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridLessThanOrEqualTo(String value) {
-			addCriterion("userid <=", value, "userid");
+		public Criteria andCommodityidLessThanOrEqualTo(String value) {
+			addCriterion("commodityid <=", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridLike(String value) {
-			addCriterion("userid like", value, "userid");
+		public Criteria andCommodityidLike(String value) {
+			addCriterion("commodityid like", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotLike(String value) {
-			addCriterion("userid not like", value, "userid");
+		public Criteria andCommodityidNotLike(String value) {
+			addCriterion("commodityid not like", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridIn(List<String> values) {
-			addCriterion("userid in", values, "userid");
+		public Criteria andCommodityidIn(List<String> values) {
+			addCriterion("commodityid in", values, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotIn(List<String> values) {
-			addCriterion("userid not in", values, "userid");
+		public Criteria andCommodityidNotIn(List<String> values) {
+			addCriterion("commodityid not in", values, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridBetween(String value1, String value2) {
-			addCriterion("userid between", value1, value2, "userid");
+		public Criteria andCommodityidBetween(String value1, String value2) {
+			addCriterion("commodityid between", value1, value2, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotBetween(String value1, String value2) {
-			addCriterion("userid not between", value1, value2, "userid");
+		public Criteria andCommodityidNotBetween(String value1, String value2) {
+			addCriterion("commodityid not between", value1, value2, "commodityid");
 			return (Criteria) this;
 		}
 
@@ -350,183 +350,123 @@ public class IpoDistributionExample extends DataEntity<IpoDistributionExample> {
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberIsNull() {
-			addCriterion("start_number is null");
+		public Criteria andPriceIsNull() {
+			addCriterion("price is null");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberIsNotNull() {
-			addCriterion("start_number is not null");
+		public Criteria andPriceIsNotNull() {
+			addCriterion("price is not null");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberEqualTo(BigDecimal value) {
-			addCriterion("start_number =", value, "startNumber");
+		public Criteria andPriceEqualTo(BigDecimal value) {
+			addCriterion("price =", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberNotEqualTo(BigDecimal value) {
-			addCriterion("start_number <>", value, "startNumber");
+		public Criteria andPriceNotEqualTo(BigDecimal value) {
+			addCriterion("price <>", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberGreaterThan(BigDecimal value) {
-			addCriterion("start_number >", value, "startNumber");
+		public Criteria andPriceGreaterThan(BigDecimal value) {
+			addCriterion("price >", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberGreaterThanOrEqualTo(BigDecimal value) {
-			addCriterion("start_number >=", value, "startNumber");
+		public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
+			addCriterion("price >=", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberLessThan(BigDecimal value) {
-			addCriterion("start_number <", value, "startNumber");
+		public Criteria andPriceLessThan(BigDecimal value) {
+			addCriterion("price <", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberLessThanOrEqualTo(BigDecimal value) {
-			addCriterion("start_number <=", value, "startNumber");
+		public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
+			addCriterion("price <=", value, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberIn(List<BigDecimal> values) {
-			addCriterion("start_number in", values, "startNumber");
+		public Criteria andPriceIn(List<BigDecimal> values) {
+			addCriterion("price in", values, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberNotIn(List<BigDecimal> values) {
-			addCriterion("start_number not in", values, "startNumber");
+		public Criteria andPriceNotIn(List<BigDecimal> values) {
+			addCriterion("price not in", values, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("start_number between", value1, value2, "startNumber");
+		public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("price between", value1, value2, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andStartNumberNotBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("start_number not between", value1, value2, "startNumber");
+		public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("price not between", value1, value2, "price");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityIsNull() {
-			addCriterion("distribution_quantity is null");
+		public Criteria andUnitIsNull() {
+			addCriterion("unit is null");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityIsNotNull() {
-			addCriterion("distribution_quantity is not null");
+		public Criteria andUnitIsNotNull() {
+			addCriterion("unit is not null");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityEqualTo(BigDecimal value) {
-			addCriterion("distribution_quantity =", value, "distributionQuantity");
+		public Criteria andUnitEqualTo(BigDecimal value) {
+			addCriterion("unit =", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityNotEqualTo(BigDecimal value) {
-			addCriterion("distribution_quantity <>", value, "distributionQuantity");
+		public Criteria andUnitNotEqualTo(BigDecimal value) {
+			addCriterion("unit <>", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityGreaterThan(BigDecimal value) {
-			addCriterion("distribution_quantity >", value, "distributionQuantity");
+		public Criteria andUnitGreaterThan(BigDecimal value) {
+			addCriterion("unit >", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityGreaterThanOrEqualTo(BigDecimal value) {
-			addCriterion("distribution_quantity >=", value, "distributionQuantity");
+		public Criteria andUnitGreaterThanOrEqualTo(BigDecimal value) {
+			addCriterion("unit >=", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityLessThan(BigDecimal value) {
-			addCriterion("distribution_quantity <", value, "distributionQuantity");
+		public Criteria andUnitLessThan(BigDecimal value) {
+			addCriterion("unit <", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityLessThanOrEqualTo(BigDecimal value) {
-			addCriterion("distribution_quantity <=", value, "distributionQuantity");
+		public Criteria andUnitLessThanOrEqualTo(BigDecimal value) {
+			addCriterion("unit <=", value, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityIn(List<BigDecimal> values) {
-			addCriterion("distribution_quantity in", values, "distributionQuantity");
+		public Criteria andUnitIn(List<BigDecimal> values) {
+			addCriterion("unit in", values, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityNotIn(List<BigDecimal> values) {
-			addCriterion("distribution_quantity not in", values, "distributionQuantity");
+		public Criteria andUnitNotIn(List<BigDecimal> values) {
+			addCriterion("unit not in", values, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("distribution_quantity between", value1, value2, "distributionQuantity");
+		public Criteria andUnitBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("unit between", value1, value2, "unit");
 			return (Criteria) this;
 		}
 
-		public Criteria andDistributionQuantityNotBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("distribution_quantity not between", value1, value2, "distributionQuantity");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeIsNull() {
-			addCriterion("distribution_time is null");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeIsNotNull() {
-			addCriterion("distribution_time is not null");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeEqualTo(Date value) {
-			addCriterionForJDBCDate("distribution_time =", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeNotEqualTo(Date value) {
-			addCriterionForJDBCDate("distribution_time <>", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeGreaterThan(Date value) {
-			addCriterionForJDBCDate("distribution_time >", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeGreaterThanOrEqualTo(Date value) {
-			addCriterionForJDBCDate("distribution_time >=", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeLessThan(Date value) {
-			addCriterionForJDBCDate("distribution_time <", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeLessThanOrEqualTo(Date value) {
-			addCriterionForJDBCDate("distribution_time <=", value, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeIn(List<Date> values) {
-			addCriterionForJDBCDate("distribution_time in", values, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeNotIn(List<Date> values) {
-			addCriterionForJDBCDate("distribution_time not in", values, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeBetween(Date value1, Date value2) {
-			addCriterionForJDBCDate("distribution_time between", value1, value2, "distributionTime");
-			return (Criteria) this;
-		}
-
-		public Criteria andDistributionTimeNotBetween(Date value1, Date value2) {
-			addCriterionForJDBCDate("distribution_time not between", value1, value2, "distributionTime");
+		public Criteria andUnitNotBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("unit not between", value1, value2, "unit");
 			return (Criteria) this;
 		}
 
@@ -587,6 +527,126 @@ public class IpoDistributionExample extends DataEntity<IpoDistributionExample> {
 
 		public Criteria andCountNotBetween(BigDecimal value1, BigDecimal value2) {
 			addCriterion("count not between", value1, value2, "count");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeIsNull() {
+			addCriterion("start_time is null");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeIsNotNull() {
+			addCriterion("start_time is not null");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeEqualTo(Date value) {
+			addCriterionForJDBCDate("start_time =", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeNotEqualTo(Date value) {
+			addCriterionForJDBCDate("start_time <>", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeGreaterThan(Date value) {
+			addCriterionForJDBCDate("start_time >", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
+			addCriterionForJDBCDate("start_time >=", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeLessThan(Date value) {
+			addCriterionForJDBCDate("start_time <", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeLessThanOrEqualTo(Date value) {
+			addCriterionForJDBCDate("start_time <=", value, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeIn(List<Date> values) {
+			addCriterionForJDBCDate("start_time in", values, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeNotIn(List<Date> values) {
+			addCriterionForJDBCDate("start_time not in", values, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeBetween(Date value1, Date value2) {
+			addCriterionForJDBCDate("start_time between", value1, value2, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andStartTimeNotBetween(Date value1, Date value2) {
+			addCriterionForJDBCDate("start_time not between", value1, value2, "startTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeIsNull() {
+			addCriterion("end_time is null");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeIsNotNull() {
+			addCriterion("end_time is not null");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeEqualTo(Date value) {
+			addCriterionForJDBCDate("end_time =", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeNotEqualTo(Date value) {
+			addCriterionForJDBCDate("end_time <>", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeGreaterThan(Date value) {
+			addCriterionForJDBCDate("end_time >", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+			addCriterionForJDBCDate("end_time >=", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeLessThan(Date value) {
+			addCriterionForJDBCDate("end_time <", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+			addCriterionForJDBCDate("end_time <=", value, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeIn(List<Date> values) {
+			addCriterionForJDBCDate("end_time in", values, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeNotIn(List<Date> values) {
+			addCriterionForJDBCDate("end_time not in", values, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeBetween(Date value1, Date value2) {
+			addCriterionForJDBCDate("end_time between", value1, value2, "endTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+			addCriterionForJDBCDate("end_time not between", value1, value2, "endTime");
 			return (Criteria) this;
 		}
 	}

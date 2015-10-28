@@ -3,7 +3,6 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import com.yrdce.ipo.common.persistence.DataEntity;
@@ -114,32 +113,6 @@ public class IpoOrderExample extends DataEntity<IpoOrderExample> {
 			criteria.add(new Criterion(condition, value1, value2));
 		}
 
-		protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-			if (value == null) {
-				throw new RuntimeException("Value for " + property + " cannot be null");
-			}
-			addCriterion(condition, new java.sql.Date(value.getTime()), property);
-		}
-
-		protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-			if (values == null || values.size() == 0) {
-				throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-			}
-			List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-			Iterator<Date> iter = values.iterator();
-			while (iter.hasNext()) {
-				dateList.add(new java.sql.Date(iter.next().getTime()));
-			}
-			addCriterion(condition, dateList, property);
-		}
-
-		protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-			if (value1 == null || value2 == null) {
-				throw new RuntimeException("Between values for " + property + " cannot be null");
-			}
-			addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-		}
-
 		public Criteria andOrderidIsNull() {
 			addCriterion("orderid is null");
 			return (Criteria) this;
@@ -150,52 +123,62 @@ public class IpoOrderExample extends DataEntity<IpoOrderExample> {
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidEqualTo(BigDecimal value) {
+		public Criteria andOrderidEqualTo(String value) {
 			addCriterion("orderid =", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidNotEqualTo(BigDecimal value) {
+		public Criteria andOrderidNotEqualTo(String value) {
 			addCriterion("orderid <>", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidGreaterThan(BigDecimal value) {
+		public Criteria andOrderidGreaterThan(String value) {
 			addCriterion("orderid >", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidGreaterThanOrEqualTo(BigDecimal value) {
+		public Criteria andOrderidGreaterThanOrEqualTo(String value) {
 			addCriterion("orderid >=", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidLessThan(BigDecimal value) {
+		public Criteria andOrderidLessThan(String value) {
 			addCriterion("orderid <", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidLessThanOrEqualTo(BigDecimal value) {
+		public Criteria andOrderidLessThanOrEqualTo(String value) {
 			addCriterion("orderid <=", value, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidIn(List<BigDecimal> values) {
+		public Criteria andOrderidLike(String value) {
+			addCriterion("orderid like", value, "orderid");
+			return (Criteria) this;
+		}
+
+		public Criteria andOrderidNotLike(String value) {
+			addCriterion("orderid not like", value, "orderid");
+			return (Criteria) this;
+		}
+
+		public Criteria andOrderidIn(List<String> values) {
 			addCriterion("orderid in", values, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidNotIn(List<BigDecimal> values) {
+		public Criteria andOrderidNotIn(List<String> values) {
 			addCriterion("orderid not in", values, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andOrderidBetween(String value1, String value2) {
 			addCriterion("orderid between", value1, value2, "orderid");
 			return (Criteria) this;
 		}
 
-		public Criteria andOrderidNotBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andOrderidNotBetween(String value1, String value2) {
 			addCriterion("orderid not between", value1, value2, "orderid");
 			return (Criteria) this;
 		}
@@ -210,52 +193,62 @@ public class IpoOrderExample extends DataEntity<IpoOrderExample> {
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridEqualTo(BigDecimal value) {
+		public Criteria andUseridEqualTo(String value) {
 			addCriterion("userid =", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotEqualTo(BigDecimal value) {
+		public Criteria andUseridNotEqualTo(String value) {
 			addCriterion("userid <>", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridGreaterThan(BigDecimal value) {
+		public Criteria andUseridGreaterThan(String value) {
 			addCriterion("userid >", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridGreaterThanOrEqualTo(BigDecimal value) {
+		public Criteria andUseridGreaterThanOrEqualTo(String value) {
 			addCriterion("userid >=", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridLessThan(BigDecimal value) {
+		public Criteria andUseridLessThan(String value) {
 			addCriterion("userid <", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridLessThanOrEqualTo(BigDecimal value) {
+		public Criteria andUseridLessThanOrEqualTo(String value) {
 			addCriterion("userid <=", value, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridIn(List<BigDecimal> values) {
+		public Criteria andUseridLike(String value) {
+			addCriterion("userid like", value, "userid");
+			return (Criteria) this;
+		}
+
+		public Criteria andUseridNotLike(String value) {
+			addCriterion("userid not like", value, "userid");
+			return (Criteria) this;
+		}
+
+		public Criteria andUseridIn(List<String> values) {
 			addCriterion("userid in", values, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotIn(List<BigDecimal> values) {
+		public Criteria andUseridNotIn(List<String> values) {
 			addCriterion("userid not in", values, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andUseridBetween(String value1, String value2) {
 			addCriterion("userid between", value1, value2, "userid");
 			return (Criteria) this;
 		}
 
-		public Criteria andUseridNotBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andUseridNotBetween(String value1, String value2) {
 			addCriterion("userid not between", value1, value2, "userid");
 			return (Criteria) this;
 		}
@@ -340,52 +333,62 @@ public class IpoOrderExample extends DataEntity<IpoOrderExample> {
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidEqualTo(BigDecimal value) {
+		public Criteria andCommodityidEqualTo(String value) {
 			addCriterion("commodityid =", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidNotEqualTo(BigDecimal value) {
+		public Criteria andCommodityidNotEqualTo(String value) {
 			addCriterion("commodityid <>", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidGreaterThan(BigDecimal value) {
+		public Criteria andCommodityidGreaterThan(String value) {
 			addCriterion("commodityid >", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidGreaterThanOrEqualTo(BigDecimal value) {
+		public Criteria andCommodityidGreaterThanOrEqualTo(String value) {
 			addCriterion("commodityid >=", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidLessThan(BigDecimal value) {
+		public Criteria andCommodityidLessThan(String value) {
 			addCriterion("commodityid <", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidLessThanOrEqualTo(BigDecimal value) {
+		public Criteria andCommodityidLessThanOrEqualTo(String value) {
 			addCriterion("commodityid <=", value, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidIn(List<BigDecimal> values) {
+		public Criteria andCommodityidLike(String value) {
+			addCriterion("commodityid like", value, "commodityid");
+			return (Criteria) this;
+		}
+
+		public Criteria andCommodityidNotLike(String value) {
+			addCriterion("commodityid not like", value, "commodityid");
+			return (Criteria) this;
+		}
+
+		public Criteria andCommodityidIn(List<String> values) {
 			addCriterion("commodityid in", values, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidNotIn(List<BigDecimal> values) {
+		public Criteria andCommodityidNotIn(List<String> values) {
 			addCriterion("commodityid not in", values, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andCommodityidBetween(String value1, String value2) {
 			addCriterion("commodityid between", value1, value2, "commodityid");
 			return (Criteria) this;
 		}
 
-		public Criteria andCommodityidNotBetween(BigDecimal value1, BigDecimal value2) {
+		public Criteria andCommodityidNotBetween(String value1, String value2) {
 			addCriterion("commodityid not between", value1, value2, "commodityid");
 			return (Criteria) this;
 		}
@@ -531,112 +534,112 @@ public class IpoOrderExample extends DataEntity<IpoOrderExample> {
 		}
 
 		public Criteria andDateEqualTo(Date value) {
-			addCriterionForJDBCDate("date =", value, "date");
+			addCriterion("date =", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateNotEqualTo(Date value) {
-			addCriterionForJDBCDate("date <>", value, "date");
+			addCriterion("date <>", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateGreaterThan(Date value) {
-			addCriterionForJDBCDate("date >", value, "date");
+			addCriterion("date >", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateGreaterThanOrEqualTo(Date value) {
-			addCriterionForJDBCDate("date >=", value, "date");
+			addCriterion("date >=", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateLessThan(Date value) {
-			addCriterionForJDBCDate("date <", value, "date");
+			addCriterion("date <", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateLessThanOrEqualTo(Date value) {
-			addCriterionForJDBCDate("date <=", value, "date");
+			addCriterion("date <=", value, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateIn(List<Date> values) {
-			addCriterionForJDBCDate("date in", values, "date");
+			addCriterion("date in", values, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateNotIn(List<Date> values) {
-			addCriterionForJDBCDate("date not in", values, "date");
+			addCriterion("date not in", values, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateBetween(Date value1, Date value2) {
-			addCriterionForJDBCDate("date between", value1, value2, "date");
+			addCriterion("date between", value1, value2, "date");
 			return (Criteria) this;
 		}
 
 		public Criteria andDateNotBetween(Date value1, Date value2) {
-			addCriterionForJDBCDate("date not between", value1, value2, "date");
+			addCriterion("date not between", value1, value2, "date");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenIsNull() {
-			addCriterion("moneyisfrozen is null");
+		public Criteria andFrozenfundsIsNull() {
+			addCriterion("frozenfunds is null");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenIsNotNull() {
-			addCriterion("moneyisfrozen is not null");
+		public Criteria andFrozenfundsIsNotNull() {
+			addCriterion("frozenfunds is not null");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenEqualTo(BigDecimal value) {
-			addCriterion("moneyisfrozen =", value, "moneyisfrozen");
+		public Criteria andFrozenfundsEqualTo(BigDecimal value) {
+			addCriterion("frozenfunds =", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenNotEqualTo(BigDecimal value) {
-			addCriterion("moneyisfrozen <>", value, "moneyisfrozen");
+		public Criteria andFrozenfundsNotEqualTo(BigDecimal value) {
+			addCriterion("frozenfunds <>", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenGreaterThan(BigDecimal value) {
-			addCriterion("moneyisfrozen >", value, "moneyisfrozen");
+		public Criteria andFrozenfundsGreaterThan(BigDecimal value) {
+			addCriterion("frozenfunds >", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenGreaterThanOrEqualTo(BigDecimal value) {
-			addCriterion("moneyisfrozen >=", value, "moneyisfrozen");
+		public Criteria andFrozenfundsGreaterThanOrEqualTo(BigDecimal value) {
+			addCriterion("frozenfunds >=", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenLessThan(BigDecimal value) {
-			addCriterion("moneyisfrozen <", value, "moneyisfrozen");
+		public Criteria andFrozenfundsLessThan(BigDecimal value) {
+			addCriterion("frozenfunds <", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenLessThanOrEqualTo(BigDecimal value) {
-			addCriterion("moneyisfrozen <=", value, "moneyisfrozen");
+		public Criteria andFrozenfundsLessThanOrEqualTo(BigDecimal value) {
+			addCriterion("frozenfunds <=", value, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenIn(List<BigDecimal> values) {
-			addCriterion("moneyisfrozen in", values, "moneyisfrozen");
+		public Criteria andFrozenfundsIn(List<BigDecimal> values) {
+			addCriterion("frozenfunds in", values, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenNotIn(List<BigDecimal> values) {
-			addCriterion("moneyisfrozen not in", values, "moneyisfrozen");
+		public Criteria andFrozenfundsNotIn(List<BigDecimal> values) {
+			addCriterion("frozenfunds not in", values, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("moneyisfrozen between", value1, value2, "moneyisfrozen");
+		public Criteria andFrozenfundsBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("frozenfunds between", value1, value2, "frozenfunds");
 			return (Criteria) this;
 		}
 
-		public Criteria andMoneyisfrozenNotBetween(BigDecimal value1, BigDecimal value2) {
-			addCriterion("moneyisfrozen not between", value1, value2, "moneyisfrozen");
+		public Criteria andFrozenfundsNotBetween(BigDecimal value1, BigDecimal value2) {
+			addCriterion("frozenfunds not between", value1, value2, "frozenfunds");
 			return (Criteria) this;
 		}
 	}

@@ -1,22 +1,20 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.yrdce.ipo.common.dao.CrudDao;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoOrderExample;
 
 @MyBatisDao
-public interface IpoOrderMapper extends CrudDao<IpoOrder> {
+public interface IpoOrderMapper {
 	int countByExample(IpoOrderExample example);
 
 	int deleteByExample(IpoOrderExample example);
 
-	int deleteByPrimaryKey(BigDecimal orderid);
+	int deleteByPrimaryKey(String orderid);
 
 	int insert(IpoOrder record);
 
@@ -24,7 +22,7 @@ public interface IpoOrderMapper extends CrudDao<IpoOrder> {
 
 	List<IpoOrder> selectByExample(IpoOrderExample example);
 
-	IpoOrder selectByPrimaryKey(BigDecimal orderid);
+	IpoOrder selectByPrimaryKey(String orderid);
 
 	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
