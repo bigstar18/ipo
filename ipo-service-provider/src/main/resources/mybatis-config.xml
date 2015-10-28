@@ -45,8 +45,8 @@
 	</typeAliases>
 	
 	<!-- 插件配置 -->
-	<plugins>
+	<!-- <plugins>
 		<plugin interceptor="com.yrdce.ipo.common.persistence.interceptor.PaginationInterceptor" />
-    </plugins>
+    </plugins> -->
 	
 </configuration>

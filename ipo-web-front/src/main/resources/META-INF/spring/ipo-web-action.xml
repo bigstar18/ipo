@@ -22,4 +22,9 @@
 		<property name="anotherUserRestService" ref="userService" />
 	</bean> -->
 
+   <!-- <bean class="com.yrdce.ipo.modules.sys.web.CommodityController" init-method="start">
+		<property name="commodityService" ref="commodityService" />
+	</bean> -->
+
+
 </beans>

@@ -33,7 +33,7 @@ public class DemoConsumer {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:META-INF/spring/*.xml");
 		context.start();
 		UserService userService = context.getBean(UserService.class);
-		System.out.println(userService.getUser(1L));
+	//	System.out.println(userService.getUser(1L));
 
 	}
 	// private static void getUser(String url) {

@@ -25,8 +25,7 @@
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
 
-	<dubbo:reference id="userService" interface="com.yrdce.ipo.modules.sys.service.UserService" />
-
+     <dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
 

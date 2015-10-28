@@ -28,13 +28,14 @@ public class CommodityController extends BaseController {
 	@Autowired
 	private SessionDAO sessionDAO;
 	
+	@Autowired
 	private CommodityService commodityService;  
    
     public CommodityService getCommodityService() {
 		return commodityService;
 	}
 
-    @Autowired
+ 
 	public void setCommodityService(CommodityService commodityService) {
 		this.commodityService = commodityService;
 	}

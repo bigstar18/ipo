@@ -1,5 +1,8 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.common.dao.CrudDao;
+import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.FFirmfunds;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 
@@ -8,7 +11,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-public interface IpoCommodityMapper {
+@MyBatisDao
+public interface IpoCommodityMapper extends CrudDao<IpoCommodity>{
     int countByExample(IpoCommodityExample example);
 
     int deleteByExample(IpoCommodityExample example);
@@ -21,7 +25,7 @@ public interface IpoCommodityMapper {
 
     List<IpoCommodity> selectByExample(IpoCommodityExample example);
     
-    List<IpoCommodity>  getAll(Map<String, Object> page);
+    List<IpoCommodity>  getAll(Map<String, Object> page);//分页查询所有数据
 
     IpoCommodity selectByPrimaryKey(String id);
 
