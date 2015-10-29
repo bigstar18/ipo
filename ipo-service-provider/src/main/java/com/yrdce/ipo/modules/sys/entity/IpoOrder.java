@@ -3,91 +3,84 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.yrdce.ipo.common.persistence.DataEntity;
+public class IpoOrder {
+    private String orderid;
 
-public class IpoOrder extends DataEntity<IpoOrder> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private String userid;
 
-	private String orderid;
+    private String username;
 
-	private String userid;
+    private String commodityid;
 
-	private String username;
+    private String commodityname;
 
-	private String commodityid;
+    private BigDecimal counts;
 
-	private String commodityname;
+    private Date createtime;
 
-	private BigDecimal count;
+    private BigDecimal frozenfunds;
 
-	private Date date;
+    public String getOrderid() {
+        return orderid;
+    }
 
-	private BigDecimal frozenfunds;
+    public void setOrderid(String orderid) {
+        this.orderid = orderid == null ? null : orderid.trim();
+    }
 
-	public String getOrderid() {
-		return orderid;
-	}
+    public String getUserid() {
+        return userid;
+    }
 
-	public void setOrderid(String orderid) {
-		this.orderid = orderid == null ? null : orderid.trim();
-	}
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
+    }
 
-	public String getUserid() {
-		return userid;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUserid(String userid) {
-		this.userid = userid == null ? null : userid.trim();
-	}
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getCommodityid() {
+        return commodityid;
+    }
 
-	public void setUsername(String username) {
-		this.username = username == null ? null : username.trim();
-	}
+    public void setCommodityid(String commodityid) {
+        this.commodityid = commodityid == null ? null : commodityid.trim();
+    }
 
-	public String getCommodityid() {
-		return commodityid;
-	}
+    public String getCommodityname() {
+        return commodityname;
+    }
 
-	public void setCommodityid(String commodityid) {
-		this.commodityid = commodityid == null ? null : commodityid.trim();
-	}
+    public void setCommodityname(String commodityname) {
+        this.commodityname = commodityname == null ? null : commodityname.trim();
+    }
 
-	public String getCommodityname() {
-		return commodityname;
-	}
+    public BigDecimal getCounts() {
+        return counts;
+    }
 
-	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
-	}
+    public void setCounts(BigDecimal counts) {
+        this.counts = counts;
+    }
 
-	public BigDecimal getCount() {
-		return count;
-	}
+    public Date getCreatetime() {
+        return createtime;
+    }
 
-	public void setCount(BigDecimal count) {
-		this.count = count;
-	}
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public BigDecimal getFrozenfunds() {
+        return frozenfunds;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public BigDecimal getFrozenfunds() {
-		return frozenfunds;
-	}
-
-	public void setFrozenfunds(BigDecimal frozenfunds) {
-		this.frozenfunds = frozenfunds;
-	}
+    public void setFrozenfunds(BigDecimal frozenfunds) {
+        this.frozenfunds = frozenfunds;
+    }
 }

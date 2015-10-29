@@ -3,91 +3,84 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.yrdce.ipo.common.persistence.DataEntity;
+public class IpoDistribution {
+    private String id;
 
-public class IpoDistribution extends DataEntity<IpoDistribution> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private String userid;
 
-	private String id;
+    private String commodityname;
 
-	private String userid;
+    private BigDecimal startnumber;
 
-	private String commodityname;
+    private BigDecimal pcounts;
 
-	private BigDecimal startNumber;
+    private Date ptime;
 
-	private BigDecimal distributionQuantity;
+    private BigDecimal zcounts;
 
-	private Date distributionTime;
+    private byte[] numbers;
 
-	private BigDecimal count;
+    public String getId() {
+        return id;
+    }
 
-	private byte[] number;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getUserid() {
+        return userid;
+    }
 
-	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
-	}
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
+    }
 
-	public String getUserid() {
-		return userid;
-	}
+    public String getCommodityname() {
+        return commodityname;
+    }
 
-	public void setUserid(String userid) {
-		this.userid = userid == null ? null : userid.trim();
-	}
+    public void setCommodityname(String commodityname) {
+        this.commodityname = commodityname == null ? null : commodityname.trim();
+    }
 
-	public String getCommodityname() {
-		return commodityname;
-	}
+    public BigDecimal getStartnumber() {
+        return startnumber;
+    }
 
-	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
-	}
+    public void setStartnumber(BigDecimal startnumber) {
+        this.startnumber = startnumber;
+    }
 
-	public BigDecimal getStartNumber() {
-		return startNumber;
-	}
+    public BigDecimal getPcounts() {
+        return pcounts;
+    }
 
-	public void setStartNumber(BigDecimal startNumber) {
-		this.startNumber = startNumber;
-	}
+    public void setPcounts(BigDecimal pcounts) {
+        this.pcounts = pcounts;
+    }
 
-	public BigDecimal getDistributionQuantity() {
-		return distributionQuantity;
-	}
+    public Date getPtime() {
+        return ptime;
+    }
 
-	public void setDistributionQuantity(BigDecimal distributionQuantity) {
-		this.distributionQuantity = distributionQuantity;
-	}
+    public void setPtime(Date ptime) {
+        this.ptime = ptime;
+    }
 
-	public Date getDistributionTime() {
-		return distributionTime;
-	}
+    public BigDecimal getZcounts() {
+        return zcounts;
+    }
 
-	public void setDistributionTime(Date distributionTime) {
-		this.distributionTime = distributionTime;
-	}
+    public void setZcounts(BigDecimal zcounts) {
+        this.zcounts = zcounts;
+    }
 
-	public BigDecimal getCount() {
-		return count;
-	}
+    public byte[] getNumbers() {
+        return numbers;
+    }
 
-	public void setCount(BigDecimal count) {
-		this.count = count;
-	}
-
-	public byte[] getNumber() {
-		return number;
-	}
-
-	public void setNumber(byte[] number) {
-		this.number = number;
-	}
+    public void setNumbers(byte[] numbers) {
+        this.numbers = numbers;
+    }
 }

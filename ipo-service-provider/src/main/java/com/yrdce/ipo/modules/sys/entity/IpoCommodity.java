@@ -12,13 +12,13 @@ public class IpoCommodity {
 
     private BigDecimal price;
 
-    private BigDecimal unit;
+    private BigDecimal units;
 
     private BigDecimal counts;
 
-    private Date startTime;
+    private Date starttime;
 
-    private Date endTime;
+    private Date endtime;
 
     public String getId() {
         return id;
@@ -52,12 +52,12 @@ public class IpoCommodity {
         this.price = price;
     }
 
-    public BigDecimal getUnit() {
-        return unit;
+    public BigDecimal getUnits() {
+        return units;
     }
 
-    public void setUnit(BigDecimal unit) {
-        this.unit = unit;
+    public void setUnits(BigDecimal units) {
+        this.units = units;
     }
 
     public BigDecimal getCounts() {
@@ -68,19 +68,19 @@ public class IpoCommodity {
         this.counts = counts;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStarttime() {
+        return starttime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEndtime() {
+        return endtime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
     }
 }
