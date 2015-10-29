@@ -78,7 +78,7 @@ public class LoginController extends BaseController {
 		// view += "jar:file:/D:/GitHub/jeesite/src/main/webapp/WEB-INF/lib/jeesite.jar!";
 		// view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 		// view += ".jsp";
-		return "modules/sys/sysLogin";
+		return "modules/sys/product";
 	}
 
 	public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";

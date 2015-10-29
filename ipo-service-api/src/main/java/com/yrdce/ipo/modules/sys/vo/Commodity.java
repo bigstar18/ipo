@@ -35,10 +35,10 @@ public class Commodity  implements Serializable {
 	@NotNull
 	private double  price;              //发售价格
 	
-	@JsonProperty("unit")
-	@XmlElement(name = "unit")
+	@JsonProperty("units")
+	@XmlElement(name = "units")
 	@NotNull
-	private   int unit ;              //配售单位
+	private   int units ;              //配售单位
 	
 	@JsonProperty("start_time")
 	@XmlElement(name = "start_time")
@@ -56,12 +56,12 @@ public class Commodity  implements Serializable {
 	}
 
 		public Commodity(String commodityid, String commodityname, double price,
-			int unit, String start_time, String end_time) {
+			int units, String start_time, String end_time) {
 		super();
 		this.commodityid = commodityid;
 		this.commodityname = commodityname;
 		this.price = price;
-		this.unit = unit;
+		this.units = units;
 		this.start_time = start_time;
 		this.end_time = end_time;
 	}
@@ -90,12 +90,12 @@ public class Commodity  implements Serializable {
 		this.price = price;
 	}
 
-	public int getUnit() {
-		return unit;
+	public int getUnits() {
+		return units;
 	}
 
-	public void setUnit(int unit) {
-		this.unit = unit;
+	public void setUnits(int units) {
+		this.units = units;
 	}
 
 	public String getStart_time() {
@@ -117,7 +117,7 @@ public class Commodity  implements Serializable {
 	@Override
 	public String toString() {
 		return "商品 [商品编码=" + commodityid + ", 商品名称="
-				+ commodityname + ", 发售价格=" + price + ", 配售单位=" + unit
+				+ commodityname + ", 发售价格=" + price + ", 配售单位=" + units
 				+ ", 发售日期=" + start_time + ", 截止日期=" + end_time + "]";
 	}
 

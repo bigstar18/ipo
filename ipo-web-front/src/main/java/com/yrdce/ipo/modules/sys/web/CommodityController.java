@@ -45,10 +45,11 @@ public class CommodityController extends BaseController {
      * @param   
      * @return  
      */    
-    @RequestMapping(value="/ipo/findComms", method = RequestMethod.GET)    
+    @RequestMapping(value="/findComms", method = RequestMethod.GET)  
     @ResponseBody    
     public List<Commodity> findComms(String page,String rows){    
-        return commodityService.findCommList(page, rows);
+    	System.out.println("****************");
+    	return commodityService.findCommList(page, rows);
     }
 	 
     
