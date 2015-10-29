@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="commodityid" property="commodityid" jdbcType="VARCHAR" />
-    <result column="commodityname" property="commodityname" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="UNIT" property="unit" jdbcType="DECIMAL" />
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="UNITS" property="units" jdbcType="DECIMAL" />
     <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
-    <result column="start_time" property="startTime" jdbcType="DATE" />
-    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="STARTTIME" property="starttime" jdbcType="DATE" />
+    <result column="ENDTIME" property="endtime" jdbcType="DATE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, commodityid, commodityname, price, UNIT, COUNTS, start_time, end_time
+    ID, COMMODITYID, COMMODITYNAME, PRICE, UNITS, COUNTS, STARTTIME, ENDTIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" >
     select
@@ -90,11 +90,11 @@
     select 
     <include refid="Base_Column_List" />
     from IPO_COMMODITY
-    where id = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_COMMODITY
-    where id = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" >
     delete from IPO_COMMODITY
@@ -102,40 +102,50 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    insert into IPO_COMMODITY (id, commodityid, commodityname, 
-      price, UNIT, COUNTS, 
-      start_time, end_time)
+  <insert id="insert" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
+    <selectKey resultType="String" order="BEFORE" keyProperty="ID">
+
+	SELECT SEQ_IPO_COMMODITY.NEXTVAL FROM dual
+
+	</selectKey>
+    insert into IPO_COMMODITY (ID, COMMODITYID, COMMODITYNAME, 
+      PRICE, UNITS, COUNTS, 
+      STARTTIME, ENDTIME)
     values (#{id,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{unit,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
-      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE})
+      #{price,jdbcType=DECIMAL}, #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
+      #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
+    <selectKey resultType="String" order="BEFORE" keyProperty="ID">
+
+	SELECT SEQ_IPO_COMMODITY.NEXTVAL FROM dual
+
+	</selectKey>
     insert into IPO_COMMODITY
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        id,
+        ID,
       </if>
       <if test="commodityid != null" >
-        commodityid,
+        COMMODITYID,
       </if>
       <if test="commodityname != null" >
-        commodityname,
+        COMMODITYNAME,
       </if>
       <if test="price != null" >
-        price,
+        PRICE,
       </if>
-      <if test="unit != null" >
-        UNIT,
+      <if test="units != null" >
+        UNITS,
       </if>
       <if test="counts != null" >
         COUNTS,
       </if>
-      <if test="startTime != null" >
-        start_time,
+      <if test="starttime != null" >
+        STARTTIME,
       </if>
-      <if test="endTime != null" >
-        end_time,
+      <if test="endtime != null" >
+        ENDTIME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -151,17 +161,17 @@
       <if test="price != null" >
         #{price,jdbcType=DECIMAL},
       </if>
-      <if test="unit != null" >
-        #{unit,jdbcType=DECIMAL},
+      <if test="units != null" >
+        #{units,jdbcType=DECIMAL},
       </if>
       <if test="counts != null" >
         #{counts,jdbcType=DECIMAL},
       </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=DATE},
+      <if test="starttime != null" >
+        #{starttime,jdbcType=DATE},
       </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=DATE},
+      <if test="endtime != null" >
+        #{endtime,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -175,28 +185,28 @@
     update IPO_COMMODITY
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=VARCHAR},
+        ID = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.commodityid != null" >
-        commodityid = #{record.commodityid,jdbcType=VARCHAR},
+        COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
       </if>
       <if test="record.commodityname != null" >
-        commodityname = #{record.commodityname,jdbcType=VARCHAR},
+        COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       </if>
       <if test="record.price != null" >
-        price = #{record.price,jdbcType=DECIMAL},
+        PRICE = #{record.price,jdbcType=DECIMAL},
       </if>
-      <if test="record.unit != null" >
-        UNIT = #{record.unit,jdbcType=DECIMAL},
+      <if test="record.units != null" >
+        UNITS = #{record.units,jdbcType=DECIMAL},
       </if>
       <if test="record.counts != null" >
         COUNTS = #{record.counts,jdbcType=DECIMAL},
       </if>
-      <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=DATE},
+      <if test="record.starttime != null" >
+        STARTTIME = #{record.starttime,jdbcType=DATE},
       </if>
-      <if test="record.endTime != null" >
-        end_time = #{record.endTime,jdbcType=DATE},
+      <if test="record.endtime != null" >
+        ENDTIME = #{record.endtime,jdbcType=DATE},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -205,14 +215,14 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_COMMODITY
-    set id = #{record.id,jdbcType=VARCHAR},
-      commodityid = #{record.commodityid,jdbcType=VARCHAR},
-      commodityname = #{record.commodityname,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      UNIT = #{record.unit,jdbcType=DECIMAL},
+    set ID = #{record.id,jdbcType=VARCHAR},
+      COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      UNITS = #{record.units,jdbcType=DECIMAL},
       COUNTS = #{record.counts,jdbcType=DECIMAL},
-      start_time = #{record.startTime,jdbcType=DATE},
-      end_time = #{record.endTime,jdbcType=DATE}
+      STARTTIME = #{record.starttime,jdbcType=DATE},
+      ENDTIME = #{record.endtime,jdbcType=DATE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,45 +231,44 @@
     update IPO_COMMODITY
     <set >
       <if test="commodityid != null" >
-        commodityid = #{commodityid,jdbcType=VARCHAR},
+        COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       </if>
       <if test="commodityname != null" >
-        commodityname = #{commodityname,jdbcType=VARCHAR},
+        COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
+        PRICE = #{price,jdbcType=DECIMAL},
       </if>
-      <if test="unit != null" >
-        UNIT = #{unit,jdbcType=DECIMAL},
+      <if test="units != null" >
+        UNITS = #{units,jdbcType=DECIMAL},
       </if>
       <if test="counts != null" >
         COUNTS = #{counts,jdbcType=DECIMAL},
       </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=DATE},
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=DATE},
       </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=DATE},
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=DATE},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     update IPO_COMMODITY
-    set commodityid = #{commodityid,jdbcType=VARCHAR},
-      commodityname = #{commodityname,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      UNIT = #{unit,jdbcType=DECIMAL},
+    set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      UNITS = #{units,jdbcType=DECIMAL},
       COUNTS = #{counts,jdbcType=DECIMAL},
-      start_time = #{startTime,jdbcType=DATE},
-      end_time = #{endTime,jdbcType=DATE}
-    where id = #{id,jdbcType=VARCHAR}
+      STARTTIME = #{starttime,jdbcType=DATE},
+      ENDTIME = #{endtime,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
-   <select id="getAll" resultMap="BaseResultMap" parameterType="map">  
+ <select id="getAll" resultMap="BaseResultMap" parameterType="map">  
     select 
     <include refid="Base_Column_List" />
     from IPO_COMMODITY
     limit #{curRow},#{pageSize}       
     </select>  
-  
 </mapper>
