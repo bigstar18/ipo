@@ -2,11 +2,13 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.modules.sys.dao.CapitalDao;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Display;
 
 @Service
@@ -26,6 +28,9 @@ public class DisplayServiceImpl implements DisplayService {
 		int number = (monery.divide(price, 0, BigDecimal.ROUND_DOWN)).intValue();
 
 		Display display = new Display(sid, name, monery, number, 100000000);
+		Commodity d = new Commodity();
+		BeanUtils.copyProperties(d, c);
+
 	}
 
 }
