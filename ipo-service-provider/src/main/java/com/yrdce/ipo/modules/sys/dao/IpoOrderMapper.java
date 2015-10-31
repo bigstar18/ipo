@@ -24,6 +24,8 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByPrimaryKey(String orderid);
 
+	IpoOrder selectByid(String userid, String sid);
+
 	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
 	int updateByExample(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
@@ -31,4 +33,6 @@ public interface IpoOrderMapper {
 	int updateByPrimaryKeySelective(IpoOrder record);
 
 	int updateByPrimaryKey(IpoOrder record);
+
+	int bycommodityid(String sid);
 }

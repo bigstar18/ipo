@@ -265,4 +265,16 @@
       FROZENFUNDS = #{frozenfunds,jdbcType=DECIMAL}
     where ORDERID = #{orderid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="bycommodityid" parameterType="java.lang.String" resultType="java.lang.Integer" >
+  	select sum(counts) from ipo_order where commodityid = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from IPO_ORDER
+    where USERID = #{userid,jdbcType=VARCHAR}
+    and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+    </select>
 </mapper>

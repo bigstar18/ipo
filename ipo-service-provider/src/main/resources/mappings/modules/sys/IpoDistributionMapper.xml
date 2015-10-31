@@ -7,7 +7,7 @@
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="STARTNUMBER" property="startnumber" jdbcType="DECIMAL" />
     <result column="PCOUNTS" property="pcounts" jdbcType="DECIMAL" />
-    <result column="PTIME" property="ptime" jdbcType="DATE" />
+    <result column="PTIME" property="ptime" jdbcType="TIMESTAMP" />
     <result column="ZCOUNTS" property="zcounts" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" extends="BaseResultMap" >
@@ -135,7 +135,7 @@
       STARTNUMBER, PCOUNTS, PTIME, 
       ZCOUNTS, NUMBERS)
     values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{startnumber,jdbcType=DECIMAL}, #{pcounts,jdbcType=DECIMAL}, #{ptime,jdbcType=DATE}, 
+      #{startnumber,jdbcType=DECIMAL}, #{pcounts,jdbcType=DECIMAL}, #{ptime,jdbcType=TIMESTAMP}, 
       #{zcounts,jdbcType=DECIMAL}, #{numbers,jdbcType=BLOB})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
@@ -188,7 +188,7 @@
         #{pcounts,jdbcType=DECIMAL},
       </if>
       <if test="ptime != null" >
-        #{ptime,jdbcType=DATE},
+        #{ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="zcounts != null" >
         #{zcounts,jdbcType=DECIMAL},
@@ -223,7 +223,7 @@
         PCOUNTS = #{record.pcounts,jdbcType=DECIMAL},
       </if>
       <if test="record.ptime != null" >
-        PTIME = #{record.ptime,jdbcType=DATE},
+        PTIME = #{record.ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.zcounts != null" >
         ZCOUNTS = #{record.zcounts,jdbcType=DECIMAL},
@@ -243,7 +243,7 @@
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{record.startnumber,jdbcType=DECIMAL},
       PCOUNTS = #{record.pcounts,jdbcType=DECIMAL},
-      PTIME = #{record.ptime,jdbcType=DATE},
+      PTIME = #{record.ptime,jdbcType=TIMESTAMP},
       ZCOUNTS = #{record.zcounts,jdbcType=DECIMAL},
       NUMBERS = #{record.numbers,jdbcType=BLOB}
     <if test="_parameter != null" >
@@ -257,7 +257,7 @@
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{record.startnumber,jdbcType=DECIMAL},
       PCOUNTS = #{record.pcounts,jdbcType=DECIMAL},
-      PTIME = #{record.ptime,jdbcType=DATE},
+      PTIME = #{record.ptime,jdbcType=TIMESTAMP},
       ZCOUNTS = #{record.zcounts,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -279,7 +279,7 @@
         PCOUNTS = #{pcounts,jdbcType=DECIMAL},
       </if>
       <if test="ptime != null" >
-        PTIME = #{ptime,jdbcType=DATE},
+        PTIME = #{ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="zcounts != null" >
         ZCOUNTS = #{zcounts,jdbcType=DECIMAL},
@@ -296,7 +296,7 @@
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{startnumber,jdbcType=DECIMAL},
       PCOUNTS = #{pcounts,jdbcType=DECIMAL},
-      PTIME = #{ptime,jdbcType=DATE},
+      PTIME = #{ptime,jdbcType=TIMESTAMP},
       ZCOUNTS = #{zcounts,jdbcType=DECIMAL},
       NUMBERS = #{numbers,jdbcType=BLOB}
     where ID = #{id,jdbcType=VARCHAR}
@@ -307,7 +307,7 @@
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{startnumber,jdbcType=DECIMAL},
       PCOUNTS = #{pcounts,jdbcType=DECIMAL},
-      PTIME = #{ptime,jdbcType=DATE},
+      PTIME = #{ptime,jdbcType=TIMESTAMP},
       ZCOUNTS = #{zcounts,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

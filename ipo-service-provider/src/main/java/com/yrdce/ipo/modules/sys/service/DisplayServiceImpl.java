@@ -24,8 +24,12 @@ public class DisplayServiceImpl implements DisplayService {
 		BigDecimal monery = CapitalDao.expendable(userid);
 		// 获取商品单价
 		BigDecimal price = c.getPrice();
-		// 计算可购买数量
-		int number = (monery.divide(price, 0, BigDecimal.ROUND_DOWN)).intValue();
+		// 1000为一单位
+		BigDecimal Unitprice = new BigDecimal(1000);
+		// 1单位价格
+		BigDecimal total = price.multiply(Unitprice);
+		// 计算可购买多少单位
+		int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
 
 		Display display = new Display(sid, name, monery, number, 100000000);
 		Commodity d = new Commodity();
