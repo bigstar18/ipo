@@ -20,9 +20,11 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.DisplayService;
+import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Display;
+import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
 
@@ -45,7 +47,11 @@ public class CommodityController extends BaseController {
 	@Autowired
 	private Purchase    purchase;
 	
+	@Autowired
 	private DisplayService   displayService;
+	
+	@Autowired
+	private DistributionService distributionService;
    
     public CommodityService getCommodityService() {
 		return commodityService;
@@ -69,6 +75,14 @@ public class CommodityController extends BaseController {
 
 	public void setDisplayService(DisplayService displayService) {
 		this.displayService = displayService;
+	}
+
+	public DistributionService getDistributionService() {
+		return distributionService;
+	}
+
+	public void setDistributionService(DistributionService distributionService) {
+		this.distributionService = distributionService;
 	}
 
 	/**
@@ -131,17 +145,22 @@ public class CommodityController extends BaseController {
     
   
     /**  
-     * 配号查询
+     * 分页配号查询
      * @param
      * @return
+     * @throws IOException 
      */    
     @RequestMapping(value="/findApplyNums", method = RequestMethod.GET)  
     @ResponseBody    
-    public List<Commodity> findApplyNums(String page,String rows){    
-    	return commodityService.findCommList(page, rows);
+    public String findApplyNums(String page,String rows) throws IOException{    
+    	log.info("分页查询客户配号信息");   
+    	List<Distribution>  dlist=new ArrayList<Distribution>();
+    	dlist=distributionService.getDistriList(page, rows);
+    	int totalnums=distributionService.getAllDistris();
+        ResponseResult result = new ResponseResult();
+        result.setTotal(totalnums);
+        result.setRows(dlist);
+        return JSON.json(result);    	
     }
-    
-    
-    
     
 }

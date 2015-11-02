@@ -311,4 +311,7 @@
       ZCOUNTS = #{zcounts,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getAll"  resultMap="BaseResultMap"  parameterType="map" >
+    select * from (select t.*,rownum TNO from IPO_DISTRIBUTION t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
 </mapper>
