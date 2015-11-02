@@ -3,22 +3,25 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/*
+ * 发售商品表
+ */
 public class IpoCommodity {
-    private String id;
+    private String id;     
 
-    private String commodityid;
+    private String commodityid;  //商品代码
 
-    private String commodityname;
+    private String commodityname; //商品名称
 
-    private BigDecimal price;
+    private BigDecimal price;//发售价格
 
-    private BigDecimal units;
+    private BigDecimal units;//配售单位
 
-    private BigDecimal counts;
+    private BigDecimal counts;//发售总数
 
-    private Date starttime;
+    private Date starttime;//发售日期
 
-    private Date endtime;
+    private Date endtime;//截止日期
 
     public String getId() {
         return id;

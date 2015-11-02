@@ -23,9 +23,11 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
 
-	List<IpoCommodity> getAll(Map<String, Object> page);// 分页获取发售商品
+	List<IpoCommodity> getAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(String id);
+	
+	IpoCommodity selectByComid(@Param("comid")String comid);   //根据商品ID获取商品信息
 
 	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
 

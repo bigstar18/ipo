@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 
 @Service("commodityService") 
@@ -30,14 +30,20 @@ public class CommodityServiceImpl implements CommodityService{
 
 	@Override
 	public List<Commodity> findCommList(String page,String rows) {
-		  page = (page==null?"1":page);  
-	        rows = (rows==null?"5":rows);  
+		    page = (page==null?"1":page);  
+	        rows = (rows==null?"5":rows); 
+	        int curpage=Integer.parseInt(page);
+	        int pagesize=Integer.parseInt(rows);
 	        List<IpoCommodity> commlist=new ArrayList<IpoCommodity>();
 	        List<Commodity> commlist2=new ArrayList<Commodity>();
-	        commlist= ipoCommodityMapper.getAll(PageUtil.getRowNum(Integer.parseInt(page), Integer.parseInt(rows)));
+	        commlist= ipoCommodityMapper.getAll((curpage-1)*pagesize+1,curpage*pagesize);
 	        for(int i=0;i<commlist.size();i++){
 	        	Commodity commo=new Commodity();
 	        	BeanUtils.copyProperties(commlist.get(i), commo);
+	        	commo.setPrice(commlist.get(i).getPrice().intValue());
+	        	commo.setUnits(commlist.get(i).getUnits().intValue());
+	        	commo.setStarttime(commlist.get(i).getStarttime());
+	        	commo.setEndtime(commlist.get(i).getEndtime());
 	        	commlist2.add(commo);
 	        }
 	        return commlist2;  
@@ -45,26 +51,24 @@ public class CommodityServiceImpl implements CommodityService{
 
 	@Override
 	public Commodity getCommodity(String commId) {
-		// TODO Auto-generated method stub
-		return null;
+		IpoCommodity ipoCom=ipoCommodityMapper.selectByComid(commId);
+		if(ipoCom==null){
+			return null;
+		}
+		Commodity commo=new Commodity();
+		BeanUtils.copyProperties(ipoCom, commo);
+		commo.setPrice(ipoCom.getPrice().intValue());
+    	commo.setUnits(ipoCom.getUnits().intValue());
+    	commo.setStarttime(ipoCom.getStarttime());
+    	commo.setEndtime(ipoCom.getEndtime());
+		return commo;
 	}
-
+	
 	@Override
-	public String getPurAmount(Commodity comm) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getAllComms(){
+		return ipoCommodityMapper.countByExample(new IpoCommodityExample());
 	}
-
-	@Override
-	public void add(Commodity comm) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Commodity comm) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 
 }

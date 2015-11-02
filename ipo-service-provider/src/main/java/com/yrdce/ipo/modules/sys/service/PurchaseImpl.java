@@ -26,7 +26,7 @@ import com.yrdce.ipo.modules.sys.entity.TATradetime;
 
 import oracle.jdbc.OracleTypes;
 
-@Service
+@Service("Purchase")
 @Transactional(readOnly = true)
 public class PurchaseImpl implements Purchase {
 
