@@ -1,6 +1,8 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import com.yrdce.ipo.modules.sys.vo.Display;
+
 public interface DisplayService {
-	public void display(String userid, String sid);
+	public Display display(String userid, String sid);
 
 }

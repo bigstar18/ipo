@@ -35,4 +35,12 @@ public interface IpoOrderMapper {
 	int updateByPrimaryKey(IpoOrder record);
 
 	int bycommodityid(String sid);
+
+	List<IpoOrder> selectAll();
+
+	List<String> select();
+
+	void insertAll();
+
+	void deleatAll();
 }

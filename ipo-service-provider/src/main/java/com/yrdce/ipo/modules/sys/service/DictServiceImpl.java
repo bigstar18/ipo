@@ -19,7 +19,7 @@ import com.yrdce.ipo.modules.sys.vo.Dict;
  * @author ThinkGem
  * @version 2014-05-16
  */
-@Service
+@Service("DictService")
 @Transactional(readOnly = true)
 public class DictServiceImpl extends CrudService<DictDao, Dict2>implements DictService {
 

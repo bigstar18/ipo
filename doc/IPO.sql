@@ -1,12 +1,14 @@
 /*==============================================================*/
 /* DBMS name:      ORACLE Version 11g                           */
-/* Created on:     2015/10/28 10:59:44                          */
+/* Created on:     2015/10/31 20:43:48                          */
 /*==============================================================*/
 
 
 drop table IPO_COMMODITY cascade constraints;
 
 drop table IPO_DISTRIBUTION cascade constraints;
+
+drop table IPO_NUMBEROFRECORDS cascade constraints;
 
 drop table IPO_ORDER cascade constraints;
 
@@ -15,39 +17,39 @@ drop table IPO_ORDER cascade constraints;
 /*==============================================================*/
 create table IPO_COMMODITY 
 (
-   "id"                 VARCHAR(32)          not null,
-   "commodityid"        VARCHAR(32)          not null,
-   "commodityname"      VARCHAR(32)          not null,
-   "price"              NUMBER(5,5)          not null,
-   "unit"               NUMBER               not null,
-   "count"              NUMBER               not null,
-   "start_time"         DATE                 not null,
-   "end_time"           DATE                 not null,
-   constraint PK_IPO_COMMODITY primary key ("id")
+   ID                   VARCHAR(32)          not null,
+   COMMODITYID          VARCHAR(32)          not null,
+   COMMODITYNAME        VARCHAR(32)          not null,
+   PRICE                NUMBER(11,3)         not null,
+   UNITS                NUMBER               not null,
+   COUNTS               NUMBER               not null,
+   STARTTIME            DATE                 not null,
+   ENDTIME              DATE                 not null,
+   constraint PK_IPO_COMMODITY primary key (ID)
 );
 
 comment on table IPO_COMMODITY is
 '商品列表';
 
-comment on column IPO_COMMODITY."commodityid" is
+comment on column IPO_COMMODITY.COMMODITYID is
 '商品编号';
 
-comment on column IPO_COMMODITY."commodityname" is
+comment on column IPO_COMMODITY.COMMODITYNAME is
 '商品名称';
 
-comment on column IPO_COMMODITY."price" is
+comment on column IPO_COMMODITY.PRICE is
 '发售价';
 
-comment on column IPO_COMMODITY."unit" is
+comment on column IPO_COMMODITY.UNITS is
 '发售单位';
 
-comment on column IPO_COMMODITY."count" is
+comment on column IPO_COMMODITY.COUNTS is
 '发售数量';
 
-comment on column IPO_COMMODITY."start_time" is
+comment on column IPO_COMMODITY.STARTTIME is
 '起始时间';
 
-comment on column IPO_COMMODITY."end_time" is
+comment on column IPO_COMMODITY.ENDTIME is
 '结束时间';
 
 /*==============================================================*/
@@ -55,78 +57,98 @@ comment on column IPO_COMMODITY."end_time" is
 /*==============================================================*/
 create table IPO_DISTRIBUTION 
 (
-   "id"                 VARCHAR(32)          not null,
-   "userid"             VARCHAR(32)          not null,
-   "commodityname"      VARCHAR(12)          not null,
-   "start_number"       NUMBER               not null,
-   "distribution_quantity" INT                  not null,
-   "distribution_time"  DATE                 not null,
-   "count"              NUMBER               not null,
-   "number"             BLOB                 not null,
-   constraint PK_IPO_DISTRIBUTION primary key ("id")
+   ID                   VARCHAR(32)          not null,
+   USERID               VARCHAR(32)          not null,
+   COMMODITYNAME        VARCHAR(12)          not null,
+   STARTNUMBER          NUMBER               not null,
+   PCOUNTS              INT                  not null,
+   PTIME                TIMESTAMP            not null,
+   ZCOUNTS              NUMBER,
+   NUMBERS              BLOB,
+   constraint PK_IPO_DISTRIBUTION primary key (ID)
 );
 
 comment on table IPO_DISTRIBUTION is
 '配号，中签结果';
 
-comment on column IPO_DISTRIBUTION."userid" is
+comment on column IPO_DISTRIBUTION.USERID is
 '客户编号';
 
-comment on column IPO_DISTRIBUTION."commodityname" is
+comment on column IPO_DISTRIBUTION.COMMODITYNAME is
 '商品名称';
 
-comment on column IPO_DISTRIBUTION."start_number" is
+comment on column IPO_DISTRIBUTION.STARTNUMBER is
 '起始配号';
 
-comment on column IPO_DISTRIBUTION."distribution_quantity" is
+comment on column IPO_DISTRIBUTION.PCOUNTS is
 '配号数量';
 
-comment on column IPO_DISTRIBUTION."distribution_time" is
+comment on column IPO_DISTRIBUTION.PTIME is
 '配号时间';
 
-comment on column IPO_DISTRIBUTION."count" is
+comment on column IPO_DISTRIBUTION.ZCOUNTS is
 '中签数量';
 
-comment on column IPO_DISTRIBUTION."number" is
+comment on column IPO_DISTRIBUTION.NUMBERS is
 '中签号码';
+
+/*==============================================================*/
+/* Table: IPO_NUMBEROFRECORDS                                   */
+/*==============================================================*/
+create table IPO_NUMBEROFRECORDS 
+(
+   ID                   VARCHAR(32)          not null,
+   COMMODITYID          VARCHAR(32),
+   COUNTS               NUMBER,
+   NOWTIME              TIMESTAMP            
+);
+
+comment on column IPO_NUMBEROFRECORDS.COMMODITYID is
+'商品编号';
+
+comment on column IPO_NUMBEROFRECORDS.COUNTS is
+'已配个数';
+
+comment on column IPO_NUMBEROFRECORDS.NOWTIME is
+'时间';
 
 /*==============================================================*/
 /* Table: IPO_ORDER                                             */
 /*==============================================================*/
 create table IPO_ORDER 
 (
-   "orderid"            VARCHAR(32)          not null,
-   "userid"             VARCHAR(32)          not null,
-   "username"           VARCHAR(12)          not null,
-   "commodityid"        VARCHAR(12)          not null,
-   "commodityname"      VARCHAR(12)          not null,
-   "count"              NUMBER               not null,
-   "date"               TIMESTAMP            not null,
-   "frozenfunds"        NUMBER(15,2)         not null,
-   constraint PK_IPO_ORDER primary key ("orderid")
+   ORDERID              VARCHAR(32)          not null,
+   USERID               VARCHAR(32)          not null,
+   USERNAME             VARCHAR(12),
+   COMMODITYID          VARCHAR(12)          not null,
+   COMMODITYNAME        VARCHAR(12)          not null,
+   COUNTS               NUMBER               not null,
+   CREATETIME           TIMESTAMP            not null,
+   FROZENFUNDS          NUMBER(15,2)         not null,
+   constraint PK_IPO_ORDER primary key (ORDERID)
 );
 
 comment on table IPO_ORDER is
 '订单表';
 
-comment on column IPO_ORDER."userid" is
+comment on column IPO_ORDER.USERID is
 '客户编号';
 
-comment on column IPO_ORDER."username" is
+comment on column IPO_ORDER.USERNAME is
 '客户姓名';
 
-comment on column IPO_ORDER."commodityid" is
+comment on column IPO_ORDER.COMMODITYID is
 '商品编号';
 
-comment on column IPO_ORDER."commodityname" is
+comment on column IPO_ORDER.COMMODITYNAME is
 '商品名称';
 
-comment on column IPO_ORDER."count" is
+comment on column IPO_ORDER.COUNTS is
 '客户申购数';
 
-comment on column IPO_ORDER."date" is
+comment on column IPO_ORDER.CREATETIME is
 '申购时间';
 
-comment on column IPO_ORDER."frozenfunds" is
+comment on column IPO_ORDER.FROZENFUNDS is
 '资金冻结';
 

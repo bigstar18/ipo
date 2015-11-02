@@ -1,8 +1,23 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
-public class Distribution<E> {
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
+import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
+import com.yrdce.ipo.modules.sys.entity.IpoOrder;
+
+@Service("Distribution")
+@Transactional(readOnly = true)
+public class Distribution {
 
 	// 起始配号
 	private int minStart = 10000001;
@@ -11,32 +26,87 @@ public class Distribution<E> {
 	// 默认起始配号
 	// private int m = 1000;
 	private IpoOrderMapper order;
+	private IpoNumberofrecordsMapper unmberofrecord;
+	private IpoNumberofrecords num;
+	private IpoDistributionMapper distribution;
+	private IpoDistribution ipodistribution;
 
-	public void start(String userid, String sid) {
-		// 根据用户ID和商品ID查询出唯一订单信息
-		// IpoOrder o = order.selectByid(userid, sid);
-		// 获取数据库中申购的时间
-		// Date time = o.getCreatetime();
-		// 获取系统当前时间
-		// Date nowTime = new Date();
-		// 时间运算
-		// SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		// sdf.format(nowTime);
-		// sdf.format(time);
-		// Calendar rightNow = Calendar.getInstance();
-		// rightNow.setTime(nowTime);
-		// rightNow.setTime(time);
-		// rightNow.add(Calendar.YEAR,-1);
-		// 判断时间是否是前一天
+	@SuppressWarnings("unused")
+	public void start() {
 
-		// 获取商品共应该配多少号
-		int counts = order.bycommodityid(sid);
-		int num = minStart + counts;
-		// 判断配号规则
-		if (num < maxStart) {
+		// 复制插入商品id
+		List list = order.select();
+		for (int i = 0; i < list.size(); i++) {
+			String sid = (String) list.get(i);
+			Timestamp date = new Timestamp(System.currentTimeMillis());
+			num.setCommodityid(sid);
+			num.setNowtime(date);
+			IpoNumberofrecords frecord = new IpoNumberofrecords();
+			unmberofrecord.insert(frecord);
+		}
 
-		} else {
+		// 获取全部订单列表
+		List<IpoOrder> o = order.selectAll();
+		for (int i = 0; i < o.size(); i++) {
+			IpoOrder order = o.get(i);
+			String sid = order.getCommodityid();
+			String userid = order.getUserid();
+			BigDecimal counts = order.getCounts();
+			String sname = order.getCommodityname();
+			int count = counts.intValue();
+
+			// 获取记录表有无记录
+			Integer a = unmberofrecord.selectbysid(sid);
+			if (a == null) {
+				// 更新记录表
+				unmberofrecord.update(count, sid);
+				// 插入ipodistribution表
+				ipodistribution.setCommodityname(sname);
+				BigDecimal startnumber = new BigDecimal(10000001);
+				ipodistribution.setStartnumber(startnumber);
+				ipodistribution.setUserid(userid);
+				ipodistribution.setPcounts(counts);
+				Date date = new Date();
+				ipodistribution.setPtime(date);
+				distribution.insert(ipodistribution);
+
+			} else if (a != null && a < 99999999) {
+
+				int count1 = a++;
+				unmberofrecord.update(count1, sid);
+				ipodistribution.setCommodityname(sname);
+				BigDecimal startnumber = new BigDecimal(count1);
+				ipodistribution.setStartnumber(startnumber);
+				ipodistribution.setUserid(userid);
+				ipodistribution.setPcounts(counts);
+				Date date = new Date();
+				ipodistribution.setPtime(date);
+				distribution.insert(ipodistribution);
+			} else {
+				String str = count + "";
+				StringBuffer str1 = new StringBuffer("111111");
+				String str2 = (str1.append(str)).toString();
+				int x = Integer.parseInt(str2);
+				int count2 = x++;
+				unmberofrecord.update(count2, sid);
+				ipodistribution.setCommodityname(sname);
+				BigDecimal startnumber = new BigDecimal(count2);
+				ipodistribution.setStartnumber(startnumber);
+				ipodistribution.setUserid(userid);
+				ipodistribution.setPcounts(counts);
+				Date date = new Date();
+				ipodistribution.setPtime(date);
+				distribution.insert(ipodistribution);
+
+			}
 
 		}
+
+		order.insertAll();
+		order.deleatAll();
+
+		unmberofrecord.insertAll();
+		unmberofrecord.deleatAll();
+
 	}
 }

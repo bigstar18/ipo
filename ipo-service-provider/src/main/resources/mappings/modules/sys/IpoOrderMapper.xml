@@ -277,4 +277,21 @@
     where USERID = #{userid,jdbcType=VARCHAR}
     and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
     </select>
+    
+    <select id="select" resultType="java.lang.String">
+    	select distinct COMMODITYID from E_HOLDING 
+    </select>
+    
+   <select id="selectAll" resultMap="BaseResultMap">
+   	select * from IPO_ORDER
+   </select>
+   
+   <insert id="insertAll">
+ 		insert into IPO_ORDER_H (ORDERID,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS)
+ 		select SEQ_IPO_ORDER_H.NEXTVAL,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS from IPO_ORDER
+   </insert>
+   
+   <delete id="deleatAll">
+   		truncate table IPO_ORDER
+   </delete>
 </mapper>
