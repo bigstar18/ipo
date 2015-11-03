@@ -52,7 +52,7 @@
       <form class="form-inline" id="fm2" style="margin-top: 20px">
 	      <div class="form-group">
 	        <label style="width: 70px">购买量：</label>
-	        <input type="text"  id="quantity"     class="form-control"   placeholder="请输入申购量">
+	        <input type="text"  id="quantity"  class="easyui-numberbox" >
 	      </div>
 	    </form>
 	     <div>

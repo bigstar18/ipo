@@ -15,9 +15,9 @@ public class IpoCommodity {
 
     private BigDecimal price;//发售价格
 
-    private BigDecimal units;//配售单位
+    private int units;//配售单位
 
-    private BigDecimal counts;//发售总数
+    private int counts;//发售总数
 
     private Date starttime;//发售日期
 
@@ -47,31 +47,31 @@ public class IpoCommodity {
         this.commodityname = commodityname == null ? null : commodityname.trim();
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public BigDecimal getUnits() {
-        return units;
-    }
+	public int getUnits() {
+		return units;
+	}
 
-    public void setUnits(BigDecimal units) {
-        this.units = units;
-    }
+	public void setUnits(int units) {
+		this.units = units;
+	}
 
-    public BigDecimal getCounts() {
-        return counts;
-    }
+	public int getCounts() {
+		return counts;
+	}
 
-    public void setCounts(BigDecimal counts) {
-        this.counts = counts;
-    }
+	public void setCounts(int counts) {
+		this.counts = counts;
+	}
 
-    public Date getStarttime() {
+	public Date getStarttime() {
         return starttime;
     }
 

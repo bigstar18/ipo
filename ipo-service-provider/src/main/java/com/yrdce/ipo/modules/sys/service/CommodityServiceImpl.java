@@ -40,8 +40,8 @@ public class CommodityServiceImpl implements CommodityService{
 	        for(int i=0;i<commlist.size();i++){
 	        	Commodity commo=new Commodity();
 	        	BeanUtils.copyProperties(commlist.get(i), commo);
-	        	commo.setPrice(commlist.get(i).getPrice().intValue());
-	        	commo.setUnits(commlist.get(i).getUnits().intValue());
+	        	commo.setPrice(commlist.get(i).getPrice().doubleValue());
+	        	commo.setUnits(commlist.get(i).getUnits());
 	        	commo.setStarttime(commlist.get(i).getStarttime());
 	        	commo.setEndtime(commlist.get(i).getEndtime());
 	        	commlist2.add(commo);
@@ -57,8 +57,8 @@ public class CommodityServiceImpl implements CommodityService{
 		}
 		Commodity commo=new Commodity();
 		BeanUtils.copyProperties(ipoCom, commo);
-		commo.setPrice(ipoCom.getPrice().intValue());
-    	commo.setUnits(ipoCom.getUnits().intValue());
+		commo.setPrice(ipoCom.getPrice().doubleValue());
+    	commo.setUnits(ipoCom.getUnits());
     	commo.setStarttime(ipoCom.getStarttime());
     	commo.setEndtime(ipoCom.getEndtime());
 		return commo;
