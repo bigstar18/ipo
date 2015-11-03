@@ -42,8 +42,8 @@ public class DistributionServiceImpl implements DistributionService {
         for(int i=0;i<list.size();i++){
         	Distribution distrib=new Distribution();
         	BeanUtils.copyProperties(list.get(i), distrib);
-        	distrib.setPcounts(list.get(i).getPcounts().intValue());
-        	distrib.setStartnumber(list.get(i).getStartnumber().intValue());
+        	distrib.setPcounts(list.get(i).getPcounts());
+        	distrib.setStartnumber(list.get(i).getStartnumber());
         	distrib.setPtime(list.get(i).getPtime());
         	list2.add(distrib);
         }

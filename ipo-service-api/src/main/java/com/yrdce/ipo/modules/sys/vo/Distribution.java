@@ -32,7 +32,7 @@ public class Distribution {
 	@JsonProperty("startnumber")
 	@XmlElement(name = "startnumber")
 	@NotNull
-	private int  startnumber;              //起始配号
+	private long  startnumber;              //起始配号
 	
 	@JsonProperty("pcounts")
 	@XmlElement(name = "pcounts")
@@ -61,11 +61,11 @@ public class Distribution {
 		this.commodityname = commodityname;
 	}
 
-	public int getStartnumber() {
+	public long getStartnumber() {
 		return startnumber;
 	}
 
-	public void setStartnumber(int startnumber) {
+	public void setStartnumber(long startnumber) {
 		this.startnumber = startnumber;
 	}
 
