@@ -37,21 +37,7 @@
 	<task:executor id="executor" pool-size="10" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
-   <!-- 权限判断  -->
-	<bean id="urlCheck" class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheck">
-		<property name="urlCheckList">
-			<list>
-				<!-- 检查url是否为不需要判断权限 的url 如登录界面等-->
-				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckNeedlessCheck" />
-				<!-- 检查session信息 -->
-				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckSession"></bean>
-				<!-- 使用Au检查用户是否合法 -->
-				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckUserInfo"></bean>
-				<!-- 根据用户检查是否拥有url的访问权限 -->
-				<bean class="gnnt.MEBS.common.front.webFrame.securityCheck.UrlCheckUserPurview"></bean>
-			</list>
-		</property>
-	</bean>
+  
 
    
 </beans>
