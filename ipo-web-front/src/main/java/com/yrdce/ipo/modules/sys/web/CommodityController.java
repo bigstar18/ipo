@@ -84,14 +84,6 @@ public class CommodityController extends BaseController {
 	public void setDistributionService(DistributionService distributionService) {
 		this.distributionService = distributionService;
 	}
-
-	/**
-	  * IPO功能访问
-	  */
-	 @RequestMapping(value="/findIpo", method = RequestMethod.GET)  
-	 public String findIpo(HttpServletRequest request, HttpServletResponse response, Model model){
-		 return "modules/sys/ipoapply";
-	 }
 	
     /**  
      * 分页返回商品列表

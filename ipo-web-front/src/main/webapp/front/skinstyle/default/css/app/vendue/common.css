@@ -1,0 +1,194 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}/* CSS Document */
+
+.top_txt {
+	font-size: 18px;
+	font-weight: bold;
+	color: #004dac;
+	font-family:"Î¢ÈíÑÅºÚ"
+}
+.t1 {
+font-size:14px; font-weight:bold; color:#1f7cb5;}
+.imp {
+	font-size: 14px;
+	font-weight: bold;
+	color: #f60;
+	text-decoration: none;
+}
+.impR {
+	font-size: 14px;
+	font-weight: bold;
+	color: red;
+	text-decoration: none;
+}
+.partition {
+	font-size: 12px;
+	line-height: 21px;
+	color: #FFFFFF;
+	background-image: url(../../../image/app/vendue/button_bg.gif);
+	background-repeat: no-repeat;
+	text-align: center;
+	height: 21px;
+	width: 144px;
+	cursor: hand;
+		border:0;
+}
+.ts_txt {
+	font-size: 12px;
+	line-height: 15px;
+	color: #575757;
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.menu2bg2 {
+	background-image: url(../../../image/app/vendue/menu2bg2.jpg);
+	float: left;
+	height: 37px;
+	width: 181px;
+	font-size: 14px;
+	line-height: 37px;
+	font-weight: bold;
+	color: #333333;
+	text-align: center;
+	cursor:pointer;
+}
+.menu2bg1 {
+	background-image: url(../../../image/app/vendue/menu2bg1.jpg);
+	float: left;
+	height: 37px;
+	width: 181px;
+	font-size: 14px;
+	line-height: 37px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	cursor:pointer;
+}
+.menu1bg2 {
+	background-image: url(../../../image/app/vendue/menu1bg2.jpg);
+	float: left;
+	height: 37px;
+	width: 161px;
+	font-size: 14px;
+	line-height: 37px;
+	font-weight: bold;
+	color: #333333;
+	text-align: center;
+	cursor:pointer;
+}
+.menu1bg1 {
+	background: url(../../../image/app/vendue/menu1bg1.jpg) no-repeat;
+	float: left;
+	height: 37px;
+	width: 161px;
+	font-size: 14px;
+	line-height: 37px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	cursor:pointer;
+}
+td {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+.td_bt {
+	font-size: 12px;
+	color: #575757;
+	text-decoration: none;
+	font-weight: bold; background:url(../../../image/app/vendue/tb_btbg1.gif) repeat-x; height:25px; line-height:25px;
+}
+.td_bt1 {
+	font-size: 12px;
+	color: #575757;
+	text-decoration: none;
+	 background:#fff; height:25px; line-height:25px;
+}
+a:link {
+	font-size: 12px;
+	color: red;
+	text-decoration: underline;
+}
+a:visited {
+	font-size: 12px;
+	color: red;
+	text-decoration: underline;
+}
+a:active {
+	font-size: 12px;
+	color: red;
+	text-decoration: underline;
+}
+.two:link {
+	font-size: 12px;
+	color: red;
+	text-decoration: underline;
+}
+.two:visited {
+	font-size: 12px;
+	color: black;
+	text-decoration: underline;
+}
+.two:active {
+	font-size: 12px;
+	color: red;
+	text-decoration: underline;
+}
+.two:hover {
+	font-size: 12px;
+	color:black;
+	text-decoration: none;
+}
+
+.rf {
+	font-size: 12px;
+	color: red;
+	text-decoration: none;
+}
+
+.smlbtn
+{
+	background-image: url(../../../image/app/vendue/btn_sml.gif); 
+	background-repeat: no-repeat;
+	background-position: middle center;
+	background-color: transparent; 
+	border-left: medium none; 
+	border-right: medium none; 
+	border-top: medium none; 
+	border-bottom: medium none; 
+	padding-top: 3px;
+	font-size: 9pt; 
+	font-family: simsun; 
+	width: 55px;
+	height: 20px; 
+	overflow: hidden; 
+	cursor: hand; 
+	color: #333333; 
+	text-align: center;
+}
+.dsb {
+	font-size: 14px;
+	color: #575757;
+	text-decoration: none; font-weight:bold;
+}
+
+.k {
+	background-color: #FFFFFF;
+	border: 1px solid #73A7B5;
+}
+.k1 {
+	background:url(../../../image/app/vendue/k1.gif) no-repeat; width:48px; height:20px;border:none;
+	color:  #FFFFFF;
+	font-size: 12px;
+	text-align: center;
+	line-height: 20px;
+}
+
+
+

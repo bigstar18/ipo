@@ -28,6 +28,11 @@ public class CommodityServiceImpl implements CommodityService{
 		this.ipoCommodityMapper = ipoCommodityMapper;
 	}
 
+	/*
+	 * 分页获取发售商品列表
+	 * 
+	 */
+	
 	@Override
 	public List<Commodity> findCommList(String page,String rows) {
 		    page = (page==null?"1":page);  
@@ -67,6 +72,27 @@ public class CommodityServiceImpl implements CommodityService{
 	@Override
 	public int getAllComms(){
 		return ipoCommodityMapper.countByExample(new IpoCommodityExample());
+	}
+
+	
+	/*
+	 * 获取所有发售商品信息
+	 */
+	@Override
+	public List<Commodity> findAll() {
+		    List<IpoCommodity> commlist=new ArrayList<IpoCommodity>();
+	        List<Commodity> commlist2=new ArrayList<Commodity>();
+	        commlist=  ipoCommodityMapper.selectByExample(new IpoCommodityExample());
+	        for(int i=0;i<commlist.size();i++){
+	        	Commodity commo=new Commodity();
+	        	BeanUtils.copyProperties(commlist.get(i), commo);
+	        	commo.setPrice(commlist.get(i).getPrice().doubleValue());
+	        	commo.setUnits(commlist.get(i).getUnits());
+	        	commo.setStarttime(commlist.get(i).getStarttime());
+	        	commo.setEndtime(commlist.get(i).getEndtime());
+	        	commlist2.add(commo);
+	        }
+	        return commlist2;  
 	}
 	
 	

@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=GBK"
+    pageEncoding="GBK"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%><html>
 <head>
-<title>æŠ•èµ„è€…ç”³è´­</title>
+<title>Í¶×ÊÕßÉê¹ºÒ³Ãæ</title>
      <meta name="decorator" content="default"/>
      <link rel="stylesheet" href="${ctxStatic}/bootstrap/2.3.1/css_default/bootstrap.min.css">
 	 <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
@@ -14,49 +14,49 @@
 </head>
 <body>
 	<div class="col-xs-12">
-		<div class="col-xs-12 position">æ‚¨å½“å‰çš„ä½ç½®ï¼š
-			<span class="text-primary">æŠ•èµ„è€…ç”³è´­</span>
+		<div class="col-xs-12 position">Äúµ±Ç°µÄÎ»ÖÃ£º
+			<span class="text-primary">Í¶×ÊÕßÉê¹º</span>
 		</div>
 		<div class="col-xs-8">		 
-  <table class="easyui-datagrid"  title="å¯ç”³è´­å•†å“åˆ—è¡¨"   style="width:100%;height:345px"
+  <table class="easyui-datagrid"  title="¿ÉÉê¹ºÉÌÆ·ÁĞ±í"   style="width:100%;height:345px"
             data-options="singleSelect:true,collapsible:false,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityid',width:200">äº§å“ä»£ç </th>
-                <th data-options="field:'commodityname',width:200">ç”³è´­äº§å“</th>
-                <th data-options="field:'price',width:180">å‘å”®ä»·æ ¼</th>
-                <th data-options="field:'units',width:200">é…å”®å•ä½</th>
-                <th data-options="field:'starttime',width:200,formatter:dateconvertfunc">å‘å”®æ—¥æœŸ</th>
-                <th data-options="field:'endtime',width:200,formatter:dateconvertfunc">æˆªæ­¢æ—¥æœŸ</th>
+                <th data-options="field:'commodityid',width:200">²úÆ·´úÂë</th>
+                <th data-options="field:'commodityname',width:200">Éê¹º²úÆ·</th>
+                <th data-options="field:'price',width:180">·¢ÊÛ¼Û¸ñ</th>
+                <th data-options="field:'units',width:200">ÅäÊÛµ¥Î»</th>
+                <th data-options="field:'starttime',width:200,formatter:dateconvertfunc">·¢ÊÛÈÕÆÚ</th>
+                <th data-options="field:'endtime',width:200,formatter:dateconvertfunc">½ØÖ¹ÈÕÆÚ</th>
             </tr>
         </thead>
     </table>
     <table id="dg"></table>
 		</div>
 		<div class="col-xs-4">
-		 <div class="easyui-panel"   title="æŠ•èµ„è€…ç”³è´­ä¿¡æ¯" style="width:100%;height:345px;padding:10px">
+		 <div class="easyui-panel"   title="Í¶×ÊÕßÉê¹ºĞÅÏ¢" style="width:100%;height:345px;padding:10px">
 	    <form class="form-inline"  id="fm1">
 	      <div class="form-group">
-	        <label>äº§å“ä»£ç ï¼š</label>
-	        <input type="text" id="commodityid"   class="form-control"  placeholder="è¯·è¾“å…¥äº§å“ä»£ç "  onkeyup="showInfo(this.value)">
+	        <label>²úÆ·´úÂë£º</label>
+	        <input type="text" id="commodityid"   class="form-control"  placeholder="ÇëÊäÈë²úÆ·´úÂë"  onkeyup="showInfo(this.value)">
 	      </div>
 	    </form>
 	    <div>
-        <h4>è¯¦ç»†ä¿¡æ¯ï¼š</h4>
-        <p>è´¦æˆ·ç¼–å·ï¼š<b >${param.userID  }</b></p>
-        <p>ç”³è´­äº§å“ï¼š<b id="comname"></b></p>
-        <p>ä¿è¯é‡‘ä½™é¢ï¼š<b id="money"></b></p>
-        <p>å¯è´­ä¹°æ•°é‡ï¼š<b id="counts"></b></p>
-        <p>ç”³è´­é¢åº¦ï¼š<b id="limit"></b></p>
+        <h4>ÏêÏ¸ĞÅÏ¢£º</h4>
+        <p>ÕË»§±àºÅ£º<b >${param.userID  }</b></p>
+        <p>Éê¹º²úÆ·£º<b id="comname"></b></p>
+        <p>±£Ö¤½ğÓà¶î£º<b id="money"></b></p>
+        <p>¿É¹ºÂòÊıÁ¿£º<b id="counts"></b></p>
+        <p>Éê¹º¶î¶È£º<b id="limit"></b></p>
       </div>
       <form class="form-inline" id="fm2" style="margin-top: 20px">
 	      <div class="form-group">
-	        <label style="width: 70px">è´­ä¹°é‡ï¼š</label>
+	        <label style="width: 70px">¹ºÂòÁ¿£º</label>
 	        <input type="text"  id="quantity"  class="easyui-numberbox" >
 	      </div>
 	    </form>
 	     <div>
-	     <button type="button"  id="btn"    class="btn btn-default"  style="margin-top:12px;float:left">ç”³è´­</button><b id="remind" style="color: red;float:left;line-height: 57px; margin-left: 20px;"></b>	  
+	     <button type="button"  id="btn"    class="btn btn-default"  style="margin-top:12px;float:left">Éê¹º</button><b id="remind" style="color: red;float:left;line-height: 57px; margin-left: 20px;"></b>	  
 	    </div>
 	    </div>
 		</div>
@@ -64,14 +64,14 @@
 		<div class="col-xs-12">
 		<br>
 			<div id="myTabContent" class="tab-content">
-		   <table class="easyui-datagrid"  title="æŠ•èµ„è€…é…å·æŸ¥è¯¢"   style="width:100%;height:345px"
+		   <table class="easyui-datagrid"  title="Í¶×ÊÕßÅäºÅ²éÑ¯"   style="width:100%;height:345px"
             data-options="singleSelect:true,collapsible:false,pagination:true,pageSize:10,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityname',width:200">ç”³è´­äº§å“</th>
-                <th data-options="field:'startnumber',width:180">èµ·å§‹é…å·</th>
-                <th data-options="field:'pcounts',width:200">é…å·æ•°é‡</th>
-                <th data-options="field:'ptime',width:200,formatter:dateconvertfunc">é…å·æ—¶é—´</th>
+                <th data-options="field:'commodityname',width:200">Éê¹º²úÆ·</th>
+                <th data-options="field:'startnumber',width:180">ÆğÊ¼ÅäºÅ</th>
+                <th data-options="field:'pcounts',width:200">ÅäºÅÊıÁ¿</th>
+                <th data-options="field:'ptime',width:200,formatter:dateconvertfunc">ÅäºÅÊ±¼ä</th>
             </tr>
         </thead>
     </table>
@@ -83,7 +83,7 @@
 $(document).ready(function() {
 	
 	$("#btn").bind('click',function(){
-		//var datas =  [{"storeId":"0a1", "address":"è¥¿æ–—é—¨è·¯2å·", "goods":[{"goodsId":"1"}, {"goodsId":"2"}, {"goodsId":"3"}]}] ;
+		//var datas =  [{"storeId":"0a1", "address":"Î÷¶·ÃÅÂ·2ºÅ", "goods":[{"goodsId":"1"}, {"goodsId":"2"}, {"goodsId":"3"}]}] ;
 		var infos={ "userid":"${param.userID}","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
@@ -94,37 +94,37 @@ $(document).ready(function() {
 		    async: false,  
 		    success : function(data, stats) {  
 	            if (data == "0") {  
-	            	$("#remind").text("æäº¤è®¢å•æˆåŠŸï¼");
+	            	$("#remind").text("Ìá½»¶©µ¥³É¹¦£¡");
 	            }  
 	            if (data == "1") {  
-	            	$("#remind").text("ç°åœ¨éç”³è´­æ—¶é—´ï¼");
+	            	$("#remind").text("ÏÖÔÚ·ÇÉê¹ºÊ±¼ä£¡");
 	            }  
 	            if (data == "2") {  
-	            	$("#remind").text("èµ„é‡‘ä¸è¶³ï¼");
+	            	$("#remind").text("×Ê½ğ²»×ã£¡");
 	            }  
 	            if (data == "3") {  
-	            	$("#remind").text("æ‚¨å·²æäº¤è®¢å•ï¼Œè¯·å‹¿é‡å¤æ“ä½œï¼");
+	            	$("#remind").text("ÄúÒÑÌá½»¶©µ¥£¬ÇëÎğÖØ¸´²Ù×÷£¡");
 	            }  
 	        },  
 	        error : function(data) {  
-	           // alert("è¯·æ±‚å¤±è´¥");  
+	           // alert("ÇëÇóÊ§°Ü");  
 	        }  
 		});  
 	});
 });
 
-//æ—¥æœŸè½¬æ¢
+//ÈÕÆÚ×ª»»
 function dateconvertfunc(value,row){
-         //  return new Date(value).toLocaleDateString(); //è¿”å›æœ¬åœ°ç³»ç»Ÿæ ¼å¼æ—¶é—´
+         //  return new Date(value).toLocaleDateString(); //·µ»Ø±¾µØÏµÍ³¸ñÊ½Ê±¼ä
         /*    var date=new Date(value);
         var year=date.getFullYear();
         var month=date.getMonth()<9?'0'+(date.getMonth()+1):(date.getMonth()+1);
         var day=date.getDate()<10?'0'+date.getDate():date.getDate(); 
-        return year+'-'+month+'-'+day;     JSONè¿”å›å·²åšç±»å‹è½¬æ¢å¤„ç† */ 
+        return year+'-'+month+'-'+day;     JSON·µ»ØÒÑ×öÀàĞÍ×ª»»´¦Àí */ 
         return value.substr(0,10);
 } 
 
-//ç”³è´­é¢æ¿å¼‚æ­¥åˆ·æ–°
+//Éê¹ºÃæ°åÒì²½Ë¢ĞÂ
 function showInfo(str){
             var xmlhttp;
           if (str.length==0) {
