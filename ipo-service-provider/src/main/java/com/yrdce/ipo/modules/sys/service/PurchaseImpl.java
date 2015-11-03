@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -121,7 +122,8 @@ public class PurchaseImpl implements Purchase {
 				// 申购判断
 				if (monery.compareTo(allMonery) != -1) {
 					// 当前时间
-					Date date = new Date();
+					Timestamp date = new Timestamp(System.currentTimeMillis());
+					// Date date = new Date();
 					// DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					// String time = format.format(date);
 					IpoOrder d = new IpoOrder();

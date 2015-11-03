@@ -62,10 +62,11 @@ public class Distribution {
 				unmberofrecord.update(count, sid);
 				// 插入ipodistribution表
 				ipodistribution.setCommodityname(sname);
-				BigDecimal startnumber = new BigDecimal(10000001);
-				ipodistribution.setStartnumber(startnumber);
+				Long in = (long) 10000001;
+				// BigDecimal startnumber = new BigDecimal(10000001);
+				ipodistribution.setStartnumber(in);
 				ipodistribution.setUserid(userid);
-				ipodistribution.setPcounts(counts);
+				ipodistribution.setPcounts(count);
 				Date date = new Date();
 				ipodistribution.setPtime(date);
 				distribution.insert(ipodistribution);
@@ -75,10 +76,11 @@ public class Distribution {
 				int count1 = a++;
 				unmberofrecord.update(count1, sid);
 				ipodistribution.setCommodityname(sname);
-				BigDecimal startnumber = new BigDecimal(count1);
+				// BigDecimal startnumber = new BigDecimal(count1);
+				Long startnumber = (long) count1;
 				ipodistribution.setStartnumber(startnumber);
 				ipodistribution.setUserid(userid);
-				ipodistribution.setPcounts(counts);
+				ipodistribution.setPcounts(count);
 				Date date = new Date();
 				ipodistribution.setPtime(date);
 				distribution.insert(ipodistribution);
@@ -90,10 +92,11 @@ public class Distribution {
 				int count2 = x++;
 				unmberofrecord.update(count2, sid);
 				ipodistribution.setCommodityname(sname);
-				BigDecimal startnumber = new BigDecimal(count2);
+				// BigDecimal startnumber = new BigDecimal(count2);
+				Long startnumber = (long) count2;
 				ipodistribution.setStartnumber(startnumber);
 				ipodistribution.setUserid(userid);
-				ipodistribution.setPcounts(counts);
+				ipodistribution.setPcounts(count);
 				Date date = new Date();
 				ipodistribution.setPtime(date);
 				distribution.insert(ipodistribution);

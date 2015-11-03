@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoDistributionExample;
 
@@ -15,7 +14,7 @@ public interface IpoDistributionMapper {
 
 	int deleteByExample(IpoDistributionExample example);
 
-	int deleteByPrimaryKey(String id);
+	int deleteByPrimaryKey(int id);
 
 	int insert(IpoDistribution record);
 
@@ -24,7 +23,7 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> selectByExampleWithBLOBs(IpoDistributionExample example);
 
 	List<IpoDistribution> selectByExample(IpoDistributionExample example);
-	
+
 	List<IpoDistribution> getAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取配号信息
 
 	IpoDistribution selectByPrimaryKey(String id);
@@ -40,4 +39,6 @@ public interface IpoDistributionMapper {
 	int updateByPrimaryKeyWithBLOBs(IpoDistribution record);
 
 	int updateByPrimaryKey(IpoDistribution record);
+
+	void updateBycommodityid(String sid);
 }

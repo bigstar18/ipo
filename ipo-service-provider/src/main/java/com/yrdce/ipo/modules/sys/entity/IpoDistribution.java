@@ -1,86 +1,85 @@
 package com.yrdce.ipo.modules.sys.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoDistribution {
-    private String id;
+	private int id;
+	// 用户编号
+	private String userid;
+	// 商品名称
+	private String commodityname;
+	// 起始配号
+	private long startnumber;
+	// 配号数量
+	private int pcounts;
+	// 配号时间
+	private Date ptime;
+	// 中签数量
+	private int zcounts;
+	// 中签号码
+	private byte[] numbers;
 
-    private String userid;
+	public int getId() {
+		return id;
+	}
 
-    private String commodityname;
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    private BigDecimal startnumber;
+	public String getUserid() {
+		return userid;
+	}
 
-    private BigDecimal pcounts;
+	public void setUserid(String userid) {
+		this.userid = userid == null ? null : userid.trim();
+	}
 
-    private Date ptime;
+	public String getCommodityname() {
+		return commodityname;
+	}
 
-    private BigDecimal zcounts;
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname == null ? null : commodityname.trim();
+	}
 
-    private byte[] numbers;
+	public long getStartnumber() {
+		return startnumber;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setStartnumber(long startnumber) {
+		this.startnumber = startnumber;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public int getPcounts() {
+		return pcounts;
+	}
 
-    public String getUserid() {
-        return userid;
-    }
+	public void setPcounts(int pcounts) {
+		this.pcounts = pcounts;
+	}
 
-    public void setUserid(String userid) {
-        this.userid = userid == null ? null : userid.trim();
-    }
+	public Date getPtime() {
+		return ptime;
+	}
 
-    public String getCommodityname() {
-        return commodityname;
-    }
+	public void setPtime(Date ptime) {
+		this.ptime = ptime;
+	}
 
-    public void setCommodityname(String commodityname) {
-        this.commodityname = commodityname == null ? null : commodityname.trim();
-    }
+	public int getZcounts() {
+		return zcounts;
+	}
 
-    public BigDecimal getStartnumber() {
-        return startnumber;
-    }
+	public void setZcounts(int zcounts) {
+		this.zcounts = zcounts;
+	}
 
-    public void setStartnumber(BigDecimal startnumber) {
-        this.startnumber = startnumber;
-    }
+	public byte[] getNumbers() {
+		return numbers;
+	}
 
-    public BigDecimal getPcounts() {
-        return pcounts;
-    }
-
-    public void setPcounts(BigDecimal pcounts) {
-        this.pcounts = pcounts;
-    }
-
-    public Date getPtime() {
-        return ptime;
-    }
-
-    public void setPtime(Date ptime) {
-        this.ptime = ptime;
-    }
-
-    public BigDecimal getZcounts() {
-        return zcounts;
-    }
-
-    public void setZcounts(BigDecimal zcounts) {
-        this.zcounts = zcounts;
-    }
-
-    public byte[] getNumbers() {
-        return numbers;
-    }
-
-    public void setNumbers(byte[] numbers) {
-        this.numbers = numbers;
-    }
+	public void setNumbers(byte[] numbers) {
+		this.numbers = numbers;
+	}
 }
