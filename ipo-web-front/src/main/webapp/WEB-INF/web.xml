@@ -19,6 +19,40 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+
+	<!--注册Global容器 负责初始化菜单权限-->
+	<listener>
+		<listener-class>gnnt.MEBS.common.front.common.Global</listener-class>
+	</listener>
+	<filter>
+		<filter-name>checkUrl</filter-name>
+		<filter-class>gnnt.MEBS.common.front.webFrame.securityCheck.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>checkUrl</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- struts2配置 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<!--
+			指定配置文件路径 在配置文件中配置默认要加载的文件，这些文件不一定有，但要写上去，然后它找不找的到无所谓否则会启动失败
+		-->
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>platform-web.xml,struts-default.xml,struts-plugin.xml,/WEB-INF/classes/META-INF/struts/*.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<!-- struts2配置 -->
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -50,17 +84,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 		-->
-		<filter>
-		<filter-name>checkUrl</filter-name>
-		<filter-class>gnnt.MEBS.common.front.webFrame.securityCheck.SecurityFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>checkUrl</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-		
-	
 
 	<!-- PageCache, cache .html suffix.
 	<filter>
@@ -101,22 +124,8 @@
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>springServlet1</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>springServlet1</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/classes/META-INF/struts/*.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
 		<servlet-name>springServlet</servlet-name>
-		<url-pattern>/checkneedless/communications</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- DruidStatView -->
