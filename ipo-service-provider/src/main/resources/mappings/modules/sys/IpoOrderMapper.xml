@@ -294,4 +294,8 @@
    <delete id="deleatAll">
    		truncate table IPO_ORDER
    </delete>
+   
+   <select id="selectbysid" parameterType="java.lang.String" resultType="java.lang.Integer">
+   	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </select>
 </mapper>

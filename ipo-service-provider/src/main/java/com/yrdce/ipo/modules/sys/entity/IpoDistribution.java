@@ -18,6 +18,16 @@ public class IpoDistribution {
 	private int zcounts;
 	// 中签号码
 	private byte[] numbers;
+	// 商品编号
+	private String commodityid;
+
+	public String getCommodityid() {
+		return commodityid;
+	}
+
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid;
+	}
 
 	public int getId() {
 		return id;

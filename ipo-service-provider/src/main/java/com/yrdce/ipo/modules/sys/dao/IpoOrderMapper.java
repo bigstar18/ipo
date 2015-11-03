@@ -43,4 +43,6 @@ public interface IpoOrderMapper {
 	void insertAll();
 
 	void deleatAll();
+
+	int selectbysid(String sid);
 }
