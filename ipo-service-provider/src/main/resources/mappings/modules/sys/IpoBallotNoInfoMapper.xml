@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    <id column="ID" property="id" jdbcType="NUMBER" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="BALLOTNOSTARTLEN" property="ballotNoStartLen" jdbcType="NUMBER" />
+    <result column="BALLOTNOENDLEN" property="ballotNoEndLen" jdbcType="NUMBER" />
+    <result column="BALLOTNO" property="ballotNo" jdbcType="VARCHAR" />
+    <result column="CREATETIMR" property="createTime" jdbcType="DATE" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo">
+  	insert into IPO_BALLOTNOINFO (ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIMR)
+    values (#{id,jdbcType=NUMBER}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=NUMBER}, 
+      #{ballotnoendlen,jdbcType=NUMBER}, #{ballotno,jdbcType=NUMBER}, #{createtime,jdbcType=DATE}
+  </insert>
+
+	<select id="selectByCommodityid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from IPO_BALLOTNO_INFO where commodityid = #{commodityid,jdbcType=VARCHAR}
+	</select>
+
+  </mapper>
+  
