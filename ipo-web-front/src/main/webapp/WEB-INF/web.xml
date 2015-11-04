@@ -30,7 +30,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>checkUrl</filter-name>
-		<url-pattern>/*.jsp</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	<!-- struts2配置 -->
 	<!--  
@@ -69,7 +69,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/front/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	<!-- Apache Shiro 
