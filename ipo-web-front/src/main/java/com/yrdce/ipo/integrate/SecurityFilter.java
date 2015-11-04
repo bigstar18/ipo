@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import gnnt.MEBS.common.front.model.integrated.User;
 import gnnt.MEBS.common.front.statictools.Tools;
 import gnnt.MEBS.logonService.vo.CheckUserResultVO;
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 public class SecurityFilter implements Filter {
 	private static Object syncObject = new Object();
@@ -36,19 +36,16 @@ public class SecurityFilter implements Filter {
 
 		String url = request.getServletPath();
 
-		String loginURL = "/front/public/jsp/nosession.jsp";
-		User user = (User) request.getSession().getAttribute("CurrentUser");
+		String loginURL = "/WEB-INF/views/error/403.jsp";
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
 			String strSessionId = request.getParameter("sessionID");
 			if (strSessionId != null) {
 				Long sessionID = Long.valueOf(Tools.strToLong(strSessionId));
-				if (!sessionID.equals(user.getSessionId())) {
+				if (sessionID.longValue() != user.getSessionID()) {
 					synchronized (syncObject) {
-						user = (User) request.getSession().getAttribute("CurrentUser");
-						if ((user != null) && (!sessionID.equals(user.getSessionId()))) {
-							user = null;
-							request.getSession().invalidate();
-						}
+						user = null;
+						request.getSession().invalidate();
 					}
 				}
 			}
@@ -78,7 +75,7 @@ public class SecurityFilter implements Filter {
 		String preUrl = (String) request.getSession().getAttribute("currentRealPath");
 
 		if (au != null && au.getUserManageVO() != null) {
-
+			request.getSession().setAttribute("CurrentUser", au.getUserManageVO());
 			chain.doFilter(req, res);
 
 		} else
