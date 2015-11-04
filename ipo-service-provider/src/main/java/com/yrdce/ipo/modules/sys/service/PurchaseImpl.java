@@ -1,9 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,11 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.CallableStatementCallback;
-import org.springframework.jdbc.core.CallableStatementCreator;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +18,6 @@ import com.yrdce.ipo.modules.sys.dao.TATradetimeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.TATradetime;
-
-import oracle.jdbc.OracleTypes;
 
 /**
  * 申购服务
@@ -44,8 +34,7 @@ public class PurchaseImpl implements Purchase {
 	private IpoOrderMapper order;
 	private TATradetimeMapper tat;
 
-	@Autowired
-	private JdbcTemplate jdbcT;
+	// private JdbcTemplate jdbcT;
 
 	// 时间判断
 	public boolean isInDates(String sid) {
@@ -165,26 +154,23 @@ public class PurchaseImpl implements Purchase {
 	// 冻结资金
 	public BigDecimal frozen(String userid, BigDecimal allMonery) {
 
-		final String id = userid;
-		final BigDecimal monery = allMonery;
-		@SuppressWarnings("unchecked")
-		Object param2Value = jdbcT.execute(new CallableStatementCreator() {
-			public CallableStatement createCallableStatement(Connection con) throws SQLException {
-				String storedProc = "{?=call FN_F_UpdateFrozenFunds(?,?,?)}";// 调用的sql
-				CallableStatement cs = con.prepareCall(storedProc);
-				cs.setString(2, id);// 设置输入参数的值
-				cs.setBigDecimal(3, monery);
-				cs.setString(4, 50 + "");
-				cs.registerOutParameter(1, OracleTypes.NUMBER);// 注册输出参数的类型
-				return cs;
-			}
-		}, new CallableStatementCallback() {
-			public Object doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException {
-				cs.execute();
-				return cs.getInt(1);// 获取输出参数的值
-			}
-		});
-		return (BigDecimal) param2Value;
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", userid);
+		param.put("amount", allMonery);
+		param.put("moduleid", "50");
+		funds.getfrozen(param);
+		BigDecimal monery = (BigDecimal) param.get("monery");
+		/*
+		 * final String id = userid; final BigDecimal monery = allMonery;
+		 * 
+		 * @SuppressWarnings("unchecked") Object param2Value = jdbcT.execute(new CallableStatementCreator() { public CallableStatement
+		 * createCallableStatement(Connection con) throws SQLException { String storedProc = "{?=call FN_F_UpdateFrozenFunds(?,?,?)}";// 调用的sql
+		 * CallableStatement cs = con.prepareCall(storedProc); cs.setString(2, id);// 设置输入参数的值 cs.setBigDecimal(3, monery); cs.setString(4, 50 + "");
+		 * cs.registerOutParameter(1, OracleTypes.NUMBER);// 注册输出参数的类型 return cs; } }, new CallableStatementCallback() { public Object
+		 * doInCallableStatement(CallableStatement cs) throws SQLException, DataAccessException { cs.execute(); return cs.getInt(1);// 获取输出参数的值 } });
+		 */
+		return monery;
 	}
 
 	// 判断是重复申购

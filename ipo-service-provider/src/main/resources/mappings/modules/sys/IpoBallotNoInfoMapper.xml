@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    <id column="ID" property="id" jdbcType="NUMBER" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
-    <result column="BALLOTNOSTARTLEN" property="ballotNoStartLen" jdbcType="NUMBER" />
-    <result column="BALLOTNOENDLEN" property="ballotNoEndLen" jdbcType="NUMBER" />
+    <result column="BALLOTNOSTARTLEN" property="ballotNoStartLen" jdbcType="INTEGER" />
+    <result column="BALLOTNOENDLEN" property="ballotNoEndLen" jdbcType="INTEGER"/>
     <result column="BALLOTNO" property="ballotNo" jdbcType="VARCHAR" />
     <result column="CREATETIMR" property="createTime" jdbcType="DATE" />
   </resultMap>
   
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo">
   	insert into IPO_BALLOTNOINFO (ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIMR)
-    values (#{id,jdbcType=NUMBER}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=NUMBER}, 
-      #{ballotnoendlen,jdbcType=NUMBER}, #{ballotno,jdbcType=NUMBER}, #{createtime,jdbcType=DATE}
+    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=INTEGER}, 
+      #{ballotnoendlen,jdbcType=INTEGER}, #{ballotno,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}
   </insert>
 
 	<select id="selectByCommodityid" parameterType="java.lang.String" resultMap="BaseResultMap">

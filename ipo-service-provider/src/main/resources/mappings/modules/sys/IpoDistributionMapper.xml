@@ -333,6 +333,6 @@
   	update IPO_DISTRIBUTION
   	set ZCOUNTS = #{zcounts,jdbcType=INTEGER},
       	NUMBERS = #{numbers,jdbcType=BLOB}
-      	where COMMODITYID = #{commodityid,jdbcType=VACHAR}
+      	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
 </mapper>

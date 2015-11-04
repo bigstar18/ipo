@@ -1,15 +1,12 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 
-@MyBatisDao
 public interface IpoCommodityMapper {
 	int countByExample(IpoCommodityExample example);
 
@@ -26,8 +23,8 @@ public interface IpoCommodityMapper {
 	List<IpoCommodity> getAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(String id);
-	
-	IpoCommodity selectByComid(@Param("comid")String comid);   //根据商品ID获取商品信息
+
+	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息
 
 	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
 
