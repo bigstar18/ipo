@@ -32,5 +32,5 @@ public interface TATradetimeMapper {
 
 	int selectbycount();
 
-	TATradetime selectbyrownum(int i);
+	List<TATradetime> select();
 }

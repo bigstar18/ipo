@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class IpoOrder {
-	private String orderid;
+	private int orderid;
 
 	private String userid;
 
@@ -14,18 +14,18 @@ public class IpoOrder {
 
 	private String commodityname;
 
-	private BigDecimal counts;
+	private int counts;
 
 	private Timestamp createtime;
 
 	private BigDecimal frozenfunds;
 
-	public String getOrderid() {
+	public int getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(String orderid) {
-		this.orderid = orderid == null ? null : orderid.trim();
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
 	}
 
 	public String getUserid() {
@@ -60,11 +60,11 @@ public class IpoOrder {
 		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
-	public BigDecimal getCounts() {
+	public int getCounts() {
 		return counts;
 	}
 
-	public void setCounts(BigDecimal counts) {
+	public void setCounts(int counts) {
 		this.counts = counts;
 	}
 

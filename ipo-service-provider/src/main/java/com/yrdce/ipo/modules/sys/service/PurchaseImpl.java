@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -47,7 +48,7 @@ public class PurchaseImpl implements Purchase {
 
 	// 时间判断
 	public boolean isInDates(String sid) {
-		IpoCommodity c = Commodity.selectByPrimaryKey(sid);
+		IpoCommodity c = Commodity.selectByComid(sid);
 		Date ftime1 = c.getStarttime();
 		Date times = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -57,13 +58,15 @@ public class PurchaseImpl implements Purchase {
 
 			// 获取数据库中共有几条时间记录
 			int b = tat.selectbycount();
-			for (int r = 0; r <= b; r++) {
-				TATradetime time = tat.selectbyrownum(r);
-				String start = time.getStarttime();
-				String end = time.getEndtime();
+			
+			List<TATradetime> list = tat.select();
+			for (int r = 0; r <= list.size(); r++) {
+				TATradetime tradetime = list.get(r);
+				String start = tradetime.getStarttime();
+				String end = tradetime.getEndtime();
 
 				// 获取状态
-				Short i = time.getStatus();
+				Short i = tradetime.getStatus();
 				// 获取当前时间
 
 				SimpleDateFormat sd = new SimpleDateFormat("HH:mm:ss");
@@ -106,7 +109,7 @@ public class PurchaseImpl implements Purchase {
 			if (this.repeat(userid, sid)) {
 				// TODO Auto-generated method stub
 				// 获取商品信息
-				IpoCommodity commodity = Commodity.selectByPrimaryKey(sid);
+				IpoCommodity commodity = Commodity.selectByComid(sid);
 				// 获取商品名称
 				String name = commodity.getCommodityname();
 				// 商品单价
@@ -136,7 +139,7 @@ public class PurchaseImpl implements Purchase {
 					d.setUserid(userid);
 					d.setCommodityid(sid);
 					d.setCommodityname(name);
-					d.setCounts(bigDecimal);
+					d.setCounts(counts);
 					d.setCreatetime(date);
 					d.setFrozenfunds(allMonery);
 					order.insert(d);
@@ -183,7 +186,7 @@ public class PurchaseImpl implements Purchase {
 	// 判断是重复申购
 	public boolean repeat(String userid, String sid) {
 		IpoOrder o = order.selectByid(userid, sid);
-		if (o.getCounts() != null) {
+		if (o.getCounts() != 0) {
 			return false;
 		} else {
 			return true;

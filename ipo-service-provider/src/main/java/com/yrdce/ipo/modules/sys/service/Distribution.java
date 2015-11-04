@@ -29,12 +29,6 @@ public class Distribution {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	// 起始配号
-	// private int minStart = 10000001;
-	// 最大配号
-	// private int maxStart = 99999999;
-	// 默认起始配号
-	// private int m = 1000;
 	private IpoOrderMapper order;
 	private IpoNumberofrecordsMapper unmberofrecord;
 	private IpoNumberofrecords num;
@@ -61,9 +55,9 @@ public class Distribution {
 			IpoOrder order1 = o.get(i);
 			String sid = order1.getCommodityid();
 			String userid = order1.getUserid();
-			BigDecimal counts = order1.getCounts();
+			int counts = order1.getCounts();
 			String sname = order1.getCommodityname();
-			int count = counts.intValue();
+			// int count = counts.intValue();
 
 			// 获取商品总配号数
 			int sum = order.selectbysid(sid) + 10000000;
@@ -74,13 +68,13 @@ public class Distribution {
 
 				if (a == null) {
 					// 更新记录表
-					unmberofrecord.update(count, sid);
+					unmberofrecord.update(counts, sid);
 					// 插入ipodistribution表
 					ipodistribution.setCommodityname(sname);
 					// BigDecimal startnumber = new BigDecimal(10000001);
 					ipodistribution.setStartnumber(10000001);
 					ipodistribution.setUserid(userid);
-					ipodistribution.setPcounts(count);
+					ipodistribution.setPcounts(counts);
 					ipodistribution.setCommodityid(sid);
 					Date date = new Date();
 					ipodistribution.setPtime(date);
@@ -94,7 +88,7 @@ public class Distribution {
 					// BigDecimal startnumber = new BigDecimal(count1);
 					ipodistribution.setStartnumber(count1);
 					ipodistribution.setUserid(userid);
-					ipodistribution.setPcounts(count);
+					ipodistribution.setPcounts(counts);
 					ipodistribution.setCommodityid(sid);
 					Date date = new Date();
 					ipodistribution.setPtime(date);
@@ -107,7 +101,7 @@ public class Distribution {
 				if (Records < 99999999) {
 					if (a == null) {
 						// 更新记录表
-						unmberofrecord.update(count, sid);
+						unmberofrecord.update(counts, sid);
 						// 插入ipodistribution表
 						ipodistribution.setCommodityname(sname);
 						// BigDecimal startnumber = new BigDecimal(10000001);
@@ -117,7 +111,7 @@ public class Distribution {
 						long num = Long.parseLong(str3);
 						ipodistribution.setStartnumber(num);
 						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(count);
+						ipodistribution.setPcounts(counts);
 						ipodistribution.setCommodityid(sid);
 						Date date = new Date();
 						ipodistribution.setPtime(date);
@@ -125,7 +119,7 @@ public class Distribution {
 
 					} else {
 
-						String str = count + "";
+						String str = counts + "";
 						StringBuffer str1 = new StringBuffer("111111");
 						String str2 = (str1.append(str)).toString();
 						int x = Integer.parseInt(str2);
@@ -135,7 +129,7 @@ public class Distribution {
 						BigDecimal startnumber = new BigDecimal(count2);
 						ipodistribution.setStartnumber(count2);
 						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(count);
+						ipodistribution.setPcounts(counts);
 						ipodistribution.setCommodityid(sid);
 						Date date = new Date();
 						ipodistribution.setPtime(date);
@@ -145,7 +139,7 @@ public class Distribution {
 				} else {
 					if (a == null) {
 						// 更新记录表
-						unmberofrecord.update(count, sid);
+						unmberofrecord.update(counts, sid);
 						// 插入ipodistribution表
 						ipodistribution.setCommodityname(sname);
 						// BigDecimal startnumber = new BigDecimal(10000001);
@@ -155,7 +149,7 @@ public class Distribution {
 						long num = Long.parseLong(str3);
 						ipodistribution.setStartnumber(num);
 						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(count);
+						ipodistribution.setPcounts(counts);
 						ipodistribution.setCommodityid(sid);
 						Date date = new Date();
 						ipodistribution.setPtime(date);
@@ -163,7 +157,7 @@ public class Distribution {
 
 					} else {
 
-						String str = count + "";
+						String str = counts + "";
 						StringBuffer str1 = new StringBuffer("222222");
 						String str2 = (str1.append(str)).toString();
 						int x = Integer.parseInt(str2);
@@ -173,7 +167,7 @@ public class Distribution {
 						BigDecimal startnumber = new BigDecimal(count2);
 						ipodistribution.setStartnumber(count2);
 						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(count);
+						ipodistribution.setPcounts(counts);
 						ipodistribution.setCommodityid(sid);
 						Date date = new Date();
 						ipodistribution.setPtime(date);
