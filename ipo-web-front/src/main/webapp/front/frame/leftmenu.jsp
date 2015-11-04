@@ -65,15 +65,15 @@
 		<%-- <c:forEach var="menu" items="${mymenu}">
 		<div id="f${menu.value.id}" class="menu_3" action="${basePath}${menu.value.visiturl}">${menu.value.name}</div>
 		</c:forEach> --%>
-	<div id="f4001001000" class="menu_3" action="">IPO申购</div>
+	<div id="f4001001000" class="menu_3">IPO申购</div>
 	</div>
 	</c:if>
 	<%/* 遍历循环菜单展示 */%>
 	<div class="menu_1" id="4001001000">IPO申购</div>
-	<div id="4001001000Div" style="display: none">
-		<div class="menu_3" id="4001001010" action="">投资者申购</div>
+	<div id="4001001000Div" style="display: block">
+		<div class="menu_3" id="4001001010">投资者申购</div>
 	</div>
-	<a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a>
+	<%-- <a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a> --%>
 </div>
 <%/* 隐藏层信息 */%>
 <%-- <div style="display: none;">

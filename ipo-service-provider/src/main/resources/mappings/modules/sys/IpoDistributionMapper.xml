@@ -329,11 +329,11 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   
-  <update id="updateBycommodityid" parameterType="java.lang.String">
+  <update id="updateBycomAndUserid" parameterType="java.lang.String">
   	update IPO_DISTRIBUTION
   	set ZCOUNTS = #{zcounts,jdbcType=INTEGER},
       	NUMBERS = #{numbers,jdbcType=BLOB}
-      	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      	where COMMODITYID = #{commodityid,jdbcType=VARCHAR} and USERID = #{userid,jdbcType=VARCHAR}
   </update>
    <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
     select * from (select t.*,rownum TNO from IPO_DISTRIBUTION t) a where a.TNO between  #{beginnum} and  #{endnum}

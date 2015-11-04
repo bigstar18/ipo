@@ -40,5 +40,5 @@ public interface IpoDistributionMapper {
 
 	int updateByPrimaryKey(IpoDistribution record);
 
-	void updateBycommodityid(String sid);
+	void updateBycomAndUserid(String sid, String userid);
 }

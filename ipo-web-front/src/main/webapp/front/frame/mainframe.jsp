@@ -31,9 +31,9 @@
 	</head>
 	<body>
 		<div class="left"><jsp:include page="/front/frame/leftmenu.jsp"></jsp:include></div>
-		<div class="right">
-		<iframe frameborder="0" id="main" name="main"  width="100%" scrolling="no" onLoad="iframe(this.id,0)" src="/front/app/ipoapply.jsp"></iframe>
-		</div>
+	
+ 	<iframe frameborder="0" id="main" name="main"  width="100%" scrolling="no" onLoad="iframe(this.id,0)" src="<%=request.getContextPath()%>/front/app/ipoapply.jsp"></iframe>
+ </div>
 	</body>
 </html>
 <%@include file="/front/public/jsp/commonmsg.jsp"%>
