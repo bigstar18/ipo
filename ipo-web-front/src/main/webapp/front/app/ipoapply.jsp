@@ -52,7 +52,7 @@
       <form class="form-inline" id="fm2" style="margin-top: 20px">
 	      <div class="form-group">
 	        <label style="width: 70px">购买量：</label>
-	        <input type="text"  id="quantity"  class="easyui-numberbox" >
+	        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1">
 	      </div>
 	    </form>
 	     <div>
@@ -83,6 +83,10 @@
 $(document).ready(function() {
 	
 	$("#btn").bind('click',function(){
+		if($("#comname").text()==""){
+			$("#remind").text("请输入正确的商品编号！");
+			return;
+		}
 		//var datas =  [{"storeId":"0a1", "address":"西斗门路2号", "goods":[{"goodsId":"1"}, {"goodsId":"2"}, {"goodsId":"3"}]}] ;
 		var infos={ "userid":"${param.userID}","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
@@ -91,7 +95,7 @@ $(document).ready(function() {
 		    contentType: "application/json; charset=utf-8", 
 		    data:infos,  
 		    dataType: 'json',  
-		    async: false,  
+		    async: true,  
 		    success : function(data, stats) {  
 	            if (data == "0") {  
 	            	$("#remind").text("提交订单成功！");
