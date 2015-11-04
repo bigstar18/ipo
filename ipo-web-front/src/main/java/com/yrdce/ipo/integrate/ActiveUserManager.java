@@ -1,12 +1,19 @@
 package com.yrdce.ipo.integrate;
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import gnnt.MEBS.common.front.statictools.ApplicationContextInit;
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
+import gnnt.MEBS.logonService.dao.LogonManagerDAO;
 import gnnt.MEBS.logonService.kernel.ILogonService;
+import gnnt.MEBS.logonService.po.LogonConfigPO;
 import gnnt.MEBS.logonService.vo.CheckUserResultVO;
 import gnnt.MEBS.logonService.vo.CheckUserVO;
 import gnnt.MEBS.logonService.vo.RemoteLogonServerVO;
@@ -78,5 +85,34 @@ public class ActiveUserManager {
 			logger.error("调用 AU 异常", e);
 		}
 		return result;
+	}
+
+	private Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
+
+	/**
+	 * 
+	 * 获取对应 AU 连接信息
+	 * <br/>
+	 * <br/>
+	 * 
+	 * @param configID
+	 *            AU 编号
+	 * @return
+	 */
+	public RemoteLogonServerVO getRemoteLogonServerVO(int configID) {
+		if (logonManagerMap.get(configID) == null) {
+			synchronized (this.getClass()) {
+				LogonManagerDAO logonManagerDAO = new LogonManagerDAO();
+				logonManagerDAO.setDataSource((DataSource) ApplicationContextInit.getBean("dataSourceForQuery"));
+				LogonConfigPO logonConfigPO = logonManagerDAO.getLogonConfigByID(configID);
+				if (logonConfigPO != null) {
+					RemoteLogonServerVO logonManager = new RemoteLogonServerVO();
+					logonManager.setLogonConfigPO(logonConfigPO);
+					// AU RMI 连接Map
+					logonManagerMap.put(configID, logonManager);
+				}
+			}
+		}
+		return logonManagerMap.get(configID);
 	}
 }

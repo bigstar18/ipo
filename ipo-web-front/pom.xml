@@ -378,6 +378,11 @@
 			<artifactId>spring-test</artifactId>
 		</dependency>
 		<!-- TEST end -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
