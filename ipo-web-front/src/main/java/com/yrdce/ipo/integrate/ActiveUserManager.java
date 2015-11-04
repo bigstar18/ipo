@@ -54,7 +54,7 @@ public class ActiveUserManager {
 
 		RemoteLogonServerVO remoteLogonServerVO = null;
 		if (checkUserVO.getToModuleID() > 0) {
-			remoteLogonServerVO = AUConnectManager.getInstance().getRemoteLogonServerVO(223001);
+			remoteLogonServerVO = getRemoteLogonServerVO(223001);// TODO
 		} else {
 			remoteLogonServerVO = AUConnectManager.getInstance().getRemoteLogonServerVO();
 		}
@@ -87,7 +87,7 @@ public class ActiveUserManager {
 		return result;
 	}
 
-	private Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
+	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
 
 	/**
 	 * 
@@ -99,9 +99,9 @@ public class ActiveUserManager {
 	 *            AU 编号
 	 * @return
 	 */
-	public RemoteLogonServerVO getRemoteLogonServerVO(int configID) {
+	public static RemoteLogonServerVO getRemoteLogonServerVO(int configID) {
 		if (logonManagerMap.get(configID) == null) {
-			synchronized (this.getClass()) {
+			synchronized (ActiveUserManager.class) {
 				LogonManagerDAO logonManagerDAO = new LogonManagerDAO();
 				logonManagerDAO.setDataSource((DataSource) ApplicationContextInit.getBean("dataSourceForQuery"));
 				LogonConfigPO logonConfigPO = logonManagerDAO.getLogonConfigByID(configID);
