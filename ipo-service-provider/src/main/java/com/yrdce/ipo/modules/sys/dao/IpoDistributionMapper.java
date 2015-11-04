@@ -21,8 +21,10 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> selectByExampleWithBLOBs(IpoDistributionExample example);
 
 	List<IpoDistribution> selectByExample(IpoDistributionExample example);
+	
+	List<IpoDistribution> selectAll();
 
-	List<IpoDistribution> getAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取配号信息
+	List<IpoDistribution> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取配号信息
 
 	IpoDistribution selectByPrimaryKey(String id);
 

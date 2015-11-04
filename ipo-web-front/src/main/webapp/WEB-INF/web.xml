@@ -30,15 +30,17 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>checkUrl</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/*.jsp</url-pattern>
 	</filter-mapping>
 	<!-- struts2配置 -->
+	<!--  
 	<filter>
 		<filter-name>struts2</filter-name>
-		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>-->
 		<!--
 			指定配置文件路径 在配置文件中配置默认要加载的文件，这些文件不一定有，但要写上去，然后它找不找的到无所谓否则会启动失败
 		-->
+		<!--  
 		<init-param>
 			<param-name>config</param-name>
 			<param-value>platform-web.xml,struts-default.xml,struts-plugin.xml,/WEB-INF/classes/META-INF/struts/*.xml</param-value>
@@ -51,7 +53,7 @@
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
-	<!-- struts2配置 -->
+	-->
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -67,7 +69,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/front/*</url-pattern>
 	</filter-mapping>
 	
 	<!-- Apache Shiro 
@@ -177,10 +179,10 @@
 	
 	<!-- [INSERT FRAGMENT HERE] -->
 
-	<!-- Session configure, to "jeesite.properties" file "session.sessionTimeout" parameter.
+	<!-- Session configure, to "jeesite.properties" file "session.sessionTimeout" parameter.-->
 	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>-->
+		<session-timeout>300</session-timeout>
+	</session-config>
 
 	<!-- Error page -->
 	<!-- <error-page>

@@ -39,7 +39,7 @@ public class CommodityServiceImpl implements CommodityService {
 		int pagesize = Integer.parseInt(rows);
 		List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		commlist = ipoCommodityMapper.getAll((curpage - 1) * pagesize + 1, curpage * pagesize);
+		commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
 		for (int i = 0; i < commlist.size(); i++) {
 			Commodity commo = new Commodity();
 			BeanUtils.copyProperties(commlist.get(i), commo);
@@ -79,7 +79,7 @@ public class CommodityServiceImpl implements CommodityService {
 	public List<Commodity> findAll() {
 		List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		commlist = ipoCommodityMapper.selectByExample(new IpoCommodityExample());
+		commlist = ipoCommodityMapper.selectAll();
 		for (int i = 0; i < commlist.size(); i++) {
 			Commodity commo = new Commodity();
 			BeanUtils.copyProperties(commlist.get(i), commo);
