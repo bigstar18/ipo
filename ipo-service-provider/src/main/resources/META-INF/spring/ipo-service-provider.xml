@@ -22,59 +22,24 @@
 
 	<dubbo:registry address="zookeeper://10.0.100.184:2181" />
 
-    <!--uncomment this if you want to test dubbo's monitor-->
-    <!--<dubbo:monitor protocol="registry"/>-->
-
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
 
 	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" port="55500" />
-    <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.yrdce.ipo.SerializationOptimizerImpl"/>-->
 
-    <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
-    <!--<dubbo:protocol name="dubbo" serialization="hessian2"/>-->
-    <!--<dubbo:protocol name="dubbo" serialization="fastjson"/>-->
-    <!--<dubbo:protocol name="dubbo" serialization="dubbo"/>-->
-
-
-    <!--TODO according to the spring convention, we should use something like keep-alive-->
-    <!-- use netty server -->
-    <!--<dubbo:protocol name="rest" port="8888" keepalive="true" server="netty" iothreads="5" threads="100" contextpath="services"/>-->
-
-    <!-- use tjws server -->
-    <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
-
-    <!-- use tomcat server -->
-	<!-- <dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500"
-		extension="com.yrdce.ipo.extension.TraceInterceptor,
-                    com.yrdce.ipo.extension.TraceFilter,
-                    com.yrdce.ipo.extension.ClientTraceFilter,
-                    com.yrdce.ipo.extension.DynamicTraceBinding,
-                    com.yrdce.ipo.extension.CustomExceptionMapper,
-                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter" /> -->
-
-    <!-- use the external tomcat or other server with the servlet approach; the port and contextpath must be exactly the same as those in external server -->
-    <!--<dubbo:protocol name="rest" port="8888" contextpath="services" server="servlet"/>-->
-
-	<!-- <dubbo:protocol name="http" port="8889" />
-	<dubbo:protocol name="hessian" port="8890" />
-	<dubbo:protocol name="webservice" port="8892" /> -->
-
-	<!-- <dubbo:service interface="com.yrdce.ipo.bid.BidService" ref="bidService" protocol="dubbo" /> -->
 
     <!-- we add the group property since there's another annotation-configured service impl: com.yrdce.ipo.user.facade.AnnotationDrivenUserRestServiceImpl -->
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.CommodityService" ref="commodityService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.CommodityService" ref="commodityService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DisplayService" ref="DisplayService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.Purchase" ref="Purchase" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DistributionService" ref="distributionService" protocol="dubbo" />
-	
-	
-	<!-- <bean id="bidService" class="com.yrdce.ipo.bid.BidServiceImpl" /> -->
+
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
 	<bean id="Purchase" class="com.yrdce.ipo.modules.sys.service.PurchaseImpl" />
 	<bean id="distributionService" class="com.yrdce.ipo.modules.sys.service.DistributionServiceImpl" />
+	
 <!-- 	当一个接口有多种实现时，可以用group区分。
 从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 读写分离：
