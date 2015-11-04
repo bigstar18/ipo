@@ -32,25 +32,15 @@ public class SecurityFilter implements Filter {
 			request.setCharacterEncoding("GBK");
 		}
 
-		String contextPath = request.getContextPath();
-
+		// String contextPath = request.getContextPath();
 		String url = request.getServletPath();
-
 		String loginURL = "/WEB-INF/views/error/403.jsp";
+
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
-			String strSessionId = request.getParameter("sessionID");
-			if (strSessionId != null) {
-				Long sessionID = Long.valueOf(Tools.strToLong(strSessionId));
-				if (sessionID.longValue() != user.getSessionID()) {
-					synchronized (syncObject) {
-						user = null;
-						request.getSession().invalidate();
-					}
-				}
-			}
+			// TODO 权限检查
 		}
-		CheckUserResultVO au = null;
+
 		if (user == null) {
 			synchronized (syncObject) {
 				long sessionID = Tools.strToLong(request.getParameter("sessionID"), -1L);
@@ -65,21 +55,20 @@ public class SecurityFilter implements Filter {
 					int selfModuleID = Tools.strToInt(request.getParameter("ModuleID"), 40);// TODO
 
 					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
-					au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
-
+					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
+					user = au.getUserManageVO();
+					request.getSession().setAttribute("CurrentUser", user);
 				}
 			}
 		}
-		request.setAttribute("currenturl", url);
 
+		request.setAttribute("currenturl", url);
 		String preUrl = (String) request.getSession().getAttribute("currentRealPath");
 
-		if (au != null && au.getUserManageVO() != null) {
-			request.getSession().setAttribute("CurrentUser", au.getUserManageVO());
+		if (user != null) {
 			chain.doFilter(req, res);
-
 		} else
-			response.sendRedirect(contextPath + loginURL + "?preUrl" + "=" + preUrl);
+			response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
 
 	}
 
