@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -32,4 +33,6 @@ public interface FFirmfundsMapper extends CrudDao<FFirmfunds> {
 	int updateByPrimaryKeySelective(FFirmfunds record);
 
 	int updateByPrimaryKey(FFirmfunds record);
+
+	void getMonery(Map<String, Object> map);
 }
