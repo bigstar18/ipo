@@ -67,7 +67,7 @@ public class SecurityFilter implements Filter {
 					}
 					int selfModuleID = Tools.strToInt(request.getParameter("ModuleID"), 40);// TODO
 
-					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(req.getServletContext());
+					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 					au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 
 				}
