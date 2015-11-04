@@ -22,7 +22,7 @@ public class DistributionTask extends TimerTask {
 
 	@Override
 	public void run() {
-		IpoOrder o = order.selectByPrimaryKey("1");
+		IpoOrder o = order.selectByPrimaryKey(1);
 		Timestamp time = o.getCreatetime();
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

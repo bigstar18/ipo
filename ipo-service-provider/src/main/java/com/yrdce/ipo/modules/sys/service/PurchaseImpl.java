@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -17,7 +19,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.modules.sys.dao.CapitalDao;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
@@ -58,7 +59,7 @@ public class PurchaseImpl implements Purchase {
 
 			// 获取数据库中共有几条时间记录
 			int b = tat.selectbycount();
-			
+
 			List<TATradetime> list = tat.select();
 			for (int r = 0; r <= list.size(); r++) {
 				TATradetime tradetime = list.get(r);
@@ -118,7 +119,13 @@ public class PurchaseImpl implements Purchase {
 				// FFirmfunds f = funds.selectByPrimaryKey(userid);
 				// 获取客户可用资金
 				// BigDecimal monery = f.getBalance();
-				BigDecimal monery = CapitalDao.expendable(userid);
+
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("monery", "");
+				param.put("userid", userid);
+				funds.getMonery(param);
+				BigDecimal monery = (BigDecimal) param.get("monery");
+				// BigDecimal monery = CapitalDao.expendable(userid);
 				// int类型转换，购买几个单位
 				BigDecimal bigDecimal = new BigDecimal(counts);
 				// 1000为一单位
@@ -132,9 +139,6 @@ public class PurchaseImpl implements Purchase {
 				if (monery.compareTo(allMonery) != -1) {
 					// 当前时间
 					Timestamp date = new Timestamp(System.currentTimeMillis());
-					// Date date = new Date();
-					// DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					// String time = format.format(date);
 					IpoOrder d = new IpoOrder();
 					d.setUserid(userid);
 					d.setCommodityid(sid);

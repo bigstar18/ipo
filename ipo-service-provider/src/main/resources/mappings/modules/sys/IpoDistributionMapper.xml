@@ -329,7 +329,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   
-  <update id="updateBycommodityid" parameterType="java.lang.Integer">
+  <update id="updateBycommodityid" parameterType="java.lang.String">
   	update IPO_DISTRIBUTION
   	set ZCOUNTS = #{zcounts,jdbcType=INTEGER},
       	NUMBERS = #{numbers,jdbcType=BLOB}

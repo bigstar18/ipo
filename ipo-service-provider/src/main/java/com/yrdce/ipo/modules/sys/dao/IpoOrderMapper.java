@@ -22,7 +22,7 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectByExample(IpoOrderExample example);
 
-	IpoOrder selectByPrimaryKey(String orderid);
+	IpoOrder selectByPrimaryKey(int orderid);
 
 	IpoOrder selectByid(String userid, String sid);
 

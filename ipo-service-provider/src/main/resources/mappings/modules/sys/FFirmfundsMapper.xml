@@ -240,4 +240,8 @@
       LASTSETTLEMARGIN = #{lastsettlemargin,jdbcType=DECIMAL}
     where FIRMID = #{firmid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="getMonery" statementType="CALLABLE" parameterType = "java.util.Map">
+  	 {#{monery,mode=OUT,jdbcType=DECIMAL} = call FN_F_GetRealFunds(#{userid,mode=IN,jdbcType=VARCHAR},#{lock,mode=IN,jdbcType=Integer})}
+  </select>
 </mapper>
