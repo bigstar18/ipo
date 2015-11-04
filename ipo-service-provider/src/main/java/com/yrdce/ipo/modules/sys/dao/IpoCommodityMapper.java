@@ -12,7 +12,7 @@ public interface IpoCommodityMapper {
 
 	int deleteByExample(IpoCommodityExample example);
 
-	int deleteByPrimaryKey(String id);
+	int deleteByPrimaryKey(int id);
 
 	int insert(IpoCommodity record);
 
@@ -24,7 +24,7 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
 
-	IpoCommodity selectByPrimaryKey(String id);
+	IpoCommodity selectByPrimaryKey(int id);
 
 	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="PRICE" property="price" jdbcType="DECIMAL" />
@@ -86,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from IPO_COMMODITY
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from IPO_COMMODITY
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" >
     delete from IPO_COMMODITY
@@ -111,7 +111,7 @@
     insert into IPO_COMMODITY (ID, COMMODITYID, COMMODITYNAME, 
       PRICE, UNITS, COUNTS, 
       STARTTIME, ENDTIME)
-    values (#{id,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=INTEGER}, #{counts,jdbcType=INTEGER}, 
       #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE})
   </insert>
@@ -150,7 +150,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="commodityid != null" >
         #{commodityid,jdbcType=VARCHAR},
@@ -185,7 +185,7 @@
     update IPO_COMMODITY
     <set >
       <if test="record.id != null" >
-        ID = #{record.id,jdbcType=VARCHAR},
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.commodityid != null" >
         COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_COMMODITY
-    set ID = #{record.id,jdbcType=VARCHAR},
+    set ID = #{record.id,jdbcType=INTEGER},
       COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       PRICE = #{record.price,jdbcType=DECIMAL},
@@ -252,7 +252,7 @@
         ENDTIME = #{endtime,jdbcType=DATE},
       </if>
     </set>
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     update IPO_COMMODITY
@@ -263,7 +263,7 @@
       COUNTS = #{counts,jdbcType=INTEGER},
       STARTTIME = #{starttime,jdbcType=DATE},
       ENDTIME = #{endtime,jdbcType=DATE}
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
     select * from (select t.*,rownum TNO from ipo_commodity t) a where a.TNO between  #{beginnum} and  #{endnum}
