@@ -279,7 +279,7 @@
     </select>
     
     <select id="select" resultType="java.lang.String">
-    	select distinct COMMODITYID from E_HOLDING 
+    	select distinct COMMODITYID from IPO_ORDER 
     </select>
     
    <select id="selectAll" resultMap="BaseResultMap">

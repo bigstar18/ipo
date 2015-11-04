@@ -16,7 +16,7 @@ import com.yrdce.ipo.modules.sys.service.Distribution;
  *
  */
 
-public class DistributionTask extends TimerTask {
+public class Taskmanage extends TimerTask {
 
 	private IpoOrderMapper order;
 
@@ -28,7 +28,7 @@ public class DistributionTask extends TimerTask {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String oldtime = formatter.format(time);
 		// 获得系统当前时间的前一天
-		String nowtime = DateUtil.getTime();
+		String nowtime = DateUtil.getTime(1);
 		if (nowtime.equals(oldtime)) {
 			Distribution distribution = new Distribution();
 			distribution.start();

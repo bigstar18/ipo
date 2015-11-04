@@ -13,22 +13,23 @@ import java.util.Date;
  */
 public class DateUtil {
 
-	public static String getTime() {
+	public static String getTime(int n) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String specifiedDay = sdf.format(date);
-		String str = DateUtil.getSpecifiedDayAfter(specifiedDay);
+		String str = DateUtil.getSpecifiedDayAfter(specifiedDay, n);
 		return str;
 
 	}
 
 	/**
-	 * 获得指定日期的后一天
+	 * 获得指定日期的前N天
 	 * 
 	 * @param specifiedDay
+	 * @param 前N天
 	 * @return
 	 */
-	public static String getSpecifiedDayAfter(String specifiedDay) {
+	public static String getSpecifiedDayAfter(String specifiedDay, int n) {
 		Calendar c = Calendar.getInstance();
 		Date date = null;
 		try {
@@ -38,7 +39,7 @@ public class DateUtil {
 		}
 		c.setTime(date);
 		int day = c.get(Calendar.DATE);
-		c.set(Calendar.DATE, day + 1);
+		c.set(Calendar.DATE, day - n);
 
 		String dayAfter = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
 		return dayAfter;

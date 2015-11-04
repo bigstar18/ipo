@@ -11,14 +11,14 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.yrdce.ipo.common.task.DistributionTask;
+import com.yrdce.ipo.common.task.Taskmanage;
 
-public class DistributionTaskListener implements ServletContextListener {
+public class TaskMananeListener implements ServletContextListener {
 
 	// Fields
 	private Log logger = LogFactory.getLog(this.getClass()); // 日志
 	private static Timer timer;
-	private static TimerTask task = new DistributionTask();
+	private static TimerTask task = new Taskmanage();
 
 	public void contextDestroyed(ServletContextEvent arg0) {
 		logger.debug("调用contextDestroyed方法");
