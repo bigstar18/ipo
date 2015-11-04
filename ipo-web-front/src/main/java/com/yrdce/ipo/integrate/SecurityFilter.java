@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import gnnt.MEBS.common.front.model.integrated.User;
 import gnnt.MEBS.common.front.statictools.Tools;
 import gnnt.MEBS.logonService.vo.CheckUserResultVO;
@@ -63,7 +65,9 @@ public class SecurityFilter implements Filter {
 					if ((selfLogonType == null) || (selfLogonType.trim().length() == 0)) {
 						selfLogonType = "web";
 					}
-					int selfModuleID = Tools.strToInt(request.getParameter("ModuleID"), 40);
+					int selfModuleID = Tools.strToInt(request.getParameter("ModuleID"), 40);// TODO
+
+					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(req.getServletContext());
 					au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 
 				}
