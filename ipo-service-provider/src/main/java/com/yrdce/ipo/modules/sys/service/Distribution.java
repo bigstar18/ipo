@@ -17,6 +17,12 @@ import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 
+/**
+ * 配号服务
+ * 
+ * @author Bob
+ *
+ */
 @Service("Distribution")
 @Transactional(readOnly = true)
 public class Distribution {
@@ -24,9 +30,9 @@ public class Distribution {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 起始配号
-	private int minStart = 10000001;
+	// private int minStart = 10000001;
 	// 最大配号
-	private int maxStart = 99999999;
+	// private int maxStart = 99999999;
 	// 默认起始配号
 	// private int m = 1000;
 	private IpoOrderMapper order;

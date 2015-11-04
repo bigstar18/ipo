@@ -9,6 +9,12 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.vo.Display;
 
+/**
+ * 返回前台数据
+ * 
+ * @author Bob
+ *
+ */
 @Service("DisplayService")
 public class DisplayServiceImpl implements DisplayService {
 

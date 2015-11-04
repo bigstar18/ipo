@@ -27,6 +27,12 @@ import com.yrdce.ipo.modules.sys.entity.TATradetime;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 申购服务
+ * 
+ * @author Bob
+ *
+ */
 @Service("Purchase")
 @Transactional(readOnly = true)
 public class PurchaseImpl implements Purchase {

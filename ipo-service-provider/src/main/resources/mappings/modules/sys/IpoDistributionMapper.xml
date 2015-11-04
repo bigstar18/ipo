@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
-    <id column="ID" property="id" jdbcType="Integer" />
+    <id column="ID" property="id" jdbcType="NUMBER" />
     <result column="USERID" property="userid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
-    <result column="STARTNUMBER" property="startnumber" jdbcType="Long" />
-    <result column="PCOUNTS" property="pcounts" jdbcType="Integer" />
+    <result column="STARTNUMBER" property="startnumber" jdbcType="NUMBER" />
+    <result column="PCOUNTS" property="pcounts" jdbcType="NUMBER" />
     <result column="PTIME" property="ptime" jdbcType="TIMESTAMP" />
-    <result column="ZCOUNTS" property="zcounts" jdbcType="Integer" />
+    <result column="ZCOUNTS" property="zcounts" jdbcType="NUMBER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" extends="BaseResultMap" >
@@ -114,11 +114,11 @@
     ,
     <include refid="Blob_Column_List" />
     from IPO_DISTRIBUTION
-    where ID = #{id,jdbcType=Integer}
+    where ID = #{id,jdbcType=NUMBER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from IPO_DISTRIBUTION
-    where ID = #{id,jdbcType=Integer}
+    where ID = #{id,jdbcType=NUMBER}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExample" >
     delete from IPO_DISTRIBUTION
@@ -135,9 +135,9 @@
     insert into IPO_DISTRIBUTION (ID, USERID, COMMODITYNAME, 
       STARTNUMBER, PCOUNTS, PTIME, 
       ZCOUNTS, NUMBERS,COMMODITYID)
-    values (#{id,jdbcType=Integer}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{startnumber,jdbcType=Long}, #{pcounts,jdbcType=Integer}, #{ptime,jdbcType=TIMESTAMP}, 
-      #{zcounts,jdbcType=Integer}, #{numbers,jdbcType=BLOB}),#{commodityid,jdbcType=VARCHAR}
+    values (#{id,jdbcType=NUMBER}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+      #{startnumber,jdbcType=NUMBER}, #{pcounts,jdbcType=NUMBER}, #{ptime,jdbcType=TIMESTAMP}, 
+      #{zcounts,jdbcType=NUMBER}, #{numbers,jdbcType=BLOB}),#{commodityid,jdbcType=VARCHAR}
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     <selectKey resultType="Integer" order="BEFORE" keyProperty="ID">
@@ -177,7 +177,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=Integer},
+        #{id,jdbcType=NUMBER},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=VARCHAR},
@@ -186,16 +186,16 @@
         #{commodityname,jdbcType=VARCHAR},
       </if>
       <if test="startnumber != null" >
-        #{startnumber,jdbcType=Long},
+        #{startnumber,jdbcType=NUMBER},
       </if>
       <if test="pcounts != null" >
-        #{pcounts,jdbcType=Integer},
+        #{pcounts,jdbcType=NUMBER},
       </if>
       <if test="ptime != null" >
         #{ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="zcounts != null" >
-        #{zcounts,jdbcType=Integer},
+        #{zcounts,jdbcType=NUMBER},
       </if>
       <if test="numbers != null" >
         #{numbers,jdbcType=BLOB},
@@ -215,7 +215,7 @@
     update IPO_DISTRIBUTION
     <set >
       <if test="record.id != null" >
-        ID = #{record.id,jdbcType=Integer},
+        ID = #{record.id,jdbcType=NUMBER},
       </if>
       <if test="record.userid != null" >
         USERID = #{record.userid,jdbcType=VARCHAR},
@@ -224,16 +224,16 @@
         COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       </if>
       <if test="record.startnumber != null" >
-        STARTNUMBER = #{record.startnumber,jdbcType=Long},
+        STARTNUMBER = #{record.startnumber,jdbcType=NUMBER},
       </if>
       <if test="record.pcounts != null" >
-        PCOUNTS = #{record.pcounts,jdbcType=Integer},
+        PCOUNTS = #{record.pcounts,jdbcType=NUMBER},
       </if>
       <if test="record.ptime != null" >
         PTIME = #{record.ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.zcounts != null" >
-        ZCOUNTS = #{record.zcounts,jdbcType=Integer},
+        ZCOUNTS = #{record.zcounts,jdbcType=NUMBER},
       </if>
       <if test="record.numbers != null" >
         NUMBERS = #{record.numbers,jdbcType=BLOB},
@@ -248,13 +248,13 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
     update IPO_DISTRIBUTION
-    set ID = #{record.id,jdbcType=Integer},
+    set ID = #{record.id,jdbcType=NUMBER},
       USERID = #{record.userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
-      STARTNUMBER = #{record.startnumber,jdbcType=Long},
-      PCOUNTS = #{record.pcounts,jdbcType=Integer},
+      STARTNUMBER = #{record.startnumber,jdbcType=NUMBER},
+      PCOUNTS = #{record.pcounts,jdbcType=NUMBER},
       PTIME = #{record.ptime,jdbcType=TIMESTAMP},
-      ZCOUNTS = #{record.zcounts,jdbcType=Integer},
+      ZCOUNTS = #{record.zcounts,jdbcType=NUMBER},
       NUMBERS = #{record.numbers,jdbcType=BLOB},
       COMMODITY = #{record.commodityid,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -263,13 +263,13 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_DISTRIBUTION
-    set ID = #{record.id,jdbcType=Integer},
+    set ID = #{record.id,jdbcType=NUMBER},
       USERID = #{record.userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
-      STARTNUMBER = #{record.startnumber,jdbcType=Long},
-      PCOUNTS = #{record.pcounts,jdbcType=Integer},
+      STARTNUMBER = #{record.startnumber,jdbcType=NUMBER},
+      PCOUNTS = #{record.pcounts,jdbcType=NUMBER},
       PTIME = #{record.ptime,jdbcType=TIMESTAMP},
-      ZCOUNTS = #{record.zcounts,jdbcType=Integer},
+      ZCOUNTS = #{record.zcounts,jdbcType=NUMBER},
       COMMODITYID =#{record.commodity,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -285,53 +285,53 @@
         COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       </if>
       <if test="startnumber != null" >
-        STARTNUMBER = #{startnumber,jdbcType=Long},
+        STARTNUMBER = #{startnumber,jdbcType=NUMBER},
       </if>
       <if test="pcounts != null" >
-        PCOUNTS = #{pcounts,jdbcType=Integer},
+        PCOUNTS = #{pcounts,jdbcType=NUMBER},
       </if>
       <if test="ptime != null" >
         PTIME = #{ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="zcounts != null" >
-        ZCOUNTS = #{zcounts,jdbcType=Integer},
+        ZCOUNTS = #{zcounts,jdbcType=NUMBER},
       </if>
       <if test="numbers != null" >
         NUMBERS = #{numbers,jdbcType=BLOB},
       </if>
       <if test="commodityid != null">
-      	COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      	COMMODITYID = #{commodityid,jdbcType=NUMBER},
       </if>
     </set>
-    where ID = #{id,jdbcType=Integer}
+    where ID = #{id,jdbcType=NUMBER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     update IPO_DISTRIBUTION
     set USERID = #{userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
-      STARTNUMBER = #{startnumber,jdbcType=Long},
-      PCOUNTS = #{pcounts,jdbcType=Integer},
+      STARTNUMBER = #{startnumber,jdbcType=NUMBER},
+      PCOUNTS = #{pcounts,jdbcType=NUMBER},
       PTIME = #{ptime,jdbcType=TIMESTAMP},
-      ZCOUNTS = #{zcounts,jdbcType=Integer},
+      ZCOUNTS = #{zcounts,jdbcType=NUMBER},
       NUMBERS = #{numbers,jdbcType=BLOB},
       COMMODITYID =#{commodityid,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=Integer}
+    where ID = #{id,jdbcType=NUMBER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     update IPO_DISTRIBUTION
     set USERID = #{userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
-      STARTNUMBER = #{startnumber,jdbcType=Long},
-      PCOUNTS = #{pcounts,jdbcType=Integer},
+      STARTNUMBER = #{startnumber,jdbcType=NUMBER},
+      PCOUNTS = #{pcounts,jdbcType=NUMBER},
       PTIME = #{ptime,jdbcType=TIMESTAMP},
-      ZCOUNTS = #{zcounts,jdbcType=Integer},
+      ZCOUNTS = #{zcounts,jdbcType=NUMBER},
       COMMODITYID =#{commodityid,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=Integer}
+    where ID = #{id,jdbcType=NUMBER}
   </update>
   
   <update id="updateBycommodityid" parameterType="java.lang.Integer">
   	update IPO_DISTRIBUTION
-  	set ZCOUNTS = #{zcounts,jdbcType=Integer},
+  	set ZCOUNTS = #{zcounts,jdbcType=NUMBER},
       	NUMBERS = #{numbers,jdbcType=BLOB}
       	where COMMODITYID = #{commodityid,jdbcType=VACHAR}
   </update>

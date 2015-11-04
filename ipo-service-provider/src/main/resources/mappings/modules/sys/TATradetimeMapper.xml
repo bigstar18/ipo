@@ -337,10 +337,10 @@
   </update>
   
   	<select id="selectbycount" resultType="java.lang.Integer" >
-  		select count(rownum) from T_A_TRADETIME
+  		select count(*) from T_A_TRADETIME
   	</select>
   	
-  	<delect id="selectbyrownum" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  		select * from T_A_TRADETIME where rownum = #{value,jdbc=NUMBER}
-  	</delect>
+  	  <select id="select" resultMap="BaseResultMap">
+  		select * from T_A_TRADETIME 
+  	</select>
 </mapper>
