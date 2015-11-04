@@ -19,8 +19,10 @@ public interface IpoCommodityMapper {
 	int insertSelective(IpoCommodity record);
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
+	
+	List<IpoCommodity> selectAll();
 
-	List<IpoCommodity> getAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
+	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(String id);
 

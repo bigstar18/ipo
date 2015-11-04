@@ -38,7 +38,7 @@ public class DistributionServiceImpl implements DistributionService {
         int pagesize=Integer.parseInt(rows);
         List<IpoDistribution> list=new ArrayList<IpoDistribution>();
         List<Distribution> list2=new ArrayList<Distribution>();
-        list= ipoDistributionMapper.getAll((curpage-1)*pagesize+1,curpage*pagesize);
+        list= ipoDistributionMapper.getAllByPage((curpage-1)*pagesize+1,curpage*pagesize);
         for(int i=0;i<list.size();i++){
         	Distribution distrib=new Distribution();
         	BeanUtils.copyProperties(list.get(i), distrib);
@@ -63,7 +63,7 @@ public class DistributionServiceImpl implements DistributionService {
 	public List<Distribution> findAll() {
 		 List<IpoDistribution> list=new ArrayList<IpoDistribution>();
 	        List<Distribution> list2=new ArrayList<Distribution>();
-	        list= ipoDistributionMapper.selectByExample(new IpoDistributionExample());
+	        list= ipoDistributionMapper.selectAll();
 	        for(int i=0;i<list.size();i++){
 	        	Distribution distrib=new Distribution();
 	        	BeanUtils.copyProperties(list.get(i), distrib);

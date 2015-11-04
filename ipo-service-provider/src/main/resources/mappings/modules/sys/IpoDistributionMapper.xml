@@ -335,4 +335,17 @@
       	NUMBERS = #{numbers,jdbcType=BLOB}
       	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
+   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
+    select * from (select t.*,rownum TNO from IPO_DISTRIBUTION t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+  <select id="selectAll"  resultMap="BaseResultMap"  >
+    select 
+     <include refid="Base_Column_List" />
+     from IPO_DISTRIBUTION
+  </select>
+  
+  
+  
+  
+  
 </mapper>

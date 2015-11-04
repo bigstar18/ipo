@@ -265,8 +265,13 @@
       ENDTIME = #{endtime,jdbcType=DATE}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="getAll"  resultMap="BaseResultMap"  parameterType="map" >
+  <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
     select * from (select t.*,rownum TNO from ipo_commodity t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+  <select id="selectAll"  resultMap="BaseResultMap"  >
+    select 
+     <include refid="Base_Column_List" />
+     from IPO_COMMODITY
   </select>
    <select id="selectByComid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
