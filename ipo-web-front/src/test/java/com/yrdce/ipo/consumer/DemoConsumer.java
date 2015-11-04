@@ -17,8 +17,6 @@ package com.yrdce.ipo.consumer;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.yrdce.ipo.modules.sys.service.UserService;
-
 public class DemoConsumer {
 
 	public static void main(String[] args) {
@@ -32,8 +30,8 @@ public class DemoConsumer {
 		// 测试常规服务
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:META-INF/spring/*.xml");
 		context.start();
-		UserService userService = context.getBean(UserService.class);
-	//	System.out.println(userService.getUser(1L));
+		// UserService userService = context.getBean(UserService.class);
+		// System.out.println(userService.getUser(1L));
 
 	}
 	// private static void getUser(String url) {

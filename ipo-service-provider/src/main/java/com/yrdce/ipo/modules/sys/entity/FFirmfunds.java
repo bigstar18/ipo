@@ -2,9 +2,7 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 
-import com.yrdce.ipo.common.persistence.DataEntity;
-
-public class FFirmfunds extends DataEntity<FFirmfunds> {
+public class FFirmfunds {
 	/**
 	 * 
 	 */

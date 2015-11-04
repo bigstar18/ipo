@@ -20,8 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
-import com.yrdce.ipo.modules.sys.vo.Dict;
-import com.yrdce.ipo.modules.sys.vo.User;
 
 /**
  * This class must be accessible from both the provider and consumer
@@ -32,8 +30,7 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
 
 	public Collection<Class> getSerializableClasses() {
 		List<Class> classes = new LinkedList<Class>();
-		classes.add(User.class);
-		classes.add(Dict.class);
+		// classes.add(User.class);
 		return classes;
 	}
 }
