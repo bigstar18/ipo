@@ -37,7 +37,12 @@
 	<task:executor id="executor" pool-size="10" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
-  
 
-   
+	<bean id="dataSourceForQuery" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <!-- 名字请不要修改，需要增加tomcat连接池 配置参见 WebRoot/META-INF/context.xml -->
+		<property name="jndiName">
+			<value>java:comp/env/mgrForQuery</value>
+		</property>
+	</bean>
+
 </beans>
