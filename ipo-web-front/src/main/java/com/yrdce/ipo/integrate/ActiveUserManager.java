@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.WebApplicationContext;
 
-import gnnt.MEBS.common.front.statictools.ApplicationContextInit;
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
 import gnnt.MEBS.logonService.dao.LogonManagerDAO;
 import gnnt.MEBS.logonService.kernel.ILogonService;
@@ -88,6 +88,7 @@ public class ActiveUserManager {
 	}
 
 	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
+	public static WebApplicationContext wac;
 
 	/**
 	 * 
@@ -103,7 +104,7 @@ public class ActiveUserManager {
 		if (logonManagerMap.get(configID) == null) {
 			synchronized (ActiveUserManager.class) {
 				LogonManagerDAO logonManagerDAO = new LogonManagerDAO();
-				logonManagerDAO.setDataSource((DataSource) ApplicationContextInit.getBean("dataSourceForQuery"));
+				logonManagerDAO.setDataSource((DataSource) wac.getBean("dataSourceForQuery"));
 				LogonConfigPO logonConfigPO = logonManagerDAO.getLogonConfigByID(configID);
 				if (logonConfigPO != null) {
 					RemoteLogonServerVO logonManager = new RemoteLogonServerVO();
