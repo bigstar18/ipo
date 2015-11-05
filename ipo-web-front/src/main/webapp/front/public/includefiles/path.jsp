@@ -6,13 +6,14 @@
 <%@page import="gnnt.MEBS.common.front.statictools.ApplicationContextInit" %>
 <%
 /*skinstyle*/
-String skinName = null;
+/* String skinName = null;
 User user = (User) request.getSession().getAttribute(Global.CURRENTUSERSTR);
 if (user == null) {
 	skinName = "default";
 } else {
 	skinName = user.getSkin();
-}
+} */
+String skinName = "default";
 //js使用的皮肤路径(/front/skinstyle/default)
 String jsSkinPath = "/front/skinstyle/" + skinName;
 //web服务接口(http://localhost:8080)

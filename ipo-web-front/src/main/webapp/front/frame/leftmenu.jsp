@@ -31,7 +31,7 @@
 			$(".menu_4").attr("class","menu_3");<%/*将以前选中的二级菜单样式还原*/%>
 			$(this).attr("class","menu_4");<%/*修改当前点击二级菜单的样式*/%>
 			$("#mainfrm").attr("action",$(this).attr("action"));
-			$("#mainfrm").submit();
+		//	$("#mainfrm").submit();
 			return false;
 		});
 		$("#openUpdateMenuDiv").click(function(){<%/* 打开设置我的菜单div */%>
