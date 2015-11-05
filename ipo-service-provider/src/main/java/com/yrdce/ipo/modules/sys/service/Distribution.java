@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +29,15 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 public class Distribution {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-
+	@Autowired
 	private IpoOrderMapper order;
+	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
+	@Autowired
 	private IpoNumberofrecords num;
+	@Autowired
 	private IpoDistributionMapper distribution;
+	@Autowired
 	private IpoDistribution ipodistribution;
 
 	@SuppressWarnings("unused")

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +29,13 @@ import com.yrdce.ipo.modules.sys.entity.TATradetime;
 @Service("Purchase")
 @Transactional(readOnly = true)
 public class PurchaseImpl implements Purchase {
-
+	@Autowired
 	private FFirmfundsMapper funds;
+	@Autowired
 	private IpoCommodityMapper Commodity;
+	@Autowired
 	private IpoOrderMapper order;
+	@Autowired
 	private TATradetimeMapper tat;
 
 	// private JdbcTemplate jdbcT;
