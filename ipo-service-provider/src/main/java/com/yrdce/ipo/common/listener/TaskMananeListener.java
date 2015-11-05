@@ -10,15 +10,14 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.yrdce.ipo.common.task.Taskmanage;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class TaskMananeListener implements ServletContextListener {
 
 	// Fields
 	private Log logger = LogFactory.getLog(this.getClass()); // 日志
 	private static Timer timer;
-	private static TimerTask task = new Taskmanage();
+	private static TimerTask task;
 
 	public void contextDestroyed(ServletContextEvent arg0) {
 		logger.debug("调用contextDestroyed方法");
@@ -33,15 +32,16 @@ public class TaskMananeListener implements ServletContextListener {
 
 	public void contextInitialized(ServletContextEvent arg0) {
 		logger.debug("调用contextInitialized方法");
+		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(arg0.getServletContext()).getBean("taskmanage");
 		try {
 
 			timer = new Timer(true);
 			GregorianCalendar now = new GregorianCalendar();
 			// HOUR_OF_DAY( 用于 24 小时制时钟)
 			// WEEK_OF_YEAR(第一个星期为1)
-			now.set(Calendar.HOUR_OF_DAY, 0);
-			now.set(Calendar.MINUTE, 10);
-			now.set(Calendar.SECOND, 0);
+			now.set(Calendar.HOUR_OF_DAY, 12);
+			now.set(Calendar.MINUTE, 06);
+			now.set(Calendar.SECOND, 20);
 			timer.schedule(task, now.getTime());
 
 		} catch (Exception e) {

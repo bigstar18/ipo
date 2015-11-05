@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
@@ -17,7 +18,7 @@ import com.yrdce.ipo.modules.sys.service.Distribution;
  * @author Bob
  *
  */
-
+@Component
 public class Taskmanage extends TimerTask {
 	@Autowired
 	private IpoOrderMapper order;
