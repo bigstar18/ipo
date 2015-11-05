@@ -18,9 +18,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-	<dubbo:application name="ipo-service-provider" owner="programmer" organization="dubbox" />
-
-	<dubbo:registry address="zookeeper://10.0.100.184:2181" />
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:dubbo.properties</value>
+				<value>/WEB-INF/dubbo.properties</value>
+				<value>file://${user.home}/dubbo.properties</value>
+			</list>
+		</property>
+	</bean>
+	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
+	<dubbo:registry address="${dubbo.registry.address}" />
 
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
