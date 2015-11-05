@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecordsExample;
 
+@MyBatisDao
 public interface IpoNumberofrecordsMapper {
 	int countByExample(IpoNumberofrecordsExample example);
 

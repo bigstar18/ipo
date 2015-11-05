@@ -6,9 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.CrudDao;
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.FFirmfunds;
 import com.yrdce.ipo.modules.sys.entity.FFirmfundsExample;
 
+@MyBatisDao
 public interface FFirmfundsMapper extends CrudDao<FFirmfunds> {
 	int countByExample(FFirmfundsExample example);
 

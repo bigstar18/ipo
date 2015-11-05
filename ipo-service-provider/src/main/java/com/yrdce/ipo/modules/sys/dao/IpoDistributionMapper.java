@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoDistributionExample;
 
+@MyBatisDao
 public interface IpoDistributionMapper {
 	int countByExample(IpoDistributionExample example);
 
@@ -21,7 +23,7 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> selectByExampleWithBLOBs(IpoDistributionExample example);
 
 	List<IpoDistribution> selectByExample(IpoDistributionExample example);
-	
+
 	List<IpoDistribution> selectAll();
 
 	List<IpoDistribution> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取配号信息

@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 
+@MyBatisDao
 public interface IpoCommodityMapper {
 	int countByExample(IpoCommodityExample example);
 
@@ -19,7 +21,7 @@ public interface IpoCommodityMapper {
 	int insertSelective(IpoCommodity record);
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
-	
+
 	List<IpoCommodity> selectAll();
 
 	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品

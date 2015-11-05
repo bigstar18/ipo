@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.TATradetime;
 import com.yrdce.ipo.modules.sys.entity.TATradetimeExample;
 
+@MyBatisDao
 public interface TATradetimeMapper {
 	int countByExample(TATradetimeExample example);
 

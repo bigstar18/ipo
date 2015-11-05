@@ -25,7 +25,7 @@ public class DisplayServiceImpl implements DisplayService {
 
 	public Display display(String userid, String sid) {
 		// 获得商品名称
-		IpoCommodity c = commodity.selectByPrimaryKey(userid);
+		IpoCommodity c = commodity.selectByComid(sid);
 		String name = c.getCommodityname();
 		// 获取可用资金
 		// BigDecimal monery = CapitalDao.expendable(userid);
