@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
@@ -19,8 +20,9 @@ import com.yrdce.ipo.modules.sys.vo.Display;
  */
 @Service("DisplayService")
 public class DisplayServiceImpl implements DisplayService {
-
+	@Autowired
 	private IpoCommodityMapper commodity;
+	@Autowired
 	private FFirmfundsMapper funds;
 
 	public Display display(String userid, String sid) {

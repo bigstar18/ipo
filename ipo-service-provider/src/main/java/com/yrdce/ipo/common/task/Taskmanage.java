@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.TimerTask;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
@@ -17,7 +19,7 @@ import com.yrdce.ipo.modules.sys.service.Distribution;
  */
 
 public class Taskmanage extends TimerTask {
-
+	@Autowired
 	private IpoOrderMapper order;
 
 	@Override
