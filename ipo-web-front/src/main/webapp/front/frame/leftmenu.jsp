@@ -56,21 +56,21 @@
 	<a href="${basePath}${modelContextMap[selfModuleID]['homepageAction']}}" target="main">平台主页</a>
 	</c:if>
 	</div> -->
-	<div class="main"><a id="openUpdateMenuDiv" href="#">我的菜单</a></div>
-	<div class="clear"></div>
+	 <div class="main"></div>
+	<div class="clear"></div> 
 	<%/* 我的菜单信息展示 */%>
-	<c:if test="${not empty mymenu}">
+	<%-- <c:if test="${not empty mymenu}">
 	<div class="menu_1" id="mymenu">我的菜单</div>
 	<div id="mymenuDiv" style="display: none">
-		<%-- <c:forEach var="menu" items="${mymenu}">
+		<c:forEach var="menu" items="${mymenu}">
 		<div id="f${menu.value.id}" class="menu_3" action="${basePath}${menu.value.visiturl}">${menu.value.name}</div>
-		</c:forEach> --%>
+		</c:forEach>
 	<div id="f4001001000" class="menu_3">IPO申购</div>
 	</div>
-	</c:if>
+	</c:if> --%>
 	<%/* 遍历循环菜单展示 */%>
 	<div class="menu_1" id="4001001000">IPO申购</div>
-	<div id="4001001000Div" style="display: block">
+	<div id="4001001000Div" style="display: none">
 		<div class="menu_3" id="4001001010">投资者申购</div>
 	</div>
 	<%-- <a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a> --%>

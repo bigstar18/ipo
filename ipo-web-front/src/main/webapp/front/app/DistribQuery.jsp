@@ -14,9 +14,6 @@
 	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <style type="text/css">
 .panel{float:left}
-.infos{margin-top:13px}
-.infos h4{margin-top: 13px; margin-bottom: 13px}
-.infos p{ margin-bottom: 13px}
 </style>
 </head>
 <body>
@@ -46,13 +43,13 @@
 			    </table>
 			
 			    <div class="easyui-panel"   title="投资者申购信息"  style="width:35%;height:365px;padding:10px;">
-				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
+				    <form class="form-inline"  id="fm1">
 				      <div class="form-group">
 				        <label>产品代码：</label>
 				        <input type="text" id="commodityid"   class="form-control"  placeholder="请输入产品代码" style="height: 25px; padding-top: 0px; padding-bottom: 0px;"  onkeyup="showInfo(this.value)">
 				      </div>
 				    </form>
-				    <div class="infos">
+				    <div>
 			        <h4>详细信息：</h4>
 			        <p>账户编号：<b >${param.userID  }</b></p>
 			        <p>申购产品：<b id="comname"></b></p>
@@ -60,14 +57,14 @@
 			        <p>可购买数量：<b id="counts"></b></p>
 			        <p>申购额度：<b id="limit"></b></p>
 			      </div>
-			      <form class="form-inline" id="fm2" style="margin-top: 15px">
+			      <form class="form-inline" id="fm2" style="margin-top: 20px">
 				      <div class="form-group">
 				        <label style="width: 70px">购买量：</label>
-				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
+				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1">
 				      </div>
 				    </form>
 				     <div>
-				     <button type="button"  id="btn"  style="margin-top:15px;float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 60px; height:40px;margin-left: 20px;"></b>	  
+				     <button type="button"  id="btn"    class="btn btn-default"  style="margin-top:12px;float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 57px; margin-left: 20px;"></b>	  
 				    </div>
 				    </div>
 			</div>
@@ -76,7 +73,7 @@
 		<div class="col-xs-12">
 		<br>
 			<div id="myTabContent" class="tab-content">
-		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
+		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:345px"
             data-options="singleSelect:true,collapsible:false,pagination:true,pageSize:10,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
         <thead>
             <tr>
