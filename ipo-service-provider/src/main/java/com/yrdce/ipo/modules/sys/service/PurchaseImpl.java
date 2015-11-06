@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import com.yrdce.ipo.modules.sys.entity.TATradetime;
 @Service("Purchase")
 @Transactional(readOnly = true)
 public class PurchaseImpl implements Purchase {
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private FFirmfundsMapper funds;
 	@Autowired
@@ -42,22 +46,29 @@ public class PurchaseImpl implements Purchase {
 
 	// 时间判断
 	public boolean isInDates(String sid) {
+		logger.info("查询商品一列信息");
 		IpoCommodity c = Commodity.selectByComid(sid);
+		logger.info("获取开始时间");
 		Date ftime1 = c.getStarttime();
+		// Date ftime1 = new Date();// ????????????????????????????????????????????????????????????
 		Date times = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String ftime = sdf.format(ftime1);
 		String nowtimes = sdf.format(times);
+
 		if (ftime.equals(nowtimes) && ftime != null) {
 
 			// 获取数据库中共有几条时间记录
+			logger.info("获取交易节有几条记录");
 			int b = tat.selectbycount();
-
+			logger.info("获取交易节表信息");
 			List<TATradetime> list = tat.select();
 			for (int r = 0; r <= list.size(); r++) {
 				TATradetime tradetime = list.get(r);
 				String start = tradetime.getStarttime();
 				String end = tradetime.getEndtime();
+				System.out.println("开始时间" + start);
+				System.out.println("结束时间" + end);
 
 				// 获取状态
 				Short i = tradetime.getStatus();
@@ -99,20 +110,21 @@ public class PurchaseImpl implements Purchase {
 	// 申购
 	@Override
 	public int apply(String userid, String sid, int counts) {
+		logger.info("进入申购方法");
 		if (this.isInDates(sid)) {
+			logger.info("进入时间判断");
 			if (this.repeat(userid, sid)) {
+				logger.info("进入重复申购");
 				// TODO Auto-generated method stub
 				// 获取商品信息
+				logger.info("获取商品信息");
 				IpoCommodity commodity = Commodity.selectByComid(sid);
 				// 获取商品名称
 				String name = commodity.getCommodityname();
 				// 商品单价
 				BigDecimal price = commodity.getPrice();
-				// 获取客户信息
-				// FFirmfunds f = funds.selectByPrimaryKey(userid);
 				// 获取客户可用资金
-				// BigDecimal monery = f.getBalance();
-
+				logger.info("调用存储函数");
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("monery", "");
 				param.put("userid", userid);
@@ -130,6 +142,7 @@ public class PurchaseImpl implements Purchase {
 				BigDecimal allMonery = bigDecimal.multiply(total);
 				// 申购判断
 				if (monery.compareTo(allMonery) != -1) {
+					logger.info("进入资金判断");
 					// 当前时间
 					Timestamp date = new Timestamp(System.currentTimeMillis());
 					IpoOrder d = new IpoOrder();
@@ -157,7 +170,7 @@ public class PurchaseImpl implements Purchase {
 
 	// 冻结资金
 	public BigDecimal frozen(String userid, BigDecimal allMonery) {
-
+		logger.info("调用冻结资金函数");
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("monery", "");
 		param.put("userid", userid);
@@ -179,8 +192,9 @@ public class PurchaseImpl implements Purchase {
 
 	// 判断是重复申购
 	public boolean repeat(String userid, String sid) {
-		IpoOrder o = order.selectByid(userid, sid);
-		if (o.getCounts() != 0) {
+		logger.info("查询商品重复申购 ");
+		IpoOrder ipoOrder = order.selectByid(userid, sid);
+		if (ipoOrder != null) {
 			return false;
 		} else {
 			return true;

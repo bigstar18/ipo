@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -14,17 +15,25 @@ public interface IpoNumberofrecordsMapper {
 
 	int deleteByExample(IpoNumberofrecordsExample example);
 
+	int deleteByPrimaryKey(Integer id);
+
 	int insert(IpoNumberofrecords record);
 
 	int insertSelective(IpoNumberofrecords record);
 
 	List<IpoNumberofrecords> selectByExample(IpoNumberofrecordsExample example);
 
+	IpoNumberofrecords selectByPrimaryKey(Integer id);
+
 	int updateByExampleSelective(@Param("record") IpoNumberofrecords record, @Param("example") IpoNumberofrecordsExample example);
 
 	int updateByExample(@Param("record") IpoNumberofrecords record, @Param("example") IpoNumberofrecordsExample example);
 
-	int update(int counts, String commodityid);
+	int updateByPrimaryKeySelective(IpoNumberofrecords record);
+
+	int updateByPrimaryKey(IpoNumberofrecords record);
+
+	int update(Map<String, Object> map);
 
 	int selectbysid(String commodityid);
 

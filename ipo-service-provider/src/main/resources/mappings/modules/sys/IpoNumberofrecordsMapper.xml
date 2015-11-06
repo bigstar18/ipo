@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
-    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
     <result column="NOWTIME" property="nowtime" jdbcType="TIMESTAMP" />
@@ -82,20 +82,30 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from IPO_NUMBEROFRECORDS
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from IPO_NUMBEROFRECORDS
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecordsExample" >
     delete from IPO_NUMBEROFRECORDS
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
-    <selectKey resultType="String" order="BEFORE" keyProperty="ID">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
+    <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
 	SELECT SEQ_IPO_NUMBEROFRECORDS.NEXTVAL FROM dual
 	</selectKey>
     insert into IPO_NUMBEROFRECORDS (ID, COMMODITYID, COUNTS, 
       NOWTIME)
-    values (#{id,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{counts,jdbcType=DECIMAL}, 
-      to_timestamp('#{nowtime,jdbcType=TIMESTAMP}','yyyy-mm-dd hh24:mi:ss'))
+    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{counts,jdbcType=DECIMAL}, 
+      #{nowtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
     insert into IPO_NUMBEROFRECORDS
@@ -115,7 +125,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="commodityid != null" >
         #{commodityid,jdbcType=VARCHAR},
@@ -138,7 +148,7 @@
     update IPO_NUMBEROFRECORDS
     <set >
       <if test="record.id != null" >
-        ID = #{record.id,jdbcType=VARCHAR},
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.commodityid != null" >
         COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
@@ -156,7 +166,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_NUMBEROFRECORDS
-    set ID = #{record.id,jdbcType=VARCHAR},
+    set ID = #{record.id,jdbcType=INTEGER},
       COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
       COUNTS = #{record.counts,jdbcType=DECIMAL},
       NOWTIME = #{record.nowtime,jdbcType=TIMESTAMP}
@@ -164,13 +174,35 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
+    update IPO_NUMBEROFRECORDS
+    <set >
+      <if test="commodityid != null" >
+        COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      </if>
+      <if test="counts != null" >
+        COUNTS = #{counts,jdbcType=DECIMAL},
+      </if>
+      <if test="nowtime != null" >
+        NOWTIME = #{nowtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords" >
+    update IPO_NUMBEROFRECORDS
+    set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COUNTS = #{counts,jdbcType=DECIMAL},
+      NOWTIME = #{nowtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
   
   <update id="update" parameterType="map" >
   	UPDATE IPO_NUMBEROFRECORDS SET COUNTS = #{counts,jdbcType=DECIMAL} WHERE COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
   
   <select id="selectbysid" parameterType="java.lang.String" resultType="java.lang.Integer">
-  	select counts from IPO_NUMBEROFRECORDS where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  	select counts from IPO_NUMBEROFRECORDS where COMMODITYID = #{commodityid}
   </select>
   
   <insert id="insertAll">

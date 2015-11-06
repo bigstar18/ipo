@@ -20,7 +20,7 @@ public class TaskMananeListener implements ServletContextListener {
 	private static TimerTask task;
 
 	public void contextDestroyed(ServletContextEvent arg0) {
-		logger.debug("调用contextDestroyed方法");
+		logger.info("调用contextDestroyed方法");
 		if (timer != null) {
 			timer.cancel();
 			logger.debug("Timer Canceled");
@@ -31,7 +31,7 @@ public class TaskMananeListener implements ServletContextListener {
 	}
 
 	public void contextInitialized(ServletContextEvent arg0) {
-		logger.debug("调用contextInitialized方法");
+		logger.info("调用contextInitialized方法");
 		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(arg0.getServletContext()).getBean("taskmanage");
 		try {
 
@@ -39,9 +39,9 @@ public class TaskMananeListener implements ServletContextListener {
 			GregorianCalendar now = new GregorianCalendar();
 			// HOUR_OF_DAY( 用于 24 小时制时钟)
 			// WEEK_OF_YEAR(第一个星期为1)
-			now.set(Calendar.HOUR_OF_DAY, 12);
-			now.set(Calendar.MINUTE, 06);
-			now.set(Calendar.SECOND, 20);
+			now.set(Calendar.HOUR_OF_DAY, 0);
+			now.set(Calendar.MINUTE, 10);
+			now.set(Calendar.SECOND, 0);
 			timer.schedule(task, now.getTime());
 
 		} catch (Exception e) {
