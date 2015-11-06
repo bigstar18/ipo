@@ -11,6 +11,7 @@ import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.service.Distribution;
+import com.yrdce.ipo.modules.sys.service.GetBallotNoUtils;
 import com.yrdce.ipo.modules.sys.service.PurchaseImpl;
 
 /**
@@ -27,6 +28,8 @@ public class Taskmanage extends TimerTask {
 	private Distribution distribution;
 	@Autowired
 	private PurchaseImpl p;
+	@Autowired
+    private GetBallotNoUtils getBallotNoUtils;
 
 	@Override
 	public void run() {
@@ -39,10 +42,15 @@ public class Taskmanage extends TimerTask {
 			String oldtime = formatter.format(time);
 			// 获得系统当前时间的前一天
 			String nowtime = DateUtil.getTime(1);
+			// 摇号获取系统当前时间的前2天
+			String BallotNowtime = DateUtil.getTime(2);
 			if (nowtime.equals(oldtime)) {
 				distribution.start();
 				// System.out.println("配号任务开始");
 
+			}else if(BallotNowtime.equals(oldtime)){
+				//摇号处理开始
+				getBallotNoUtils.start();
 			}
 		}
 	}

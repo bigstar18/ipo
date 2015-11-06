@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 
@@ -18,6 +17,12 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
  */
 public class GetSuccessRate {
 	public static Logger logger = Logger.getLogger(GetSuccessRate.class);
+	/**
+	 * 中签率计算方法
+	 * @param ipoOrders 订单表中所有商品申购的信息
+	 * @param ipoCommoditys 此次发布的商品信息
+	 * @return
+	 */
 	public static Map<String,String>  getSuccessRateByApplyCount(List<IpoOrder> ipoOrders,List<IpoCommodity> ipoCommoditys){
 		// 根据商品编号统计客户申购数量 Map<商品编号,申购单位数>
 		Map<String, Integer> orderCountByCommodityMap = new HashMap<String, Integer>();
@@ -26,12 +31,12 @@ public class GetSuccessRate {
         //每个商品的中签率 Map<商品编号，中签率>
 		Map<String,String> successRateMap = new HashMap<String,String>();
 		
-		// 统计每个商品被客户申购的总数量
+		// 统计此次订单表中商品被客户申购的总数量
 		// 统计申购单位数
 		int applyPurCount = 0;
 		if (ipoOrders != null || ipoOrders.size() > 0) {
 			for (int i = 0; i < ipoOrders.size(); i++) {
-				//获取每个产品信息
+				//获取此次申购的商品信息
 				IpoOrder ipoOrder = ipoOrders.get(i);
 				//判断当前产品在Map中是否存在，如果存在就将申购数量累加，如果不存在就直接存放Map中
 				if (orderCountByCommodityMap.containsKey(ipoOrder.getCommodityid())) {
@@ -44,8 +49,9 @@ public class GetSuccessRate {
 				}
 			}
 		}
-
-		// 每个商品发布的总数量统计
+        logger.info("统计此次订单表中商品被客户申购的总数量："+orderCountByCommodityMap);
+        
+		//统计此次商品发布表中每个商品发布的总数量统计
 		if (ipoCommoditys != null || ipoCommoditys.size() > 0) {
 			for (int i = 0; i < ipoCommoditys.size(); i++) {
 				//获取每个产品信息
@@ -58,8 +64,9 @@ public class GetSuccessRate {
 				} 
 			}
 		}
-
-		// 计算出每个商品的中签率 
+		logger.info("统计此次商品发布表中每个商品发布的总数量："+disbutCountByCommodityMap);
+		
+		// 计算出每个商品的中签率 disbutCountByCommodityMap商品发布数量 ，orderCountByCommodityMap 商品申购的单位数
 		if (disbutCountByCommodityMap != null) {
 			//获取发布商品信息Map的KEY值集合
 			for (String orderkey : disbutCountByCommodityMap.keySet()) {
@@ -79,7 +86,7 @@ public class GetSuccessRate {
                }
 			}
 		}
-        
+        logger.info("发布数量/申购单位数*1000 = 计算出每个商品的中签率 :"+successRateMap);
 		return successRateMap;
 	}
 	
@@ -143,6 +150,7 @@ public class GetSuccessRate {
 				ballotStartAndEndNum.put(ballotNoStr, ballotStartEndNum);
 			}
 		}
+		logger.info("根据字符串截取中签号码末三位数和起始位数于结束位数："+ballotStartAndEndNum);
 		return ballotStartAndEndNum;
 	}
 }

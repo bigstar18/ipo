@@ -11,15 +11,15 @@ public class IpoBallotNoInfo {
 
 	private int id;//ID
 	
-	private String commodityId;//商品编号
+	private String commodityid;//商品编号
 	
-	private int ballotNoStartLen;//中签起始位数
+	private int ballotnostartlen;//中签起始位数
 	
-	private int ballotNoEndLen;//中签结束位数
+	private int ballotnoendlen;//中签结束位数
 	
-	private String ballotNo;//中签号
+	private String ballotno;//中签号
 	
-	private Date createTime;//生成时间
+	private Date createtime;//生成时间
 	
 	public int getId() {
 		return id;
@@ -29,44 +29,44 @@ public class IpoBallotNoInfo {
 		this.id = id;
 	}
 
-	public String getCommodityId() {
-		 return commodityId;
+	public String getCommodityid() {
+		return commodityid;
 	}
 
-	public void setCommodityId(String commodityId) {
-		 this.commodityId = commodityId == null ? null : commodityId.trim();
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid;
 	}
 
-	public int getBallotNoStartLen() {
-		return ballotNoStartLen;
+	public int getBallotnostartlen() {
+		return ballotnostartlen;
 	}
 
-	public void setBallotNoStartLen(int ballotNoStartLen) {
-		this.ballotNoStartLen = ballotNoStartLen;
+	public void setBallotnostartlen(int ballotnostartlen) {
+		this.ballotnostartlen = ballotnostartlen;
 	}
 
-	public int getBallotNoEndLen() {
-		return ballotNoEndLen;
+	public int getBallotnoendlen() {
+		return ballotnoendlen;
 	}
 
-	public void setBallotNoEndLen(int ballotNoEndLen) {
-		this.ballotNoEndLen = ballotNoEndLen;
+	public void setBallotnoendlen(int ballotnoendlen) {
+		this.ballotnoendlen = ballotnoendlen;
 	}
 
-	public String getBallotNo() {
-		return ballotNo;
+	public String getBallotno() {
+		return ballotno;
 	}
 
-	public void setBallotNo(String ballotNo) {
-		this.ballotNo = ballotNo;
+	public void setBallotno(String ballotno) {
+		this.ballotno = ballotno;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreatetime() {
+		return createtime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 }

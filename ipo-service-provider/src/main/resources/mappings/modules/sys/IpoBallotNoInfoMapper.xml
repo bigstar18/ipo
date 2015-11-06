@@ -10,13 +10,13 @@
     <result column="CREATETIMR" property="createTime" jdbcType="DATE" />
   </resultMap>
   
-  <insert id="insert" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo">
-  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="ID">
-	SELECT IPO_BALLOTNO_INFO.NEXTVAL FROM dual
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo">
+  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+	SELECT SEQ_IPO_BALLOTNO_INFO.NEXTVAL FROM dual
 	</selectKey>
-  	insert into IPO_BALLOTNOINFO (ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIMR)
+  	insert into IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIME)
     values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=INTEGER}, 
-      #{ballotnoendlen,jdbcType=INTEGER}, #{ballotno,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}
+      #{ballotnoendlen,jdbcType=INTEGER}, #{ballotno,jdbcType=INTEGER}, #{createtime,jdbcType=DATE})
   </insert>
 
 	<select id="selectByCommodityid" parameterType="java.lang.String" resultMap="BaseResultMap">
