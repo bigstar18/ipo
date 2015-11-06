@@ -109,7 +109,7 @@ public class PurchaseImpl implements Purchase {
 
 	// 申购
 	@Override
-	public int apply(String userid, String sid, int counts) {
+	public int apply(String userid, String sid, Integer counts) {
 		logger.info("进入申购方法");
 		if (this.isInDates(sid)) {
 			logger.info("进入时间判断");
@@ -128,6 +128,7 @@ public class PurchaseImpl implements Purchase {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("monery", "");
 				param.put("userid", userid);
+				param.put("lock", 1);
 				funds.getMonery(param);
 				BigDecimal monery = (BigDecimal) param.get("monery");
 				// BigDecimal monery = CapitalDao.expendable(userid);

@@ -10,19 +10,19 @@
     <!-- 加载配置属性文件 -->
 	<context:property-placeholder ignore-unresolvable="true" location="classpath:jeesite.properties" />
 	
-	<!-- 使用Annotation自动注册Bean,只扫描@Controller
+	<!--使用Annotation自动注册Bean,只扫描@Controller-->
 	<context:component-scan base-package="com.yrdce.ipo" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan> -->
+	</context:component-scan> 
 
 	<!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
-	<!-- <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+	 <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
 		<mvc:message-converters register-defaults="true">
-			将StringHttpMessageConverter的默认编码设为UTF-8
+		<!--	将StringHttpMessageConverter的默认编码设为UTF-8-->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg value="UTF-8" />
 			</bean>
-			将Jackson2HttpMessageConverter的默认格式化输出为false
+			<!--将Jackson2HttpMessageConverter的默认格式化输出为false
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="supportedMediaTypes">
 					<list>
@@ -33,8 +33,8 @@
 				<property name="objectMapper">
 					<bean class="com.yrdce.ipo.common.mapper.JsonMapper"></bean>
 				</property>
-			</bean>
-            使用XML格式输出数据
+			</bean>-->
+          <!--  使用XML格式输出数据
 			<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
 				<constructor-arg>
 					<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
@@ -49,12 +49,12 @@
 					</bean>
 				</constructor-arg>
 				<property name="supportedMediaTypes" value="application/xml"></property>
-			</bean>
+			</bean>-->
 		</mvc:message-converters>
-	</mvc:annotation-driven> -->
+	</mvc:annotation-driven>
 	
-    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
-	<!-- <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View  -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="mediaTypes">
 			<map>
 				<entry key="xml" value="application/xml" />
@@ -63,7 +63,7 @@
 		</property>
 		<property name="ignoreAcceptHeader" value="true" />
 		<property name="favorPathExtension" value="true" />
-	</bean> -->
+	</bean>
 	
 	<!-- 定义视图文件解析 -->
 	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

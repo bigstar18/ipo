@@ -32,7 +32,7 @@
 		</div> -->
 		<div style="height:350px;">		 
 			  <table class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
-			            data-options="singleSelect:true,collapsible:false,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
+			            data-options="singleSelect:true,collapsible:false,nowrap:true,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
 			                <th data-options="field:'commodityid',width:200">产品代码</th>
@@ -77,7 +77,7 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,pageSize:10,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
+            data-options="singleSelect:true,collapsible:false,nowrap:true,pagination:true,pageSize:10,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
         <thead>
             <tr>
                 <th data-options="field:'commodityname',width:200">申购产品</th>

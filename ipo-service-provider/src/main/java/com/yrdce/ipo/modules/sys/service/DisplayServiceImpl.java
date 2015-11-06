@@ -28,6 +28,7 @@ public class DisplayServiceImpl implements DisplayService {
 	public Display display(String userid, String sid) {
 		// 获得商品名称
 		IpoCommodity c = commodity.selectByComid(sid);
+		if(c!=null){
 		String name = c.getCommodityname();
 		// 获取可用资金
 		// BigDecimal monery = CapitalDao.expendable(userid);
@@ -49,7 +50,9 @@ public class DisplayServiceImpl implements DisplayService {
 		// Commodity d = new Commodity();
 		// BeanUtils.copyProperties(d, c);
 		return display;
-
+		}else{
+			return null;
+		}
 	}
 
 }

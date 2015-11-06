@@ -19,7 +19,7 @@ import com.yrdce.ipo.modules.sys.vo.Distribution;
 @Transactional(readOnly = true)
 public class DistributionServiceImpl implements DistributionService {
 	
-	
+	@Autowired
 	private IpoDistributionMapper  ipoDistributionMapper;
 	
 	public IpoDistributionMapper getIpoDistributionMapper() {

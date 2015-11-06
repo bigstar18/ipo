@@ -1,10 +1,6 @@
 <%@ page trimDirectiveWhitespaces="true" contentType="text/html;charset=GBK"%>
 <%@ include file="/front/public/includefiles/taglib.jsp" %>
 <%@ include file="/front/public/includefiles/path.jsp" %>
-<%
-	request.setAttribute("modelContextMap",Global.modelContextMap);
-	request.setAttribute("selfModuleID",Global.getSelfModuleID());
-%>
 <script>
 	var jastOpenMenu="";<%/* 记录最后一次点击左菜单的ID号 */%>
 	function selectMenu(menuID){

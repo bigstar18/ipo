@@ -101,6 +101,7 @@ public class CommodityController extends BaseController {
         ResponseResult result = new ResponseResult();
         result.setTotal(totalnums);
         result.setRows(clist);
+        System.out.println(JSON.json(result));
         return JSON.json(result);
     }
     
@@ -127,11 +128,11 @@ public class CommodityController extends BaseController {
      * @return
      * @throws IOException 
      */    
-    @RequestMapping(value="/purchApply", method = RequestMethod.GET)  
+    @RequestMapping(value="/purchApply", method = RequestMethod.GET )  
     @ResponseBody    
     public String purchApply(@RequestParam("commodityid") String commodityid , @RequestParam("userid") String userid,
     		@RequestParam("quantity") String quantity) {
-    	log.info("调用申购服务");   
+    	log.info("调用申购服务"+userid+"  "+commodityid+" "  +quantity);   
     	return purchase.apply(userid, commodityid, Integer.parseInt(quantity))+"";
     }
     
@@ -142,7 +143,7 @@ public class CommodityController extends BaseController {
      * @return
      * @throws IOException 
      */    
-    @RequestMapping(value="/findApplyNums", method = RequestMethod.GET)  
+    @RequestMapping(value="/findApplyNums", method = RequestMethod.GET , produces = "text/html;charset=UTF-8")  
     @ResponseBody    
     public String findApplyNums(String page,String rows) throws IOException{    
     	log.info("分页查询客户配号信息");   

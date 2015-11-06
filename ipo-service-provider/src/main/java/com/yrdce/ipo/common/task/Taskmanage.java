@@ -30,7 +30,7 @@ public class Taskmanage extends TimerTask {
 	private PurchaseImpl p;
 	@Autowired
     private GetBallotNoUtils getBallotNoUtils;
-
+	
 	@Override
 	public void run() {
 		// 查询第一笔交易订单时间
