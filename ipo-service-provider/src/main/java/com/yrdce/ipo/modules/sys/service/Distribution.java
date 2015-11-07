@@ -22,7 +22,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  * 配号服务
  * 
  * @author Bob
- *
+ * 
  */
 @Service
 public class Distribution {
@@ -36,6 +36,8 @@ public class Distribution {
 	private IpoDistributionMapper distribution;
 
 	private IpoNumberofrecords frecord;
+	@Autowired
+	private GetBallotNoUtils getBallotNoUtils;
 
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
@@ -222,6 +224,8 @@ public class Distribution {
 
 		// unmberofrecord.insertAll();
 		// unmberofrecord.deleatAll();
+
+		getBallotNoUtils.start();
 
 	}
 }

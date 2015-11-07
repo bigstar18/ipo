@@ -32,27 +32,38 @@ public class DistributionServiceImpl implements DistributionService {
 
 	@Override
 	public List<Distribution> getDistriList(String page, String rows) {
-	    page = (page==null?"1":page);  
-        rows = (rows==null?"5":rows); 
-        int curpage=Integer.parseInt(page);
-        int pagesize=Integer.parseInt(rows);
-        List<IpoDistribution> list=new ArrayList<IpoDistribution>();
-        List<Distribution> list2=new ArrayList<Distribution>();
-        list= ipoDistributionMapper.getAllByPage((curpage-1)*pagesize+1,curpage*pagesize);
-        for(int i=0;i<list.size();i++){
-        	Distribution distrib=new Distribution();
-        	BeanUtils.copyProperties(list.get(i), distrib);
-        	distrib.setPcounts(list.get(i).getPcounts());
-        	distrib.setStartnumber(list.get(i).getStartnumber());
-        	distrib.setPtime(list.get(i).getPtime());
-        	list2.add(distrib);
-        }
-        return  list2;  
+		try {
+			  page = (page==null?"1":page);  
+		        rows = (rows==null?"5":rows); 
+		        int curpage=Integer.parseInt(page);
+		        int pagesize=Integer.parseInt(rows);
+		        List<IpoDistribution> list=new ArrayList<IpoDistribution>();
+		        List<Distribution> list2=new ArrayList<Distribution>();
+		        list= ipoDistributionMapper.getAllByPage((curpage-1)*pagesize+1,curpage*pagesize);
+		        for(int i=0;i<list.size();i++){
+		        	Distribution distrib=new Distribution();
+		        	BeanUtils.copyProperties(list.get(i), distrib);
+		        	distrib.setPcounts(list.get(i).getPcounts());
+		        	distrib.setStartnumber(list.get(i).getStartnumber());
+		        	distrib.setPtime(list.get(i).getPtime());
+		        	list2.add(distrib);
+		        }
+		        return  list2;  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	  return null;
+    
 	}
 
 	@Override
 	public int getAllDistris() {
-		return ipoDistributionMapper.countByExample(new IpoDistributionExample());
+		try {
+			return ipoDistributionMapper.countByExample(new IpoDistributionExample());
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	/*

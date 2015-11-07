@@ -32,7 +32,7 @@
 		</div> -->
 		<div style="height:350px;">		 
 			  <table class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
-			            data-options="singleSelect:true,collapsible:false,nowrap:true,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
+			            data-options="singleSelect:true,collapsible:false,autoRowHeight:false,nowrap:true,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
 			                <th data-options="field:'commodityid',width:200">产品代码</th>
@@ -77,7 +77,7 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,collapsible:false,nowrap:true,pagination:true,pageSize:10,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
+            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
         <thead>
             <tr>
                 <th data-options="field:'commodityname',width:200">申购产品</th>
@@ -93,13 +93,15 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
 	$("#btn").bind('click',function(){
 		if($("#comname").text()==""){
 			$("#remind").text("请输入正确的商品编号！");
 			return;
 		}
-		//var datas =  [{"storeId":"0a1", "address":"西斗门路2号", "goods":[{"goodsId":"1"}, {"goodsId":"2"}, {"goodsId":"3"}]}] ;
+		if($("#quantity").val().length>9){
+			$("#remind").text("购买量过大！");
+			return;
+		}
 		var infos={ "userid":"${param.userID}","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
@@ -131,12 +133,6 @@ $(document).ready(function() {
 
 //日期转换
 function dateconvertfunc(value,row){
-         //  return new Date(value).toLocaleDateString(); //返回本地系统格式时间
-        /*    var date=new Date(value);
-        var year=date.getFullYear();
-        var month=date.getMonth()<9?'0'+(date.getMonth()+1):(date.getMonth()+1);
-        var day=date.getDate()<10?'0'+date.getDate():date.getDate(); 
-        return year+'-'+month+'-'+day;     JSON返回已做类型转换处理 */ 
         return value.substr(0,10);
 } 
 

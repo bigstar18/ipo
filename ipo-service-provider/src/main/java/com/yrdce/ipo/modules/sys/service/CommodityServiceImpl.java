@@ -36,23 +36,28 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public List<Commodity> findCommList(String page, String rows) {
-		page = (page == null ? "1" : page);
-		rows = (rows == null ? "5" : rows);
-		int curpage = Integer.parseInt(page);
-		int pagesize = Integer.parseInt(rows);
-		List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
-		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
-		for (int i = 0; i < commlist.size(); i++) {
-			Commodity commo = new Commodity();
-			BeanUtils.copyProperties(commlist.get(i), commo);
-			commo.setPrice(commlist.get(i).getPrice().doubleValue());
-			commo.setUnits(commlist.get(i).getUnits());
-			commo.setStarttime(commlist.get(i).getStarttime());
-			commo.setEndtime(commlist.get(i).getEndtime());
-			commlist2.add(commo);
+		try {
+			page = (page == null ? "1" : page);
+			rows = (rows == null ? "5" : rows);
+			int curpage = Integer.parseInt(page);
+			int pagesize = Integer.parseInt(rows);
+			List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
+			List<Commodity> commlist2 = new ArrayList<Commodity>();
+			commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+			for (int i = 0; i < commlist.size(); i++) {
+				Commodity commo = new Commodity();
+				BeanUtils.copyProperties(commlist.get(i), commo);
+				commo.setPrice(commlist.get(i).getPrice().doubleValue());
+				commo.setUnits(commlist.get(i).getUnits());
+				commo.setStarttime(commlist.get(i).getStarttime());
+				commo.setEndtime(commlist.get(i).getEndtime());
+				commlist2.add(commo);
+			}
+			return commlist2;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return commlist2;
+                   return  null;
 	}
 
 	@Override
@@ -72,7 +77,12 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public int getAllComms() {
-		return ipoCommodityMapper.countByExample(new IpoCommodityExample());
+		try {
+			return ipoCommodityMapper.countByExample(new IpoCommodityExample());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	/*
