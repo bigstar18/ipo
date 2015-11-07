@@ -36,25 +36,19 @@ public class PurchaseImpl implements Purchase {
 	@Autowired
 	private FFirmfundsMapper funds;
 	@Autowired
-	private IpoCommodityMapper Commodity;
+	private IpoCommodityMapper com;
 	@Autowired
 	private IpoOrderMapper order;
 	@Autowired
 	private TATradetimeMapper tat;
-	@Autowired
-	Distribution distribution;
-
-	// private JdbcTemplate jdbcT;
 
 	// 时间判断
-	public boolean isInDates(String sid) {
+	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
 		try {
-			IpoCommodity c = Commodity.selectByComid(sid);
+			IpoCommodity c = com.selectByComid(sId);
 			logger.info("获取开始时间");
 			Date ftime1 = c.getStarttime();
-			// Date ftime1 = new Date();//
-			// ????????????????????????????????????????????????????????????
 			Date times = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String ftime = sdf.format(ftime1);
@@ -90,29 +84,29 @@ public class PurchaseImpl implements Purchase {
 					if (now >= begin && now < finish) {
 						return true;
 					}
-					System.out.println("*************");
 				}
 			}
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+
 	}
 
 	// 申购
 	@Override
-	public int apply(String userid, String sid, Integer counts) {
+	public int apply(String userId, String sId, Integer counts) {
 		logger.info("进入申购方法");
 		try {
-			if (this.isInDates(sid)) {
+			if (this.isInDates(sId)) {
 				logger.info("进入时间判断");
-				if (this.repeat(userid, sid)) {
+				if (this.repeat(userId, sId)) {
 					logger.info("进入重复申购");
 					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = Commodity.selectByComid(sid);
+					IpoCommodity commodity = com.selectByComid(sId);
 					// 获取商品名称
 					String name = commodity.getCommodityname();
 					// 商品单价
@@ -121,11 +115,10 @@ public class PurchaseImpl implements Purchase {
 					logger.info("调用存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("monery", "");
-					param.put("userid", userid);
-					param.put("lock", 1);
+					param.put("userid", userId);
+					param.put("lock", 0);
 					funds.getMonery(param);
 					BigDecimal monery = (BigDecimal) param.get("monery");
-					// BigDecimal monery = CapitalDao.expendable(userid);
 					// int类型转换，购买几个单位
 					BigDecimal bigDecimal = new BigDecimal(counts);
 					// 1000为一单位
@@ -133,7 +126,6 @@ public class PurchaseImpl implements Purchase {
 					// 1单位价格
 					BigDecimal total = price.multiply(Unitprice);
 					// 申购消费总额
-					// BigDecimal allMonery1 = price.multiply(bigDecimal);
 					BigDecimal allMonery = bigDecimal.multiply(total);
 					// 申购判断
 					if (monery.compareTo(allMonery) != -1) {
@@ -142,16 +134,16 @@ public class PurchaseImpl implements Purchase {
 						Timestamp date = new Timestamp(
 								System.currentTimeMillis());
 						IpoOrder d = new IpoOrder();
-						d.setUserid(userid);
-						d.setCommodityid(sid);
+						d.setUserid(userId);
+						d.setCommodityid(sId);
 						d.setCommodityname(name);
 						d.setCounts(counts);
 						d.setCreatetime(date);
 						d.setFrozenfunds(allMonery);
 						order.insert(d);
-						this.frozen(userid, allMonery);
 
-						distribution.start();
+						this.frozen(userId, allMonery);
+
 						return 0;
 					} else {
 						return 2;
@@ -164,49 +156,40 @@ public class PurchaseImpl implements Purchase {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return 4;
 		}
-
-		return 0;
 	}
 
 	// 冻结资金
-	public BigDecimal frozen(String userid, BigDecimal allMonery) {
+	public BigDecimal frozen(String userId, BigDecimal allMonery) {
 		logger.info("调用冻结资金函数");
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
-		param.put("userid", userid);
-		param.put("amount", allMonery);
-		param.put("moduleid", "50");
-		funds.getfrozen(param);
-		BigDecimal monery = (BigDecimal) param.get("monery");
-		/*
-		 * final String id = userid; final BigDecimal monery = allMonery;
-		 * 
-		 * @SuppressWarnings("unchecked") Object param2Value = jdbcT.execute(new
-		 * CallableStatementCreator() { public CallableStatement
-		 * createCallableStatement(Connection con) throws SQLException { String
-		 * storedProc = "{?=call FN_F_UpdateFrozenFunds(?,?,?)}";// 调用的sql
-		 * CallableStatement cs = con.prepareCall(storedProc); cs.setString(2,
-		 * id);// 设置输入参数的值 cs.setBigDecimal(3, monery); cs.setString(4, 50 +
-		 * ""); cs.registerOutParameter(1, OracleTypes.NUMBER);// 注册输出参数的类型
-		 * return cs; } }, new CallableStatementCallback() { public Object
-		 * doInCallableStatement(CallableStatement cs) throws SQLException,
-		 * DataAccessException { cs.execute(); return cs.getInt(1);// 获取输出参数的值 }
-		 * });
-		 */
-		return monery;
+		float mony = allMonery.floatValue();
+		try {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("monery", "");
+			param.put("userid", userId);
+			param.put("amount", mony);
+			param.put("moduleid", "40");
+			System.out.println(new Date());
+			funds.getfrozen(param);
+			System.out.println(new Date());
+			BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
+			return monery;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new BigDecimal(0);
+		}
 	}
 
 	// 判断是重复申购
-	public boolean repeat(String userid, String sid) {
+	public boolean repeat(String userId, String sId) {
 		logger.info("查询商品重复申购 ");
-		IpoOrder ipoOrder = order.selectByid(userid, sid);
+		IpoOrder ipoOrder = order.selectByid(userId, sId);
 		if (ipoOrder != null) {
 			return false;
 		} else {
 			return true;
 		}
-
 	}
 
 }

@@ -283,7 +283,7 @@
     </select>
     
    <select id="selectAll" resultMap="BaseResultMap">
-   	select * from IPO_ORDER
+   	select * from IPO_ORDER order by createtime
    </select>
    
    <insert id="insertAll">
@@ -291,7 +291,7 @@
  		select SEQ_IPO_ORDER_H.NEXTVAL,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS from IPO_ORDER
    </insert>
    
-   <delete id="deleatAll">
+   <delete id="deleteAll">
    		truncate table IPO_ORDER
    </delete>
    

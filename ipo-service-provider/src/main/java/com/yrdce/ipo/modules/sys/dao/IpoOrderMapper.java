@@ -22,13 +22,16 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectByExample(IpoOrderExample example);
 
-	IpoOrder selectByPrimaryKey(int orderid);
+	IpoOrder selectFirst();
 
-	IpoOrder selectByid(@Param("userid") String userid, @Param("commodityid") String sid);
+	IpoOrder selectByid(@Param("userid") String userid,
+			@Param("commodityid") String sid);
 
-	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
+	int updateByExampleSelective(@Param("record") IpoOrder record,
+			@Param("example") IpoOrderExample example);
 
-	int updateByExample(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
+	int updateByExample(@Param("record") IpoOrder record,
+			@Param("example") IpoOrderExample example);
 
 	int updateByPrimaryKeySelective(IpoOrder record);
 
@@ -42,7 +45,9 @@ public interface IpoOrderMapper {
 
 	void insertAll();
 
-	void deleatAll();
+	void deleteAll();
 
 	int selectbysid(String sid);
+
+	IpoOrder selectByPrimaryKey(@Param("orderid") int orderid);
 }

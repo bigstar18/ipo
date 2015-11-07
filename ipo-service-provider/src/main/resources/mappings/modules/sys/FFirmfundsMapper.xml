@@ -246,7 +246,7 @@
   </select>
   
   <select id="getfrozen" statementType="CALLABLE" parameterType = "java.util.Map">
-  	{#{monery,mode=OUT,jdbcType=DECIMAL} = call FN_F_UpdateFrozenFunds(#{userid,mode=IN,jdbcType=VARCHAR},
-  	#{amount,mode=IN,jdbcType=DECIMAL},#{moduleid,mode=IN,jdbcType=CHAR})}
+  	{#{monery,mode=OUT,jdbcType=FLOAT} = call FN_F_UpdateFrozenFunds(#{userid,mode=IN,jdbcType=VARCHAR},
+  	#{amount,mode=IN,jdbcType=FLOAT},#{moduleid,mode=IN,jdbcType=CHAR})}
   </select>
 </mapper>

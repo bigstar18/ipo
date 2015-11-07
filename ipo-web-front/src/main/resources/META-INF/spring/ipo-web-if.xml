@@ -24,7 +24,7 @@
 
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
-
+      <dubbo:provider delay="-1" timeout="30000" retries="0"/>
      <dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
      <dubbo:reference id="purchase" interface="com.yrdce.ipo.modules.sys.service.Purchase" />
      <dubbo:reference id="displayService" interface="com.yrdce.ipo.modules.sys.service.DisplayService" />

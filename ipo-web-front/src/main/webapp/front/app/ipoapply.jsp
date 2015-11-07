@@ -77,7 +77,7 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums',method:'get'">
+            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=${param.userID  }',method:'get'">
         <thead>
             <tr>
                 <th data-options="field:'commodityname',width:200">申购产品</th>
@@ -102,6 +102,10 @@ $(document).ready(function() {
 			$("#remind").text("购买量过大！");
 			return;
 		}
+		if($("#quantity").val().length==0){
+			$("#remind").text("请输入购买量！");
+			return;
+		}
 		var infos={ "userid":"${param.userID}","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
@@ -122,6 +126,9 @@ $(document).ready(function() {
 	            }  
 	            if (data == "3") {  
 	            	$("#remind").text("您已提交订单，请勿重复操作！");
+	            }  
+	            if (data == "4") {  
+	            	$("#remind").text("提交订单失败！");
 	            }  
 	        },  
 	        error : function(data) {  

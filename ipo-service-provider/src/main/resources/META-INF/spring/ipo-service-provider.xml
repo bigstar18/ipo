@@ -31,7 +31,7 @@
 	</bean>
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
 	<dubbo:registry address="${dubbo.registry.address}" />
-
+    <dubbo:provider delay="-1" timeout="30000" retries="0"/>
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
 

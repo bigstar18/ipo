@@ -25,14 +25,14 @@ public class TaskMananeListener implements ServletContextListener {
 			timer.cancel();
 			logger.debug("Timer Canceled");
 		}
-		// timer.schedule(task, 0, 100);
 		logger.debug("contextDestroyed方法执行完成");
 
 	}
 
 	public void contextInitialized(ServletContextEvent arg0) {
 		logger.info("调用contextInitialized方法");
-		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(arg0.getServletContext()).getBean("taskmanage");
+		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(
+				arg0.getServletContext()).getBean("taskmanage");
 		try {
 
 			timer = new Timer(true);

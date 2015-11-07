@@ -17,7 +17,6 @@ import com.yrdce.ipo.modules.sys.vo.Commodity;
 @Transactional(readOnly = true)
 public class CommodityServiceImpl implements CommodityService {
 
-	
 	@Autowired
 	private IpoCommodityMapper ipoCommodityMapper;
 
@@ -31,7 +30,6 @@ public class CommodityServiceImpl implements CommodityService {
 
 	/*
 	 * 分页获取发售商品列表
-	 * 
 	 */
 
 	@Override
@@ -43,7 +41,8 @@ public class CommodityServiceImpl implements CommodityService {
 			int pagesize = Integer.parseInt(rows);
 			List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
 			List<Commodity> commlist2 = new ArrayList<Commodity>();
-			commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+			commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize
+					+ 1, curpage * pagesize);
 			for (int i = 0; i < commlist.size(); i++) {
 				Commodity commo = new Commodity();
 				BeanUtils.copyProperties(commlist.get(i), commo);
@@ -56,8 +55,8 @@ public class CommodityServiceImpl implements CommodityService {
 			return commlist2;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-                   return  null;
 	}
 
 	@Override
@@ -81,8 +80,8 @@ public class CommodityServiceImpl implements CommodityService {
 			return ipoCommodityMapper.countByExample(new IpoCommodityExample());
 		} catch (Exception e) {
 			e.printStackTrace();
+			return 0;
 		}
-		return 0;
 	}
 
 	/*
@@ -90,19 +89,25 @@ public class CommodityServiceImpl implements CommodityService {
 	 */
 	@Override
 	public List<Commodity> findAll() {
-		List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
-		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		commlist = ipoCommodityMapper.selectAll();
-		for (int i = 0; i < commlist.size(); i++) {
-			Commodity commo = new Commodity();
-			BeanUtils.copyProperties(commlist.get(i), commo);
-			commo.setPrice(commlist.get(i).getPrice().doubleValue());
-			commo.setUnits(commlist.get(i).getUnits());
-			commo.setStarttime(commlist.get(i).getStarttime());
-			commo.setEndtime(commlist.get(i).getEndtime());
-			commlist2.add(commo);
+		try {
+			List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
+			List<Commodity> commlist2 = new ArrayList<Commodity>();
+			commlist = ipoCommodityMapper.selectAll();
+			for (int i = 0; i < commlist.size(); i++) {
+				Commodity commo = new Commodity();
+				BeanUtils.copyProperties(commlist.get(i), commo);
+				commo.setPrice(commlist.get(i).getPrice().doubleValue());
+				commo.setUnits(commlist.get(i).getUnits());
+				commo.setStarttime(commlist.get(i).getStarttime());
+				commo.setEndtime(commlist.get(i).getEndtime());
+				commlist2.add(commo);
+			}
+			return commlist2;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return commlist2;
+
 	}
 
 }

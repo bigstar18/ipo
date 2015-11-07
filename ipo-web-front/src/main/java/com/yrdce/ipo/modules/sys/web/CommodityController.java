@@ -102,8 +102,8 @@ public class CommodityController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		}
-		return rows;
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class CommodityController extends BaseController {
 			return JSON.json(display);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		}
-		return null;
 	}
 
 	/**
@@ -143,8 +143,15 @@ public class CommodityController extends BaseController {
 			@RequestParam("userid") String userid,
 			@RequestParam("quantity") String quantity) {
 		log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity);
-		return purchase.apply(userid, commodityid, Integer.parseInt(quantity))
-				+ "";
+		try {
+			return purchase.apply(userid, commodityid,
+					Integer.parseInt(quantity))
+					+ "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+
 	}
 
 	/**
@@ -156,11 +163,13 @@ public class CommodityController extends BaseController {
 	 */
 	@RequestMapping(value = "/findApplyNums", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String findApplyNums(String page, String rows) throws IOException {
+	public String findApplyNums(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("userid") String userid) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
 			List<Distribution> dlist = new ArrayList<Distribution>();
-			dlist = distributionService.getDistriList(page, rows);
+			dlist = distributionService.getDistriList(page, rows, userid);
 			int totalnums = distributionService.getAllDistris();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -168,8 +177,9 @@ public class CommodityController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		}
-		return rows;
+
 	}
 
 }

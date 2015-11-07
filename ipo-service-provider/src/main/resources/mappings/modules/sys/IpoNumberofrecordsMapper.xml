@@ -206,11 +206,15 @@
   </select>
   
   <insert id="insertAll">
-  	insert into IPO_NUMBEROFRECORDS_H (ID,COMMODITYID,COUNST,NOWTIME)
-  	select SQE_IPO_NUMBEROFRECORDS_H.NEXTVAL,COMMODITYID,COUNST,NOWTIME from IPO_NUMBEROFRECORDS
+  	insert into IPO_NUMBEROFRECORDS_H (ID,COMMODITYID,COUNTS,NOWTIME)
+  	select SEQ_IPO_NUMBEROFRECORDS_H.NEXTVAL,COMMODITYID,COUNTS,NOWTIME from IPO_NUMBEROFRECORDS
   </insert>
   
-  <delete id="delectAll">
+  <delete id="deleteAll">
   	truncate table IPO_NUMBEROFRECORDS
   </delete>
+  
+  <select id="selectByAll" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(*) from IPO_NUMBEROFRECORDS
+  </select>
 </mapper>

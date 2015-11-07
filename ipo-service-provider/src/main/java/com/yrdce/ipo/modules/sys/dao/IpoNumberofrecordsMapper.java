@@ -25,9 +25,11 @@ public interface IpoNumberofrecordsMapper {
 
 	IpoNumberofrecords selectByPrimaryKey(Integer id);
 
-	int updateByExampleSelective(@Param("record") IpoNumberofrecords record, @Param("example") IpoNumberofrecordsExample example);
+	int updateByExampleSelective(@Param("record") IpoNumberofrecords record,
+			@Param("example") IpoNumberofrecordsExample example);
 
-	int updateByExample(@Param("record") IpoNumberofrecords record, @Param("example") IpoNumberofrecordsExample example);
+	int updateByExample(@Param("record") IpoNumberofrecords record,
+			@Param("example") IpoNumberofrecordsExample example);
 
 	int updateByPrimaryKeySelective(IpoNumberofrecords record);
 
@@ -39,5 +41,7 @@ public interface IpoNumberofrecordsMapper {
 
 	void insertAll();
 
-	void deleatAll();
+	void deleteAll();
+
+	int selectByAll();
 }
