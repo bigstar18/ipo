@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=GBK"
     pageEncoding="GBK"%>
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
+<%@page import="java.lang.String"%>    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%><html>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%String userId = ((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%> 
+<html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -54,7 +58,7 @@
 				    </form>
 				    <div class="infos">
 			        <h4>详细信息：</h4>
-			        <p>账户编号：<b >${param.userID  }</b></p>
+			        <p>账户编号：<b ><%=userId %></b></p>
 			        <p>申购产品：<b id="comname"></b></p>
 			        <p>保证金余额：<b id="money"></b></p>
 			        <p>可购买数量：<b id="counts"></b></p>
@@ -77,7 +81,7 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=${param.userID  }',method:'get'">
+            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
                 <th data-options="field:'commodityname',width:200">申购产品</th>
@@ -106,7 +110,7 @@ $(document).ready(function() {
 			$("#remind").text("请输入购买量！");
 			return;
 		}
-		var infos={ "userid":"${param.userID}","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
+		var infos={ "userid":"<%=userId %>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
 		    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
@@ -174,7 +178,7 @@ function showInfo(str){
     	  document.getElementById("limit").innerHTML="";
 	  }
     };
-           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&userid="+"${param.userID}",true);
+           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&userid="+"<%=userId %>",true);
            xmlhttp.send();
 }
 
