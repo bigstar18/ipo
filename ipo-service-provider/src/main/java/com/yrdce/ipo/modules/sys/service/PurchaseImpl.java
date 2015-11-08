@@ -57,11 +57,9 @@ public class PurchaseImpl implements Purchase {
 			if (ftime.equals(nowtimes) && ftime != null) {
 
 				// 获取数据库中共有几条时间记录
-				logger.info("获取交易节有几条记录");
-				int b = tat.selectbycount();
 				logger.info("获取交易节表信息");
 				List<TATradetime> list = tat.select();
-				for (int r = 0; r <= list.size(); r++) {
+				for (int r = 0; r < list.size(); r++) {
 					TATradetime tradetime = list.get(r);
 					String start = tradetime.getStarttime();
 					String end = tradetime.getEndtime();
@@ -75,11 +73,7 @@ public class PurchaseImpl implements Purchase {
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
 
-					long now = Long.parseLong(times.getHours() + ""
-							+ times.getMinutes() + "" + times.getSeconds());
-					System.out.println("开始时间" + begin);
-					System.out.println("结束时间" + finish);
-					System.out.println("时间" + now);
+					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds());
 
 					if (now >= begin && now < finish) {
 						return true;
@@ -131,8 +125,7 @@ public class PurchaseImpl implements Purchase {
 					if (monery.compareTo(allMonery) != -1) {
 						logger.info("进入资金判断");
 						// 当前时间
-						Timestamp date = new Timestamp(
-								System.currentTimeMillis());
+						Timestamp date = new Timestamp(System.currentTimeMillis());
 						IpoOrder d = new IpoOrder();
 						d.setUserid(userId);
 						d.setCommodityid(sId);
