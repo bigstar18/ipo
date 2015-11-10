@@ -279,16 +279,18 @@
     </select>
     
     <select id="select" resultType="java.lang.String">
-    	select distinct COMMODITYID from IPO_ORDER 
+    	select distinct COMMODITYID from IPO_ORDER where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}
     </select>
     
    <select id="selectAll" resultMap="BaseResultMap">
-   	select * from IPO_ORDER order by createtime
+   	select 
+   		<include refid="Base_Column_List" /> 
+   	from IPO_ORDER where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR} order by createtime
    </select>
    
    <insert id="insertAll">
  		insert into IPO_ORDER_H (ORDERID,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS)
- 		select SEQ_IPO_ORDER_H.NEXTVAL,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS from IPO_ORDER
+ 		select ORDERID,USERID,USERNAME,COMMODITYID,COMMODITYNAME,COUNTS,CREATETIME,FROZENFUNDS from IPO_ORDER
    </insert>
    
    <delete id="deleteAll">

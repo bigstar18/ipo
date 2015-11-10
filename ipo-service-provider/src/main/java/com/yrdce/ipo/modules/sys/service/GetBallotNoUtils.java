@@ -60,28 +60,22 @@ public class GetBallotNoUtils {
 		// 产品编号,中签号码,商品对应的中签号码
 		Map<String, String> commdityCorreSuccessNo = new HashMap<String, String>();
 		// 根据当前时间T-2调用查询所有商品列表Service------------------------------------------------------//调用高波的查询方法
-		List<IpoCommodity> ipoCommodityList = ipoCommdityMapper
-				.selectByExample(new IpoCommodityExample());// ***********************************
-		logger.info(">>>1. 查询所有商品列表 ipoCommdityMapper.selectAll()："
-				+ ipoCommodityList.size());
+		List<IpoCommodity> ipoCommodityList = ipoCommdityMapper.selectByExample(new IpoCommodityExample());// ***********************************
+		logger.info(">>>1. 查询所有商品列表 ipoCommdityMapper.selectAll()：" + ipoCommodityList.size());
 
 		// 根据当前时间T-2调用查询所有订单列表Service------------------------------------------------------//调用高波的查询方法
 		List<IpoOrder> ipoOrders = ipoOrderMapper.selectAll();
-		logger.info(">>>2. 查询所有订单列表 ipoOrderMapper.selectAll()："
-				+ ipoOrders.size());// ****************************************
+		logger.info(">>>2. 查询所有订单列表 ipoOrderMapper.selectAll()：" + ipoOrders.size());// ****************************************
 
 		// 查询订单表中的商品编号(去除重复的商品编号)
 		List<String> orderDistcommdityIdList = ipoOrderMapper.select();
-		logger.info(">>>3. 查询订单表中的商品编号 ipoOrderMapper.select();："
-				+ orderDistcommdityIdList.size());
+		logger.info(">>>3. 查询订单表中的商品编号 ipoOrderMapper.select();：" + orderDistcommdityIdList.size());
 
 		// 将订单中的商品编号存放到Map中
 		Map<String, String> commdityIdsMap = new HashMap<String, String>();
-		if (orderDistcommdityIdList != null
-				|| orderDistcommdityIdList.size() > 0) {
+		if (orderDistcommdityIdList != null || orderDistcommdityIdList.size() > 0) {
 			for (int i = 0; i < orderDistcommdityIdList.size(); i++)
-				commdityIdsMap.put(orderDistcommdityIdList.get(i),
-						orderDistcommdityIdList.get(i));
+				commdityIdsMap.put(orderDistcommdityIdList.get(i), orderDistcommdityIdList.get(i));
 		}
 		// 将订单表的商品编号和商品发布表商品编号进行匹配（确定此次发布的商品）
 		List<IpoCommodity> ipoCommoditys = new ArrayList<IpoCommodity>();
@@ -96,9 +90,8 @@ public class GetBallotNoUtils {
 
 		// ========1.
 		// 获取每个商品的中签率=====（此次发布的商品数量/当前申购所有商品单位数*1000）successRateMap<商品编号,中签率>
-		Map<String, String> successRateMap = GetSuccessRate
-				.getSuccessRateByApplyCount(ipoOrders, ipoCommoditys);// （此次申购的单位数,此次发布的商品数量
-																		// ）
+		Map<String, String> successRateMap = GetSuccessRate.getSuccessRateByApplyCount(ipoOrders, ipoCommoditys);// （此次申购的单位数,此次发布的商品数量
+																													// ）
 		if (successRateMap != null) {
 			for (String commdityId : successRateMap.keySet()) {
 
@@ -128,8 +121,7 @@ public class GetBallotNoUtils {
 				// 按照产品编号，中签号码,商品对应的中签号码顺序存放到Map中
 				commdityCorreSuccessNo.put(commdityId, successNoStr);
 			}
-			logger.info("根据中签率获取对应商品编号与中签号码,调用MathUtil.getRandomResult()方法得出中签号码："
-					+ commdityCorreSuccessNo);
+			logger.info("根据中签率获取对应商品编号与中签号码,调用MathUtil.getRandomResult()方法得出中签号码：" + commdityCorreSuccessNo);
 		}
 
 		// /////////////////////////////////////////////=======================以上业务已经全部通过===============================///////////////////////////////////////////////
@@ -138,12 +130,10 @@ public class GetBallotNoUtils {
 		// 需要根据时间-2天查询记录-----------------
 		// 查询配号表中所有配号信息
 		List<IpoDistribution> ipoDistrList = ipoDistrMapper.selectAll();
-		logger.info(">>> 查询配号表中配号信息 ipoDistrMapper.selectAll()数量："
-				+ ipoDistrList.size());
+		logger.info(">>> 查询配号表中配号信息 ipoDistrMapper.selectAll()数量：" + ipoDistrList.size());
 
 		// ==========3. 根据中签号码计算出用户商品对应的中签配号数量并且更新配号结果表===========
-		calculateCommdityOfUserSuccessNoCount(commdityCorreSuccessNo,
-				ipoDistrList);
+		calculateCommdityOfUserSuccessNoCount(commdityCorreSuccessNo, ipoDistrList);
 		logger.info("===3. 根据中签号码计算出用户商品对应的中签配号数量并且更新配号结果表 calculateCommdityOfUserSuccessNoCount 开始计算");
 
 		// ===========4. 取出商品编号，中签号码后三位数，中签起始位数，结束位数存放入列表=======
@@ -154,15 +144,13 @@ public class GetBallotNoUtils {
 				// 中签号码，格式“，”号隔开字符串
 				String ballotStr = commdityCorreSuccessNo.get(commdityId);
 				// 根据字符串截取 中签号码末三位数,中签号码起始位数，结束位数集合
-				Map<String, Map<Integer, Integer>> ballotNoStartEndNumMap = GetSuccessRate
-						.getBallotNoEndThree(ballotStr);
+				Map<String, Map<Integer, Integer>> ballotNoStartEndNumMap = GetSuccessRate.getBallotNoEndThree(ballotStr);
 				// 调用插入IPO_BALLOTNO_INFO表的Dao里面的插入方法----------------------------------------------------------
 				// 将产品编号和中签后三位数入库
 				if (ballotNoStartEndNumMap != null) {
 					for (String ballotNoThree : ballotNoStartEndNumMap.keySet()) {
 						// ballotNoThree末三位数
-						Map<Integer, Integer> ballotStartEndNumMap = ballotNoStartEndNumMap
-								.get(ballotNoThree);
+						Map<Integer, Integer> ballotStartEndNumMap = ballotNoStartEndNumMap.get(ballotNoThree);
 						// 中签信息对象
 						IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
 						if (ballotStartEndNumMap != null) {
@@ -171,12 +159,9 @@ public class GetBallotNoUtils {
 							ipoBallotNoInfo.setBallotno(ballotNoThree);
 							ipoBallotNoInfo.setCreatetime(new Date());
 							if (ballotStartEndNumMap != null) {
-								for (Integer start : ballotStartEndNumMap
-										.keySet()) {
+								for (Integer start : ballotStartEndNumMap.keySet()) {
 									ipoBallotNoInfo.setBallotnostartlen(start);
-									ipoBallotNoInfo
-											.setBallotnoendlen(ballotStartEndNumMap
-													.get(start));
+									ipoBallotNoInfo.setBallotnoendlen(ballotStartEndNumMap.get(start));
 								}
 							}
 						}
@@ -185,26 +170,22 @@ public class GetBallotNoUtils {
 				}
 			}
 		}
-		logger.info("取出商品编号，中签号码后三位数，中签起始位数，结束位数存放入ipoBallotNoInfoList列表："
-				+ ipoBallotNoInfoList);
+		logger.info("取出商品编号，中签号码后三位数，中签起始位数，结束位数存放入ipoBallotNoInfoList列表：" + ipoBallotNoInfoList);
 
 		// 5. =========将中签对象列表统一入库==========
 		if (ipoBallotNoInfoList != null || ipoBallotNoInfoList.size() > 0) {
 			for (int i = 0; i < ipoBallotNoInfoList.size(); i++) {
 				IpoBallotNoInfo ipobal = ipoBallotNoInfoList.get(i);
-				logger.info("===5. 将中签信息统一入库==" + "商品编号："
-						+ ipobal.getCommodityid() + "中签号："
-						+ ipobal.getBallotno() + ",中签起始位置："
-						+ ipobal.getBallotnostartlen() + "中签结束为位置："
-						+ ipobal.getBallotnoendlen());
+				logger.info("===5. 将中签信息统一入库==" + "商品编号：" + ipobal.getCommodityid() + "中签号：" + ipobal.getBallotno() + ",中签起始位置："
+						+ ipobal.getBallotnostartlen() + "中签结束为位置：" + ipobal.getBallotnoendlen());
 				// 调用入库方法------------------------------高波提供
 				ipoBallotNoInfoMapper.insert(ipobal);
 			}
 		}
 
 		// 6.=============暂时在此处处理，将订单表中数据存放到历史表中，然后移除订单表中数据========
-		ipoOrderMapper.insertAll();
-		ipoOrderMapper.deleteAll();
+		// ipoOrderMapper.insertAll();
+		// ipoOrderMapper.deleteAll();
 
 		ipoNumberOfrecordsMapper.insertAll();
 		ipoNumberOfrecordsMapper.deleteAll();
@@ -219,9 +200,7 @@ public class GetBallotNoUtils {
 	 * @param ipoDistrList
 	 *            配号信息表中所有记录
 	 */
-	public void calculateCommdityOfUserSuccessNoCount(
-			Map<String, String> commdityCorreSuccessNo,
-			List<IpoDistribution> ipoDistrList) {
+	public void calculateCommdityOfUserSuccessNoCount(Map<String, String> commdityCorreSuccessNo, List<IpoDistribution> ipoDistrList) {
 		if (ipoDistrList != null || ipoDistrList.size() > 0) {
 
 			for (int i = 0; i < ipoDistrList.size(); i++) {
@@ -281,8 +260,7 @@ public class GetBallotNoUtils {
 		while (f < distrNos.size()) {
 			// 获取每一个中签号码
 			String disNo = distrNos.get(f).toString();
-			String disNoDigit = disNo.substring(
-					disNo.length() - ballotNo.length(), disNo.length());
+			String disNoDigit = disNo.substring(disNo.length() - ballotNo.length(), disNo.length());
 			if (ballotNo.equals(disNoDigit)) {
 				ipoDisZcounts = ipoDisZcounts + 1;
 			}
@@ -294,18 +272,8 @@ public class GetBallotNoUtils {
 		// 根据用户编号，商品编号作为更新条件去更新中签数量
 		ipoDistrMapper.updateBycomAndUserid(ipoDis);
 
-		logger.info("ipoDistrMapper.updateBycomAndUserid(ipoDis)，根据用户编号，商品编号作为更新条件去更新中签数量,"
-				+ "中签号："
-				+ ballotNo
-				+ "，用户编号："
-				+ ipoDis.getUserid()
-				+ "，商品编号："
-				+ ipoDis.getCommodityid()
-				+ "，配号起始号："
-				+ ipoDis.getStartnumber()
-				+ "，配号数量："
-				+ ipoDis.getPcounts()
-				+ "，中签数量："
+		logger.info("ipoDistrMapper.updateBycomAndUserid(ipoDis)，根据用户编号，商品编号作为更新条件去更新中签数量," + "中签号：" + ballotNo + "，用户编号：" + ipoDis.getUserid()
+				+ "，商品编号：" + ipoDis.getCommodityid() + "，配号起始号：" + ipoDis.getStartnumber() + "，配号数量：" + ipoDis.getPcounts() + "，中签数量："
 				+ ipoDis.getZcounts());
 	}
 

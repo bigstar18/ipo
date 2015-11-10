@@ -25,29 +25,43 @@ public class DisplayServiceImpl implements DisplayService {
 	@Autowired
 	private FFirmfundsMapper funds;
 
-	public Display display(String userId, String sId) {
-		// 获得商品名称
-		IpoCommodity c = commodity.selectByComid(sId);
-		if (c != null) {
-			String name = c.getCommodityname();
-			// 获取可用资金
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("monery", "");
-			param.put("userid", userId);
-			funds.getMonery(param);
-			BigDecimal monery = (BigDecimal) param.get("monery");
-			// 获取商品单价
-			BigDecimal price = c.getPrice();
-			// 1000为一单位
-			BigDecimal Unitprice = new BigDecimal(1000);
-			// 1单位价格
-			BigDecimal total = price.multiply(Unitprice);
-			// 计算可购买多少单位
-			int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN))
-					.intValue();
+	public String userInfo(String userId) {
+		// 获取可用资金
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", userId);
+		funds.getMonery(param);
+		BigDecimal monery = (BigDecimal) param.get("monery");
+		String monery1 = monery + "";
+		return monery1;
+	}
 
-			Display display = new Display(sId, name, monery, number, 100000000);
-			return display;
+	public Display display(String sId, String monery1) {
+
+		if (sId != null && monery1 != null) {
+			String ID = sId.toUpperCase();
+			BigDecimal monery = new BigDecimal(monery1);
+			// 获得商品名称
+			IpoCommodity c = commodity.selectByComid(ID);
+			if (c != null) {
+				// String name = c.getCommodityname();
+				// 获取商品单价
+				BigDecimal price = c.getPrice();
+				// 获取配售单位
+				int units = c.getUnits();
+				BigDecimal Unitprice = new BigDecimal(units);
+				// 1单位价格
+				BigDecimal total = price.multiply(Unitprice);
+				// 计算可购买多少单位
+				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
+				// 获得申购额度
+				long purchaseCredits = c.getpurchaseCredits();
+
+				Display display = new Display(number, 100000000, units, price, purchaseCredits);
+				return display;
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}

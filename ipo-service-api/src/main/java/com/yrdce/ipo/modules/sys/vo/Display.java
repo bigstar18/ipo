@@ -8,18 +8,49 @@ public class Display {
 	private BigDecimal monery;
 	private int number;
 	private int limit;
+	private int units;
+	private BigDecimal price;
+	private long purchaseCredits;
 
 	public Display() {
 
 	}
 
-	public Display(String sid, String name, BigDecimal monery, int number, int limit) {
+	public Display(int number, int limit, int units, BigDecimal price, long purchaseCredits) {
 		super();
-		this.sid = sid;
-		this.name = name;
-		this.monery = monery;
+		// this.sid = sid;
+		// this.name = name;
+		// this.monery = monery;
 		this.number = number;
 		this.limit = limit;
+		this.units = units;
+		this.price = price;
+		this.purchaseCredits = purchaseCredits;
+
+	}
+
+	public long getPurchaseCredits() {
+		return purchaseCredits;
+	}
+
+	public void setPurchaseCredits(long purchaseCredits) {
+		this.purchaseCredits = purchaseCredits;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	public String getSid() {

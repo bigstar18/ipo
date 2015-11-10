@@ -31,8 +31,7 @@ public class TaskMananeListener implements ServletContextListener {
 
 	public void contextInitialized(ServletContextEvent arg0) {
 		logger.info("调用contextInitialized方法");
-		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(
-				arg0.getServletContext()).getBean("taskmanage");
+		task = (TimerTask) WebApplicationContextUtils.getWebApplicationContext(arg0.getServletContext()).getBean("taskmanage");
 		try {
 
 			timer = new Timer(true);
