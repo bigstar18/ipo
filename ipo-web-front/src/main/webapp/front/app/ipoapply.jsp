@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=GBK"
     pageEncoding="GBK"%>
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%>    
+<%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId = ((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%> 
-<html>
+<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -16,6 +15,7 @@
 	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
 	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+	<script src="js/apply.js"  type="text/javascript"></script>
 <style type="text/css">
 .panel{float:left}
 .infos{margin-top:13px}
@@ -31,20 +31,16 @@
 		<div class="content">在此展示投资者申购所需要的信息。</div>
 	</div>
 	<div class="col-xs-12">
-	<!-- 	<div class="col-xs-12 position">您当前的位置：
-			<span class="text-primary">IPO申购</span>
-		</div> -->
 		<div style="height:350px;">		 
-			  <table class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
-			            data-options="singleSelect:true,collapsible:false,autoRowHeight:false,nowrap:true,pagination:true,pageList:[10,15,20,25],fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
+			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
+			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
-			                <th data-options="field:'commodityid',width:200">产品代码</th>
-			                <th data-options="field:'commodityname',width:200">申购产品</th>
-			                <th data-options="field:'price',width:180">发售价格</th>
-			                <th data-options="field:'units',width:200">配售单位</th>
-			                <th data-options="field:'starttime',width:200,formatter:dateconvertfunc">发售日期</th>
-			                <th data-options="field:'endtime',width:200,formatter:dateconvertfunc">截止日期</th>
+			                <th data-options="field:'commodityid',width:160">产品代码</th>
+			                <th data-options="field:'commodityname',width:160">申购产品</th>
+			                <th data-options="field:'price',width:160">发售价格</th>
+			                <th data-options="field:'units',width:160">配售单位</th>
+			                <th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
 			            </tr>
 			        </thead>
 			    </table>
@@ -60,9 +56,11 @@
 			        <h4>详细信息：</h4>
 			        <p>账户编号：<b ><%=userId %></b></p>
 			        <p>申购产品：<b id="comname"></b></p>
-			        <p>保证金余额：<b id="money"></b></p>
+			        <p>可用资金：<b id="money"></b></p>
 			        <p>可购买数量：<b id="counts"></b></p>
 			        <p>申购额度：<b id="limit"></b></p>
+			        <input type="hidden"   id="price"/>
+			        <input type="hidden"   id="units"/>
 			      </div>
 			      <form class="form-inline" id="fm2" style="margin-top: 15px">
 				      <div class="form-group">
@@ -80,14 +78,14 @@
 		<div class="col-xs-12">
 		<br>
 			<div id="myTabContent" class="tab-content">
-		   <table class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,collapsible:false,nowrap:true,autoRowHeight:false,pagination:true,pageSize:10,fitColumns:true,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
+		   <table  id="mytb2" class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
+            data-options="singleSelect:true,nowrap:true,autoRowHeight:false,fitColumns:true,pagination:true,pageSize:10,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityname',width:200">申购产品</th>
-                <th data-options="field:'startnumber',width:180">起始配号</th>
-                <th data-options="field:'pcounts',width:200">配号数量</th>
-                <th data-options="field:'ptime',width:200,formatter:dateconvertfunc">配号时间</th>
+                <th data-options="field:'commodityname',width:300">申购产品</th>
+                <th data-options="field:'startnumber',width:300">起始配号</th>
+                <th data-options="field:'pcounts',width:300">配号数量</th>
+                <th data-options="field:'ptime',width:300,formatter:dateconvertfunc">配号时间</th>
             </tr>
         </thead>
     </table>
@@ -96,7 +94,34 @@
 	</div>
 <script type="text/javascript">
 
-$(document).ready(function() {
+<%-- $(document).ready(function() {
+	 var p = $('#mytb1').datagrid('getPager'); 
+	    $(p).pagination({ 
+	        pageSize: 10,//每页显示的记录条数，默认为10 
+	        pageList: [5,10,15],//可以设置每页记录条数的列表 
+	        beforePageText: '第',//页数文本框前显示的汉字 
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+	    });  
+	
+	
+	
+	
+	
+	
+   //获取用户保证金	
+	  $.ajax({  
+		    type: 'GET',  
+		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",  
+		    contentType: "application/json; charset=utf-8", 
+		    data:{"userid":"<%=userId %>"},  
+		    dataType: 'json',  
+		    async: true,  
+		    success : function(data, stats) {  
+	            $("#money").text(data);
+	        }    
+		});  
+
 	$("#btn").bind('click',function(){
 		if($("#comname").text()==""){
 			$("#remind").text("请输入正确的商品编号！");
@@ -110,6 +135,14 @@ $(document).ready(function() {
 			$("#remind").text("请输入购买量！");
 			return;
 		}
+		var price=$("#price").val();
+		var units=$("#units").val();
+		var num=$("#quantity").val();
+		var moneyneed=parseFloat(price)*parseInt(num)*parseInt(units);
+		var money= parseFloat( $("#money").text());
+		if(moneyneed>money){
+			$("#remind").text("资金不足！");
+		}else{
 		var infos={ "userid":"<%=userId %>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
@@ -119,7 +152,7 @@ $(document).ready(function() {
 		    dataType: 'json',  
 		    async: true,  
 		    success : function(data, stats) {  
-	            if (data == "0") {  
+		        if (data == "0") {  
 	            	$("#remind").text("提交订单成功！");
 	            }  
 	            if (data == "1") {  
@@ -139,6 +172,7 @@ $(document).ready(function() {
 	           // alert("请求失败");  
 	        }  
 		});  
+		}     
 	});
 });
 
@@ -147,14 +181,37 @@ function dateconvertfunc(value,row){
         return value.substr(0,10);
 } 
 
+function getDetail(index, data) {
+	  if (data) {
+		        $("#commodityid").val(data.commodityid);
+		        $("#comname").text(data.commodityname);
+		        $("#price").val(data.price);
+		        $("#units").val(data.units);
+		        var comid= data.commodityid;
+		  	  $.ajax({  
+				    type: 'GET',  
+				    url: "<%=request.getContextPath()%>/CommodityController/getInfos",  
+				    contentType: "application/json; charset=utf-8", 
+				    data:{"commodityid":comid,"money": $("#money").text()},  
+				    dataType: 'json',  
+				    async: true,  
+				    success : function(data, stats) {  
+			            $("#counts").text(data.number);
+			            $("#limit").text(data.limit);
+			        }    
+				});  
+	        }
+}
 //申购面板异步刷新
-function showInfo(str){
+ function showInfo(str){
             var xmlhttp;
           if (str.length==0) {
-        	  document.getElementById("comname").innerHTML="";
-        	  document.getElementById("money").innerHTML="";
+        	/*   document.getElementById("comname").innerHTML="";
         	  document.getElementById("counts").innerHTML="";
-        	  document.getElementById("limit").innerHTML="";
+        	  document.getElementById("limit").innerHTML=""; */
+        	   $("#comname").text("");
+	           $("#counts").text("");
+	           $("#limit").text("");
               return; 
            }
          if (window.XMLHttpRequest) {
@@ -165,23 +222,26 @@ function showInfo(str){
         	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 	               if( xmlhttp.responseText){
 	            	   var com=eval('(' + xmlhttp.responseText + ')');
-		           document.getElementById("comname").innerHTML=com.name;
-		           document.getElementById("money").innerHTML=com.monery;
+		        /*    document.getElementById("comname").innerHTML=com.name;
 		           document.getElementById("counts").innerHTML=com.number;
-		           document.getElementById("limit").innerHTML=com.limit;
+		           document.getElementById("limit").innerHTML=com.limit; */
+		           $("#comname").text(com.name);
+		           $("#counts").text(com.number);
+		           $("#limit").text(com.limit);
+		           $("#price").val(com.price);
+		           $("#units").val(com.units);
 	               }
 	         }
 	        else{
-		  document.getElementById("comname").innerHTML="";
-		  document.getElementById("money").innerHTML="";
-    	  document.getElementById("counts").innerHTML="";
-    	  document.getElementById("limit").innerHTML="";
+	        	   $("#comname").text("");
+		           $("#counts").text("");
+		           $("#limit").text("");
 	  }
     };
-           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&userid="+"<%=userId %>",true);
+           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&money="+$("#money").text(),true);
            xmlhttp.send();
 }
-
+ --%>
 
 </script>
 </div>

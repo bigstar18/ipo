@@ -266,9 +266,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-    select 
-    	<include refid="Base_Column_List" />
-     from (select t.*,rownum TNO from ipo_commodity t) a where a.TNO between  #{beginnum} and  #{endnum}
+  select * from (select t.*,rownum TNO from IPO_COMMODITY t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
@@ -281,7 +279,7 @@
     from  IPO_COMMODITY  where UPPER('COMMODITYID') = #{comid,jdbcType=VARCHAR} 
   </select>
   
-  <select id="selectByTime" resultMap="BaseResultMap">
+  <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
    	from IPO_COMMODITY where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}

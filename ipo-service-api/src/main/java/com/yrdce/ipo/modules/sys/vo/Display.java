@@ -10,13 +10,14 @@ public class Display {
 	private int limit;
 	private int units;
 	private BigDecimal price;
-	private long purchaseCredits;
+	private long purchaseCredits; // 申购额度
 
 	public Display() {
 
 	}
 
-	public Display(int number, int limit, int units, BigDecimal price, long purchaseCredits) {
+	public Display(int number, int limit, int units, BigDecimal price,
+			long purchaseCredits) {
 		super();
 		// this.sid = sid;
 		// this.name = name;
