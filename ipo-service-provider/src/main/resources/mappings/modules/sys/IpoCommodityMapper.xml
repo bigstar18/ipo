@@ -176,8 +176,8 @@
       <if test="endtime != null" >
         #{endtime,jdbcType=DATE},
       </if>
-      <if>
-      	#{purchasecredits,jdbcType=BIGINT}
+      <if test="purchaseCredits != null">
+      	#{purchaseCredits,jdbcType=BIGINT}
       </if>
     </trim>
   </insert>

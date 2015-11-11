@@ -107,6 +107,8 @@ public class PurchaseImpl implements Purchase {
 					String name = commodity.getCommodityname();
 					// 商品单价
 					BigDecimal price = commodity.getPrice();
+					// 获取申购额度
+					long e = commodity.getPurchaseCredits();
 					// 获取客户可用资金
 					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
@@ -123,25 +125,30 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal total = price.multiply(Unitprice);
 					// 申购消费总额
 					BigDecimal allMonery = bigDecimal.multiply(total);
-					// 申购判断
-					if (monery.compareTo(allMonery) != -1) {
-						logger.info("进入资金判断");
-						// 当前时间
-						Timestamp date = new Timestamp(System.currentTimeMillis());
-						IpoOrder d = new IpoOrder();
-						d.setUserid(userId);
-						d.setCommodityid(sId);
-						d.setCommodityname(name);
-						d.setCounts(counts);
-						d.setCreatetime(date);
-						d.setFrozenfunds(allMonery);
-						order.insert(d);
+					// 申购额度判断
+					if (counts > e) {
+						// 申购资金判断
+						if (monery.compareTo(allMonery) != -1) {
+							logger.info("进入资金判断");
+							// 当前时间
+							Timestamp date = new Timestamp(System.currentTimeMillis());
+							IpoOrder d = new IpoOrder();
+							d.setUserid(userId);
+							d.setCommodityid(sId);
+							d.setCommodityname(name);
+							d.setCounts(counts);
+							d.setCreatetime(date);
+							d.setFrozenfunds(allMonery);
+							order.insert(d);
 
-						this.frozen(userId, allMonery);
+							this.frozen(userId, allMonery);
 
-						return 0;
+							return 0;
+						} else {
+							return 2;
+						}
 					} else {
-						return 2;
+						return 5;
 					}
 				} else {
 					return 3;
