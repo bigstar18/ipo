@@ -61,7 +61,8 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public Commodity getCommodity(String commId) {
-		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commId);
+		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commId
+				.toUpperCase());
 		if (ipoCom == null) {
 			return null;
 		}
