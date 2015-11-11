@@ -23,13 +23,13 @@ public class IpoCommodity {
 
 	private Date endtime;// 截止日期
 
-	private long purchaseCredits;// 申购额度
+	private int purchaseCredits;// 申购额度
 
-	public long getpurchaseCredits() {
+	public int getPurchaseCredits() {
 		return purchaseCredits;
 	}
 
-	public void setpurchaseCredits(long purchaseCredits) {
+	public void setPurchaseCredits(int purchaseCredits) {
 		this.purchaseCredits = purchaseCredits;
 	}
 
@@ -54,7 +54,8 @@ public class IpoCommodity {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
+		this.commodityname = commodityname == null ? null : commodityname
+				.trim();
 	}
 
 	public BigDecimal getPrice() {

@@ -69,6 +69,7 @@ public class PurchaseImpl implements Purchase {
 					// 获取当前时间
 					if (i != 1)
 						continue;
+					logger.info("获取交易状态" + i);
 
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
@@ -93,20 +94,21 @@ public class PurchaseImpl implements Purchase {
 	public int apply(String userId, String sId, Integer counts) {
 		logger.info("进入申购方法");
 		try {
-			if (this.isInDates(sId)) {
+			String ID = sId.toUpperCase();
+			if (this.isInDates(ID)) {
 				logger.info("进入时间判断");
 				if (this.repeat(userId, sId)) {
 					logger.info("进入重复申购");
 					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = com.selectByComid(sId);
+					IpoCommodity commodity = com.selectByComid(ID);
 					// 获取商品名称
 					String name = commodity.getCommodityname();
 					// 商品单价
 					BigDecimal price = commodity.getPrice();
 					// 获取客户可用资金
-					logger.info("调用存储函数");
+					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("monery", "");
 					param.put("userid", userId);

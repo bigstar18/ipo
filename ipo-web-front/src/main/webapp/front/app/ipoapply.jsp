@@ -4,7 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%><html>
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -15,11 +16,10 @@
 	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
 	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-	<script src="js/apply.js"  type="text/javascript"></script>
 <style type="text/css">
 .panel{float:left}
-.infos{margin-top:13px}
-.infos h4{margin-top: 13px; margin-bottom: 13px}
+.infos{margin-top:10px}
+.infos h4{margin-top: 10px; margin-bottom: 13px}
 .infos p{ margin-bottom: 13px}
 </style>
 </head>
@@ -32,7 +32,7 @@
 	</div>
 	<div class="col-xs-12">
 		<div style="height:350px;">		 
-			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
+			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:70%;height:365px;"
 			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
@@ -45,7 +45,7 @@
 			        </thead>
 			    </table>
 			
-			    <div class="easyui-panel"   title="投资者申购信息"  style="width:35%;height:365px;padding:10px;">
+			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:365px;padding:10px;overflow:hidden;">
 				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
 				      <div class="form-group">
 				        <label>产品代码：</label>
@@ -54,22 +54,24 @@
 				    </form>
 				    <div class="infos">
 			        <h4>详细信息：</h4>
-			        <p>账户编号：<b ><%=userId %></b></p>
+			        <p>账户编号：<b id="userId"><%=userId %></b></p>
 			        <p>申购产品：<b id="comname"></b></p>
 			        <p>可用资金：<b id="money"></b></p>
 			        <p>可购买数量：<b id="counts"></b></p>
 			        <p>申购额度：<b id="limit"></b></p>
 			        <input type="hidden"   id="price"/>
 			        <input type="hidden"   id="units"/>
+			         <input type="hidden"   id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo"/>
+			         <input type="hidden"   id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos"/>
 			      </div>
-			      <form class="form-inline" id="fm2" style="margin-top: 15px">
+			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
 				      <div class="form-group">
 				        <label style="width: 70px">购买量：</label>
 				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
 				      </div>
 				    </form>
 				     <div>
-				     <button type="button"  id="btn"  style="margin-top:15px;float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 60px; height:40px;margin-left: 20px;"></b>	  
+				     <button type="button"  id="btn"  style="float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 30px; height:40px;margin-left: 20px;"></b>	  
 				    </div>
 				    </div>
 			</div>
@@ -94,21 +96,25 @@
 	</div>
 <script type="text/javascript">
 
-<%-- $(document).ready(function() {
-	 var p = $('#mytb1').datagrid('getPager'); 
-	    $(p).pagination({ 
-	        pageSize: 10,//每页显示的记录条数，默认为10 
-	        pageList: [5,10,15],//可以设置每页记录条数的列表 
-	        beforePageText: '第',//页数文本框前显示的汉字 
+$(document).ready(function() {
+	 var p1 = $('#mytb1').datagrid('getPager'); 
+	    $(p1).pagination({ 
+	        pageSize: 10,
+	        pageList: [5,10,15],
+	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
 	    });  
-	
-	
-	
-	
-	
-	
+	    
+	 var p2 = $('#mytb2').datagrid('getPager'); 
+	    $(p2).pagination({ 
+	        pageSize: 10,
+	        pageList: [5,10,15],
+	        beforePageText: '第',
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+	    }); 
+
    //获取用户保证金	
 	  $.ajax({  
 		    type: 'GET',  
@@ -169,7 +175,7 @@
 	            }  
 	        },  
 	        error : function(data) {  
-	           // alert("请求失败");  
+	        	$("#remind").text("系统出现异常，请重试！");
 	        }  
 		});  
 		}     
@@ -180,7 +186,7 @@
 function dateconvertfunc(value,row){
         return value.substr(0,10);
 } 
-
+//联动
 function getDetail(index, data) {
 	  if (data) {
 		        $("#commodityid").val(data.commodityid);
@@ -197,7 +203,7 @@ function getDetail(index, data) {
 				    async: true,  
 				    success : function(data, stats) {  
 			            $("#counts").text(data.number);
-			            $("#limit").text(data.limit);
+			            $("#limit").text(data.purchaseCredits);
 			        }    
 				});  
 	        }
@@ -206,9 +212,6 @@ function getDetail(index, data) {
  function showInfo(str){
             var xmlhttp;
           if (str.length==0) {
-        	/*   document.getElementById("comname").innerHTML="";
-        	  document.getElementById("counts").innerHTML="";
-        	  document.getElementById("limit").innerHTML=""; */
         	   $("#comname").text("");
 	           $("#counts").text("");
 	           $("#limit").text("");
@@ -222,12 +225,9 @@ function getDetail(index, data) {
         	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 	               if( xmlhttp.responseText){
 	            	   var com=eval('(' + xmlhttp.responseText + ')');
-		        /*    document.getElementById("comname").innerHTML=com.name;
-		           document.getElementById("counts").innerHTML=com.number;
-		           document.getElementById("limit").innerHTML=com.limit; */
 		           $("#comname").text(com.name);
 		           $("#counts").text(com.number);
-		           $("#limit").text(com.limit);
+		           $("#limit").text(com.purchaseCredits);
 		           $("#price").val(com.price);
 		           $("#units").val(com.units);
 	               }
@@ -241,8 +241,6 @@ function getDetail(index, data) {
            xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&money="+$("#money").text(),true);
            xmlhttp.send();
 }
- --%>
-
 </script>
 </div>
 </body>

@@ -44,7 +44,7 @@ public class DisplayServiceImpl implements DisplayService {
 			// 获得商品名称
 			IpoCommodity c = commodity.selectByComid(ID);
 			if (c != null) {
-				// String name = c.getCommodityname();
+				String name = c.getCommodityname();
 				// 获取商品单价
 				BigDecimal price = c.getPrice();
 				// 获取配售单位
@@ -53,11 +53,14 @@ public class DisplayServiceImpl implements DisplayService {
 				// 1单位价格
 				BigDecimal total = price.multiply(Unitprice);
 				// 计算可购买多少单位
-				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
+				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN))
+						.intValue();
 				// 获得申购额度
-				long purchaseCredits = c.getpurchaseCredits();
+				long purchaseCredits = c.getPurchaseCredits();
 
-				Display display = new Display(number, 100000000, units, price, purchaseCredits);
+				Display display = new Display(name, number, units, price,
+						purchaseCredits);
+
 				return display;
 			} else {
 				return null;
