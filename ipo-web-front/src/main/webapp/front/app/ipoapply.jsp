@@ -4,7 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%><html>
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -17,8 +18,8 @@
 	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <style type="text/css">
 .panel{float:left}
-.infos{margin-top:13px}
-.infos h4{margin-top: 13px; margin-bottom: 13px}
+.infos{margin-top:10px}
+.infos h4{margin-top: 10px; margin-bottom: 13px}
 .infos p{ margin-bottom: 13px}
 </style>
 </head>
@@ -31,7 +32,7 @@
 	</div>
 	<div class="col-xs-12">
 		<div style="height:350px;">		 
-			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:65%;height:365px;"
+			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:70%;height:365px;"
 			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
@@ -44,7 +45,7 @@
 			        </thead>
 			    </table>
 			
-			    <div class="easyui-panel"   title="投资者申购信息"  style="width:35%;height:365px;padding:10px;">
+			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:365px;padding:10px;overflow:hidden;">
 				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
 				      <div class="form-group">
 				        <label>产品代码：</label>
@@ -63,14 +64,14 @@
 			         <input type="hidden"   id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo"/>
 			         <input type="hidden"   id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos"/>
 			      </div>
-			      <form class="form-inline" id="fm2" style="margin-top: 15px">
+			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
 				      <div class="form-group">
 				        <label style="width: 70px">购买量：</label>
 				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
 				      </div>
 				    </form>
 				     <div>
-				     <button type="button"  id="btn"  style="margin-top:15px;float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 60px; height:40px;margin-left: 20px;"></b>	  
+				     <button type="button"  id="btn"  style="float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 30px; height:40px;margin-left: 20px;"></b>	  
 				    </div>
 				    </div>
 			</div>
