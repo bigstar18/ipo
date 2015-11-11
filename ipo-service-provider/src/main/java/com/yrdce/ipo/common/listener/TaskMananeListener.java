@@ -38,8 +38,8 @@ public class TaskMananeListener implements ServletContextListener {
 			GregorianCalendar now = new GregorianCalendar();
 			// HOUR_OF_DAY( 用于 24 小时制时钟)
 			// WEEK_OF_YEAR(第一个星期为1)
-			now.set(Calendar.HOUR_OF_DAY, 0);
-			now.set(Calendar.MINUTE, 10);
+			now.set(Calendar.HOUR_OF_DAY, 17);
+			now.set(Calendar.MINUTE, 20);
 			now.set(Calendar.SECOND, 0);
 			timer.schedule(task, now.getTime());
 

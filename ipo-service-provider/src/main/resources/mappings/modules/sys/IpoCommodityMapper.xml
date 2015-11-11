@@ -147,6 +147,9 @@
       <if test="endtime != null" >
         ENDTIME,
       </if>
+      <if test="purchasecredits != null">
+      	purchasecredits,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,6 +175,9 @@
       </if>
       <if test="endtime != null" >
         #{endtime,jdbcType=DATE},
+      </if>
+      <if>
+      	#{purchasecredits,jdbcType=BIGINT}
       </if>
     </trim>
   </insert>
@@ -208,6 +214,9 @@
       <if test="record.endtime != null" >
         ENDTIME = #{record.endtime,jdbcType=DATE},
       </if>
+      <if test="record.purchasecredits != null">
+      	PURCHASECREDITS = #{record.purchasecredits,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -222,7 +231,8 @@
       UNITS = #{record.units,jdbcType=INTEGER},
       COUNTS = #{record.counts,jdbcType=INTEGER},
       STARTTIME = #{record.starttime,jdbcType=DATE},
-      ENDTIME = #{record.endtime,jdbcType=DATE}
+      ENDTIME = #{record.endtime,jdbcType=DATE},
+      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -251,6 +261,9 @@
       <if test="endtime != null" >
         ENDTIME = #{endtime,jdbcType=DATE},
       </if>
+      <if test="purchasecredits!= null">
+      	PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT}
+      </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -262,11 +275,12 @@
       UNITS = #{units,jdbcType=INTEGER},
       COUNTS = #{counts,jdbcType=INTEGER},
       STARTTIME = #{starttime,jdbcType=DATE},
-      ENDTIME = #{endtime,jdbcType=DATE}
+      ENDTIME = #{endtime,jdbcType=DATE},
+      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT}
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select * from (select t.*,rownum TNO from IPO_COMMODITY t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 

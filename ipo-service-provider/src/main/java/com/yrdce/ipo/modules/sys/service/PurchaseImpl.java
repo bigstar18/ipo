@@ -69,12 +69,12 @@ public class PurchaseImpl implements Purchase {
 					// 获取当前时间
 					if (i != 1)
 						continue;
+					logger.info("获取交易状态" + i);
 
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
 
-					long now = Long.parseLong(times.getHours() + ""
-							+ times.getMinutes() + "" + times.getSeconds());
+					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds());
 
 					if (now >= begin && now < finish) {
 						return true;
@@ -102,14 +102,13 @@ public class PurchaseImpl implements Purchase {
 					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = com.selectByComid(sId
-							.toUpperCase());
+					IpoCommodity commodity = com.selectByComid(ID);
 					// 获取商品名称
 					String name = commodity.getCommodityname();
 					// 商品单价
 					BigDecimal price = commodity.getPrice();
 					// 获取客户可用资金
-					logger.info("调用存储函数");
+					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("monery", "");
 					param.put("userid", userId);
@@ -128,8 +127,7 @@ public class PurchaseImpl implements Purchase {
 					if (monery.compareTo(allMonery) != -1) {
 						logger.info("进入资金判断");
 						// 当前时间
-						Timestamp date = new Timestamp(
-								System.currentTimeMillis());
+						Timestamp date = new Timestamp(System.currentTimeMillis());
 						IpoOrder d = new IpoOrder();
 						d.setUserid(userId);
 						d.setCommodityid(sId);
