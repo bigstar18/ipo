@@ -335,13 +335,21 @@
       	NUMBERS = #{numbers,jdbcType=BLOB}
       	where COMMODITYID = #{commodityid,jdbcType=VARCHAR} and USERID = #{userid,jdbcType=VARCHAR}
   </update>
-   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-    select * from (select t.*,rownum TNO from IPO_DISTRIBUTION t where t.USERID = #{userid,jdbcType=VARCHAR} ) a where a.TNO between  #{beginnum} and  #{endnum}
+  <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
+    select 
+    <include refid="Base_Column_List" /> 
+    from (select t.*,rownum TNO from IPO_DISTRIBUTION t where t.USERID = #{userid,jdbcType=VARCHAR} ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
      <include refid="Base_Column_List" />
      from IPO_DISTRIBUTION
   </select>
+  
+  <select id="selectByTime" resultMap="BaseResultMap">
+   	select 
+   		<include refid="Base_Column_List" /> 
+   	from IPO_DISTRIBUTION where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}
+   </select>
 
 </mapper>

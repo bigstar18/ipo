@@ -37,4 +37,6 @@ public interface IpoCommodityMapper {
 	int updateByPrimaryKeySelective(IpoCommodity record);
 
 	int updateByPrimaryKey(IpoCommodity record);
+
+	List<IpoCommodity> selectAll(String date);
 }
