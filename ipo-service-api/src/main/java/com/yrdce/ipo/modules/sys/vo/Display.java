@@ -7,7 +7,6 @@ public class Display {
 	private String name;
 	private BigDecimal monery;
 	private int number;
-	private int limit;
 	private int units;
 	private BigDecimal price;
 	private long purchaseCredits; // 申购额度
@@ -16,14 +15,13 @@ public class Display {
 
 	}
 
-	public Display(int number, int limit, int units, BigDecimal price,
+	public Display(String name, int number, int units, BigDecimal price,
 			long purchaseCredits) {
 		super();
 		// this.sid = sid;
-		// this.name = name;
+		this.name = name;
 		// this.monery = monery;
 		this.number = number;
-		this.limit = limit;
 		this.units = units;
 		this.price = price;
 		this.purchaseCredits = purchaseCredits;
@@ -84,14 +82,6 @@ public class Display {
 
 	public void setNumber(int number) {
 		this.number = number;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
 	}
 
 }

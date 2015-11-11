@@ -10,7 +10,7 @@
     <result column="COUNTS" property="counts" jdbcType="INTEGER" />
     <result column="STARTTIME" property="starttime" jdbcType="DATE" />
     <result column="ENDTIME" property="endtime" jdbcType="DATE" />
-    <result column="PURCHASECREDITS" property="purchasecredits" jdbcType="BIGINT"/>
+    <result column="PURCHASECREDITS" property="purchaseCredits" jdbcType="BIGINT"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -113,7 +113,7 @@
     <include refid="Base_Column_List" />
     values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=INTEGER}, #{counts,jdbcType=INTEGER}, 
-      #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE},#{purchasecredits,jdbcType=BIGINT})
+      #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE},#{purchaseCredits,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="ID" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     <selectKey resultType="String" order="BEFORE" keyProperty="ID">
@@ -276,7 +276,7 @@
    <select id="selectByComid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
      <include refid="Base_Column_List" />
-    from  IPO_COMMODITY  where UPPER('COMMODITYID') = #{comid,jdbcType=VARCHAR} 
+    from  IPO_COMMODITY  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} 
   </select>
   
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">

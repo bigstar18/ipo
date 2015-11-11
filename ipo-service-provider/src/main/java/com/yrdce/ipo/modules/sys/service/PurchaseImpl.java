@@ -46,7 +46,7 @@ public class PurchaseImpl implements Purchase {
 	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
 		try {
-			IpoCommodity c = com.selectByComid(sId);
+			IpoCommodity c = com.selectByComid(sId.toUpperCase());
 			logger.info("获取开始时间");
 			Date ftime1 = c.getStarttime();
 			Date times = new Date();
@@ -73,7 +73,8 @@ public class PurchaseImpl implements Purchase {
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
 
-					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds());
+					long now = Long.parseLong(times.getHours() + ""
+							+ times.getMinutes() + "" + times.getSeconds());
 
 					if (now >= begin && now < finish) {
 						return true;
@@ -93,14 +94,16 @@ public class PurchaseImpl implements Purchase {
 	public int apply(String userId, String sId, Integer counts) {
 		logger.info("进入申购方法");
 		try {
-			if (this.isInDates(sId)) {
+			String ID = sId.toUpperCase();
+			if (this.isInDates(ID)) {
 				logger.info("进入时间判断");
 				if (this.repeat(userId, sId)) {
 					logger.info("进入重复申购");
 					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = com.selectByComid(sId);
+					IpoCommodity commodity = com.selectByComid(sId
+							.toUpperCase());
 					// 获取商品名称
 					String name = commodity.getCommodityname();
 					// 商品单价
@@ -125,7 +128,8 @@ public class PurchaseImpl implements Purchase {
 					if (monery.compareTo(allMonery) != -1) {
 						logger.info("进入资金判断");
 						// 当前时间
-						Timestamp date = new Timestamp(System.currentTimeMillis());
+						Timestamp date = new Timestamp(
+								System.currentTimeMillis());
 						IpoOrder d = new IpoOrder();
 						d.setUserid(userId);
 						d.setCommodityid(sId);
