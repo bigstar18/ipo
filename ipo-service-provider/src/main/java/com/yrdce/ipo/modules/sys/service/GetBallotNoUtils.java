@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
@@ -60,15 +61,15 @@ public class GetBallotNoUtils {
 		// 产品编号,中签号码,商品对应的中签号码
 		Map<String, String> commdityCorreSuccessNo = new HashMap<String, String>();
 		// 根据当前时间T-2调用查询所有商品列表Service------------------------------------------------------//调用高波的查询方法
-		List<IpoCommodity> ipoCommodityList = ipoCommdityMapper.selectByExample(new IpoCommodityExample());// ***********************************
+		List<IpoCommodity> ipoCommodityList = ipoCommdityMapper.selectByTime(DateUtil.getTime(2));// ***********************************
 		logger.info(">>>1. 查询所有商品列表 ipoCommdityMapper.selectAll()：" + ipoCommodityList.size());
 
 		// 根据当前时间T-2调用查询所有订单列表Service------------------------------------------------------//调用高波的查询方法
-		List<IpoOrder> ipoOrders = ipoOrderMapper.selectAll();
+		List<IpoOrder> ipoOrders = ipoOrderMapper.selectAll(DateUtil.getTime(2));
 		logger.info(">>>2. 查询所有订单列表 ipoOrderMapper.selectAll()：" + ipoOrders.size());// ****************************************
 
 		// 查询订单表中的商品编号(去除重复的商品编号)
-		List<String> orderDistcommdityIdList = ipoOrderMapper.select();
+		List<String> orderDistcommdityIdList = ipoOrderMapper.select(DateUtil.getTime(2));
 		logger.info(">>>3. 查询订单表中的商品编号 ipoOrderMapper.select();：" + orderDistcommdityIdList.size());
 
 		// 将订单中的商品编号存放到Map中
@@ -129,7 +130,7 @@ public class GetBallotNoUtils {
 		// -----------------------------------根据系统时间T-2获取配号信息（高波）后期修改优化ipoDistrMapper.selectAll()
 		// 需要根据时间-2天查询记录-----------------
 		// 查询配号表中所有配号信息
-		List<IpoDistribution> ipoDistrList = ipoDistrMapper.selectAll();
+		List<IpoDistribution> ipoDistrList = ipoDistrMapper.selectByTime(DateUtil.getTime(1));
 		logger.info(">>> 查询配号表中配号信息 ipoDistrMapper.selectAll()数量：" + ipoDistrList.size());
 
 		// ==========3. 根据中签号码计算出用户商品对应的中签配号数量并且更新配号结果表===========
@@ -187,9 +188,9 @@ public class GetBallotNoUtils {
 		// ipoOrderMapper.insertAll();
 		// ipoOrderMapper.deleteAll();
 
-		ipoNumberOfrecordsMapper.insertAll();
-		ipoNumberOfrecordsMapper.deleteAll();
-		logger.info("6. 暂时在此处处理，将订单表中数据存放到历史表中，然后移除订单表中数据.");
+//		ipoNumberOfrecordsMapper.insertAll();
+//		ipoNumberOfrecordsMapper.deleteAll();
+//		logger.info("6. 暂时在此处处理，将订单表中数据存放到历史表中，然后移除订单表中数据.");
 	}
 
 	/**
