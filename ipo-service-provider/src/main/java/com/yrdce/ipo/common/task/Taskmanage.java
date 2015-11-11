@@ -79,7 +79,7 @@ public class Taskmanage extends TimerTask {
 					frecord.setCounts(BigDecimal.valueOf(0));
 					frecord.setNowtime(date);
 					unmberofrecord.insert(frecord);
-					System.out.println(sid);
+					// System.out.println(sid);
 				}
 				// }
 				// }

@@ -346,7 +346,7 @@
      from IPO_DISTRIBUTION
   </select>
   
-  <select id="selectByTime" resultMap="BaseResultMap">
+  <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
    	from IPO_DISTRIBUTION where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}
