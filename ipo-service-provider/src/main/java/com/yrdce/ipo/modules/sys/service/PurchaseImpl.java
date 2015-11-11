@@ -46,7 +46,7 @@ public class PurchaseImpl implements Purchase {
 	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
 		try {
-			IpoCommodity c = com.selectByComid(sId);
+			IpoCommodity c = com.selectByComid(sId.toUpperCase());
 			logger.info("获取开始时间");
 			Date ftime1 = c.getStarttime();
 			Date times = new Date();
