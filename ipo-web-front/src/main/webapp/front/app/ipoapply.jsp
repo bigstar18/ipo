@@ -173,9 +173,12 @@ $(document).ready(function() {
 	            if (data == "4") {  
 	            	$("#remind").text("提交订单失败！");
 	            }  
+	            if (data == "5") {  
+	            	$("#remind").text("超出商品申购额度！");
+	            }  
 	        },  
 	        error : function(data) {  
-	        	$("#remind").text("系统出现异常，请重试！");
+	        	$("#remind").text("系统出现异常，请重新登陆！");
 	        }  
 		});  
 		}     
@@ -193,6 +196,7 @@ function getDetail(index, data) {
 		        $("#comname").text(data.commodityname);
 		        $("#price").val(data.price);
 		        $("#units").val(data.units);
+		        $("#remind").text("");
 		        var comid= data.commodityid;
 		  	  $.ajax({  
 				    type: 'GET',  
@@ -215,6 +219,7 @@ function getDetail(index, data) {
         	   $("#comname").text("");
 	           $("#counts").text("");
 	           $("#limit").text("");
+	           $("#remind").text("");
               return; 
            }
          if (window.XMLHttpRequest) {
@@ -236,6 +241,7 @@ function getDetail(index, data) {
 	        	   $("#comname").text("");
 		           $("#counts").text("");
 		           $("#limit").text("");
+		           $("#remind").text("");
 	  }
     };
            xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&money="+$("#money").text(),true);
