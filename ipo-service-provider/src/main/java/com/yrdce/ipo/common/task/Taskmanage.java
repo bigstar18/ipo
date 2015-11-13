@@ -45,7 +45,7 @@ public class Taskmanage extends TimerTask {
 	public void run() {
 		try {
 			// 获得系统当前时间的前一天
-			String oldtime = DateUtil.getTime(0);// ????????????????????????????????????????????????
+			String oldtime = DateUtil.getTime(1);// ????????????????????????????????????????????????
 			// 查询前一天交易订单
 			List<IpoOrder> o = order.selectAll(oldtime);
 
@@ -59,8 +59,7 @@ public class Taskmanage extends TimerTask {
 				// String oldtime = DateUtil.getTime(1);
 				logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
 
-				// 摇号获取系统当前时间的前2天
-				String BallotNowtime = DateUtil.getTime(2);
+
 				// if (nowtime.equals(oldtime)) {
 				// 复制插入商品id
 				// int all = unmberofrecord.selectByAll();
@@ -86,12 +85,15 @@ public class Taskmanage extends TimerTask {
 
 				// 配号任务开始
 				distribution.start();
-
-				// } else
-				/*
-				 * if (BallotNowtime.equals(nowtime)) { // 摇号处理开始 getBallotNoUtils.start(); }
-				 */
-				// }
+			}
+			
+			// 摇号获取系统当前时间的前2天
+			String ballotNowtime = DateUtil.getTime(2);
+			// 查询前一天交易订单
+			List<IpoOrder> orders = order.selectAll(ballotNowtime);
+			if(orders != null && orders.size() > 0){
+				// 摇号处理开始 
+				getBallotNoUtils.start();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
