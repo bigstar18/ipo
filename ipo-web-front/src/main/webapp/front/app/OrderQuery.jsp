@@ -7,7 +7,7 @@
 <%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String userId ="888";%><html>
 <head>
-<title>配号记录查询页面</title>
+<title>申购记录查询页面</title>
      <meta name="decorator" content="default"/>
      <link rel="stylesheet" href="${ctxStatic}/bootstrap/2.3.1/css_default/bootstrap.min.css">
 	 <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
@@ -22,17 +22,17 @@
 </head>
 <body>
 <div class="main">
-	<div class="msg">您当前的位置：<span>配号记录</span></div>
+	<div class="msg">您当前的位置：<span>申购记录</span></div>
 	<div class="warning">
 		<div class="title font_orange_14b">温馨提示 :</div>
-		<div class="content">在此展示投资者提交申购订单后获得的配号信息。</div>
+		<div class="content">在此展示投资者的申购记录信息。</div>
 	</div>
 
 		<div class="col-xs-12">
 		<br>
 			<div id="myTabContent" class="tab-content">
-		   <table id="mytb" class="easyui-datagrid"  title="配号记录查询"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
+		   <table  id="mytb"  class="easyui-datagrid"  title="申购记录查询"   style="width:100%;height:385px"
+            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNumsuserid=<%=userId %>',method:'get'">
         <thead>
             <tr>
                 <th data-options="field:'commodityname',width:200">申购产品</th>
@@ -46,7 +46,6 @@
 		</div>
 
 <script type="text/javascript">
-
 $(document).ready(function() {
 	 var p = $('#mytb').datagrid('getPager'); 
 	    $(p).pagination({ 
@@ -60,12 +59,6 @@ $(document).ready(function() {
 
 //日期转换
 function dateconvertfunc(value,row){
-         //  return new Date(value).toLocaleDateString(); //返回本地系统格式时间
-        /*    var date=new Date(value);
-        var year=date.getFullYear();
-        var month=date.getMonth()<9?'0'+(date.getMonth()+1):(date.getMonth()+1);
-        var day=date.getDate()<10?'0'+date.getDate():date.getDate(); 
-        return year+'-'+month+'-'+day;     JSON返回已做类型转换处理 */ 
         return value.substr(0,10);
 } 
 </script>

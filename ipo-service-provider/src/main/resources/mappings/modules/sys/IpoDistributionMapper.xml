@@ -205,8 +205,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_DISTRIBUTION
+  <select id="countByExample" parameterType="java.lang.String" resultType="java.lang.Integer" >
+    select count(*) from IPO_DISTRIBUTION where USERID = #{userid,jdbcType=VARCHAR} )
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

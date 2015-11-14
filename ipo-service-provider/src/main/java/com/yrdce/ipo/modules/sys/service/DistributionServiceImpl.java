@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
-import com.yrdce.ipo.modules.sys.entity.IpoDistributionExample;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 
 @Service("distributionService")
@@ -45,9 +44,6 @@ public class DistributionServiceImpl implements DistributionService {
 			for (int i = 0; i < list.size(); i++) {
 				Distribution distrib = new Distribution();
 				BeanUtils.copyProperties(list.get(i), distrib);
-				distrib.setPcounts(list.get(i).getPcounts());
-				distrib.setStartnumber(list.get(i).getStartnumber());
-				distrib.setPtime(list.get(i).getPtime());
 				list2.add(distrib);
 			}
 		} catch (Exception e) {
@@ -58,10 +54,9 @@ public class DistributionServiceImpl implements DistributionService {
 	}
 
 	@Override
-	public int getAllDistris() {
+	public int getAllDistris(String userid) {
 		try {
-			return ipoDistributionMapper
-					.countByExample(new IpoDistributionExample());
+			return ipoDistributionMapper.countByExample(userid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -81,9 +76,6 @@ public class DistributionServiceImpl implements DistributionService {
 			for (int i = 0; i < list.size(); i++) {
 				Distribution distrib = new Distribution();
 				BeanUtils.copyProperties(list.get(i), distrib);
-				distrib.setPcounts(list.get(i).getPcounts());
-				distrib.setStartnumber(list.get(i).getStartnumber());
-				distrib.setPtime(list.get(i).getPtime());
 				list2.add(distrib);
 			}
 		} catch (Exception e) {

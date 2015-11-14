@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String userId ="888";%><html>
+<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -25,14 +25,14 @@ String userId ="888";%><html>
 </head>
 <body>
 <div class="main">
-	<div class="msg">您当前的位置：<span>投资者申购</span></div>
+	<div class="msg">您当前的位置：<span>商品申购</span></div>
 	<div class="warning">
 		<div class="title font_orange_14b">温馨提示 :</div>
 		<div class="content">在此展示投资者申购所需要的信息。</div>
 	</div>
 	<div class="col-xs-12">
 		<div style="height:350px;">		 
-			  <table id="mytb1" class="easyui-datagrid"  title="可申购商品列表"   style="width:70%;height:365px;"
+			  <table id="mytb" class="easyui-datagrid"  title="可申购商品列表"   style="width:70%;height:385px;"
 			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
@@ -45,7 +45,7 @@ String userId ="888";%><html>
 			        </thead>
 			    </table>
 			
-			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:365px;padding:10px;overflow:hidden;">
+			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:385px;padding:10px;overflow:hidden;">
 				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
 				      <div class="form-group">
 				        <label>产品代码：</label>
@@ -61,8 +61,8 @@ String userId ="888";%><html>
 			        <p>申购额度：<b id="limit"></b></p>
 			        <input type="hidden"   id="price"/>
 			        <input type="hidden"   id="units"/>
-			         <input type="hidden"   id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo"/>
-			         <input type="hidden"   id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos"/>
+			        <input type="hidden"   id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo"/>
+			        <input type="hidden"   id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos"/>
 			      </div>
 			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
 				      <div class="form-group">
@@ -75,30 +75,12 @@ String userId ="888";%><html>
 				    </div>
 				    </div>
 			</div>
-		 
-		
-		<div class="col-xs-12">
-		<br>
-			<div id="myTabContent" class="tab-content">
-		   <table  id="mytb2" class="easyui-datagrid"  title="投资者配号查询"   style="width:100%;height:365px"
-            data-options="singleSelect:true,nowrap:true,autoRowHeight:false,fitColumns:true,pagination:true,pageSize:10,pageList:[10,15,20,25],url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
-        <thead>
-            <tr>
-                <th data-options="field:'commodityname',width:300">申购产品</th>
-                <th data-options="field:'startnumber',width:300">起始配号</th>
-                <th data-options="field:'pcounts',width:300">配号数量</th>
-                <th data-options="field:'ptime',width:300,formatter:dateconvertfunc">配号时间</th>
-            </tr>
-        </thead>
-    </table>
-			</div>
-		</div>
 	</div>
 <script type="text/javascript">
 
 $(document).ready(function() {
-	 var p1 = $('#mytb1').datagrid('getPager'); 
-	    $(p1).pagination({ 
+	 var p = $('#mytb').datagrid('getPager'); 
+	    $(p).pagination({ 
 	        pageSize: 10,
 	        pageList: [5,10,15],
 	        beforePageText: '第',
@@ -106,15 +88,6 @@ $(document).ready(function() {
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
 	    });  
 	    
-	 var p2 = $('#mytb2').datagrid('getPager'); 
-	    $(p2).pagination({ 
-	        pageSize: 10,
-	        pageList: [5,10,15],
-	        beforePageText: '第',
-	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
-	    }); 
-
    //获取用户保证金	
 	  $.ajax({  
 		    type: 'GET',  

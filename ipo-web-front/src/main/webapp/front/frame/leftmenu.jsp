@@ -1,6 +1,6 @@
 <%@ page trimDirectiveWhitespaces="true" contentType="text/html;charset=GBK"%>
 <%@ include file="/front/public/includefiles/taglib.jsp" %>
-<%@ include file="/front/public/includefiles/path.jsp" %>
+<%@ include file="/front/public/includefiles/path.jsp" %> 
 <script>
 	var jastOpenMenu="";<%/* 记录最后一次点击左菜单的ID号 */%>
 	function selectMenu(menuID){
@@ -27,7 +27,7 @@
 			$(".menu_4").attr("class","menu_3");<%/*将以前选中的二级菜单样式还原*/%>
 			$(this).attr("class","menu_4");<%/*修改当前点击二级菜单的样式*/%>
 			$("#mainfrm").attr("action",$(this).attr("action"));
-		//	$("#mainfrm").submit();
+	     	$("#mainfrm").submit();
 			return false;
 		});
 		$("#openUpdateMenuDiv").click(function(){<%/* 打开设置我的菜单div */%>
@@ -38,7 +38,7 @@
 		$(".menu_1")[0].click();<%/* 设置首个一级菜单打开 */%>
 	});
 </script>
-<form id="mainfrm" name="mainfrm" target="main" method="post"></form>
+<form id="mainfrm" name="mainfrm" target="main" method="post" action=""></form>
 <%/* 展示信息 */%>
 <div class="left_titlebor<c:if test="${empty modelContextMap[selfModuleID]['homepageAction']}">2</c:if>" style="height: 100%;width:100%;z-index:10;">
 	<div class="title">管理中心</div>
@@ -52,7 +52,7 @@
 	<a href="${basePath}${modelContextMap[selfModuleID]['homepageAction']}}" target="main">平台主页</a>
 	</c:if>
 	</div> -->
-	 <div class="main"></div>
+	<!--  <div class="main"></div> -->
 	<div class="clear"></div> 
 	<%/* 我的菜单信息展示 */%>
 	<%-- <c:if test="${not empty mymenu}">
@@ -65,9 +65,12 @@
 	</div>
 	</c:if> --%>
 	<%/* 遍历循环菜单展示 */%>
-	<div class="menu_1" id="4001001000">IPO申购</div>
+	<div class="menu_1" id="4001001000">商品发售</div>
 	<div id="4001001000Div" style="display: none">
-		<div class="menu_3" id="4001001010">投资者申购</div>
+		<div class="menu_3" id="4001001010" action="<%=request.getContextPath()%>/CommodityController/ipoapply">商品申购</div> 
+		<div class="menu_3" id="4001001020" action="<%=request.getContextPath()%>/CommodityController/OrderQuery">申购记录</div>
+		<div class="menu_3" id="4001001030" action="<%=request.getContextPath()%>/CommodityController/DistribQuery">配号记录</div>
+		<div class="menu_3" id="4001001040" action="<%=request.getContextPath()%>/CommodityController/SelectedQuery">中签记录</div>
 	</div>
 	<%-- <a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a> --%>
 </div>

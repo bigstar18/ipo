@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +81,42 @@ public class CommodityController extends BaseController {
 
 	public void setDistributionService(DistributionService distributionService) {
 		this.distributionService = distributionService;
+	}
+
+	/*
+	 * 投资者申购视图
+	 */
+	@RequestMapping(value = "/ipoapply", method = RequestMethod.POST)
+	public String ipoapply(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/ipoapply";
+	}
+
+	/*
+	 * 配号查询视图
+	 */
+	@RequestMapping(value = "/DistribQuery", method = RequestMethod.POST)
+	public String DistribQuery(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/DistribQuery";
+	}
+
+	/*
+	 * 中签查询视图
+	 */
+	@RequestMapping(value = "/SelectedQuery", method = RequestMethod.POST)
+	public String SelectedQuery(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/SelectedQuery";
+	}
+
+	/*
+	 * 订单查询视图
+	 */
+	@RequestMapping(value = "/OrderQuery", method = RequestMethod.POST)
+	public String OrderQuery(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/OrderQuery";
 	}
 
 	/**
@@ -189,7 +229,7 @@ public class CommodityController extends BaseController {
 		try {
 			List<Distribution> dlist = new ArrayList<Distribution>();
 			dlist = distributionService.getDistriList(page, rows, userid);
-			int totalnums = distributionService.getAllDistris();
+			int totalnums = distributionService.getAllDistris(userid);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(dlist);
@@ -198,7 +238,6 @@ public class CommodityController extends BaseController {
 			e.printStackTrace();
 			return "";
 		}
-
 	}
 
 }

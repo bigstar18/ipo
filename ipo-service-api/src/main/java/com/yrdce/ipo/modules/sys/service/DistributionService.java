@@ -11,7 +11,7 @@ public interface DistributionService {
 			String userid);
 
 	// 获取配号总记录数
-	public int getAllDistris();
+	public int getAllDistris(String userid);
 
 	// 获取客户所有配号信息
 	public List<Distribution> findAll();
