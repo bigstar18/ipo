@@ -24,7 +24,7 @@
 <!--	<listener>
 		<listener-class>gnnt.MEBS.common.front.common.Global</listener-class>
 	</listener>-->
-		<filter>
+	<filter>
 		<filter-name>checkUrl</filter-name>
 		<filter-class>com.yrdce.ipo.integrate.SecurityFilter</filter-class>
 	</filter>
@@ -32,28 +32,6 @@
 		<filter-name>checkUrl</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
-	<!-- struts2配置 -->
-	<!--  
-	<filter>
-		<filter-name>struts2</filter-name>
-		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>-->
-		<!--
-			指定配置文件路径 在配置文件中配置默认要加载的文件，这些文件不一定有，但要写上去，然后它找不找的到无所谓否则会启动失败
-		-->
-		<!--  
-		<init-param>
-			<param-name>config</param-name>
-			<param-value>platform-web.xml,struts-default.xml,struts-plugin.xml,/WEB-INF/classes/META-INF/struts/*.xml</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>struts2</filter-name>
-		<url-pattern>*.action</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
-	-->
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -131,19 +109,19 @@
 	</servlet-mapping>
 
 	<!-- DruidStatView -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
 		<init-param>
 			<param-name>allow</param-name>
-			<!-- <param-value>127.0.0.1</param-value> -->
+			<param-value>127.0.0.1</param-value>
 			<param-value>10.0.100.254</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 	
 	<!-- CKFinder -->
 
