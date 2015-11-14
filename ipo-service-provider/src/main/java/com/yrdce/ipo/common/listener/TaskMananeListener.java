@@ -1,6 +1,7 @@
 package com.yrdce.ipo.common.listener;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +42,17 @@ public class TaskMananeListener implements ServletContextListener {
 			now.set(Calendar.HOUR_OF_DAY, 0);
 			now.set(Calendar.MINUTE, 10);
 			now.set(Calendar.SECOND, 0);
-			timer.schedule(task, now.getTime());
+
+			Date date = new Date();
+			Date i = now.getTime();
+			if (now.getTime().before(date)) {
+				now.setTime(date);
+				now.add(Calendar.DATE, 1);
+
+				i = now.getTime();
+			}
+
+			timer.schedule(task, i);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -32,13 +32,14 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table  id="mytb"  class="easyui-datagrid"  title="申购记录查询"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNumsuserid=<%=userId %>',method:'get'">
+            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/getOrder?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityname',width:200">申购产品</th>
-                <th data-options="field:'startnumber',width:180">起始配号</th>
-                <th data-options="field:'pcounts',width:200">配号数量</th>
-                <th data-options="field:'ptime',width:200,formatter:dateconvertfunc">配号时间</th>
+                        <th data-options="field:'commodityid',width:200">商品编号</th>
+						<th data-options="field:'commodityname',width:180">商品名称</th>
+						<th data-options="field:'counts',width:200">已申购数量</th>
+						<th data-options="field:'createtime',width:200,formatter:dateconvertfunc">申购时间</th>
+						<th data-options="field:'frozenfunds',width:200">资金冻结</th>
             </tr>
         </thead>
     </table>

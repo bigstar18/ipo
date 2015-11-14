@@ -175,8 +175,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrderExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_ORDER
+  <select id="countByExample" parameterType="java.lang.String" resultType="java.lang.Integer" >
+    select count(*) from IPO_ORDER where USERID = #{userid,jdbcType=VARCHAR} )
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -299,5 +299,10 @@
    
    <select id="selectbysid" parameterType="java.lang.String" resultType="java.lang.Integer">
    	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </select>
+   
+   <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+   	select <include refid="Base_Column_List" />   
+   	from (select t.*,rownum TNO from IPO_ORDER t where t.USERID = #{userid,jdbcType=VARCHAR} ) a where a.TNO between  #{beginnum} and  #{endnum}
    </select>
 </mapper>

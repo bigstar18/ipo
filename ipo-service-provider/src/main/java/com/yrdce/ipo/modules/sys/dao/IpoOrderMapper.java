@@ -10,7 +10,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrderExample;
 
 @MyBatisDao
 public interface IpoOrderMapper {
-	int countByExample(IpoOrderExample example);
+	int countByExample(String userid);
 
 	int deleteByExample(IpoOrderExample example);
 
@@ -47,4 +47,6 @@ public interface IpoOrderMapper {
 	int selectbysid(String sid);
 
 	IpoOrder selectByPrimaryKey(@Param("orderid") int orderid);
+
+	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
 }

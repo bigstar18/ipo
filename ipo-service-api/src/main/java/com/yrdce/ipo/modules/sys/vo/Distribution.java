@@ -15,35 +15,46 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Distribution {
-        
+
 	@JsonProperty("userid")
 	@XmlElement(name = "userid")
 	@NotNull
 	@Size(min = 1, max = 32)
-	private String    userid;                   //客户编码
+	private String userid; // 客户编码
 
 	@JsonProperty("commodityname")
 	@XmlElement(name = "commodityname")
 	@NotNull
 	@Size(min = 1, max = 32)
-	private String commodityname;                //商品名称
-	
-	
+	private String commodityname; // 商品名称
+
 	@JsonProperty("startnumber")
 	@XmlElement(name = "startnumber")
 	@NotNull
-	private long  startnumber;              //起始配号
-	
+	private long startnumber; // 起始配号
+
 	@JsonProperty("pcounts")
 	@XmlElement(name = "pcounts")
 	@NotNull
-	private   int pcounts ;              //配号数量
-	
+	private int pcounts; // 配号数量
+
 	@JsonProperty("ptime")
 	@XmlElement(name = "ptime")
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")  
-	private Date ptime;                      //配号时间
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date ptime; // 配号时间
+
+	@JsonProperty("zcounts")
+	@XmlElement(name = "zcounts")
+	private int zcounts;// 中签数量
+
+	public int getZcounts() {
+		return zcounts;
+	}
+
+	public void setZcounts(int zcounts) {
+		this.zcounts = zcounts;
+	}
 
 	public String getUserid() {
 		return userid;
@@ -84,31 +95,4 @@ public class Distribution {
 	public void setPtime(Date ptime) {
 		this.ptime = ptime;
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
