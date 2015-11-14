@@ -22,6 +22,12 @@ public class Distribution {
 	@Size(min = 1, max = 32)
 	private String userid; // 客户编码
 
+	@JsonProperty("commodityid")
+	@XmlElement(name = "commodityid")
+	@NotNull
+	@Size(min = 1, max = 32)
+	private String commodityid; // 商品编码
+
 	@JsonProperty("commodityname")
 	@XmlElement(name = "commodityname")
 	@NotNull
@@ -95,4 +101,13 @@ public class Distribution {
 	public void setPtime(Date ptime) {
 		this.ptime = ptime;
 	}
+
+	public String getCommodityid() {
+		return commodityid;
+	}
+
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid;
+	}
+
 }

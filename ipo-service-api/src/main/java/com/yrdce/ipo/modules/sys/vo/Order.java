@@ -1,7 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +33,7 @@ public class Order {
 	@JsonProperty("createtime")
 	@XmlElement(name = "createtime")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Timestamp createtime;
+	private Date createtime;
 
 	// 资金冻结
 	@JsonProperty("frozenfunds")
@@ -53,7 +53,8 @@ public class Order {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
+		this.commodityname = commodityname == null ? null : commodityname
+				.trim();
 	}
 
 	public int getCounts() {
@@ -64,11 +65,11 @@ public class Order {
 		this.counts = counts;
 	}
 
-	public Timestamp getCreatetime() {
+	public Date getCreatetime() {
 		return createtime;
 	}
 
-	public void setCreatetime(Timestamp createtime) {
+	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
 

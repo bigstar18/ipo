@@ -1,6 +1,8 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import com.yrdce.ipo.modules.sys.vo.Order;
  * 订单查询
  * 
  * @author Bob
- *
+ * 
  */
 @Service("orderService")
 @Transactional(readOnly = true)
@@ -37,7 +39,8 @@ public class OrderServiceImpl implements OrderService {
 			List<IpoOrder> list = new ArrayList<IpoOrder>();
 			list2 = new ArrayList<Order>();
 
-			list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1, curpage * pagesize, userId);
+			list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1,
+					curpage * pagesize, userId);
 
 			for (int i = 0; i < list.size(); i++) {
 				Order order = new Order();
@@ -45,7 +48,10 @@ public class OrderServiceImpl implements OrderService {
 				order.setCommodityid(list.get(i).getCommodityid());
 				order.setCommodityname(list.get(i).getCommodityname());
 				order.setCounts(list.get(i).getCounts());
-				order.setCreatetime(list.get(i).getCreatetime());
+				Timestamp timestamp = list.get(i).getCreatetime();
+				Date date = new Date(timestamp.getTime());
+				// date = timestamp;
+				order.setCreatetime(date);
 				order.setFrozenfunds(list.get(i).getFrozenfunds());
 				list2.add(order);
 			}

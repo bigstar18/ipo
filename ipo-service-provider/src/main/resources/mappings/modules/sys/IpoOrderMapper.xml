@@ -176,10 +176,7 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="java.lang.String" resultType="java.lang.Integer" >
-    select count(*) from IPO_ORDER where USERID = #{userid,jdbcType=VARCHAR} )
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+    select count(*) from  IPO_ORDER where USERID = #{userid,jdbcType=VARCHAR} 
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update IPO_ORDER
