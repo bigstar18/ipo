@@ -296,6 +296,6 @@
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
-   	from IPO_COMMODITY where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}
+   	from IPO_COMMODITY where to_char(STARTTIME,'yyyy-MM-dd') = #{satrttime,jdbcType=VARCHAR}
    </select>
 </mapper>
