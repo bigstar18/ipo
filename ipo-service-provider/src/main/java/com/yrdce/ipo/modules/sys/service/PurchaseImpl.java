@@ -73,8 +73,12 @@ public class PurchaseImpl implements Purchase {
 
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
+					// 自动补0
+					String hours = String.format("%02d", times.getHours());
+					String minutes = String.format("%02d", times.getMinutes());
+					String seconds = String.format("%02d", times.getSeconds());
 
-					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds() + "");
+					long now = Long.parseLong(hours + minutes + seconds);
 					logger.info("开始时间:" + begin + "结束时间:" + finish + "系统时间:" + now);
 
 					if (now >= begin && now < finish) {

@@ -39,18 +39,15 @@ public class OrderServiceImpl implements OrderService {
 			List<IpoOrder> list = new ArrayList<IpoOrder>();
 			list2 = new ArrayList<Order>();
 
-			list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1,
-					curpage * pagesize, userId);
+			list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1, curpage * pagesize, userId);
 
 			for (int i = 0; i < list.size(); i++) {
 				Order order = new Order();
-				// BeanUtils.copyProperties(list.get(i), order);
 				order.setCommodityid(list.get(i).getCommodityid());
 				order.setCommodityname(list.get(i).getCommodityname());
 				order.setCounts(list.get(i).getCounts());
 				Timestamp timestamp = list.get(i).getCreatetime();
 				Date date = new Date(timestamp.getTime());
-				// date = timestamp;
 				order.setCreatetime(date);
 				order.setFrozenfunds(list.get(i).getFrozenfunds());
 				list2.add(order);
