@@ -45,7 +45,7 @@ public class Taskmanage extends TimerTask {
 	public void run() {
 		try {
 			// 获得系统当前时间的前一天
-			String oldtime = DateUtil.getTime(1);// ????????????????????????????????????????????????
+			String oldtime = DateUtil.getTime(1);
 			// 查询前一天交易订单
 			List<IpoOrder> o = order.selectAll(oldtime);
 
@@ -56,43 +56,30 @@ public class Taskmanage extends TimerTask {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				String nowtime = formatter.format(time);
 				// 获得系统当前时间的前一天
-				// String oldtime = DateUtil.getTime(1);
 				logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
-
-
-				// if (nowtime.equals(oldtime)) {
-				// 复制插入商品id
-				// int all = unmberofrecord.selectByAll();
-				// if (all == 0) {
 				// 去重
 				List<String> list = order.select(oldtime);
-				// if (o != null || o.size() > 0) {
 				logger.info("复制插入商品id");
 				for (int i = 0; i < list.size(); i++) {
 					frecord = new IpoNumberofrecords();
 					String sid = list.get(i);
-					// IpoOrder x = o.get(i);
-					// String sid = x.getCommodityid();
 					Date date = new Date();
 					frecord.setCommodityid(sid);
 					frecord.setCounts(BigDecimal.valueOf(0));
 					frecord.setNowtime(date);
 					unmberofrecord.insert(frecord);
-					// System.out.println(sid);
 				}
-				// }
-				// }
 
 				// 配号任务开始
 				distribution.start();
 			}
-			
+
 			// 摇号获取系统当前时间的前2天
 			String ballotNowtime = DateUtil.getTime(2);
 			// 查询前一天交易订单
 			List<IpoOrder> orders = order.selectAll(ballotNowtime);
-			if(orders != null && orders.size() > 0){
-				// 摇号处理开始 
+			if (orders != null && orders.size() > 0) {
+				// 摇号处理开始
 				getBallotNoUtils.start();
 			}
 		} catch (Exception e) {

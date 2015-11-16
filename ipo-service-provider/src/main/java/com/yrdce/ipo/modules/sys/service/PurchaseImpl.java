@@ -74,7 +74,8 @@ public class PurchaseImpl implements Purchase {
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));
 
-					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds());
+					long now = Long.parseLong(times.getHours() + "" + times.getMinutes() + "" + times.getSeconds() + "");
+					logger.info("开始时间:" + begin + "结束时间:" + finish + "系统时间:" + now);
 
 					if (now >= begin && now < finish) {
 						return true;
@@ -126,7 +127,7 @@ public class PurchaseImpl implements Purchase {
 					// 申购消费总额
 					BigDecimal allMonery = bigDecimal.multiply(total);
 					// 申购额度判断
-					if (counts > e) {
+					if (counts < e) {
 						// 申购资金判断
 						if (monery.compareTo(allMonery) != -1) {
 							logger.info("进入资金判断");
