@@ -18,7 +18,6 @@ import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
-import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 
@@ -91,8 +90,8 @@ public class GetBallotNoUtils {
 
 		// ========1.
 		// 获取每个商品的中签率=====（此次发布的商品数量/当前申购所有商品单位数*1000）successRateMap<商品编号,中签率>
-		Map<String, String> successRateMap = GetSuccessRate.getSuccessRateByApplyCount(ipoOrders, ipoCommoditys);// （此次申购的单位数,此次发布的商品数量
-																													// ）
+		Map<String, String> successRateMap = GetSuccessRate.getSuccessRateByApplyCount(ipoOrders, ipoCommoditys, ipoCommdityMapper);// （此次申购的单位数,此次发布的商品数量
+		// ）
 		if (successRateMap != null) {
 			for (String commdityId : successRateMap.keySet()) {
 
@@ -188,9 +187,9 @@ public class GetBallotNoUtils {
 		// ipoOrderMapper.insertAll();
 		// ipoOrderMapper.deleteAll();
 
-//		ipoNumberOfrecordsMapper.insertAll();
-//		ipoNumberOfrecordsMapper.deleteAll();
-//		logger.info("6. 暂时在此处处理，将订单表中数据存放到历史表中，然后移除订单表中数据.");
+		// ipoNumberOfrecordsMapper.insertAll();
+		// ipoNumberOfrecordsMapper.deleteAll();
+		// logger.info("6. 暂时在此处处理，将订单表中数据存放到历史表中，然后移除订单表中数据.");
 	}
 
 	/**

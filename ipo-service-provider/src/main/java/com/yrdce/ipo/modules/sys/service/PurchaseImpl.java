@@ -114,6 +114,8 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal price = commodity.getPrice();
 					// 获取申购额度
 					long e = commodity.getPurchaseCredits();
+					// 发售单位
+					int units = commodity.getUnits();
 					// 获取客户可用资金
 					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
@@ -124,8 +126,8 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal monery = (BigDecimal) param.get("monery");
 					// int类型转换，购买几个单位
 					BigDecimal bigDecimal = new BigDecimal(counts);
-					// 1000为一单位
-					BigDecimal Unitprice = new BigDecimal(1000);
+					// 一单位
+					BigDecimal Unitprice = new BigDecimal(units);
 					// 1单位价格
 					BigDecimal total = price.multiply(Unitprice);
 					// 申购消费总额
