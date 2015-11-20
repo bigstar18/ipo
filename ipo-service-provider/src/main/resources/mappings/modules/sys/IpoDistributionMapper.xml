@@ -348,5 +348,15 @@
    		<include refid="Base_Column_List" /> 
    	from IPO_DISTRIBUTION where to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
    </select>
+   
+   <select id="selectByPage" resultMap="BaseResultMap"  parameterType="map">
+   		 select 
+    <include refid="Base_Column_List" /> 
+    from (select t.*,rownum TNO from IPO_DISTRIBUTION t) a where a.TNO between  #{beginnum} and  #{endnum}
+   </select>
+   
+   <select id="selectByCount" resultType="java.lang.Integer">
+   		select count(*) from IPO_DISTRIBUTION
+   </select>
 
 </mapper>

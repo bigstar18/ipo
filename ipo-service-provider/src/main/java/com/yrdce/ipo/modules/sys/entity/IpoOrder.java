@@ -4,21 +4,41 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class IpoOrder {
-	private int orderid;
+	private int orderid;// 订单
 
-	private String userid;
+	private String userid;// 交易商id
 
-	private String username;
+	private String username;// 交易商名称
 
-	private String commodityid;
+	private String commodityid;// 商品id
 
-	private String commodityname;
+	private String commodityname;// 商品名称
 
-	private int counts;
+	private int counts;// 客户申购数
 
-	private Timestamp createtime;
+	private Timestamp createtime;// 开始时间
 
-	private BigDecimal frozenfunds;
+	private BigDecimal frozenfunds;// 结束时间
+
+	private int frozenst;// 资金状态
+
+	private int commodity_id;// 发售表主键ID
+
+	public int getCommodity_id() {
+		return commodity_id;
+	}
+
+	public void setCommodity_id(int commodity_id) {
+		this.commodity_id = commodity_id;
+	}
+
+	public int getFrozenst() {
+		return frozenst;
+	}
+
+	public void setFrozenst(int frozenst) {
+		this.frozenst = frozenst;
+	}
 
 	public int getOrderid() {
 		return orderid;
@@ -57,8 +77,7 @@ public class IpoOrder {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public int getCounts() {

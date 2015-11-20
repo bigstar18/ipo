@@ -23,14 +23,12 @@ public class DistributionServiceImpl implements DistributionService {
 		return ipoDistributionMapper;
 	}
 
-	public void setIpoDistributionMapper(
-			IpoDistributionMapper ipoDistributionMapper) {
+	public void setIpoDistributionMapper(IpoDistributionMapper ipoDistributionMapper) {
 		this.ipoDistributionMapper = ipoDistributionMapper;
 	}
 
 	@Override
-	public List<Distribution> getDistriList(String page, String rows,
-			String userid) {
+	public List<Distribution> getDistriList(String page, String rows, String userid) {
 		List<Distribution> list2 = null;
 		try {
 			page = (page == null ? "1" : page);
@@ -39,8 +37,7 @@ public class DistributionServiceImpl implements DistributionService {
 			int pagesize = Integer.parseInt(rows);
 			List<IpoDistribution> list = new ArrayList<IpoDistribution>();
 			list2 = new ArrayList<Distribution>();
-			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize
-					+ 1, curpage * pagesize, userid);
+			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
 			for (int i = 0; i < list.size(); i++) {
 				Distribution distrib = new Distribution();
 				BeanUtils.copyProperties(list.get(i), distrib);
@@ -82,5 +79,40 @@ public class DistributionServiceImpl implements DistributionService {
 			e.printStackTrace();
 		}
 		return list2;
+	}
+
+	@Override
+	public List<Distribution> getDistriAllList(String page, String rows) {
+		List<Distribution> list2 = null;
+		try {
+			page = (page == null ? "1" : page);
+			rows = (rows == null ? "5" : rows);
+			int curpage = Integer.parseInt(page);
+			int pagesize = Integer.parseInt(rows);
+			List<IpoDistribution> list = new ArrayList<IpoDistribution>();
+			list2 = new ArrayList<Distribution>();
+			list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+			for (int i = 0; i < list.size(); i++) {
+				Distribution distrib = new Distribution();
+				BeanUtils.copyProperties(list.get(i), distrib);
+				list2.add(distrib);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			list2 = null;
+		}
+		return list2;
+	}
+
+	@Override
+	public int getAllDistribution() {
+		int i = 0;
+		try {
+			i = ipoDistributionMapper.selectByCount();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return i;
 	}
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoTradetime" >
+  <id column="SECTIONID" property="sectionid" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="VARCHAR" />
+    <result column="ENDTIME" property="endtime" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column= "MODIFYTIME" property="modifytime" jdbcType="DATE"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SECTIONID, NAME, STARTTIME, ENDTIME, STATUS, MODIFYTIME
+  </sql>
+  
+  <select id="selectByAll" resultMap="BaseResultMap" parameterType="map">
+  	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from Ipo_Tradtime t) a where a.TNO between  #{page} and  #{rows}
+  </select>
+  
+  <select id="selectByKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from IPO_Tradetime where t.sectionid = #{sectionid,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="updateByAll" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime">
+    update Ipo_Tradtime
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SECTIONID = #{sectionid,jdbcType=DECIMAL}
+  </update>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="sectionid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime" >
+    <selectKey resultType="INTEGER" order="BEFORE" keyProperty="sectionid">
+	SELECT SEQ_IPO_TRADETIME.NEXTVAL FROM dual
+	</selectKey>
+	insert into IPO_TRADETIME 
+	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sectionid != null" >
+        SECTIONID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="starttime != null" >
+        STARTTIME,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sectionid != null">
+      	#{sectionid,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=DATE},
+      </if>
+    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    	delete from IPO_TRADETIME
+    	where SECTIONID = #{sectionid,jdbcType=DECIMAL}
+  	</delete>
+  	
+  	<select id="selectByCounts" resultType="java.lang.Integer">
+  		select count(*) from IPO_TRADETIME
+  	</select>
+ </mapper>

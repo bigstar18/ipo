@@ -25,6 +25,16 @@ public class IpoCommodity {
 
 	private int purchaseCredits;// 申购额度
 
+	private int status;// 申购状态
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public int getPurchaseCredits() {
 		return purchaseCredits;
 	}
@@ -54,8 +64,7 @@ public class IpoCommodity {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public BigDecimal getPrice() {

@@ -24,22 +24,21 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectAll();
 
-	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum);// 分页获取发售商品
+	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(int id);
 
 	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息
 
-	int updateByExampleSelective(@Param("record") IpoCommodity record,
-			@Param("example") IpoCommodityExample example);
+	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
 
-	int updateByExample(@Param("record") IpoCommodity record,
-			@Param("example") IpoCommodityExample example);
+	int updateByExample(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
 
 	int updateByPrimaryKeySelective(IpoCommodity record);
 
 	int updateByPrimaryKey(IpoCommodity record);
 
 	List<IpoCommodity> selectByTime(String date);
+
+	List<IpoCommodity> selectByEnd(String enddate);
 }

@@ -24,14 +24,11 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectFirst();
 
-	IpoOrder selectByid(@Param("userid") String userid,
-			@Param("commodityid") String sid);
+	IpoOrder selectByid(@Param("userid") String userid, @Param("commodityid") String sid);
 
-	int updateByExampleSelective(@Param("record") IpoOrder record,
-			@Param("example") IpoOrderExample example);
+	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
-	int updateByExample(@Param("record") IpoOrder record,
-			@Param("example") IpoOrderExample example);
+	int updateByExample(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
 	int updateByPrimaryKeySelective(IpoOrder record);
 
@@ -51,6 +48,11 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByPrimaryKey(@Param("orderid") int orderid);
 
-	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum, @Param("userid") String userid);
+	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
+
+	List<IpoOrder> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+
+	int selectByCounts();
+
+	List<IpoOrder> selectByCid(int commodityid);
 }

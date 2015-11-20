@@ -48,13 +48,19 @@ public class PurchaseImpl implements Purchase {
 		try {
 			IpoCommodity c = com.selectByComid(sId.toUpperCase());
 			logger.info("获取开始时间");
-			Date ftime1 = c.getStarttime();
+			Date ftimeStart1 = c.getStarttime();
+			Date ftimeEnd1 = c.getEndtime();
 			Date times = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String ftime = sdf.format(ftime1);
-			String nowtimes = sdf.format(times);
+			// //获取上平发售的开始时间
+			// String ftimeStart = sdf.format(ftimeStart1);
+			// //获取商品的截至日期
+			// String ftimeEnd = sdf.format(ftimeEnd1);
+			// //获取系统当时时间
+			// String nowtimes = sdf.format(times);
+			if (times.after(ftimeStart1) && times.before(ftimeEnd1)) {
 
-			if (ftime.equals(nowtimes) && ftime != null) {
+				// if (ftimeStart.equals(nowtimes) && ftimeStart != null) {
 
 				// 获取数据库中共有几条时间记录
 				logger.info("获取交易节表信息");
@@ -96,7 +102,7 @@ public class PurchaseImpl implements Purchase {
 
 	// 申购
 	@Override
-	public int apply(String userId, String sId, Integer counts) {
+	public int apply(String userId, String sId, Integer counts, Integer id) {
 		logger.info("进入申购方法");
 		try {
 			String ID = sId.toUpperCase();
@@ -146,6 +152,8 @@ public class PurchaseImpl implements Purchase {
 							d.setCounts(counts);
 							d.setCreatetime(date);
 							d.setFrozenfunds(allMonery);
+							d.setFrozenst(0);
+							d.setCommodity_id(id);
 							order.insert(d);
 
 							this.frozen(userId, allMonery);

@@ -15,51 +15,57 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Commodity  implements Serializable {
-	
+public class Commodity implements Serializable {
 
 	@JsonProperty("commodityid")
 	@XmlElement(name = "commodityid")
 	@NotNull
 	@Size(min = 1, max = 32)
-	private String    commodityid;                   //商品代码
+	private String commodityid; // 商品代码
 
 	@JsonProperty("commodityname")
 	@XmlElement(name = "commodityname")
 	@NotNull
 	@Size(min = 1, max = 32)
-	private String commodityname;                //商品名称
-	
-	
+	private String commodityname; // 商品名称
+
 	@JsonProperty("price")
 	@XmlElement(name = "price")
 	@NotNull
-	private double  price;              //发售价格
-	
+	private double price; // 发售价格
+
 	@JsonProperty("units")
 	@XmlElement(name = "units")
 	@NotNull
-	private   int units ;              //配售单位
-	
+	private int units; // 配售单位
+
+	@JsonProperty("counts")
+	@XmlElement(name = "counts")
+	@NotNull
+	private int counts;// 发售总数
+
 	@JsonProperty("starttime")
 	@XmlElement(name = "starttime")
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")  
-	private Date starttime;                      //发售日期
-	
-	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date starttime; // 发售日期
+
 	@JsonProperty("endtime")
 	@XmlElement(name = "endtime")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endtime;                      //截止日期
-	
-		public Commodity() {
+	private Date endtime; // 截止日期
+
+	@JsonProperty("status")
+	@XmlElement(name = "status")
+	@NotNull
+	private int status;// 状态
+
+	public Commodity() {
 		super();
 	}
 
-		public Commodity(String commodityid, String commodityname, double price,
-			int units, Date starttime, Date endtime) {
+	public Commodity(String commodityid, String commodityname, double price, int units, Date starttime, Date endtime) {
 		super();
 		this.commodityid = commodityid;
 		this.commodityname = commodityname;
@@ -117,11 +123,26 @@ public class Commodity  implements Serializable {
 		this.endtime = endtime;
 	}
 
+	public int getCounts() {
+		return counts;
+	}
+
+	public void setCounts(int counts) {
+		this.counts = counts;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "商品 [商品编码=" + commodityid + ", 商品名称="
-				+ commodityname + ", 发售价格=" + price + ", 配售单位=" + units
-				+ ", 发售日期=" + starttime + ", 截止日期=" + endtime + "]";
+		return "商品 [商品编码=" + commodityid + ", 商品名称=" + commodityname + ", 发售价格=" + price + ", 配售单位=" + units + ", 发售日期=" + starttime + ", 截止日期="
+				+ endtime + "]";
 	}
 
 }

@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%><html>
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -49,6 +49,7 @@
 				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
 				      <div class="form-group">
 				        <label>产品代码：</label>
+				        <input type="hidden" id="id" />
 				        <input type="text" id="commodityid"   class="form-control"  placeholder="请输入产品代码" style="height: 25px; padding-top: 0px; padding-bottom: 0px;"  onkeyup="showInfo(this.value)">
 				      </div>
 				    </form>
@@ -122,7 +123,7 @@ $(document).ready(function() {
 		if(moneyneed>money){
 			$("#remind").text("资金不足！");
 		}else{
-		var infos={ "userid":"<%=userId %>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
+		var infos={ "id":$("#id").val(),"userid":"<%=userId %>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
 		    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
@@ -169,6 +170,7 @@ function getDetail(index, data) {
 		        $("#comname").text(data.commodityname);
 		        $("#price").val(data.price);
 		        $("#units").val(data.units);
+		        $("#id").val(data.id);
 		        $("#remind").text("");
 		        var comid= data.commodityid;
 		  	  $.ajax({  
@@ -193,6 +195,7 @@ function getDetail(index, data) {
 	           $("#counts").text("");
 	           $("#limit").text("");
 	           $("#remind").text("");
+	           $("#id").text("");
               return; 
            }
          if (window.XMLHttpRequest) {
@@ -208,6 +211,7 @@ function getDetail(index, data) {
 		           $("#limit").text(com.purchaseCredits);
 		           $("#price").val(com.price);
 		           $("#units").val(com.units);
+		           $("#id").val(com.id);
 	               }
 	         }
 	        else{
@@ -215,6 +219,8 @@ function getDetail(index, data) {
 		           $("#counts").text("");
 		           $("#limit").text("");
 		           $("#remind").text("");
+		           $("#id").text("");
+
 	  }
     };
            xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&money="+$("#money").text(),true);

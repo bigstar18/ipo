@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yrdce.ipo.common.utils.DateUtil;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.service.Distribution;
@@ -40,38 +42,47 @@ public class Taskmanage extends TimerTask {
 	private GetBallotNoUtils getBallotNoUtils;
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
+	@Autowired
+	private IpoCommodityMapper commodity;
 
 	@Override
 	public void run() {
 		try {
 			// 获得系统当前时间的前一天
 			String oldtime = DateUtil.getTime(1);
-			// 查询前一天交易订单
-			List<IpoOrder> o = order.selectAll(oldtime);
+			// 已截至日期为依据取发售表商品
+			List<IpoCommodity> commod = commodity.selectByEnd(oldtime);
+			for (IpoCommodity com : commod) {
+				int id = Integer.parseInt(com.getId());
+				List<IpoOrder> o = order.selectByCid(id);
 
-			if (o != null && o.size() != 0) {
-				// for(int z= 0;z<o.size();z++){
-				IpoOrder order1 = o.get(0);
-				Timestamp time = order1.getCreatetime();
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				String nowtime = formatter.format(time);
-				// 获得系统当前时间的前一天
-				logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
-				// 去重
-				List<String> list = order.select(oldtime);
-				logger.info("复制插入商品id");
-				for (int i = 0; i < list.size(); i++) {
-					frecord = new IpoNumberofrecords();
-					String sid = list.get(i);
-					Date date = new Date();
-					frecord.setCommodityid(sid);
-					frecord.setCounts(BigDecimal.valueOf(0));
-					frecord.setNowtime(date);
-					unmberofrecord.insert(frecord);
+				// 查询前一天交易订单
+				// List<IpoOrder> o = order.selectAll(oldtime);
+
+				if (o != null && o.size() != 0) {
+					// for(int z= 0;z<o.size();z++){
+					IpoOrder order1 = o.get(0);
+					Timestamp time = order1.getCreatetime();
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					String nowtime = formatter.format(time);
+					// 获得系统当前时间的前一天
+					logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
+					// 去重
+					List<String> list = order.select(oldtime);
+					logger.info("复制插入商品id");
+					for (int i = 0; i < list.size(); i++) {
+						frecord = new IpoNumberofrecords();
+						String sid = list.get(i);
+						Date date = new Date();
+						frecord.setCommodityid(sid);
+						frecord.setCounts(BigDecimal.valueOf(0));
+						frecord.setNowtime(date);
+						unmberofrecord.insert(frecord);
+					}
+
+					// 配号任务开始
+					distribution.start();
 				}
-
-				// 配号任务开始
-				distribution.start();
 			}
 
 			// 摇号获取系统当前时间的前2天

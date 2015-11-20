@@ -7,8 +7,7 @@ import com.yrdce.ipo.modules.sys.vo.Distribution;
 public interface DistributionService {
 
 	// 分页获取用户所有配号信息
-	public List<Distribution> getDistriList(String page, String rows,
-			String userid);
+	public List<Distribution> getDistriList(String page, String rows, String userid);
 
 	// 获取配号总记录数
 	public int getAllDistris(String userid);
@@ -16,4 +15,9 @@ public interface DistributionService {
 	// 获取客户所有配号信息
 	public List<Distribution> findAll();
 
+	// 分页获取所有配号信息
+	public List<Distribution> getDistriAllList(String page, String rows);
+
+	// 获取总记录
+	public int getAllDistribution();
 }
