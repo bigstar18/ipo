@@ -86,7 +86,7 @@ $(document).ready(function() {
 	        pageList: [5,10,15],
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });  
 	    
    //获取用户保证金	

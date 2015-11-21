@@ -66,10 +66,10 @@
 	</bean>
 	
 	<!-- 定义视图文件解析 -->
-	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="${web.view.prefix}" />
-		<property name="suffix" value="${web.view.suffix}" />
-	</bean> -->
+	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/mgr/" />
+		<property name="suffix" value=".jsp" />
+	</bean> 
 	
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoABreedMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
+    <result column="BREEDID" property="breedid" jdbcType="DECIMAL" />
+    <result column="BREEDNAME" property="breedname" jdbcType="VARCHAR" />
+    <result column="SORTID" property="sortid" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
+    <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
+    <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
+    <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
+    <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
+    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
+    <result column="TRADETIME" property="tradetime" jdbcType="DECIMAL" />
+    <result column="MINAPPLYNUM" property="minapplynum" jdbcType="DECIMAL" />
+    <result column="MAXAPPLYNUM" property="maxapplynum" jdbcType="DECIMAL" />
+    <result column="MINAPPLYQUAMOVE" property="minapplyquamove" jdbcType="DECIMAL" />
+    <result column="PUBLISHALGR" property="publishalgr" jdbcType="DECIMAL" />
+    <result column="DEALERPUBCHARATIO" property="dealerpubcharatio" jdbcType="DECIMAL" />
+    <result column="MKTDEAPUBCHARATIO" property="mktdeapubcharatio" jdbcType="DECIMAL" />
+    <result column="PUBLISHERCHARATIO" property="publishercharatio" jdbcType="DECIMAL" />
+    <result column="MKTPUBCHARATIO" property="mktpubcharatio" jdbcType="DECIMAL" />
+    <result column="CONTRACTCURRENCY" property="contractcurrency" jdbcType="DECIMAL" />
+    <result column="TRADEDAYS" property="tradedays" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BREEDID, BREEDNAME, SORTID, CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, SPREADUPLMT, 
+    SPREADDOWNLMT, MINQUANTITYMOVE, CONTRACTFACTORNAME, TRADETIME, MINAPPLYNUM, MAXAPPLYNUM, 
+    MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
+    MKTPUBCHARATIO, CONTRACTCURRENCY, TRADEDAYS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from IPO_A_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" >
+    delete from IPO_A_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
+    insert into IPO_A_BREED (BREEDID, BREEDNAME, SORTID, 
+      CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, 
+      SPREADUPLMT, SPREADDOWNLMT, MINQUANTITYMOVE, 
+      CONTRACTFACTORNAME, TRADETIME, MINAPPLYNUM, 
+      MAXAPPLYNUM, MINAPPLYQUAMOVE, PUBLISHALGR, 
+      DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
+      MKTPUBCHARATIO, CONTRACTCURRENCY, TRADEDAYS
+      )
+    values (#{breedid,jdbcType=DECIMAL}, #{breedname,jdbcType=VARCHAR}, #{sortid,jdbcType=DECIMAL}, 
+      #{contractfactor,jdbcType=DECIMAL}, #{minpricemove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
+      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, 
+      #{contractfactorname,jdbcType=VARCHAR}, #{tradetime,jdbcType=DECIMAL}, #{minapplynum,jdbcType=DECIMAL}, 
+      #{maxapplynum,jdbcType=DECIMAL}, #{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, 
+      #{dealerpubcharatio,jdbcType=DECIMAL}, #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, 
+      #{mktpubcharatio,jdbcType=DECIMAL}, #{contractcurrency,jdbcType=DECIMAL}, #{tradedays,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
+    insert into IPO_A_BREED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="breedid != null" >
+        BREEDID,
+      </if>
+      <if test="breedname != null" >
+        BREEDNAME,
+      </if>
+      <if test="sortid != null" >
+        SORTID,
+      </if>
+      <if test="contractfactor != null" >
+        CONTRACTFACTOR,
+      </if>
+      <if test="minpricemove != null" >
+        MINPRICEMOVE,
+      </if>
+      <if test="spreadalgr != null" >
+        SPREADALGR,
+      </if>
+      <if test="spreaduplmt != null" >
+        SPREADUPLMT,
+      </if>
+      <if test="spreaddownlmt != null" >
+        SPREADDOWNLMT,
+      </if>
+      <if test="minquantitymove != null" >
+        MINQUANTITYMOVE,
+      </if>
+      <if test="contractfactorname != null" >
+        CONTRACTFACTORNAME,
+      </if>
+      <if test="tradetime != null" >
+        TRADETIME,
+      </if>
+      <if test="minapplynum != null" >
+        MINAPPLYNUM,
+      </if>
+      <if test="maxapplynum != null" >
+        MAXAPPLYNUM,
+      </if>
+      <if test="minapplyquamove != null" >
+        MINAPPLYQUAMOVE,
+      </if>
+      <if test="publishalgr != null" >
+        PUBLISHALGR,
+      </if>
+      <if test="dealerpubcharatio != null" >
+        DEALERPUBCHARATIO,
+      </if>
+      <if test="mktdeapubcharatio != null" >
+        MKTDEAPUBCHARATIO,
+      </if>
+      <if test="publishercharatio != null" >
+        PUBLISHERCHARATIO,
+      </if>
+      <if test="mktpubcharatio != null" >
+        MKTPUBCHARATIO,
+      </if>
+      <if test="contractcurrency != null" >
+        CONTRACTCURRENCY,
+      </if>
+      <if test="tradedays != null" >
+        TRADEDAYS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="breedid != null" >
+        #{breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="breedname != null" >
+        #{breedname,jdbcType=VARCHAR},
+      </if>
+      <if test="sortid != null" >
+        #{sortid,jdbcType=DECIMAL},
+      </if>
+      <if test="contractfactor != null" >
+        #{contractfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="minpricemove != null" >
+        #{minpricemove,jdbcType=DECIMAL},
+      </if>
+      <if test="spreadalgr != null" >
+        #{spreadalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaduplmt != null" >
+        #{spreaduplmt,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaddownlmt != null" >
+        #{spreaddownlmt,jdbcType=DECIMAL},
+      </if>
+      <if test="minquantitymove != null" >
+        #{minquantitymove,jdbcType=DECIMAL},
+      </if>
+      <if test="contractfactorname != null" >
+        #{contractfactorname,jdbcType=VARCHAR},
+      </if>
+      <if test="tradetime != null" >
+        #{tradetime,jdbcType=DECIMAL},
+      </if>
+      <if test="minapplynum != null" >
+        #{minapplynum,jdbcType=DECIMAL},
+      </if>
+      <if test="maxapplynum != null" >
+        #{maxapplynum,jdbcType=DECIMAL},
+      </if>
+      <if test="minapplyquamove != null" >
+        #{minapplyquamove,jdbcType=DECIMAL},
+      </if>
+      <if test="publishalgr != null" >
+        #{publishalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="dealerpubcharatio != null" >
+        #{dealerpubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="mktdeapubcharatio != null" >
+        #{mktdeapubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="publishercharatio != null" >
+        #{publishercharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="mktpubcharatio != null" >
+        #{mktpubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="contractcurrency != null" >
+        #{contractcurrency,jdbcType=DECIMAL},
+      </if>
+      <if test="tradedays != null" >
+        #{tradedays,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" resultType="java.lang.Integer" >
+    select count(*) from IPO_A_BREED
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update IPO_A_BREED
+    <set >
+      <if test="record.breedid != null" >
+        BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.breedname != null" >
+        BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortid != null" >
+        SORTID = #{record.sortid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractfactor != null" >
+        CONTRACTFACTOR = #{record.contractfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minpricemove != null" >
+        MINPRICEMOVE = #{record.minpricemove,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreadalgr != null" >
+        SPREADALGR = #{record.spreadalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreaduplmt != null" >
+        SPREADUPLMT = #{record.spreaduplmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreaddownlmt != null" >
+        SPREADDOWNLMT = #{record.spreaddownlmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minquantitymove != null" >
+        MINQUANTITYMOVE = #{record.minquantitymove,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractfactorname != null" >
+        CONTRACTFACTORNAME = #{record.contractfactorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradetime != null" >
+        TRADETIME = #{record.tradetime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minapplynum != null" >
+        MINAPPLYNUM = #{record.minapplynum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxapplynum != null" >
+        MAXAPPLYNUM = #{record.maxapplynum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minapplyquamove != null" >
+        MINAPPLYQUAMOVE = #{record.minapplyquamove,jdbcType=DECIMAL},
+      </if>
+      <if test="record.publishalgr != null" >
+        PUBLISHALGR = #{record.publishalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dealerpubcharatio != null" >
+        DEALERPUBCHARATIO = #{record.dealerpubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mktdeapubcharatio != null" >
+        MKTDEAPUBCHARATIO = #{record.mktdeapubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.publishercharatio != null" >
+        PUBLISHERCHARATIO = #{record.publishercharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mktpubcharatio != null" >
+        MKTPUBCHARATIO = #{record.mktpubcharatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractcurrency != null" >
+        CONTRACTCURRENCY = #{record.contractcurrency,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tradedays != null" >
+        TRADEDAYS = #{record.tradedays,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update IPO_A_BREED
+    set BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
+      SORTID = #{record.sortid,jdbcType=DECIMAL},
+      CONTRACTFACTOR = #{record.contractfactor,jdbcType=DECIMAL},
+      MINPRICEMOVE = #{record.minpricemove,jdbcType=DECIMAL},
+      SPREADALGR = #{record.spreadalgr,jdbcType=DECIMAL},
+      SPREADUPLMT = #{record.spreaduplmt,jdbcType=DECIMAL},
+      SPREADDOWNLMT = #{record.spreaddownlmt,jdbcType=DECIMAL},
+      MINQUANTITYMOVE = #{record.minquantitymove,jdbcType=DECIMAL},
+      CONTRACTFACTORNAME = #{record.contractfactorname,jdbcType=VARCHAR},
+      TRADETIME = #{record.tradetime,jdbcType=DECIMAL},
+      MINAPPLYNUM = #{record.minapplynum,jdbcType=DECIMAL},
+      MAXAPPLYNUM = #{record.maxapplynum,jdbcType=DECIMAL},
+      MINAPPLYQUAMOVE = #{record.minapplyquamove,jdbcType=DECIMAL},
+      PUBLISHALGR = #{record.publishalgr,jdbcType=DECIMAL},
+      DEALERPUBCHARATIO = #{record.dealerpubcharatio,jdbcType=DECIMAL},
+      MKTDEAPUBCHARATIO = #{record.mktdeapubcharatio,jdbcType=DECIMAL},
+      PUBLISHERCHARATIO = #{record.publishercharatio,jdbcType=DECIMAL},
+      MKTPUBCHARATIO = #{record.mktpubcharatio,jdbcType=DECIMAL},
+      CONTRACTCURRENCY = #{record.contractcurrency,jdbcType=DECIMAL},
+      TRADEDAYS = #{record.tradedays,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_A_BREED t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+    <select id="selectByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
+    select 
+     <include refid="Base_Column_List" />
+    from  IPO_A_BREED  where UPPER(BREEDID) = #{breedid,jdbcType=VARCHAR} 
+  </select> 
+</mapper>
