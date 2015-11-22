@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
@@ -22,6 +23,7 @@ import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 /**
  * 查询商品Controller
@@ -119,13 +121,15 @@ public class IpoController extends BaseController  {
 	 */
 	@RequestMapping(value = "/updateBreedforward", method = RequestMethod.GET)
 	public String updateBreedforward(HttpServletRequest request,
-			HttpServletResponse response, Model model) throws IOException {
+			HttpServletResponse response, Model model,@RequestParam("breedid") String breedid) throws IOException {
 		request.setAttribute("crud", "update");
 		log.info("跳转至修改页面");
+		VIpoABreed vbreed=vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
 		Mlist = mBreedservice.findAll();
 		List<Tradetime> tratimelist = new ArrayList<Tradetime>();
 		tratimelist=tradetimeservice.selectAll();
 		request.setAttribute("Mlist",Mlist);
+		request.setAttribute("entity",vbreed);
 		request.setAttribute("tratimelist",tratimelist);
 		request.setAttribute("breedlist",JSON.json(Mlist));
 		return "app/breed/breed";

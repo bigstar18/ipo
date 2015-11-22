@@ -15,10 +15,48 @@
 <script type="text/javascript">
  
 $(document).ready(function() {
-	 var p = $('#dg').datagrid('getPager'); 
+	
+	 $('#tt').datagrid({  
+         title:'品种列表',  
+         iconCls:'icon-ok', 
+         method:"get",
+         width:800,
+         height:400,
+         pageSize:10,  
+         pageList:[5,10,15],  
+         nowrap:true,  
+         singleSelect:true,
+         striped:true,  
+         collapsible:true,  
+         toolbar:"#tb",  
+         url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds', //搜索前,触发此action请求所有用户信息  
+         loadMsg:'数据加载中......',  
+         fitColumns:true,//允许表格自动缩放,以适应父容器  
+         sortName:'breedid',  
+         sortOrder:'asc',  
+         remoteSort:false,  
+         columns : [ [ {  
+             field : 'breedid',  
+             width : 200,  
+             title : '品种id'  
+         }, {  
+             field : 'breedname',  
+             width : 200,  
+             title : '品种名称'  
+         }, {  
+             field : 'breedid',  
+             width : 200,  
+             title : '对应商品' ,
+             formatter:function(value,row){
+            	 var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
+         	    return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
+         } }]],  
+         pagination : true,  
+         rownumbers : false  
+     });  
+	
+	 var p = $('#tt').datagrid('getPager'); 
 	    $(p).pagination({ 
-	        pageSize: 10,
-	        pageList: [5,10,15],
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
@@ -26,14 +64,52 @@ $(document).ready(function() {
 });
     
 function doSearch(){
-	$('#dg').datagrid({    
-	    url:'<%=request.getContextPath()%>/BreedController/findBreedByName',    
-	    columns:[[    
-	        {field:'breedid',title:'品种ID',width:100},    
-	        {field:'breedname',title:'品种名称',width:100},    
-	        {field:'breedid',title:'对应商品',width:100,}    
-	    ]]    
-	});  
+	var breedname=$("#breedname").val();
+	 $('#tt').datagrid({  
+         title:'品种列表',  
+         iconCls:'icon-ok', 
+         method:"post",
+         width:800,
+         height:400,
+         singleSelect:true,
+         pageSize:10,  
+         pageList:[5,10,15],  
+         nowrap:true,  
+         striped:true,  
+         collapsible:true,  
+         toolbar:"#tb",  
+         url:'<%=request.getContextPath()%>/BreedController/findBreedByName?breedname='+breedname, //搜索  
+         loadMsg:'数据加载中......',  
+         fitColumns:true,//允许表格自动缩放,以适应父容器  
+         sortName:'breedid',  
+         sortOrder:'asc',  
+         remoteSort:false,  
+         columns : [ [ {  
+             field : 'breedid',  
+             width : 200,  
+             title : '品种id'  
+         }, {  
+             field : 'breedname',  
+             width : 200,  
+             title : '品种名称'  
+         }, {  
+             field : 'breedid',  
+             width : 200,  
+             title : '对应商品',  
+             formatter:function(value,row){
+               var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
+               return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
+             } }]],
+         pagination : true,  
+         rownumbers : false  
+     });  
+	 var p2 = $('#tt').datagrid('getPager'); 
+	    $(p2).pagination({ 
+	        beforePageText: '第',
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+	    });  
+	 
 }
     
     
@@ -103,6 +179,10 @@ function dolistquery() {
 	frm.submit();
 }
 
+
+
+
+
 </script>
 </head>
 <body>
@@ -112,7 +192,8 @@ function dolistquery() {
 					<td>
 						<br />
 	<div class="div_list">
-	<table id="dg" class="easyui-datagrid" title="品种列表" style="width:100%;height:350px"
+	<table id="tt"></table>
+	<%-- <table id="dg" class="easyui-datagrid" title="品种列表" style="width:100%;height:350px"
 			data-options="toolbar:'#tb',pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds',method:'get'">
 		<thead>
 			<tr>
@@ -122,7 +203,7 @@ function dolistquery() {
 				<th data-options="field:'breedid',width:200,formatter:rowformatertoimg">对应商品</th>
 			</tr>
 		</thead>
-	</table>
+	</table> --%>
 		<div id="tb" style="padding:5px;height:auto">
 		<div style="margin-bottom:5px">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addForward();" action="" id="add">添加</a>

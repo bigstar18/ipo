@@ -33,7 +33,7 @@
 			var publishalgr=$("#publishalgr").val();
 			if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
 			 $.ajax({  
-				    type: 'GET',  
+				    type: 'GET',  //
 				    url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
 				    contentType: "application/json; charset=utf-8", 
 				    data:{"breedid":breedid},  
@@ -575,7 +575,7 @@ function changeUnits1(){
    document.getElementById("span_contractFactor").innerHTML ="如(吨/批)"
    else 
    document.getElementById("span_contractFactor").innerHTML ="("+value+ "/批)";
-     }
+ }
  
 //-----------------------------end paraminfo-----------------------------
 
@@ -626,7 +626,7 @@ function setSortName(value) {
 		      									<select id="bname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="mbreed" items="${Mlist}">
-                                                      <option value="${mbreed.breedid}">${mbreed.breedname}</option>
+                                                      <option <c:if test="${entity.breedid==mbreed.breedid }">selected</c:if> value="${mbreed.breedid}">${mbreed.breedname}</option>
                                                     </c:forEach>
 								            	</select>
 								            </c:if> 
@@ -752,7 +752,7 @@ function setSortName(value) {
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr>
         	  							<td align="right">最小申购数量：</td>
-            							<td>元/<input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
+            							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
             								class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
@@ -835,7 +835,7 @@ function setSortName(value) {
 							         		<tr>
 											<td>&nbsp;&nbsp;</td>
 							                <td align="left">
-							                    <c:forEach var="tradeTime" items="${requestScope.tratimelist}" varStatus="status">
+							                    <c:forEach var="tradeTime" items="${tratimelist}" varStatus="status">
 							                      <c:if test="${status.count%5==0}"><br /></c:if>
 							                      <input type="checkbox" name="tradetime" class="NormalInput" value="${tradeTime.sectionid }"/>
 							                      <label class="hand">

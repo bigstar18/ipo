@@ -94,7 +94,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from IPO_A_BREED
+    from IPO_BREED
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -103,13 +103,13 @@
     </if>
   </select>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" >
-    delete from IPO_A_BREED
+    delete from IPO_BREED
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
-    insert into IPO_A_BREED (BREEDID, BREEDNAME, SORTID, 
+    insert into IPO_BREED (BREEDID, BREEDNAME, SORTID, 
       CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, 
       SPREADUPLMT, SPREADDOWNLMT, MINQUANTITYMOVE, 
       CONTRACTFACTORNAME, TRADETIME, MINAPPLYNUM, 
@@ -127,7 +127,7 @@
       )
   </insert>
   <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
-    update IPO_A_BREED
+    update IPO_BREED
     set BREEDID = #{breedid,jdbcType=DECIMAL},
       BREEDNAME = #{breedname,jdbcType=VARCHAR},
       SORTID = #{sortid,jdbcType=DECIMAL},
@@ -151,7 +151,7 @@
       TRADEDAYS = #{tradedays,jdbcType=DECIMAL}
   </update>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
-    insert into IPO_A_BREED
+    insert into IPO_BREED
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="breedid != null" >
         BREEDID,
@@ -284,10 +284,10 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_A_BREED
+    select count(*) from IPO_BREED
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update IPO_A_BREED
+    update IPO_BREED
     <set >
       <if test="record.breedid != null" >
         BREEDID = #{record.breedid,jdbcType=DECIMAL},
@@ -358,7 +358,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update IPO_A_BREED
+    update IPO_BREED
     set BREEDID = #{record.breedid,jdbcType=DECIMAL},
       BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
       SORTID = #{record.sortid,jdbcType=DECIMAL},
@@ -385,20 +385,20 @@
     </if>
   </update>
    <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_A_BREED t) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
     <select id="selectByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
      <include refid="Base_Column_List" />
-    from  IPO_A_BREED  where UPPER(BREEDID) = #{breedid,jdbcType=VARCHAR} 
+    from  IPO_BREED  where UPPER(BREEDID) = #{breedid,jdbcType=VARCHAR} 
   </select> 
   <select id="getAllByName"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_A_BREED t where BREEDNAME like  #{breedname}) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t where BREEDNAME like  #{breedname}) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="countByName" parameterType="String" resultType="java.lang.Integer" >
-    select count(*) from IPO_A_BREED where BREEDNAME like  #{breedname}
+    select count(*) from IPO_BREED where BREEDNAME like  #{breedname}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select <include refid="Base_Column_List" /> from IPO_A_BREED
+    select <include refid="Base_Column_List" /> from IPO_BREED
   </select>
 </mapper>
