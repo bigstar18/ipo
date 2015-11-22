@@ -199,7 +199,7 @@ public class BreedController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/findExsitIds", method = RequestMethod.GET)
+	@RequestMapping(value = "/findExsitIds" ,method = RequestMethod.GET)
 	@ResponseBody
 	public String findExsitIds(@RequestParam("breedid") String breedid) throws IOException {
 		log.info("查询已配置IPO信息的品种ID");
@@ -208,7 +208,7 @@ public class BreedController extends BaseController {
 			List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
 			blist=vIpoABreedService.findAll();
 			for(int i=0;i<blist.size();i++){
-				if(bid==blist.get(i).getBreedid()){
+				if(bid.equals(blist.get(i).getBreedid())){
 					return "0";//已存在
 				}
 			}
