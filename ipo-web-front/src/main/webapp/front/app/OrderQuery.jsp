@@ -32,7 +32,7 @@
 		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table  id="mytb"  class="easyui-datagrid"  title="申购记录查询"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/getOrder?userid=<%=userId %>,method:'get'">
+            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/getOrder?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
                         <th data-options="field:'commodityid',width:200">商品编号</th>

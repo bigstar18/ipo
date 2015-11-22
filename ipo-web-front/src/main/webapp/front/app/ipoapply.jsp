@@ -229,8 +229,4 @@ function getDetail(index, data) {
 </script>
 </div>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
