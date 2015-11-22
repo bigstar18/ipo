@@ -97,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
 				Date date = new Date(timestamp.getTime());
 				order.setCreatetime(date);
 				order.setFrozenfunds(list.get(i).getFrozenfunds());
+				order.setUserid(list.get(i).getUserid());
 				list2.add(order);
 			}
 		} catch (Exception e) {
@@ -108,12 +109,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int getAllOrder() {
 		logger.info("查询共有几条记录");
-		try {
-			return ipoOrderMapper.selectByCounts();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+
+		int counts = ipoOrderMapper.selectByCounts();
+		return counts;
+
 	}
 
 }

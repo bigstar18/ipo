@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String userId ="888";%><html>
+<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -86,7 +86,7 @@ $(document).ready(function() {
 	        pageList: [5,10,15],
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });  
 	    
    //获取用户保证金	

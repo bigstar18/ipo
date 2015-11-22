@@ -14,6 +14,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Order {
+	// 交易商id
+	@JsonProperty("userid")
+	@XmlElement(name = "userid")
+	private String userid;// 交易商id
+
 	// 商品编号
 	@JsonProperty("commodityid")
 	@XmlElement(name = "commodityid")
@@ -40,6 +45,26 @@ public class Order {
 	@XmlElement(name = "frozenfunds")
 	private BigDecimal frozenfunds;
 
+	@JsonProperty("commodity_id")
+	@XmlElement(name = "commodity_id")
+	private int commodity_id;// 发售表主键ID
+
+	public int getCommodity_id() {
+		return commodity_id;
+	}
+
+	public void setCommodity_id(int commodity_id) {
+		this.commodity_id = commodity_id;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 	public String getCommodityid() {
 		return commodityid;
 	}
@@ -53,8 +78,7 @@ public class Order {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public int getCounts() {

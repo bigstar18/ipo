@@ -19,7 +19,6 @@ import com.yrdce.ipo.modules.sys.service.DisplayService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
-import com.yrdce.ipo.modules.sys.vo.Display;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
@@ -80,7 +79,7 @@ public class CommodityController extends BaseController {
 	}
 
 	/**
-	 * 分页返回商品列表
+	 * mgr手动摇号服务
 	 * 
 	 * @param
 	 * @return
@@ -92,7 +91,7 @@ public class CommodityController extends BaseController {
 		log.info("分页查询发售商品信息");
 		try {
 			List<Commodity> clist = new ArrayList<Commodity>();
-			clist = commodityService.findCommList(page, rows);
+			clist = commodityService.getList(page, rows);
 			int totalnums = commodityService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -103,68 +102,6 @@ public class CommodityController extends BaseController {
 			e.printStackTrace();
 			return "";
 		}
-	}
-
-	/**
-	 * 获取用户信息(保证金余额)
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-	@ResponseBody
-	public String getUserInfo(@RequestParam("userid") String userid) throws IOException {
-		try {
-			return displayService.userInfo(userid);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	/**
-	 * 异步刷新
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/getInfos", method = RequestMethod.GET)
-	@ResponseBody
-	public String getInfos(@RequestParam("commodityid") String commodityid, @RequestParam("money") String money) throws IOException {
-		log.info("获取商品和用户信息");
-		try {
-			Display display = displayService.display(commodityid, money);
-			if (display == null) {
-				return "";
-			}
-			return JSON.json(display);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-
-	/**
-	 * 申购
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/purchApply", method = RequestMethod.GET)
-	@ResponseBody
-	public String purchApply(@RequestParam("commodityid") String commodityid, @RequestParam("userid") String userid,
-			@RequestParam("quantity") String quantity) {
-		log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity);
-		try {
-			return purchase.apply(userid, commodityid, Integer.parseInt(quantity)) + "";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-
 	}
 
 	/**
@@ -192,6 +129,22 @@ public class CommodityController extends BaseController {
 			return "";
 		}
 
+	}
+
+	/**
+	 * 根据商品id查询商品信息
+	 */
+	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String commodityInfo(@RequestParam("commodityid") String commodityid) {
+		log.info("根据商品id查询商品信息");
+		Commodity com = commodityService.getCommodity(commodityid);
+		try {
+			return JSON.json(com);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 }

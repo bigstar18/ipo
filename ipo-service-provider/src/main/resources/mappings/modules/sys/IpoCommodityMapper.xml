@@ -80,7 +80,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from IPO_COMMODITY
+    from IPO_COMMODITY_SALE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,15 +91,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from IPO_COMMODITY
+    from IPO_COMMODITY_SALE
     where ID = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from IPO_COMMODITY
+    delete from IPO_COMMODITY_SALE
     where ID = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" >
-    delete from IPO_COMMODITY
+    delete from IPO_COMMODITY_SALE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,10 +107,10 @@
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     <selectKey resultType="String" order="BEFORE" keyProperty="id">
 
-	SELECT SEQ_IPO_COMMODITY.NEXTVAL FROM dual
+	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
 	</selectKey>
-    insert into IPO_COMMODITY
+    insert into IPO_COMMODITY_SALE
     <include refid="Base_Column_List" />
     values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=INTEGER}, #{counts,jdbcType=INTEGER}, 
@@ -119,10 +119,10 @@
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     <selectKey resultType="String" order="BEFORE" keyProperty="id">
 
-	SELECT SEQ_IPO_COMMODITY.NEXTVAL FROM dual
+	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
 	</selectKey>
-    insert into IPO_COMMODITY
+    insert into IPO_COMMODITY_SALE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -189,13 +189,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_COMMODITY where STARTTIME >=trunc(sysdate)
+    select count(*) from IPO_COMMODITY_SALE where STARTTIME >=trunc(sysdate)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update IPO_COMMODITY
+    update IPO_COMMODITY_SALE
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=INTEGER},
@@ -233,7 +233,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update IPO_COMMODITY
+    update IPO_COMMODITY_SALE
     set ID = #{record.id,jdbcType=INTEGER},
       COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
@@ -249,7 +249,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    update IPO_COMMODITY
+    update IPO_COMMODITY_SALE
     <set >
       <if test="commodityid != null" >
         COMMODITYID = #{commodityid,jdbcType=VARCHAR},
@@ -282,7 +282,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    update IPO_COMMODITY
+    update IPO_COMMODITY_SALE
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=DECIMAL},
@@ -295,28 +295,50 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
      <include refid="Base_Column_List" />
-     from IPO_COMMODITY
+     from IPO_COMMODITY_SALE
   </select>
    <select id="selectByComid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
      <include refid="Base_Column_List" />
-    from  IPO_COMMODITY  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} 
+    from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} 
   </select>
   
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
-   	from IPO_COMMODITY where to_char(STARTTIME,'yyyy-MM-dd') = #{satrttime,jdbcType=VARCHAR}
+   	from IPO_COMMODITY_SALE where to_char(STARTTIME,'yyyy-MM-dd') = #{satrttime,jdbcType=VARCHAR}
    </select>
    
    <select id="selectByEnd" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
-   	from IPO_COMMODITY where to_char(ENDTIME,'yyyy-MM-dd') = #{endtime,jdbcType=VARCHAR}
+   	from IPO_COMMODITY_SALE where to_char(ENDTIME,'yyyy-MM-dd') = #{endtime,jdbcType=VARCHAR}
    </select>
+   
+   <select id="getAll"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   
+   <select id="selectByCommodityAndOrder" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="map">
+   	select b.* from
+	(select a.*,rownum TNO from 
+	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
+	left outer join 
+	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
+	on c.commodityid = t1.commodityid) a) b
+	where b.TNO between #{beginnum} and  #{endnum}
+   </select>
+   
+   <select id="getCounts" resultType="java.lang.Integer">
+   	select count(0) from IPO_COMMODITY_SALE
+   </select>
+   
+   <update id="updateByStatus" parameterType="map">
+   	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
 </mapper>

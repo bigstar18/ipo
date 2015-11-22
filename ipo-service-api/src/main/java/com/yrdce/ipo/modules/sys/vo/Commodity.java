@@ -17,6 +17,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commodity implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@JsonProperty("commodityid")
 	@XmlElement(name = "commodityid")
 	@NotNull
@@ -60,6 +65,11 @@ public class Commodity implements Serializable {
 	@XmlElement(name = "status")
 	@NotNull
 	private int status;// 状态
+
+	@JsonProperty("ccounts")
+	@XmlElement(name = "ccounts")
+	@NotNull
+	private int ccounts;// 客户申购数
 
 	public Commodity() {
 		super();
@@ -139,10 +149,18 @@ public class Commodity implements Serializable {
 		this.status = status;
 	}
 
+	public int getCcounts() {
+		return ccounts;
+	}
+
+	public void setCcounts(int ccounts) {
+		this.ccounts = ccounts;
+	}
+
 	@Override
 	public String toString() {
-		return "商品 [商品编码=" + commodityid + ", 商品名称=" + commodityname + ", 发售价格=" + price + ", 配售单位=" + units + ", 发售日期=" + starttime + ", 截止日期="
-				+ endtime + "]";
+		return "商品 [商品=" + commodityid + ", 名称=" + commodityname + ", 发售价格=" + price + ", 配售单位=" + units + ", 发售总数=" + counts + ", 发售日期=" + starttime
+				+ ", 截止日期=" + endtime + ", 状态=" + status + ", 申购总数=" + ccounts + "]";
 	}
 
 }

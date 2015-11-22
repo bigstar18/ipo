@@ -38,7 +38,7 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectAll(String date);
 
-	List<String> select(String date);
+	List<String> select(int commodityid);
 
 	void insertAll();
 

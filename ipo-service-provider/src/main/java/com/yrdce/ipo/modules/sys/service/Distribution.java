@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yrdce.ipo.common.utils.DateUtil;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
@@ -33,6 +33,8 @@ public class Distribution {
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
 	private IpoDistributionMapper distribution;
+	@Autowired
+	private IpoCommodityMapper commodity;
 
 	// @Autowired
 	// private GetBallotNoUtils getBallotNoUtils;
@@ -40,14 +42,12 @@ public class Distribution {
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
 	@SuppressWarnings("unused")
-	public void start() {
-		// System.out.println("配号开始");
-
+	public void start(List<IpoOrder> o) {
 		// 获得系统当前时间的前一天
-		String oldtime = DateUtil.getTime(1);
+		// String oldtime = DateUtil.getTime(1);
 
 		// 获取系统前一天订单列表
-		List<IpoOrder> o = order.selectAll(oldtime);
+		// List<IpoOrder> o = order.selectAll(oldtime);
 		if (o != null || o.size() > 0) {
 			logger.info("获取前一天订单列表");
 			for (int i = 0; i < o.size(); i++) {
@@ -201,7 +201,11 @@ public class Distribution {
 					}
 
 				}
+				// 更新商品状态
+				commodity.updateByStatus(2, sId);
 			}
+			// 删除配号临时表
+			unmberofrecord.deleteAll();
 		}
 
 	}

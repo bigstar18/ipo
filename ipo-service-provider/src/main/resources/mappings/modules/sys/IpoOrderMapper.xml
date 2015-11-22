@@ -307,7 +307,7 @@
     </select>
     
     <select id="select" resultType="java.lang.String">
-    	select distinct COMMODITYID from IPO_ORDER where to_char(CREATETIME,'yyyy-MM-dd') = #{CREATETIME,jdbcType=VARCHAR}
+    	select distinct COMMODITYID from IPO_ORDER where COMMODITY_ID = #{commodity_id,jdbcType=INTEGER}
     </select>
     
    <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -339,7 +339,7 @@
    </select>
    
    <select id="selectByCounts" resultType="java.lang.Integer">
-   	select <include refid="Base_Column_List" /> from IPO_ORDER
+   	select count(0) from IPO_ORDER
    </select>
    
    <select id="selectByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer">

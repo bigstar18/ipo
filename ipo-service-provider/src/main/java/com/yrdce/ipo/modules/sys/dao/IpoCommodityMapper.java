@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended;
 
 @MyBatisDao
 public interface IpoCommodityMapper {
@@ -41,4 +42,10 @@ public interface IpoCommodityMapper {
 	List<IpoCommodity> selectByTime(String date);
 
 	List<IpoCommodity> selectByEnd(String enddate);
+
+	List<IpoCommodityExtended> selectByCommodityAndOrder(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+
+	int getCounts();
+
+	void updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
 }

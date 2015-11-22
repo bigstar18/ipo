@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.yrdce.ipo.modules.sys.vo.Display;
  */
 @Service("DisplayService")
 public class DisplayServiceImpl implements DisplayService {
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IpoCommodityMapper commodity;
 	@Autowired
@@ -53,13 +57,11 @@ public class DisplayServiceImpl implements DisplayService {
 				// 1单位价格
 				BigDecimal total = price.multiply(Unitprice);
 				// 计算可购买多少单位
-				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN))
-						.intValue();
+				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
 				// 获得申购额度
 				long purchaseCredits = c.getPurchaseCredits();
 
-				Display display = new Display(name, number, units, price,
-						purchaseCredits);
+				Display display = new Display(name, number, units, price, purchaseCredits);
 
 				return display;
 			} else {

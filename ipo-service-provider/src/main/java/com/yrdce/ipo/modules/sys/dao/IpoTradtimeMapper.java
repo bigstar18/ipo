@@ -10,7 +10,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
 @MyBatisDao
 public interface IpoTradtimeMapper {
 
-	public List<IpoTradetime> selectByAll(@Param("page") int page, @Param("rows") int rows);
+	public List<IpoTradetime> selectByAll(@Param("page") int page, @Param("rows") int rows);//分页
 
 	public IpoTradetime selectByKey(Short id);
 
@@ -21,4 +21,6 @@ public interface IpoTradtimeMapper {
 	public void insert(IpoTradetime tradetime);
 
 	public int selectByCounts();
+	
+	public List<IpoTradetime> selectAll();//所有
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
 public interface TradetimeService {
-	// 查询交易节
+	// 查询交易节（分页）
 	public List<Tradetime> select(String page, String rows);
 
 	// 修改交易节
@@ -25,5 +25,8 @@ public interface TradetimeService {
 
 	// 查询交易节总数
 	public int selectByCounts();
+
+	// 查询所有交易节
+	public List<Tradetime> selectAll();
 
 }

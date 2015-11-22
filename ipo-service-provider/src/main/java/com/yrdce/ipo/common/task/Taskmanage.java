@@ -1,8 +1,7 @@
 package com.yrdce.ipo.common.task;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
@@ -54,21 +53,22 @@ public class Taskmanage extends TimerTask {
 			List<IpoCommodity> commod = commodity.selectByEnd(oldtime);
 			for (IpoCommodity com : commod) {
 				int id = Integer.parseInt(com.getId());
-				List<IpoOrder> o = order.selectByCid(id);
+				List<IpoOrder> o = new ArrayList<IpoOrder>();
+				o = order.selectByCid(id);
 
 				// 查询前一天交易订单
 				// List<IpoOrder> o = order.selectAll(oldtime);
 
 				if (o != null && o.size() != 0) {
 					// for(int z= 0;z<o.size();z++){
-					IpoOrder order1 = o.get(0);
-					Timestamp time = order1.getCreatetime();
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					String nowtime = formatter.format(time);
+					// IpoOrder order1 = o.get(0);
+					// Timestamp time = order1.getCreatetime();
+					// SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					// String nowtime = formatter.format(time);
 					// 获得系统当前时间的前一天
-					logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
+					// logger.info("系统时间：" + oldtime, "表时间：" + nowtime);
 					// 去重
-					List<String> list = order.select(oldtime);
+					List<String> list = order.select(id);
 					logger.info("复制插入商品id");
 					for (int i = 0; i < list.size(); i++) {
 						frecord = new IpoNumberofrecords();
@@ -81,18 +81,18 @@ public class Taskmanage extends TimerTask {
 					}
 
 					// 配号任务开始
-					distribution.start();
+					distribution.start(o);
 				}
 			}
 
 			// 摇号获取系统当前时间的前2天
-			String ballotNowtime = DateUtil.getTime(2);
-			// 查询前一天交易订单
-			List<IpoOrder> orders = order.selectAll(ballotNowtime);
-			if (orders != null && orders.size() > 0) {
-				// 摇号处理开始
-				getBallotNoUtils.start();
-			}
+			// String ballotNowtime = DateUtil.getTime(2);
+			// // 查询前一天交易订单
+			// List<IpoOrder> orders = order.selectAll(ballotNowtime);
+			// if (orders != null && orders.size() > 0) {
+			// // 摇号处理开始
+			// getBallotNoUtils.start();
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
