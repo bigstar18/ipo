@@ -206,7 +206,7 @@ var promptTime = 60;
 						<script type="text/javascript">
 							         var M01;
 							         var M0101;
-							         M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> 交易参数设置","");
+							         M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> 交易参数设置",""); 
 						</script>
 						<script type="text/javascript">
 									M0101 = new WebFXTreeItem("交易节管理,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/IpoController/tradeTimeManage");
@@ -217,26 +217,40 @@ var promptTime = 60;
 									M01.add(M0101);
 						</script>
 						<script type="text/javascript">document.write(M01);</script>
-						<div class="webfx-tree-item" id="webfx-tree-object-5" style="padding-top: 1px; padding-bottom: 1px; cursor: hand;" onkeydown="return webFXTreeHandler.keydown(this, event)" onclick="webFXTreeHandler.toggle(this);" onselectstart="return false">
-							<img class="webfx-tree-icon2" id="webfx-tree-object-5-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="../mgr/skinstyle/gray/image/frame/menu/xtree_gif_05.gif"> <span id="webfx-tree-object-5-anchor" onfocus="webFXTreeHandler.focus(this);"
+						<script type="text/javascript">
+							         var M02;
+							         var M0102;
+							         M02 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> 发行管理","");
+						</script>
+						<script type="text/javascript">
+									M0102 = new WebFXTreeItem("发行摇号,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/QueryController/IssuedManage");
+									M02.add(M0102);
+						</script>
+						<script type="text/javascript">
+									M0102 = new WebFXTreeItem("申购成交,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/QueryController/ApplySuccManage");
+									M02.add(M0102);
+						</script>
+						<script type="text/javascript">document.write(M02);</script>
+					<%-- 	<div class="webfx-tree-item" id="webfx-tree-object-5" style="padding-top: 1px; padding-bottom: 1px; cursor: hand;" onkeydown="return webFXTreeHandler.keydown(this, event)" onclick="webFXTreeHandler.toggle(this);" onselectstart="return false">
+							<img class="webfx-tree-icon2" id="webfx-tree-object-5-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_gif_05.gif"> <span id="webfx-tree-object-5-anchor" onfocus="webFXTreeHandler.focus(this);"
 								onblur="webFXTreeHandler.blur(this);" target="mainSwitch"> <img src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif"> 交易参数设置
 							</span>
 						</div>
 						<div class="webfx-tree-container" id="webfx-tree-object-5-cont" style="display: block;">
 
 							<div class="webfx-tree-item" id="webfx-tree-object-7" onkeydown="return webFXTreeHandler.keydown(this, event)">
-								<img id="webfx-tree-object-7-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-7-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
+								<img id="webfx-tree-object-7-plus" ondblclick="webFXTreeHandler.toggle(this);" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-7-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
 									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="交易节管理" onclick="goto('<%=basePath%>/IpoController/tradeTimeManage','交易节管理','交易参数设置')"> <a name="third" id="webfx-tree-object-7-anchor" style="font-size: 12px;"
 									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">交易节管理</a></span>
 							</div>
 							<div class="webfx-tree-container" id="webfx-tree-object-7-cont" style="display: none;"></div>
 
 							<div class="webfx-tree-item" id="webfx-tree-object-8" onkeydown="return webFXTreeHandler.keydown(this, event)">
-								<img id="webfx-tree-object-8-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-8-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
+								<img id="webfx-tree-object-8-plus" ondblclick="webFXTreeHandler.toggle(this);" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-8-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
 									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="商品管理" onclick="goto('<%=basePath%>/IpoController/CommodityManage','商品管理','交易参数设置')"> <a name="third" id="webfx-tree-object-8-anchor" style="font-size: 12px;"
 									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">商品管理</a></span>
 							</div>
-							<div class="webfx-tree-container" id="webfx-tree-object-8-cont" style="display: none;"></div>
+							<div class="webfx-tree-container" id="webfx-tree-object-8-cont" style="display: none;"></div> --%>
 						</div>
 					</div>
 				</div>

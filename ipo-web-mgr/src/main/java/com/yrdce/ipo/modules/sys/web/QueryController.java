@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +38,22 @@ public class QueryController {
 
 	@Autowired
 	private DistributionService distributionService;
+
+	/*
+	 * 发行摇号视图
+	 */
+	@RequestMapping(value = "/IssuedManage", method = RequestMethod.GET)
+	public String IssuedManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "app/pubManager/Issued";
+	}
+
+	/*
+	 * 申购成交视图
+	 */
+	@RequestMapping(value = "/ApplySuccManage", method = RequestMethod.GET)
+	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "app/pubManager/OrderQuery";
+	}
 
 	/**
 	 * 订单查询
