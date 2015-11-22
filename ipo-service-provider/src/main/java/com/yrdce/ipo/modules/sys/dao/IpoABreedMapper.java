@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 @MyBatisDao
 public interface IpoABreedMapper {
-    int countByExample(IpoABreedExample example);
+    int countByExample();
 
     int deleteByExample(IpoABreedExample example);
 

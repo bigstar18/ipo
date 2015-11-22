@@ -283,7 +283,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreedExample" resultType="java.lang.Integer" >
+  <select id="countByExample" resultType="java.lang.Integer" >
     select count(*) from IPO_BREED
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
