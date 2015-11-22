@@ -1,67 +1,62 @@
-<%@ page contentType="text/html;charset=GBK"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 
 <html>
 <head>
 
 
-<title>·¢ĞĞÒ¡ºÅ</title>
+<title>å‘è¡Œæ‘‡å·</title>
 
-	<meta name="decorator" content="default"/>
-	<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
-    <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
-    <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+<meta name="decorator" content="default" />
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
+<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 </head>
- <body>
+<body>
 	<div class="main">
-	<div class="msg">Äúµ±Ç°µÄÎ»ÖÃ£º<span>·¢ĞĞÒ¡ºÅ</span></div>
-	
+
 		<div class="col-xs-12">
-		<br>
-			
+			<br>
+
 			<div id="myTabContent" class="tab-content">
-			<table id="mytb" border ="1" class="easyui-datagrid"  title="·¢ĞĞÒ¡ºÅ"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/QueryController/findRockNums',method:'get'"
-            toolbar="#tb">
-        <thead>
-            <tr>
-                <th data-options="field:'commodityid',width:200">ÉÌÆ·´úÂë</th>
-                <th data-options="field:'starttime',width:200,formatter:dateconvertfunc">·¢ĞĞ¿ªÊ¼ÈÕÆÚ</th>
-                <th data-options="field:'endtime',width:200,formatter:dateconvertfunc">·¢ĞĞ½ØÖÁÈÕÆÚ</th>
-                <th data-options="field:'counts',width:200">ÍøÉÏ·¢ĞĞÊıÁ¿</th>
-                <th data-options="field:'ccounts',width:200">Éê¹ºÊıÁ¿</th>
-                <th data-options="field:'operating',width:200,formatter:rocknum">¿ªÊ¼Ò¡ºÅ</th>
-            </tr>
-        </thead>
-    		</table>
-    		<!-- <div id="tb" style="padding:3px">
-			<span>ÉÌÆ·´úÂë:</span>
+				<table id="mytb" border="1" class="easyui-datagrid" title="å‘è¡Œæ‘‡å·" style="width: 100%; height: 385px" data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/QueryController/findRockNums',method:'get'" toolbar="#tb">
+					<thead>
+						<tr>
+							<th data-options="field:'commodityid',width:200">å•†å“ä»£ç </th>
+							<th data-options="field:'starttime',width:200,formatter:dateconvertfunc">å‘è¡Œå¼€å§‹æ—¥æœŸ</th>
+							<th data-options="field:'endtime',width:200,formatter:dateconvertfunc">å‘è¡Œæˆªè‡³æ—¥æœŸ</th>
+							<th data-options="field:'counts',width:200">ç½‘ä¸Šå‘è¡Œæ•°é‡</th>
+							<th data-options="field:'ccounts',width:200">ç”³è´­æ•°é‡</th>
+							<th data-options="field:'operating',width:200,formatter:rocknum">å¼€å§‹æ‘‡å·</th>
+						</tr>
+					</thead>
+				</table>
+				<!-- <div id="tb" style="padding:3px">
+			<span>å•†å“ä»£ç :</span>
 			<input id="itemid" name = "itemid"style="line-height:26px;border:1px solid #ccc">
-			<a href="javascript:doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">²éÑ¯</a>
-			<a href="javascript:reset()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">ÖØÖÃ</a>
+			<a href="javascript:doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">æŸ¥è¯¢</a>
+			<a href="javascript:reset()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">é‡ç½®</a>
 			</div>
 			</div>
 		</div> -->
-		
-		
 
-<script type="text/javascript">
+
+
+				<script type="text/javascript">
 $(document).ready(function() {
 	 var p = $('#mytb').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        pageSize: 10,
 	        pageList: [5,10,15],
-	        beforePageText: 'µÚ',
-	        afterPageText: 'Ò³    ¹² {pages} Ò³', 
-	        displayMsg: 'µ±Ç°ÏÔÊ¾ {from} - {to} Ìõ¼ÇÂ¼   ¹² {total} Ìõ¼ÇÂ¼', 
+	        beforePageText: 'ç¬¬',
+	        afterPageText: 'é¡µ    å…± {pages} é¡µ', 
+	        displayMsg: 'å½“å‰æ˜¾ç¤º {from} - {to} æ¡è®°å½•   å…± {total} æ¡è®°å½•', 
 	    });  
 });
 
-//ÈÕÆÚ×ª»»
+//æ—¥æœŸè½¬æ¢
 function dateconvertfunc(value,row){
         return value.substr(0,10);
 }
@@ -69,10 +64,10 @@ function dateconvertfunc(value,row){
 function rocknum(value,row){
 	if(row.status == 2){
 		
-		return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >Ö´ĞĞÒ¡ºÅ</a>';
+		return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >æ‰§è¡Œæ‘‡å·</a>';
 	}else{
-		return 'ÒÑ³É½»';
-		//return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >Ö´ĞĞÒ¡ºÅ</a>';
+		return 'å·²æˆäº¤';
+		//return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >æ‰§è¡Œæ‘‡å·</a>';
 	}
 }
 
@@ -86,7 +81,7 @@ function constructionManager(commodityid){
 		    async: true,  
 		    success : function(data, stats) { 
 		    	if(data == "1"){
-	            alert('Ò¡ºÅ½áÊø');
+	            alert('æ‘‡å·ç»“æŸ');
 		    	}
 	        }
 		});  
@@ -99,27 +94,31 @@ function doSearch(){
 	var itemid = $('#itemid').val();
 	$.ajax({  
 	    type: 'GET',  
-	    url: "<%=request.getContextPath()%>/QueryController/commodityInfo",  
-	    contentType: "application/json; charset=utf-8", 
-	    data:{commodityid: itemid},  
-	    dataType: 'json',  
-	    async: true,  
-	    success : function(data, stats) {
-	    	alert("hehe");
-	    },
-		error : function(data) {  
-	    	alert(data);
-	    	console.log(data);
-	    } 
- });
-}
+	    url: "<%=request.getContextPath()%>/QueryController/commodityInfo",
+	                        contentType : "application/json; charset=utf-8",
+	                        data :
+	                        {
+		                        commodityid : itemid
+	                        },
+	                        dataType : 'json',
+	                        async : true,
+	                        success : function (data, stats)
+	                        {
+		                        alert ("hehe");
+	                        },
+	                        error : function (data)
+	                        {
+		                        alert (data);
+		                        console.log (data);
+	                        }
+	                    });
+                    }
 
-function reset(){
-	itemid.reset();
-}
-
-
-</script>
-</div>
-</body> 
+                    function reset ()
+                    {
+	                    itemid.reset ();
+                    }
+				</script>
+			</div>
+</body>
 </html>

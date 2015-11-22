@@ -1,79 +1,79 @@
-<%@ page contentType="text/html;charset=GBK"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 
 <html>
 <head>
 
 
-<title>Éê¹º¼ÇÂ¼ĞÅÏ¢ÁĞ±í</title>
+<title>ç”³è´­è®°å½•ä¿¡æ¯åˆ—è¡¨</title>
 
-	<meta name="decorator" content="default"/>
-	<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
-    <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
-     <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
-    <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+<meta name="decorator" content="default" />
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
+<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 
 </head>
 <body>
 	<div class="main">
-	<div class="msg">Äúµ±Ç°µÄÎ»ÖÃ£º<span>Éê¹º¼ÇÂ¼</span></div>
 
 		<div class="col-xs-12">
-		<br>
+			<br>
 			<div id="myTabContent" class="tab-content">
-		   <table  id="mytb"  class="easyui-datagrid"  title="Éê¹º¼ÇÂ¼²éÑ¯"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/QueryController/getAllOrder',method:'get'"
-            toolbar="#tb">
-        <thead>
-            <tr>
-            			<th data-options="field:'userid',width:200">½»Ò×ÉÌ´úÂë</th>
-                        <th data-options="field:'commodityid',width:200">ÉÌÆ·±àºÅ</th>
-						<th data-options="field:'commodityname',width:180">ÉÌÆ·Ãû³Æ</th>
-						<th data-options="field:'counts',width:200">ÒÑÉê¹ºÊıÁ¿</th>
-						<th data-options="field:'createtime',width:200,formatter:dateconvertfunc">Éê¹ºÊ±¼ä</th>
-						<th data-options="field:'frozenfunds',width:200">×Ê½ğ¶³½á</th>
-            </tr>
-        </thead>
-    </table>
+				<table id="mytb" class="easyui-datagrid" title="ç”³è´­è®°å½•æŸ¥è¯¢" style="width: 100%; height: 385px" data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/QueryController/getAllOrder',method:'get'" toolbar="#tb">
+					<thead>
+						<tr>
+							<th data-options="field:'userid',width:200">äº¤æ˜“å•†ä»£ç </th>
+							<th data-options="field:'commodityid',width:200">å•†å“ç¼–å·</th>
+							<th data-options="field:'commodityname',width:180">å•†å“åç§°</th>
+							<th data-options="field:'counts',width:200">å·²ç”³è´­æ•°é‡</th>
+							<th data-options="field:'createtime',width:200,formatter:dateconvertfunc">ç”³è´­æ—¶é—´</th>
+							<th data-options="field:'frozenfunds',width:200">èµ„é‡‘å†»ç»“</th>
+						</tr>
+					</thead>
+				</table>
 			</div>
 		</div>
-			<!-- <div id="tb" style="padding:3px">
-			<span>ÉÌÆ·´úÂë:</span>
+		<!-- <div id="tb" style="padding:3px">
+			<span>å•†å“ä»£ç :</span>
 			<input id="commodityid" style="line-height:26px;border:1px solid #ccc">
-			<span>½»Ò×ÉÌ´úÂë:</span>
+			<span>äº¤æ˜“å•†ä»£ç :</span>
 			<input id="userid" style="line-height:26px;border:1px solid #ccc">
-			<a href="javascript:doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">²éÑ¯</a>
+			<a href="javascript:doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">æŸ¥è¯¢</a>
 			</div> -->
 
-<script type="text/javascript">
-$(document).ready(function() {
-	 var p = $('#mytb').datagrid('getPager'); 
-	    $(p).pagination({ 
-	        pageSize: 10,
-	        pageList: [5,10,15],
-	        beforePageText: 'µÚ',
-	        afterPageText: 'Ò³    ¹² {pages} Ò³', 
-	        displayMsg: 'µ±Ç°ÏÔÊ¾ {from} - {to} Ìõ¼ÇÂ¼   ¹² {total} Ìõ¼ÇÂ¼', 
-	    });  
-});
+		<script type="text/javascript">
+			$ (document).ready (function ()
+            {
+	            var p = $ ('#mytb').datagrid ('getPager');
+	            $ (p).pagination (
+	            {
+	                pageSize : 10,
+	                pageList : [
+	                        5, 10, 15
+	                ],
+	                beforePageText : 'ç¬¬',
+	                afterPageText : 'é¡µ    å…± {pages} é¡µ',
+	                displayMsg : 'å½“å‰æ˜¾ç¤º {from} - {to} æ¡è®°å½•   å…± {total} æ¡è®°å½•',
+	            });
+            });
+            
+            //æ—¥æœŸè½¬æ¢
+            function dateconvertfunc (value, row)
+            {
+	            return value.substr (0, 10);
+            }
 
-//ÈÕÆÚ×ª»»
-function dateconvertfunc(value,row){
-        return value.substr(0,10);
-}
-
-function doSearch(){
-	$('#mytb').datagrid('load',{
-		commodityid : $('#itemid').val(),
-		userid:$('#userid').val()
-	});
-}
-
-
-</script>
-</div>
+            function doSearch ()
+            {
+	            $ ('#mytb').datagrid ('load',
+	            {
+	                commodityid : $ ('#itemid').val (),
+	                userid : $ ('#userid').val ()
+	            });
+            }
+		</script>
+	</div>
 </body>
 </html>

@@ -43,6 +43,7 @@ var promptTime = 60;
 				var objBackGround = document.getElementById( "div_BackGround" );
 				var objContainer = document.getElementById( "div_Container" );
 				var bottomPosition = objBackGround.getBoundingClientRect().bottom;
+				if(bottomPosition<40) bottomPosition=40;
 				div_Container.style.height = ( bottomPosition - 21  );
 				
 				var objDrwPanel = document.all.namedItem( "div_drw_Panel" );
@@ -115,8 +116,12 @@ var promptTime = 60;
                  }
             	if ( lastNo != curNo )
             	{
-            		objDrwContent[lastNo].style.display = "none";
-            		objDrwContent[curNo].style.display = "inline";
+            		if(objDrwContent[lastNo] && objDrwContent[lastNo].style){
+            			objDrwContent[lastNo].style.display = "none";
+            		}
+            		if(objDrwContent[curNo] && objDrwContent[curNo].style){
+	            		objDrwContent[curNo].style.display = "inline";
+            		}
             		objMem.curNo = curNo;
             	}
             	else
@@ -150,7 +155,6 @@ var promptTime = 60;
 					}
 				}	
 			}
-			//修改设置
 			function setFastMenu(){
 				if(showDialog("${basePath}/myMenu/getMyMenu.action", "", 580, 600)){
 					frm.action="${basePath}/menu/menuList.action";
@@ -199,63 +203,58 @@ var promptTime = 60;
 			<c:set var="pictureLayerNumber" value="0" />
 			<div class="leftMenu_div">
 				<div id="div_drw_Panel" align="left" curDrwNo="0" onClick="drwSwitch();">
-					&nbsp; <a><img src="<%=skinPath%>/image/frame/menu/06.gif" align="top" curDrwNo="0" /> </a> &nbsp;我的菜单&nbsp;&nbsp; <a href="#" onclick="setFastMenu();"><span style="font-size: 12; text-decoration: none;" curDrwNo="0">修改设置</span> </a>
+					&nbsp; <a><img src="<%=skinPath%>/image/frame/menu/06.gif" align="top" curDrwNo="0" /> </a> &nbsp;我的菜单&nbsp;&nbsp;
 				</div>
+				<div id="div_drw_Content" style="display: none;">
+					<DIV id=tree></DIV>
+				</DIV>
+				<DIV onclick=drwSwitch(); id=div_drw_Panel align=left curDrwNo="1">
+					&nbsp; <A><IMG src="<%=basePath%>/mgr/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;发售管理
+				</DIV>
 				<div id="div_drw_Content" style="display: inline;">
-					<div id="tree">
-						<script type="text/javascript">
-							         var M01;
-							         var M0101;
-							         M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> 交易参数设置",""); 
-						</script>
-						<script type="text/javascript">
-									M0101 = new WebFXTreeItem("交易节管理,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/IpoController/tradeTimeManage");
-									M01.add(M0101);
-						</script>
-						<script type="text/javascript">
-									M0101 = new WebFXTreeItem("商品管理,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
-									M01.add(M0101);
-						</script>
-						<script type="text/javascript">document.write(M01);</script>
-						<script type="text/javascript">
-							         var M02;
-							         var M0102;
-							         M02 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> 发行管理","");
-						</script>
-						<script type="text/javascript">
-									M0102 = new WebFXTreeItem("发行摇号,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/QueryController/IssuedManage");
-									M02.add(M0102);
-						</script>
-						<script type="text/javascript">
-									M0102 = new WebFXTreeItem("申购成交,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/QueryController/ApplySuccManage");
-									M02.add(M0102);
-						</script>
-						<script type="text/javascript">document.write(M02);</script>
-					<%-- 	<div class="webfx-tree-item" id="webfx-tree-object-5" style="padding-top: 1px; padding-bottom: 1px; cursor: hand;" onkeydown="return webFXTreeHandler.keydown(this, event)" onclick="webFXTreeHandler.toggle(this);" onselectstart="return false">
-							<img class="webfx-tree-icon2" id="webfx-tree-object-5-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_gif_05.gif"> <span id="webfx-tree-object-5-anchor" onfocus="webFXTreeHandler.focus(this);"
-								onblur="webFXTreeHandler.blur(this);" target="mainSwitch"> <img src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif"> 交易参数设置
-							</span>
-						</div>
-						<div class="webfx-tree-container" id="webfx-tree-object-5-cont" style="display: block;">
+					<DIV id=tree>
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交易参数设置","");</SCRIPT>
 
-							<div class="webfx-tree-item" id="webfx-tree-object-7" onkeydown="return webFXTreeHandler.keydown(this, event)">
-								<img id="webfx-tree-object-7-plus" ondblclick="webFXTreeHandler.toggle(this);" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-7-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
-									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="交易节管理" onclick="goto('<%=basePath%>/IpoController/tradeTimeManage','交易节管理','交易参数设置')"> <a name="third" id="webfx-tree-object-7-anchor" style="font-size: 12px;"
-									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">交易节管理</a></span>
-							</div>
-							<div class="webfx-tree-container" id="webfx-tree-object-7-cont" style="display: none;"></div>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("商品管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
+									M01.add(M0101);</SCRIPT>
 
-							<div class="webfx-tree-item" id="webfx-tree-object-8" onkeydown="return webFXTreeHandler.keydown(this, event)">
-								<img id="webfx-tree-object-8-plus" ondblclick="webFXTreeHandler.toggle(this);" src="<%=basePath%>/mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-8-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
-									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="商品管理" onclick="goto('<%=basePath%>/IpoController/CommodityManage','商品管理','交易参数设置')"> <a name="third" id="webfx-tree-object-8-anchor" style="font-size: 12px;"
-									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">商品管理</a></span>
-							</div>
-							<div class="webfx-tree-container" id="webfx-tree-object-8-cont" style="display: none;"></div> --%>
-						</div>
-					</div>
-				</div>
-				<div class="menu_bottom"></div>
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 发行管理","");</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("发行摇号,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/QueryController/IssuedManage");
+									M01.add(M0101);</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("申购成交,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/QueryController/ApplySuccManage");
+									M01.add(M0101);</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class=menu_bottom></DIV>
+		</div>
+		<c:if test="${pictureLayerNumber==0 }">
+			<div>
+				<div id="div_drw_Content" align="center" class="div_drwContent" style="display: none;"></div>
+				<div id="div_drw_Panel" align="center" class="div_drwContent" style="display: none;"></div>
 			</div>
+		</c:if>
+		<c:if test="${fn:length(myMenuList)>0}">
 			<span id="span_curstatus" curNo="0" style="display: none;"></span>
+		</c:if>
+		<c:if test="${fn:length(myMenuList)==0}">
+			<span id="span_curstatus" curNo="1" style="display: none;"></span>
+		</c:if>
 </body>
 </html>
