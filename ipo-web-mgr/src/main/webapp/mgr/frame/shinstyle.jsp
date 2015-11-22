@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%>
 <%@include file="/mgr/public/includefiles/taglib.jsp"%>
 <%@include file="/mgr/public/includefiles/path.jsp"%>
@@ -19,7 +19,7 @@
 					<td>
 						<div class="div_cxtj">
     	<div class="div_cxtjL"></div>
-        <div class="div_cxtjC">·ç¸ñÉèÖÃ</div>
+        <div class="div_cxtjC">é£æ ¼è®¾ç½®</div>
         <div class="div_cxtjR"></div>
     </div>
 			<div style="clear: both;"></div>
@@ -27,7 +27,7 @@
 							class="st_bor">
 							<tr height="35">
 								<td align="right" class="td_size" width="35%">
-									ÓÃ»§´úÂë £º
+									ç”¨æˆ·ä»£ç  ï¼š
 								</td>
 								<td align="left">
 									<input name="entity.userId" type="text" class="input_text_pwd"
@@ -36,12 +36,12 @@
 							</tr>
 							<tr height="35">
 								<td align="right" class="td_size">
-									Ñ¡Ôñ·ç¸ñ £º
+									é€‰æ‹©é£æ ¼ ï¼š
 								</td>
 								<td align="left">
 									<select id="shinStyle" name="entity.skin">
 										<option value="">
-											ÇëÑ¡Ôñ
+											è¯·é€‰æ‹©
 										</option>
 										<c:forEach items="${com_styleNameMap }" var="snMap">
 											<option value="${snMap.key }">
@@ -67,14 +67,14 @@
 						<button class="btn_sec" onClick=
 	frmChk();
 >
-							±£´æ
+							ä¿å­˜
 						</button>
 					</td>
 					<td align="center">
 						<button class="btn_sec" onClick=
 	window.close();
 >
-							¹Ø±Õ
+							å…³é—­
 						</button>
 					</td>
 				</tr>
@@ -85,7 +85,7 @@
 <SCRIPT LANGUAGE="JavaScript">
 	function frmChk() {
 		if (Trim(document.getElementById("shinStyle").value) == "") {
-			alert("Ä¬ÈÏ·ç¸ñÉèÖÃ£¡");
+			alert("é»˜è®¤é£æ ¼è®¾ç½®ï¼");
 		}else{
 			frm.submit();
 		}

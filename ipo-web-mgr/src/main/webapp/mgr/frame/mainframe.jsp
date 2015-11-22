@@ -1,20 +1,20 @@
-<%@ page contentType="text/html;charset=GBK" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 	<head>
-		<title>½»Ò×¹ÜÀíÏµÍ³</title>
+		<title>äº¤æ˜“ç®¡ç†ç³»ç»Ÿ</title>
 		<script>
 			/*
 			var currentKeyCode = -1;
-			function document.onkeydown() { // ±¾´°¿ÚµÄËùÓĞÏÂÊôÒ³Ãæ¶¼±ØĞëº¬ÓĞ±¾º¯Êı
+			function document.onkeydown() { // æœ¬çª—å£çš„æ‰€æœ‰ä¸‹å±é¡µé¢éƒ½å¿…é¡»å«æœ‰æœ¬å‡½æ•°
 				top.currentKeyCode = event.keyCode;
 			}
 			function checkLeave(){
 				if(event.clientX<=0 || event.clientY<0) { 
-					alert('¹Ø±Õ');
+					alert('å…³é—­');
 					window.location="<%=basePath %>/userLogOut/commonUserLogout.action";
 				}else{
-					alert('Ë¢ĞÂ');
+					alert('åˆ·æ–°');
 				}
 			}
 			window.onbeforeunload=checkLeave;
@@ -27,7 +27,7 @@
 	</frameset>
 	<noframes>
 		<body>
-			¶Ô²»Æğ£¬ÄúµÄä¯ÀÀÆ÷²»Ö§³Ö¿ò¼Ü¼¯£¡ 
+			å¯¹ä¸èµ·ï¼Œæ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒæ¡†æ¶é›†ï¼ 
 		</body>
 	</noframes>
 </html>

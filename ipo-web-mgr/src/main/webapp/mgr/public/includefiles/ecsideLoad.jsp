@@ -6,7 +6,7 @@
 <script type="text/javascript"
     src="<%=publicPath%>/js/ecside/prototype_mini.js"></script>
 <script type="text/javascript"
-	src="<%=publicPath%>/js/ecside/ecside_msg_gbk_cn.js"></script>
+	src="<%=publicPath%>/js/ecside/ecside_msg_UTF-8_cn.js"></script>
 <script type="text/javascript"
 	src="<%=publicPath%>/js/ecside/ecside.js"></script>
 <link rel="stylesheet" type="text/css"

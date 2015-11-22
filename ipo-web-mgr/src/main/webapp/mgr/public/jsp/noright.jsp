@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -30,7 +30,7 @@
     <td height="40">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center"><span>û��Ȩ�ޣ������µ�¼����ϵ����Ա��</span></td>
+    <td align="center"><span>没有权限，请重新登录或联系管理员！</span></td>
   </tr>
   <tr>
     <td>&nbsp;</td>

@@ -1,4 +1,4 @@
-<%@ page pageEncoding="GBK"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <iframe id='submitFrame' name='submitFrame' width=0 height=0 style='display:none' src='' application='yes'></iframe>
 <script>

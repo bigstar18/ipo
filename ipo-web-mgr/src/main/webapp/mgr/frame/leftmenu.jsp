@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
-<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css"/>
+<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />
 <html>
-	<head>
-		<script type="text/javascript">
+<head>
+<script type="text/javascript">
 var oldTradeNo = -1;
 var oldSystemStatus = "";
 var promptTime = 60;
@@ -37,7 +37,7 @@ var promptTime = 60;
 			
 			function defDrawerHegiht()
 			{
-			    //µ±´°¿ÚºÜĞ¡Ê±,²Ëµ¥²»ÄÜÍêÈ«ÏÔÊ¾,ÏÂÃæÊ±ÈÃ´°¿Ú×î´ó»¯
+			    //å½“çª—å£å¾ˆå°æ—¶,èœå•ä¸èƒ½å®Œå…¨æ˜¾ç¤º,ä¸‹é¢æ—¶è®©çª—å£æœ€å¤§åŒ–
 			    //top.moveTo(0,0);
 				//top.resizeTo(screen.availWidth,screen.availHeight);
 				var objBackGround = document.getElementById( "div_BackGround" );
@@ -150,7 +150,7 @@ var promptTime = 60;
 					}
 				}	
 			}
-			//ĞŞ¸ÄÉèÖÃ
+			//ä¿®æ”¹è®¾ç½®
 			function setFastMenu(){
 				if(showDialog("${basePath}/myMenu/getMyMenu.action", "", 580, 600)){
 					frm.action="${basePath}/menu/menuList.action";
@@ -158,7 +158,7 @@ var promptTime = 60;
 				};
 				}
 </script>
-		<style>
+<style>
 .a {
 	font-weight: bold;
 }
@@ -168,92 +168,80 @@ var promptTime = 60;
 }
 
 .webfx-tree-item1 {
-	font-size: 13px;
-	line-height: 25px;
-	color: #26548B;
+	font-size: 13px; line-height: 25px; color: #26548B;
 }
 </style>
-	</head>
-	<body class="leftframe" onLoad="start();" onselectstart="return false">
-		<form action="" method="post" name="frm" id="frm"></form>
-		<div id="div_BackGround">
-			<table width="100%" height="100%" border="0" cellspacing="0"
-				cellpadding="0" align="right">
-				<tr height="100%">
-					<td></td>
-				</tr>
-				<tr height="25">
-					<td>
-						<table border="0" cellspacing="0" cellpadding="0" width="100%"
-							height="100%">
-							<tr>
-								<td align="center" valign="middle"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+</head>
+<body class="leftframe" onLoad="start();" onselectstart="return false">
+	<form action="" method="post" name="frm" id="frm"></form>
+	<div id="div_BackGround">
+		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" align="right">
+			<tr height="100%">
+				<td></td>
+			</tr>
+			<tr height="25">
+				<td>
+					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+						<tr>
+							<td align="center" valign="middle"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="div_Drawer">
+		<div id="div_entry" align="left" onClick="collaspe();" curstatus="hide">
+			<img src="${skinPath}/image/frame/menu/menu_top.gif" />
 		</div>
-		<div id="div_Drawer">
-			<div id="div_entry" align="left" onClick="collaspe();"
-				curstatus="hide">
-				<img src="${skinPath}/image/frame/menu/menu_top.gif" />
-			</div>
-			<div style="clear: both;"></div>
-			<div id="div_Container" align="left">
-				<c:set var="pictureLayerNumber" value="0" />
-				<div class="leftMenu_div">
-					<div id="div_drw_Panel" align="left" curDrwNo="0"
-						onClick="drwSwitch();">
-						&nbsp;
-						<a><img src="<%=skinPath%>/image/frame/menu/06.gif"
-								align="top" curDrwNo="0" />
-						</a> &nbsp;ÎÒµÄ²Ëµ¥&nbsp;&nbsp;
-						<a href="#" onclick="setFastMenu();"><span style="font-size: 12; text-decoration: none;" curDrwNo="0">ĞŞ¸ÄÉèÖÃ</span>
-						</a>
-					</div>
-					<div id="div_drw_Content" style="display: inline;">
+		<div style="clear: both;"></div>
+		<div id="div_Container" align="left">
+			<c:set var="pictureLayerNumber" value="0" />
+			<div class="leftMenu_div">
+				<div id="div_drw_Panel" align="left" curDrwNo="0" onClick="drwSwitch();">
+					&nbsp; <a><img src="<%=skinPath%>/image/frame/menu/06.gif" align="top" curDrwNo="0" /> </a> &nbsp;æˆ‘çš„èœå•&nbsp;&nbsp; <a href="#" onclick="setFastMenu();"><span style="font-size: 12; text-decoration: none;" curDrwNo="0">ä¿®æ”¹è®¾ç½®</span> </a>
+				</div>
+				<div id="div_drw_Content" style="display: inline;">
 					<div id="tree">
 						<script type="text/javascript">
 							         var M01;
 							         var M0101;
-							         M01 = new WebFXTree("<img src='http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> ½»Ò×²ÎÊıÉèÖÃ","");
+							         M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif'> äº¤æ˜“å‚æ•°è®¾ç½®","");
 						</script>
 						<script type="text/javascript">
-									M0101 = new WebFXTreeItem("½»Ò×½Ú¹ÜÀí,http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","http://10.0.100.182:10061/ipo_mgr/IpoController/tradeTimeManage");
+									M0101 = new WebFXTreeItem("äº¤æ˜“èŠ‚ç®¡ç†,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/IpoController/tradeTimeManage");
 									M01.add(M0101);
 						</script>
 						<script type="text/javascript">
-									M0101 = new WebFXTreeItem("ÉÌÆ·¹ÜÀí,http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","http://10.0.100.182:10061/ipo_mgr/IpoController/CommodityManage");
+									M0101 = new WebFXTreeItem("å•†å“ç®¡ç†,<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
 									M01.add(M0101);
 						</script>
 						<script type="text/javascript">document.write(M01);</script>
-						<div class="webfx-tree-item" id="webfx-tree-object-5" style="padding-top: 1px; padding-bottom: 1px; cursor: hand;" 
-						onkeydown="return webFXTreeHandler.keydown(this, event)" onclick="webFXTreeHandler.toggle(this);" onselectstart="return false">
-						<img class="webfx-tree-icon2" id="webfx-tree-object-5-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="../mgr/skinstyle/gray/image/frame/menu/xtree_gif_05.gif">
-						<span id="webfx-tree-object-5-anchor" onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" target="mainSwitch">
-						<img src="http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif"> ½»Ò×²ÎÊıÉèÖÃ</span>
-						</div>	
+						<div class="webfx-tree-item" id="webfx-tree-object-5" style="padding-top: 1px; padding-bottom: 1px; cursor: hand;" onkeydown="return webFXTreeHandler.keydown(this, event)" onclick="webFXTreeHandler.toggle(this);" onselectstart="return false">
+							<img class="webfx-tree-icon2" id="webfx-tree-object-5-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="../mgr/skinstyle/gray/image/frame/menu/xtree_gif_05.gif"> <span id="webfx-tree-object-5-anchor" onfocus="webFXTreeHandler.focus(this);"
+								onblur="webFXTreeHandler.blur(this);" target="mainSwitch"> <img src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/42_42.gif"> äº¤æ˜“å‚æ•°è®¾ç½®
+							</span>
+						</div>
 						<div class="webfx-tree-container" id="webfx-tree-object-5-cont" style="display: block;">
-						
-                        <div class="webfx-tree-item" id="webfx-tree-object-7" onkeydown="return webFXTreeHandler.keydown(this, event)">
-                        <img id="webfx-tree-object-7-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif">
-                        <img class="webfx-tree-icon1" id="webfx-tree-object-7-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif">
-                        <span title="½»Ò×½Ú¹ÜÀí" onclick="goto('http://10.0.100.182:10061/ipo_mgr/IpoController/tradeTimeManage','½»Ò×½Ú¹ÜÀí','½»Ò×²ÎÊıÉèÖÃ')">
-                        <a name="third" id="webfx-tree-object-7-anchor" style="font-size: 12px;" onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">½»Ò×½Ú¹ÜÀí</a></span></div>							
-						<div class="webfx-tree-container" id="webfx-tree-object-7-cont" style="display: none;"></div>
-						
-						<div class="webfx-tree-item" id="webfx-tree-object-8" onkeydown="return webFXTreeHandler.keydown(this, event)">
-						<img id="webfx-tree-object-8-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif">
-						<img class="webfx-tree-icon1" id="webfx-tree-object-8-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false" src="http://10.0.100.182:10061/ipo_mgr/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif">
-						<span title="ÉÌÆ·¹ÜÀí" onclick="goto('http://10.0.100.182:10061/ipo_mgr/IpoController/CommodityManage','ÉÌÆ·¹ÜÀí','½»Ò×²ÎÊıÉèÖÃ')">
-						<a name="third" id="webfx-tree-object-8-anchor" style="font-size: 12px;" onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">ÉÌÆ·¹ÜÀí</a></span></div>	
-						<div class="webfx-tree-container" id="webfx-tree-object-8-cont" style="display: none;"></div>	
-                        </div>
-                        </div>
-                        </div>
-			<div class="menu_bottom"></div>
-		</div>
-	<span id="span_curstatus" curNo="0" style="display: none;"></span>
-	</body>
+
+							<div class="webfx-tree-item" id="webfx-tree-object-7" onkeydown="return webFXTreeHandler.keydown(this, event)">
+								<img id="webfx-tree-object-7-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-7-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
+									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="äº¤æ˜“èŠ‚ç®¡ç†" onclick="goto('<%=basePath%>/IpoController/tradeTimeManage','äº¤æ˜“èŠ‚ç®¡ç†','äº¤æ˜“å‚æ•°è®¾ç½®')"> <a name="third" id="webfx-tree-object-7-anchor" style="font-size: 12px;"
+									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">äº¤æ˜“èŠ‚ç®¡ç†</a></span>
+							</div>
+							<div class="webfx-tree-container" id="webfx-tree-object-7-cont" style="display: none;"></div>
+
+							<div class="webfx-tree-item" id="webfx-tree-object-8" onkeydown="return webFXTreeHandler.keydown(this, event)">
+								<img id="webfx-tree-object-8-plus" ondblclick="webFXTreeHandler.toggle(this);" src="../mgr/skinstyle/gray/image/frame/menu/xtree_T1.gif"> <img class="webfx-tree-icon1" id="webfx-tree-object-8-icon" onclick="webFXTreeHandler.select(this);" onselectstart="return false"
+									src="<%=basePath%>/mgr/skinstyle/gray/image/app/ipo_mgr/menu/29_29.gif"> <span title="å•†å“ç®¡ç†" onclick="goto('<%=basePath%>/IpoController/CommodityManage','å•†å“ç®¡ç†','äº¤æ˜“å‚æ•°è®¾ç½®')"> <a name="third" id="webfx-tree-object-8-anchor" style="font-size: 12px;"
+									onfocus="webFXTreeHandler.focus(this);" onblur="webFXTreeHandler.blur(this);" href="javascript:void(0)">å•†å“ç®¡ç†</a></span>
+							</div>
+							<div class="webfx-tree-container" id="webfx-tree-object-8-cont" style="display: none;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="menu_bottom"></div>
+			</div>
+			<span id="span_curstatus" curNo="0" style="display: none;"></span>
+</body>
 </html>

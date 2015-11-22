@@ -10,8 +10,8 @@
 <%//存放路径信息包括公用路径皮肤路径等%>
 <%@include file="path.jsp" %>
 <%//存放AU的sessionID隐藏域%>
-<%@include file="../jsp/session.jsp" %>
-<%//包含公用的css文件%>
+<%-- <%@include file="../jsp/session.jsp" %>
+ --%><%//包含公用的css文件%>
 <%@include file="cssinclude.jsp" %>
 <%//包含公用的js文件%>
 <%@include file="jsinclude.jsp" %>

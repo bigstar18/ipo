@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=GBK" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@page import="gnnt.MEBS.common.mgr.common.Global"%>
 <%
 String serverInterface = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -7,7 +7,7 @@ request.setAttribute("COMMONMODULEID",Global.COMMONMODULEID);
 %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 </head>
 <body >
@@ -17,7 +17,7 @@ request.setAttribute("COMMONMODULEID",Global.COMMONMODULEID);
 </br>
 <table align="center">
   <tr>
-    <td align="center"><!-- ���ĵ�¼��ʧЧ�����˳�ϵͳ���µ�¼�� --></td>
+    <td align="center"><!-- 您的登录已失效，请退出系统重新登录！ --></td>
   </tr>
 </table>
 </body>
@@ -30,17 +30,17 @@ request.setAttribute("COMMONMODULEID",Global.COMMONMODULEID);
     String prompt="";
     
     if("USERISNULL".equals(tologinURLReason)){
-    	prompt="�û���ϢΪ�գ������µ�¼";
+    	prompt="用户信息为空，请重新登录";
     }
     else if("AUOVERTIME".equals(tologinURLReason)){
-    	prompt="��¼����ʱ������������µ�¼";
+    	prompt="登录闲置时间过长，请重新登录";
     }else if("NOPURVIEW".equals(tologinURLReason)){
-    	prompt="�˴ε�¼��Ȩ�ޣ������µ�¼";
+    	prompt="此次登录无权限，请重新登录";
     }else if("AUUSERKICK".equals(tologinURLReason)){
-    	prompt="�����˺�����һ�ص��½����������";
+    	prompt="您的账号在另一地点登陆，被迫下线";
     }
     else{
-    	prompt="�����µ�¼";
+    	prompt="请重新登录";
     }
 %>
 <SCRIPT LANGUAGE="JavaScript">
@@ -55,9 +55,9 @@ request.setAttribute("COMMONMODULEID",Global.COMMONMODULEID);
 	  }
       top.location.href=url;
    }else{
-	  //����ǵ����������÷���ֵΪ 1111 ���غ���ҳ�����ˢ��ʱ���ִ����Ӧ�Ĳ���
+	  //如果是弹出框，则设置返回值为 1111 返回后，主页面进行刷新时则会执行相应的操作
 	  window.returnValue = 1111;
-	  //�رյ���ҳ
+	  //关闭弹出页
 	  window.close();
    }
 	  

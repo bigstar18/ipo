@@ -4,14 +4,14 @@
 <%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%>
 <%
 	//记录的样式名称
-	String skinName = null;
-	User sessinUser = (User) request.getSession().getAttribute(
+	String skinName = "default";
+	/* User sessinUser = (User) request.getSession().getAttribute(
 			Global.CURRENTUSERSTR);
 	if (sessinUser == null) {//如果用户为空，则样式名称为默认样式名称
 		skinName = "default";
 	} else {//如果用户不为空，则样式名称为用户样式名称
 		skinName = sessinUser.getSkin();
-	}
+	} */
 	//市场名称：common_mgr
 	String path = request.getContextPath();
 	//服务路径 http://127.0.0.1:8080/

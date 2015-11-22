@@ -1,15 +1,15 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
-	<head><!-- µ±ÀûÓÃIFRAMEÊ±,¼ÇµÃÒªÔÚÏàÓ¦µÄ¶¯Ì¬Ò³µÄÒ³Í·Ìí¼ÓÒ»ÏÂP3PµÄÐÅÏ¢,
-	·ñÔòIE»á×Ô¾õµÄ°ÑIFRAME¿òÀïµÄCOOKIE¸ø×èÖ¹µô,²úÉúÎÊÌâ.±¾Éí²»±£´æ×ÔÈ»¾ÍÈ¡²»µ½ÁË
-	Õâ¸öÆäÊµÊÇFRAMESETºÍCOOKIEµÄÎÊÌâ,ÓÃFRAME»òÕßIFRAME¶¼»áÓöµ½. -->
+	<head><!-- å½“åˆ©ç”¨IFRAMEæ—¶,è®°å¾—è¦åœ¨ç›¸åº”çš„åŠ¨æ€é¡µçš„é¡µå¤´æ·»åŠ ä¸€ä¸‹P3Pçš„ä¿¡æ¯,
+	å¦åˆ™IEä¼šè‡ªè§‰çš„æŠŠIFRAMEæ¡†é‡Œçš„COOKIEç»™é˜»æ­¢æŽ‰,äº§ç”Ÿé—®é¢˜.æœ¬èº«ä¸ä¿å­˜è‡ªç„¶å°±å–ä¸åˆ°äº†
+	è¿™ä¸ªå…¶å®žæ˜¯FRAMESETå’ŒCOOKIEçš„é—®é¢˜,ç”¨FRAMEæˆ–è€…IFRAMEéƒ½ä¼šé‡åˆ°. -->
 	<% response.addHeader("P3P","CP=CAO PSA OUR"); %>
-		<title>½»Ò×¹ÜÀíÏµÍ³</title>
+		<title>äº¤æ˜“ç®¡ç†ç³»ç»Ÿ</title>
 	</head>
 	<frameset id=middle cols="185,10,*" frameborder="NO" border="0"
 		framespacing="0">
-		<frame src="<%=basePath%>/menu/menuList.action" name="leftFrame"
+		<frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
 			scrolling="NO" noresize APPLICATION="yes">
 		<frame src="<%=framePath%>/shrinkbar.jsp" name="mainSwitch"
 			scrolling="NO" noresize APPLICATION="yes" id="mainSwitch">
@@ -18,7 +18,7 @@
 	</frameset>
 	<noframes>
 		<body>
-			¶Ô²»Æð£¬ÄúµÄä¯ÀÀÆ÷²»Ö§³Ö¿ò¼Ü¼¯£¡
+			å¯¹ä¸èµ·ï¼Œæ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒæ¡†æž¶é›†ï¼
 		</body>
 	</noframes>
 </html>

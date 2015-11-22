@@ -1,16 +1,16 @@
-<%@ page contentType="text/html;charset=GBK" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 	<head>
-		<title>¿ò¼Ü¼¯topÒ³Ãæ</title>
+		<title>æ¡†æ¶é›†topé¡µé¢</title>
 		<script type="text/javascript" src="${publicPath}/js/jquery-1.6.min.js"></script>
 		<script language="javascript">
 		<!--
 			/**
-			 * ÍÆ³öÏµÍ³
+			 * æ¨å‡ºç³»ç»Ÿ
 			 */
 			function logoutsys(){
-				var vaild = window.confirm("ÄúÈ·¶¨ÒªÍË³öÂğ£¿");
+				var vaild = window.confirm("æ‚¨ç¡®å®šè¦é€€å‡ºå—ï¼Ÿ");
 				if(vaild==true){
 				    parent.window.location="<%=basePath %>/user/logout.action";
 			    }else{
@@ -18,7 +18,7 @@
 			    }
 		    }
 		    /**
-		     * ĞŞ¸Ä×Ô¼ºµÄµÇÂ½ÃÜÂë
+		     * ä¿®æ”¹è‡ªå·±çš„ç™»é™†å¯†ç 
 		     */
 			function changePwd(id){
 				var url = "<%=basePath %>/self/passwordSelfMod.action?entity.userId="+id;
@@ -27,7 +27,7 @@
 				}
 			}
 			/**
-			 * ĞŞ¸Ä×Ô¼ºµÄÑùÊ½·ç¸ñ
+			 * ä¿®æ”¹è‡ªå·±çš„æ ·å¼é£æ ¼
 			 */
 			function shinStyle(id){
 				var url = "<%=framePath %>/shinstyle.jsp?d="+Date();
@@ -36,10 +36,10 @@
 					parent.window.location = "<%=framePath %>/mainframe.jsp";
 				}
 			}
-			//Ê±¼ä²î
+			//æ—¶é—´å·®
 			var timediffer=0;
 			/**
-			 * ajax »ñÈ¡µ±Ç°Êı¾İ¿âÊ±¼ä
+			 * ajax è·å–å½“å‰æ•°æ®åº“æ—¶é—´
 			 */
 			function ajaxGetSysDate(){
 				var url = "../../sysDate/getDate.action?t="+Math.random();
@@ -54,7 +54,7 @@
 				});
 			}
 			/**
-			 * ±éÀú½«Ê±¼äÔö¼Ó 1 Ãë
+			 * éå†å°†æ—¶é—´å¢åŠ  1 ç§’
 			 */
 			function clock() {
 				var date = new Date();
@@ -93,9 +93,9 @@
 						</ul>
 					</div>
 					<div class="anniu_kuangCopy">
-						¹ÜÀíÔ±´úÂë:${CurrentUser.userId }&nbsp;&nbsp;&nbsp;&nbsp;
-						¹ÜÀíÔ±Ãû³Æ:${CurrentUser.name }&nbsp;&nbsp;&nbsp;&nbsp;
-						ÏµÍ³Ê±¼äÎª£º<font id="sysDate">&nbsp;</font>
+						ç®¡ç†å‘˜ä»£ç :${CurrentUser.userId }&nbsp;&nbsp;&nbsp;&nbsp;
+						ç®¡ç†å‘˜åç§°:${CurrentUser.name }&nbsp;&nbsp;&nbsp;&nbsp;
+						ç³»ç»Ÿæ—¶é—´ä¸ºï¼š<font id="sysDate">&nbsp;</font>
 					</div>
 				</div>
 			</form>

@@ -1,10 +1,10 @@
-<%@ page pageEncoding="GBK"%>
+<%@ page pageEncoding="UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <script type="text/javascript" src="${publicPath}/js/submitform.js"></script>
-<!-- »ñÈ¡·µ»ØÐÅÏ¢ µ±µã»÷È·¶¨°´Å¥Ê± ÐÅÏ¢ºÍÒ³Ãæ¶¼¹Ø±Õ  -->
+<!-- èŽ·å–è¿”å›žä¿¡æ¯ å½“ç‚¹å‡»ç¡®å®šæŒ‰é’®æ—¶ ä¿¡æ¯å’Œé¡µé¢éƒ½å…³é—­  -->
 <script type="text/javascript">
 <!--
-/*´Ë·½·¨ÔÚformInit.jsÏÂ*/
+/*æ­¤æ–¹æ³•åœ¨formInit.jsä¸‹*/
 closeDialog('${ReturnValue.result}');
 //-->
 </script>

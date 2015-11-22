@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=GBK" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <head>
- <title>ÉèÖÃÓÃ»§¿ì½İ²Ëµ¥</title>
+ <title>è®¾ç½®ç”¨æˆ·å¿«æ·èœå•</title>
 </head>
 <style>
 .cls
@@ -15,7 +15,7 @@
 </style>
 <body style="overflow-y:hidden">
 <form name="frm" method="post" targetType="hidden">	
-<div class="st_title">&nbsp;&nbsp;<img src="<%=skinPath%>/image/detail_title.gif" align="absmiddle" />&nbsp;ÉèÖÃ¿ì½İ²Ëµ¥</div>
+<div class="st_title">&nbsp;&nbsp;<img src="<%=skinPath%>/image/detail_title.gif" align="absmiddle" />&nbsp;è®¾ç½®å¿«æ·èœå•</div>
 		<div class="mymenu_div"><div class="mymenu_div1">
 		<div class="mymenu_div2">
 			<table border="0" width="100%" align="center">
@@ -24,7 +24,7 @@
 			<table border="0" cellspacing="0" cellpadding="0" width="100%" class="st_bor">			  
 				<tr height="35">
 				<td align="left" style="font-size: 12px">
-				<!-- Ä£¿éÈ¨ÏŞ -->
+				<!-- æ¨¡å—æƒé™ -->
 				<c:forEach items="${HaveRightMenu.childMenuSet }" var="moduleRight">
 					<div id=div_ck class=opn>&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,7 +46,7 @@
 					<input type=hidden name="pid" value="${moduleRight.parentMenu.id }">
 					<input type="hidden" name="div_st" value="1"><br></div>
 				
-					<!-- Ò»¼¶²Ëµ¥È¨ÏŞ -->
+					<!-- ä¸€çº§èœå•æƒé™ -->
 					<c:forEach items="${moduleRight.childMenuSet }" var="menuRight">
 						<div id=div_ck class=opn>&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,7 +68,7 @@
 						<input type=hidden name="pid" value="${menuRight.parentMenu.id }">
 						<input type="hidden" name="div_st" value="1"><br></div>
 					
-						<!-- ¶ş¼¶²Ëµ¥È¨ÏŞ -->
+						<!-- äºŒçº§èœå•æƒé™ -->
 						<c:forEach items="${menuRight.childMenuSet }" var="childMenuRight">
 							<c:set var="roleDispatchChildMenuMark" value="false"/>
 							<c:forEach items="${myMenuList }" var="list">
@@ -106,10 +106,10 @@
 	  <tr height="35">
 
 		<td align="center" id="tdId">
-		<rightButton:rightButton name="±£´æ" onclick="frmChk()" className="btn_sec" action="/myMenu/updateMyMenu.action" id="update"></rightButton:rightButton>
+		<rightButton:rightButton name="ä¿å­˜" onclick="frmChk()" className="btn_sec" action="/myMenu/updateMyMenu.action" id="update"></rightButton:rightButton>
 		</td>
 		<td align="center">
-		<button  class="btn_sec" onClick="window.close()">¹Ø±Õ</button>
+		<button  class="btn_sec" onClick="window.close()">å…³é—­</button>
 		</td>
 	  </tr>
 	</table>  
@@ -117,12 +117,12 @@
 </body>
 <SCRIPT LANGUAGE="JavaScript">
 
-var cks = document.all("ck");//¼ÇÂ¼ËùÓĞÈ¨ÏŞid
-var pids = document.all("pid");//¼ÇÂ¼¸¸È¨ÏŞid
-var div_cks = document.all("div_ck");//ÏÔÊ¾¸¸È¨ÏŞµÄ ²ã
+var cks = document.all("ck");//è®°å½•æ‰€æœ‰æƒé™id
+var pids = document.all("pid");//è®°å½•çˆ¶æƒé™id
+var div_cks = document.all("div_ck");//æ˜¾ç¤ºçˆ¶æƒé™çš„ å±‚
 var div_sts = document.all("div_st");
 
-/*µã»÷¿ÉÑ¡¿ò´¥·¢ÊÂ¼ş*/
+/*ç‚¹å‡»å¯é€‰æ¡†è§¦å‘äº‹ä»¶*/
 function selectCks(id)
 {
 	if(isLastNode(id))
@@ -138,7 +138,7 @@ function selectCks(id)
 		}
 	}
 }
-/*µã»÷ÎÄ×Ö  µ¯³ö»ò¹Ø±ÕÆä×ÓÀàËùÔÚµÄ²ã */
+/*ç‚¹å‡»æ–‡å­—  å¼¹å‡ºæˆ–å…³é—­å…¶å­ç±»æ‰€åœ¨çš„å±‚ */
 function clkDiv(id)
 {
 	
@@ -170,7 +170,7 @@ function clkDiv(id)
 		}
 	}
 }
-/*´ò¿ª²ã */
+/*æ‰“å¼€å±‚ */
 function openDiv(id)
 {
 	if(isLastNode(id))
@@ -247,7 +247,7 @@ function isRootNode(id)
 	}
 	return false;
 }
-//isLastNode ÓÃÓÚ²é¿´ÊÇ·ñÊÇ×îµ×²ãÈ¨ÏŞ£¬ÊÇ·µ»Øtrue£¬·ñ·µ»Øfalse
+//isLastNode ç”¨äºæŸ¥çœ‹æ˜¯å¦æ˜¯æœ€åº•å±‚æƒé™ï¼Œæ˜¯è¿”å›trueï¼Œå¦è¿”å›false
 function isLastNode(id)
 {
 	for(var i =0;i < cks.length;i++)
@@ -265,7 +265,7 @@ function frmChk()
 {
 	var num=0;
 	if(cks==null){
-		alert("ÎŞ²Ù×÷Êı¾İ£¡");
+		alert("æ— æ“ä½œæ•°æ®ï¼");
 		return false;
 	}
 	for(var i =0;i < cks.length;i++)
@@ -275,10 +275,10 @@ function frmChk()
 		} 
 	}
 	if(num>5){
-		alert("×î¶àÖ»ÄÜÑ¡È¡5¸ö£¡");
+		alert("æœ€å¤šåªèƒ½é€‰å–5ä¸ªï¼");
 		return false;
 	}else{
-		if(confirm("È·ÈÏ±£´æ?"))
+		if(confirm("ç¡®è®¤ä¿å­˜?"))
 		{
 			var a=document.getElementById('update').action;
 			frm.action="<%=basePath %>"+a;

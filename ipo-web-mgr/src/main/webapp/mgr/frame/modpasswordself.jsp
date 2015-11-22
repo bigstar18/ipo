@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <head>
 <link rel="stylesheet"
@@ -10,11 +10,11 @@
 </script>
 <script
 	src="${publicPath }/js/validationengine/languages/jquery.validationEngine-zh_CN.js"
-	type="text/javascript" charset="GBK">
+	type="text/javascript" charset="UTF-8">
 </script>
 <script
 	src="${publicPath }/js/validationengine/jquery.validationEngine.js"
-	type="text/javascript" charset="GBK">
+	type="text/javascript" charset="UTF-8">
 </script>
 	<script>
 	jQuery(document).ready(function() {
@@ -22,7 +22,7 @@
 		$("#frm").validationEngine('attach');
 		$("#update").click(function(check) {
 			if ($("#frm").validationEngine('validate')) {
-				var vaild = affirm("ÄúÈ·¶¨Òª²Ù×÷Âğ£¿");
+				var vaild = affirm("æ‚¨ç¡®å®šè¦æ“ä½œå—ï¼Ÿ");
 				if (vaild == true) {
 					$("#frm").validationEngine('detach');
 					//$('#frm').attr('action', 'action');
@@ -32,7 +32,7 @@
 	}	);
 	});
 </script>
-	<title>ÃÜÂëĞŞ¸Ä</title>
+	<title>å¯†ç ä¿®æ”¹</title>
 </head>
 <body>
 
@@ -45,7 +45,7 @@
 					<td>
 						<div class="div_cxtj">
     	<div class="div_cxtjL"></div>
-        <div class="div_cxtjC">ÃÜÂëĞŞ¸Ä</div>
+        <div class="div_cxtjC">å¯†ç ä¿®æ”¹</div>
         <div class="div_cxtjR"></div>
     </div>
 			<div style="clear: both;"></div>
@@ -53,7 +53,7 @@
 							class="st_bor">
 							<tr height="35">
 								<td align="right" class="td_size" width="35%">
-									¹ÜÀíÔ±´úÂë £º
+									ç®¡ç†å‘˜ä»£ç  ï¼š
 								</td>
 								<td align="left">
 									<input name="entity.userId" type="text" class="input_text_pwd"
@@ -62,7 +62,7 @@
 							</tr>
 							<tr height="35">
 								<td align="right" class="td_size">
-									¹ÜÀíÔ±Ãû³Æ £º
+									ç®¡ç†å‘˜åç§° ï¼š
 								</td>
 								<td align="left">
 									<input name="entity.name" type="text" class="input_text_pwd"
@@ -71,7 +71,7 @@
 							</tr>
 							<tr height="35">
 								<td align="right" class="td_size">
-									Ô­ÃÜÂë £º
+									åŸå¯†ç  ï¼š
 								</td>
 								<td align="left">
 									<input id="old" size="28" onkeydown="if(event.keyCode==32) return false"  name="oldPassword" type="password"
@@ -81,7 +81,7 @@
 							</tr>
 							<tr height="35">
 								<td align="right" class="td_size">
-									ĞÂÃÜÂë £º
+									æ–°å¯†ç  ï¼š
 								</td>
 								<td align="left">
 									<input id="password" onkeydown="if(event.keyCode==32) return false"  size="28" name="entity.password" type="password"
@@ -91,7 +91,7 @@
 							</tr>
 							<tr height="35">
 								<td align="right" class="td_size">
-									ĞÂÈ·ÈÏÃÜÂë £º
+									æ–°ç¡®è®¤å¯†ç  ï¼š
 								</td>
 								<td align="left">
 									<input size="28" onkeydown="if(event.keyCode==32) return false"  name="specialforAudit.password1" type="password"
@@ -110,14 +110,14 @@
 				<tr height="35">
 					<td align="center">
 						<button class="btn_sec" id="update">
-							±£´æ
+							ä¿å­˜
 						</button>
 					</td>
 					<td align="center">
 						<button class="btn_sec" onClick=
 	window.close();
 >
-							¹Ø±Õ
+							å…³é—­
 						</button>
 					</td>
 				</tr>

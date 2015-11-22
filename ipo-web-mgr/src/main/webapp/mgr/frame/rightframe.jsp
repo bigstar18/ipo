@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=GBK" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 	<head>
 		<title></title>
@@ -9,7 +9,7 @@
       </frameset>
 	<noframes>
 		<body>
-			对不起，您的浏览器不支持框架集！ 
+			瀵逛笉璧凤紝鎮ㄧ殑娴忚鍣ㄤ笉鏀寔妗嗘灦闆嗭紒 
 		</body>
 	</noframes>
 </html>
