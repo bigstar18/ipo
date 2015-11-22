@@ -54,7 +54,7 @@ public class ActiveUserManager {
 
 		RemoteLogonServerVO remoteLogonServerVO = null;
 		if (checkUserVO.getToModuleID() > 0) {
-			remoteLogonServerVO = getRemoteLogonServerVO(223001);// TODO
+			remoteLogonServerVO = getRemoteLogonServerVO(199001);// TODO
 		} else {
 			remoteLogonServerVO = AUConnectManager.getInstance().getRemoteLogonServerVO();
 		}
