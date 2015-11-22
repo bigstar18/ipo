@@ -112,15 +112,6 @@ function doSearch(){
 	 
 }
     
-    
-	function rowformater(value,row){
-    return "<a href=\"#\" class=\"blank_a\" onclick=\"return detailForward("+value+");\"><font color=\"#880000\">"+value+"</font></a>";
-    }  
-	
-	function rowformatertoimg(value,row){
-		   var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
-	    return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
-	}  
 
 //添加信息跳转
 function addForward(){
@@ -193,21 +184,10 @@ function dolistquery() {
 						<br />
 	<div class="div_list">
 	<table id="tt"></table>
-	<%-- <table id="dg" class="easyui-datagrid" title="品种列表" style="width:100%;height:350px"
-			data-options="toolbar:'#tb',pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds',method:'get'">
-		<thead>
-			<tr>
-				<th data-options="field:'ck',checkbox:true"></th>
-				<th data-options="field:'breedid',width:200,formatter:rowformater">品种ID</th>
-				<th data-options="field:'breedname',width:200">品种名称</th>
-				<th data-options="field:'breedid',width:200,formatter:rowformatertoimg">对应商品</th>
-			</tr>
-		</thead>
-	</table> --%>
 		<div id="tb" style="padding:5px;height:auto">
 		<div style="margin-bottom:5px">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addForward();" action="" id="add">添加</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteList();" action="/BreedController/deleteBreed?autoInc=false" id="delete">删除</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBreed();" action="/BreedController/deleteBreed?autoInc=false" id="delete">删除</a>
 		</div>
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post">
