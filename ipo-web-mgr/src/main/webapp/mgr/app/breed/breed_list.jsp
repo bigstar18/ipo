@@ -20,7 +20,6 @@ $(document).ready(function() {
          title:'品种列表',  
          iconCls:'icon-ok', 
          method:"get",
-         width:800,
          height:400,
          pageSize:10,  
          pageList:[5,10,15],  
@@ -69,7 +68,6 @@ function doSearch(){
          title:'品种列表',  
          iconCls:'icon-ok', 
          method:"post",
-         width:800,
          height:400,
          singleSelect:true,
          pageSize:10,  
@@ -97,8 +95,9 @@ function doSearch(){
              width : 200,  
              title : '对应商品',  
              formatter:function(value,row){
-               var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
-               return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
+              // var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
+               return "<a href='"+value+"' >开始摇号</a>";
+              // return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
              } }]],
          pagination : true,  
          rownumbers : false  
@@ -183,7 +182,7 @@ function dolistquery() {
 					<td>
 						<br />
 	<div class="div_list">
-	<table id="tt"></table>
+	<table id="tt" width="100%"></table>
 		<div id="tb" style="padding:5px;height:auto">
 		<div style="margin-bottom:5px">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addForward();" action="" id="add">添加</a>

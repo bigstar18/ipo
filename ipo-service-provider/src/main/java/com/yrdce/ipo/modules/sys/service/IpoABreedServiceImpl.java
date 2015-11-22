@@ -54,7 +54,7 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public int getTotalIpoABreeds() {
 		try{
-			return ipoABreedMapper.countByExample(new IpoABreedExample());	
+			return ipoABreedMapper.countByExample();	
 		}catch (Exception e) {
 			e.printStackTrace();
 			return 0;
