@@ -16,11 +16,15 @@
   </sql>
   
   <select id="selectByAll" resultMap="BaseResultMap" parameterType="map">
-  	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from Ipo_Tradtime t) a where a.TNO between  #{page} and  #{rows}
+  	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_TRADETIME t) a where a.TNO between  #{page} and  #{rows}
+  </select>
+  
+   <select id="selectAll" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from  IPO_TRADETIME 
   </select>
   
   <select id="selectByKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
-  	select <include refid="Base_Column_List" /> from IPO_Tradetime where t.sectionid = #{sectionid,jdbcType=DECIMAL}
+  	select <include refid="Base_Column_List" /> from IPO_TRADETIME where t.sectionid = #{sectionid,jdbcType=DECIMAL}
   </select>
   
   <update id="updateByAll" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime">

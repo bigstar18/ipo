@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import gnnt.MEBS.common.front.statictools.Tools;
+import gnnt.MEBS.checkLogon.util.Tool;
 import gnnt.MEBS.logonService.vo.CheckUserResultVO;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
@@ -43,8 +43,8 @@ public class SecurityFilter implements Filter {
 
 		if (user == null) {
 			synchronized (syncObject) {
-				long sessionID = Tools.strToLong(request.getParameter("sessionID"), -1L);
-				int fromModuleID = Tools.strToInt(request.getParameter("FromModuleID"), -1);
+				long sessionID = Tool.strToLong(request.getParameter("sessionID"), -1L);
+				int fromModuleID = Tool.strToInt(request.getParameter("FromModuleID"), -1);
 				String userID = request.getParameter("userID");
 				if ((sessionID > 0L) && (fromModuleID > 0)) {
 					String fromLogonType = request.getParameter("FromLogonType");
@@ -52,7 +52,7 @@ public class SecurityFilter implements Filter {
 					if ((selfLogonType == null) || (selfLogonType.trim().length() == 0)) {
 						selfLogonType = "web";
 					}
-					int selfModuleID = Tools.strToInt(request.getParameter("ModuleID"), 40);// TODO
+					int selfModuleID = Tool.strToInt(request.getParameter("ModuleID"), 40);// TODO
 
 					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);

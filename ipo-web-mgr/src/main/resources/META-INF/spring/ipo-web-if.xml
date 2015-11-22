@@ -30,6 +30,9 @@
      <dubbo:reference id="displayService" interface="com.yrdce.ipo.modules.sys.service.DisplayService" />
      <dubbo:reference id="distributionService" interface="com.yrdce.ipo.modules.sys.service.DistributionService" />
      <dubbo:reference id="orderService" interface="com.yrdce.ipo.modules.sys.service.OrderService"/>
+     <dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService"/>
+     <dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService"/>
+     <dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService"/>
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
 

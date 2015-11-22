@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.MBreedMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    <id column="BREEDID" property="breedid" jdbcType="DECIMAL" />
+    <result column="BREEDNAME" property="breedname" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="TRADEMODE" property="trademode" jdbcType="DECIMAL" />
+    <result column="CATEGORYID" property="categoryid" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="BELONGMODULE" property="belongmodule" jdbcType="VARCHAR" />
+    <result column="SORTNO" property="sortno" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.MBreed" extends="BaseResultMap" >
+    <result column="PICTURE" property="picture" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BREEDID, BREEDNAME, UNIT, TRADEMODE, CATEGORYID, STATUS, BELONGMODULE, SORTNO
+  </sql>
+  <sql id="Blob_Column_List" >
+    PICTURE
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.MBreedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.MBreedExample" >
+    select
+    <include refid="Base_Column_List" />
+    from M_BREED where BeLongModule like '%40%' and status=1 order by breedID
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from M_BREED
+    where BREEDID = #{breedid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from M_BREED
+    where BREEDID = #{breedid,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.MBreedExample" >
+    delete from M_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    insert into M_BREED (BREEDID, BREEDNAME, UNIT, 
+      TRADEMODE, CATEGORYID, STATUS, 
+      BELONGMODULE, SORTNO, PICTURE
+      )
+    values (#{breedid,jdbcType=DECIMAL}, #{breedname,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{trademode,jdbcType=DECIMAL}, #{categoryid,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{belongmodule,jdbcType=VARCHAR}, #{sortno,jdbcType=DECIMAL}, #{picture,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    insert into M_BREED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="breedid != null" >
+        BREEDID,
+      </if>
+      <if test="breedname != null" >
+        BREEDNAME,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="trademode != null" >
+        TRADEMODE,
+      </if>
+      <if test="categoryid != null" >
+        CATEGORYID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="belongmodule != null" >
+        BELONGMODULE,
+      </if>
+      <if test="sortno != null" >
+        SORTNO,
+      </if>
+      <if test="picture != null" >
+        PICTURE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="breedid != null" >
+        #{breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="breedname != null" >
+        #{breedname,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="trademode != null" >
+        #{trademode,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryid != null" >
+        #{categoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="belongmodule != null" >
+        #{belongmodule,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=DECIMAL},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.MBreedExample" resultType="java.lang.Integer" >
+    select count(*) from M_BREED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update M_BREED
+    <set >
+      <if test="record.breedid != null" >
+        BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.breedname != null" >
+        BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null" >
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trademode != null" >
+        TRADEMODE = #{record.trademode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.categoryid != null" >
+        CATEGORYID = #{record.categoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.belongmodule != null" >
+        BELONGMODULE = #{record.belongmodule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortno != null" >
+        SORTNO = #{record.sortno,jdbcType=DECIMAL},
+      </if>
+      <if test="record.picture != null" >
+        PICTURE = #{record.picture,jdbcType=BLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update M_BREED
+    set BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      TRADEMODE = #{record.trademode,jdbcType=DECIMAL},
+      CATEGORYID = #{record.categoryid,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      BELONGMODULE = #{record.belongmodule,jdbcType=VARCHAR},
+      SORTNO = #{record.sortno,jdbcType=DECIMAL},
+      PICTURE = #{record.picture,jdbcType=BLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update M_BREED
+    set BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      BREEDNAME = #{record.breedname,jdbcType=VARCHAR},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      TRADEMODE = #{record.trademode,jdbcType=DECIMAL},
+      CATEGORYID = #{record.categoryid,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      BELONGMODULE = #{record.belongmodule,jdbcType=VARCHAR},
+      SORTNO = #{record.sortno,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    update M_BREED
+    <set >
+      <if test="breedname != null" >
+        BREEDNAME = #{breedname,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="trademode != null" >
+        TRADEMODE = #{trademode,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryid != null" >
+        CATEGORYID = #{categoryid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="belongmodule != null" >
+        BELONGMODULE = #{belongmodule,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        SORTNO = #{sortno,jdbcType=DECIMAL},
+      </if>
+      <if test="picture != null" >
+        PICTURE = #{picture,jdbcType=BLOB},
+      </if>
+    </set>
+    where BREEDID = #{breedid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    update M_BREED
+    set BREEDNAME = #{breedname,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      TRADEMODE = #{trademode,jdbcType=DECIMAL},
+      CATEGORYID = #{categoryid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BELONGMODULE = #{belongmodule,jdbcType=VARCHAR},
+      SORTNO = #{sortno,jdbcType=DECIMAL},
+      PICTURE = #{picture,jdbcType=BLOB}
+    where BREEDID = #{breedid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.MBreed" >
+    update M_BREED
+    set BREEDNAME = #{breedname,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      TRADEMODE = #{trademode,jdbcType=DECIMAL},
+      CATEGORYID = #{categoryid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BELONGMODULE = #{belongmodule,jdbcType=VARCHAR},
+      SORTNO = #{sortno,jdbcType=DECIMAL}
+    where BREEDID = #{breedid,jdbcType=DECIMAL}
+  </update>
+</mapper>

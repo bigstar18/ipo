@@ -8,14 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.config.annotation.Service;
+
+import org.springframework.stereotype.Service;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
 import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
-@Service
+@Service("tradetimeservice")
 public class TradetimeServiceImpl implements TradetimeService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -51,6 +52,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 			return null;
 		}
 	}
+
 
 	@Override
 	public int upDate(Tradetime tradetime) {
@@ -130,6 +132,25 @@ public class TradetimeServiceImpl implements TradetimeService {
 		logger.info("查询交易节共有几条信息");
 		int count = tradetimeMapper.selectByCounts();
 		return count;
+	}
+
+	@Override
+	public List<Tradetime> selectAll() {
+		logger.info("进入查询所有交易节信息");
+		try{
+		List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
+		List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
+		tradetime1 = tradetimeMapper.selectAll();
+		for (int i = 0; i < tradetime1.size(); i++) {
+			Tradetime tradetime = new Tradetime();
+			BeanUtils.copyProperties(tradetime1.get(i), tradetime);
+			tradetime2.add(tradetime);
+		}
+		return tradetime2;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
