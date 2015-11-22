@@ -1,70 +1,99 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <html>
 <head>
 
-<title>Æ·ÖÖ¹ÜÀíÁĞ±í</title>
+<title>å“ç§ç®¡ç†åˆ—è¡¨</title>
 
-<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
-<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css"> 
-<link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
-<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-<script src="breed_list.js" type="text/javascript"></script>
-
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 
 <script type="text/javascript">
+ 
+$(document).ready(function() {
+	 var p = $('#dg').datagrid('getPager'); 
+	    $(p).pagination({ 
+	        pageSize: 10,
+	        pageList: [5,10,15],
+	        beforePageText: 'ç¬¬',
+	        afterPageText: 'é¡µ    å…± {pages} é¡µ', 
+	        displayMsg: 'å½“å‰æ˜¾ç¤º {from} - {to} æ¡è®°å½•   å…± {total} æ¡è®°å½•'
+	    });  
+});
+    
+function doSearch(){
+	$('#dg').datagrid({    
+	    url:'<%=request.getContextPath()%>/BreedController/findBreedByName',    
+	    columns:[[    
+	        {field:'breedid',title:'å“ç§ID',width:100},    
+	        {field:'breedname',title:'å“ç§åç§°',width:100},    
+	        {field:'breedid',title:'å¯¹åº”å•†å“',width:100,}    
+	    ]]    
+	});  
+}
+    
+    
+	function rowformater(value,row){
+    return "<a href=\"#\" class=\"blank_a\" onclick=\"return detailForward("+value+");\"><font color=\"#880000\">"+value+"</font></a>";
+    }  
+	
+	function rowformatertoimg(value,row){
+		   var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
+	    return "<a href=\"#\" onclick=\"updateForward("+value+")\"><img src="+imgurl+"/></a>";
+	}  
 
-//Ìí¼ÓĞÅÏ¢Ìø×ª
+//æ·»åŠ ä¿¡æ¯è·³è½¬
 function addForward(){
-	//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+	//è·å–é…ç½®æƒé™çš„ URL
 	var addUrl=document.getElementById('add').action;
-	//»ñÈ¡ÍêÕûÌø×ªURL
+	//è·å–å®Œæ•´è·³è½¬URL
 	var url = "${basePath}"+addUrl;
 
-	document.location.href = url;
+	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward";
 	
 }
 function addSortForward(){
-	//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+	//è·å–é…ç½®æƒé™çš„ URL
 	var addUrl=document.getElementById('addBC').action;
-	//»ñÈ¡ÍêÕûÌø×ªURL
+	//è·å–å®Œæ•´è·³è½¬URL
 	var url = "${basePath}"+addUrl;
 
 	if(window.open(url, "", "width=450,height=400")){
-		//Èç¹ûĞŞ¸Ä³É¹¦£¬ÔòË¢ĞÂÁĞ±í
+		//å¦‚æœä¿®æ”¹æˆåŠŸï¼Œåˆ™åˆ·æ–°åˆ—è¡¨
 		ECSideUtil.reload("ec");
 	};
 	
 }
-//ĞŞ¸ÄĞÅÏ¢Ìø×ª
+//ä¿®æ”¹ä¿¡æ¯è·³è½¬
 function detailForward(id){
-	//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+	//è·å–é…ç½®æƒé™çš„ URL
 	var detailUrl = "${basePath}/timebargain/tradeparams/detailBreed.action?breedID=";
-	//»ñÈ¡ÍêÕûÌø×ªURL
+	//è·å–å®Œæ•´è·³è½¬URL
 	var url = detailUrl + id;
 
 	document.location.href = url;
 	
 }
-//ÅúÁ¿É¾³ıĞÅÏ¢
+//æ‰¹é‡åˆ é™¤ä¿¡æ¯
 function deleteList(){
-	//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+	//è·å–é…ç½®æƒé™çš„ URL
 	var deleteUrl = document.getElementById('delete').action;
-	//»ñÈ¡ÍêÕûÌø×ªURL
+	//è·å–å®Œæ•´è·³è½¬URL
 	var url = "${basePath}"+deleteUrl;
-	//Ö´ĞĞÉ¾³ı²Ù×÷
+	//æ‰§è¡Œåˆ é™¤æ“ä½œ
 	updateRMIEcside(ec.ids,url);
 }
 
 function updateForward(id) {
-	//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+	//è·å–é…ç½®æƒé™çš„ URL
 	var updateUrl = "/timebargain/tradeparams/detailToCommodity.action";
-	//»ñÈ¡ÍêÕûÌø×ªURL
+	//è·å–å®Œæ•´è·³è½¬URL
 	var url = "${basePath}"+updateUrl;
-	//¸ø URL Ìí¼Ó²ÎÊı
+	//ç»™ URL æ·»åŠ å‚æ•°
 	url += "?breedID="+id+"&sortColumns=order+by+commodityID+asc";
 
 	document.location.href = url;
@@ -83,28 +112,27 @@ function dolistquery() {
 					<td>
 						<br />
 	<div class="div_list">
-	<table id="dg" class="easyui-datagrid" title="CheckBox Selection on DataGrid" style="width:100%;height:250px"
+	<table id="dg" class="easyui-datagrid" title="å“ç§åˆ—è¡¨" style="width:100%;height:350px"
 			data-options="toolbar:'#tb',pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds',method:'get'">
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
-				<th data-options="field:'breedID',width:200,formatter: rowformater">Æ·ÖÖID</th>
-				<th data-options="field:'breedName',width:200">Æ·ÖÖÃû³Æ</th>
-				<th data-options="field:'breedID',width:200,formatter: rowformatertoimg">¶ÔÓ¦ÉÌÆ·</th>
+				<th data-options="field:'breedid',width:200,formatter:rowformater">å“ç§ID</th>
+				<th data-options="field:'breedname',width:200">å“ç§åç§°</th>
+				<th data-options="field:'breedid',width:200,formatter:rowformatertoimg">å¯¹åº”å•†å“</th>
 			</tr>
 		</thead>
 	</table>
 		<div id="tb" style="padding:5px;height:auto">
 		<div style="margin-bottom:5px">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addForward();" action="/IpoController/addBreedforward" id="add">Ìí¼Ó</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteList();" action="/BreedController/deleteBreed?autoInc=false" id="delete">É¾³ı</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addForward();" action="" id="add">æ·»åŠ </a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteList();" action="/BreedController/deleteBreed?autoInc=false" id="delete">åˆ é™¤</a>
 		</div>
 		<div>
-		<form name="frm" action="<%=request.getContextPath()%>/CommodityController/findComms?sortColumns=order+by+breedID+asc" method="post">
-			Æ·ÖÖÃû³Æ: <input class="easyui-textbox" style="width:80px">
-<%-- 			<input id="tariffID" name="${GNNT_}primary.breedName[allLike]" type="text" value="${oldParams['primary.breedName[allLike]'] }" class="input_text"/>	 --%>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick=dolistquery();>²éÑ¯</a>					
-		</form>
+		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post">
+			å“ç§åç§°: <input id="breedname" name="breedname" class="easyui-textbox" style="width:80px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">æŸ¥è¯¢</a>					
+		</form> 
 		</div>
 	</div>
 	</div>
@@ -112,7 +140,7 @@ function dolistquery() {
 	</tr>
     </table>
 </div>
-		<!-- ±à¼­ºÍ¹ıÂËËùÊ¹ÓÃµÄ Í¨ÓÃµÄÎÄ±¾¿òÄ£°å -->
+		<!-- ç¼–è¾‘å’Œè¿‡æ»¤æ‰€ä½¿ç”¨çš„ é€šç”¨çš„æ–‡æœ¬æ¡†æ¨¡æ¿ -->
 		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
 			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
 		</textarea>

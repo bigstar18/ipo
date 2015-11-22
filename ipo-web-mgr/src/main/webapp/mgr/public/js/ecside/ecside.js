@@ -2943,16 +2943,16 @@ var ECSideUtil = ECSideUtil;
 
 
 /**
- * ���´���ʵ���˱�����ҳ���Ecside checkbox ״̬
+ * 锟斤拷锟铰达拷锟斤拷实锟斤拷锟剿憋拷锟斤拷锟斤拷页锟斤拷锟紼cside checkbox 状态
  * @param {Object} dx
  * @memberOf {TypeName} 
  * @return {TypeName} 
  */
-Array.prototype.baoremove = function(dx) {//ɾ��������ĳ��Ԫ��   
+Array.prototype.baoremove = function(dx) {//删锟斤拷锟斤拷锟斤拷锟斤拷某锟斤拷元锟斤拷   
     if(isNaN(dx)||dx>this.length){return false;}   
     this.splice(dx,1);   
  };   
-Array.prototype.uniq = function(){//ɾ���������ظ����   
+Array.prototype.uniq = function(){//删锟斤拷锟斤拷锟斤拷锟斤拷锟截革拷锟斤拷锟�  
 	var i = 0, j = 0;   
 	while (undefined !== this[i]){
 	    j = i + 1;   
@@ -2967,7 +2967,7 @@ Array.prototype.uniq = function(){//ɾ���������ظ����
     return this;   
 }   
   
-ECSideUtil.getPageCheckValue=function(checkboxname){//��ȡ���е�checkֵ   
+ECSideUtil.getPageCheckValue=function(checkboxname){//锟斤拷取锟斤拷锟叫碉拷check值   
     var carray = new Array();   
     var box = document.getElementsByName(checkboxname);   
     for(var i=0;i<box.length;i++){   
@@ -2978,10 +2978,10 @@ ECSideUtil.getPageCheckValue=function(checkboxname){//��ȡ���е�chec
         }   
     }   
     var newarray = carray.uniq();   
-    newarray.uniq();//�ظ����ˣ���Ϊһ�ι��˺����Ի�����ظ����   
+    newarray.uniq();//锟截革拷锟斤拷锟剿ｏ拷锟斤拷为一锟轿癸拷锟剿猴拷锟斤拷锟皆伙拷锟斤拷锟斤拷馗锟斤拷锟斤拷   
     return newarray;   
 };
-ECSideUtil.initPageCheckValue=function(checkboxname,checkedarry){//��ҳ����checkbox״̬   
+ECSideUtil.initPageCheckValue=function(checkboxname,checkedarry){//锟斤拷页锟斤拷锟斤拷checkbox状态   
     var box = document.getElementsByName(checkboxname);   
     for(var i=0;i<box.length;i++){   
         for(var j=0;j<checkedarry.length;j++){   
@@ -2993,7 +2993,7 @@ ECSideUtil.initPageCheckValue=function(checkboxname,checkedarry){//��ҳ��
 };   
   
 ECSideUtil.gotoPage=function(pageno,formid){   
-	var allcheckarray =ECSideUtil.getPageCheckValue("chkBoxUser")  ;//������е�checkֵ   
+	var allcheckarray =ECSideUtil.getPageCheckValue("chkBoxUser")  ;//锟斤拷锟斤拷锟斤拷械锟絚heck值   
 	var ecsideObj=ECSideUtil.getGridObj(formid);   
 	ecsideObj.showWaitingBar();   
     try{
@@ -3023,5 +3023,5 @@ ECSideUtil.gotoPage=function(pageno,formid){
             form.submit();   
         }   
     }   
-	ECSideUtil.initPageCheckValue("chkBoxUser",allcheckarray);//��ʼ����ҳ   
+	ECSideUtil.initPageCheckValue("chkBoxUser",allcheckarray);//锟斤拷始锟斤拷锟斤拷页   
 }; 

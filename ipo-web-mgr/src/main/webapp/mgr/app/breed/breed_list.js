@@ -1,15 +1,13 @@
-/*
- *
- */
 $(document).ready(function() {
 	 var p = $('#dg').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        pageSize: 10,
 	        pageList: [5,10,15],
-	        beforePageText: 'µÚ',
-	        afterPageText: 'Ò³    ¹² {pages} Ò³', 
-	        displayMsg: 'µ±Ç°ÏÔÊ¾ {from} - {to} Ìõ¼ÇÂ¼   ¹² {total} Ìõ¼ÇÂ¼'
+	        beforePageText: 'ç¬¬',
+	        afterPageText: 'é¡µ    å…± {pages} é¡µ', 
+	        displayMsg: 'å½“å‰æ˜¾ç¤º {from} - {to} æ¡è®°å½•   å…± {total} æ¡è®°å½•'
 	    });  
+});
 		    
 	 function rowformatertoimg(value,row){
 	   var imgurl="${skinPath}"+"/image/app/timebargain/commodity.gif";
@@ -18,7 +16,7 @@ $(document).ready(function() {
 	    
 	function rowformater(value,row){
        return "<a href=\"#\" class=\"blank_a\" onclick=\"return detailForward("+value+");\"><font color=\"#880000\">"+value+"</font></a>";
-}    
+       }    
 	    
 
 	

@@ -1,13 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
-<!-- Ìá¹©Ò»Ð©¹«ÓÃµÄ·½·¨ js -->
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<!-- æä¾›ä¸€äº›å…¬ç”¨çš„æ–¹æ³• js -->
 <script type="text/javascript"
 	src="<%=publicPath%>/js/tool.js"></script>
-<!-- form±íµ¥Ìá½»Ïà¹ØµÄ·½·¨ js -->
+<!-- formè¡¨å•æäº¤ç›¸å…³çš„æ–¹æ³• js -->
 <script type="text/javascript"
 	src="<%=publicPath%>/js/submitform.js"></script>
-<!-- ÓÃÓÚÊ±¼ä¿Ø¼þµÄ js -->
+<!-- ç”¨äºŽæ—¶é—´æŽ§ä»¶çš„ js -->
 <script type="text/javascript"
 	src="<%=publicPath%>/js/calendar/WdatePicker.js"></script>
-<!-- ½«Ò³Ãæ¿Ø¼þÉèÖÃÎªÖ»¶Á js -->
+<!-- å°†é¡µé¢æŽ§ä»¶è®¾ç½®ä¸ºåªè¯» js -->
 <script type="text/javascript"
 	src="<%=publicPath%>/js/isreadonly.js"></script>

@@ -1,4 +1,4 @@
-<%@ page pageEncoding="GBK"%>
+<%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.ecside.org" prefix="ec"%>
 <%@page import="gnnt.MEBS.common.mgr.action.*"%>
 <script type="text/javascript"

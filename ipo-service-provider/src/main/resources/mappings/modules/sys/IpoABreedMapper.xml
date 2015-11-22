@@ -126,6 +126,30 @@
       #{mktpubcharatio,jdbcType=DECIMAL}, #{contractcurrency,jdbcType=DECIMAL}, #{tradedays,jdbcType=DECIMAL}
       )
   </insert>
+  <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
+    update IPO_A_BREED
+    set BREEDID = #{breedid,jdbcType=DECIMAL},
+      BREEDNAME = #{breedname,jdbcType=VARCHAR},
+      SORTID = #{sortid,jdbcType=DECIMAL},
+      CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
+      MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
+      SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
+      SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
+      SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
+      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
+      CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
+      TRADETIME = #{tradetime,jdbcType=DECIMAL},
+      MINAPPLYNUM = #{minapplynum,jdbcType=DECIMAL},
+      MAXAPPLYNUM = #{maxapplynum,jdbcType=DECIMAL},
+      MINAPPLYQUAMOVE = #{minapplyquamove,jdbcType=DECIMAL},
+      PUBLISHALGR = #{publishalgr,jdbcType=DECIMAL},
+      DEALERPUBCHARATIO = #{dealerpubcharatio,jdbcType=DECIMAL},
+      MKTDEAPUBCHARATIO = #{mktdeapubcharatio,jdbcType=DECIMAL},
+      PUBLISHERCHARATIO = #{publishercharatio,jdbcType=DECIMAL},
+      MKTPUBCHARATIO = #{mktpubcharatio,jdbcType=DECIMAL},
+      CONTRACTCURRENCY = #{contractcurrency,jdbcType=DECIMAL},
+      TRADEDAYS = #{tradedays,jdbcType=DECIMAL}
+  </update>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoABreed" >
     insert into IPO_A_BREED
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -368,4 +392,13 @@
      <include refid="Base_Column_List" />
     from  IPO_A_BREED  where UPPER(BREEDID) = #{breedid,jdbcType=VARCHAR} 
   </select> 
+  <select id="getAllByName"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_A_BREED t where BREEDNAME like  #{breedname}) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="countByName" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from IPO_A_BREED where BREEDNAME like  #{breedname}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from IPO_A_BREED
+  </select>
 </mapper>

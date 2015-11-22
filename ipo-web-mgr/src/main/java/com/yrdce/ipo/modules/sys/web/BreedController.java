@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +45,7 @@ public class BreedController extends BaseController {
 	@Autowired
 	private MBreedService mBreedservice;
 	
+
 	public VIpoABreedService getvIpoABreedService() {
 		return vIpoABreedService;
 	}
@@ -107,6 +111,32 @@ public class BreedController extends BaseController {
 		}
 	}
 	
+	/**
+	 * 品名模糊查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findBreedByName", method = RequestMethod.POST)
+	@ResponseBody
+	public String findBreedByName(@RequestParam("breedname") String name,
+			@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+		log.info("根据品名模糊查询");
+		try {
+		List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
+		blist = vIpoABreedService.findIpoABreedsByName(name, page, rows);
+		int totalnums = vIpoABreedService.getTotalIpoABreedsByName(name);
+		ResponseResult result = new ResponseResult();
+		result.setTotal(totalnums);
+		result.setRows(blist);
+		return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
 	
 	/**
 	 * 增加一个品种
@@ -115,24 +145,79 @@ public class BreedController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/addBreed", method = RequestMethod.GET)
+	@RequestMapping(value = "/addBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public String addBreed() throws IOException {
-		log.info("查询所有分配到IPO权限下的品种至下拉框");
+	public void addBreed(VIpoABreed vipoabreed) throws IOException {
+		log.info("增加一个品种");
 		try {
-		List<MBreed> Mlist = new ArrayList<MBreed>();
-		Mlist = mBreedservice.findAll();
-		ResponseResult result = new ResponseResult();
-		result.setRows(Mlist);
-		return JSON.json(result);
+			vIpoABreedService.addBreed(vipoabreed);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
 		}
 	}
 	
 	
+	/**
+	 * 修改一个品种
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateBreed", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateBreed(VIpoABreed vipoabreed) throws IOException {
+		log.info("修改一个品种");
+		try {
+			vIpoABreedService.updateBreed(vipoabreed);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	 * 删除一个品种，并删除品种下的商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deleteBreed", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteBreed() throws IOException {
+		log.info("删除品种");
+		try {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询已配置IPO信息的品种ID
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findExsitIds", method = RequestMethod.GET)
+	@ResponseBody
+	public String findExsitIds(@RequestParam("breedid") String breedid) throws IOException {
+		log.info("查询已配置IPO信息的品种ID");
+		try {
+			Long bid=Long.parseLong(breedid);
+			List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
+			blist=vIpoABreedService.findAll();
+			for(int i=0;i<blist.size();i++){
+				if(bid==blist.get(i).getBreedid()){
+					return "0";//已存在
+				}
+			}
+			return "1";//新增的id
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "2";
+		}
+	}
 	
 	
 }

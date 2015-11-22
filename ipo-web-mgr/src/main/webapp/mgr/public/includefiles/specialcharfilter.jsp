@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <script>
 function showKeyPress(evt) {
 	evt = (evt) ? evt : window.event
 	return checkSpecific(String.fromCharCode(evt.keyCode));
 }
 function checkSpecific(realkey){
-	var specialKey = "!<>#$()?%\&\^*\'\"\+\|";//特殊字符列表
+	var specialKey = "!<>#$()?%\&\^*\'\"\+\|";//鐗规畩瀛楃鍒楄〃
 	var flg = false;
 	flg = (specialKey.indexOf(realkey) >= 0);
 	if (flg) {

@@ -1,4 +1,4 @@
- //½öÊäÈëÊı×ÖºÍ.
+  //ä»…è¾“å…¥æ•°å­—å’Œ.
 function onlyDoubleInput()
 {
    if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47)
@@ -7,7 +7,7 @@ function onlyDoubleInput()
    }
 } 
 
-//½öÊäÈëÊı×Ö
+//ä»…è¾“å…¥æ•°å­—
 function onlyNumberInput() {
 	if (event.keyCode>=48 && event.keyCode<=57) {
 		event.returnValue=true;
@@ -16,14 +16,14 @@ function onlyNumberInput() {
 	}
 }
 
-// Ö»¶Á
+// åªè¯»
 function setReadOnly(obj)
 {
   obj.readOnly = true;
   obj.style.backgroundColor = "#C0C0C0";
 }
 
-// ¶ÁĞ´
+// è¯»å†™
 function setReadWrite(obj)
 {
   obj.readOnly = false;
@@ -41,7 +41,7 @@ function setEnabled(obj)
   obj.style.backgroundColor = "white";
 }
 
-//¿ØÖÆ²»ÄÜÊäÈë¿Õ¸ñ
+//æ§åˆ¶ä¸èƒ½è¾“å…¥ç©ºæ ¼
 function notSpace()
 {
   if(event.keyCode == 32)

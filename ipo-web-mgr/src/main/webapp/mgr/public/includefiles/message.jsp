@@ -1,6 +1,6 @@
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-<!-- 获取返回信息 -->
+<!-- 鑾峰彇杩斿洖淇℃伅 -->
 <c:if test="${not empty ReturnValue.info }">
 	<script>
         alert('${ReturnValue.info}');

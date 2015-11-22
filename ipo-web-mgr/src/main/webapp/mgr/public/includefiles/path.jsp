@@ -1,38 +1,38 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@page import="gnnt.MEBS.common.mgr.model.User"%>
 <%@page import="gnnt.MEBS.common.mgr.common.Global"%>
 <%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%>
 <%
-	//¼ÇÂ¼µÄÑùÊ½Ãû³Æ
+	//è®°å½•çš„æ ·å¼åç§°
 	String skinName = null;
 	User sessinUser = (User) request.getSession().getAttribute(
 			Global.CURRENTUSERSTR);
-	if (sessinUser == null) {//Èç¹ûÓÃ»§Îª¿Õ£¬ÔòÑùÊ½Ãû³ÆÎªÄ¬ÈÏÑùÊ½Ãû³Æ
+	if (sessinUser == null) {//å¦‚æžœç”¨æˆ·ä¸ºç©ºï¼Œåˆ™æ ·å¼åç§°ä¸ºé»˜è®¤æ ·å¼åç§°
 		skinName = "default";
-	} else {//Èç¹ûÓÃ»§²»Îª¿Õ£¬ÔòÑùÊ½Ãû³ÆÎªÓÃ»§ÑùÊ½Ãû³Æ
+	} else {//å¦‚æžœç”¨æˆ·ä¸ä¸ºç©ºï¼Œåˆ™æ ·å¼åç§°ä¸ºç”¨æˆ·æ ·å¼åç§°
 		skinName = sessinUser.getSkin();
 	}
-	//ÊÐ³¡Ãû³Æ£ºcommon_mgr
+	//å¸‚åœºåç§°ï¼šcommon_mgr
 	String path = request.getContextPath();
-	//·þÎñÂ·¾¶ http://127.0.0.1:8080/
+	//æœåŠ¡è·¯å¾„ http://127.0.0.1:8080/
 	String serverPath=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/";
-	//web url£ºhttp://127.0.0.1:8080/common_mgr
+	//web urlï¼šhttp://127.0.0.1:8080/common_mgr
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
-	//mgr Â·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr
+	//mgr è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr
 	String mgrPath=basePath+"/mgr";
-	//public Â·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/public
+	//public è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/public
 	String publicPath = mgrPath + "/public";
-	//¹«¹²¼ÓÔØÒ³ÃæÂ·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/public/includefiles
+	//å…¬å…±åŠ è½½é¡µé¢è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/public/includefiles
 	String includePath = publicPath + "/includefiles";
-	//µ±Ç°ÑùÊ½Â·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default
+	//å½“å‰æ ·å¼è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default
 	String skinPath = mgrPath + "/skinstyle/" + skinName;
-	//ecside ÑùÊ½Â·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/ecside
+	//ecside æ ·å¼è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/ecside
 	String escideskinPath =skinPath+ "/ecside";
-	//¿ò¼ÜÂ·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/frame
+	//æ¡†æž¶è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/frame
 	String framePath = basePath + "/mgr/frame";
-	//°´Å¥Í¼Æ¬Â·¾¶£ºhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/image/frame/menu/
+	//æŒ‰é’®å›¾ç‰‡è·¯å¾„ï¼šhttp://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/image/frame/menu/
 	String menuPicPath = skinPath + "/image/app"+path+"/menu/";
-	/*ÓÃÓÚ ÉêÇëÉóºË °üº¬Ò³Ãæinclude¶¯Ì¬Â·¾¶ÎÞ·¨ÒýÓÃÍâÒ³ÃæµÄÂ·¾¶ */
+	/*ç”¨äºŽ ç”³è¯·å®¡æ ¸ åŒ…å«é¡µé¢includeåŠ¨æ€è·¯å¾„æ— æ³•å¼•ç”¨å¤–é¡µé¢çš„è·¯å¾„ */
 	session.setAttribute("skinPath",skinPath);
 %>
 <c:set var="basePath" value="<%=basePath %>" />
@@ -45,7 +45,7 @@
 <c:set var="menuPicPath" value="<%=menuPicPath %>" />
 <c:set var="skinName" value="<%=skinName %>" />
 <script>
-//javascript ÖÐÆ¤·ôÂ·¾¶
+//javascript ä¸­çš®è‚¤è·¯å¾„
 var jsSkinPath="../mgr/skinstyle/<%=skinName%>/";
 var allJsSkinPath="<%=skinPath%>/";
 </script>

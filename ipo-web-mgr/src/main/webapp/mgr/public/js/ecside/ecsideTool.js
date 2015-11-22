@@ -74,15 +74,15 @@ function deleteEcside(collCheck,url)
 {
 	if(isSelNothing(collCheck) == -1)
 	{
-		alert ( "Ã»ÓĞ¿ÉÒÔ²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "æ²¡æœ‰å¯ä»¥æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
 	if(isSelNothing(collCheck))
 	{
-		alert ( "ÇëÑ¡ÔñĞèÒª²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "è¯·é€‰æ‹©éœ€è¦æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
-	if(confirm("ÄãÈ·¶¨Òª²Ù×÷Ñ¡ÖĞÊı¾İÂğ£¿"))
+	if(confirm("ä½ ç¡®å®šè¦æ“ä½œé€‰ä¸­æ•°æ®å—ï¼Ÿ"))
 	{
 		ec.action=url;
 		ec.submit();
@@ -92,10 +92,10 @@ function deleteAllEcside(collCheck,url)
 {
 	if(isSelNothing(collCheck) == -1)
 	{
-		alert ( "Ã»ÓĞ¿ÉÒÔ²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "æ²¡æœ‰å¯ä»¥æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
-	if(confirm("ÄãÈ·¶¨Òª²Ù×÷Ñ¡ÖĞÊı¾İÂğ£¿"))
+	if(confirm("ä½ ç¡®å®šè¦æ“ä½œé€‰ä¸­æ•°æ®å—ï¼Ÿ"))
 	{
 		ec.action=url;
 		ec.submit();
@@ -105,15 +105,15 @@ function downOnline(collCheck,url)
 {
 	if(isSelNothing(collCheck) == -1)
 	{
-		alert ( "Ã»ÓĞ¿ÉÒÔ²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "æ²¡æœ‰å¯ä»¥æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
 	if(isSelNothing(collCheck))
 	{
-		alert ( "ÇëÑ¡ÔñĞèÒª²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "è¯·é€‰æ‹©éœ€è¦æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
-	if(confirm("ÄãÈ·¶¨ÒªÇ¿ÖÆ½«ÆäÏÂÏßÂğ£¿"))
+	if(confirm("ä½ ç¡®å®šè¦å¼ºåˆ¶å°†å…¶ä¸‹çº¿å—ï¼Ÿ"))
 	{
 		ec.action=url;
 		ec.submit();
@@ -123,15 +123,15 @@ function updateRMIEcside(collCheck,url)
 {
 	if(isSelNothing(collCheck) == -1)
 	{
-		alert ( "Ã»ÓĞ¿ÉÒÔ²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "æ²¡æœ‰å¯ä»¥æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
 	if(isSelNothing(collCheck))
 	{
-		alert ( "ÇëÑ¡ÔñĞèÒª²Ù×÷µÄÊı¾İ£¡" );
+		alert ( "è¯·é€‰æ‹©éœ€è¦æ“ä½œçš„æ•°æ®ï¼" );
 		return false;
 	}
-	if(confirm("ÄãÈ·¶¨Òª²Ù×÷Ñ¡ÖĞÊı¾İÂğ£¿"))
+	if(confirm("ä½ ç¡®å®šè¦æ“ä½œé€‰ä¸­æ•°æ®å—ï¼Ÿ"))
 	{
 		ec.action=url;
 		ec.submit();

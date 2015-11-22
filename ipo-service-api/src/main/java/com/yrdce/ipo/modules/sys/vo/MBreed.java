@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,50 +20,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MBreed implements Serializable{
 	
-	@JsonProperty("breedid")
-	@XmlElement(name = "breedid")
-	@NotNull
+	
     private Long breedid;
 
-	@JsonProperty("breedname")
-	@XmlElement(name = "breedname")
-	@NotNull
-	@Size(min = 1, max = 32)
     private String breedname;
 
-	@JsonProperty("unit")
-	@XmlElement(name = "unit")
-	@NotNull
     private String unit;
 
-	@JsonProperty("trademode")
-	@XmlElement(name = "trademode")
-	@NotNull
     private Short trademode;
 
-	@JsonProperty("categoryid")
-	@XmlElement(name = "categoryid")
-	@NotNull
     private Long categoryid;
 
-	@JsonProperty("status")
-	@XmlElement(name = "status")
-	@NotNull
     private Short status;
-	
-	@JsonProperty("belongmodule")
-	@XmlElement(name = "belongmodule")
-	@NotNull
+
     private String belongmodule;
 
-	@JsonProperty("sortno")
-	@XmlElement(name = "sortno")
-	@NotNull
     private Long sortno;
 
-	@JsonProperty("picture")
-	@XmlElement(name = "picture")
-	@NotNull
     private byte[] picture;
     
     
@@ -157,4 +131,15 @@ public class MBreed implements Serializable{
     public void setPicture(byte[] picture) {
         this.picture = picture;
     }
+
+	@Override
+	public String toString() {
+		return "MBreed [breedid=" + breedid + ", breedname=" + breedname
+				+ ", unit=" + unit + ", trademode=" + trademode
+				+ ", categoryid=" + categoryid + ", status=" + status
+				+ ", belongmodule=" + belongmodule + ", sortno=" + sortno
+				+ ", picture=" + Arrays.toString(picture) + "]";
+	}
+    
+    
 }

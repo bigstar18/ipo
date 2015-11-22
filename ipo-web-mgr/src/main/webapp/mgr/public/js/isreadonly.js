@@ -1,5 +1,5 @@
 
-/*设置form表单中的控件是否只读*/
+/*璁剧疆form琛ㄥ崟涓殑鎺т欢鏄惁鍙*/
 function setReadOnly() {
 		var regexTests = document.getElementsByTagName("input");
 		var len = regexTests.length;

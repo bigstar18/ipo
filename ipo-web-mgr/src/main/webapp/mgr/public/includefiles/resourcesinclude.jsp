@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=GBK"%>
-<%//×Ö¶ÎÃû³ÆÅäÖÃ ¸ñÊ½£ºÀàÃû³Æ.×Ö¶ÎÃû³Æ %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%//å­—æ®µåç§°é…ç½® æ ¼å¼ï¼šç±»åç§°.å­—æ®µåç§° %>
 <fmt:setBundle basename="ApplicationResources" var="PropsFieldDic" />
-<%//×Ö¶Î³¤¶ÈÅäÖÃ¸ñÊ½ %>
+<%//å­—æ®µé•¿åº¦é…ç½®æ ¼å¼ %>
 <fmt:setBundle basename="PropertiesLength" var="PropsFieldLength" />
-<%//ÊÐ³¡³£Á¿ÅäÖÃÐÅÏ¢ %>
+<%//å¸‚åœºå¸¸é‡é…ç½®ä¿¡æ¯ %>
 <fmt:setBundle basename="MarketMessage" var="MarketMessage" />

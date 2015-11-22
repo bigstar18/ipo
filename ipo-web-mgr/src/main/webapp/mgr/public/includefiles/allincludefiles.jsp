@@ -1,26 +1,26 @@
-<%//È¥³ýÒ³Ãæ¿ÕÐÐ %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
-<%-- <%@page import="gnnt.MEBS.common.mgr.statictools.Tools"%>
-<%@page import="gnnt.MEBS.common.mgr.statictools.Serialize"%> --%>
-<%//±êÇ©Àà¿âÒýÓÃ %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+ <%@page import="gnnt.MEBS.common.mgr.statictools.Tools"%>
+<%@page import="gnnt.MEBS.common.mgr.statictools.Serialize"%>
+<%//æ ‡ç­¾ç±»åº“å¼•ç”¨ %>
 <%@include file="taglib.jsp"%>
-<%//°üº¬ÐèÒªµÄ×ÊÔ´ÎÄ¼þ¹©Ò³ÃæÊ¹ÓÃ %>
+<%//åŒ…å«éœ€è¦çš„èµ„æºæ–‡ä»¶ä¾›é¡µé¢ä½¿ç”¨ %>
 <%@include file="resourcesinclude.jsp"%>
-<%//´æ·ÅÂ·¾¶ÐÅÏ¢°üÀ¨¹«ÓÃÂ·¾¶Æ¤·ôÂ·¾¶µÈ%>
+<%//å­˜æ”¾è·¯å¾„ä¿¡æ¯åŒ…æ‹¬å…¬ç”¨è·¯å¾„çš®è‚¤è·¯å¾„ç­‰%>
 <%@include file="path.jsp" %>
-<%//´æ·ÅAUµÄsessionIDÒþ²ØÓò%>
+<%//å­˜æ”¾AUçš„sessionIDéšè—åŸŸ%>
 <%@include file="../jsp/session.jsp" %>
-<%//°üº¬¹«ÓÃµÄcssÎÄ¼þ%>
+<%//åŒ…å«å…¬ç”¨çš„cssæ–‡ä»¶%>
 <%@include file="cssinclude.jsp" %>
-<%//°üº¬¹«ÓÃµÄjsÎÄ¼þ%>
+<%//åŒ…å«å…¬ç”¨çš„jsæ–‡ä»¶%>
 <%@include file="jsinclude.jsp" %>
-<%//°üº¬ecsideµÄjsÎÄ¼þºÍcssÎÄ¼þ%>
-<%-- <%@include file="ecsideLoad.jsp" %>
- --%>
-<%//¹ýÂËÌØÊâ×Ö·û%>
+<%//åŒ…å«ecsideçš„jsæ–‡ä»¶å’Œcssæ–‡ä»¶%>
+ <%@include file="ecsideLoad.jsp" %>
+ 
+<%//è¿‡æ»¤ç‰¹æ®Šå­—ç¬¦%>
 <%@include file="specialcharfilter.jsp" %>
-<%//²Ù×÷³É¹¦ÌáÊ¾%>
+<%//æ“ä½œæˆåŠŸæç¤º%>
 <%@include file="message.jsp" %>
 
 

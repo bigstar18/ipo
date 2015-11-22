@@ -16,6 +16,8 @@ public interface IpoABreedMapper {
     int deleteByExample(IpoABreedExample example);
 
     int insert(IpoABreed record);
+    
+    int update(IpoABreed record);
 
     int insertSelective(IpoABreed record);
 
@@ -28,5 +30,12 @@ public interface IpoABreedMapper {
     List<IpoABreed> getAllByPage(@Param("beginnum") int beginnum,
 			@Param("endnum") int endnum);// 分页获取品种列表
     
+    List<IpoABreed> getAllByName(@Param("breedname") String breedname,@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);// 分页获取品种模糊查询列表
+    
+    int countByName(@Param("breedname") String breedname);//获取品名模糊查询总数
+    
     IpoABreed selectByBreedid(@Param("breedid") String breedid); // 根据品种ID获取品种信息
+    
+    List<IpoABreed> selectAll(); //查询所有的品种 
 }

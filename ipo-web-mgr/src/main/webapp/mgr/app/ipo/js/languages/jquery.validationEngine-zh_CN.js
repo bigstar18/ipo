@@ -6,135 +6,135 @@
             $.validationEngineLanguage.allRules = {
                 "required": { // Add your regex rules here, you can take telephone as an example
                     "regex": "none",
-                    "alertText": "* ´Ë´¦²»¿É¿Õ°×",
-                    "alertTextCheckboxMultiple": "* ÇëÑ¡ÔñÒ»¸öÏîÄ¿",
-                    "alertTextCheckboxe": "* Äú±ØĞë¹³Ñ¡´ËÀ¸",
-                    "alertTextDateRange": "* ÈÕÆÚ·¶Î§²»¿É¿Õ°×"
+                    "alertText": "* æ­¤å¤„ä¸å¯ç©ºç™½",
+                    "alertTextCheckboxMultiple": "* è¯·é€‰æ‹©ä¸€ä¸ªé¡¹ç›®",
+                    "alertTextCheckboxe": "* æ‚¨å¿…é¡»é’©é€‰æ­¤æ ",
+                    "alertTextDateRange": "* æ—¥æœŸèŒƒå›´ä¸å¯ç©ºç™½"
                 },
                 "noSpecialChar":{
-                    "regex": /^[^`~!@#$%^&*()+=|{}':;',\[\].<>\/?~£¡@#£¤%¡­¡­&*£¨£©¡ª¡ª+|{}¡¾¡¿¡®£»£º¡±¡°¡¯¡££¬¡¢£¿]*$/,
-                    "alertText": "* Çë²»ÒªÊäÈëÌØÊâ×Ö·û."
+                    "regex": /^[^`~!@#$%^&*()+=|{}':;',\[\].<>\/?~ï¼@#ï¿¥%â€¦â€¦&*ï¼ˆï¼‰â€”â€”+|{}ã€ã€‘â€˜ï¼›ï¼šâ€â€œâ€™ã€‚ï¼Œã€ï¼Ÿ]*$/,
+                    "alertText": "* è¯·ä¸è¦è¾“å…¥ç‰¹æ®Šå­—ç¬¦."
                 },
                 "dateRange": {
                     "regex": "none",
-                    "alertText": "* ÎŞĞ§µÄ ",
-                    "alertText2": " ÈÕÆÚ·¶Î§"
+                    "alertText": "* æ— æ•ˆçš„ ",
+                    "alertText2": " æ—¥æœŸèŒƒå›´"
                 },
                 "dateTimeRange": {
                     "regex": "none",
-                    "alertText": "* ÎŞĞ§µÄ ",
-                    "alertText2": " Ê±¼ä·¶Î§"
+                    "alertText": "* æ— æ•ˆçš„ ",
+                    "alertText2": " æ—¶é—´èŒƒå›´"
                 },
                 "minSize": {
                     "regex": "none",
-                    "alertText": "* ×îÉÙ ",
-                    "alertText2": " ¸ö×Ö·û"
+                    "alertText": "* æœ€å°‘ ",
+                    "alertText2": " ä¸ªå­—ç¬¦"
                 },
                 "maxSize": {
                     "regex": "none",
-                    "alertText": "* ×î¶à ",
-                    "alertText2": " ¸ö×Ö·û"
+                    "alertText": "* æœ€å¤š ",
+                    "alertText2": " ä¸ªå­—ç¬¦"
                 },
                 "onlyDoubleSp": {
                     "regex": /^\d+\.?\d{0,2}$/,
-                    "alertText": "* ×î¶à2Î»Ğ¡ÊıÊı×Ö"
+                    "alertText": "* æœ€å¤š2ä½å°æ•°æ•°å­—"
                 },
 				"groupRequired": {
                     "regex": "none",
-                    "alertText": "* Äã±ØĞèÑ¡ÌîÆäÖĞÒ»¸öÀ¸Î»"
+                    "alertText": "* ä½ å¿…éœ€é€‰å¡«å…¶ä¸­ä¸€ä¸ªæ ä½"
                 },
                 "min": {
                     "regex": "none",
-                    "alertText": "* ×îĞ¡ÖµÎª "
+                    "alertText": "* æœ€å°å€¼ä¸º "
                 },
                 "max": {
                     "regex": "none",
-                    "alertText": "* ×î´óÖµÎª "
+                    "alertText": "* æœ€å¤§å€¼ä¸º "
                 },
                 "past": {
                     "regex": "none",
-                    "alertText": "* ÈÕÆÚ±ØĞèÔçÓÚ "
+                    "alertText": "* æ—¥æœŸå¿…éœ€æ—©äº "
                 },
                 "future": {
                     "regex": "none",
-                    "alertText": "* ÈÕÆÚ±ØĞèÍíÓÚ "
+                    "alertText": "* æ—¥æœŸå¿…éœ€æ™šäº "
                 },	
                 "maxCheckbox": {
                     "regex": "none",
-                    "alertText": "* ×î¶àÑ¡È¡ ",
-                    "alertText2": " ¸öÏîÄ¿"
+                    "alertText": "* æœ€å¤šé€‰å– ",
+                    "alertText2": " ä¸ªé¡¹ç›®"
                 },
                 "minCheckbox": {
                     "regex": "none",
-                    "alertText": "* ÇëÑ¡Ôñ ",
-                    "alertText2": " ¸öÏîÄ¿"
+                    "alertText": "* è¯·é€‰æ‹© ",
+                    "alertText2": " ä¸ªé¡¹ç›®"
                 },
                 "equals": {
                     "regex": "none",
-                    "alertText": "* ÇëÊäÈëÓëÉÏÃæÏàÍ¬µÄÃÜÂë"
+                    "alertText": "* è¯·è¾“å…¥ä¸ä¸Šé¢ç›¸åŒçš„å¯†ç "
                 },
                 "creditCard": {
                     "regex": "none",
-                    "alertText": "* ÎŞĞ§µÄĞÅÓÃ¿¨ºÅÂë"
+                    "alertText": "* æ— æ•ˆçš„ä¿¡ç”¨å¡å·ç "
                 },
                  "bankAccount": {
                     "regex": "none",
-                    "alertText": "* ÎŞĞ§µÄÒøĞĞºÅÂë"
+                    "alertText": "* æ— æ•ˆçš„é“¶è¡Œå·ç "
                 },
                 "phone": {
                     // credit: jquery.h5validate.js / orefalo
                     "regex": /^([\+][0-9]{1,3}[ \.\-])?([\(]{1}[0-9]{2,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/,
-                    "alertText": "* ÎŞĞ§µÄµç»°ºÅÂë"
+                    "alertText": "* æ— æ•ˆçš„ç”µè¯å·ç "
                 },
                  "fax": {
                     // credit: jquery.h5validate.js / orefalo
                     "regex": /^([\+][0-9]{1,3}[ \.\-])?([\(]{1}[0-9]{2,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/,
-                    "alertText": "* ÎŞĞ§µÄ´«ÕæºÅ"
+                    "alertText": "* æ— æ•ˆçš„ä¼ çœŸå·"
                 },
                 "email": {
                     // Shamelessly lifted from Scott Gonzalez via the Bassistance Validation plugin http://projects.scottsplayground.com/email_address_validation/
                     "regex": /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i,
-                    "alertText": "* ÓÊ¼şµØÖ·ÎŞĞ§"
+                    "alertText": "* é‚®ä»¶åœ°å€æ— æ•ˆ"
                 },
                
                 "password": {
                     "regex":  /^(.{1})((.|\s){5,500})$|^\s*$/,
-                    "alertText": "* ÃÜÂëÖÁÉÙ6Î»"
+                    "alertText": "* å¯†ç è‡³å°‘6ä½"
                 },
                 "doubleCus": {
                     // Number, including positive, negative, and floating decimal. credit: orefalo
                     "regex": /^[1-9]\d*(\.\d{0,2})?$|^0(\.\d{0,2})?$/,
-                    "alertText": "* ÎŞĞ§µÄÊı×Ö(²»ÄÜ³¬¹ıÁ½Î»Ğ¡Êı)"
+                    "alertText": "* æ— æ•ˆçš„æ•°å­—(ä¸èƒ½è¶…è¿‡ä¸¤ä½å°æ•°)"
                 },
                 "double": {
                     // Number, including positive, negative, and floating decimal. credit: orefalo
                     "regex": /^\d+\.?\d{0,2}$/,
-                    "alertText": "* ÎŞĞ§µÄÊı×Ö"
+                    "alertText": "* æ— æ•ˆçš„æ•°å­—"
                 },
                 "integer": {
                     "regex": /^[\-\+]?\d+$/,
-                    "alertText": "* ²»ÊÇÓĞĞ§µÄÕûÊı"
+                    "alertText": "* ä¸æ˜¯æœ‰æ•ˆçš„æ•´æ•°"
                 },
                 "number": {
                     // Number, including positive, negative, and floating decimal. credit: orefalo
                     "regex": /^[\-\+]?(([0-9]+)([\.,]([0-9]+))?|([\.,]([0-9]+))?)$/,
-                    "alertText": "* ÎŞĞ§µÄÊı×Ö"
+                    "alertText": "* æ— æ•ˆçš„æ•°å­—"
                 },
                 "number1": {
                      "regex": /^[\-\+]?(([0-9]+)(([0-9]+))?|(([0-9]+))?)$/,
-                    "alertText": "* ÎŞĞ§µÄÊı×Ö"
+                    "alertText": "* æ— æ•ˆçš„æ•°å­—"
                 },
                 "date": {
                     "regex": /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/,
-                    "alertText": "* ÎŞĞ§µÄÈÕÆÚ£¬¸ñÊ½±ØĞèÎª YYYY-MM-DD"
+                    "alertText": "* æ— æ•ˆçš„æ—¥æœŸï¼Œæ ¼å¼å¿…éœ€ä¸º YYYY-MM-DD"
                 },
                 "time": {
                     "regex": /^([0-9]|([0-1][0-9])|([2][0-3])):([0-9]|([0-5][0-9])):([0-9]|([0-5][0-9]))$/,
-                    "alertText": "* ÎŞĞ§µÄÊ±¼ä£¬¸ñÊ½±ØĞèÎª HH:MM:SS"
+                    "alertText": "* æ— æ•ˆçš„æ—¶é—´ï¼Œæ ¼å¼å¿…éœ€ä¸º HH:MM:SS"
                 },
                 "ipv4": {
                     "regex": /^((([01]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))[.]){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))$/,
-                    "alertText": "* ÎŞĞ§µÄ IP µØÖ·"
+                    "alertText": "* æ— æ•ˆçš„ IP åœ°å€"
                 },
                 "url": {
                     "regex": /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i,
@@ -142,104 +142,104 @@
                 },
                 "onlyNumberSp": {
                     "regex": /^[0-9\ ]+$/,
-                    "alertText": "* Ö»ÄÜÌîÊı×Ö"
+                    "alertText": "* åªèƒ½å¡«æ•°å­—"
                 },
                 "onlyLetterSp": {
                     "regex": /^[a-zA-Z\ \']+$/,
-                    "alertText": "* Ö»½ÓÊÜÓ¢ÎÄ×ÖÄ¸´óĞ¡Ğ´"
+                    "alertText": "* åªæ¥å—è‹±æ–‡å­—æ¯å¤§å°å†™"
                 },
                 "onlyLetterNumber": {
                     "regex": /^[0-9a-zA-Z]+$/,
-                    "alertText": "* Ö»½ÓÊÜÓ¢ÎÄ×ÖÄ¸´óĞ¡Ğ´»òÊı×Ö"
+                    "alertText": "* åªæ¥å—è‹±æ–‡å­—æ¯å¤§å°å†™æˆ–æ•°å­—"
                 },
 	            //tls warning:homegrown not fielded 
                 "dateFormat":{
                     "regex": /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$|^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$/,
-                    "alertText": "* ÎŞĞ§µÄÈÕÆÚ¸ñÊ½"
+                    "alertText": "* æ— æ•ˆçš„æ—¥æœŸæ ¼å¼"
                 },
                 //tls warning:homegrown not fielded 
 				"dateTimeFormat": {
 	                "regex": /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])\s+(1[012]|0?[1-9]){1}:(0?[1-5]|[0-6][0-9]){1}:(0?[0-6]|[0-6][0-9]){1}\s+(am|pm|AM|PM){1}$|^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^((1[012]|0?[1-9]){1}\/(0?[1-9]|[12][0-9]|3[01]){1}\/\d{2,4}\s+(1[012]|0?[1-9]){1}:(0?[1-5]|[0-6][0-9]){1}:(0?[0-6]|[0-6][0-9]){1}\s+(am|pm|AM|PM){1})$/,
-                    "alertText": "* ÎŞĞ§µÄÈÕÆÚ»òÊ±¼ä¸ñÊ½",
-                    "alertText2": "¿É½ÓÊÜµÄ¸ñÊ½£º ",
-                    "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM »ò ", 
+                    "alertText": "* æ— æ•ˆçš„æ—¥æœŸæˆ–æ—¶é—´æ ¼å¼",
+                    "alertText2": "å¯æ¥å—çš„æ ¼å¼ï¼š ",
+                    "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM æˆ– ", 
                     "alertText4": "yyyy-mm-dd hh:mm:ss AM|PM"
 	            },
 	            "checkFirmByFirmId": {
                     "url": "../../ajaxcheck/checkFirmByFirmId.action",
                     "extraDataDynamic": ['#oldFirmId'],
                     // error
-                    "alertText": "* ´Ë½»Ò×ÉÌ´úÂëÒÑ±»Ê¹ÓÃ",
+                    "alertText": "* æ­¤äº¤æ˜“å•†ä»£ç å·²è¢«ä½¿ç”¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´Ë½»Ò×ÉÌ´úÂë¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤äº¤æ˜“å•†ä»£ç å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏ½»Ò×ÉÌ´úÂëÊÇ·ñÓĞÆäËû½»Ò×ÉÌÊ¹ÓÃ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤äº¤æ˜“å•†ä»£ç æ˜¯å¦æœ‰å…¶ä»–äº¤æ˜“å•†ä½¿ç”¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "checkFirmByBankAccount": {
                     "url": "../../ajaxcheck/checkFirmByBankAccount.action",
                     "extraDataDynamic": ['#oldBankAccount'],
                     // error
-                    "alertText": "* ´ËÒøĞĞÕÊºÅÒÑ±»ÆäÊ¹ÓÃ",
+                    "alertText": "* æ­¤é“¶è¡Œå¸å·å·²è¢«å…¶ä½¿ç”¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´ËÒøĞĞÕËºÅ¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤é“¶è¡Œè´¦å·å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏÒøĞĞÕËºÅÊÇ·ñÓĞÆäËû½»Ò×ÉÌÊ¹ÓÃ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤é“¶è¡Œè´¦å·æ˜¯å¦æœ‰å…¶ä»–äº¤æ˜“å•†ä½¿ç”¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "checkFirmByEmail": {
                     "url": "../../ajaxcheck/checkFirmByEmail.action",
                     "extraDataDynamic": ['#oldEmail'],
                     // error
-                    "alertText": "* ´ËÓÊÏäºÅÒÑ±»ÆäÊ¹ÓÃ",
+                    "alertText": "* æ­¤é‚®ç®±å·å·²è¢«å…¶ä½¿ç”¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´ËÓÊÏäºÅ¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤é‚®ç®±å·å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏÒøÓÊÏäºÅÊÇ·ñÓĞÆäËû½»Ò×ÉÌÊ¹ÓÃ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤é“¶é‚®ç®±å·æ˜¯å¦æœ‰å…¶ä»–äº¤æ˜“å•†ä½¿ç”¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "checkUserByUserId": {
                   	"url": "../ajaxcheck/checkUserByUserId.action",
                     // error
-                    "alertText": "* ´ËÓÃ»§´úÂëÒÑ±»ÆäÊ¹ÓÃ",
+                    "alertText": "* æ­¤ç”¨æˆ·ä»£ç å·²è¢«å…¶ä½¿ç”¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´ËÓÃ»§´úÂë¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤ç”¨æˆ·ä»£ç å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏÓÃ»§´úÂëÊÇ·ñÓĞÆäËûÓÃ»§Ê¹ÓÃ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤ç”¨æˆ·ä»£ç æ˜¯å¦æœ‰å…¶ä»–ç”¨æˆ·ä½¿ç”¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "checkRoleByName": {
                     "url": "../ajaxcheck/checkRoleByName.action",
                     // error
-                    "alertText": "* ´Ë½ÇÉ«Ãû³ÆÒÑ±»ÆäÊ¹ÓÃ",
+                    "alertText": "* æ­¤è§’è‰²åç§°å·²è¢«å…¶ä½¿ç”¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´Ë½ÇÉ«Ãû³Æ¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤è§’è‰²åç§°å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏ½ÇÉ«Ãû³ÆÊÇ·ñÓĞÆäËû½ÇÉ«Ê¹ÓÃ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤è§’è‰²åç§°æ˜¯å¦æœ‰å…¶ä»–è§’è‰²ä½¿ç”¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "checkMessageByUserId": {
                     "url": "../../ajaxcheck/checkMessageByUserId.action",
                     "extraDataDynamic": ['#recieverType'],
                     // error
-                    "alertText": "* ´Ë½ÓÊÕÈË²»´æÔÚ",
+                    "alertText": "* æ­¤æ¥æ”¶äººä¸å­˜åœ¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´Ë½ÓÊÕÈË¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤æ¥æ”¶äººå¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏ½ÓÊÕÈËÊÇ·ñÓĞ´æÔÚ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤æ¥æ”¶äººæ˜¯å¦æœ‰å­˜åœ¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },
                 "mouseCheckFirmByFirmId": {
                     "url": "../../../ajaxcheck/firmSet/mouseCheckFirmByFirmId.action",
                     // error
-                    "alertText": "* ´Ë½»Ò×ÉÌ²»´æÔÚ",
+                    "alertText": "* æ­¤äº¤æ˜“å•†ä¸å­˜åœ¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´Ë½»Ò×ÉÌ¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤äº¤æ˜“å•†å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏ½»Ò×ÉÌÊÇ·ñÓĞ´æÔÚ£¬ÇëÉÔµÈ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤äº¤æ˜“å•†æ˜¯å¦æœ‰å­˜åœ¨ï¼Œè¯·ç¨ç­‰ã€‚"
                 },//by HXX
                 "mouseCheckFirmByFirm": {
                     "url": "../../ajaxcheck/firmSet/mouseCheckFirmByFirmId.action",
                     // error
-                    "alertText": "* ´Ë½»Ò×ÉÌ²»´æÔÚ",
+                    "alertText": "* æ­¤äº¤æ˜“å•†ä¸å­˜åœ¨",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
-                    "alertTextOk": "´Ë½»Ò×ÉÌ¿ÉÒÔÊ¹ÓÃ",
+                    "alertTextOk": "æ­¤äº¤æ˜“å•†å¯ä»¥ä½¿ç”¨",
                     // speaks by itself
-                    "alertTextLoad": "* ÕıÔÚÈ·ÈÏ½»Ò×ÉÌÊÇ·ñ´æÔÚ¡£"
+                    "alertTextLoad": "* æ­£åœ¨ç¡®è®¤äº¤æ˜“å•†æ˜¯å¦å­˜åœ¨ã€‚"
                 }
                
             };
