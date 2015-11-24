@@ -121,7 +121,7 @@ public class IpoController extends BaseController  {
 	 */
 	@RequestMapping(value = "/updateBreedforward", method = RequestMethod.GET)
 	public String updateBreedforward(HttpServletRequest request,
-			HttpServletResponse response, Model model,@RequestParam("breedid") String breedid) throws IOException {
+			HttpServletResponse response, Model model,@RequestParam("breedID") String breedid) throws IOException {
 		request.setAttribute("crud", "update");
 		log.info("跳转至修改页面");
 		VIpoABreed vbreed=vIpoABreedService.getIpoABreed(Long.parseLong(breedid));

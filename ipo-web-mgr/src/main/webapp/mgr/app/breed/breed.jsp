@@ -2,28 +2,15 @@
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 	<head>
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-		<script src="${publicPath }/js/jquery-1.6.min.js" type="text/javascript"></script>
-		<script src="<%=request.getContextPath()%>/static/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
+        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
+		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+        <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
+		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<title>品种</title>
-		<style type="text/css">
-		<!--
-		.yin {
-			visibility:hidden;
-			position:absolute;
-			
-		}
-		.xian{
-			visibility:visible;
-		}
-		-->
-		</style>
 		<script type="text/javascript"> 
 
 		function addBreed(){
@@ -52,7 +39,7 @@
 			        }    
 				});  }
 			else{
-					alert("所有下拉框必选！");
+					alert("所有参数必填！");
 				}
 		}
 		
@@ -65,6 +52,14 @@
 			var url = "${basePath}"+backUrl;
 			document.location.href = url;
 			
+		}
+		
+		function onlyNumberInput()
+		{
+		  if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47)
+		  {
+		    event.returnValue=false;
+		  }
 		}
 		
 		function setReadOnly(obj)
@@ -160,16 +155,15 @@ function chackValue(){
 
 function on_change(){
 	if (document.getElementById("publishalgr").value == "1") {
-		document.getElementById("dealerpubcharatioPercent").className = "xian";
-		document.getElementById("mktdeapubcharatioPercent").className = "xian";
-		document.getElementById("publishercharatioPercent").className = "xian";
-		document.getElementById("mktpubcharatioPercent").className = "xian";
-
+		$("#dealerpubcharatioPercent").show();
+		$("#mktdeapubcharatioPercent").show();
+		$("#publishercharatioPercent").show();
+		$("#mktpubcharatioPercent").show();
 	}else {
-		document.getElementById("dealerpubcharatioPercent").className = "yin";
-		document.getElementById("mktdeapubcharatioPercent").className = "yin";
-		document.getElementById("publishercharatioPercent").className = "yin";
-		document.getElementById("mktpubcharatioPercent").className = "yin";
+		$("#dealerpubcharatioPercent").hide();
+		$("#mktdeapubcharatioPercent").hide();
+		$("#publishercharatioPercent").hide();
+		$("#mktpubcharatioPercent").hide();
 	}
 }
 
@@ -676,7 +670,7 @@ function setSortName(value) {
         								<td align="right" >交易单位：</td> 
             							<td> 
 			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'" onkeypress="onlyNumberInput()"/>
+			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()"/>
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
@@ -698,13 +692,13 @@ function setSortName(value) {
 							            <td align="right">涨幅上限：</td>
 							            <td>
 			  								<input id="spreaduplmt" name="spreaduplmt" maxlength="10" value="${entity.spreaduplmt }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 			  								<span id="spreadUpLmtPercent">%</span>           
             							</td>
             							<td align="right">跌幅下限：</td>
             							<td>
 											<input id="spreaddownlmt" name="spreaddownlmt" maxlength="10" value="${entity.spreaddownlmt }"
-												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
+												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 											<span id="spreadDownLmtPercent">%</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
@@ -716,17 +710,17 @@ function setSortName(value) {
 										<td align="right">&nbsp;最小变动价位(元)：</td>
             							<td>
 			  								<input type="text" id="minpricemove" name="minpricemove"  value="${entity.minpricemove }"
-			  									style="ime-mode:disabled; width: 80" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>          
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
             							</td>
             							<td align="right">&nbsp;最小变动数量：</td>
             							<td>
 			  								<input type="text" id="minquantitymove" name="minquantitymove" value="${entity.minquantitymove }" 
-			  									class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
             							</td>
             							<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  									class="easyui-numberbox" data-options="min:0,max:100,required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
 										</td>
          							</tr>
 	 							</table >
@@ -753,17 +747,17 @@ function setSortName(value) {
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"/>          
+            								onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
             							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 										</td>
         							</tr>
 							        <tr>
@@ -778,14 +772,14 @@ function setSortName(value) {
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
-			  								<span id="dealerpubcharatioPercent" class="<%if("1".equals("${entity.publishalgr==1 }")){%>xian<%}else{%>yin<%}%>">%</span>          
+			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  								<span id="dealerpubcharatioPercent">%</span>          
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
-												style="ime-mode:disabled; width: 70" class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"/>
-											<span id="mktdeapubcharatioPercent" class="<%if("1".equals("${entity.publishalgr==1 }")){%>xian<%}else{%>yin<%}%>">%</span>          
+												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+											<span id="mktdeapubcharatioPercent">%</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
 								      	<script type="text/javascript">
@@ -799,15 +793,19 @@ function setSortName(value) {
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
 			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
-			  									class="easyui-numberbox" data-options="min:0,required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />  
-			  								<span id="publishercharatioPercent" class="<%if("1".equals("${entity.publishalgr==1 }")){%>xian<%}else{%>yin<%}%>">%</span>        
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />  
+			  								<span id="publishercharatioPercent">%</span>        
             							</td>
             							<td align="right">发行商发行手续费市场留存比例：</td>
 										<td>
 										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
-			  									class="easyui-numberbox" data-options="min:0,max:100,required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
-										<span id="mktpubcharatioPercent" class="<%if("1".equals("${entity.publishalgr==1 }")){%>xian<%}else{%>yin<%}%>">%</span>
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+										<span id="mktpubcharatioPercent">%</span>
 										</td>
+										<td>&nbsp;</td>
+								      	<script type="text/javascript">
+							            	if ("${entity.publishalgr}" == "1"){$("#publishercharatioPercent").show();$("#mktpubcharatioPercent").show();} else {$("#publishercharatioPercent").hide();$("#mktpubcharatioPercent").hide();}
+							            </script>
          							</tr>
 	 							</table >
 								</span>

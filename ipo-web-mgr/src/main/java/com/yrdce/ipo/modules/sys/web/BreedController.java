@@ -120,13 +120,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/findBreedByName", method = RequestMethod.POST)
 	@ResponseBody
-	public String findBreedByName(@RequestParam("breedname") String name,
+	public String findBreedByName(HttpServletRequest request,HttpServletResponse response,@RequestParam("breedname") String name,
 			@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("根据品名模糊查询");
 		try {
+		String	breedName = java.net.URLDecoder.decode(name,"UTF-8");   
 		List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
-		blist = vIpoABreedService.findIpoABreedsByName(name, page, rows);
-		int totalnums = vIpoABreedService.getTotalIpoABreedsByName(name);
+		blist = vIpoABreedService.findIpoABreedsByName(breedName, page, rows);
+		int totalnums = vIpoABreedService.getTotalIpoABreedsByName(breedName);
 		ResponseResult result = new ResponseResult();
 		result.setTotal(totalnums);
 		result.setRows(blist);
@@ -209,10 +210,10 @@ public class BreedController extends BaseController {
 			blist=vIpoABreedService.findAll();
 			for(int i=0;i<blist.size();i++){
 				if(bid.equals(blist.get(i).getBreedid())){
-					return "0";//已存在
+					return "0";//该品种ID已存在
 				}
 			}
-			return "1";//新增的id
+			return "1";//新增的品种ID
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "2";
