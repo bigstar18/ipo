@@ -10,7 +10,7 @@ import org.apache.commons.lang3.RandomUtils;
 public abstract class Selection2 {
 
 	// 对外接口
-	public static List<String> execSelection(double ipoNum, double buyNum) {
+	public static List<String> execSelection(double ipoNum, double buyNum) throws Exception {
 		List<String> endNumList = new ArrayList<String>();
 
 		if (ipoNum >= buyNum)
@@ -47,7 +47,7 @@ public abstract class Selection2 {
 	}
 
 	// 取位(拆分中签率) 并生成相应的尾号
-	private static void splitSucRate(long ipoNum, long buyNum, String decimalNum, List<String> endNumList) {
+	private static void splitSucRate(long ipoNum, long buyNum, String decimalNum, List<String> endNumList) throws Exception {
 		long succCount = 0l;
 		String strBuyNum = String.valueOf(buyNum);
 
@@ -57,9 +57,8 @@ public abstract class Selection2 {
 			if (!rateNum.equals("0")) {
 				long range = (long) Math.pow(10, i + 1);// problem?
 
-				makeEndNum(Integer.parseInt(rateNum), range, endNumList);
+				succCount += makeEndNum(Integer.parseInt(rateNum), range, buyNum, endNumList);
 
-				succCount += (buyNum / Math.pow(10, i + 1)) * (Integer.parseInt(rateNum));
 				System.out.println("当前配号总数是：" + succCount + " 发行总数是：" + ipoNum);
 			}
 
@@ -69,8 +68,8 @@ public abstract class Selection2 {
 		AdjustmentNum(succCount, ipoNum, buyNum, decimalNum, endNumList);
 	}
 
-	// 生成剩余尾号
-	private static void makeEndNum(int rateNum, long range, List<String> endNumList) {
+	// 生成尾号
+	private static long makeEndNum(int rateNum, long range, long buyNum, List<String> endNumList) throws Exception {
 		if (range % rateNum == 0) {
 			long start = range / 10;
 			if (start == 1)
@@ -80,37 +79,48 @@ public abstract class Selection2 {
 				result = RandomUtils.nextLong(start, range - 1);
 			}
 
-			int cnt = 0;
-			for (int i = 0;; i++) {
-				if (cnt++ == rateNum)
-					break;
-
-				long endNum = (result + i * (range / (rateNum * 2))) % range;//
-				while (String.valueOf(endNum).length() != String.valueOf(result).length()) {
-					i++;
-					endNum = (result + i * (range / (rateNum * 2))) % range;
-				}
-
-				String endNumStr = String.valueOf(endNum);
+			long succTotal = 0l;
+			String zeroStr = String.valueOf(range).substring(1, String.valueOf(range).length());
+			DecimalFormat df = new DecimalFormat(zeroStr);
+			for (int i = 0; i < rateNum; i++) {
+				long endNum = (result + i * (range / (rateNum))) % range;//
+				String endNumStr = df.format(endNum);
 
 				if (!endNumList.contains(endNumStr)) {// never,越来越大
 					endNumList.add(endNumStr);
 					System.out.println("rateNum=" + rateNum + " 尾号：" + endNum + " 数长是：" + String.valueOf(range - 1).length());
 					// System.out.println("result=" + result + " range=" + range);
+
+					int len = endNumStr.length();
+					String buyNumString = String.valueOf(buyNum);
+					if (Long.parseLong(buyNumString.substring(buyNumString.length() - len, buyNumString.length())) >= endNum) {
+						if (buyNumString.length() == len)
+							succTotal += 1;
+						else if (endNum == 0)
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len));
+						else
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len)) + 1l;
+					} else {
+						if (buyNumString.length() == len)
+							succTotal += 1;
+						else
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len));
+					}
 				} else
-					System.err.println("make Ballot error happend: " + endNumStr);
+					throw new Exception("make Ballot error happend: " + endNumStr);
 			}
+			return succTotal;
 		} else {
 			if (rateNum == 3) {
-				makeEndNum(1, range, endNumList);
-				makeEndNum(2, range, endNumList);
+				return makeEndNum(1, range, buyNum, endNumList) + makeEndNum(2, range, buyNum, endNumList);
 			} else if (rateNum == 4) {
-				makeEndNum(2, range, endNumList);
-				makeEndNum(2, range, endNumList);
+				return makeEndNum(2, range, buyNum, endNumList) + makeEndNum(2, range, buyNum, endNumList);
+			} else if (rateNum == 9) {
+				return makeEndNum(8, range, buyNum, endNumList) + makeEndNum(rateNum % 8, range, buyNum, endNumList);
 			} else if (rateNum > 5) {
-				makeEndNum(5, range, endNumList);
-				makeEndNum(rateNum % 5, range, endNumList);
-			}
+				return makeEndNum(5, range, buyNum, endNumList) + makeEndNum(rateNum % 5, range, buyNum, endNumList);
+			} else
+				return 0l;// never
 		}
 	}
 
@@ -141,12 +151,12 @@ public abstract class Selection2 {
 		System.out.println("AdjustmentNum: 当前配号总数是：" + succCount + " 发行总数是：" + ipoNum);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		test();
 		// test2();
 	}
 
-	public static void test() {
+	public static void test() throws Exception {
 		List<String> result = Selection2.execSelection(23450, 1005700);
 		System.out.println("尾号个数：" + result.size());
 	}
