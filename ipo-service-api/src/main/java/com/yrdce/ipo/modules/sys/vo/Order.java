@@ -47,13 +47,13 @@ public class Order {
 
 	@JsonProperty("commodity_id")
 	@XmlElement(name = "commodity_id")
-	private int commodity_id;// 发售表主键ID
+	private Integer commodity_id;// 发售表主键ID
 
-	public int getCommodity_id() {
+	public Integer getCommodity_id() {
 		return commodity_id;
 	}
 
-	public void setCommodity_id(int commodity_id) {
+	public void setCommodity_id(Integer commodity_id) {
 		this.commodity_id = commodity_id;
 	}
 

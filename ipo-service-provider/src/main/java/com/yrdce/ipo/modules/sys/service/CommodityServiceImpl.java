@@ -61,8 +61,10 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public Commodity getCommodity(String commId) {
-		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commId.toUpperCase());
+	public Commodity getCommodity(String commid) {
+		logger.info("根据商品ID查询信息");
+		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commid.toUpperCase());
+		logger.info("ipoCom:" + ipoCom.toString());
 		if (ipoCom == null) {
 			return null;
 		}
@@ -73,7 +75,7 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public int getAllComms() {
+	public Integer getAllComms() {
 		try {
 			return ipoCommodityMapper.countByExample(new IpoCommodityExample());
 		} catch (Exception e) {
@@ -135,13 +137,42 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public int getCounts() {
+	public Integer getCounts() {
 		try {
-			return ipoCommodityMapper.getCounts();
+			int counts1 = ipoCommodityMapper.getCounts();
+			Integer counts2 = Integer.valueOf(counts1);
+			return counts2;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+
+	@Override
+	public Commodity getCommodityByPage(String page, String rows, String commodityid) {
+		logger.info("根据商品id分页查询mgr后台发行摇号");
+
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		IpoCommodityExtended commlist;
+		commlist = ipoCommodityMapper.getAllBycommodityid((curpage - 1) * pagesize + 1, curpage * pagesize, commodityid);
+		if (commlist == null) {
+			return null;
+		}
+
+		Commodity commo = new Commodity();
+		BeanUtils.copyProperties(commlist, commo);
+		logger.info("commo:" + commo.toString());
+		return commo;
+	}
+
+	@Override
+	public Integer getCountsByPage(String commodityid) {
+		int counts = ipoCommodityMapper.getCountsByPage(commodityid);
+		Integer counts1 = Integer.valueOf(counts);
+		return counts1;
 	}
 
 }

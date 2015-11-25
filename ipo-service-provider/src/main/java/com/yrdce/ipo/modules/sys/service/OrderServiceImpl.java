@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
 			for (int i = 0; i < list.size(); i++) {
 				Order order = new Order();
+				order.setUserid(list.get(i).getUserid());
 				order.setCommodityid(list.get(i).getCommodityid());
 				order.setCommodityname(list.get(i).getCommodityname());
 				order.setCounts(list.get(i).getCounts());
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getAll(String userid) {
 		logger.info("根据id查询共有几条订单信息");
 		try {
-			return ipoOrderMapper.countByExample(userid);
+			return ipoOrderMapper.selectByCounts(userid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -110,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getAllOrder() {
 		logger.info("查询共有几条记录");
 
-		int counts = ipoOrderMapper.selectByCounts();
+		int counts = ipoOrderMapper.selectByCounts(null);
 		return counts;
 
 	}

@@ -155,6 +155,11 @@ public class PurchaseImpl implements Purchase {
 							d.setFrozenst(0);
 							d.setCommodity_id(id);
 							order.insert(d);
+							// 0：申购成功
+							// 1：配号成功
+							// 2：摇号成功
+							// 3：结算成功
+							com.updateByStatus(0, sId);
 
 							this.frozen(userId, allMonery);
 

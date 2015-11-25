@@ -56,7 +56,7 @@ public class QueryController {
 	}
 
 	/**
-	 * 订单查询
+	 * 订单查询(申购记录)
 	 */
 
 	@RequestMapping(value = "/getAllOrder", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
@@ -76,6 +76,31 @@ public class QueryController {
 			e.printStackTrace();
 			return "";
 		}
+	}
+
+	/**
+	 * 通过用户ID查询订单(申购记录)
+	 */
+
+	@RequestMapping(value = "/getOrderByUserid", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getOrderByUserid(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
+			throws IOException {
+		logger.info("根据用户ID查询订单信息");
+		try {
+			List<Order> clist = new ArrayList<Order>();
+			clist = orderService.getOrderInfo(page, rows, userid);
+			int totalnums = orderService.getAll(userid);
+			ResponseResult result = new ResponseResult();
+			result.setRows(clist);
+			result.setTotal(totalnums);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+
 	}
 
 	/**
@@ -107,19 +132,28 @@ public class QueryController {
 	}
 
 	/**
-	 * 根据商品id查询商品信息
+	 * 根据商品id分页查询商品信息(发行摇号)
 	 */
 	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String commodityInfo(@RequestParam("commodityid") String commodityid) {
+	public String commodityInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("commodityid") String commodityid) {
 		logger.info("根据商品id查询商品信息");
-		Commodity com = commodityService.getCommodity(commodityid);
 		try {
-			return JSON.json(com);
-		} catch (IOException e) {
+			List<Commodity> clist = new ArrayList<Commodity>();
+			clist.add(commodityService.getCommodityByPage(page, rows, commodityid));
+			logger.info(clist);
+			int totalnums = commodityService.getCountsByPage(commodityid);
+			logger.info(totalnums);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(clist);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		}
-		return "";
 	}
 
 	/**

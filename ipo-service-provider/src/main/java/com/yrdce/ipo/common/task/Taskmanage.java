@@ -86,13 +86,13 @@ public class Taskmanage extends TimerTask {
 			}
 
 			// 摇号获取系统当前时间的前2天
-			// String ballotNowtime = DateUtil.getTime(2);
+			String ballotNowtime = DateUtil.getTime(2);
 			// // 查询前一天交易订单
-			// List<IpoOrder> orders = order.selectAll(ballotNowtime);
-			// if (orders != null && orders.size() > 0) {
-			// // 摇号处理开始
-			// getBallotNoUtils.start();
-			// }
+			List<IpoCommodity> commod2 = commodity.selectByEnd(ballotNowtime);
+			if (commod2 != null && commod2.size() > 0) {
+				// // 摇号处理开始
+				getBallotNoUtils.start();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

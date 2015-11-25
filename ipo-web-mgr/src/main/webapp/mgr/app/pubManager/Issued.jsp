@@ -1,125 +1,182 @@
-<%@ page contentType="text/html;charset=GBK"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <html>
 <head>
 
+<title>发行摇号</title>
 
-<title>����ҡ��</title>
-
-	<meta name="decorator" content="default"/>
-	<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
-    <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
-    <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-</head>
- <body>
-	<div class="main">
-	<div class="msg">����ǰ��λ�ã�<span>����ҡ��</span></div>
-	
-		<div class="col-xs-12">
-		<br>
-			
-			<div id="myTabContent" class="tab-content">
-			<table id="mytb" border ="1" class="easyui-datagrid"  title="����ҡ��"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/QueryController/findRockNums',method:'get'"
-            toolbar="#tb">
-        <thead>
-            <tr>
-                <th data-options="field:'commodityid',width:200">��Ʒ����</th>
-                <th data-options="field:'starttime',width:200,formatter:dateconvertfunc">���п�ʼ����</th>
-                <th data-options="field:'endtime',width:200,formatter:dateconvertfunc">���н�������</th>
-                <th data-options="field:'counts',width:200">���Ϸ�������</th>
-                <th data-options="field:'ccounts',width:200">�깺����</th>
-                <th data-options="field:'operating',width:200,formatter:rocknum">��ʼҡ��</th>
-            </tr>
-        </thead>
-    		</table>
-    		<!-- <div id="tb" style="padding:3px">
-			<span>��Ʒ����:</span>
-			<input id="itemid" name = "itemid"style="line-height:26px;border:1px solid #ccc">
-			<a href="javascript:doSearch()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">��ѯ</a>
-			<a href="javascript:reset()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">����</a>
-			</div>
-			</div>
-		</div> -->
-		
-		
+<meta name="decorator" content="default" />
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
+<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
+ 
 $(document).ready(function() {
-	 var p = $('#mytb').datagrid('getPager'); 
+	
+	 $('#tt').datagrid({  
+         title:'发行摇号',  
+         iconCls:'icon-ok', 
+         method:"get",
+         height:400,
+         pageSize:10,  
+         pageList:[5,10,15],  
+         nowrap:true,  
+         singleSelect:true,
+         striped:true,  
+         toolbar:"#tb",  
+         url:'<%=request.getContextPath()%>/QueryController/findRockNums', //搜索前,触发此action请求所有用户信息  
+         loadMsg:'数据加载中......',  
+         fitColumns:true,//允许表格自动缩放,以适应父容器  
+         columns : [ [ {  
+             field : 'commodityid',  
+             width : 200,  
+             title : '商品代码'  
+         }, {  
+             field : 'starttime',  
+             width : 200,  
+             title : '发行开始日期'  
+         }, {  
+             field : 'endtime',  
+             width : 200,  
+             title : '发行截至日期'
+         },{
+			field : 'counts',
+			width : 200,
+			title : '网上发行量'
+		 },{
+			field : 'ccounts',
+			width : 200,
+			title :  '申购数量'
+		 },{
+			field : 'operating',
+			width : 200,
+			title : '开始摇号',
+			formatter:function(value,row){
+				if(row.status == 2){
+					return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">执行摇号</a>"
+				}else{
+					return '以成交';
+				}
+			}
+		 }]],  
+         pagination : true,  
+     });  
+	
+	 var p = $('#tt').datagrid('getPager'); 
 	    $(p).pagination({ 
-	        pageSize: 10,
-	        pageList: [5,10,15],
-	        beforePageText: '��',
-	        afterPageText: 'ҳ    �� {pages} ҳ', 
-	        displayMsg: '��ǰ��ʾ {from} - {to} ����¼   �� {total} ����¼', 
+	        beforePageText: '第',
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });  
 });
 
-//����ת��
-function dateconvertfunc(value,row){
-        return value.substr(0,10);
-}
-
-function rocknum(value,row){
-	if(row.status == 2){
-		
-		return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >ִ��ҡ��</a>';
-	}else{
-		return '�ѳɽ�';
-		//return '<a href="javascript:constructionManager(\'' + row.commodityid+ '\')" >ִ��ҡ��</a>';
-	}
-}
-
 function constructionManager(commodityid){
-	 $.ajax({  
-		    type: 'get',  
-		    url: "<%=request.getContextPath()%>/QueryController/rock",  
-		    contentType: "application/json; charset=utf-8", 
-		    data:{"commodityid":commodityid},
-		    dataType: 'json',  
-		    async: true,  
-		    success : function(data, stats) { 
-		    	if(data == "1"){
-	            alert('ҡ�Ž���');
-		    	}
-	        }
-		});  
-}
-
-function doSearch(){
-	//$('#mytb').datagrid('load',{
-	//	commodityid : $('#itemid').val()
-	//});
-	var itemid = $('#itemid').val();
-	$.ajax({  
-	    type: 'GET',  
-	    url: "<%=request.getContextPath()%>/QueryController/commodityInfo",  
+	$.ajax({
+		type: 'get',  
+	    url: "<%=request.getContextPath()%>/QueryController/rock",  
 	    contentType: "application/json; charset=utf-8", 
-	    data:{commodityid: itemid},  
+	    data:{"commodityid":commodityid},
 	    dataType: 'json',  
 	    async: true,  
-	    success : function(data, stats) {
-	    	alert("hehe");
-	    },
-		error : function(data) {  
-	    	alert(data);
-	    	console.log(data);
-	    } 
- });
+	    success : function(data, stats) { 
+	    	if(data == "1"){
+            alert('摇号结束');
+	    	}
+        }
+	});
 }
-
-function reset(){
-	itemid.reset();
+    
+function doSearch(){
+	var commodityid=$("#commodityid").val();
+	 $('#tt').datagrid({  
+         title:'发行摇号',  
+         iconCls:'icon-ok', 
+         method:"get",
+         height:400,
+         pageSize:10,  
+         pageList:[5,10,15],  
+         nowrap:true,  
+         singleSelect:true,
+         striped:true,  
+         toolbar:"#tb",  
+         url:'<%=request.getContextPath()%>/QueryController/commodityInfo?commodityid='+commodityid, //搜索前,触发此action请求所有用户信息  
+         loadMsg:'数据加载中......',  
+         fitColumns:true,//允许表格自动缩放,以适应父容器  
+         columns : [ [ {  
+             field : 'commodityid',  
+             width : 200,  
+             title : '商品代码'  
+         }, {  
+             field : 'starttime',  
+             width : 200,  
+             title : '发行开始日期'  
+         }, {  
+             field : 'endtime',  
+             width : 200,  
+             title : '发行截至日期'
+         },{
+			field : 'counts',
+			width : 200,
+			title : '网上发行量'
+		 },{
+			field : 'ccounts',
+			width : 200,
+			title :  '申购数量'
+		 },{
+			field : 'operating',
+			width : 200,
+			title : '开始摇号',
+			formatter:function(value,row){
+				if(row.status == 2){
+					return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">执行摇号</a>"
+				}else{
+					return '以成交';
+				}
+			}
+		 }]],  
+         pagination : true
+     });  
+	
+	 var p = $('#tt').datagrid('getPager'); 
+	    $(p).pagination({ 
+	        beforePageText: '第',
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+	    });  
 }
-
+    
 
 </script>
+</head>
+<body>
+<div id="main_body">
+			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td>
+						<br />
+	<div class="div_list">
+	<table id="tt"></table>
+		<div id="tb" style="padding:5px;height:auto">
+		
+		<div>
+		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
+		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="line-height:26px;border:1px solid #ccc">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+		</form> 
+		</div>
+	</div>
+	</div>
+	</td>
+	</tr>
+    </table>
 </div>
-</body> 
+		<!-- 编辑和过滤所使用的 通用的文本框模板 -->
+		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
+			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
+		</textarea>
+</body>
+
 </html>

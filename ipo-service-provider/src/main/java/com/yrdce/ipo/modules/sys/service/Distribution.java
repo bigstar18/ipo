@@ -202,7 +202,11 @@ public class Distribution {
 
 				}
 				// 更新商品状态
-				commodity.updateByStatus(2, sId);
+				// 0：申购成功
+				// 1：配号成功
+				// 2：摇号成功
+				// 3：结算成功
+				commodity.updateByStatus(1, sId);
 			}
 			// 删除配号临时表
 			unmberofrecord.deleteAll();

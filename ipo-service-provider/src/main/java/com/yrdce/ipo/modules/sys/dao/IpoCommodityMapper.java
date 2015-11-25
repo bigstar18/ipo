@@ -47,5 +47,9 @@ public interface IpoCommodityMapper {
 
 	int getCounts();
 
+	int getCountsByPage(String commodityid);
+
 	void updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
+
+	IpoCommodityExtended getAllBycommodityid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("commodityid") String commodityid);
 }

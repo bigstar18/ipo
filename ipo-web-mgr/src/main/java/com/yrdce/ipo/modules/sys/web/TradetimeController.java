@@ -77,6 +77,8 @@ public class TradetimeController {
 	}
 
 	// 添加交易节
+	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int addTradetime(Tradetime tradetime) {
 		log.info("进入添加交易节" + "tradetime:" + tradetime);
 		try {
@@ -90,6 +92,8 @@ public class TradetimeController {
 	}
 
 	// 删除交易节
+	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int deleteTradetime(Object[] ids) {
 		log.info("进入删除交易节" + "ids" + ids);
 		try {

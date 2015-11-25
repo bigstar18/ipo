@@ -10,7 +10,7 @@ public interface CommodityService {
 	public List<Commodity> findCommList(String page, String rows);
 
 	// 获取系统时间以后商品总数
-	public int getAllComms();
+	public Integer getAllComms();
 
 	// 获取所有发售商品
 	public List<Commodity> findAll();
@@ -22,6 +22,10 @@ public interface CommodityService {
 	public List<Commodity> getList(String page, String rows);
 
 	// 获取商品总数
-	public int getCounts();
+	public Integer getCounts();
 
+	public Integer getCountsByPage(String commodityid);
+
+	// 根据商品代码分页获取商品详细信息
+	public Commodity getCommodityByPage(String page, String rows, String commodityid);
 }

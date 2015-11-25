@@ -38,7 +38,7 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectAll(String date);
 
-	List<String> select(int commodityid);
+	List<String> select(int commodity_id);
 
 	void insertAll();
 
@@ -52,7 +52,7 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
-	int selectByCounts();
+	int selectByCounts(String userid);
 
-	List<IpoOrder> selectByCid(int commodityid);
+	List<IpoOrder> selectByCid(int commodity_id);
 }

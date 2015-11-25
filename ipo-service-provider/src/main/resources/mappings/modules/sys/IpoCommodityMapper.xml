@@ -338,7 +338,20 @@
    	select count(0) from IPO_COMMODITY_SALE
    </select>
    
+   <select id="getCountsByPage" resultType="java.lang.Integer" parameterType="java.lang.String">
+   	select count(0) from IPO_COMMODITY_SALE where COMMODITYID like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')
+   </select>
+   
    <update id="updateByStatus" parameterType="map">
    	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
    </update>
+   <select id="getAllBycommodityid"  resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended"  parameterType="map" >
+  select b.* from
+	(select a.*,rownum TNO from 
+	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
+	left outer join 
+	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
+	on c.commodityid = t1.commodityid where c.commodityid like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a) b
+	where b.TNO between #{beginnum} and  #{endnum}
+  </select>
 </mapper>
