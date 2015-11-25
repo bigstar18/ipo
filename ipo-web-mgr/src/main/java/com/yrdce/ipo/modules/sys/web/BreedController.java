@@ -17,14 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
-import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
-import com.yrdce.ipo.modules.sys.service.TABreedService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
-import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
-import com.yrdce.ipo.modules.sys.vo.TABreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 /**

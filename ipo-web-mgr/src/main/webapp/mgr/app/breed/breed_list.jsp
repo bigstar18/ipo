@@ -14,7 +14,6 @@
 <script type="text/javascript">
  
 $(document).ready(function() {
-	
 	 $('#tt').datagrid({  
          title:'品种列表',  
          iconCls:'icon-ok', 
@@ -56,7 +55,6 @@ $(document).ready(function() {
          pagination : true,  
          rownumbers : false  
      });  
-	
 	 var p = $('#tt').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        beforePageText: '第',
@@ -114,7 +112,6 @@ function doSearch(){
 	        afterPageText: '页    共 {pages} 页', 
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });  
-	 
 }
     
 //跳转到添加品种页面

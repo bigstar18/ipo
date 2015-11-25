@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.MBreedMapper;
-import com.yrdce.ipo.modules.sys.entity.IpoABreed;
 import com.yrdce.ipo.modules.sys.entity.MBreedExample;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
