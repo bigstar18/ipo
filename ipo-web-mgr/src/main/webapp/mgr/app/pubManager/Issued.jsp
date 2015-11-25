@@ -6,11 +6,12 @@
 
 <title>发行摇号</title>
 
-<meta name="decorator" content="default" />
-<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
-<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+
 
 <script type="text/javascript">
  
@@ -55,10 +56,14 @@ $(document).ready(function() {
 			width : 200,
 			title : '开始摇号',
 			formatter:function(value,row){
-				if(row.status == 2){
-					return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">执行摇号</a>"
-				}else{
-					return '以成交';
+				if(row.status == 0){
+					return '申购成功';
+				}else if(row.status == 1){
+					return '配号成功';
+				}else if(row.status == 2){
+					return '摇号成功';
+				}else if(row.status == 3){
+					return '结算成功';
 				}
 			}
 		 }]],  
@@ -69,11 +74,18 @@ $(document).ready(function() {
 	    $(p).pagination({ 
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
 	    });  
 });
 
-function constructionManager(commodityid){
+
+
+//日期转换
+function dateconvertfunc(value,row){
+        return value.substr(0,10);
+}
+
+<%-- function constructionManager(commodityid){
 	$.ajax({
 		type: 'get',  
 	    url: "<%=request.getContextPath()%>/QueryController/rock",  
@@ -87,7 +99,7 @@ function constructionManager(commodityid){
 	    	}
         }
 	});
-}
+} --%>
     
 function doSearch(){
 	var commodityid=$("#commodityid").val();
@@ -130,10 +142,14 @@ function doSearch(){
 			width : 200,
 			title : '开始摇号',
 			formatter:function(value,row){
-				if(row.status == 2){
-					return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">执行摇号</a>"
-				}else{
-					return '以成交';
+				if(row.status == 0){
+					return '申购成功';
+				}else if(row.status == 1){
+					return '配号成功';
+				}else if(row.status == 2){
+					return '摇号成功';
+				}else if(row.status == 3){
+					return '结算成功';
 				}
 			}
 		 }]],  
@@ -177,6 +193,7 @@ function doSearch(){
 		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
 			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
 		</textarea>
-</body>
+</body>                
+
 
 </html>

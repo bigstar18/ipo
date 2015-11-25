@@ -43,8 +43,6 @@ public class IpoController extends BaseController  {
 	@Autowired
 	private VIpoABreedService vIpoABreedService;
 	
-	@Autowired
-	private TradetimeService tradetimeservice;
 	
 	public MBreedService getmBreedservice() {
 		return mBreedservice;
@@ -54,14 +52,7 @@ public class IpoController extends BaseController  {
 		this.mBreedservice = mBreedservice;
 	}
 
-	public TradetimeService getTradetimeservice() {
-		return tradetimeservice;
-	}
-
-	public void setTradetimeservice(TradetimeService tradetimeservice) {
-		this.tradetimeservice = tradetimeservice;
-	}
-
+	
 	public VIpoABreedService getvIpoABreedService() {
 		return vIpoABreedService;
 	}
@@ -108,10 +99,7 @@ public class IpoController extends BaseController  {
 		request.setAttribute("crud", "create");
 		log.info("跳转至新增页面");
 		Mlist = mBreedservice.findAll();
-		List<Tradetime> tratimelist = new ArrayList<Tradetime>();
-		tratimelist=tradetimeservice.selectAll();
 		request.setAttribute("Mlist",Mlist);
-		request.setAttribute("tratimelist",tratimelist);
 		request.setAttribute("breedlist",JSON.json(Mlist));
 		return "app/breed/breed";
 	}
@@ -121,16 +109,14 @@ public class IpoController extends BaseController  {
 	 */
 	@RequestMapping(value = "/updateBreedforward", method = RequestMethod.GET)
 	public String updateBreedforward(HttpServletRequest request,
-			HttpServletResponse response, Model model,@RequestParam("breedid") String breedid) throws IOException {
+			HttpServletResponse response, Model model,@RequestParam("breedID") String breedid) throws IOException {
 		request.setAttribute("crud", "update");
 		log.info("跳转至修改页面");
 		VIpoABreed vbreed=vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
+		System.out.println(vbreed);
 		Mlist = mBreedservice.findAll();
-		List<Tradetime> tratimelist = new ArrayList<Tradetime>();
-		tratimelist=tradetimeservice.selectAll();
 		request.setAttribute("Mlist",Mlist);
 		request.setAttribute("entity",vbreed);
-		request.setAttribute("tratimelist",tratimelist);
 		request.setAttribute("breedlist",JSON.json(Mlist));
 		return "app/breed/breed";
 	}

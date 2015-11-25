@@ -157,7 +157,7 @@ public class CommodityServiceImpl implements CommodityService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		IpoCommodityExtended commlist;
-		commlist = ipoCommodityMapper.getAllBycommodityid((curpage - 1) * pagesize + 1, curpage * pagesize, commodityid);
+		commlist = ipoCommodityMapper.getAllBycommodityid((curpage - 1) * pagesize + 1, curpage * pagesize, commodityid.toUpperCase());
 		if (commlist == null) {
 			return null;
 		}

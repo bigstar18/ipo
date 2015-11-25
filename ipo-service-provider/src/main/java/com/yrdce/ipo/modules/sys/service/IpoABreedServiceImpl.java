@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.modules.sys.dao.IpoABreedMapper;
-import com.yrdce.ipo.modules.sys.entity.IpoABreed;
-import com.yrdce.ipo.modules.sys.entity.IpoABreedExample;
+import com.yrdce.ipo.modules.sys.dao.IpoBreedMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoBreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 @Service("vIpoABreedService")
@@ -18,14 +17,16 @@ import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 public class IpoABreedServiceImpl implements VIpoABreedService {
 	
 	@Autowired
-	private IpoABreedMapper ipoABreedMapper;
+	private IpoBreedMapper ipoBreedMapper;
 
-	public IpoABreedMapper getIpoABreedMapper() {
-		return ipoABreedMapper;
+
+
+	public IpoBreedMapper getIpoBreedMapper() {
+		return ipoBreedMapper;
 	}
 
-	public void setIpoABreedMapper(IpoABreedMapper ipoABreedMapper) {
-		this.ipoABreedMapper = ipoABreedMapper;
+	public void setIpoBreedMapper(IpoBreedMapper ipoBreedMapper) {
+		this.ipoBreedMapper = ipoBreedMapper;
 	}
 
 	@Override
@@ -35,9 +36,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoABreed> ipoabreedslist = new ArrayList<IpoABreed>();
+			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
 			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoABreedMapper.getAllByPage((curpage - 1) * pagesize
+			ipoabreedslist = ipoBreedMapper.getAllByPage((curpage - 1) * pagesize
 					+ 1, curpage * pagesize);
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
@@ -54,7 +55,7 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public int getTotalIpoABreeds() {
 		try{
-			return ipoABreedMapper.countByExample();	
+			return ipoBreedMapper.countAll();	
 		}catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -64,9 +65,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public List<VIpoABreed> findAll() {
 		try {
-			List<IpoABreed> ipoabreedslist = new ArrayList<IpoABreed>();
+			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
 			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoABreedMapper.selectAll();
+			ipoabreedslist = ipoBreedMapper.selectAll();
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
 				BeanUtils.copyProperties(ipoabreedslist.get(i), vipoabreed);
@@ -81,8 +82,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 
 	@Override
 	public VIpoABreed getIpoABreed(Long breedid) {
-		// TODO Auto-generated method stub
-		return null;
+		VIpoABreed ipoabreed=new VIpoABreed();
+		BeanUtils.copyProperties(ipoBreedMapper.selectByBreedid(breedid), ipoabreed);
+		return ipoabreed;
 	}
 
 	
@@ -90,9 +92,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public void updateBreed(VIpoABreed breed) {
 		try{
-			IpoABreed ipoabreed=new IpoABreed();
+			IpoBreed ipoabreed=new IpoBreed();
 			BeanUtils.copyProperties(breed, ipoabreed);
-			ipoABreedMapper.update(ipoabreed);
+			ipoBreedMapper.update(ipoabreed);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -107,9 +109,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public void addBreed(VIpoABreed breed) {
 		try{
-		IpoABreed ipoabreed=new IpoABreed();
+		IpoBreed ipoabreed=new IpoBreed();
 		BeanUtils.copyProperties(breed, ipoabreed);
-		ipoABreedMapper.insert(ipoabreed);
+		ipoBreedMapper.insert(ipoabreed);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,9 +125,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoABreed> ipoabreedslist = new ArrayList<IpoABreed>();
+			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
 			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoABreedMapper.getAllByName("%"+name+"%",(curpage - 1) * pagesize
+			ipoabreedslist = ipoBreedMapper.getAllByName("%"+name+"%",(curpage - 1) * pagesize
 					+ 1, curpage * pagesize);
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
@@ -142,7 +144,7 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public int getTotalIpoABreedsByName(String name) {
 		try{
-			return ipoABreedMapper.countByName("%"+name+"%");	
+			return ipoBreedMapper.countByName("%"+name+"%");	
 		}catch (Exception e) {
 			e.printStackTrace();
 			return 0;

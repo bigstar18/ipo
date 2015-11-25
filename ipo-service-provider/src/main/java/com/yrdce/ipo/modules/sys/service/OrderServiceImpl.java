@@ -55,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
 				Date date = new Date(timestamp.getTime());
 				order.setCreatetime(date);
 				order.setFrozenfunds(list.get(i).getFrozenfunds());
+				logger.info(order.toString());
 				list2.add(order);
 			}
 		} catch (Exception e) {

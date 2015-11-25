@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IpoABreedExample {
+public class IpoBreedExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public IpoABreedExample() {
+    public IpoBreedExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -725,66 +725,6 @@ public class IpoABreedExample {
             return (Criteria) this;
         }
 
-        public Criteria andTradetimeIsNull() {
-            addCriterion("TRADETIME is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeIsNotNull() {
-            addCriterion("TRADETIME is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeEqualTo(Short value) {
-            addCriterion("TRADETIME =", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeNotEqualTo(Short value) {
-            addCriterion("TRADETIME <>", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeGreaterThan(Short value) {
-            addCriterion("TRADETIME >", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeGreaterThanOrEqualTo(Short value) {
-            addCriterion("TRADETIME >=", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeLessThan(Short value) {
-            addCriterion("TRADETIME <", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeLessThanOrEqualTo(Short value) {
-            addCriterion("TRADETIME <=", value, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeIn(List<Short> values) {
-            addCriterion("TRADETIME in", values, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeNotIn(List<Short> values) {
-            addCriterion("TRADETIME not in", values, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeBetween(Short value1, Short value2) {
-            addCriterion("TRADETIME between", value1, value2, "tradetime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTradetimeNotBetween(Short value1, Short value2) {
-            addCriterion("TRADETIME not between", value1, value2, "tradetime");
-            return (Criteria) this;
-        }
-
         public Criteria andMinapplynumIsNull() {
             addCriterion("MINAPPLYNUM is null");
             return (Criteria) this;
@@ -1275,52 +1215,62 @@ public class IpoABreedExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyEqualTo(Short value) {
+        public Criteria andContractcurrencyEqualTo(String value) {
             addCriterion("CONTRACTCURRENCY =", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyNotEqualTo(Short value) {
+        public Criteria andContractcurrencyNotEqualTo(String value) {
             addCriterion("CONTRACTCURRENCY <>", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyGreaterThan(Short value) {
+        public Criteria andContractcurrencyGreaterThan(String value) {
             addCriterion("CONTRACTCURRENCY >", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyGreaterThanOrEqualTo(Short value) {
+        public Criteria andContractcurrencyGreaterThanOrEqualTo(String value) {
             addCriterion("CONTRACTCURRENCY >=", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyLessThan(Short value) {
+        public Criteria andContractcurrencyLessThan(String value) {
             addCriterion("CONTRACTCURRENCY <", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyLessThanOrEqualTo(Short value) {
+        public Criteria andContractcurrencyLessThanOrEqualTo(String value) {
             addCriterion("CONTRACTCURRENCY <=", value, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyIn(List<Short> values) {
+        public Criteria andContractcurrencyLike(String value) {
+            addCriterion("CONTRACTCURRENCY like", value, "contractcurrency");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractcurrencyNotLike(String value) {
+            addCriterion("CONTRACTCURRENCY not like", value, "contractcurrency");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractcurrencyIn(List<String> values) {
             addCriterion("CONTRACTCURRENCY in", values, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyNotIn(List<Short> values) {
+        public Criteria andContractcurrencyNotIn(List<String> values) {
             addCriterion("CONTRACTCURRENCY not in", values, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyBetween(Short value1, Short value2) {
+        public Criteria andContractcurrencyBetween(String value1, String value2) {
             addCriterion("CONTRACTCURRENCY between", value1, value2, "contractcurrency");
             return (Criteria) this;
         }
 
-        public Criteria andContractcurrencyNotBetween(Short value1, Short value2) {
+        public Criteria andContractcurrencyNotBetween(String value1, String value2) {
             addCriterion("CONTRACTCURRENCY not between", value1, value2, "contractcurrency");
             return (Criteria) this;
         }

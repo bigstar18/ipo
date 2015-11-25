@@ -2,7 +2,7 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 
-public class IpoABreed {
+public class IpoBreed {
     private Long breedid;
 
     private String breedname;
@@ -23,8 +23,6 @@ public class IpoABreed {
 
     private String contractfactorname;
 
-    private Short tradetime;
-
     private Long minapplynum;
 
     private BigDecimal maxapplynum;
@@ -41,7 +39,7 @@ public class IpoABreed {
 
     private BigDecimal mktpubcharatio;
 
-    private Short contractcurrency;
+    private String contractcurrency;
 
     private Integer tradedays;
 
@@ -125,14 +123,6 @@ public class IpoABreed {
         this.contractfactorname = contractfactorname == null ? null : contractfactorname.trim();
     }
 
-    public Short getTradetime() {
-        return tradetime;
-    }
-
-    public void setTradetime(Short tradetime) {
-        this.tradetime = tradetime;
-    }
-
     public Long getMinapplynum() {
         return minapplynum;
     }
@@ -197,12 +187,12 @@ public class IpoABreed {
         this.mktpubcharatio = mktpubcharatio;
     }
 
-    public Short getContractcurrency() {
+    public String getContractcurrency() {
         return contractcurrency;
     }
 
-    public void setContractcurrency(Short contractcurrency) {
-        this.contractcurrency = contractcurrency;
+    public void setContractcurrency(String contractcurrency) {
+        this.contractcurrency = contractcurrency == null ? null : contractcurrency.trim();
     }
 
     public Integer getTradedays() {

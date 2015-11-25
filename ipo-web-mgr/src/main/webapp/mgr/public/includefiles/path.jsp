@@ -46,6 +46,6 @@
 <c:set var="skinName" value="<%=skinName %>" />
 <script>
 //javascript 中皮肤路径
-var jsSkinPath="../mgr/skinstyle/<%=skinName%>/";
+var jsSkinPath="../../mgr/skinstyle/<%=skinName%>/";
 var allJsSkinPath="<%=skinPath%>/";
 </script>

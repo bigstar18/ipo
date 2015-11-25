@@ -91,7 +91,7 @@ public class Taskmanage extends TimerTask {
 			List<IpoCommodity> commod2 = commodity.selectByEnd(ballotNowtime);
 			if (commod2 != null && commod2.size() > 0) {
 				// // 摇号处理开始
-				getBallotNoUtils.start();
+				// getBallotNoUtils.start();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

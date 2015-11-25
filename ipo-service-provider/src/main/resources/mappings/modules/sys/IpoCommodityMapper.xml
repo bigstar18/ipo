@@ -351,7 +351,7 @@
 	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
 	left outer join 
 	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
-	on c.commodityid = t1.commodityid where c.commodityid like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a) b
+	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a) b
 	where b.TNO between #{beginnum} and  #{endnum}
   </select>
 </mapper>
