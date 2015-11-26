@@ -17,18 +17,19 @@ public class Selection {
 		// TODO Auto-generated method stub
 		Selection s = new Selection();
 		int test=0;
-		List<String> temp = s.MainSelection(233450, 1005700);
+		List<String> temp = s.MainSelection(233445, 1009733);
 		for (int i = 0; i < temp.size(); i++) {
 			System.out.println(temp.get(i));
-			test+=s.OwnMatchingEndNum(10000001,5700,temp.get(i));
+			test+=s.OwnMatchingEndNum(10000001,9733,temp.get(i));
 			test+=s.OwnMatchingEndNum(10005700,500000,temp.get(i));
 			test+=s.OwnMatchingEndNum(10505700,100000,temp.get(i));
 			test+=s.OwnMatchingEndNum(10605700,400000,temp.get(i));
-			
+			System.out.println(s.OwnMatchingEndNum(10000001,5700,temp.get(i))+s.OwnMatchingEndNum(10005700,500000,temp.get(i))+s.OwnMatchingEndNum(10505700,100000,temp.get(i))+s.OwnMatchingEndNum(10605700,400000,temp.get(i)));
 		}
 		System.out.println("尾号个数" + temp.size());
 		System.out.println("可匹配的个数" + s.tmp);
-		System.out.println("可匹配的个数" + test);
+		System.out.println("分开匹配总和" + test);
+		System.out.println("中签率" + (s.iopNum/s.buyNum));
 
 	}
 
@@ -187,16 +188,26 @@ public class Selection {
 			return true;
 		}
 	}
-	
+	private boolean DeleSame(int m_num,int m_result,int temp,DecimalFormat df){
+		for (int i = 0; i < m_num; i++) {
+			int endNum = (m_result + i * (temp / m_num)) % temp;
+			if(endNum==0){
+				endNum++;
+			}
+			if (!DeleSame(df.format(endNum))) {
+				return false;
+			}
+		}
+		return true;
+	}
 	// 生成尾号
 	private void GetOtherEndNum(int m_num, int temp) {
 		if (temp % m_num == 0) {
 			Random rd = new Random();
 			int m_result = rd.nextInt(temp);
-			
 			String zero = String.valueOf(temp).substring(1, String.valueOf(temp).length());
 			DecimalFormat df = new DecimalFormat(zero);
-			while (!DeleSame(String.valueOf(m_result))) {
+			while (!DeleSame(m_num,m_result,temp,df)) {
 				m_result = rd.nextInt(temp);
 			}
 			for (int i = 0; i < m_num; i++) {
@@ -204,10 +215,9 @@ public class Selection {
 				if(endNum==0){
 					endNum++;
 				}
-				if (!endNumList.contains(df.format(endNum))) {
-					endNumList.add(df.format(endNum));
-				}
+				endNumList.add(df.format(endNum));
 			}
+		
 		} else {
 			fnSplitNum(m_num, temp);
 		}
