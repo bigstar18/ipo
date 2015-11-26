@@ -24,7 +24,7 @@ public class Selection {
 			test+=s.OwnMatchingEndNum(10005700,500000,temp.get(i));
 			test+=s.OwnMatchingEndNum(10505700,100000,temp.get(i));
 			test+=s.OwnMatchingEndNum(10605700,400000,temp.get(i));
-			System.out.println(s.OwnMatchingEndNum(10000001,5700,temp.get(i))+s.OwnMatchingEndNum(10005700,500000,temp.get(i))+s.OwnMatchingEndNum(10505700,100000,temp.get(i))+s.OwnMatchingEndNum(10605700,400000,temp.get(i)));
+			
 		}
 		System.out.println("尾号个数" + temp.size());
 		System.out.println("可匹配的个数" + s.tmp);
