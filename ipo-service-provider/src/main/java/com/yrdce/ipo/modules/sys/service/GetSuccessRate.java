@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
@@ -17,7 +18,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  *
  */
 public class GetSuccessRate {
-	public static Logger logger = Logger.getLogger(GetSuccessRate.class);
+	public static Logger logger = LoggerFactory.getLogger(GetSuccessRate.class);
 
 	/**
 	 * 中签率计算方法

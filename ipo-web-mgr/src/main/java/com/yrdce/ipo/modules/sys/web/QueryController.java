@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("QueryController")
 public class QueryController {
 
-	static Logger logger = Logger.getLogger(QueryController.class);
+	static Logger logger = org.slf4j.LoggerFactory.getLogger(QueryController.class);
 
 	@Autowired
 	private OrderService orderService;
@@ -117,9 +117,9 @@ public class QueryController {
 		try {
 			List<Commodity> clist = new ArrayList<Commodity>();
 			clist = commodityService.getList(page, rows);
-			logger.info(clist);
+			// logger.info(clist);
 			int totalnums = commodityService.getCounts();
-			logger.info(totalnums);
+			// logger.info(totalnums);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
@@ -142,9 +142,9 @@ public class QueryController {
 		try {
 			List<Commodity> clist = new ArrayList<Commodity>();
 			clist.add(commodityService.getCommodityByPage(page, rows, commodityid));
-			logger.info(clist);
+			// logger.info(clist);
 			int totalnums = commodityService.getCountsByPage(commodityid);
-			logger.info(totalnums);
+			// logger.info(totalnums);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 @RequestMapping("BreedController")
 public class BreedController extends BaseController {
 	
-	static Logger log = Logger.getLogger(BreedController.class);
+	static Logger log = org.slf4j.LoggerFactory.getLogger(BreedController.class);
 	
 	@Autowired
 	private VIpoABreedService vIpoABreedService;
