@@ -10,52 +10,25 @@
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
-		<title>品种</title>
+		<title>商品修改</title>
 		<script type="text/javascript"> 
 
-function addBreed(){
-	var breedid=$("#breedid").val();
-	var bname=$("#bname").val();
-	var spreadalgr=$("#spreadalgr").val();
-	var publishalgr=$("#publishalgr").val();
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
-		 $.ajax({  
-			 type: 'GET',  //
-		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
-		     contentType: "application/json; charset=utf-8", 
-		     data:{"breedid":breedid},  
-			 dataType: 'json',  
-		     success : function(data, stats) { 
-			           if(data=='0'){
-			        	   alert("该品种已配置，请选择其他品种！")
-			           }
-                       if(data=='1'){
-                    	$("#frm").attr("action","<%=request.getContextPath()%>/BreedController/addBreed");
-               	     	$("#frm").submit();
-			           }
-                       if(data=='2'){
-                    	   alert("系统内部异常！")
-			           }
-			        }    
-				});  }
-			else{
-					alert("所有参数必填！");
-		}
-}
 		
-function updateBreed(){
-	var breedid=$("#breedid").val();
-	var bname=$("#bname").val();
+function updateComm(){
+	var curstatus=$("#currstatus").val();
 	var spreadalgr=$("#spreadalgr").val();
 	var publishalgr=$("#publishalgr").val();
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
-     $("#frm").attr("action","<%=request.getContextPath()%>/BreedController/updateBreed");
+	var nonissuereg=$("#nonissuereg").val();
+	var mapperid=$("#mapperid").val();
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''){ 
+     $("#frm").attr("action","<%=request.getContextPath()%>/BreedController/updateCommodity");
       $("#frm").submit();
 	}
 }
 
 function returntoList(){
-	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityManage";
+	var breedid=$("#breedid").val();
+	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid;
 	document.location.href = backUrl;
 }
 		
@@ -90,19 +63,22 @@ function spreadAlgr_onchange(value)
 	}
 }
 
-function setSortName(value) {
-	var breedslist =<%=request.getAttribute("breedlist") %>; 
-	 for(var o in breedslist){  
-	        if (value == breedslist[o].breedid ) {
-				$("#breedid").val(breedslist[o].breedid);
-				$("#breedname").val(breedslist[o].breedname);
-				$("#sortid").val(breedslist[o].categoryid);
-				$("#contractfactorname").val(breedslist[o].unit);
-				$("#span_contractFactor").html("("+breedslist[o].unit+ "/批)");
-				break;
-		}
-	 }  
-}
+function onSelect(d) {
+    var issd = this.id == 'starttime', sd = issd ? d : new Date($('#starttime').datebox('getValue')), ed = issd ? new Date($('#endtime').datebox('getValue')) : d;
+        if (ed < sd) {
+            alert('结束日期小于开始日期');
+            //只要选择了日期，不管是开始或者结束都对比一下，如果结束小于开始，则清空结束日期的值并弹出日历选择框
+            $('#endtime').datebox('setValue', '').datebox('showPanel');
+        }
+    }
+function onSelect2(d) {
+    var issd = this.id == 'listingdate', sd = issd ? d : new Date($('#listingdate').datebox('getValue')), ed = issd ? new Date($('#lasttradate').datebox('getValue')) : d;
+        if (ed < sd) {
+            alert('结束日期小于开始日期');
+            //只要选择了日期，不管是开始或者结束都对比一下，如果结束小于开始，则清空结束日期的值并弹出日历选择框
+            $('#lasttradate').datebox('setValue', '').datebox('showPanel');
+        }
+    }    
 	
 </script>
 </head>
@@ -112,7 +88,7 @@ function setSortName(value) {
 			<td>
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
-				<legend class="common"><b>设置品种信息</b></legend>
+				<legend class="common"><b>设置商品信息</b></legend>
 				<span id="baseinfo9">
 				<table width="850" border="0" align="center"  class="common" cellpadding="0" cellspacing="2">
 					<!-- 基本信息 -->
@@ -130,34 +106,78 @@ function setSortName(value) {
 					         	</table>
 					         	</legend>
 								<span id="baseinfo">
-								<table cellSpacing="0" cellPadding="0" width="800" border="0" align="left" class="common">
-        							<tr>
-        			 					<td align="right" width="98"><span class="required">品种名称</span>：</td>
-	      								<td style="white-space:nowrap;">
-	      								   <c:if test="${crud == 'create'}">
-		      									<select id="bname" name="breedname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
-								            		<option value="">请选择</option>
-                                                    <c:forEach var="mbreed" items="${Mlist}">
-                                                      <option <c:if test="${entity.breedid==mbreed.breedid }">selected</c:if> value="${mbreed.breedid}">${mbreed.breedname}</option>
-                                                    </c:forEach>
-								            	</select>
-								            </c:if> 
-								            <c:if test="${crud == 'update'}">
-								            	<input id="breedname" name="breedname" value="${entity.breedname }" style="width: 80;background-color: #C0C0C0" class="input_text" size="10" readonly="readonly"/>
-								            </c:if>
-							            	<input id="sortid" type="hidden" name="sortid" value="${entity.sortid }" />
-							            	<input id="breedid" type="hidden" name="breedid" value="${entity.breedid }" />
-							            	<input id="breedname" type="hidden" name="breedname" value="${entity.breedname }" />
-		          							<span class="required">*</span>
-		          						</td>
-										<td align="right" width="90">报价货币：</td>     
-            							<td>  
-											<input id="contractcurrency" name="contractcurrency" value="${entity.contractcurrency }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" />
-											<span class="required">如元、美元等</span>
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								      <tr>
+        								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>   
+        	  							<td align="right">商品品种：</td>
+            							<td>
+            							<input id="breedname" value="${breedname }"
+            								class="easyui-textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"  readonly="readonly"/>          
+			  								<span class="required">&nbsp;</span>   
+            							</td>    
+        								<td align="right" ></td> 
+            							<td> 
+            							</td>
+            							<td align="right"></td>
+										<td>
 										</td>
-							        </tr>  
-								</table >
+        							</tr>
+									<tr>
+        	  							<td align="right">商品名称：</td>
+            							<td><input id="commodityname" name="commodityname" value="${entity.commodityname }"
+            								class="easyui-validatebox textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"/>          
+            							</td>    
+        								<td align="right" >商品代码：</td> 
+            							<td> 
+			  							<input id="commodityid" name="commodityid" value="${entity.commodityid }"
+            								class="easyui-validatebox textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"/>          
+            							</td>
+            							<td align="right">当前状态</td>
+										<td>
+										<select id="currstatus" name="currstatus" style="width:80">
+												<option value=""></option>
+											    <option value="0" <c:if test="${entity.currstatus==0 }">selected</c:if>>有效</option>
+												<option value="1" <c:if test="${entity.currstatus==1 }">selected</c:if>>暂停交易</option>
+										   </select>
+										</td>
+        							</tr>
+							        <tr>
+							            <td align="right" >开市指导价：</td>
+            							<td >
+            							<input id="supervisedprice" name="supervisedprice" value="${entity.supervisedprice }"
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 60; background-color: C0C0C0"/>
+							            </td>        
+							            <td align="right">上市日期：</td>
+							            <td>
+			  								<input class="easyui-datebox" type="text" id="listingdate" data-options="onSelect:onSelect2"  name="listingdate" value="${entity.listingdate }" required="required"></input>       
+            							</td>
+            							<td align="right">最后交易日：</td>
+            							<td>
+										<input class="easyui-datebox" type="text" id="lasttradate" data-options="onSelect:onSelect2"  name="lasttradate" value="${entity.lasttradate }" required="required"></input> 
+								      	</td>
+        							</tr> 
+									<tr>
+										<td align="right">发行价：</td>
+            							<td>
+			  							<input type="text" id="price" name="price"  value="${entity.price }"
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
+            							</td>
+            							<td align="right">发售单位</td>
+            							<td>
+            							<input type="text" id="units" name="units"  value="${entity.units }"
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
+            							</td>
+            							<td align="right">对应现货商品</td>
+										<td>
+										<select id="mapperid" name="mapperid" style="width:100">
+								            		<option value="">请选择</option>
+                                                    <c:forEach var="Tcomm" items="${Tlist}">
+                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq '${entity.mapperid}'}"> selected="selected"</c:if>>${Tcomm.name}</option>
+                                                    </c:forEach>
+								         </select>
+										</td>
+         							</tr>
+	 							</table >
 								</span>
 						    	</fieldset>
 							</td>
@@ -179,27 +199,28 @@ function setSortName(value) {
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr>
-        								<input type="hidden" id="cmdtyPrefix"/>   
-        	  							<td align="right">&nbsp;&nbsp;报价单位：</td>
-            							<td>元/<input id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }"
-            								class="easyui-validatebox textbox" data-options="required:true,readonly:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  readonly="readonly"/>          
-			  								<span class="required">&nbsp;</span>  
-            							</td>    
-        								<td align="right" >交易单位：</td> 
-            							<td> 
-			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()"/>
+        	  							<td align="right">交易单位：</td>
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  />          
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
-			  								</span>          
+			  								</span> 
+			  								<input type="hidden" id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }" />
+            							</td>    
+        								<td align="right">最小变动价位(元)：</td>
+            							<td>
+			  								<input type="text" id="minpricemove" name="minpricemove"  value="${entity.minpricemove }"
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
             							</td>
-            							<td align="right"></td>
-										<td>
-										</td>
+            							<td align="right">最小变动数量：</td>
+            							<td>
+			  								<input type="text" id="minquantitymove" name="minquantitymove" value="${entity.minquantitymove }" 
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+            							</td>
         							</tr>
 							        <tr>
-							            <td align="right" >&nbsp;涨跌停板算法：</td>
+							            <td align="right" >涨跌停板算法：</td>
 							            <td >
 											<select id="spreadalgr" name="spreadalgr" style="width:80" onchange="spreadAlgr_onchange(this.value)">
 												<option value=""></option>
@@ -219,26 +240,30 @@ function setSortName(value) {
 												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 											<span id="spreadDownLmtPercent">%</span>          
 								      	</td>
-								      	<td>&nbsp;</td>
 								      	<script type="text/javascript">
 							            	if ("${entity.spreadalgr}" == "1"){$("#spreadUpLmtPercent").show();$("#spreadDownLmtPercent").show();} else {$("#spreadUpLmtPercent").hide();$("#spreadDownLmtPercent").hide();}
 							            </script>
         							</tr> 
 									<tr>
-										<td align="right">&nbsp;最小变动价位(元)：</td>
-            							<td>
-			  								<input type="text" id="minpricemove" name="minpricemove"  value="${entity.minpricemove }"
-			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
-            							</td>
-            							<td align="right">&nbsp;最小变动数量：</td>
-            							<td>
-			  								<input type="text" id="minquantitymove" name="minquantitymove" value="${entity.minquantitymove }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
-            							</td>
             							<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
 			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+										</td>
+										<td align="right">是否开启标码提货：</td>
+										<td>
+										<select id="codedelivery" name="codedelivery" style="width:80">
+											    <option value="0" <c:if test="${entity.codedelivery==0 }">selected</c:if>>开启</option>
+												<option value="1" <c:if test="${entity.codedelivery==1 }">selected</c:if>>关闭</option>
+										   </select>
+										</td>
+										<td align="right">非发行注册：</td>
+										<td>
+										<select id="nonissuereg" name="nonissuereg" style="width:80">
+										        <option value=""></option>
+											    <option value="0" <c:if test="${entity.nonissuereg==0 }">selected</c:if>>是</option>
+												<option value="1" <c:if test="${entity.nonissuereg==1 }">selected</c:if>>否</option>
+										   </select>
 										</td>
          							</tr>
 	 							</table >
@@ -262,6 +287,25 @@ function setSortName(value) {
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								    <tr>
+        	  							<td align="right">发行会员编号：</td>
+            							<td>
+            							<select id="pubmemberid" name="pubmemberid" style="width:100">
+								            		<option value="">请选择</option>
+                                                    <c:forEach var="pubmember" items="${Blist}">
+                                                      <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq '${entity.pubmemberid}'}"> selected="selected"</c:if>>${pubmember.name}</option>
+                                                    </c:forEach>
+								            	</select>
+            							</td>    
+        								<td align="right" >发行开始日期：</td> 
+            							<td> 
+			  								<input class="easyui-datebox" data-options="onSelect:onSelect"  type="text" id="starttime" name="starttime" value="${entity.starttime }" required="required"></input> 
+			  							</td>
+            							<td align="right">发行结束日期：</td>
+										<td>
+											<input class="easyui-datebox" data-options="onSelect:onSelect" type="text" id="endtime" name="endtime" value="${entity.endtime }" required="required"></input> 
+										</td>
+        							</tr>
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
@@ -305,8 +349,10 @@ function setSortName(value) {
 							            </script>
         							</tr> 
 									<tr>
-										<td align="right"></td>
+										<td align="right">发行数量：</td>
             							<td>
+            							<input type="text" id="counts" name="counts"  value="${entity.counts }"
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
             							</td>
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
@@ -338,12 +384,7 @@ function setSortName(value) {
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">
-								    <c:if test="${crud == 'create'}">
-								    	<input type="button" value="添加" onclick="addBreed()" className="anniu_btn"  id="add"/>
-								    </c:if>
-								    <c:if test="${crud == 'update'}">
-								    	<input type="button" value="提交" onclick="updateBreed()" className="anniu_btn"  id="update"/>
-								    </c:if>
+								    	<input type="button" value="修改" onclick="updateComm()" className="anniu_btn"  id="update"/>
 									&nbsp;&nbsp;
 									<input type="button" value="返回" onclick="returntoList()" className="anniu_btn"  id="back"/>
 								</div>

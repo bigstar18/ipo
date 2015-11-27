@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 品种管理Controller
@@ -41,6 +43,8 @@ public class BreedController extends BaseController {
 	@Autowired
 	private MBreedService mBreedservice;
 	
+	@Autowired
+	private IpoCommConfService ipoCommConfService;
 
 	public VIpoABreedService getvIpoABreedService() {
 		return vIpoABreedService;
@@ -56,6 +60,14 @@ public class BreedController extends BaseController {
 
 	public void setmBreedservice(MBreedService mBreedservice) {
 		this.mBreedservice = mBreedservice;
+	}
+	
+	public IpoCommConfService getIpoCommConfService() {
+		return ipoCommConfService;
+	}
+
+	public void setIpoCommConfService(IpoCommConfService ipoCommConfService) {
+		this.ipoCommConfService = ipoCommConfService;
 	}
 
 	/**
@@ -172,8 +184,9 @@ public class BreedController extends BaseController {
 		}
 	}
 	
+	
 	/**
-	 * 删除一个品种，并删除品种下的商品
+	 * 删除一个品种(此品种下无商品)
 	 * 
 	 * @param
 	 * @return
@@ -181,11 +194,18 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public void deleteBreed() throws IOException {
+	public String deleteBreed(@RequestParam("breedid") String breedid) throws IOException {
 		log.info("删除品种");
 		try {
+			int totalnum=ipoCommConfService.getTotalIpoCommsByBreedid(Long.parseLong(breedid));
+			if(totalnum==0){
+				vIpoABreedService.deleteBreed(Long.parseLong(breedid));
+				return "true";
+			}
+			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 	
@@ -216,5 +236,92 @@ public class BreedController extends BaseController {
 		}
 	}
 	
+	/**
+	 * 查询已存在的商品ID
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findExsitCommIds" ,method = RequestMethod.GET)
+	@ResponseBody
+	public String findExsitCommIds(@RequestParam("commoidtyid") String commid) throws IOException {
+		log.info("查询已存在的商品ID");
+		try {
+			
+			List<String> idlist = ipoCommConfService.findIpoCommConfIds();
+			for(int i=0;i<idlist.size();i++){
+				if(commid.equals(idlist.get(i))){
+					return "0";//该商品ID已存在
+				}
+			}
+			return "1";//新增的商品ID
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "2";
+		}
+	}
+	
+	/**
+	 * 查询对应商品列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findCommsByBreedId" ,method = RequestMethod.GET)
+	@ResponseBody
+	public String findCommsByBreedId(@RequestParam("breedid") String breedid,@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+		log.info("查询对应商品列表");
+		try {
+			Long Breedid=Long.parseLong(breedid);
+			List<VIpoCommConf> comlist=ipoCommConfService.findIpoCommConfByBreedid(Breedid, page, rows);
+			int totalnum=ipoCommConfService.getTotalIpoCommsByBreedid(Breedid);
+			ResponseResult result = new ResponseResult();
+			result.setRows(comlist);
+			result.setTotal(totalnum);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	/**
+	 * 增加商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addCommodity" ,method = RequestMethod.POST)
+	@ResponseBody
+	public void addCommodity(VIpoCommConf ipocomm) throws IOException {
+		log.info("新增商品");
+		try {
+		ipoCommConfService.addCommodity(ipocomm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 修改商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateCommodity" ,method = RequestMethod.POST)
+	@ResponseBody
+	public void updateCommodity(VIpoCommConf ipocomm) throws IOException {
+		log.info("修改商品");
+		try {
+		ipoCommConfService.updateCommodity(ipocomm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

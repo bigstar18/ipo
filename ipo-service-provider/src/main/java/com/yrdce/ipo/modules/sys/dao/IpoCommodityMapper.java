@@ -18,6 +18,8 @@ public interface IpoCommodityMapper {
 	int deleteByPrimaryKey(int id);
 
 	int insert(IpoCommodity record);
+	
+	int update(IpoCommodity record);
 
 	int insertSelective(IpoCommodity record);
 

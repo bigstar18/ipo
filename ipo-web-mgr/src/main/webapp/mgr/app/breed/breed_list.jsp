@@ -119,11 +119,23 @@ function addForward(){
 	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward";
 }
 
-//批量删除信息
-function deleteList(){
-	var deleteUrl = document.getElementById('delete').action;
-	var url = "${basePath}"+deleteUrl;
-	updateRMIEcside(ec.ids,url);
+//删除品种
+function deleteBreed(){
+	if(confirm("确定删除该品种吗？")){
+		  var row = $("#tt").datagrid("getSelected"); 
+		  $.post("<%=request.getContextPath()%>/BreedController/deleteBreed",{"breedid":row.breedid},function(data,status){
+			  if(data=='true'){
+				  alert("删除成功！")
+				  $('#tt').datagrid('reload');
+			  }
+			  if(data=='false'){
+				  alert("该品种下有对应商品，不可删除！")
+			  }
+			  if(data=='error'){
+				  alert("发生异常，删除失败！")
+			  }
+				  });
+		  }
 }
 
 //修改品种配置信息，跳转到修改页面
@@ -134,7 +146,7 @@ function updateBreed(breedid){
 
 //查询对应商品列表
 function getCommBelonged(breedid) {
-	var Url = "<%=request.getContextPath()%>/BreedController/findComsByBreedid?breedID="+breedid;//get方式提交
+	var Url = "<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid;//get方式提交
 	document.location.href = Url;
 }
 
