@@ -22,14 +22,14 @@ public class IpoOrder {
 
 	private int frozenst;// 资金状态
 
-	private int commodity_id;// 发售表主键ID
+	private int sale_id;// 发售表主键ID
 
 	public int getCommodity_id() {
-		return commodity_id;
+		return sale_id;
 	}
 
-	public void setCommodity_id(int commodity_id) {
-		this.commodity_id = commodity_id;
+	public void setCommodity_id(int sale_id) {
+		this.sale_id = sale_id;
 	}
 
 	public int getFrozenst() {

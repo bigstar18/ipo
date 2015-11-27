@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -44,7 +45,7 @@ public interface IpoOrderMapper {
 
 	void deleteAll();
 
-	int selectbysid(String sid);
+	int selectbysid(String commodityid);
 
 	IpoOrder selectByPrimaryKey(@Param("orderid") int orderid);
 
@@ -55,4 +56,6 @@ public interface IpoOrderMapper {
 	int selectByCounts(String userid);
 
 	List<IpoOrder> selectByCid(int commodity_id);
+	
+	int ipoCommSum(Map<String,String> map);
 }

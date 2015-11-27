@@ -326,7 +326,7 @@
    </delete>
    
    <select id="selectbysid" parameterType="java.lang.String" resultType="java.lang.Integer">
-   	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{COMMODITYID,jdbcType=VARCHAR}
    </select>
    
    <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
@@ -345,4 +345,6 @@
    <select id="selectByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
    	select <include refid="Base_Column_List" /> from IPO_ORDER where COMMODITY_ID = #{commodity_id,jdbcType=INTEGER}
    </select>
+   
+
 </mapper>
