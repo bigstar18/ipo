@@ -20,10 +20,8 @@
 	</bean>
 
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
-	<dubbo:registry address="${dubbo.registry.address}" />
-	<dubbo:registry check="false" />
-	<dubbo:consumer check="false" />
-	<dubbo:consumer delay="-1" timeout="30000" retries="0" />
+	<dubbo:registry address="${dubbo.registry.address}" check="false" />
+	<dubbo:consumer check="false" timeout="30000" retries="0" />
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
 

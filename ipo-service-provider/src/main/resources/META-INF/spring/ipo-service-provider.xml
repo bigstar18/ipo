@@ -17,8 +17,8 @@
 
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
 	<dubbo:protocol name="dubbo" serialization="kryo" optimizer="com.yrdce.ipo.SerializationOptimizerImpl" port="55500" />
-	<dubbo:registry address="${dubbo.registry.address}" />
 	<!-- <dubbo:registry address="10.20.153.10:9090" register="false" /> -->
+	<dubbo:registry address="${dubbo.registry.address}" />
 	<dubbo:provider delay="-1" timeout="30000" retries="0" />
     <!-- here we demonstrate both annotation-based and xml-based configs -->
 	<!-- <dubbo:annotation package="com.yrdce.ipo.user.facade" /> -->
@@ -41,7 +41,7 @@
 	<bean id="vIpoABreedService" class="com.yrdce.ipo.modules.sys.service.IpoABreedServiceImpl" />
 	<bean id="mBreedservice" class="com.yrdce.ipo.modules.sys.service.MBreedServiceImpl" />
 	<bean id="tradetimeservice" class="com.yrdce.ipo.modules.sys.service.TradetimeServiceImpl" />
-	<bean id="ipoCommConfService" class="com.yrdce.ipo.modules.sys.service.TradetimeServiceImpl" />	
+	
 	
 	<!-- 	当一个接口有多种实现时，可以用group区分。
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
