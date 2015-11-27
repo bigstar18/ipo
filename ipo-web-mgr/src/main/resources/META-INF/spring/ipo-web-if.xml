@@ -33,6 +33,7 @@
 	<dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" />
 	<dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService" />
 	<dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService" />
+	<dubbo:reference id="sysStatusService" interface="com.yrdce.ipo.modules.sys.service.SysStatusService" />
 	
 	
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->

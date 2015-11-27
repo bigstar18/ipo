@@ -32,6 +32,7 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" ref="vIpoABreedService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.MBreedService" ref="mBreedservice" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TradetimeService" ref="tradetimeservice" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SysStatusService" ref="sysStatusService" protocol="dubbo" />
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -41,6 +42,7 @@
 	<bean id="vIpoABreedService" class="com.yrdce.ipo.modules.sys.service.IpoABreedServiceImpl" />
 	<bean id="mBreedservice" class="com.yrdce.ipo.modules.sys.service.MBreedServiceImpl" />
 	<bean id="tradetimeservice" class="com.yrdce.ipo.modules.sys.service.TradetimeServiceImpl" />
+	<bean id="sysStatusService" class="com.yrdce.ipo.modules.sys.service.SysStatusServiceImpl" />
 	
 	
 	<!-- 	当一个接口有多种实现时，可以用group区分。
