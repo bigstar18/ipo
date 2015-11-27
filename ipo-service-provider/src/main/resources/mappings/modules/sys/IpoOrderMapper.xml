@@ -326,23 +326,25 @@
    </delete>
    
    <select id="selectbysid" parameterType="java.lang.String" resultType="java.lang.Integer">
-   	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   	select sum(COUNTS) from IPO_ORDER where COMMODITYID = #{COMMODITYID,jdbcType=VARCHAR}
    </select>
    
    <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
    	select <include refid="Base_Column_List" />   
-   	from (select t.*,rownum TNO from IPO_ORDER t where t.USERID = #{userid,jdbcType=VARCHAR} ) a where a.TNO between  #{beginnum} and  #{endnum}
+   	from (select t.*,rownum TNO from IPO_ORDER t where t.USERID  like concat (concat('%',#{userid,jdbcType=VARCHAR}),'%')) a where a.TNO between  #{beginnum} and  #{endnum}
    </select>
    
    <select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
    	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_ORDER t ) a where a.TNO between  #{beginnum} and  #{endnum}
    </select>
    
-   <select id="selectByCounts" resultType="java.lang.Integer">
-   	select count(0) from IPO_ORDER
+   <select id="selectByCounts" resultType="java.lang.Integer" parameterType="java.lang.String" >
+   	select count(0) from IPO_ORDER where USERID like concat(concat('%',#{userid,jdbcType=VARCHAR}),'%')
    </select>
    
    <select id="selectByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
    	select <include refid="Base_Column_List" /> from IPO_ORDER where COMMODITY_ID = #{commodity_id,jdbcType=INTEGER}
    </select>
+   
+
 </mapper>

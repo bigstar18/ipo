@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
@@ -17,29 +15,24 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
 /**
- * 交易节增删改查
+ * @author hxx
  * 
- * @author Bob
- *
  */
+@RequestMapping("tradeController")
+public class TradeController {
 
-// @Controller
-@RequestMapping("TradetimeController")
-public class TradetimeController {
-
-	static Logger log = LoggerFactory.getLogger(CommodityController.class);
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(TradeController.class);
 
 	// @Autowired
 	private TradetimeService tradetimeService;
 
 	// 交易节信息展示
-	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.GET)
+	@RequestMapping(value = "/getTradeStatus", method = RequestMethod.GET)
 	@ResponseBody
-	public String getTradetimeList(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
-		log.info("交易节信息展示" + "page:" + page + "rows:" + rows);
+	public String getTradeStatus() throws IOException {
 		try {
 			List<Tradetime> clist = new ArrayList<Tradetime>();
-			clist = tradetimeService.select(page, rows);
+
 			int totalnums = tradetimeService.selectByCounts();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -78,6 +71,8 @@ public class TradetimeController {
 	}
 
 	// 添加交易节
+	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int addTradetime(Tradetime tradetime) {
 		log.info("进入添加交易节" + "tradetime:" + tradetime);
 		try {
@@ -91,6 +86,8 @@ public class TradetimeController {
 	}
 
 	// 删除交易节
+	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int deleteTradetime(Object[] ids) {
 		log.info("进入删除交易节" + "ids" + ids);
 		try {

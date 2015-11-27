@@ -1,90 +1,83 @@
-<%@ page contentType="text/html;charset=GBK"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 <head>
 
 
-<title>½»Ò×½Ú¹ÜÀíÁĞ±í</title>
+<title>äº¤æ˜“èŠ‚ç®¡ç†åˆ—è¡¨</title>
+
+<meta name="decorator" content="default" />
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
+<script src="${ctxStatic}/static/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+
+
 <script type="text/javascript">
-<!--
-	//Ìí¼ÓĞÅÏ¢Ìø×ª
+
+	//æ·»åŠ ä¿¡æ¯è·³è½¬
 	function addForward(){
-		//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+		//è·å–é…ç½®æƒé™çš„ URL
 		var addUrl=document.getElementById('add').action;
-		//»ñÈ¡ÍêÕûÌø×ªURL
+		//è·å–å®Œæ•´è·³è½¬URL
 		var url = "${basePath}"+addUrl;
 
 		if(showDialog(url, "", 800, 550)){
-			//Èç¹ûÌí¼Ó³É¹¦£¬ÔòË¢ĞÂÁĞ±í
+			//å¦‚æœæ·»åŠ æˆåŠŸï¼Œåˆ™åˆ·æ–°åˆ—è¡¨
 			ECSideUtil.reload("ec");
 		}
 		
 	}
-	//ĞŞ¸ÄĞÅÏ¢Ìø×ª
+	//ä¿®æ”¹ä¿¡æ¯è·³è½¬
 	function detailForward(id){
-		//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+		//è·å–é…ç½®æƒé™çš„ URL
 		var detailUrl = "${basePath}/timebargain/tradeparams/detailTradeTimeforward.action?entity.sectionID=";
-		//»ñÈ¡ÍêÕûÌø×ªURL
+		//è·å–å®Œæ•´è·³è½¬URL
 		var url = detailUrl + id;
-		//µ¯³öĞŞ¸ÄÒ³Ãæ
+		//å¼¹å‡ºä¿®æ”¹é¡µé¢
 		if(showDialog(url, "", 800, 550)){
-			//Èç¹ûĞŞ¸Ä³É¹¦£¬ÔòË¢ĞÂÁĞ±í
+			//å¦‚æœä¿®æ”¹æˆåŠŸï¼Œåˆ™åˆ·æ–°åˆ—è¡¨
 			ECSideUtil.reload("ec");
 		};
 	}
-	//ÅúÁ¿É¾³ıĞÅÏ¢
+	//æ‰¹é‡åˆ é™¤ä¿¡æ¯
 	function deleteList(){
-		//»ñÈ¡ÅäÖÃÈ¨ÏŞµÄ URL
+		//è·å–é…ç½®æƒé™çš„ URL
 		var deleteUrl = document.getElementById('delete').action;
-		//»ñÈ¡ÍêÕûÌø×ªURL
+		//è·å–å®Œæ•´è·³è½¬URL
 		var url = "${basePath}"+deleteUrl;
-		//Ö´ĞĞÉ¾³ı²Ù×÷
+		//æ‰§è¡Œåˆ é™¤æ“ä½œ
 		updateRMIEcside(ec.ids,url);
 	}
 
-// -->
+
 </script>
 </head>
 <body>
 	<div id="main_body">
 	    <div class="warning">
 			<div class="content">
-				ÎÂÜ°ÌáÊ¾ :Ìí¼Ó¡¢É¾³ı¡¢ĞŞ¸Ä½»Ò×½Ú
+				æ¸©é¦¨æç¤º :æ·»åŠ ã€åˆ é™¤ã€ä¿®æ”¹äº¤æ˜“èŠ‚
 			</div>
 		</div>	
 	    <div class="div_gn">
-			<rightButton:rightButton name="Ìí¼Ó" onclick="addForward();" className="anniu_btn" action="/timebargain/tradeparams/addTradeTimeforward.action" id="add"></rightButton:rightButton>
+			<rightButton:rightButton name="æ·»åŠ " onclick="addForward();" className="anniu_btn" action="<%=request.getContextPath()%>/TradetimeController/addTradetime" id="add"></rightButton:rightButton>
 			&nbsp;&nbsp;
-			<rightButton:rightButton name="É¾³ı" onclick="deleteList();" className="anniu_btn" action="/timebargain/tradeparams/deleteTradeTime.action" id="delete"></rightButton:rightButton>
+			<rightButton:rightButton name="åˆ é™¤" onclick="deleteList();" className="anniu_btn" action="<%=request.getContextPath()%>/TradetimeController/deleteTradetime" id="delete"></rightButton:rightButton>
 		</div>
 		<div class="div_list">
-			<table id="tb" border="0" cellspacing="0" cellpadding="0" width="100%">
-				<tr>
-					<td>
-						<ec:table items="pageInfo.result" var="tradeTime"
-							action="${basePath}/timebargain/tradeparams/tradeTimeList.action?sortColumns=order+by+sectionID+asc"											
-							autoIncludeParameters="${empty param.autoInc}"
-							xlsFileName="export.xls" csvFileName="export.csv"
-							showPrint="true" listWidth="100%"
-							minHeight="345"  style="table-layout:fixed;">
-							<ec:row>
-								<ec:column cell="checkbox" headerCell="checkbox" alias="ids" style="text-align:center; " value="${tradeTime.sectionID}" width="5%" viewsAllowed="html" />
-								<ec:column property="sectionID" width="20%" title="±àºÅ" style="text-align:center;">
-								   <rightHyperlink:rightHyperlink text="<font color='#880000'>${tradeTime.sectionID}</font>" className="blank_a" onclick="detailForward('${tradeTime.sectionID}')" title="ĞŞ¸Ä" action="/timebargain/tradeparams/detailTradeTimeforward.action" />
-								    <%-- <a href="#" class="blank_a" onclick="detailForward('${tradeTime.sectionID}')" title="ĞŞ¸Ä"><font color="#880000">${tradeTime.sectionID}</font></a> 	--%>
-								</ec:column>
-								<ec:column property="name" title="½»Ò×½ÚÃû³Æ" width="20%" style="text-align:center;">
-								    <rightHyperlink:rightHyperlink text="<font color='#880000'>${tradeTime.name}</font>" className="blank_a" onclick="detailForward('${tradeTime.sectionID}')" title="ĞŞ¸Ä" action="/timebargain/tradeparams/detailTradeTimeforward.action" />
-									<%-- <a href="#" class="blank_a" onclick="detailForward('${tradeTime.sectionID}')" title="ĞŞ¸Ä"><font color="#880000">${tradeTime.name}</font></a> 	--%>
-								</ec:column>
-								<ec:column property="startTime" title="½»Ò×¿ªÊ¼Ê±¼ä" width="20%" style="text-align:center;"/>
-								<ec:column property="endTime" title="½»Ò×½áÊøÊ±¼ä" width="20%" style="text-align:center;"/>
-								<ec:column property="status" title="×´Ì¬" width="20%" style="text-align:center;">${tradetime_statusMap[tradeTime.status]}</ec:column>
-								
-							</ec:row>
-						</ec:table>
-					</td>
-				</tr>
+			<table id="tb" border="0" class="easyui-datagrid" cellspacing="0" cellpadding="0" width="100%" toolbar="#div_gn"
+			data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/TradetimeController/getTradetimeList',method:'get'">>
+				<thead>
+					<tr>
+						<th data-options="field:'sectionid',width:200">ç¼–å·</th>
+						<th data-options="field:'name',width:200">äº¤æ˜“èŠ‚åç§°</th>
+						<th data-options="field:'starttime',width:200">äº¤æ˜“èŠ‚ å¼€å§‹æ—¶é—´</th>
+						<th data-options="field:'endtime',width:200">äº¤æ˜“èŠ‚ç»“æŸæ—¶é—´</th>
+						<th data-options="field:'status',width:200">çŠ¶æ€</th>
+					</tr>
+				</thead>
 			</table>
 		</div>
 	</div>

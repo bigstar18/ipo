@@ -9,14 +9,14 @@ import java.util.TimerTask;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class TaskMananeListener implements ServletContextListener {
 
 	// Fields
-	private Log logger = LogFactory.getLog(this.getClass()); // 日志
+	private Logger logger = LoggerFactory.getLogger(this.getClass()); // 日志
 	private static Timer timer;
 	private static TimerTask task;
 

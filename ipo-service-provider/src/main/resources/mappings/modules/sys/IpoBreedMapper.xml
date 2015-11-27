@@ -23,6 +23,7 @@
     <result column="CONTRACTCURRENCY" property="contractcurrency" jdbcType="VARCHAR" />
     <result column="TRADEDAYS" property="tradedays" jdbcType="DECIMAL" />
   </resultMap>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -155,4 +156,5 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from IPO_BREED
   </select>
+
 </mapper>

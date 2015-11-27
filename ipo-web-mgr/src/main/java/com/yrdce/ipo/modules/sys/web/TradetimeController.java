@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,7 @@ import com.yrdce.ipo.modules.sys.vo.Tradetime;
 @RequestMapping("TradetimeController")
 public class TradetimeController {
 
-	static Logger log = Logger.getLogger(TradetimeController.class);
+	static Logger log = org.slf4j.LoggerFactory.getLogger(TradetimeController.class);
 
 	// @Autowired
 	private TradetimeService tradetimeService;
@@ -77,6 +77,8 @@ public class TradetimeController {
 	}
 
 	// 添加交易节
+	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int addTradetime(Tradetime tradetime) {
 		log.info("进入添加交易节" + "tradetime:" + tradetime);
 		try {
@@ -90,6 +92,8 @@ public class TradetimeController {
 	}
 
 	// 删除交易节
+	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
+	@ResponseBody
 	public int deleteTradetime(Object[] ids) {
 		log.info("进入删除交易节" + "ids" + ids);
 		try {

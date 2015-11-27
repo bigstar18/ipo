@@ -1,6 +1,7 @@
 package com.yrdce.ipo.common.task;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,14 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yrdce.ipo.common.utils.DateUtil;
+import com.yrdce.ipo.common.utils.Selection;
+import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.service.Distribution;
-import com.yrdce.ipo.modules.sys.service.GetBallotNoUtils;
+
 
 /**
  * 定时器
@@ -38,12 +44,16 @@ public class Taskmanage extends TimerTask {
 	@Autowired
 	private Distribution distribution;
 	@Autowired
-	private GetBallotNoUtils getBallotNoUtils;
+	//private GetBallotNoUtils getBallotNoUtils;
+	private Selection selection;
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
 	private IpoCommodityMapper commodity;
-
+	@Autowired
+	private IpoDistributionMapper ipoDistribution;
+	@Autowired
+	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
 	@Override
 	public void run() {
 		try {
@@ -86,13 +96,49 @@ public class Taskmanage extends TimerTask {
 			}
 
 			// 摇号获取系统当前时间的前2天
-			// String ballotNowtime = DateUtil.getTime(2);
+			String ballotNowtime = DateUtil.getTime(2);
 			// // 查询前一天交易订单
-			// List<IpoOrder> orders = order.selectAll(ballotNowtime);
-			// if (orders != null && orders.size() > 0) {
-			// // 摇号处理开始
-			// getBallotNoUtils.start();
-			// }
+			List<IpoCommodity> commod2 = commodity.selectByEnd(ballotNowtime);
+			if (commod2 != null && commod2.size() > 0) {
+
+				List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);
+				if(ipoCommList==null)
+					return;
+				selection = new Selection();
+				for(IpoCommodity ipoComm : ipoCommList){
+					String commId =	ipoComm.getCommodityid();//获取需要摇号的商品id
+					int commCounts = ipoComm.getCounts();//改商品的发行数量
+					int saleCounts = order.bycommodityid(commId);//根据发售id获取申购总量
+					//摇号开始
+					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);//尾号集合
+					//查找所有此商品的申购记录
+					List<IpoDistribution> ipoDidList =  ipoDistribution.selectByCommId(commId);
+					int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();//配号号码长度
+					//号码匹配
+					for(IpoDistribution ipoDis:ipoDidList){
+						int userGetNum=0;
+						for(String endNum:endNumList){
+							userGetNum+=selection.OwnMatchingEndNum((int)ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+						}
+						ipoDis.setZcounts(userGetNum);//更新对象中匹配的个数
+						ipoDistribution.updateByPrimaryKey(ipoDis);//更新数据库记录
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+					Date dt = sdf.parse(DateUtil.getTime(0));
+					//将尾号记录到数据库
+					for(String endNum:endNumList){
+						IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
+						ipoBallotNoInfo.setBallotno(endNum);
+						ipoBallotNoInfo.setBallotnoendlen(numLength);
+						ipoBallotNoInfo.setBallotnostartlen(numLength-endNum.length());
+						ipoBallotNoInfo.setCommodityid(commId);
+						ipoBallotNoInfo.setCreatetime(dt);
+						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
+						
+					}
+				}
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

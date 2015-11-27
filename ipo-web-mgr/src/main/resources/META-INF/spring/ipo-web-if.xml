@@ -7,7 +7,7 @@
         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
         <property name="location" value="classpath:dubbo.properties" />
     </bean> -->
-	 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
@@ -18,24 +18,25 @@
 			</list>
 		</property>
 	</bean>
+
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
-
 	<dubbo:registry address="${dubbo.registry.address}" />
-
+	<dubbo:registry check="false" />
+	<dubbo:consumer check="false" />
+	<dubbo:consumer delay="-1" timeout="30000" retries="0" />
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
-      <dubbo:provider delay="-1" timeout="30000" retries="0"/>
-     <dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
-     <dubbo:reference id="purchase" interface="com.yrdce.ipo.modules.sys.service.Purchase" />
-     <dubbo:reference id="displayService" interface="com.yrdce.ipo.modules.sys.service.DisplayService" />
-     <dubbo:reference id="distributionService" interface="com.yrdce.ipo.modules.sys.service.DistributionService" />
-     <dubbo:reference id="orderService" interface="com.yrdce.ipo.modules.sys.service.OrderService"/>
-     <dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService"/>
-     <dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService"/>
-     <dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService"/>
-     
-     
+
+	<dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
+	<dubbo:reference id="purchase" interface="com.yrdce.ipo.modules.sys.service.Purchase" />
+	<dubbo:reference id="displayService" interface="com.yrdce.ipo.modules.sys.service.DisplayService" />
+	<dubbo:reference id="distributionService" interface="com.yrdce.ipo.modules.sys.service.DistributionService" />
+	<dubbo:reference id="orderService" interface="com.yrdce.ipo.modules.sys.service.OrderService" />
+	<dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" />
+	<dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService" />
+	<dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService" />
+	
+	
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
-
 </beans>

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ import com.yrdce.ipo.modules.sys.vo.Order;
 @Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
 
-	static Logger logger = Logger.getLogger(OrderServiceImpl.class);
+	static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Autowired
 	private IpoOrderMapper ipoOrderMapper;
@@ -47,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
 
 			for (int i = 0; i < list.size(); i++) {
 				Order order = new Order();
+				order.setUserid(list.get(i).getUserid());
 				order.setCommodityid(list.get(i).getCommodityid());
 				order.setCommodityname(list.get(i).getCommodityname());
 				order.setCounts(list.get(i).getCounts());
@@ -54,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
 				Date date = new Date(timestamp.getTime());
 				order.setCreatetime(date);
 				order.setFrozenfunds(list.get(i).getFrozenfunds());
+				logger.info(order.toString());
 				list2.add(order);
 			}
 		} catch (Exception e) {
@@ -66,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getAll(String userid) {
 		logger.info("根据id查询共有几条订单信息");
 		try {
-			return ipoOrderMapper.countByExample(userid);
+			return ipoOrderMapper.selectByCounts(userid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -110,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
 	public int getAllOrder() {
 		logger.info("查询共有几条记录");
 
-		int counts = ipoOrderMapper.selectByCounts();
+		int counts = ipoOrderMapper.selectByCounts(null);
 		return counts;
 
 	}
