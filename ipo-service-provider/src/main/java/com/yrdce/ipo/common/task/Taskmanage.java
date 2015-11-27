@@ -26,7 +26,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.service.Distribution;
 
-
 /**
  * 定时器
  * 
@@ -44,7 +43,7 @@ public class Taskmanage extends TimerTask {
 	@Autowired
 	private Distribution distribution;
 	@Autowired
-	//private GetBallotNoUtils getBallotNoUtils;
+	// private GetBallotNoUtils getBallotNoUtils;
 	private Selection selection;
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
@@ -54,6 +53,7 @@ public class Taskmanage extends TimerTask {
 	private IpoDistributionMapper ipoDistribution;
 	@Autowired
 	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
+
 	@Override
 	public void run() {
 		try {
@@ -102,39 +102,39 @@ public class Taskmanage extends TimerTask {
 			if (commod2 != null && commod2.size() > 0) {
 
 				List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);
-				if(ipoCommList==null)
+				if (ipoCommList == null)
 					return;
 				selection = new Selection();
-				for(IpoCommodity ipoComm : ipoCommList){
-					String commId =	ipoComm.getCommodityid();//获取需要摇号的商品id
-					int commCounts = ipoComm.getCounts();//改商品的发行数量
-					int saleCounts = order.bycommodityid(commId);//根据发售id获取申购总量
-					//摇号开始
-					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);//尾号集合
-					//查找所有此商品的申购记录
-					List<IpoDistribution> ipoDidList =  ipoDistribution.selectByCommId(commId);
-					int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();//配号号码长度
-					//号码匹配
-					for(IpoDistribution ipoDis:ipoDidList){
-						int userGetNum=0;
-						for(String endNum:endNumList){
-							userGetNum+=selection.OwnMatchingEndNum((int)ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+				for (IpoCommodity ipoComm : ipoCommList) {
+					String commId = ipoComm.getCommodityid();// 获取需要摇号的商品id
+					int commCounts = ipoComm.getCounts();// 改商品的发行数量
+					int saleCounts = order.bycommodityid(commId);// 根据发售id获取申购总量
+					// 摇号开始
+					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
+					// 查找所有此商品的申购记录
+					List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
+					int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
+					// 号码匹配
+					for (IpoDistribution ipoDis : ipoDidList) {
+						int userGetNum = 0;
+						for (String endNum : endNumList) {
+							userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
 						}
-						ipoDis.setZcounts(userGetNum);//更新对象中匹配的个数
-						ipoDistribution.updateByPrimaryKey(ipoDis);//更新数据库记录
+						ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
+						ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
 					}
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					Date dt = sdf.parse(DateUtil.getTime(0));
-					//将尾号记录到数据库
-					for(String endNum:endNumList){
+					// 将尾号记录到数据库
+					for (String endNum : endNumList) {
 						IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
 						ipoBallotNoInfo.setBallotno(endNum);
-						ipoBallotNoInfo.setBallotnoendlen(numLength);
-						ipoBallotNoInfo.setBallotnostartlen(numLength-endNum.length());
+						ipoBallotNoInfo.setBallotnoendlen(Integer.valueOf(numLength).shortValue());
+						ipoBallotNoInfo.setBallotnostartlen(Integer.valueOf(numLength - endNum.length()).shortValue());
 						ipoBallotNoInfo.setCommodityid(commId);
 						ipoBallotNoInfo.setCreatetime(dt);
 						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
-						
+
 					}
 				}
 
