@@ -1,11 +1,11 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-
-import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 
 @MyBatisDao
 public interface IpoCommodityConfMapper {

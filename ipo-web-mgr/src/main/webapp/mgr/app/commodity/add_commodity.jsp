@@ -166,11 +166,11 @@ function onSelect2(d) {
 							            </td>        
 							            <td align="right">上市日期：</td>
 							            <td>
-			  								<input class="easyui-datebox" type="text" id="listingdate" data-options="onSelect:onSelect2"  name="listingdate" value="${entity.listingdate }" required="required"></input>       
+			  								<input class="easyui-datebox" type="text" id="listingdate" data-options="onSelect:onSelect2"  name="listingdate" value="" required="required"></input>       
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input class="easyui-datebox" type="text" id="lasttradate" data-options="onSelect:onSelect2"  name="lasttradate" value="${entity.lasttradate }" required="required"></input> 
+										<input class="easyui-datebox" type="text" id="lasttradate" data-options="onSelect:onSelect2"  name="lasttradate" value="" required="required"></input> 
 								      	</td>
         							</tr> 
 									<tr>
@@ -316,11 +316,11 @@ function onSelect2(d) {
             							</td>    
         								<td align="right" >发行开始日期：</td> 
             							<td> 
-			  								<input class="easyui-datebox" data-options="onSelect:onSelect"  type="text" id="starttime" name="starttime" value="${entity.starttime }" required="required"></input> 
+			  								<input class="easyui-datebox" data-options="onSelect:onSelect"  type="text" id="starttime" name="starttime" value="" required="required"></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input class="easyui-datebox" data-options="onSelect:onSelect" type="text" id="endtime" name="endtime" value="${entity.endtime }" required="required"></input> 
+											<input class="easyui-datebox" data-options="onSelect:onSelect" type="text" id="endtime" name="endtime" value="" required="required"></input> 
 										</td>
         							</tr>
 									<tr>

@@ -154,12 +154,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/addBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public void addBreed(VIpoABreed vipoabreed) throws IOException {
+	public String addBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("增加一个品种");
 		try {
 			vIpoABreedService.addBreed(vipoabreed);
+			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 
