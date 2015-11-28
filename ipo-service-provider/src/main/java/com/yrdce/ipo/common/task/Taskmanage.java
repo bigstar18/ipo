@@ -94,27 +94,33 @@ public class Taskmanage extends TimerTask {
 					distribution.start(o);
 				}
 			}
-
+			System.out.println("摇号开始");
 			// 摇号获取系统当前时间的前2天
 			String ballotNowtime = DateUtil.getTime(2);
 			// // 查询前一天交易订单
-			List<IpoCommodity> commod2 = commodity.selectByEnd(ballotNowtime);
-			if (commod2 != null && commod2.size() > 0) {
-
-				List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);
-				if(ipoCommList==null)
-					return;
+			System.out.println("等待摇号订单查询开始");
+			List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);
+			System.out.println("等待摇号订单查询成功");
+			if (ipoCommList != null && ipoCommList.size() > 0) {
 				selection = new Selection();
+				System.out.println("开始处理订单");
 				for(IpoCommodity ipoComm : ipoCommList){
 					String commId =	ipoComm.getCommodityid();//获取需要摇号的商品id
 					int commCounts = ipoComm.getCounts();//改商品的发行数量
+					System.out.println("开始获取申购总量");
 					int saleCounts = order.bycommodityid(commId);//根据发售id获取申购总量
+					System.out.println("成功获取申购总量");
 					//摇号开始
+					System.out.println(ipoComm.getCommodityid()+"订单摇号开始");
 					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);//尾号集合
+					System.out.println(ipoComm.getCommodityid()+"订单摇号结束");
 					//查找所有此商品的申购记录
+					System.out.println("申购记录查询开始");
 					List<IpoDistribution> ipoDidList =  ipoDistribution.selectByCommId(commId);
+					System.out.println("申购记录查询成功");
 					int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();//配号号码长度
 					//号码匹配
+					System.out.println("中签号匹配开始");
 					for(IpoDistribution ipoDis:ipoDidList){
 						int userGetNum=0;
 						for(String endNum:endNumList){
@@ -123,6 +129,8 @@ public class Taskmanage extends TimerTask {
 						ipoDis.setZcounts(userGetNum);//更新对象中匹配的个数
 						ipoDistribution.updateByPrimaryKey(ipoDis);//更新数据库记录
 					}
+					System.out.println("中签号匹配完成");
+					System.out.println("尾号记录开始");
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 					Date dt = sdf.parse(DateUtil.getTime(0));
 					//将尾号记录到数据库
@@ -136,6 +144,7 @@ public class Taskmanage extends TimerTask {
 						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
 						
 					}
+					System.out.println("尾号记录成功");
 				}
 
 			}
