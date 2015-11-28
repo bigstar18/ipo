@@ -50,7 +50,7 @@
   </update>
   
   <insert id="insert" useGeneratedKeys="true" keyProperty="sectionid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime" >
-    <selectKey resultType="INTEGER" order="BEFORE" keyProperty="sectionid">
+    <selectKey resultType="Short" order="BEFORE" keyProperty="sectionid">
 	SELECT SEQ_IPO_TRADETIME.NEXTVAL FROM dual
 	</selectKey>
 	insert into IPO_TRADETIME 

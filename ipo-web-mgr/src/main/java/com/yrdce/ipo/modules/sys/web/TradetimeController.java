@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.TradetimeService;
+import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
@@ -89,7 +90,10 @@ public class TradetimeController {
 	@ResponseBody
 	public int addTradetime(Tradetime tradetime) {
 		logger.info("进入添加交易节" + "tradetime:" + tradetime.toString());
+		logger.info("name:" + tradetime.getName() + " " + "starttime:" + tradetime.getStarttime() + " " + tradetime.getEndtime() + " " + "status:"
+				+ tradetime.getStatus());
 		try {
+
 			int i = tradetimeService.insert(tradetime);
 			return i;
 		} catch (Exception e) {
@@ -131,4 +135,31 @@ public class TradetimeController {
 		return "app/tradetime/add_tradeTime";
 	}
 
+	// 非交易日查询
+	@RequestMapping(value = "/getNottradeday", method = RequestMethod.GET)
+	@ResponseBody
+	public Nottradeday getNottradeday() {
+		try {
+			Nottradeday nottradeday = tradetimeService.select();
+
+			return nottradeday;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// 更新、修改
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@ResponseBody
+	public int update(Nottradeday notTradeDay) {
+		try {
+			int status;// 1：成功 2：失败
+			status = tradetimeService.insertByNottradeday(notTradeDay);
+			return status;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 2;
+		}
+	}
 }

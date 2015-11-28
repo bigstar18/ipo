@@ -27,8 +27,6 @@ document.onkeypress=showKeyPress;
 		<script src="${publicPath }/js/jquery-1.6.min.js" type="text/javascript"></script>
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
-		<%-- <script src="${mgrpath }/app/tradetime/js/submitform.js" type="text/javascript" charset="UTF-8"></script>
-		<script src="${mgrpath }/app/tradetime/js/WdatePicker.js" type="text/javascript" charset="UTF-8"></script> --%>
 		
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
@@ -41,20 +39,26 @@ document.onkeypress=showKeyPress;
 
 		//提交前事件
 		function beforeCall(form, options) {
+			alert(options);
 			return true;
-		}
+		} 
 
 		//提交后事件
 		function ajaxValidationCallback(status, form, json, options) {
 			//如果返回成功
 			if (status === true) {
 				var flag = false;
-
+				
 			    flag = save_onclick();
-			   	
-						frm.submit();
+			    aler
+			    alert(flag);
+			   	if(flag){
+			    	var vaild = affirm("您确定要操作吗？");
+					if(vaild){	
+						$("#frm").submit();
 						$("#add").attr("disabled",true);
-					
+					}
+			   	}
 			} else {
 				$("#sectionID").focus();
 			}
@@ -63,7 +67,8 @@ document.onkeypress=showKeyPress;
 		//修改按钮注册点击事件
 		$("#add").click(function(){
 			//验证信息
-			if(jQuery("#frm").validationEngine('validateform')){	
+			if(jQuery("#frm").validationEngine('validateform')){
+				return;
 			}
 		});
 		 });
@@ -221,8 +226,6 @@ document.onkeypress=showKeyPress;
 													    <input type="text" id="name" name="entity.name" 
 															class="validate[required] input_text datepicker"/>
 													</td>
-												</tr>
-												<tr>
 													<td align="left">
 														<span class="required">*</span>
 														当前交易节状态：
@@ -234,7 +237,6 @@ document.onkeypress=showKeyPress;
 										                      <option value="1" selected="selected">正常</option>
 														</select>
 													</td>
-													
 												</tr>
 												
 												<tr>
@@ -273,7 +275,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" <%-- action="<%=request.getContextPath()%>/TradetimeController/addTradetime" --%>  onclick="" >添加</button>
+							<button class="btn_sec" id="add" >添加</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>
