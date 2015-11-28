@@ -112,7 +112,7 @@
      <include refid="Base_Column_List" />
     from  IPO_COMMODITY_CONF  where COMMODITYID = #{commid} 
   </select> 
-   <select id="findAllCommIds"  resultType="String">
+   <select id="findAllCommIds"  resultType="String"   >
     select COMMODITYID  from  IPO_COMMODITY_CONF 
   </select> 
    <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
