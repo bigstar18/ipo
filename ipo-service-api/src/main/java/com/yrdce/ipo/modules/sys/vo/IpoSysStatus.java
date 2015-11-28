@@ -3,65 +3,97 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.util.Date;
 
 public class IpoSysStatus {
-    private Date tradedate;
 
-    private Short status;
+	private String statusStr;
 
-    private Short sectionid;
+	public String getStatusStr() {
+		return statusStr;
+	}
 
-    private String note;
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
 
-    private String recovertime;
+	private Date tradedate;
 
-    public IpoSysStatus(Date tradedate, Short status, Short sectionid, String note, String recovertime) {
-        this.tradedate = tradedate;
-        this.status = status;
-        this.sectionid = sectionid;
-        this.note = note;
-        this.recovertime = recovertime;
-    }
+	private Short status;
 
-    public IpoSysStatus() {
-        super();
-    }
+	private Short sectionid;
 
-    public Date getTradedate() {
-        return tradedate;
-    }
+	private String note;
 
-    public void setTradedate(Date tradedate) {
-        this.tradedate = tradedate;
-    }
+	private String recovertime;
 
-    public Short getStatus() {
-        return status;
-    }
+	private String sysTime;
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
+	public IpoSysStatus(Date tradedate, Short status, Short sectionid, String note, String recovertime) {
+		super();
+		this.tradedate = tradedate;
+		this.status = status;
+		this.sectionid = sectionid;
+		this.note = note;
+		this.recovertime = recovertime;
+	}
 
-    public Short getSectionid() {
-        return sectionid;
-    }
+	public IpoSysStatus(Date tradedate, Short status, Short sectionid, String note, String recovertime, String sysTime) {
+		super();
+		this.tradedate = tradedate;
+		this.status = status;
+		this.sectionid = sectionid;
+		this.note = note;
+		this.recovertime = recovertime;
+		this.sysTime = sysTime;
+	}
 
-    public void setSectionid(Short sectionid) {
-        this.sectionid = sectionid;
-    }
+	public String getSysTime() {
+		return sysTime;
+	}
 
-    public String getNote() {
-        return note;
-    }
+	public void setSysTime(String sysTime) {
+		this.sysTime = sysTime;
+	}
 
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
-    }
+	public IpoSysStatus() {
+		super();
+	}
 
-    public String getRecovertime() {
-        return recovertime;
-    }
+	public Date getTradedate() {
+		return tradedate;
+	}
 
-    public void setRecovertime(String recovertime) {
-        this.recovertime = recovertime == null ? null : recovertime.trim();
-    }
+	public void setTradedate(Date tradedate) {
+		this.tradedate = tradedate;
+	}
+
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
+	}
+
+	public Short getSectionid() {
+		return sectionid;
+	}
+
+	public void setSectionid(Short sectionid) {
+		this.sectionid = sectionid;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note == null ? null : note.trim();
+	}
+
+	public String getRecovertime() {
+		return recovertime;
+	}
+
+	public void setRecovertime(String recovertime) {
+		this.recovertime = recovertime == null ? null : recovertime.trim();
+	}
 }
