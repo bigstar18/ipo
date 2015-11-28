@@ -358,5 +358,9 @@
    <select id="selectByCount" resultType="java.lang.Integer">
    		select count(*) from IPO_DISTRIBUTION
    </select>
-
+	<select id="selectByCommId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		Select 
+		<include refid="Base_Column_List" /> 
+		from IPO_DISTRIBUTION where commodityid = #{commodityid,jdbcType=VARCHAR}
+	</select>
 </mapper>

@@ -1,0 +1,1663 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.TCommodityMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.TCommodity" >
+    <id column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SORTID" property="sortid" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
+    <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
+    <result column="BREEDID" property="breedid" jdbcType="DECIMAL" />
+    <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
+    <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
+    <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
+    <result column="FEEALGR" property="feealgr" jdbcType="DECIMAL" />
+    <result column="FEERATE_B" property="feerateB" jdbcType="DECIMAL" />
+    <result column="FEERATE_S" property="feerateS" jdbcType="DECIMAL" />
+    <result column="MARGINALGR" property="marginalgr" jdbcType="DECIMAL" />
+    <result column="MARGINRATE_B" property="marginrateB" jdbcType="DECIMAL" />
+    <result column="MARGINRATE_S" property="marginrateS" jdbcType="DECIMAL" />
+    <result column="MARKETDATE" property="marketdate" jdbcType="DATE" />
+    <result column="SETTLEDATE" property="settledate" jdbcType="DATE" />
+    <result column="SETTLEDATE1" property="settledate1" jdbcType="DATE" />
+    <result column="MARGINITEM1" property="marginitem1" jdbcType="DECIMAL" />
+    <result column="SETTLEDATE2" property="settledate2" jdbcType="DATE" />
+    <result column="MARGINITEM2" property="marginitem2" jdbcType="DECIMAL" />
+    <result column="SETTLEDATE3" property="settledate3" jdbcType="DATE" />
+    <result column="MARGINITEM3" property="marginitem3" jdbcType="DECIMAL" />
+    <result column="SETTLEDATE4" property="settledate4" jdbcType="DATE" />
+    <result column="MARGINITEM4" property="marginitem4" jdbcType="DECIMAL" />
+    <result column="LASTPRICE" property="lastprice" jdbcType="DECIMAL" />
+    <result column="MARGINITEM1_S" property="marginitem1S" jdbcType="DECIMAL" />
+    <result column="MARGINITEM2_S" property="marginitem2S" jdbcType="DECIMAL" />
+    <result column="MARGINITEM3_S" property="marginitem3S" jdbcType="DECIMAL" />
+    <result column="MARGINITEM4_S" property="marginitem4S" jdbcType="DECIMAL" />
+    <result column="MARGINASSURE_B" property="marginassureB" jdbcType="DECIMAL" />
+    <result column="MARGINASSURE_S" property="marginassureS" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE1" property="marginitemassure1" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE2" property="marginitemassure2" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE3" property="marginitemassure3" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE4" property="marginitemassure4" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE1_S" property="marginitemassure1S" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE2_S" property="marginitemassure2S" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE3_S" property="marginitemassure3S" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE4_S" property="marginitemassure4S" jdbcType="DECIMAL" />
+    <result column="TODAYCLOSEFEERATE_B" property="todayclosefeerateB" jdbcType="DECIMAL" />
+    <result column="TODAYCLOSEFEERATE_S" property="todayclosefeerateS" jdbcType="DECIMAL" />
+    <result column="HISTORYCLOSEFEERATE_B" property="historyclosefeerateB" jdbcType="DECIMAL" />
+    <result column="HISTORYCLOSEFEERATE_S" property="historyclosefeerateS" jdbcType="DECIMAL" />
+    <result column="LIMITCMDTYQTY" property="limitcmdtyqty" jdbcType="DECIMAL" />
+    <result column="SETTLEFEEALGR" property="settlefeealgr" jdbcType="DECIMAL" />
+    <result column="SETTLEFEERATE_B" property="settlefeerateB" jdbcType="DECIMAL" />
+    <result column="SETTLEFEERATE_S" property="settlefeerateS" jdbcType="DECIMAL" />
+    <result column="FORCECLOSEFEEALGR" property="forceclosefeealgr" jdbcType="DECIMAL" />
+    <result column="FORCECLOSEFEERATE_B" property="forceclosefeerateB" jdbcType="DECIMAL" />
+    <result column="FORCECLOSEFEERATE_S" property="forceclosefeerateS" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGINALGR_B" property="settlemarginalgrB" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGINRATE_B" property="settlemarginrateB" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGINALGR_S" property="settlemarginalgrS" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGINRATE_S" property="settlemarginrateS" jdbcType="DECIMAL" />
+    <result column="RESERVECOUNT" property="reservecount" jdbcType="DECIMAL" />
+    <result column="ADDEDTAX" property="addedtax" jdbcType="DECIMAL" />
+    <result column="MARGINPRICETYPE" property="marginpricetype" jdbcType="DECIMAL" />
+    <result column="LOWESTSETTLEFEE" property="lowestsettlefee" jdbcType="DECIMAL" />
+    <result column="FIRMCLEANQTY" property="firmcleanqty" jdbcType="DECIMAL" />
+    <result column="FIRMMAXHOLDQTY" property="firmmaxholdqty" jdbcType="DECIMAL" />
+    <result column="PAYOUTALGR" property="payoutalgr" jdbcType="DECIMAL" />
+    <result column="PAYOUTRATE" property="payoutrate" jdbcType="DECIMAL" />
+    <result column="ADDEDTAXFACTOR" property="addedtaxfactor" jdbcType="DECIMAL" />
+    <result column="SETTLEDATE5" property="settledate5" jdbcType="DATE" />
+    <result column="MARGINITEM5" property="marginitem5" jdbcType="DECIMAL" />
+    <result column="MARGINITEM5_S" property="marginitem5S" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE5" property="marginitemassure5" jdbcType="DECIMAL" />
+    <result column="MARGINITEMASSURE5_S" property="marginitemassure5S" jdbcType="DECIMAL" />
+    <result column="SETTLEPRICETYPE" property="settlepricetype" jdbcType="DECIMAL" />
+    <result column="BEFOREDAYS" property="beforedays" jdbcType="DECIMAL" />
+    <result column="SPECSETTLEPRICE" property="specsettleprice" jdbcType="DECIMAL" />
+    <result column="ORDERPRIVILEGE_B" property="orderprivilegeB" jdbcType="DECIMAL" />
+    <result column="ORDERPRIVILEGE_S" property="orderprivilegeS" jdbcType="DECIMAL" />
+    <result column="FIRMMAXHOLDQTYALGR" property="firmmaxholdqtyalgr" jdbcType="DECIMAL" />
+    <result column="STARTPERCENTQTY" property="startpercentqty" jdbcType="DECIMAL" />
+    <result column="MAXPERCENTLIMIT" property="maxpercentlimit" jdbcType="DECIMAL" />
+    <result column="ONEMAXHOLDQTY" property="onemaxholdqty" jdbcType="DECIMAL" />
+    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
+    <result column="DELAYRECOUPRATE" property="delayrecouprate" jdbcType="DECIMAL" />
+    <result column="SETTLEWAY" property="settleway" jdbcType="DECIMAL" />
+    <result column="DELAYFEEWAY" property="delayfeeway" jdbcType="DECIMAL" />
+    <result column="MAXFEERATE" property="maxfeerate" jdbcType="DECIMAL" />
+    <result column="MINSETTLEMOVEQTY" property="minsettlemoveqty" jdbcType="DECIMAL" />
+    <result column="STORERECOUPRATE" property="storerecouprate" jdbcType="DECIMAL" />
+    <result column="MINSETTLEQTY" property="minsettleqty" jdbcType="DECIMAL" />
+    <result column="DELAYRECOUPRATE_S" property="delayrecouprateS" jdbcType="DECIMAL" />
+    <result column="AHEADSETTLEPRICETYPE" property="aheadsettlepricetype" jdbcType="DECIMAL" />
+    <result column="DELAYSETTLEPRICETYPE" property="delaysettlepricetype" jdbcType="DECIMAL" />
+    <result column="SETTLEMARGINTYPE" property="settlemargintype" jdbcType="DECIMAL" />
+    <result column="BEFOREDAYS_M" property="beforedaysM" jdbcType="DECIMAL" />
+    <result column="SIDEHOLDLIMITQTY" property="sideholdlimitqty" jdbcType="DECIMAL" />
+    <result column="HOLDDAYSLIMIT" property="holddayslimit" jdbcType="DECIMAL" />
+    <result column="MAXHOLDPOSITIONDAY" property="maxholdpositionday" jdbcType="DECIMAL" />
+    <result column="TAXINCLUSIVE" property="taxinclusive" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COMMODITYID, NAME, SORTID, STATUS, CONTRACTFACTOR, MINPRICEMOVE, BREEDID, SPREADALGR, 
+    SPREADUPLMT, SPREADDOWNLMT, FEEALGR, FEERATE_B, FEERATE_S, MARGINALGR, MARGINRATE_B, 
+    MARGINRATE_S, MARKETDATE, SETTLEDATE, SETTLEDATE1, MARGINITEM1, SETTLEDATE2, MARGINITEM2, 
+    SETTLEDATE3, MARGINITEM3, SETTLEDATE4, MARGINITEM4, LASTPRICE, MARGINITEM1_S, MARGINITEM2_S, 
+    MARGINITEM3_S, MARGINITEM4_S, MARGINASSURE_B, MARGINASSURE_S, MARGINITEMASSURE1, 
+    MARGINITEMASSURE2, MARGINITEMASSURE3, MARGINITEMASSURE4, MARGINITEMASSURE1_S, MARGINITEMASSURE2_S, 
+    MARGINITEMASSURE3_S, MARGINITEMASSURE4_S, TODAYCLOSEFEERATE_B, TODAYCLOSEFEERATE_S, 
+    HISTORYCLOSEFEERATE_B, HISTORYCLOSEFEERATE_S, LIMITCMDTYQTY, SETTLEFEEALGR, SETTLEFEERATE_B, 
+    SETTLEFEERATE_S, FORCECLOSEFEEALGR, FORCECLOSEFEERATE_B, FORCECLOSEFEERATE_S, SETTLEMARGINALGR_B, 
+    SETTLEMARGINRATE_B, SETTLEMARGINALGR_S, SETTLEMARGINRATE_S, RESERVECOUNT, ADDEDTAX, 
+    MARGINPRICETYPE, LOWESTSETTLEFEE, FIRMCLEANQTY, FIRMMAXHOLDQTY, PAYOUTALGR, PAYOUTRATE, 
+    ADDEDTAXFACTOR, SETTLEDATE5, MARGINITEM5, MARGINITEM5_S, MARGINITEMASSURE5, MARGINITEMASSURE5_S, 
+    SETTLEPRICETYPE, BEFOREDAYS, SPECSETTLEPRICE, ORDERPRIVILEGE_B, ORDERPRIVILEGE_S, 
+    FIRMMAXHOLDQTYALGR, STARTPERCENTQTY, MAXPERCENTLIMIT, ONEMAXHOLDQTY, MINQUANTITYMOVE, 
+    DELAYRECOUPRATE, SETTLEWAY, DELAYFEEWAY, MAXFEERATE, MINSETTLEMOVEQTY, STORERECOUPRATE, 
+    MINSETTLEQTY, DELAYRECOUPRATE_S, AHEADSETTLEPRICETYPE, DELAYSETTLEPRICETYPE, SETTLEMARGINTYPE, 
+    BEFOREDAYS_M, SIDEHOLDLIMITQTY, HOLDDAYSLIMIT, MAXHOLDPOSITIONDAY, TAXINCLUSIVE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_COMMODITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COMMODITY
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_COMMODITY
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodityExample" >
+    delete from T_COMMODITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodity" >
+    insert into T_COMMODITY (COMMODITYID, NAME, SORTID, 
+      STATUS, CONTRACTFACTOR, MINPRICEMOVE, 
+      BREEDID, SPREADALGR, SPREADUPLMT, 
+      SPREADDOWNLMT, FEEALGR, FEERATE_B, 
+      FEERATE_S, MARGINALGR, MARGINRATE_B, 
+      MARGINRATE_S, MARKETDATE, SETTLEDATE, 
+      SETTLEDATE1, MARGINITEM1, SETTLEDATE2, 
+      MARGINITEM2, SETTLEDATE3, MARGINITEM3, 
+      SETTLEDATE4, MARGINITEM4, LASTPRICE, 
+      MARGINITEM1_S, MARGINITEM2_S, MARGINITEM3_S, 
+      MARGINITEM4_S, MARGINASSURE_B, MARGINASSURE_S, 
+      MARGINITEMASSURE1, MARGINITEMASSURE2, MARGINITEMASSURE3, 
+      MARGINITEMASSURE4, MARGINITEMASSURE1_S, 
+      MARGINITEMASSURE2_S, MARGINITEMASSURE3_S, 
+      MARGINITEMASSURE4_S, TODAYCLOSEFEERATE_B, 
+      TODAYCLOSEFEERATE_S, HISTORYCLOSEFEERATE_B, 
+      HISTORYCLOSEFEERATE_S, LIMITCMDTYQTY, SETTLEFEEALGR, 
+      SETTLEFEERATE_B, SETTLEFEERATE_S, FORCECLOSEFEEALGR, 
+      FORCECLOSEFEERATE_B, FORCECLOSEFEERATE_S, 
+      SETTLEMARGINALGR_B, SETTLEMARGINRATE_B, SETTLEMARGINALGR_S, 
+      SETTLEMARGINRATE_S, RESERVECOUNT, ADDEDTAX, 
+      MARGINPRICETYPE, LOWESTSETTLEFEE, FIRMCLEANQTY, 
+      FIRMMAXHOLDQTY, PAYOUTALGR, PAYOUTRATE, 
+      ADDEDTAXFACTOR, SETTLEDATE5, MARGINITEM5, 
+      MARGINITEM5_S, MARGINITEMASSURE5, MARGINITEMASSURE5_S, 
+      SETTLEPRICETYPE, BEFOREDAYS, SPECSETTLEPRICE, 
+      ORDERPRIVILEGE_B, ORDERPRIVILEGE_S, FIRMMAXHOLDQTYALGR, 
+      STARTPERCENTQTY, MAXPERCENTLIMIT, ONEMAXHOLDQTY, 
+      MINQUANTITYMOVE, DELAYRECOUPRATE, SETTLEWAY, 
+      DELAYFEEWAY, MAXFEERATE, MINSETTLEMOVEQTY, 
+      STORERECOUPRATE, MINSETTLEQTY, DELAYRECOUPRATE_S, 
+      AHEADSETTLEPRICETYPE, DELAYSETTLEPRICETYPE, 
+      SETTLEMARGINTYPE, BEFOREDAYS_M, SIDEHOLDLIMITQTY, 
+      HOLDDAYSLIMIT, MAXHOLDPOSITIONDAY, TAXINCLUSIVE
+      )
+    values (#{commodityid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sortid,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{contractfactor,jdbcType=DECIMAL}, #{minpricemove,jdbcType=DECIMAL}, 
+      #{breedid,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, #{spreaduplmt,jdbcType=DECIMAL}, 
+      #{spreaddownlmt,jdbcType=DECIMAL}, #{feealgr,jdbcType=DECIMAL}, #{feerateB,jdbcType=DECIMAL}, 
+      #{feerateS,jdbcType=DECIMAL}, #{marginalgr,jdbcType=DECIMAL}, #{marginrateB,jdbcType=DECIMAL}, 
+      #{marginrateS,jdbcType=DECIMAL}, #{marketdate,jdbcType=DATE}, #{settledate,jdbcType=DATE}, 
+      #{settledate1,jdbcType=DATE}, #{marginitem1,jdbcType=DECIMAL}, #{settledate2,jdbcType=DATE}, 
+      #{marginitem2,jdbcType=DECIMAL}, #{settledate3,jdbcType=DATE}, #{marginitem3,jdbcType=DECIMAL}, 
+      #{settledate4,jdbcType=DATE}, #{marginitem4,jdbcType=DECIMAL}, #{lastprice,jdbcType=DECIMAL}, 
+      #{marginitem1S,jdbcType=DECIMAL}, #{marginitem2S,jdbcType=DECIMAL}, #{marginitem3S,jdbcType=DECIMAL}, 
+      #{marginitem4S,jdbcType=DECIMAL}, #{marginassureB,jdbcType=DECIMAL}, #{marginassureS,jdbcType=DECIMAL}, 
+      #{marginitemassure1,jdbcType=DECIMAL}, #{marginitemassure2,jdbcType=DECIMAL}, #{marginitemassure3,jdbcType=DECIMAL}, 
+      #{marginitemassure4,jdbcType=DECIMAL}, #{marginitemassure1S,jdbcType=DECIMAL}, 
+      #{marginitemassure2S,jdbcType=DECIMAL}, #{marginitemassure3S,jdbcType=DECIMAL}, 
+      #{marginitemassure4S,jdbcType=DECIMAL}, #{todayclosefeerateB,jdbcType=DECIMAL}, 
+      #{todayclosefeerateS,jdbcType=DECIMAL}, #{historyclosefeerateB,jdbcType=DECIMAL}, 
+      #{historyclosefeerateS,jdbcType=DECIMAL}, #{limitcmdtyqty,jdbcType=DECIMAL}, #{settlefeealgr,jdbcType=DECIMAL}, 
+      #{settlefeerateB,jdbcType=DECIMAL}, #{settlefeerateS,jdbcType=DECIMAL}, #{forceclosefeealgr,jdbcType=DECIMAL}, 
+      #{forceclosefeerateB,jdbcType=DECIMAL}, #{forceclosefeerateS,jdbcType=DECIMAL}, 
+      #{settlemarginalgrB,jdbcType=DECIMAL}, #{settlemarginrateB,jdbcType=DECIMAL}, #{settlemarginalgrS,jdbcType=DECIMAL}, 
+      #{settlemarginrateS,jdbcType=DECIMAL}, #{reservecount,jdbcType=DECIMAL}, #{addedtax,jdbcType=DECIMAL}, 
+      #{marginpricetype,jdbcType=DECIMAL}, #{lowestsettlefee,jdbcType=DECIMAL}, #{firmcleanqty,jdbcType=DECIMAL}, 
+      #{firmmaxholdqty,jdbcType=DECIMAL}, #{payoutalgr,jdbcType=DECIMAL}, #{payoutrate,jdbcType=DECIMAL}, 
+      #{addedtaxfactor,jdbcType=DECIMAL}, #{settledate5,jdbcType=DATE}, #{marginitem5,jdbcType=DECIMAL}, 
+      #{marginitem5S,jdbcType=DECIMAL}, #{marginitemassure5,jdbcType=DECIMAL}, #{marginitemassure5S,jdbcType=DECIMAL}, 
+      #{settlepricetype,jdbcType=DECIMAL}, #{beforedays,jdbcType=DECIMAL}, #{specsettleprice,jdbcType=DECIMAL}, 
+      #{orderprivilegeB,jdbcType=DECIMAL}, #{orderprivilegeS,jdbcType=DECIMAL}, #{firmmaxholdqtyalgr,jdbcType=DECIMAL}, 
+      #{startpercentqty,jdbcType=DECIMAL}, #{maxpercentlimit,jdbcType=DECIMAL}, #{onemaxholdqty,jdbcType=DECIMAL}, 
+      #{minquantitymove,jdbcType=DECIMAL}, #{delayrecouprate,jdbcType=DECIMAL}, #{settleway,jdbcType=DECIMAL}, 
+      #{delayfeeway,jdbcType=DECIMAL}, #{maxfeerate,jdbcType=DECIMAL}, #{minsettlemoveqty,jdbcType=DECIMAL}, 
+      #{storerecouprate,jdbcType=DECIMAL}, #{minsettleqty,jdbcType=DECIMAL}, #{delayrecouprateS,jdbcType=DECIMAL}, 
+      #{aheadsettlepricetype,jdbcType=DECIMAL}, #{delaysettlepricetype,jdbcType=DECIMAL}, 
+      #{settlemargintype,jdbcType=DECIMAL}, #{beforedaysM,jdbcType=DECIMAL}, #{sideholdlimitqty,jdbcType=DECIMAL}, 
+      #{holddayslimit,jdbcType=DECIMAL}, #{maxholdpositionday,jdbcType=DECIMAL}, #{taxinclusive,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodity" >
+    insert into T_COMMODITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commodityid != null" >
+        COMMODITYID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="sortid != null" >
+        SORTID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="contractfactor != null" >
+        CONTRACTFACTOR,
+      </if>
+      <if test="minpricemove != null" >
+        MINPRICEMOVE,
+      </if>
+      <if test="breedid != null" >
+        BREEDID,
+      </if>
+      <if test="spreadalgr != null" >
+        SPREADALGR,
+      </if>
+      <if test="spreaduplmt != null" >
+        SPREADUPLMT,
+      </if>
+      <if test="spreaddownlmt != null" >
+        SPREADDOWNLMT,
+      </if>
+      <if test="feealgr != null" >
+        FEEALGR,
+      </if>
+      <if test="feerateB != null" >
+        FEERATE_B,
+      </if>
+      <if test="feerateS != null" >
+        FEERATE_S,
+      </if>
+      <if test="marginalgr != null" >
+        MARGINALGR,
+      </if>
+      <if test="marginrateB != null" >
+        MARGINRATE_B,
+      </if>
+      <if test="marginrateS != null" >
+        MARGINRATE_S,
+      </if>
+      <if test="marketdate != null" >
+        MARKETDATE,
+      </if>
+      <if test="settledate != null" >
+        SETTLEDATE,
+      </if>
+      <if test="settledate1 != null" >
+        SETTLEDATE1,
+      </if>
+      <if test="marginitem1 != null" >
+        MARGINITEM1,
+      </if>
+      <if test="settledate2 != null" >
+        SETTLEDATE2,
+      </if>
+      <if test="marginitem2 != null" >
+        MARGINITEM2,
+      </if>
+      <if test="settledate3 != null" >
+        SETTLEDATE3,
+      </if>
+      <if test="marginitem3 != null" >
+        MARGINITEM3,
+      </if>
+      <if test="settledate4 != null" >
+        SETTLEDATE4,
+      </if>
+      <if test="marginitem4 != null" >
+        MARGINITEM4,
+      </if>
+      <if test="lastprice != null" >
+        LASTPRICE,
+      </if>
+      <if test="marginitem1S != null" >
+        MARGINITEM1_S,
+      </if>
+      <if test="marginitem2S != null" >
+        MARGINITEM2_S,
+      </if>
+      <if test="marginitem3S != null" >
+        MARGINITEM3_S,
+      </if>
+      <if test="marginitem4S != null" >
+        MARGINITEM4_S,
+      </if>
+      <if test="marginassureB != null" >
+        MARGINASSURE_B,
+      </if>
+      <if test="marginassureS != null" >
+        MARGINASSURE_S,
+      </if>
+      <if test="marginitemassure1 != null" >
+        MARGINITEMASSURE1,
+      </if>
+      <if test="marginitemassure2 != null" >
+        MARGINITEMASSURE2,
+      </if>
+      <if test="marginitemassure3 != null" >
+        MARGINITEMASSURE3,
+      </if>
+      <if test="marginitemassure4 != null" >
+        MARGINITEMASSURE4,
+      </if>
+      <if test="marginitemassure1S != null" >
+        MARGINITEMASSURE1_S,
+      </if>
+      <if test="marginitemassure2S != null" >
+        MARGINITEMASSURE2_S,
+      </if>
+      <if test="marginitemassure3S != null" >
+        MARGINITEMASSURE3_S,
+      </if>
+      <if test="marginitemassure4S != null" >
+        MARGINITEMASSURE4_S,
+      </if>
+      <if test="todayclosefeerateB != null" >
+        TODAYCLOSEFEERATE_B,
+      </if>
+      <if test="todayclosefeerateS != null" >
+        TODAYCLOSEFEERATE_S,
+      </if>
+      <if test="historyclosefeerateB != null" >
+        HISTORYCLOSEFEERATE_B,
+      </if>
+      <if test="historyclosefeerateS != null" >
+        HISTORYCLOSEFEERATE_S,
+      </if>
+      <if test="limitcmdtyqty != null" >
+        LIMITCMDTYQTY,
+      </if>
+      <if test="settlefeealgr != null" >
+        SETTLEFEEALGR,
+      </if>
+      <if test="settlefeerateB != null" >
+        SETTLEFEERATE_B,
+      </if>
+      <if test="settlefeerateS != null" >
+        SETTLEFEERATE_S,
+      </if>
+      <if test="forceclosefeealgr != null" >
+        FORCECLOSEFEEALGR,
+      </if>
+      <if test="forceclosefeerateB != null" >
+        FORCECLOSEFEERATE_B,
+      </if>
+      <if test="forceclosefeerateS != null" >
+        FORCECLOSEFEERATE_S,
+      </if>
+      <if test="settlemarginalgrB != null" >
+        SETTLEMARGINALGR_B,
+      </if>
+      <if test="settlemarginrateB != null" >
+        SETTLEMARGINRATE_B,
+      </if>
+      <if test="settlemarginalgrS != null" >
+        SETTLEMARGINALGR_S,
+      </if>
+      <if test="settlemarginrateS != null" >
+        SETTLEMARGINRATE_S,
+      </if>
+      <if test="reservecount != null" >
+        RESERVECOUNT,
+      </if>
+      <if test="addedtax != null" >
+        ADDEDTAX,
+      </if>
+      <if test="marginpricetype != null" >
+        MARGINPRICETYPE,
+      </if>
+      <if test="lowestsettlefee != null" >
+        LOWESTSETTLEFEE,
+      </if>
+      <if test="firmcleanqty != null" >
+        FIRMCLEANQTY,
+      </if>
+      <if test="firmmaxholdqty != null" >
+        FIRMMAXHOLDQTY,
+      </if>
+      <if test="payoutalgr != null" >
+        PAYOUTALGR,
+      </if>
+      <if test="payoutrate != null" >
+        PAYOUTRATE,
+      </if>
+      <if test="addedtaxfactor != null" >
+        ADDEDTAXFACTOR,
+      </if>
+      <if test="settledate5 != null" >
+        SETTLEDATE5,
+      </if>
+      <if test="marginitem5 != null" >
+        MARGINITEM5,
+      </if>
+      <if test="marginitem5S != null" >
+        MARGINITEM5_S,
+      </if>
+      <if test="marginitemassure5 != null" >
+        MARGINITEMASSURE5,
+      </if>
+      <if test="marginitemassure5S != null" >
+        MARGINITEMASSURE5_S,
+      </if>
+      <if test="settlepricetype != null" >
+        SETTLEPRICETYPE,
+      </if>
+      <if test="beforedays != null" >
+        BEFOREDAYS,
+      </if>
+      <if test="specsettleprice != null" >
+        SPECSETTLEPRICE,
+      </if>
+      <if test="orderprivilegeB != null" >
+        ORDERPRIVILEGE_B,
+      </if>
+      <if test="orderprivilegeS != null" >
+        ORDERPRIVILEGE_S,
+      </if>
+      <if test="firmmaxholdqtyalgr != null" >
+        FIRMMAXHOLDQTYALGR,
+      </if>
+      <if test="startpercentqty != null" >
+        STARTPERCENTQTY,
+      </if>
+      <if test="maxpercentlimit != null" >
+        MAXPERCENTLIMIT,
+      </if>
+      <if test="onemaxholdqty != null" >
+        ONEMAXHOLDQTY,
+      </if>
+      <if test="minquantitymove != null" >
+        MINQUANTITYMOVE,
+      </if>
+      <if test="delayrecouprate != null" >
+        DELAYRECOUPRATE,
+      </if>
+      <if test="settleway != null" >
+        SETTLEWAY,
+      </if>
+      <if test="delayfeeway != null" >
+        DELAYFEEWAY,
+      </if>
+      <if test="maxfeerate != null" >
+        MAXFEERATE,
+      </if>
+      <if test="minsettlemoveqty != null" >
+        MINSETTLEMOVEQTY,
+      </if>
+      <if test="storerecouprate != null" >
+        STORERECOUPRATE,
+      </if>
+      <if test="minsettleqty != null" >
+        MINSETTLEQTY,
+      </if>
+      <if test="delayrecouprateS != null" >
+        DELAYRECOUPRATE_S,
+      </if>
+      <if test="aheadsettlepricetype != null" >
+        AHEADSETTLEPRICETYPE,
+      </if>
+      <if test="delaysettlepricetype != null" >
+        DELAYSETTLEPRICETYPE,
+      </if>
+      <if test="settlemargintype != null" >
+        SETTLEMARGINTYPE,
+      </if>
+      <if test="beforedaysM != null" >
+        BEFOREDAYS_M,
+      </if>
+      <if test="sideholdlimitqty != null" >
+        SIDEHOLDLIMITQTY,
+      </if>
+      <if test="holddayslimit != null" >
+        HOLDDAYSLIMIT,
+      </if>
+      <if test="maxholdpositionday != null" >
+        MAXHOLDPOSITIONDAY,
+      </if>
+      <if test="taxinclusive != null" >
+        TAXINCLUSIVE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commodityid != null" >
+        #{commodityid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sortid != null" >
+        #{sortid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="contractfactor != null" >
+        #{contractfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="minpricemove != null" >
+        #{minpricemove,jdbcType=DECIMAL},
+      </if>
+      <if test="breedid != null" >
+        #{breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="spreadalgr != null" >
+        #{spreadalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaduplmt != null" >
+        #{spreaduplmt,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaddownlmt != null" >
+        #{spreaddownlmt,jdbcType=DECIMAL},
+      </if>
+      <if test="feealgr != null" >
+        #{feealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="feerateB != null" >
+        #{feerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="feerateS != null" >
+        #{feerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="marginalgr != null" >
+        #{marginalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="marginrateB != null" >
+        #{marginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="marginrateS != null" >
+        #{marginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="marketdate != null" >
+        #{marketdate,jdbcType=DATE},
+      </if>
+      <if test="settledate != null" >
+        #{settledate,jdbcType=DATE},
+      </if>
+      <if test="settledate1 != null" >
+        #{settledate1,jdbcType=DATE},
+      </if>
+      <if test="marginitem1 != null" >
+        #{marginitem1,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate2 != null" >
+        #{settledate2,jdbcType=DATE},
+      </if>
+      <if test="marginitem2 != null" >
+        #{marginitem2,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate3 != null" >
+        #{settledate3,jdbcType=DATE},
+      </if>
+      <if test="marginitem3 != null" >
+        #{marginitem3,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate4 != null" >
+        #{settledate4,jdbcType=DATE},
+      </if>
+      <if test="marginitem4 != null" >
+        #{marginitem4,jdbcType=DECIMAL},
+      </if>
+      <if test="lastprice != null" >
+        #{lastprice,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem1S != null" >
+        #{marginitem1S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem2S != null" >
+        #{marginitem2S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem3S != null" >
+        #{marginitem3S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem4S != null" >
+        #{marginitem4S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginassureB != null" >
+        #{marginassureB,jdbcType=DECIMAL},
+      </if>
+      <if test="marginassureS != null" >
+        #{marginassureS,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure1 != null" >
+        #{marginitemassure1,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure2 != null" >
+        #{marginitemassure2,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure3 != null" >
+        #{marginitemassure3,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure4 != null" >
+        #{marginitemassure4,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure1S != null" >
+        #{marginitemassure1S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure2S != null" >
+        #{marginitemassure2S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure3S != null" >
+        #{marginitemassure3S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure4S != null" >
+        #{marginitemassure4S,jdbcType=DECIMAL},
+      </if>
+      <if test="todayclosefeerateB != null" >
+        #{todayclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="todayclosefeerateS != null" >
+        #{todayclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="historyclosefeerateB != null" >
+        #{historyclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="historyclosefeerateS != null" >
+        #{historyclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="limitcmdtyqty != null" >
+        #{limitcmdtyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeealgr != null" >
+        #{settlefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeerateB != null" >
+        #{settlefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeerateS != null" >
+        #{settlefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeealgr != null" >
+        #{forceclosefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeerateB != null" >
+        #{forceclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeerateS != null" >
+        #{forceclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginalgrB != null" >
+        #{settlemarginalgrB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginrateB != null" >
+        #{settlemarginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginalgrS != null" >
+        #{settlemarginalgrS,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginrateS != null" >
+        #{settlemarginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="reservecount != null" >
+        #{reservecount,jdbcType=DECIMAL},
+      </if>
+      <if test="addedtax != null" >
+        #{addedtax,jdbcType=DECIMAL},
+      </if>
+      <if test="marginpricetype != null" >
+        #{marginpricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="lowestsettlefee != null" >
+        #{lowestsettlefee,jdbcType=DECIMAL},
+      </if>
+      <if test="firmcleanqty != null" >
+        #{firmcleanqty,jdbcType=DECIMAL},
+      </if>
+      <if test="firmmaxholdqty != null" >
+        #{firmmaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="payoutalgr != null" >
+        #{payoutalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="payoutrate != null" >
+        #{payoutrate,jdbcType=DECIMAL},
+      </if>
+      <if test="addedtaxfactor != null" >
+        #{addedtaxfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate5 != null" >
+        #{settledate5,jdbcType=DATE},
+      </if>
+      <if test="marginitem5 != null" >
+        #{marginitem5,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem5S != null" >
+        #{marginitem5S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure5 != null" >
+        #{marginitemassure5,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure5S != null" >
+        #{marginitemassure5S,jdbcType=DECIMAL},
+      </if>
+      <if test="settlepricetype != null" >
+        #{settlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="beforedays != null" >
+        #{beforedays,jdbcType=DECIMAL},
+      </if>
+      <if test="specsettleprice != null" >
+        #{specsettleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprivilegeB != null" >
+        #{orderprivilegeB,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprivilegeS != null" >
+        #{orderprivilegeS,jdbcType=DECIMAL},
+      </if>
+      <if test="firmmaxholdqtyalgr != null" >
+        #{firmmaxholdqtyalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="startpercentqty != null" >
+        #{startpercentqty,jdbcType=DECIMAL},
+      </if>
+      <if test="maxpercentlimit != null" >
+        #{maxpercentlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="onemaxholdqty != null" >
+        #{onemaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="minquantitymove != null" >
+        #{minquantitymove,jdbcType=DECIMAL},
+      </if>
+      <if test="delayrecouprate != null" >
+        #{delayrecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="settleway != null" >
+        #{settleway,jdbcType=DECIMAL},
+      </if>
+      <if test="delayfeeway != null" >
+        #{delayfeeway,jdbcType=DECIMAL},
+      </if>
+      <if test="maxfeerate != null" >
+        #{maxfeerate,jdbcType=DECIMAL},
+      </if>
+      <if test="minsettlemoveqty != null" >
+        #{minsettlemoveqty,jdbcType=DECIMAL},
+      </if>
+      <if test="storerecouprate != null" >
+        #{storerecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="minsettleqty != null" >
+        #{minsettleqty,jdbcType=DECIMAL},
+      </if>
+      <if test="delayrecouprateS != null" >
+        #{delayrecouprateS,jdbcType=DECIMAL},
+      </if>
+      <if test="aheadsettlepricetype != null" >
+        #{aheadsettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="delaysettlepricetype != null" >
+        #{delaysettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemargintype != null" >
+        #{settlemargintype,jdbcType=DECIMAL},
+      </if>
+      <if test="beforedaysM != null" >
+        #{beforedaysM,jdbcType=DECIMAL},
+      </if>
+      <if test="sideholdlimitqty != null" >
+        #{sideholdlimitqty,jdbcType=DECIMAL},
+      </if>
+      <if test="holddayslimit != null" >
+        #{holddayslimit,jdbcType=DECIMAL},
+      </if>
+      <if test="maxholdpositionday != null" >
+        #{maxholdpositionday,jdbcType=DECIMAL},
+      </if>
+      <if test="taxinclusive != null" >
+        #{taxinclusive,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodityExample" resultType="java.lang.Integer" >
+    select count(*) from T_COMMODITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_COMMODITY
+    <set >
+      <if test="record.commodityid != null" >
+        COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortid != null" >
+        SORTID = #{record.sortid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractfactor != null" >
+        CONTRACTFACTOR = #{record.contractfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minpricemove != null" >
+        MINPRICEMOVE = #{record.minpricemove,jdbcType=DECIMAL},
+      </if>
+      <if test="record.breedid != null" >
+        BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreadalgr != null" >
+        SPREADALGR = #{record.spreadalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreaduplmt != null" >
+        SPREADUPLMT = #{record.spreaduplmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spreaddownlmt != null" >
+        SPREADDOWNLMT = #{record.spreaddownlmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feealgr != null" >
+        FEEALGR = #{record.feealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feerateB != null" >
+        FEERATE_B = #{record.feerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feerateS != null" >
+        FEERATE_S = #{record.feerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginalgr != null" >
+        MARGINALGR = #{record.marginalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginrateB != null" >
+        MARGINRATE_B = #{record.marginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginrateS != null" >
+        MARGINRATE_S = #{record.marginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marketdate != null" >
+        MARKETDATE = #{record.marketdate,jdbcType=DATE},
+      </if>
+      <if test="record.settledate != null" >
+        SETTLEDATE = #{record.settledate,jdbcType=DATE},
+      </if>
+      <if test="record.settledate1 != null" >
+        SETTLEDATE1 = #{record.settledate1,jdbcType=DATE},
+      </if>
+      <if test="record.marginitem1 != null" >
+        MARGINITEM1 = #{record.marginitem1,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledate2 != null" >
+        SETTLEDATE2 = #{record.settledate2,jdbcType=DATE},
+      </if>
+      <if test="record.marginitem2 != null" >
+        MARGINITEM2 = #{record.marginitem2,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledate3 != null" >
+        SETTLEDATE3 = #{record.settledate3,jdbcType=DATE},
+      </if>
+      <if test="record.marginitem3 != null" >
+        MARGINITEM3 = #{record.marginitem3,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledate4 != null" >
+        SETTLEDATE4 = #{record.settledate4,jdbcType=DATE},
+      </if>
+      <if test="record.marginitem4 != null" >
+        MARGINITEM4 = #{record.marginitem4,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastprice != null" >
+        LASTPRICE = #{record.lastprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitem1S != null" >
+        MARGINITEM1_S = #{record.marginitem1S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitem2S != null" >
+        MARGINITEM2_S = #{record.marginitem2S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitem3S != null" >
+        MARGINITEM3_S = #{record.marginitem3S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitem4S != null" >
+        MARGINITEM4_S = #{record.marginitem4S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginassureB != null" >
+        MARGINASSURE_B = #{record.marginassureB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginassureS != null" >
+        MARGINASSURE_S = #{record.marginassureS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure1 != null" >
+        MARGINITEMASSURE1 = #{record.marginitemassure1,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure2 != null" >
+        MARGINITEMASSURE2 = #{record.marginitemassure2,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure3 != null" >
+        MARGINITEMASSURE3 = #{record.marginitemassure3,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure4 != null" >
+        MARGINITEMASSURE4 = #{record.marginitemassure4,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure1S != null" >
+        MARGINITEMASSURE1_S = #{record.marginitemassure1S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure2S != null" >
+        MARGINITEMASSURE2_S = #{record.marginitemassure2S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure3S != null" >
+        MARGINITEMASSURE3_S = #{record.marginitemassure3S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure4S != null" >
+        MARGINITEMASSURE4_S = #{record.marginitemassure4S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.todayclosefeerateB != null" >
+        TODAYCLOSEFEERATE_B = #{record.todayclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.todayclosefeerateS != null" >
+        TODAYCLOSEFEERATE_S = #{record.todayclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.historyclosefeerateB != null" >
+        HISTORYCLOSEFEERATE_B = #{record.historyclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.historyclosefeerateS != null" >
+        HISTORYCLOSEFEERATE_S = #{record.historyclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.limitcmdtyqty != null" >
+        LIMITCMDTYQTY = #{record.limitcmdtyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlefeealgr != null" >
+        SETTLEFEEALGR = #{record.settlefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlefeerateB != null" >
+        SETTLEFEERATE_B = #{record.settlefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlefeerateS != null" >
+        SETTLEFEERATE_S = #{record.settlefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.forceclosefeealgr != null" >
+        FORCECLOSEFEEALGR = #{record.forceclosefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.forceclosefeerateB != null" >
+        FORCECLOSEFEERATE_B = #{record.forceclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.forceclosefeerateS != null" >
+        FORCECLOSEFEERATE_S = #{record.forceclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemarginalgrB != null" >
+        SETTLEMARGINALGR_B = #{record.settlemarginalgrB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemarginrateB != null" >
+        SETTLEMARGINRATE_B = #{record.settlemarginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemarginalgrS != null" >
+        SETTLEMARGINALGR_S = #{record.settlemarginalgrS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemarginrateS != null" >
+        SETTLEMARGINRATE_S = #{record.settlemarginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reservecount != null" >
+        RESERVECOUNT = #{record.reservecount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addedtax != null" >
+        ADDEDTAX = #{record.addedtax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginpricetype != null" >
+        MARGINPRICETYPE = #{record.marginpricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lowestsettlefee != null" >
+        LOWESTSETTLEFEE = #{record.lowestsettlefee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firmcleanqty != null" >
+        FIRMCLEANQTY = #{record.firmcleanqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firmmaxholdqty != null" >
+        FIRMMAXHOLDQTY = #{record.firmmaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payoutalgr != null" >
+        PAYOUTALGR = #{record.payoutalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payoutrate != null" >
+        PAYOUTRATE = #{record.payoutrate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addedtaxfactor != null" >
+        ADDEDTAXFACTOR = #{record.addedtaxfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledate5 != null" >
+        SETTLEDATE5 = #{record.settledate5,jdbcType=DATE},
+      </if>
+      <if test="record.marginitem5 != null" >
+        MARGINITEM5 = #{record.marginitem5,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitem5S != null" >
+        MARGINITEM5_S = #{record.marginitem5S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure5 != null" >
+        MARGINITEMASSURE5 = #{record.marginitemassure5,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marginitemassure5S != null" >
+        MARGINITEMASSURE5_S = #{record.marginitemassure5S,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlepricetype != null" >
+        SETTLEPRICETYPE = #{record.settlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.beforedays != null" >
+        BEFOREDAYS = #{record.beforedays,jdbcType=DECIMAL},
+      </if>
+      <if test="record.specsettleprice != null" >
+        SPECSETTLEPRICE = #{record.specsettleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderprivilegeB != null" >
+        ORDERPRIVILEGE_B = #{record.orderprivilegeB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderprivilegeS != null" >
+        ORDERPRIVILEGE_S = #{record.orderprivilegeS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firmmaxholdqtyalgr != null" >
+        FIRMMAXHOLDQTYALGR = #{record.firmmaxholdqtyalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.startpercentqty != null" >
+        STARTPERCENTQTY = #{record.startpercentqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxpercentlimit != null" >
+        MAXPERCENTLIMIT = #{record.maxpercentlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onemaxholdqty != null" >
+        ONEMAXHOLDQTY = #{record.onemaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minquantitymove != null" >
+        MINQUANTITYMOVE = #{record.minquantitymove,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delayrecouprate != null" >
+        DELAYRECOUPRATE = #{record.delayrecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settleway != null" >
+        SETTLEWAY = #{record.settleway,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delayfeeway != null" >
+        DELAYFEEWAY = #{record.delayfeeway,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxfeerate != null" >
+        MAXFEERATE = #{record.maxfeerate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minsettlemoveqty != null" >
+        MINSETTLEMOVEQTY = #{record.minsettlemoveqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.storerecouprate != null" >
+        STORERECOUPRATE = #{record.storerecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minsettleqty != null" >
+        MINSETTLEQTY = #{record.minsettleqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delayrecouprateS != null" >
+        DELAYRECOUPRATE_S = #{record.delayrecouprateS,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aheadsettlepricetype != null" >
+        AHEADSETTLEPRICETYPE = #{record.aheadsettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delaysettlepricetype != null" >
+        DELAYSETTLEPRICETYPE = #{record.delaysettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlemargintype != null" >
+        SETTLEMARGINTYPE = #{record.settlemargintype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.beforedaysM != null" >
+        BEFOREDAYS_M = #{record.beforedaysM,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sideholdlimitqty != null" >
+        SIDEHOLDLIMITQTY = #{record.sideholdlimitqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.holddayslimit != null" >
+        HOLDDAYSLIMIT = #{record.holddayslimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxholdpositionday != null" >
+        MAXHOLDPOSITIONDAY = #{record.maxholdpositionday,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxinclusive != null" >
+        TAXINCLUSIVE = #{record.taxinclusive,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_COMMODITY
+    set COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      SORTID = #{record.sortid,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      CONTRACTFACTOR = #{record.contractfactor,jdbcType=DECIMAL},
+      MINPRICEMOVE = #{record.minpricemove,jdbcType=DECIMAL},
+      BREEDID = #{record.breedid,jdbcType=DECIMAL},
+      SPREADALGR = #{record.spreadalgr,jdbcType=DECIMAL},
+      SPREADUPLMT = #{record.spreaduplmt,jdbcType=DECIMAL},
+      SPREADDOWNLMT = #{record.spreaddownlmt,jdbcType=DECIMAL},
+      FEEALGR = #{record.feealgr,jdbcType=DECIMAL},
+      FEERATE_B = #{record.feerateB,jdbcType=DECIMAL},
+      FEERATE_S = #{record.feerateS,jdbcType=DECIMAL},
+      MARGINALGR = #{record.marginalgr,jdbcType=DECIMAL},
+      MARGINRATE_B = #{record.marginrateB,jdbcType=DECIMAL},
+      MARGINRATE_S = #{record.marginrateS,jdbcType=DECIMAL},
+      MARKETDATE = #{record.marketdate,jdbcType=DATE},
+      SETTLEDATE = #{record.settledate,jdbcType=DATE},
+      SETTLEDATE1 = #{record.settledate1,jdbcType=DATE},
+      MARGINITEM1 = #{record.marginitem1,jdbcType=DECIMAL},
+      SETTLEDATE2 = #{record.settledate2,jdbcType=DATE},
+      MARGINITEM2 = #{record.marginitem2,jdbcType=DECIMAL},
+      SETTLEDATE3 = #{record.settledate3,jdbcType=DATE},
+      MARGINITEM3 = #{record.marginitem3,jdbcType=DECIMAL},
+      SETTLEDATE4 = #{record.settledate4,jdbcType=DATE},
+      MARGINITEM4 = #{record.marginitem4,jdbcType=DECIMAL},
+      LASTPRICE = #{record.lastprice,jdbcType=DECIMAL},
+      MARGINITEM1_S = #{record.marginitem1S,jdbcType=DECIMAL},
+      MARGINITEM2_S = #{record.marginitem2S,jdbcType=DECIMAL},
+      MARGINITEM3_S = #{record.marginitem3S,jdbcType=DECIMAL},
+      MARGINITEM4_S = #{record.marginitem4S,jdbcType=DECIMAL},
+      MARGINASSURE_B = #{record.marginassureB,jdbcType=DECIMAL},
+      MARGINASSURE_S = #{record.marginassureS,jdbcType=DECIMAL},
+      MARGINITEMASSURE1 = #{record.marginitemassure1,jdbcType=DECIMAL},
+      MARGINITEMASSURE2 = #{record.marginitemassure2,jdbcType=DECIMAL},
+      MARGINITEMASSURE3 = #{record.marginitemassure3,jdbcType=DECIMAL},
+      MARGINITEMASSURE4 = #{record.marginitemassure4,jdbcType=DECIMAL},
+      MARGINITEMASSURE1_S = #{record.marginitemassure1S,jdbcType=DECIMAL},
+      MARGINITEMASSURE2_S = #{record.marginitemassure2S,jdbcType=DECIMAL},
+      MARGINITEMASSURE3_S = #{record.marginitemassure3S,jdbcType=DECIMAL},
+      MARGINITEMASSURE4_S = #{record.marginitemassure4S,jdbcType=DECIMAL},
+      TODAYCLOSEFEERATE_B = #{record.todayclosefeerateB,jdbcType=DECIMAL},
+      TODAYCLOSEFEERATE_S = #{record.todayclosefeerateS,jdbcType=DECIMAL},
+      HISTORYCLOSEFEERATE_B = #{record.historyclosefeerateB,jdbcType=DECIMAL},
+      HISTORYCLOSEFEERATE_S = #{record.historyclosefeerateS,jdbcType=DECIMAL},
+      LIMITCMDTYQTY = #{record.limitcmdtyqty,jdbcType=DECIMAL},
+      SETTLEFEEALGR = #{record.settlefeealgr,jdbcType=DECIMAL},
+      SETTLEFEERATE_B = #{record.settlefeerateB,jdbcType=DECIMAL},
+      SETTLEFEERATE_S = #{record.settlefeerateS,jdbcType=DECIMAL},
+      FORCECLOSEFEEALGR = #{record.forceclosefeealgr,jdbcType=DECIMAL},
+      FORCECLOSEFEERATE_B = #{record.forceclosefeerateB,jdbcType=DECIMAL},
+      FORCECLOSEFEERATE_S = #{record.forceclosefeerateS,jdbcType=DECIMAL},
+      SETTLEMARGINALGR_B = #{record.settlemarginalgrB,jdbcType=DECIMAL},
+      SETTLEMARGINRATE_B = #{record.settlemarginrateB,jdbcType=DECIMAL},
+      SETTLEMARGINALGR_S = #{record.settlemarginalgrS,jdbcType=DECIMAL},
+      SETTLEMARGINRATE_S = #{record.settlemarginrateS,jdbcType=DECIMAL},
+      RESERVECOUNT = #{record.reservecount,jdbcType=DECIMAL},
+      ADDEDTAX = #{record.addedtax,jdbcType=DECIMAL},
+      MARGINPRICETYPE = #{record.marginpricetype,jdbcType=DECIMAL},
+      LOWESTSETTLEFEE = #{record.lowestsettlefee,jdbcType=DECIMAL},
+      FIRMCLEANQTY = #{record.firmcleanqty,jdbcType=DECIMAL},
+      FIRMMAXHOLDQTY = #{record.firmmaxholdqty,jdbcType=DECIMAL},
+      PAYOUTALGR = #{record.payoutalgr,jdbcType=DECIMAL},
+      PAYOUTRATE = #{record.payoutrate,jdbcType=DECIMAL},
+      ADDEDTAXFACTOR = #{record.addedtaxfactor,jdbcType=DECIMAL},
+      SETTLEDATE5 = #{record.settledate5,jdbcType=DATE},
+      MARGINITEM5 = #{record.marginitem5,jdbcType=DECIMAL},
+      MARGINITEM5_S = #{record.marginitem5S,jdbcType=DECIMAL},
+      MARGINITEMASSURE5 = #{record.marginitemassure5,jdbcType=DECIMAL},
+      MARGINITEMASSURE5_S = #{record.marginitemassure5S,jdbcType=DECIMAL},
+      SETTLEPRICETYPE = #{record.settlepricetype,jdbcType=DECIMAL},
+      BEFOREDAYS = #{record.beforedays,jdbcType=DECIMAL},
+      SPECSETTLEPRICE = #{record.specsettleprice,jdbcType=DECIMAL},
+      ORDERPRIVILEGE_B = #{record.orderprivilegeB,jdbcType=DECIMAL},
+      ORDERPRIVILEGE_S = #{record.orderprivilegeS,jdbcType=DECIMAL},
+      FIRMMAXHOLDQTYALGR = #{record.firmmaxholdqtyalgr,jdbcType=DECIMAL},
+      STARTPERCENTQTY = #{record.startpercentqty,jdbcType=DECIMAL},
+      MAXPERCENTLIMIT = #{record.maxpercentlimit,jdbcType=DECIMAL},
+      ONEMAXHOLDQTY = #{record.onemaxholdqty,jdbcType=DECIMAL},
+      MINQUANTITYMOVE = #{record.minquantitymove,jdbcType=DECIMAL},
+      DELAYRECOUPRATE = #{record.delayrecouprate,jdbcType=DECIMAL},
+      SETTLEWAY = #{record.settleway,jdbcType=DECIMAL},
+      DELAYFEEWAY = #{record.delayfeeway,jdbcType=DECIMAL},
+      MAXFEERATE = #{record.maxfeerate,jdbcType=DECIMAL},
+      MINSETTLEMOVEQTY = #{record.minsettlemoveqty,jdbcType=DECIMAL},
+      STORERECOUPRATE = #{record.storerecouprate,jdbcType=DECIMAL},
+      MINSETTLEQTY = #{record.minsettleqty,jdbcType=DECIMAL},
+      DELAYRECOUPRATE_S = #{record.delayrecouprateS,jdbcType=DECIMAL},
+      AHEADSETTLEPRICETYPE = #{record.aheadsettlepricetype,jdbcType=DECIMAL},
+      DELAYSETTLEPRICETYPE = #{record.delaysettlepricetype,jdbcType=DECIMAL},
+      SETTLEMARGINTYPE = #{record.settlemargintype,jdbcType=DECIMAL},
+      BEFOREDAYS_M = #{record.beforedaysM,jdbcType=DECIMAL},
+      SIDEHOLDLIMITQTY = #{record.sideholdlimitqty,jdbcType=DECIMAL},
+      HOLDDAYSLIMIT = #{record.holddayslimit,jdbcType=DECIMAL},
+      MAXHOLDPOSITIONDAY = #{record.maxholdpositionday,jdbcType=DECIMAL},
+      TAXINCLUSIVE = #{record.taxinclusive,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodity" >
+    update T_COMMODITY
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sortid != null" >
+        SORTID = #{sortid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="contractfactor != null" >
+        CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="minpricemove != null" >
+        MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
+      </if>
+      <if test="breedid != null" >
+        BREEDID = #{breedid,jdbcType=DECIMAL},
+      </if>
+      <if test="spreadalgr != null" >
+        SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaduplmt != null" >
+        SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
+      </if>
+      <if test="spreaddownlmt != null" >
+        SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
+      </if>
+      <if test="feealgr != null" >
+        FEEALGR = #{feealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="feerateB != null" >
+        FEERATE_B = #{feerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="feerateS != null" >
+        FEERATE_S = #{feerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="marginalgr != null" >
+        MARGINALGR = #{marginalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="marginrateB != null" >
+        MARGINRATE_B = #{marginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="marginrateS != null" >
+        MARGINRATE_S = #{marginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="marketdate != null" >
+        MARKETDATE = #{marketdate,jdbcType=DATE},
+      </if>
+      <if test="settledate != null" >
+        SETTLEDATE = #{settledate,jdbcType=DATE},
+      </if>
+      <if test="settledate1 != null" >
+        SETTLEDATE1 = #{settledate1,jdbcType=DATE},
+      </if>
+      <if test="marginitem1 != null" >
+        MARGINITEM1 = #{marginitem1,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate2 != null" >
+        SETTLEDATE2 = #{settledate2,jdbcType=DATE},
+      </if>
+      <if test="marginitem2 != null" >
+        MARGINITEM2 = #{marginitem2,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate3 != null" >
+        SETTLEDATE3 = #{settledate3,jdbcType=DATE},
+      </if>
+      <if test="marginitem3 != null" >
+        MARGINITEM3 = #{marginitem3,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate4 != null" >
+        SETTLEDATE4 = #{settledate4,jdbcType=DATE},
+      </if>
+      <if test="marginitem4 != null" >
+        MARGINITEM4 = #{marginitem4,jdbcType=DECIMAL},
+      </if>
+      <if test="lastprice != null" >
+        LASTPRICE = #{lastprice,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem1S != null" >
+        MARGINITEM1_S = #{marginitem1S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem2S != null" >
+        MARGINITEM2_S = #{marginitem2S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem3S != null" >
+        MARGINITEM3_S = #{marginitem3S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem4S != null" >
+        MARGINITEM4_S = #{marginitem4S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginassureB != null" >
+        MARGINASSURE_B = #{marginassureB,jdbcType=DECIMAL},
+      </if>
+      <if test="marginassureS != null" >
+        MARGINASSURE_S = #{marginassureS,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure1 != null" >
+        MARGINITEMASSURE1 = #{marginitemassure1,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure2 != null" >
+        MARGINITEMASSURE2 = #{marginitemassure2,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure3 != null" >
+        MARGINITEMASSURE3 = #{marginitemassure3,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure4 != null" >
+        MARGINITEMASSURE4 = #{marginitemassure4,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure1S != null" >
+        MARGINITEMASSURE1_S = #{marginitemassure1S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure2S != null" >
+        MARGINITEMASSURE2_S = #{marginitemassure2S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure3S != null" >
+        MARGINITEMASSURE3_S = #{marginitemassure3S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure4S != null" >
+        MARGINITEMASSURE4_S = #{marginitemassure4S,jdbcType=DECIMAL},
+      </if>
+      <if test="todayclosefeerateB != null" >
+        TODAYCLOSEFEERATE_B = #{todayclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="todayclosefeerateS != null" >
+        TODAYCLOSEFEERATE_S = #{todayclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="historyclosefeerateB != null" >
+        HISTORYCLOSEFEERATE_B = #{historyclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="historyclosefeerateS != null" >
+        HISTORYCLOSEFEERATE_S = #{historyclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="limitcmdtyqty != null" >
+        LIMITCMDTYQTY = #{limitcmdtyqty,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeealgr != null" >
+        SETTLEFEEALGR = #{settlefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeerateB != null" >
+        SETTLEFEERATE_B = #{settlefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlefeerateS != null" >
+        SETTLEFEERATE_S = #{settlefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeealgr != null" >
+        FORCECLOSEFEEALGR = #{forceclosefeealgr,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeerateB != null" >
+        FORCECLOSEFEERATE_B = #{forceclosefeerateB,jdbcType=DECIMAL},
+      </if>
+      <if test="forceclosefeerateS != null" >
+        FORCECLOSEFEERATE_S = #{forceclosefeerateS,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginalgrB != null" >
+        SETTLEMARGINALGR_B = #{settlemarginalgrB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginrateB != null" >
+        SETTLEMARGINRATE_B = #{settlemarginrateB,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginalgrS != null" >
+        SETTLEMARGINALGR_S = #{settlemarginalgrS,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemarginrateS != null" >
+        SETTLEMARGINRATE_S = #{settlemarginrateS,jdbcType=DECIMAL},
+      </if>
+      <if test="reservecount != null" >
+        RESERVECOUNT = #{reservecount,jdbcType=DECIMAL},
+      </if>
+      <if test="addedtax != null" >
+        ADDEDTAX = #{addedtax,jdbcType=DECIMAL},
+      </if>
+      <if test="marginpricetype != null" >
+        MARGINPRICETYPE = #{marginpricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="lowestsettlefee != null" >
+        LOWESTSETTLEFEE = #{lowestsettlefee,jdbcType=DECIMAL},
+      </if>
+      <if test="firmcleanqty != null" >
+        FIRMCLEANQTY = #{firmcleanqty,jdbcType=DECIMAL},
+      </if>
+      <if test="firmmaxholdqty != null" >
+        FIRMMAXHOLDQTY = #{firmmaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="payoutalgr != null" >
+        PAYOUTALGR = #{payoutalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="payoutrate != null" >
+        PAYOUTRATE = #{payoutrate,jdbcType=DECIMAL},
+      </if>
+      <if test="addedtaxfactor != null" >
+        ADDEDTAXFACTOR = #{addedtaxfactor,jdbcType=DECIMAL},
+      </if>
+      <if test="settledate5 != null" >
+        SETTLEDATE5 = #{settledate5,jdbcType=DATE},
+      </if>
+      <if test="marginitem5 != null" >
+        MARGINITEM5 = #{marginitem5,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitem5S != null" >
+        MARGINITEM5_S = #{marginitem5S,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure5 != null" >
+        MARGINITEMASSURE5 = #{marginitemassure5,jdbcType=DECIMAL},
+      </if>
+      <if test="marginitemassure5S != null" >
+        MARGINITEMASSURE5_S = #{marginitemassure5S,jdbcType=DECIMAL},
+      </if>
+      <if test="settlepricetype != null" >
+        SETTLEPRICETYPE = #{settlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="beforedays != null" >
+        BEFOREDAYS = #{beforedays,jdbcType=DECIMAL},
+      </if>
+      <if test="specsettleprice != null" >
+        SPECSETTLEPRICE = #{specsettleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprivilegeB != null" >
+        ORDERPRIVILEGE_B = #{orderprivilegeB,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprivilegeS != null" >
+        ORDERPRIVILEGE_S = #{orderprivilegeS,jdbcType=DECIMAL},
+      </if>
+      <if test="firmmaxholdqtyalgr != null" >
+        FIRMMAXHOLDQTYALGR = #{firmmaxholdqtyalgr,jdbcType=DECIMAL},
+      </if>
+      <if test="startpercentqty != null" >
+        STARTPERCENTQTY = #{startpercentqty,jdbcType=DECIMAL},
+      </if>
+      <if test="maxpercentlimit != null" >
+        MAXPERCENTLIMIT = #{maxpercentlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="onemaxholdqty != null" >
+        ONEMAXHOLDQTY = #{onemaxholdqty,jdbcType=DECIMAL},
+      </if>
+      <if test="minquantitymove != null" >
+        MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
+      </if>
+      <if test="delayrecouprate != null" >
+        DELAYRECOUPRATE = #{delayrecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="settleway != null" >
+        SETTLEWAY = #{settleway,jdbcType=DECIMAL},
+      </if>
+      <if test="delayfeeway != null" >
+        DELAYFEEWAY = #{delayfeeway,jdbcType=DECIMAL},
+      </if>
+      <if test="maxfeerate != null" >
+        MAXFEERATE = #{maxfeerate,jdbcType=DECIMAL},
+      </if>
+      <if test="minsettlemoveqty != null" >
+        MINSETTLEMOVEQTY = #{minsettlemoveqty,jdbcType=DECIMAL},
+      </if>
+      <if test="storerecouprate != null" >
+        STORERECOUPRATE = #{storerecouprate,jdbcType=DECIMAL},
+      </if>
+      <if test="minsettleqty != null" >
+        MINSETTLEQTY = #{minsettleqty,jdbcType=DECIMAL},
+      </if>
+      <if test="delayrecouprateS != null" >
+        DELAYRECOUPRATE_S = #{delayrecouprateS,jdbcType=DECIMAL},
+      </if>
+      <if test="aheadsettlepricetype != null" >
+        AHEADSETTLEPRICETYPE = #{aheadsettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="delaysettlepricetype != null" >
+        DELAYSETTLEPRICETYPE = #{delaysettlepricetype,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemargintype != null" >
+        SETTLEMARGINTYPE = #{settlemargintype,jdbcType=DECIMAL},
+      </if>
+      <if test="beforedaysM != null" >
+        BEFOREDAYS_M = #{beforedaysM,jdbcType=DECIMAL},
+      </if>
+      <if test="sideholdlimitqty != null" >
+        SIDEHOLDLIMITQTY = #{sideholdlimitqty,jdbcType=DECIMAL},
+      </if>
+      <if test="holddayslimit != null" >
+        HOLDDAYSLIMIT = #{holddayslimit,jdbcType=DECIMAL},
+      </if>
+      <if test="maxholdpositionday != null" >
+        MAXHOLDPOSITIONDAY = #{maxholdpositionday,jdbcType=DECIMAL},
+      </if>
+      <if test="taxinclusive != null" >
+        TAXINCLUSIVE = #{taxinclusive,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.TCommodity" >
+    update T_COMMODITY
+    set NAME = #{name,jdbcType=VARCHAR},
+      SORTID = #{sortid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
+      MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
+      BREEDID = #{breedid,jdbcType=DECIMAL},
+      SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
+      SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
+      SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
+      FEEALGR = #{feealgr,jdbcType=DECIMAL},
+      FEERATE_B = #{feerateB,jdbcType=DECIMAL},
+      FEERATE_S = #{feerateS,jdbcType=DECIMAL},
+      MARGINALGR = #{marginalgr,jdbcType=DECIMAL},
+      MARGINRATE_B = #{marginrateB,jdbcType=DECIMAL},
+      MARGINRATE_S = #{marginrateS,jdbcType=DECIMAL},
+      MARKETDATE = #{marketdate,jdbcType=DATE},
+      SETTLEDATE = #{settledate,jdbcType=DATE},
+      SETTLEDATE1 = #{settledate1,jdbcType=DATE},
+      MARGINITEM1 = #{marginitem1,jdbcType=DECIMAL},
+      SETTLEDATE2 = #{settledate2,jdbcType=DATE},
+      MARGINITEM2 = #{marginitem2,jdbcType=DECIMAL},
+      SETTLEDATE3 = #{settledate3,jdbcType=DATE},
+      MARGINITEM3 = #{marginitem3,jdbcType=DECIMAL},
+      SETTLEDATE4 = #{settledate4,jdbcType=DATE},
+      MARGINITEM4 = #{marginitem4,jdbcType=DECIMAL},
+      LASTPRICE = #{lastprice,jdbcType=DECIMAL},
+      MARGINITEM1_S = #{marginitem1S,jdbcType=DECIMAL},
+      MARGINITEM2_S = #{marginitem2S,jdbcType=DECIMAL},
+      MARGINITEM3_S = #{marginitem3S,jdbcType=DECIMAL},
+      MARGINITEM4_S = #{marginitem4S,jdbcType=DECIMAL},
+      MARGINASSURE_B = #{marginassureB,jdbcType=DECIMAL},
+      MARGINASSURE_S = #{marginassureS,jdbcType=DECIMAL},
+      MARGINITEMASSURE1 = #{marginitemassure1,jdbcType=DECIMAL},
+      MARGINITEMASSURE2 = #{marginitemassure2,jdbcType=DECIMAL},
+      MARGINITEMASSURE3 = #{marginitemassure3,jdbcType=DECIMAL},
+      MARGINITEMASSURE4 = #{marginitemassure4,jdbcType=DECIMAL},
+      MARGINITEMASSURE1_S = #{marginitemassure1S,jdbcType=DECIMAL},
+      MARGINITEMASSURE2_S = #{marginitemassure2S,jdbcType=DECIMAL},
+      MARGINITEMASSURE3_S = #{marginitemassure3S,jdbcType=DECIMAL},
+      MARGINITEMASSURE4_S = #{marginitemassure4S,jdbcType=DECIMAL},
+      TODAYCLOSEFEERATE_B = #{todayclosefeerateB,jdbcType=DECIMAL},
+      TODAYCLOSEFEERATE_S = #{todayclosefeerateS,jdbcType=DECIMAL},
+      HISTORYCLOSEFEERATE_B = #{historyclosefeerateB,jdbcType=DECIMAL},
+      HISTORYCLOSEFEERATE_S = #{historyclosefeerateS,jdbcType=DECIMAL},
+      LIMITCMDTYQTY = #{limitcmdtyqty,jdbcType=DECIMAL},
+      SETTLEFEEALGR = #{settlefeealgr,jdbcType=DECIMAL},
+      SETTLEFEERATE_B = #{settlefeerateB,jdbcType=DECIMAL},
+      SETTLEFEERATE_S = #{settlefeerateS,jdbcType=DECIMAL},
+      FORCECLOSEFEEALGR = #{forceclosefeealgr,jdbcType=DECIMAL},
+      FORCECLOSEFEERATE_B = #{forceclosefeerateB,jdbcType=DECIMAL},
+      FORCECLOSEFEERATE_S = #{forceclosefeerateS,jdbcType=DECIMAL},
+      SETTLEMARGINALGR_B = #{settlemarginalgrB,jdbcType=DECIMAL},
+      SETTLEMARGINRATE_B = #{settlemarginrateB,jdbcType=DECIMAL},
+      SETTLEMARGINALGR_S = #{settlemarginalgrS,jdbcType=DECIMAL},
+      SETTLEMARGINRATE_S = #{settlemarginrateS,jdbcType=DECIMAL},
+      RESERVECOUNT = #{reservecount,jdbcType=DECIMAL},
+      ADDEDTAX = #{addedtax,jdbcType=DECIMAL},
+      MARGINPRICETYPE = #{marginpricetype,jdbcType=DECIMAL},
+      LOWESTSETTLEFEE = #{lowestsettlefee,jdbcType=DECIMAL},
+      FIRMCLEANQTY = #{firmcleanqty,jdbcType=DECIMAL},
+      FIRMMAXHOLDQTY = #{firmmaxholdqty,jdbcType=DECIMAL},
+      PAYOUTALGR = #{payoutalgr,jdbcType=DECIMAL},
+      PAYOUTRATE = #{payoutrate,jdbcType=DECIMAL},
+      ADDEDTAXFACTOR = #{addedtaxfactor,jdbcType=DECIMAL},
+      SETTLEDATE5 = #{settledate5,jdbcType=DATE},
+      MARGINITEM5 = #{marginitem5,jdbcType=DECIMAL},
+      MARGINITEM5_S = #{marginitem5S,jdbcType=DECIMAL},
+      MARGINITEMASSURE5 = #{marginitemassure5,jdbcType=DECIMAL},
+      MARGINITEMASSURE5_S = #{marginitemassure5S,jdbcType=DECIMAL},
+      SETTLEPRICETYPE = #{settlepricetype,jdbcType=DECIMAL},
+      BEFOREDAYS = #{beforedays,jdbcType=DECIMAL},
+      SPECSETTLEPRICE = #{specsettleprice,jdbcType=DECIMAL},
+      ORDERPRIVILEGE_B = #{orderprivilegeB,jdbcType=DECIMAL},
+      ORDERPRIVILEGE_S = #{orderprivilegeS,jdbcType=DECIMAL},
+      FIRMMAXHOLDQTYALGR = #{firmmaxholdqtyalgr,jdbcType=DECIMAL},
+      STARTPERCENTQTY = #{startpercentqty,jdbcType=DECIMAL},
+      MAXPERCENTLIMIT = #{maxpercentlimit,jdbcType=DECIMAL},
+      ONEMAXHOLDQTY = #{onemaxholdqty,jdbcType=DECIMAL},
+      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
+      DELAYRECOUPRATE = #{delayrecouprate,jdbcType=DECIMAL},
+      SETTLEWAY = #{settleway,jdbcType=DECIMAL},
+      DELAYFEEWAY = #{delayfeeway,jdbcType=DECIMAL},
+      MAXFEERATE = #{maxfeerate,jdbcType=DECIMAL},
+      MINSETTLEMOVEQTY = #{minsettlemoveqty,jdbcType=DECIMAL},
+      STORERECOUPRATE = #{storerecouprate,jdbcType=DECIMAL},
+      MINSETTLEQTY = #{minsettleqty,jdbcType=DECIMAL},
+      DELAYRECOUPRATE_S = #{delayrecouprateS,jdbcType=DECIMAL},
+      AHEADSETTLEPRICETYPE = #{aheadsettlepricetype,jdbcType=DECIMAL},
+      DELAYSETTLEPRICETYPE = #{delaysettlepricetype,jdbcType=DECIMAL},
+      SETTLEMARGINTYPE = #{settlemargintype,jdbcType=DECIMAL},
+      BEFOREDAYS_M = #{beforedaysM,jdbcType=DECIMAL},
+      SIDEHOLDLIMITQTY = #{sideholdlimitqty,jdbcType=DECIMAL},
+      HOLDDAYSLIMIT = #{holddayslimit,jdbcType=DECIMAL},
+      MAXHOLDPOSITIONDAY = #{maxholdpositionday,jdbcType=DECIMAL},
+      TAXINCLUSIVE = #{taxinclusive,jdbcType=DECIMAL}
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </update>
+   <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_COMMODITY
+  </select>
+</mapper>

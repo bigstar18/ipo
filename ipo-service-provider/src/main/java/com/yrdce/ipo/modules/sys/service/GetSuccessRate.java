@@ -17,6 +17,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  *
  */
 public class GetSuccessRate {
+
 	public static org.slf4j.Logger logger = LoggerFactory.getLogger(GetSuccessRate.class);
 
 	/**

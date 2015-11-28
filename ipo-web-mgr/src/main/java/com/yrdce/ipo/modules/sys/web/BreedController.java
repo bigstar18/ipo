@@ -182,7 +182,7 @@ public class BreedController extends BaseController {
 	}
 
 	/**
-	 * 删除一个品种，并删除品种下的商品
+	 * 删除一个品种(此品种下无商品)
 	 * 
 	 * @param
 	 * @return
@@ -193,8 +193,10 @@ public class BreedController extends BaseController {
 	public String deleteBreed(@RequestParam("breedid") String breedid) throws IOException {
 		log.info("删除品种");
 		try {
+
 			int totalnum = ipoCommConfService.getTotalIpoCommsByBreedid(Long.parseLong(breedid));
 			if (totalnum == 0) {
+
 				vIpoABreedService.deleteBreed(Long.parseLong(breedid));
 				return "true";
 			}

@@ -60,6 +60,7 @@ public abstract class Selection2 {
 				succCount += makeEndNum(Integer.parseInt(rateNum), range, buyNum, endNumList);
 
 				System.out.println("��ǰ��������ǣ�" + succCount + " ���������ǣ�" + ipoNum);
+
 			}
 
 			if (ipoNum - succCount <= Integer.valueOf(strBuyNum.substring(0, 2)))
@@ -87,6 +88,7 @@ public abstract class Selection2 {
 				String endNumStr = df.format(endNum);
 
 				if (!endNumList.contains(endNumStr)) {// never,Խ��Խ��
+
 					endNumList.add(endNumStr);
 					System.out.println("rateNum=" + rateNum + " β�ţ�" + endNum + " ���ǣ�" + String.valueOf(range - 1).length());
 					// System.out.println("result=" + result + " range=" + range);

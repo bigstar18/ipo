@@ -34,6 +34,7 @@ import com.yrdce.ipo.modules.sys.vo.VTCommodity;
  */
 @Controller
 @RequestMapping("IpoController")
+
 public class IpoController extends BaseController {
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(IpoController.class);

@@ -14,6 +14,7 @@ import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 @Service("mBreedservice")
+@Transactional(readOnly = true)
 public class MBreedServiceImpl implements MBreedService {
 	
 	@Autowired

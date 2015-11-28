@@ -25,4 +25,5 @@ public interface IpoCommodityConfMapper {
 	int deleteByBreedid(@Param("breedid") Long breedid);// 根据品种ID删除对应商品
 
 	List<String> findAllCommIds();
+
 }

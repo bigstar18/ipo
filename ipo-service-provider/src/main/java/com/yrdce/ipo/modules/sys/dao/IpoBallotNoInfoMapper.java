@@ -1,13 +1,17 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 
-@MyBatisDao
 public interface IpoBallotNoInfoMapper {
+    int deleteByPrimaryKey(Short id);
 
-	void insert(IpoBallotNoInfo ballot);
+    int insert(IpoBallotNoInfo record);
 
-	IpoBallotNoInfo selectByCommonityid(String commonityid);
+    int insertSelective(IpoBallotNoInfo record);
 
+    IpoBallotNoInfo selectByPrimaryKey(Short id);
+
+    int updateByPrimaryKeySelective(IpoBallotNoInfo record);
+
+    int updateByPrimaryKey(IpoBallotNoInfo record);
 }

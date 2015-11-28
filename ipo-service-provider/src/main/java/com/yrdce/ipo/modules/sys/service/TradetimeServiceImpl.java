@@ -10,10 +10,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yrdce.ipo.modules.sys.dao.IpoNottradedayMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
 import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoNottradeday;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
+import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
 @Service("tradetimeservice")
@@ -30,6 +33,9 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Autowired
 	private TACommoditytradepropMapper commoditytradepropMapper;
 
+	@Autowired
+	private IpoNottradedayMapper notTradeTimeMapper;
+
 	@Override
 	public List<Tradetime> selectByPage(String page, String rows) {
 		logger.info("进入分页查询交易节信息" + "page:" + page + "rows:" + rows);
@@ -38,9 +44,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
 			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-			tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1, curpage * pagesize);
+			List<IpoTradetime> tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1, curpage * pagesize);
 			for (int i = 0; i < tradetime1.size(); i++) {
 				Tradetime tradetime = new Tradetime();
 				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
@@ -152,6 +157,39 @@ public class TradetimeServiceImpl implements TradetimeService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	// 非交易日插入(删除、更新、提交共用此方法)
+	@Override
+	public int insert(Nottradeday notTradeDay) {
+		logger.info("非交易节设置");
+		int seccess = 1;
+		int error = 2;
+		try {
+			IpoNottradeday nottradeday = new IpoNottradeday();
+			BeanUtils.copyProperties(notTradeDay, nottradeday);
+			notTradeTimeMapper.updateByPrimaryKeySelective(nottradeday);
+			return seccess;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error;
+		}
+	}
+
+	// 非交易日查询
+	@Override
+	public Nottradeday select() {
+		logger.info("非交易节查询");
+		try {
+			Nottradeday nottradeday = new Nottradeday();
+			IpoNottradeday ipoNottradeday = notTradeTimeMapper.select();
+			BeanUtils.copyProperties(ipoNottradeday, nottradeday);
+			return nottradeday;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }
