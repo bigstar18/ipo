@@ -1,10 +1,14 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.BrBrokerExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+@MyBatisDao
 public interface BrBrokerMapper {
     int countByExample(BrBrokerExample example);
 

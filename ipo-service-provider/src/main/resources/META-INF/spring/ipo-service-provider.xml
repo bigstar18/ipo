@@ -33,6 +33,9 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.MBreedService" ref="mBreedservice" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TradetimeService" ref="tradetimeservice" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SysStatusService" ref="sysStatusService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" ref="brBrokerService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TCommodityService" ref="tCommodityService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" ref="ipoCommConfService" protocol="dubbo" />
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -43,6 +46,9 @@
 	<bean id="mBreedservice" class="com.yrdce.ipo.modules.sys.service.MBreedServiceImpl" />
 	<bean id="tradetimeservice" class="com.yrdce.ipo.modules.sys.service.TradetimeServiceImpl" />
 	<bean id="sysStatusService" class="com.yrdce.ipo.modules.sys.service.SysStatusServiceImpl" />
+	<bean id="brBrokerService" class="com.yrdce.ipo.modules.sys.service.BrBrokerServiceImpl" />
+	<bean id="tCommodityService" class="com.yrdce.ipo.modules.sys.service.TCommodityServiceImpl" />
+	<bean id="ipoCommConfService" class="com.yrdce.ipo.modules.sys.service.CommoConfServiceImpl" />
 	
 	
 	<!-- 	当一个接口有多种实现时，可以用group区分。
