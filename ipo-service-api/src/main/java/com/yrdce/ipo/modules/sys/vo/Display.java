@@ -1,8 +1,13 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Display {
+public class Display implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8909435383589858100L;
 	private String sid;
 	private String name;
 	private BigDecimal monery;
@@ -15,8 +20,7 @@ public class Display {
 
 	}
 
-	public Display(String name, int number, int units, BigDecimal price,
-			long purchaseCredits) {
+	public Display(String name, int number, int units, BigDecimal price, long purchaseCredits) {
 		super();
 		// this.sid = sid;
 		this.name = name;

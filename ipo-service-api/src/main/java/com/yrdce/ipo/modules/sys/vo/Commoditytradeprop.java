@@ -1,8 +1,14 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Commoditytradeprop {
+public class Commoditytradeprop implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4537055234625122091L;
 
 	private String commodityid;
 

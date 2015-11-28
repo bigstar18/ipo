@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("CommodityController")
 public class CommodityController extends BaseController {
 
-	static Logger log = org.slf4j.LoggerFactory.getLogger(CommodityController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CommodityController.class);
 
 	@Autowired
 	private CommodityService commodityService;

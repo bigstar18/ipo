@@ -170,7 +170,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public Integer getCountsByPage(String commodityid) {
-		int counts = ipoCommodityMapper.getCountsByPage(commodityid);
+		int counts = ipoCommodityMapper.getCountsByPage(commodityid.toUpperCase());
 		Integer counts1 = Integer.valueOf(counts);
 		return counts1;
 	}

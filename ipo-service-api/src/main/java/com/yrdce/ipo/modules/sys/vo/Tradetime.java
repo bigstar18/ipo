@@ -1,16 +1,23 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class Tradetime {
+public class Tradetime implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8355271361786292983L;
 
 	@JsonProperty("sectionid")
 	@XmlElement(name = "sectionid")
 	@NotNull
-	private Short sectionid;// 交易及id
+	private Short sectionid;// 交易节id
 
 	@JsonProperty("name")
 	@XmlElement(name = "name")

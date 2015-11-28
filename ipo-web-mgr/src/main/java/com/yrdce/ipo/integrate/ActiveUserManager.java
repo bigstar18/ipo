@@ -34,8 +34,7 @@ public class ActiveUserManager {
 
 	/**
 	 * 
-	 * 用户跳转
-	 * <br/>
+	 * 用户跳转 <br/>
 	 * <br/>
 	 * 
 	 * @param checkUserVO
@@ -91,8 +90,7 @@ public class ActiveUserManager {
 
 	/**
 	 * 
-	 * 获取对应 AU 连接信息
-	 * <br/>
+	 * 获取对应 AU 连接信息 <br/>
 	 * <br/>
 	 * 
 	 * @param configID

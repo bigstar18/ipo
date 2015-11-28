@@ -1,8 +1,14 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Breedtradeprop {
+public class Breedtradeprop implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7228217064948327405L;
 
 	private Date modifytime;
 

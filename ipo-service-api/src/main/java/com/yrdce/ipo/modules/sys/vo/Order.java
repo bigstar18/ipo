@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +14,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Order {
+public class Order implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8285225304887656105L;
+
 	// 交易商id
 	@JsonProperty("userid")
 	@XmlElement(name = "userid")
