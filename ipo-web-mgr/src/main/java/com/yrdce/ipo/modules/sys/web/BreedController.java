@@ -156,12 +156,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/addBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public void addBreed(VIpoABreed vipoabreed) throws IOException {
+	public String addBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("增加一个品种");
 		try {
 			vIpoABreedService.addBreed(vipoabreed);
+			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 	
@@ -175,12 +177,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public void updateBreed(VIpoABreed vipoabreed) throws IOException {
+	public String updateBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("修改一个品种");
 		try {
 			vIpoABreedService.updateBreed(vipoabreed);
+			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 	

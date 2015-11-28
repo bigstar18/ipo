@@ -42,17 +42,17 @@ public class Taskmanage extends TimerTask {
 	private IpoOrderMapper order;
 	@Autowired
 	private Distribution distribution;
-	@Autowired
+	/*@Autowired
 	// private GetBallotNoUtils getBallotNoUtils;
-	private Selection selection;
+	private Selection selection;*/
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
 	private IpoCommodityMapper commodity;
 	@Autowired
 	private IpoDistributionMapper ipoDistribution;
-	@Autowired
-	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
+	/*@Autowired
+	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;*/
 
 	@Override
 	public void run() {
@@ -104,7 +104,7 @@ public class Taskmanage extends TimerTask {
 				List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);
 				if (ipoCommList == null)
 					return;
-				selection = new Selection();
+				/*selection = new Selection();
 				for (IpoCommodity ipoComm : ipoCommList) {
 					String commId = ipoComm.getCommodityid();// 获取需要摇号的商品id
 					int commCounts = ipoComm.getCounts();// 改商品的发行数量
@@ -137,7 +137,7 @@ public class Taskmanage extends TimerTask {
 
 					}
 				}
-
+*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

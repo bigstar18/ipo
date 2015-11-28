@@ -1,11 +1,13 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+@MyBatisDao
 public interface IpoCommodityConfMapper {
    
     List<IpoCommodityConf> findIpoCommConfByBreedid(@Param("breedid")Long breedid,@Param("beginnum") int beginnum,@Param("endnum") int endnum);//分页获取对应商品
