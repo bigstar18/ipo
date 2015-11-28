@@ -2,20 +2,26 @@ package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
-/*
- * 品种列表
+/**
+ * @author chenjing
+ * 现货系统商品
  */
-public class TABreed implements Serializable{
-    private Long breedid;
+public class VTCommodity implements Serializable{
+    private String commodityid;
 
-    private String breedname;
+    private String name;
 
     private Long sortid;
+
+    private Short status;
 
     private BigDecimal contractfactor;
 
     private BigDecimal minpricemove;
+
+    private Long breedid;
 
     private Short spreadalgr;
 
@@ -35,9 +41,55 @@ public class TABreed implements Serializable{
 
     private BigDecimal marginrateS;
 
+    private Date marketdate;
+
+    private Date settledate;
+
+    private Date settledate1;
+
+    private BigDecimal marginitem1;
+
+    private Date settledate2;
+
+    private BigDecimal marginitem2;
+
+    private Date settledate3;
+
+    private BigDecimal marginitem3;
+
+    private Date settledate4;
+
+    private BigDecimal marginitem4;
+
+    private BigDecimal lastprice;
+
+    private BigDecimal marginitem1S;
+
+    private BigDecimal marginitem2S;
+
+    private BigDecimal marginitem3S;
+
+    private BigDecimal marginitem4S;
+
     private BigDecimal marginassureB;
 
     private BigDecimal marginassureS;
+
+    private BigDecimal marginitemassure1;
+
+    private BigDecimal marginitemassure2;
+
+    private BigDecimal marginitemassure3;
+
+    private BigDecimal marginitemassure4;
+
+    private BigDecimal marginitemassure1S;
+
+    private BigDecimal marginitemassure2S;
+
+    private BigDecimal marginitemassure3S;
+
+    private BigDecimal marginitemassure4S;
 
     private BigDecimal todayclosefeerateB;
 
@@ -69,57 +121,25 @@ public class TABreed implements Serializable{
 
     private BigDecimal settlemarginrateS;
 
+    private Long reservecount;
+
     private BigDecimal addedtax;
 
     private Short marginpricetype;
 
     private BigDecimal lowestsettlefee;
 
-    private Long limitbreedqty;
-
     private Long firmcleanqty;
 
     private Long firmmaxholdqty;
-
-    private BigDecimal marginitem1;
-
-    private BigDecimal marginitem2;
-
-    private BigDecimal marginitem3;
-
-    private BigDecimal marginitem4;
-
-    private BigDecimal marginitem1S;
-
-    private BigDecimal marginitem2S;
-
-    private BigDecimal marginitem3S;
-
-    private BigDecimal marginitem4S;
-
-    private BigDecimal marginitemassure1;
-
-    private BigDecimal marginitemassure2;
-
-    private BigDecimal marginitemassure3;
-
-    private BigDecimal marginitemassure4;
-
-    private BigDecimal marginitemassure1S;
-
-    private BigDecimal marginitemassure2S;
-
-    private BigDecimal marginitemassure3S;
-
-    private BigDecimal marginitemassure4S;
-
-    private Integer orderprivilege;
 
     private Short payoutalgr;
 
     private BigDecimal payoutrate;
 
     private BigDecimal addedtaxfactor;
+
+    private Date settledate5;
 
     private BigDecimal marginitem5;
 
@@ -135,6 +155,10 @@ public class TABreed implements Serializable{
 
     private BigDecimal specsettleprice;
 
+    private Integer orderprivilegeB;
+
+    private Integer orderprivilegeS;
+
     private Short firmmaxholdqtyalgr;
 
     private Long startpercentqty;
@@ -144,8 +168,6 @@ public class TABreed implements Serializable{
     private Long onemaxholdqty;
 
     private Short minquantitymove;
-
-    private String contractfactorname;
 
     private BigDecimal delayrecouprate;
 
@@ -157,17 +179,15 @@ public class TABreed implements Serializable{
 
     private Integer minsettlemoveqty;
 
-    private Short breedtrademode;
-
     private BigDecimal storerecouprate;
 
     private Long minsettleqty;
 
     private BigDecimal delayrecouprateS;
 
-    private Short delaysettlepricetype;
-
     private Short aheadsettlepricetype;
+
+    private Short delaysettlepricetype;
 
     private Short settlemargintype;
 
@@ -179,20 +199,22 @@ public class TABreed implements Serializable{
 
     private Long maxholdpositionday;
 
-    public Long getBreedid() {
-        return breedid;
+    private Short taxinclusive;
+
+    public String getCommodityid() {
+        return commodityid;
     }
 
-    public void setBreedid(Long breedid) {
-        this.breedid = breedid;
+    public void setCommodityid(String commodityid) {
+        this.commodityid = commodityid == null ? null : commodityid.trim();
     }
 
-    public String getBreedname() {
-        return breedname;
+    public String getName() {
+        return name;
     }
 
-    public void setBreedname(String breedname) {
-        this.breedname = breedname == null ? null : breedname.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Long getSortid() {
@@ -201,6 +223,14 @@ public class TABreed implements Serializable{
 
     public void setSortid(Long sortid) {
         this.sortid = sortid;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
     }
 
     public BigDecimal getContractfactor() {
@@ -217,6 +247,14 @@ public class TABreed implements Serializable{
 
     public void setMinpricemove(BigDecimal minpricemove) {
         this.minpricemove = minpricemove;
+    }
+
+    public Long getBreedid() {
+        return breedid;
+    }
+
+    public void setBreedid(Long breedid) {
+        this.breedid = breedid;
     }
 
     public Short getSpreadalgr() {
@@ -291,6 +329,126 @@ public class TABreed implements Serializable{
         this.marginrateS = marginrateS;
     }
 
+    public Date getMarketdate() {
+        return marketdate;
+    }
+
+    public void setMarketdate(Date marketdate) {
+        this.marketdate = marketdate;
+    }
+
+    public Date getSettledate() {
+        return settledate;
+    }
+
+    public void setSettledate(Date settledate) {
+        this.settledate = settledate;
+    }
+
+    public Date getSettledate1() {
+        return settledate1;
+    }
+
+    public void setSettledate1(Date settledate1) {
+        this.settledate1 = settledate1;
+    }
+
+    public BigDecimal getMarginitem1() {
+        return marginitem1;
+    }
+
+    public void setMarginitem1(BigDecimal marginitem1) {
+        this.marginitem1 = marginitem1;
+    }
+
+    public Date getSettledate2() {
+        return settledate2;
+    }
+
+    public void setSettledate2(Date settledate2) {
+        this.settledate2 = settledate2;
+    }
+
+    public BigDecimal getMarginitem2() {
+        return marginitem2;
+    }
+
+    public void setMarginitem2(BigDecimal marginitem2) {
+        this.marginitem2 = marginitem2;
+    }
+
+    public Date getSettledate3() {
+        return settledate3;
+    }
+
+    public void setSettledate3(Date settledate3) {
+        this.settledate3 = settledate3;
+    }
+
+    public BigDecimal getMarginitem3() {
+        return marginitem3;
+    }
+
+    public void setMarginitem3(BigDecimal marginitem3) {
+        this.marginitem3 = marginitem3;
+    }
+
+    public Date getSettledate4() {
+        return settledate4;
+    }
+
+    public void setSettledate4(Date settledate4) {
+        this.settledate4 = settledate4;
+    }
+
+    public BigDecimal getMarginitem4() {
+        return marginitem4;
+    }
+
+    public void setMarginitem4(BigDecimal marginitem4) {
+        this.marginitem4 = marginitem4;
+    }
+
+    public BigDecimal getLastprice() {
+        return lastprice;
+    }
+
+    public void setLastprice(BigDecimal lastprice) {
+        this.lastprice = lastprice;
+    }
+
+    public BigDecimal getMarginitem1S() {
+        return marginitem1S;
+    }
+
+    public void setMarginitem1S(BigDecimal marginitem1S) {
+        this.marginitem1S = marginitem1S;
+    }
+
+    public BigDecimal getMarginitem2S() {
+        return marginitem2S;
+    }
+
+    public void setMarginitem2S(BigDecimal marginitem2S) {
+        this.marginitem2S = marginitem2S;
+    }
+
+    public BigDecimal getMarginitem3S() {
+        return marginitem3S;
+    }
+
+    public void setMarginitem3S(BigDecimal marginitem3S) {
+        this.marginitem3S = marginitem3S;
+    }
+
+    public BigDecimal getMarginitem4S() {
+        return marginitem4S;
+    }
+
+    public void setMarginitem4S(BigDecimal marginitem4S) {
+        this.marginitem4S = marginitem4S;
+    }
+
     public BigDecimal getMarginassureB() {
         return marginassureB;
     }
@@ -305,6 +463,70 @@ public class TABreed implements Serializable{
 
     public void setMarginassureS(BigDecimal marginassureS) {
         this.marginassureS = marginassureS;
+    }
+
+    public BigDecimal getMarginitemassure1() {
+        return marginitemassure1;
+    }
+
+    public void setMarginitemassure1(BigDecimal marginitemassure1) {
+        this.marginitemassure1 = marginitemassure1;
+    }
+
+    public BigDecimal getMarginitemassure2() {
+        return marginitemassure2;
+    }
+
+    public void setMarginitemassure2(BigDecimal marginitemassure2) {
+        this.marginitemassure2 = marginitemassure2;
+    }
+
+    public BigDecimal getMarginitemassure3() {
+        return marginitemassure3;
+    }
+
+    public void setMarginitemassure3(BigDecimal marginitemassure3) {
+        this.marginitemassure3 = marginitemassure3;
+    }
+
+    public BigDecimal getMarginitemassure4() {
+        return marginitemassure4;
+    }
+
+    public void setMarginitemassure4(BigDecimal marginitemassure4) {
+        this.marginitemassure4 = marginitemassure4;
+    }
+
+    public BigDecimal getMarginitemassure1S() {
+        return marginitemassure1S;
+    }
+
+    public void setMarginitemassure1S(BigDecimal marginitemassure1S) {
+        this.marginitemassure1S = marginitemassure1S;
+    }
+
+    public BigDecimal getMarginitemassure2S() {
+        return marginitemassure2S;
+    }
+
+    public void setMarginitemassure2S(BigDecimal marginitemassure2S) {
+        this.marginitemassure2S = marginitemassure2S;
+    }
+
+    public BigDecimal getMarginitemassure3S() {
+        return marginitemassure3S;
+    }
+
+    public void setMarginitemassure3S(BigDecimal marginitemassure3S) {
+        this.marginitemassure3S = marginitemassure3S;
+    }
+
+    public BigDecimal getMarginitemassure4S() {
+        return marginitemassure4S;
+    }
+
+    public void setMarginitemassure4S(BigDecimal marginitemassure4S) {
+        this.marginitemassure4S = marginitemassure4S;
     }
 
     public BigDecimal getTodayclosefeerateB() {
@@ -427,6 +649,14 @@ public class TABreed implements Serializable{
         this.settlemarginrateS = settlemarginrateS;
     }
 
+    public Long getReservecount() {
+        return reservecount;
+    }
+
+    public void setReservecount(Long reservecount) {
+        this.reservecount = reservecount;
+    }
+
     public BigDecimal getAddedtax() {
         return addedtax;
     }
@@ -451,14 +681,6 @@ public class TABreed implements Serializable{
         this.lowestsettlefee = lowestsettlefee;
     }
 
-    public Long getLimitbreedqty() {
-        return limitbreedqty;
-    }
-
-    public void setLimitbreedqty(Long limitbreedqty) {
-        this.limitbreedqty = limitbreedqty;
-    }
-
     public Long getFirmcleanqty() {
         return firmcleanqty;
     }
@@ -473,142 +695,6 @@ public class TABreed implements Serializable{
 
     public void setFirmmaxholdqty(Long firmmaxholdqty) {
         this.firmmaxholdqty = firmmaxholdqty;
-    }
-
-    public BigDecimal getMarginitem1() {
-        return marginitem1;
-    }
-
-    public void setMarginitem1(BigDecimal marginitem1) {
-        this.marginitem1 = marginitem1;
-    }
-
-    public BigDecimal getMarginitem2() {
-        return marginitem2;
-    }
-
-    public void setMarginitem2(BigDecimal marginitem2) {
-        this.marginitem2 = marginitem2;
-    }
-
-    public BigDecimal getMarginitem3() {
-        return marginitem3;
-    }
-
-    public void setMarginitem3(BigDecimal marginitem3) {
-        this.marginitem3 = marginitem3;
-    }
-
-    public BigDecimal getMarginitem4() {
-        return marginitem4;
-    }
-
-    public void setMarginitem4(BigDecimal marginitem4) {
-        this.marginitem4 = marginitem4;
-    }
-
-    public BigDecimal getMarginitem1S() {
-        return marginitem1S;
-    }
-
-    public void setMarginitem1S(BigDecimal marginitem1S) {
-        this.marginitem1S = marginitem1S;
-    }
-
-    public BigDecimal getMarginitem2S() {
-        return marginitem2S;
-    }
-
-    public void setMarginitem2S(BigDecimal marginitem2S) {
-        this.marginitem2S = marginitem2S;
-    }
-
-    public BigDecimal getMarginitem3S() {
-        return marginitem3S;
-    }
-
-    public void setMarginitem3S(BigDecimal marginitem3S) {
-        this.marginitem3S = marginitem3S;
-    }
-
-    public BigDecimal getMarginitem4S() {
-        return marginitem4S;
-    }
-
-    public void setMarginitem4S(BigDecimal marginitem4S) {
-        this.marginitem4S = marginitem4S;
-    }
-
-    public BigDecimal getMarginitemassure1() {
-        return marginitemassure1;
-    }
-
-    public void setMarginitemassure1(BigDecimal marginitemassure1) {
-        this.marginitemassure1 = marginitemassure1;
-    }
-
-    public BigDecimal getMarginitemassure2() {
-        return marginitemassure2;
-    }
-
-    public void setMarginitemassure2(BigDecimal marginitemassure2) {
-        this.marginitemassure2 = marginitemassure2;
-    }
-
-    public BigDecimal getMarginitemassure3() {
-        return marginitemassure3;
-    }
-
-    public void setMarginitemassure3(BigDecimal marginitemassure3) {
-        this.marginitemassure3 = marginitemassure3;
-    }
-
-    public BigDecimal getMarginitemassure4() {
-        return marginitemassure4;
-    }
-
-    public void setMarginitemassure4(BigDecimal marginitemassure4) {
-        this.marginitemassure4 = marginitemassure4;
-    }
-
-    public BigDecimal getMarginitemassure1S() {
-        return marginitemassure1S;
-    }
-
-    public void setMarginitemassure1S(BigDecimal marginitemassure1S) {
-        this.marginitemassure1S = marginitemassure1S;
-    }
-
-    public BigDecimal getMarginitemassure2S() {
-        return marginitemassure2S;
-    }
-
-    public void setMarginitemassure2S(BigDecimal marginitemassure2S) {
-        this.marginitemassure2S = marginitemassure2S;
-    }
-
-    public BigDecimal getMarginitemassure3S() {
-        return marginitemassure3S;
-    }
-
-    public void setMarginitemassure3S(BigDecimal marginitemassure3S) {
-        this.marginitemassure3S = marginitemassure3S;
-    }
-
-    public BigDecimal getMarginitemassure4S() {
-        return marginitemassure4S;
-    }
-
-    public void setMarginitemassure4S(BigDecimal marginitemassure4S) {
-        this.marginitemassure4S = marginitemassure4S;
-    }
-
-    public Integer getOrderprivilege() {
-        return orderprivilege;
-    }
-
-    public void setOrderprivilege(Integer orderprivilege) {
-        this.orderprivilege = orderprivilege;
     }
 
     public Short getPayoutalgr() {
@@ -633,6 +719,14 @@ public class TABreed implements Serializable{
 
     public void setAddedtaxfactor(BigDecimal addedtaxfactor) {
         this.addedtaxfactor = addedtaxfactor;
+    }
+
+    public Date getSettledate5() {
+        return settledate5;
+    }
+
+    public void setSettledate5(Date settledate5) {
+        this.settledate5 = settledate5;
     }
 
     public BigDecimal getMarginitem5() {
@@ -691,6 +785,22 @@ public class TABreed implements Serializable{
         this.specsettleprice = specsettleprice;
     }
 
+    public Integer getOrderprivilegeB() {
+        return orderprivilegeB;
+    }
+
+    public void setOrderprivilegeB(Integer orderprivilegeB) {
+        this.orderprivilegeB = orderprivilegeB;
+    }
+
+    public Integer getOrderprivilegeS() {
+        return orderprivilegeS;
+    }
+
+    public void setOrderprivilegeS(Integer orderprivilegeS) {
+        this.orderprivilegeS = orderprivilegeS;
+    }
+
     public Short getFirmmaxholdqtyalgr() {
         return firmmaxholdqtyalgr;
     }
@@ -729,14 +839,6 @@ public class TABreed implements Serializable{
 
     public void setMinquantitymove(Short minquantitymove) {
         this.minquantitymove = minquantitymove;
-    }
-
-    public String getContractfactorname() {
-        return contractfactorname;
-    }
-
-    public void setContractfactorname(String contractfactorname) {
-        this.contractfactorname = contractfactorname == null ? null : contractfactorname.trim();
     }
 
     public BigDecimal getDelayrecouprate() {
@@ -779,14 +881,6 @@ public class TABreed implements Serializable{
         this.minsettlemoveqty = minsettlemoveqty;
     }
 
-    public Short getBreedtrademode() {
-        return breedtrademode;
-    }
-
-    public void setBreedtrademode(Short breedtrademode) {
-        this.breedtrademode = breedtrademode;
-    }
-
     public BigDecimal getStorerecouprate() {
         return storerecouprate;
     }
@@ -811,20 +905,20 @@ public class TABreed implements Serializable{
         this.delayrecouprateS = delayrecouprateS;
     }
 
-    public Short getDelaysettlepricetype() {
-        return delaysettlepricetype;
-    }
-
-    public void setDelaysettlepricetype(Short delaysettlepricetype) {
-        this.delaysettlepricetype = delaysettlepricetype;
-    }
-
     public Short getAheadsettlepricetype() {
         return aheadsettlepricetype;
     }
 
     public void setAheadsettlepricetype(Short aheadsettlepricetype) {
         this.aheadsettlepricetype = aheadsettlepricetype;
+    }
+
+    public Short getDelaysettlepricetype() {
+        return delaysettlepricetype;
+    }
+
+    public void setDelaysettlepricetype(Short delaysettlepricetype) {
+        this.delaysettlepricetype = delaysettlepricetype;
     }
 
     public Short getSettlemargintype() {
@@ -865,5 +959,13 @@ public class TABreed implements Serializable{
 
     public void setMaxholdpositionday(Long maxholdpositionday) {
         this.maxholdpositionday = maxholdpositionday;
+    }
+
+    public Short getTaxinclusive() {
+        return taxinclusive;
+    }
+
+    public void setTaxinclusive(Short taxinclusive) {
+        this.taxinclusive = taxinclusive;
     }
 }

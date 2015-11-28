@@ -6,8 +6,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
@@ -19,7 +18,7 @@ import gnnt.MEBS.logonService.vo.CheckUserVO;
 import gnnt.MEBS.logonService.vo.RemoteLogonServerVO;
 
 public class ActiveUserManager {
-	private static final transient Log logger = LogFactory.getLog(ActiveUserManager.class);
+	private static final transient org.slf4j.Logger logger = LoggerFactory.getLogger(ActiveUserManager.class);
 
 	public static CheckUserResultVO checkUser(String userID, long sessionID, int fromModuleID, String selfLogonType, String fromLogonType,
 			int selfModuleID) {
@@ -35,8 +34,7 @@ public class ActiveUserManager {
 
 	/**
 	 * 
-	 * 用户跳转
-	 * <br/>
+	 * 用户跳转 <br/>
 	 * <br/>
 	 * 
 	 * @param checkUserVO
@@ -92,8 +90,7 @@ public class ActiveUserManager {
 
 	/**
 	 * 
-	 * 获取对应 AU 连接信息
-	 * <br/>
+	 * 获取对应 AU 连接信息 <br/>
 	 * <br/>
 	 * 
 	 * @param configID

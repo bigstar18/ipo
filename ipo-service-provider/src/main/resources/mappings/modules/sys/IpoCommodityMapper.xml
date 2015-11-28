@@ -333,17 +333,28 @@
 	on c.commodityid = t1.commodityid) a) b
 	where b.TNO between #{beginnum} and  #{endnum}
    </select>
-   
    <select id="getCounts" resultType="java.lang.Integer">
    	select count(0) from IPO_COMMODITY_SALE
    </select>
    
    <select id="getCountsByPage" resultType="java.lang.Integer" parameterType="java.lang.String">
-   	select count(0) from IPO_COMMODITY_SALE where COMMODITYID like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')
+   	select count(0) from IPO_COMMODITY_SALE where upper(COMMODITYID) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')
    </select>
    
    <update id="updateByStatus" parameterType="map">
    	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
+    <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity">
+   	update IPO_COMMODITY_SALE set 
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      UNITS = #{units,jdbcType=INTEGER},
+      COUNTS = #{counts,jdbcType=INTEGER},
+      STARTTIME = #{starttime,jdbcType=DATE},
+      ENDTIME = #{endtime,jdbcType=DATE},
+      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      STATUS = #{status,jdbcType=INTEGER}
+      where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
    </update>
    <select id="getAllBycommodityid"  resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended"  parameterType="map" >
   select b.* from

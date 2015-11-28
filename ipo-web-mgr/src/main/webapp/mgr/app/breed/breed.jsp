@@ -135,7 +135,7 @@ function setSortName(value) {
         			 					<td align="right" width="98"><span class="required">品种名称</span>：</td>
 	      								<td style="white-space:nowrap;">
 	      								   <c:if test="${crud == 'create'}">
-		      									<select id="bname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
+		      									<select id="bname" name="breedname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="mbreed" items="${Mlist}">
                                                       <option <c:if test="${entity.breedid==mbreed.breedid }">selected</c:if> value="${mbreed.breedid}">${mbreed.breedname}</option>

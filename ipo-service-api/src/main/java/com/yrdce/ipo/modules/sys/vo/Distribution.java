@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Distribution {
+public class Distribution implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3098786530206351559L;
 
 	@JsonProperty("userid")
 	@XmlElement(name = "userid")

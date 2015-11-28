@@ -4,9 +4,14 @@ import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public interface TradetimeService {
 	// 查询交易节（分页）
-	public List<Tradetime> select(String page, String rows);
+	public List<Tradetime> selectByPage(String page, String rows);
 
 	// 修改交易节
 	public int upDate(Tradetime tradetime);

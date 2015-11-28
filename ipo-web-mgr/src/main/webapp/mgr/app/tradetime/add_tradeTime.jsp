@@ -25,32 +25,48 @@ document.onkeypress=showKeyPress;
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
 		<script src="${publicPath }/js/jquery-1.6.min.js" type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
-		<script src="${mgrpath }/app/tradetime/js/submitform.js" type="text/javascript" charset="UTF-8"></script>
-		<script src="${mgrpath }/app/tradetime/js/WdatePicker.js" type="text/javascript" charset="UTF-8"></script>
+		<%-- <script src="${mgrpath }/app/tradetime/js/submitform.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="${mgrpath }/app/tradetime/js/WdatePicker.js" type="text/javascript" charset="UTF-8"></script> --%>
 		
 		<script type="text/javascript"> 
-			 $("#add").click(function() {
-				 
-				    function ret(){
-					flag = save_onclick();
-					if(flag){
-						if(confirm("您确认操作吗？")){
-							return true;
-							};
-							return false;
-						}
-					}
+		 $(document).ready(function() {
+		//ajax验证
+		jQuery("#frm").validationEngine( {
+			ajaxFormValidation : true,
+			onAjaxFormComplete : ajaxValidationCallback,
+			onBeforeAjaxFormValidation : beforeCall
+		});
+
+		//提交前事件
+		function beforeCall(form, options) {
+			return true;
+		}
+
+		//提交后事件
+		function ajaxValidationCallback(status, form, json, options) {
+			//如果返回成功
+			if (status === true) {
+				var flag = false;
+
+			    flag = save_onclick();
+			   	
+						frm.submit();
+						$("#add").attr("disabled",true);
 					
-					//修改按钮注册点击事件
-					$("#add").click(function(){
-						//验证信息
-						if(jQuery("#frm").validationEngine('validateform')){	
-						}
-					});
-					change();
-			 });
+			} else {
+				$("#sectionID").focus();
+			}
+		}
+				 
+		//修改按钮注册点击事件
+		$("#add").click(function(){
+			//验证信息
+			if(jQuery("#frm").validationEngine('validateform')){	
+			}
+		});
+		 });
 
 			 function isTime(val) {
 					var str=val;
@@ -85,16 +101,9 @@ document.onkeypress=showKeyPress;
 			
 			// 获取市场参数
 			function getMarket(){
-				//var oldAjaxAsync = $.ajaxSettings.async;
-				//var url = "http://10.0.100.182:10061/timebargain_mgr/ajaxcheck/firmSet/getMarketJson.action";
-				//$.ajaxSettings.async = false;
-				//$.getJSON(url,null,function call(result){
-
+				
 					// 设置交易时间类型，0：同一天交易；1：跨天交易
 					document.getElementById("tradeTimeType").value = 0;
-				//});
-				//$.ajaxSettings.async = oldAjaxAsync;
-
 			}
 
 			//save
@@ -175,7 +184,7 @@ document.onkeypress=showKeyPress;
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post" onSubmit = "return ret()" action="<%=request.getContextPath()%>/TradetimeController/addTradetime">
+		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/addTradetime">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -203,14 +212,6 @@ document.onkeypress=showKeyPress;
 												<div>
 											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
 												<tr>
-													<td align="right">
-														<span class="required">*</span>
-														交易节编号：
-													</td>
-													<td>
-													   <input type="text" id="sectionID" name="entity.sectionID"
-															class="validate[required] input_text datepicker"/>
-													</td>
 													
 													<td align="right">
 														<span class="required">*</span>
@@ -222,7 +223,7 @@ document.onkeypress=showKeyPress;
 													</td>
 												</tr>
 												<tr>
-													<td align="right">
+													<td align="left">
 														<span class="required">*</span>
 														当前交易节状态：
 													</td>
@@ -247,7 +248,7 @@ document.onkeypress=showKeyPress;
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 													
-													<td align="right">
+													<td align="left">
 													    <span class="required">*</span>
 														当前交易节结束时间：
 													</td>
@@ -272,8 +273,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<input type="submit" value="添加" class="btn_sec" id="add"/>
-
+							<button class="btn_sec" id="add" <%-- action="<%=request.getContextPath()%>/TradetimeController/addTradetime" --%>  onclick="" >添加</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

@@ -19,7 +19,7 @@ import gnnt.MEBS.logonService.vo.CheckUserVO;
 import gnnt.MEBS.logonService.vo.RemoteLogonServerVO;
 
 public class ActiveUserManager {
-	private static final transient Log logger = LogFactory.getLog(ActiveUserManager.class);
+	private static final transient Logger logger = LoggerFactory.getLogger(ActiveUserManager.class);
 
 	public static CheckUserResultVO checkUser(String userID, long sessionID, int fromModuleID, String selfLogonType, String fromLogonType,
 			int selfModuleID) {

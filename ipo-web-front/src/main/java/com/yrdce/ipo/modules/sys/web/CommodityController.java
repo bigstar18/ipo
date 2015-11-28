@@ -39,7 +39,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("CommodityController")
 public class CommodityController extends BaseController {
 
-	static Logger log = Logger.getLogger(CommodityController.class);
+	static Logger log = LoggerFactory.getLogger(CommodityController.class);
 
 	@Autowired
 	private CommodityService commodityService;

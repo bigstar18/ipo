@@ -23,6 +23,7 @@
     <result column="CONTRACTCURRENCY" property="contractcurrency" jdbcType="VARCHAR" />
     <result column="TRADEDAYS" property="tradedays" jdbcType="DECIMAL" />
   </resultMap>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -93,6 +94,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+   <delete id="deleteByBreedid" parameterType="Long" >
+    delete from IPO_BREED where BREEDID = #{breedid}
+  </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreed" >
     insert into IPO_BREED (BREEDID, BREEDNAME, SORTID, 
       CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, 
@@ -152,4 +156,5 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from IPO_BREED
   </select>
+
 </mapper>

@@ -102,8 +102,11 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 
 	@Override
 	public void deleteBreed(Long breedid) {
-		// TODO Auto-generated method stub
-		
+		try{
+		ipoBreedMapper.deleteByBreedid(breedid);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override

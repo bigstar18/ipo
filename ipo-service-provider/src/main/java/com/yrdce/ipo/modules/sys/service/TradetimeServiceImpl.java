@@ -1,15 +1,15 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Service;
+
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
 import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
@@ -31,7 +31,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 	private TACommoditytradepropMapper commoditytradepropMapper;
 
 	@Override
-	public List<Tradetime> select(String page, String rows) {
+	public List<Tradetime> selectByPage(String page, String rows) {
 		logger.info("进入分页查询交易节信息" + "page:" + page + "rows:" + rows);
 		try {
 			page = (page == null ? "1" : page);
@@ -53,7 +53,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 		}
 	}
 
-
 	@Override
 	public int upDate(Tradetime tradetime) {
 		logger.info("进入交易节修改" + tradetime);
@@ -70,10 +69,12 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Override
 	public int insert(Tradetime tradetime) {
-		logger.info("进入交易节添加" + tradetime);
+		logger.info("进入交易节添加" + tradetime.toString());
 		try {
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);
+			logger.info("tradetime1:" + tradetime1);
+			tradetime1.setModifytime(new Date());
 			tradetimeMapper.insert(tradetime1);
 			return 1;
 		} catch (Exception e) {
@@ -137,17 +138,17 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	public List<Tradetime> selectAll() {
 		logger.info("进入查询所有交易节信息");
-		try{
-		List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
-		List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-		tradetime1 = tradetimeMapper.selectAll();
-		for (int i = 0; i < tradetime1.size(); i++) {
-			Tradetime tradetime = new Tradetime();
-			BeanUtils.copyProperties(tradetime1.get(i), tradetime);
-			tradetime2.add(tradetime);
-		}
-		return tradetime2;
-		}catch(Exception e){
+		try {
+			List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
+			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
+			tradetime1 = tradetimeMapper.selectAll();
+			for (int i = 0; i < tradetime1.size(); i++) {
+				Tradetime tradetime = new Tradetime();
+				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
+				tradetime2.add(tradetime);
+			}
+			return tradetime2;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}

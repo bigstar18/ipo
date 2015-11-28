@@ -3,6 +3,10 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * @author chenjing
+ *发售品种
+ */
 public class VIpoABreed implements Serializable{
     private Long breedid;
 

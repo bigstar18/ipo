@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- - Copyright 1999-2011 Alibaba Group.
- -  
- - Licensed under the Apache License, Version 2.0 (the "License");
- - you may not use this file except in compliance with the License.
- - You may obtain a copy of the License at
- -  
- -      http://www.apache.org/licenses/LICENSE-2.0
- -  
- - Unless required by applicable law or agreed to in writing, software
- - distributed under the License is distributed on an "AS IS" BASIS,
- - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- - See the License for the specific language governing permissions and
- - limitations under the License.
--->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
@@ -47,6 +32,9 @@
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" ref="vIpoABreedService" protocol="dubbo"/>
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.MBreedService" ref="mBreedservice" protocol="dubbo"/>
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TradetimeService" ref="tradetimeservice" protocol="dubbo"/>
+    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" ref="ipoCommConfService" protocol="dubbo" />
+    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TCommodityService" ref="tCommodityService" protocol="dubbo" />
+    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" ref="brBrokerService" protocol="dubbo" />
     
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -56,6 +44,9 @@
 	<bean id="vIpoABreedService" class="com.yrdce.ipo.modules.sys.service.IpoABreedServiceImpl" />
 	<bean id="mBreedservice" class="com.yrdce.ipo.modules.sys.service.MBreedServiceImpl" />
 	<bean id="tradetimeservice" class="com.yrdce.ipo.modules.sys.service.TradetimeServiceImpl" />
+	<bean id="ipoCommConfService" class="com.yrdce.ipo.modules.sys.service.CommoConfServiceImpl" />
+	<bean id="tCommodityService" class="com.yrdce.ipo.modules.sys.service.TCommodityServiceImpl" />
+	<bean id="brBrokerService" class="com.yrdce.ipo.modules.sys.service.BrBrokerServiceImpl" />
 	
 <!-- 	当一个接口有多种实现时，可以用group区分。
 从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。

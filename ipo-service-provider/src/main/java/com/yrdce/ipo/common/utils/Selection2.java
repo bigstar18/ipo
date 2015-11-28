@@ -9,8 +9,8 @@ import org.apache.commons.lang3.RandomUtils;
 
 public abstract class Selection2 {
 
-	// ¶ÔÍâ½Ó¿Ú
-	public static List<String> execSelection(double ipoNum, double buyNum) {
+	// ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
+	public static List<String> execSelection(double ipoNum, double buyNum) throws Exception {
 		List<String> endNumList = new ArrayList<String>();
 
 		if (ipoNum >= buyNum)
@@ -22,13 +22,13 @@ public abstract class Selection2 {
 		return endNumList;
 	}
 
-	// »ñµÃÖÐÇ©ÂÊ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½
 	private static String calSucRate(double ipoNum, double buyNum) {
 		long buyNumLong = Double.valueOf(buyNum).longValue();
-		System.out.println("Éê¹º×Ö·û´®Îª£º" + buyNumLong);
+		System.out.println("ï¿½ê¹ºï¿½Ö·ï¿½Îªï¿½ï¿½" + buyNumLong);
 
 		double result = ipoNum / buyNum;
-		System.out.println("ÖÐÇ©ÂÊÊÇ£º" + result);
+		System.out.println("ï¿½ï¿½Ç©ï¿½ï¿½ï¿½Ç£ï¿½" + result);
 
 		int buyLen = String.valueOf(buyNumLong).length();
 		String strZ = "";
@@ -42,12 +42,12 @@ public abstract class Selection2 {
 		String succRate = df.format(result);
 		String[] tmp = succRate.split("\\.");
 
-		System.out.println("ÖÐÇ©ÂÊ×Ö·û´®ÊÇ£º" + tmp[1] + " Éê¹º×Ö·û´®³¤¶ÈÎª£º" + (String.valueOf(buyNumLong).length()));
+		System.out.println("ï¿½ï¿½Ç©ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ç£ï¿½" + tmp[1] + " ï¿½ê¹ºï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½ï¿½" + (String.valueOf(buyNumLong).length()));
 		return tmp[1];
 	}
 
-	// È¡Î»(²ð·ÖÖÐÇ©ÂÊ) ²¢Éú³ÉÏàÓ¦µÄÎ²ºÅ
-	private static void splitSucRate(long ipoNum, long buyNum, String decimalNum, List<String> endNumList) {
+	// È¡Î»(ï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Î²ï¿½ï¿½
+	private static void splitSucRate(long ipoNum, long buyNum, String decimalNum, List<String> endNumList) throws Exception {
 		long succCount = 0l;
 		String strBuyNum = String.valueOf(buyNum);
 
@@ -57,10 +57,9 @@ public abstract class Selection2 {
 			if (!rateNum.equals("0")) {
 				long range = (long) Math.pow(10, i + 1);// problem?
 
-				makeEndNum(Integer.parseInt(rateNum), range, endNumList);
+				succCount += makeEndNum(Integer.parseInt(rateNum), range, buyNum, endNumList);
 
-				succCount += (buyNum / Math.pow(10, i + 1)) * (Integer.parseInt(rateNum));
-				System.out.println("µ±Ç°ÅäºÅ×ÜÊýÊÇ£º" + succCount + " ·¢ÐÐ×ÜÊýÊÇ£º" + ipoNum);
+				System.out.println("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + succCount + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + ipoNum);
 			}
 
 			if (ipoNum - succCount <= Integer.valueOf(strBuyNum.substring(0, 2)))
@@ -69,8 +68,8 @@ public abstract class Selection2 {
 		AdjustmentNum(succCount, ipoNum, buyNum, decimalNum, endNumList);
 	}
 
-	// Éú³ÉÊ£ÓàÎ²ºÅ
-	private static void makeEndNum(int rateNum, long range, List<String> endNumList) {
+	// ï¿½ï¿½ï¿½Î²ï¿½ï¿½
+	private static long makeEndNum(int rateNum, long range, long buyNum, List<String> endNumList) throws Exception {
 		if (range % rateNum == 0) {
 			long start = range / 10;
 			if (start == 1)
@@ -80,41 +79,52 @@ public abstract class Selection2 {
 				result = RandomUtils.nextLong(start, range - 1);
 			}
 
-			int cnt = 0;
-			for (int i = 0;; i++) {
-				if (cnt++ == rateNum)
-					break;
+			long succTotal = 0l;
+			String zeroStr = String.valueOf(range).substring(1, String.valueOf(range).length());
+			DecimalFormat df = new DecimalFormat(zeroStr);
+			for (int i = 0; i < rateNum; i++) {
+				long endNum = (result + i * (range / (rateNum))) % range;//
+				String endNumStr = df.format(endNum);
 
-				long endNum = (result + i * (range / (rateNum * 2))) % range;//
-				while (String.valueOf(endNum).length() != String.valueOf(result).length()) {
-					i++;
-					endNum = (result + i * (range / (rateNum * 2))) % range;
-				}
-
-				String endNumStr = String.valueOf(endNum);
-
-				if (!endNumList.contains(endNumStr)) {// never,Ô½À´Ô½´ó
+				if (!endNumList.contains(endNumStr)) {// never,Ô½ï¿½ï¿½Ô½ï¿½ï¿½
 					endNumList.add(endNumStr);
-					System.out.println("rateNum=" + rateNum + " Î²ºÅ£º" + endNum + " Êý³¤ÊÇ£º" + String.valueOf(range - 1).length());
+					System.out.println("rateNum=" + rateNum + " Î²ï¿½Å£ï¿½" + endNum + " ï¿½ï¿½ï¿½Ç£ï¿½" + String.valueOf(range - 1).length());
 					// System.out.println("result=" + result + " range=" + range);
+
+					int len = endNumStr.length();
+					String buyNumString = String.valueOf(buyNum);
+					if (Long.parseLong(buyNumString.substring(buyNumString.length() - len, buyNumString.length())) >= endNum) {
+						if (buyNumString.length() == len)
+							succTotal += 1;
+						else if (endNum == 0)
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len));
+						else
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len)) + 1l;
+					} else {
+						if (buyNumString.length() == len)
+							succTotal += 1;
+						else
+							succTotal += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len));
+					}
 				} else
-					System.err.println("make Ballot error happend: " + endNumStr);
+					throw new Exception("make Ballot error happend: " + endNumStr);
 			}
+			return succTotal;
 		} else {
 			if (rateNum == 3) {
-				makeEndNum(1, range, endNumList);
-				makeEndNum(2, range, endNumList);
+				return makeEndNum(1, range, buyNum, endNumList) + makeEndNum(2, range, buyNum, endNumList);
 			} else if (rateNum == 4) {
-				makeEndNum(2, range, endNumList);
-				makeEndNum(2, range, endNumList);
+				return makeEndNum(2, range, buyNum, endNumList) + makeEndNum(2, range, buyNum, endNumList);
+			} else if (rateNum == 9) {
+				return makeEndNum(8, range, buyNum, endNumList) + makeEndNum(rateNum % 8, range, buyNum, endNumList);
 			} else if (rateNum > 5) {
-				makeEndNum(5, range, endNumList);
-				makeEndNum(rateNum % 5, range, endNumList);
-			}
+				return makeEndNum(5, range, buyNum, endNumList) + makeEndNum(rateNum % 5, range, buyNum, endNumList);
+			} else
+				return 0l;// never
 		}
 	}
 
-	// ÅÅÖØ
+	// ï¿½ï¿½ï¿½ï¿½
 	private static boolean notIncludePre(String strRd, List<String> endNumList) {
 		if (endNumList.size() != 0) {
 			for (int i = 0; i < endNumList.size(); i++) {
@@ -126,7 +136,7 @@ public abstract class Selection2 {
 		return true;
 	}
 
-	// ºÅÂë²¹È«
+	// ï¿½ï¿½ï¿½ë²¹È«
 	private static void AdjustmentNum(long succCount, long ipoNum, long buyNum, String decimalNum, List<String> endNumList) {
 		while (succCount < ipoNum) {
 			// int buyLen = String.valueOf(buyNum).length() - 1;
@@ -136,19 +146,19 @@ public abstract class Selection2 {
 			}
 			endNumList.add(strEndNum);
 			succCount++;
-			System.out.println("AdjustmentNum: Î²ºÅ£º" + strEndNum);
+			System.out.println("AdjustmentNum: Î²ï¿½Å£ï¿½" + strEndNum);
 		}
-		System.out.println("AdjustmentNum: µ±Ç°ÅäºÅ×ÜÊýÊÇ£º" + succCount + " ·¢ÐÐ×ÜÊýÊÇ£º" + ipoNum);
+		System.out.println("AdjustmentNum: ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + succCount + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + ipoNum);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		test();
 		// test2();
 	}
 
-	public static void test() {
+	public static void test() throws Exception {
 		List<String> result = Selection2.execSelection(23450, 1005700);
-		System.out.println("Î²ºÅ¸öÊý£º" + result.size());
+		System.out.println("Î²ï¿½Å¸ï¿½ï¿½ï¿½" + result.size());
 	}
 
 	public static void test2() {
