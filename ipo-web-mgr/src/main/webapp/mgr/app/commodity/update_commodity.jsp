@@ -172,7 +172,7 @@ function onSelect2(d) {
 										<select id="mapperid" name="mapperid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="Tcomm" items="${Tlist}">
-                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq '${entity.mapperid}'}"> selected="selected"</c:if>>${Tcomm.name}</option>
+                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq '${entity.mapperid}'}">selected</c:if>>${Tcomm.name}</option>
                                                     </c:forEach>
 								         </select>
 										</td>
@@ -293,7 +293,7 @@ function onSelect2(d) {
             							<select id="pubmemberid" name="pubmemberid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="pubmember" items="${Blist}">
-                                                      <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq '${entity.pubmemberid}'}"> selected="selected"</c:if>>${pubmember.name}</option>
+                                                      <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq '${entity.pubmemberid}'}">selected</c:if>>${pubmember.name}</option>
                                                     </c:forEach>
 								            	</select>
             							</td>    

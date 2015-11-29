@@ -110,9 +110,9 @@
 	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
 	</selectKey>
-    insert into IPO_COMMODITY_SALE
+    insert into IPO_COMMODITY_SALE (
     <include refid="Base_Column_List" />
-    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+    ) values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=INTEGER}, #{counts,jdbcType=INTEGER}, 
       #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE},#{purchaseCredits,jdbcType=BIGINT},#{status,jdbcType=INTEGER})
   </insert>

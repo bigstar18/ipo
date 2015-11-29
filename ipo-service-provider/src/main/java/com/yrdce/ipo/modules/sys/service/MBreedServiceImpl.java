@@ -60,8 +60,10 @@ public class MBreedServiceImpl implements MBreedService {
 
 	@Override
 	public MBreed getMBreed(Long breedid) {
-		// TODO Auto-generated method stub
-		return null;
+		MBreed breed=new MBreed();
+		com.yrdce.ipo.modules.sys.entity.MBreed mbreed=mbreedmapper.selectByPrimaryKey(breedid);
+		BeanUtils.copyProperties(mbreed, breed);
+		return breed;
 	}
 
 }
