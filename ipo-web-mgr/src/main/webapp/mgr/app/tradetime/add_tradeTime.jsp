@@ -50,7 +50,6 @@ document.onkeypress=showKeyPress;
 				var flag = false;
 				
 			    flag = save_onclick();
-			    aler
 			    alert(flag);
 			   	if(flag){
 			    	var vaild = affirm("您确定要操作吗？");
@@ -116,33 +115,33 @@ document.onkeypress=showKeyPress;
 			{
 				// 获取市场参数的交易时间类型	
 				getMarket();
-			  if(document.forms(0).tradeTimeType.value != ""){
+			  if(document.forms[0].tradeTimeType.value != ""){
 
 				
-					if (document.forms(0).startTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].startTime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms(0).startTime.value)) {
+					if (!isTime(document.forms[0].startTime.value)) {
 						alert("交易开始时间格式不正确！");
-						document.forms(0).startTime.focus();
+						document.forms[0].startTime.focus();
 						return false;
 					}
 					
-					if (document.forms(0).endTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].endTime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms(0).endTime.value)) {
+					if (!isTime(document.forms[0].endTime.value)) {
 						alert("交易结束时间格式不正确！");
-						document.forms(0).endTime.focus();
+						document.forms[0].endTime.focus();
 						return false;
 					}
 					
-					if (document.forms(0).tradeTimeType.value == "0") {//同一天交易
+					if (document.forms[0].tradeTimeType.value == "0") {//同一天交易
 						if (true) {
 						
-							var startTimes = document.forms(0).startTime.value.split(":");
+							var startTimes = document.forms[0].startTime.value.split(":");
 							
 							var dateST = new Date(0,0,0,startTimes[0],startTimes[1],startTimes[2]);
 							var hourST = dateST.getHours();
@@ -150,7 +149,7 @@ document.onkeypress=showKeyPress;
 							var secondST = dateST.getSeconds();
 							var relDateST = parseInt(hourST)*3600 + parseInt(minuteST)*60 + parseInt(secondST);
 							
-							var endTimes = document.forms(0).endTime.value.split(":");
+							var endTimes = document.forms[0].endTime.value.split(":");
 							var dateET = new Date(0,0,0,endTimes[0],endTimes[1],endTimes[2]);
 							var hourET = dateET.getHours();
 							var minuteET = dateET.getMinutes();
@@ -158,7 +157,7 @@ document.onkeypress=showKeyPress;
 							var relDateET = parseInt(hourET)*3600 + parseInt(minuteET)*60 + parseInt(secondET);
 							if (relDateST > relDateET || relDateST == relDateET) {
 								alert("交易开始时间应早于交易结束时间！");
-								document.forms(0).startTime.focus();
+								document.forms[0].startTime.focus();
 								return false;
 							}
 						}
@@ -223,7 +222,7 @@ document.onkeypress=showKeyPress;
 														交易节名称：
 													</td>
 													<td>
-													    <input type="text" id="name" name="entity.name" 
+													    <input type="text" id="name" name="name" 
 															class="validate[required] input_text datepicker"/>
 													</td>
 													<td align="left">
@@ -231,7 +230,7 @@ document.onkeypress=showKeyPress;
 														当前交易节状态：
 													</td>
 													<td>
-														<select id="status" name="entity.status" class="validate[required]" style="width:120">
+														<select id="status" name="status" class="validate[required]" style="width:120">
 															  <option value=""></option>
 									                          <option value="0">无效</option>
 										                      <option value="1" selected="selected">正常</option>
@@ -245,7 +244,7 @@ document.onkeypress=showKeyPress;
 														当前交易节开始时间：
 													</td>
 													<td>
-														<input type="text" id="startTime" name="entity.startTime" 
+														<input type="text" id="starttime" name="starttime" 
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
@@ -255,7 +254,7 @@ document.onkeypress=showKeyPress;
 														当前交易节结束时间：
 													</td>
 													<td>
-														<input type="text" id="endTime" name="entity.endTime" 
+														<input type="text" id="endtime" name="endtime" 
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
