@@ -47,7 +47,7 @@ $(document).ready(function() {
              width : 200,
              title : '交易节名称',
 			 formatter:function(value,row){
-         	    return "<a href=\"#\" onclick=\"updateForward("+value+")\">"+value+"</a>";
+         	    return "<a href=\"#\" onclick=\"updateForward("+row.sectionid+")\">"+value+"</a>";
 			}
          }, {
              field : 'starttime',
@@ -102,58 +102,26 @@ function addForward(){
 		$('tt').datagrid('reload');
 	} 
 }
-/* function addSortForward(){
-	//获取配置权限的 URL
-	var addUrl=document.getElementById('addBC').action;
-	//获取完整跳转URL
-	var url = "${basePath}"+addUrl;
-
-	if(window.open(url, "", "width=450,height=400")){
-		//如果修改成功，则刷新列表
-		ECSideUtil.reload("ec");
-	};
-	
-} */
-/* //修改信息跳转
-function detailForward(id){
-	//获取配置权限的 URL
-	var detailUrl = "${basePath}/timebargain/tradeparams/detailBreed.action?breedID=";
-	//获取完整跳转URL
-	var url = detailUrl + id;
-
-	document.location.href = url;
-	
-} */
-<%-- //批量删除信息
-function deleteList(){
-	//获取配置权限的 URL
-	var deleteUrl = "<%=request.getContextPath()%>/TradetimeController/deleteTradetime";
-	//获取完整跳转URL
-	var url = "${basePath}"+deleteUrl;
-	//执行删除操作
-	updateRMIEcside(ec.ids,url);
-} --%>
 
 function updateForward(id) {
 	//获取配置权限的 URL
-	var updateUrl = "/timebargain/tradeparams/detailToCommodity.action";
-	//获取完整跳转URL
-	var url = "${basePath}"+updateUrl;
+	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionID="+id;
 	//给 URL 添加参数
-	url += "?breedID="+id+"&sortColumns=order+by+commodityID+asc";
+	if(showDialog(updateUrl, "", 800, 550)){
+		//如果添加成功，则刷新列表
+		$('tt').datagrid('reload');
+	} 
 
 	document.location.href = url;
 }
 
-function dolistquery() {
-	frm.submit();
-}
-
 function deleteList(){
-	alert("checkedItems");
 	var checkedItems = $('#tt').datagrid('getChecked');
-	alert(checkedItems.sectionid);
-	var deleteUrl = "<%=request.getContextPath()%>/TradetimeController/deleteTradetime?checkedItems="+checkedItems;
+	var ids = [];
+	$.each(checkedItems,function(index,item){
+		ids.push(item.sectionid);
+	});
+	var deleteUrl = "<%=request.getContextPath()%>/TradetimeController/deleteTradetime";
 }
 
 </script>

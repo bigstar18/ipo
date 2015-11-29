@@ -24,7 +24,7 @@ document.onkeypress=showKeyPress;
 		<title>交易节添加</title>
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
-		<script src="${publicPath }/js/jquery-1.6.min.js" type="text/javascript"></script>
+		<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
 		
@@ -39,7 +39,6 @@ document.onkeypress=showKeyPress;
 
 		//提交前事件
 		function beforeCall(form, options) {
-			alert(options);
 			return true;
 		} 
 
@@ -53,7 +52,7 @@ document.onkeypress=showKeyPress;
 			    alert(flag);
 			   	if(flag){
 			    	var vaild = affirm("您确定要操作吗？");
-					if(vaild){	
+					if(vaild){
 						$("#frm").submit();
 						$("#add").attr("disabled",true);
 					}
@@ -67,7 +66,7 @@ document.onkeypress=showKeyPress;
 		$("#add").click(function(){
 			//验证信息
 			if(jQuery("#frm").validationEngine('validateform')){
-				return;
+				return false;
 			}
 		});
 		 });
@@ -118,21 +117,21 @@ document.onkeypress=showKeyPress;
 			  if(document.forms[0].tradeTimeType.value != ""){
 
 				
-					if (document.forms[0].startTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].starttime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms[0].startTime.value)) {
+					if (!isTime(document.forms[0].starttime.value)) {
 						alert("交易开始时间格式不正确！");
-						document.forms[0].startTime.focus();
+						document.forms[0].starttime.focus();
 						return false;
 					}
 					
-					if (document.forms[0].endTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].endtime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms[0].endTime.value)) {
+					if (!isTime(document.forms[0].endtime.value)) {
 						alert("交易结束时间格式不正确！");
 						document.forms[0].endTime.focus();
 						return false;
@@ -141,7 +140,7 @@ document.onkeypress=showKeyPress;
 					if (document.forms[0].tradeTimeType.value == "0") {//同一天交易
 						if (true) {
 						
-							var startTimes = document.forms[0].startTime.value.split(":");
+							var startTimes = document.forms[0].starttime.value.split(":");
 							
 							var dateST = new Date(0,0,0,startTimes[0],startTimes[1],startTimes[2]);
 							var hourST = dateST.getHours();
@@ -149,7 +148,7 @@ document.onkeypress=showKeyPress;
 							var secondST = dateST.getSeconds();
 							var relDateST = parseInt(hourST)*3600 + parseInt(minuteST)*60 + parseInt(secondST);
 							
-							var endTimes = document.forms[0].endTime.value.split(":");
+							var endTimes = document.forms[0].endtime.value.split(":");
 							var dateET = new Date(0,0,0,endTimes[0],endTimes[1],endTimes[2]);
 							var hourET = dateET.getHours();
 							var minuteET = dateET.getMinutes();
@@ -157,7 +156,7 @@ document.onkeypress=showKeyPress;
 							var relDateET = parseInt(hourET)*3600 + parseInt(minuteET)*60 + parseInt(secondET);
 							if (relDateST > relDateET || relDateST == relDateET) {
 								alert("交易开始时间应早于交易结束时间！");
-								document.forms[0].startTime.focus();
+								document.forms[0].starttime.focus();
 								return false;
 							}
 						}
@@ -259,7 +258,6 @@ document.onkeypress=showKeyPress;
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 												</tr>
-
 											</table>
 										</div>
 									</td>

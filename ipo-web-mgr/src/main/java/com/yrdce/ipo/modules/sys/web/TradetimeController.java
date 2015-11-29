@@ -89,9 +89,7 @@ public class TradetimeController {
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
 	@ResponseBody
 	public int addTradetime(Tradetime tradetime) {
-		logger.info("进入添加交易节" + "tradetime:" + tradetime.toString());
-		logger.info("name:" + tradetime.getName() + " " + "starttime:" + tradetime.getStarttime() + " " + tradetime.getEndtime() + " " + "status:"
-				+ tradetime.getStatus());
+		logger.info("进入添加交易节");
 		try {
 
 			int i = tradetimeService.insert(tradetime);
@@ -106,11 +104,12 @@ public class TradetimeController {
 	// 删除交易节
 	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
 	@ResponseBody
-	public int deleteTradetime(Object[] ids) {
-		logger.info("进入删除交易节" + "ids" + ids);
+	public int deleteTradetime(int ids) {
+		logger.info("进入删除交易节" + "ids:" + ids);
 		try {
-			int i = tradetimeService.delete(ids);
-			return i;
+
+			int status = tradetimeService.delete(ids);
+			return status;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

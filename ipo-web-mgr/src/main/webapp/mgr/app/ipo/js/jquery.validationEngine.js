@@ -254,7 +254,7 @@
 			// (- skip field ajax validation, not necessary IF we will perform an ajax form validation)
 			var r=methods._validateFields(form, options.ajaxFormValidation);
 
-			if (r && options.ajaxFormValidation && $.validationEngine.defaults['ajaxFormValidation']) {
+			if (r && options.ajaxFormValidation) {
 				methods._validateFormWithAjax(form, options);
 				return false;
 			}
@@ -563,13 +563,7 @@
 					case "creditCard":
 						errorMsg = methods._creditCard(field, rules, i, options);
 						break;
-					case "onlyLetterNumber":
-						var numRule = options.allrules["onlyLetterNumber"];
-						var numEx=numRule.regex;			
-						var numPattern = new RegExp(numEx);
-						if (!numPattern.test(field.val()))
-							errorMsg = numRule.alertText;
-						break;
+
 					default:
 					//$.error("jQueryValidator rule not found"+rules[i]);
 				}
@@ -1591,9 +1585,8 @@
 			 // --- Internals DO NOT TOUCH or OVERLOAD ---
 			 // validation rules and i18
 			 $.validationEngine.defaults.allrules = allRules;
-			 
-			 $.extend(true,$.validationEngine.defaults, options);
-			 var userOptions = $.extend(true,{},$.validationEngine.defaults);
+
+			 var userOptions = $.extend(true,{},$.validationEngine.defaults,options);
 
 			 // Needed to be retro compatible
 			 if (userOptions.isOverflown) userOptions.relative = true;
@@ -1644,9 +1637,7 @@
 		 }
 	};
 
-	$.fn.modifyAjax = function(method) {
-		$.extend(true,$.validationEngine.defaults, method);
-	};
+
 
 	// LEAK GLOBAL OPTIONS
 	$.validationEngine= {defaults:{
