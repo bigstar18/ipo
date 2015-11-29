@@ -147,4 +147,36 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 				return null;
 			}
 	}
+
+	@Override
+	public List<VIpoCommConf> findIpoCommConf(String page, String rows) {
+		try {
+			page = (page == null ? "1" : page);
+			rows = (rows == null ? "5" : rows);
+			int curpage = Integer.parseInt(page);
+			int pagesize = Integer.parseInt(rows);
+			List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfs((curpage - 1) * pagesize
+					+ 1, curpage * pagesize);
+			List<VIpoCommConf> ipocomcoflist2=new ArrayList<VIpoCommConf>();
+			for (int i = 0; i < ipocomcoflist.size(); i++) {
+				VIpoCommConf vipocomconf = new VIpoCommConf();
+				BeanUtils.copyProperties(ipocomcoflist.get(i), vipocomconf);
+				ipocomcoflist2.add(vipocomconf);
+			}
+			return ipocomcoflist2;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getAllComms() {
+		try{
+			return ipoCommodityConfmapper.countAll();	
+		}catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

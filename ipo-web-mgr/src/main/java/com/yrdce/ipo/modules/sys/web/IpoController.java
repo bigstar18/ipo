@@ -148,6 +148,14 @@ public class IpoController extends BaseController {
 		request.setAttribute("breedID", breedid);
 		return "app/commodity/comm_list";
 	}
+	
+	/*
+	 * 商品查询视图
+	 */
+	@RequestMapping(value = "/CommodityQuery", method = RequestMethod.GET)
+	public String CommodityQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "app/dataQuery/comms_list";
+	}
 
 	/*
 	 * 新增品种视图

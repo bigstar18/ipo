@@ -104,8 +104,14 @@
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid}) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
+   <select id="findAllIpoCommConfs"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
    <select id="countByBreedid" parameterType="Long" resultType="java.lang.Integer" >
     select count(*) from IPO_COMMODITY_CONF where BREEDID = #{breedid}
+  </select>
+   <select id="countAll" resultType="java.lang.Integer" >
+    select count(*) from IPO_COMMODITY_CONF
   </select>
   <select id="findIpoCommConfByCommid"  resultMap="BaseResultMap"  parameterType="String" >
     select 
