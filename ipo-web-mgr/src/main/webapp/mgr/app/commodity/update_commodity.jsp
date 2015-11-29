@@ -20,9 +20,21 @@ function updateComm(){
 	var publishalgr=$("#publishalgr").val();
 	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
-	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''){ 
-     $("#frm").attr("action","<%=request.getContextPath()%>/BreedController/updateCommodity");
-      $("#frm").submit();
+	var pubmemberid=$("#pubmemberid").val();
+	alert($('#listingdate').datebox('getValue'));
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
+		 $('#frm').form({
+  		     url:'<%=request.getContextPath()%>/BreedController/updateCommodity',
+  		     onSubmit:function(){
+  		         return $(this).form('validate');
+  		     },
+  		     success:function(data){
+ 		    	 returntoList();
+  		     }
+  		 });  
+  	   $('#frm').submit(); 
+	}else{
+		alert("所有参数必填！");
 	}
 }
 
@@ -201,7 +213,7 @@ function onSelect2(d) {
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"  onkeypress="return onlyNumberInput()"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  />          
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>

@@ -70,7 +70,7 @@ $(document).ready(function() {
            } 
             }
          ]],  
-         pagination : true,  
+         pagination : true 
      });  
 	 var p = $('#tt').datagrid('getPager'); 
 	    $(p).pagination({ 
