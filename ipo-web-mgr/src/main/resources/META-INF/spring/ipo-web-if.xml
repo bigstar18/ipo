@@ -35,7 +35,7 @@
 	<dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" />
 	<dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService" />
 	<dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService" />
-	<dubbo:reference id="sysStatusService" interface="com.yrdce.ipo.modules.sys.service.SysStatusService" />
+	<dubbo:reference id="systemService" interface="com.yrdce.ipo.modules.sys.service.SystemService" />
 	<dubbo:reference id="brBrokerService" interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" />
 	<dubbo:reference id="tCommodityService" interface="com.yrdce.ipo.modules.sys.service.TCommodityService" />
 	<dubbo:reference id="ipoCommConfService" interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" />

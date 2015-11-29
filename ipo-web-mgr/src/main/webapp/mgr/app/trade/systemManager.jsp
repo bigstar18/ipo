@@ -3,7 +3,7 @@
 <html>
 <head>
 <title></title>
-<script src="<%=request.getContextPath()%>/static/ipo/tradeStatusManager.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/systemManager.js" type="text/javascript"></script>
 </head>
 <body leftmargin="0" topmargin="0" onkeypress="keyEnter(event.keyCode);">
 	<table width="550" border="0" cellspacing="0" cellpadding="0" align="center">
