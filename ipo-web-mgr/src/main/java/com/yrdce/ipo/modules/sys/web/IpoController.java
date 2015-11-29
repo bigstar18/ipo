@@ -148,18 +148,31 @@ public class IpoController extends BaseController {
 		request.setAttribute("breedID", breedid);
 		return "app/commodity/comm_list";
 	}
+	
+	/*
+	 * 商品查询视图
+	 */
+	@RequestMapping(value = "/CommodityQuery", method = RequestMethod.GET)
+	public String CommodityQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "app/dataQuery/comms_list";
+	}
 
 	/*
 	 * 新增品种视图
 	 */
 	@RequestMapping(value = "/addBreedforward", method = RequestMethod.GET)
 	public String addBreedforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		try {
 		request.setAttribute("crud", "create");
 		log.info("跳转至新增页面");
 		Mlist = mBreedservice.findAll();
 		request.setAttribute("Mlist", Mlist);
 		request.setAttribute("breedlist", JSON.json(Mlist));
 		return "app/breed/breed";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	/*
@@ -168,6 +181,7 @@ public class IpoController extends BaseController {
 	@RequestMapping(value = "/updateBreedforward", method = RequestMethod.GET)
 	public String updateBreedforward(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("breedID") String breedid)
 			throws IOException {
+		try {
 		request.setAttribute("crud", "update");
 		log.info("跳转至修改页面");
 		VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
@@ -177,6 +191,10 @@ public class IpoController extends BaseController {
 		request.setAttribute("entity", vbreed);
 		request.setAttribute("breedlist", JSON.json(Mlist));
 		return "app/breed/breed";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	/*
@@ -186,6 +204,7 @@ public class IpoController extends BaseController {
 	public String addCommodity(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("breedid") String breedid)
 			throws IOException {
 		log.info("跳转至新增商品页面");
+		try {
 		VIpoABreed ipobreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
 		Blist = brBrokerService.findAllPublisher();
 		Tlist = tCommodityService.findAllTCommodity();
@@ -193,6 +212,10 @@ public class IpoController extends BaseController {
 		request.setAttribute("Blist", Blist);
 		request.setAttribute("Tlist", Tlist);
 		return "app/commodity/add_commodity";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	/*
@@ -202,6 +225,7 @@ public class IpoController extends BaseController {
 	public String updateCommodity(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam("commodityid") String commodityid, @RequestParam("breedid") String breedid) throws IOException {
 		log.info("跳转至修改商品页面");
+		try {
 		VIpoCommConf ipocomm = ipoCommConfService.getVIpoCommConfByCommid(commodityid);
 		Blist = brBrokerService.findAllPublisher();
 		Tlist = tCommodityService.findAllTCommodity();
@@ -212,5 +236,9 @@ public class IpoController extends BaseController {
 		request.setAttribute("Tlist", Tlist);
 		request.setAttribute("Blist", Blist);
 		return "app/commodity/update_commodity";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 }

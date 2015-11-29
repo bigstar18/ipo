@@ -17,7 +17,6 @@ import com.yrdce.ipo.modules.sys.vo.VTCommodity;
  *
  */
 @Service("tCommodityService")
-@Transactional(readOnly = true)
 public class TCommodityServiceImpl implements TCommodityService {
 	
 	@Autowired
@@ -32,8 +31,8 @@ public class TCommodityServiceImpl implements TCommodityService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<VTCommodity> findAllTCommodity() {
-		try{
 		List<TCommodity> comlist=tCommodityMapper.selectAll();
 		List<VTCommodity> comlist2=new ArrayList<VTCommodity>();
 		for(TCommodity temp : comlist){
@@ -42,10 +41,6 @@ public class TCommodityServiceImpl implements TCommodityService {
 			comlist2.add(tcom);
 		}
 		return comlist2;
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 }

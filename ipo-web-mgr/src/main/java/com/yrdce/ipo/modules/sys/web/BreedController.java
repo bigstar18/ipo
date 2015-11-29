@@ -91,7 +91,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -114,7 +114,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -141,7 +141,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -287,7 +287,33 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
+		}
+	}
+	
+	/**
+	 * 查询所有商品列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findAllComms", method = RequestMethod.GET)
+	@ResponseBody
+	public String findAllComms(@RequestParam("page") String page, @RequestParam("rows") String rows)
+			throws IOException {
+		log.info("查询所有商品列表");
+		try {
+			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConf(page, rows);
+			int totalnum = ipoCommConfService.getAllComms();
+			ResponseResult result = new ResponseResult();
+			result.setRows(comlist);
+			result.setTotal(totalnum);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 
@@ -300,12 +326,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/addCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public void addCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String addCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("新增商品");
 		try {
 			ipoCommConfService.addCommodity(ipocomm);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 
@@ -318,12 +346,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public void updateCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String updateCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("修改商品");
 		try {
 			ipoCommConfService.updateCommodity(ipocomm);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 

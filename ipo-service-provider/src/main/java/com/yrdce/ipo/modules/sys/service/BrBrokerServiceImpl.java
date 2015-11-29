@@ -17,7 +17,6 @@ import com.yrdce.ipo.modules.sys.vo.VBrBroker;
  *
  */
 @Service("brBrokerService")
-@Transactional(readOnly = true)
 public class BrBrokerServiceImpl implements BrBrokerService {
 	
 	@Autowired
@@ -34,6 +33,7 @@ public class BrBrokerServiceImpl implements BrBrokerService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<VBrBroker> findAllPublisher() {
 		try{
 		List<BrBroker> blist=brBrokerMapper.findAllPublisher();

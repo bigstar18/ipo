@@ -12,7 +12,92 @@
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<title>商品修改</title>
 		<script type="text/javascript"> 
+		$(function () {
+		     $("#listingdate").datebox({
+		         required: "true",
+		         missingMessage: "必填项",
+		         formatter: function (date) {
+		         var y = date.getFullYear();
+		         var m = date.getMonth() + 1;
+		         var d = date.getDate();
+		         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		       } ,
+		       onSelect:function (date){
+			          var last=new Date($('#lasttradate').datebox('getValue'));
+			          var list=new Date($('#listingdate').datebox('getValue'));
+			    	   if (last < list) {
+			               alert('结束日期小于开始日期');
+			               $('#listingdate').datebox('setValue', '').datebox('showPanel');
+			           } 
+			       }
+		      });
 
+		      $("#lasttradate").datebox({
+		         required: "true",
+		         missingMessage: "必填项",
+		         formatter: function (date) {
+		               var y = date.getFullYear();
+		               var m = date.getMonth() + 1;
+		               var d = date.getDate();
+		               return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		                },
+		    	        onSelect:function (date){
+		  	        	  var last=new Date($('#lasttradate').datebox('getValue'));
+		  		          var list=new Date($('#listingdate').datebox('getValue'));
+		  		    	   if (last < list) {
+		  		               alert('结束日期小于开始日期');
+		  		               $('#lasttradate').datebox('setValue', '').datebox('showPanel');
+		  		           } 
+		  	     	}
+		       });
+
+              $("#starttime").datebox({
+		                required: "true",
+		                missingMessage: "必填项",
+		                formatter: function (date) {
+		                    var y = date.getFullYear();
+		                    var m = date.getMonth() + 1;
+		                    var d = date.getDate();
+		                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		                } ,
+		                onSelect:function (date){
+			                  var stime=new Date($('#starttime').datebox('getValue'));
+			   		          var etime=new Date($('#endtime').datebox('getValue'));
+			   		    	   if (etime < stime) {
+			   		               alert('结束日期小于开始日期');
+			   		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+			   		           } 	
+			   	     	} 
+		            });
+		          
+              $("#endtime").datebox({
+		                required: "true",
+		                missingMessage: "必填项",
+		                formatter: function (date) {
+		                    var y = date.getFullYear();
+		                    var m = date.getMonth() + 1;
+		                    var d = date.getDate();
+		                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		            },
+	                onSelect:function (date){
+		                  var stime=new Date($('#starttime').datebox('getValue'));
+		   		          var etime=new Date($('#endtime').datebox('getValue'));
+		   		    	   if (etime < stime) {
+		   		               alert('结束日期小于开始日期');
+		   		               $('#endtime').datebox('setValue', '').datebox('showPanel');
+		   		           } 	
+		   	     	} 
+		            });  
+              $("#listingdate").datebox("setValue",formatDate($("#listtime").val()));
+              $("#lasttradate").datebox("setValue",formatDate($("#lasttime").val()));
+              $("#starttime").datebox("setValue",formatDate($("#stime").val()));
+              $("#endtime").datebox("setValue",formatDate($("#etime").val()));   
+		  });	
+		
+function formatDate(date){
+	var day=new Date(date);
+	return day.getFullYear()+"-"+(day.getMonth()+1)+"-"+day.getDate();
+}	
 		
 function updateComm(){
 	var curstatus=$("#currstatus").val();
@@ -21,7 +106,7 @@ function updateComm(){
 	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
-	alert($('#listingdate').datebox('getValue'));
+	//alert($('#listingdate').datebox('getValue'));
 	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
 		 $('#frm').form({
   		     url:'<%=request.getContextPath()%>/BreedController/updateCommodity',
@@ -29,6 +114,7 @@ function updateComm(){
   		         return $(this).form('validate');
   		     },
   		     success:function(data){
+  		    	 alert("修改成功！");
  		    	 returntoList();
   		     }
   		 });  
@@ -160,12 +246,12 @@ function onSelect2(d) {
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 60; background-color: C0C0C0"/>
 							            </td>        
 							            <td align="right">上市日期：</td>
-							            <td>
-			  								<input class="easyui-datebox" type="text" id="listingdate" data-options="onSelect:onSelect2"  name="listingdate" value="${entity.listingdate }" required="required"></input>       
+							            <td><input type="hidden" id="listtime" value="${entity.listingdate }">
+			  								<input  type="text" id="listingdate"   name="listingdate" value="" ></input>       
             							</td>
             							<td align="right">最后交易日：</td>
-            							<td>
-										<input class="easyui-datebox" type="text" id="lasttradate" data-options="onSelect:onSelect2"  name="lasttradate" value="${entity.lasttradate }" required="required"></input> 
+            							<td><input type="hidden" id="lasttime" value="${entity.lasttradate }">
+										<input  type="text" id="lasttradate"   name="lasttradate" value="" ></input> 
 								      	</td>
         							</tr> 
 									<tr>
@@ -312,12 +398,13 @@ function onSelect2(d) {
 								            	</select>
             							</td>    
         								<td align="right" >发行开始日期：</td> 
-            							<td> 
-			  								<input class="easyui-datebox" data-options="onSelect:onSelect"  type="text" id="starttime" name="starttime" value="${entity.starttime }" required="required"></input> 
+            							<td> <input type="hidden" id="stime" value="${entity.starttime }">
+			  								<input type="text" id="starttime" name="starttime" value="" ></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input class="easyui-datebox" data-options="onSelect:onSelect" type="text" id="endtime" name="endtime" value="${entity.endtime }" required="required"></input> 
+										<input type="hidden" id="etime" value="${entity.endtime }">
+											<input type="text" id="endtime" name="endtime" value=""></input> 
 										</td>
         							</tr>
 									<tr>

@@ -12,7 +12,83 @@
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<title>商品新增</title>
 		<script type="text/javascript"> 
-
+		
+$(function () {
+	     $("#listingdate").datebox({
+	         required: "true",
+	         missingMessage: "必填项",
+	         formatter: function (date) {
+	         var y = date.getFullYear();
+	         var m = date.getMonth() + 1;
+	         var d = date.getDate();
+	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	       },
+	       onSelect:function (date){
+	          var last=new Date($('#lasttradate').datebox('getValue'));
+	          var list=new Date($('#listingdate').datebox('getValue'));
+	    	   if (last < list) {
+	               alert('结束日期小于开始日期');
+	               $('#listingdate').datebox('setValue', '').datebox('showPanel');
+	           } 
+	       }
+	      });
+	      $("#lasttradate").datebox({
+	         required: "true",
+	         missingMessage: "必填项",
+	         formatter: function (date) {
+	         var y = date.getFullYear();
+	          var m = date.getMonth() + 1;
+	          var d = date.getDate();
+	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	                },
+	        onSelect:function (date){
+	        	  var last=new Date($('#lasttradate').datebox('getValue'));
+		          var list=new Date($('#listingdate').datebox('getValue'));
+		    	   if (last < list) {
+		               alert('结束日期小于开始日期');
+		               $('#lasttradate').datebox('setValue', '').datebox('showPanel');
+		           } 
+	     	}
+	       });
+	      
+	      $("#starttime").datebox({
+	                required: "true",
+	                missingMessage: "必填项",
+	                formatter: function (date) {
+	                    var y = date.getFullYear();
+	                    var m = date.getMonth() + 1;
+	                    var d = date.getDate();
+	                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	                },
+	                onSelect:function (date){
+	                  var stime=new Date($('#starttime').datebox('getValue'));
+	   		          var etime=new Date($('#endtime').datebox('getValue'));
+	   		    	   if (etime < stime) {
+	   		               alert('结束日期小于开始日期');
+	   		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+	   		           } 	
+	   	     	}
+	            });
+	            $("#endtime").datebox({
+	                required: "true",
+	                missingMessage: "必填项",
+	                formatter: function (date) {
+	                    var y = date.getFullYear();
+	                    var m = date.getMonth() + 1;
+	                    var d = date.getDate();
+	                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	                },
+	                onSelect:function (date){
+	                  var stime=new Date($('#starttime').datebox('getValue'));
+	   		          var etime=new Date($('#endtime').datebox('getValue'));
+	   		    	   if (etime < stime) {
+	   		               alert('结束日期小于开始日期');
+	   		               $('#endtime').datebox('setValue', '').datebox('showPanel');
+	   		           } 	
+	   	     	}
+	            });  
+	        });	
+		 
 function addComm(){
 	var curstatus=$("#currstatus").val();
 	var spreadalgr=$("#spreadalgr").val();
@@ -40,7 +116,7 @@ function addComm(){
                   		         return $(this).form('validate');
                   		     },
                   		     success:function(data){
-                  		    	// document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
+                  		    	alert("增加成功！");
                   		    	 returntoList();
                   		     }
                   		 });  
@@ -178,11 +254,11 @@ function onSelect2(d) {
 							            </td>        
 							            <td align="right">上市日期：</td>
 							            <td>
-			  								<input class="easyui-datebox" data-options="onSelect:onSelect2,required:true,missingMessage:'必填项'"  type="text" id="listingdate" name="listingdate" value="" ></input>       
+			  							<input type="text" id="listingdate" name="listingdate" value="" ></input>       
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input class="easyui-datebox" data-options="onSelect:onSelect2,required:true,missingMessage:'必填项'" type="text" id="lasttradate" name="lasttradate" value=""></input> 
+										<input type="text" id="lasttradate" name="lasttradate" value=""></input> 
 								      	</td>
         							</tr> 
 									<tr>
@@ -328,11 +404,11 @@ function onSelect2(d) {
             							</td>    
         								<td align="right" >发行开始日期：</td> 
             							<td> 
-			  								<input class="easyui-datebox" data-options="onSelect:onSelect,required:true,missingMessage:'必填项'"  type="text" id="starttime" name="starttime" value="" required="required"></input> 
+			  								<input type="text" id="starttime" name="starttime" value=""></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input class="easyui-datebox" data-options="onSelect:onSelect,required:true,missingMessage:'必填项'" type="text" id="endtime" name="endtime" value="" required="required"></input> 
+											<input type="text" id="endtime" name="endtime" value=""></input> 
 										</td>
         							</tr>
 									<tr>

@@ -121,22 +121,26 @@ function addForward(){
 
 //删除品种
 function deleteBreed(){
+	 var row = $("#tt").datagrid("getSelected"); 
+	  if(row){
 	if(confirm("确定删除该品种吗？")){
-		  var row = $("#tt").datagrid("getSelected"); 
 		  $.post("<%=request.getContextPath()%>/BreedController/deleteBreed",{"breedid":row.breedid},function(data,status){
 			  if(data=='true'){
 				  alert("删除成功！")
 				  $('#tt').datagrid('reload');
 			  }
 			  if(data=='false'){
-				  alert("该品种下有对应商品，不可删除！")
+				  alert("该品种下有对应商品，不可删除！");
 			  }
 			  if(data=='error'){
-				  alert("发生异常，删除失败！")
+				  alert("发生异常，删除失败！");
 			  }
-				  });
+				  });}
+	}
+		  else{
+			  alert("请先选中一行再进行删除！");
 		  }
-}
+ }
 
 //修改品种配置信息，跳转到修改页面
 function updateBreed(breedid){
