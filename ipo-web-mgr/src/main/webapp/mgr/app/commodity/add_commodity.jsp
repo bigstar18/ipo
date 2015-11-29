@@ -19,20 +19,32 @@ function addComm(){
 	var publishalgr=$("#publishalgr").val();
 	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
-	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''){ 
+	var pubmemberid=$("#pubmemberid").val();
+	var commid=$("#commodityid").val();
+	//var listingdate=$('#listingdate').datebox('getValue');
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
 		 $.ajax({  
 			 type: 'GET',  
 		      url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",  
 		     contentType: "application/json; charset=utf-8", 
-		     data:{"commoidtyid":$("#commoidtyid").val()},  
+		     data:{"commodityid":commid},  
 			 dataType: 'json',  
 		     success : function(data, stats) { 
 			           if(data=='0'){
 			        	   alert("商品代码已存在，请重新输入！")
 			           }
                        if(data=='1'){
-                    		$("#frm").attr("action","<%=request.getContextPath()%>/BreedController/addCommodity");
-                   	     	$("#frm").submit();
+                    	   $('#frm').form({
+                  		     url:'<%=request.getContextPath()%>/BreedController/addCommodity',
+                  		     onSubmit:function(){
+                  		         return $(this).form('validate');
+                  		     },
+                  		     success:function(data){
+                  		    	// document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
+                  		    	 returntoList();
+                  		     }
+                  		 });  
+                  	   $('#frm').submit(); 
 			           }
                        if(data=='2'){
                     	   alert("系统内部异常！")
@@ -129,7 +141,7 @@ function onSelect2(d) {
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${entity.breedname }"
-            								class="easyui-textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"  readonly="readonly"/>          
+            								class="easyui-textbox" data-options="required:true"  style="width: 60; background-color:gray"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>   
             							</td>    
         								<td align="right" ></td> 
@@ -142,12 +154,12 @@ function onSelect2(d) {
 									<tr>
         	  							<td align="right">商品名称：</td>
             							<td><input id="commodityname" name="commodityname" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"/>          
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
             							</td>    
         								<td align="right" >商品代码：</td> 
             							<td> 
 			  							<input id="commodityid" name="commodityid" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"/>          
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
             							</td>
             							<td align="right">当前状态</td>
 										<td>
@@ -162,15 +174,15 @@ function onSelect2(d) {
 							            <td align="right" >开市指导价：</td>
             							<td >
             							<input id="supervisedprice" name="supervisedprice" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 60; background-color: C0C0C0"/>
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 60"/>
 							            </td>        
 							            <td align="right">上市日期：</td>
 							            <td>
-			  								<input class="easyui-datebox" type="text" id="listingdate" data-options="onSelect:onSelect2"  name="listingdate" value="" required="required"></input>       
+			  								<input class="easyui-datebox" data-options="onSelect:onSelect2,required:true,missingMessage:'必填项'"  type="text" id="listingdate" name="listingdate" value="" ></input>       
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input class="easyui-datebox" type="text" id="lasttradate" data-options="onSelect:onSelect2"  name="lasttradate" value="" required="required"></input> 
+										<input class="easyui-datebox" data-options="onSelect:onSelect2,required:true,missingMessage:'必填项'" type="text" id="lasttradate" name="lasttradate" value=""></input> 
 								      	</td>
         							</tr> 
 									<tr>
@@ -186,7 +198,7 @@ function onSelect2(d) {
             							</td>
             							<td align="right">对应现货商品</td>
 										<td>
-										<select id="mapperid" style="width:100">
+										<select id="mapperid" name="mapperid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="Tcomm" items="${Tlist}">
                                                       <option value="${Tcomm.commodityid}">${Tcomm.name}</option>
@@ -217,7 +229,7 @@ function onSelect2(d) {
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"   readonly="readonly"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  />          
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
@@ -307,7 +319,7 @@ function onSelect2(d) {
 								    <tr>
         	  							<td align="right">发行会员编号：</td>
             							<td>
-            							<select id="pubmemberid" style="width:100">
+            							<select id="pubmemberid" name="pubmemberid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="pubmember" items="${Blist}">
                                                       <option value="${pubmember.brokerid}">${pubmember.name}</option>
@@ -316,11 +328,11 @@ function onSelect2(d) {
             							</td>    
         								<td align="right" >发行开始日期：</td> 
             							<td> 
-			  								<input class="easyui-datebox" data-options="onSelect:onSelect"  type="text" id="starttime" name="starttime" value="" required="required"></input> 
+			  								<input class="easyui-datebox" data-options="onSelect:onSelect,required:true,missingMessage:'必填项'"  type="text" id="starttime" name="starttime" value="" required="required"></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input class="easyui-datebox" data-options="onSelect:onSelect" type="text" id="endtime" name="endtime" value="" required="required"></input> 
+											<input class="easyui-datebox" data-options="onSelect:onSelect,required:true,missingMessage:'必填项'" type="text" id="endtime" name="endtime" value="" required="required"></input> 
 										</td>
         							</tr>
 									<tr>

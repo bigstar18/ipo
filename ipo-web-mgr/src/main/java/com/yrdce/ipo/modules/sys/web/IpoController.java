@@ -210,6 +210,7 @@ public class IpoController extends BaseController {
 		request.setAttribute("entity", ipocomm);
 		request.setAttribute("breedname", breedname);
 		request.setAttribute("Tlist", Tlist);
+		request.setAttribute("Blist", Blist);
 		return "app/commodity/update_commodity";
 	}
 }

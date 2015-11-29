@@ -36,7 +36,7 @@ public interface TradetimeService {
 	public List<Tradetime> selectAll();
 
 	// 非交易日插入(删除、更新、提交共用此方法)
-	public int insert(Nottradeday notTradeDay);
+	public int insertByNottradeday(Nottradeday notTradeDay);
 
 	// 非交易日查询
 	public Nottradeday select();

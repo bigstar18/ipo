@@ -161,7 +161,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	// 非交易日插入(删除、更新、提交共用此方法)
 	@Override
-	public int insert(Nottradeday notTradeDay) {
+	public int insertByNottradeday(Nottradeday notTradeDay) {
 		logger.info("非交易节设置");
 		int seccess = 1;
 		int error = 2;

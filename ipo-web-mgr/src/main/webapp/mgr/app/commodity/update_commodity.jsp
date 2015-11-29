@@ -20,9 +20,21 @@ function updateComm(){
 	var publishalgr=$("#publishalgr").val();
 	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
-	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''){ 
-     $("#frm").attr("action","<%=request.getContextPath()%>/BreedController/updateCommodity");
-      $("#frm").submit();
+	var pubmemberid=$("#pubmemberid").val();
+	alert($('#listingdate').datebox('getValue'));
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
+		 $('#frm').form({
+  		     url:'<%=request.getContextPath()%>/BreedController/updateCommodity',
+  		     onSubmit:function(){
+  		         return $(this).form('validate');
+  		     },
+  		     success:function(data){
+ 		    	 returntoList();
+  		     }
+  		 });  
+  	   $('#frm').submit(); 
+	}else{
+		alert("所有参数必填！");
 	}
 }
 
@@ -112,7 +124,7 @@ function onSelect2(d) {
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${breedname }"
-            								class="easyui-textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"  readonly="readonly"/>          
+            								class="easyui-textbox" data-options="required:true"  style="width: 60; background-color: gray"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>   
             							</td>    
         								<td align="right" ></td> 
@@ -125,12 +137,12 @@ function onSelect2(d) {
 									<tr>
         	  							<td align="right">商品名称：</td>
             							<td><input id="commodityname" name="commodityname" value="${entity.commodityname }"
-            								class="easyui-validatebox textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"/>          
+            								class="easyui-validatebox textbox" data-options="required:true"  style="width: 60; background-color: gray" readonly="readonly"/>          
             							</td>    
         								<td align="right" >商品代码：</td> 
             							<td> 
 			  							<input id="commodityid" name="commodityid" value="${entity.commodityid }"
-            								class="easyui-validatebox textbox" data-options="required:true,editable:false"  style="width: 60; background-color: C0C0C0"/>          
+            								class="easyui-validatebox textbox" data-options="required:true"  style="width: 60; background-color: gray" readonly="readonly"/>          
             							</td>
             							<td align="right">当前状态</td>
 										<td>
@@ -159,8 +171,8 @@ function onSelect2(d) {
 									<tr>
 										<td align="right">发行价：</td>
             							<td>
-			  							<input type="text" id="price" name="price"  value="${entity.price }"
-			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
+			  							<input type="text" id="price" name="price"  value="${entity.price }"  readonly="readonly"
+			  									style="ime-mode:disabled; width: 80; background-color: gray" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
             							</td>
             							<td align="right">发售单位</td>
             							<td>
@@ -169,10 +181,11 @@ function onSelect2(d) {
             							</td>
             							<td align="right">对应现货商品</td>
 										<td>
+										<c:set var='mappercomm' value="${entity.mapperid}" ></c:set>
 										<select id="mapperid" name="mapperid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="Tcomm" items="${Tlist}">
-                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq '${entity.mapperid}'}"> selected="selected"</c:if>>${Tcomm.name}</option>
+                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq mappercomm}">selected</c:if>>${Tcomm.name}</option>
                                                     </c:forEach>
 								         </select>
 										</td>
@@ -200,7 +213,7 @@ function onSelect2(d) {
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"  onkeypress="return onlyNumberInput()"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  />          
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
@@ -290,10 +303,11 @@ function onSelect2(d) {
 								    <tr>
         	  							<td align="right">发行会员编号：</td>
             							<td>
+            							<c:set var='publisher' value="${entity.pubmemberid}" ></c:set>
             							<select id="pubmemberid" name="pubmemberid" style="width:100">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="pubmember" items="${Blist}">
-                                                      <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq '${entity.pubmemberid}'}"> selected="selected"</c:if>>${pubmember.name}</option>
+                                                      <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq publisher}">selected</c:if>>${pubmember.name}</option>
                                                     </c:forEach>
 								            	</select>
             							</td>    

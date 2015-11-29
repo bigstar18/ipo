@@ -93,6 +93,9 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			IpoCommodity ipocomm=new IpoCommodity();
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
+			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
+			ipocomm.setUnits(comm.getUnits().intValue());
+			ipocomm.setCounts(comm.getCounts().intValue());
 			ipoCommodityConfmapper.insert(ipocommconf);
 			commoditymapper.insert(ipocomm);
 			}catch (Exception e) {
@@ -107,6 +110,9 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			IpoCommodity ipocomm=new IpoCommodity();
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
+			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
+			ipocomm.setUnits(comm.getUnits().intValue());
+			ipocomm.setCounts(comm.getCounts().intValue());
 			ipoCommodityConfmapper.update(ipocommconf);
 			commoditymapper.update(ipocomm);
 			}catch (Exception e) {
