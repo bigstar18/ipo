@@ -1,4 +1,5 @@
 package com.yrdce.ipo.common.utils;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -16,25 +17,25 @@ public class Selection {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Selection s = new Selection();
-		int test=0;
+		int test = 0;
 		List<String> temp = s.MainSelection(233445, 1009733);
 		for (int i = 0; i < temp.size(); i++) {
 			System.out.println(temp.get(i));
-			test+=s.OwnMatchingEndNum(10000001,9733,temp.get(i));
-			test+=s.OwnMatchingEndNum(10005700,500000,temp.get(i));
-			test+=s.OwnMatchingEndNum(10505700,100000,temp.get(i));
-			test+=s.OwnMatchingEndNum(10605700,400000,temp.get(i));
-			
+			test += s.OwnMatchingEndNum(10000001, 9733, temp.get(i));
+			test += s.OwnMatchingEndNum(10005700, 500000, temp.get(i));
+			test += s.OwnMatchingEndNum(10505700, 100000, temp.get(i));
+			test += s.OwnMatchingEndNum(10605700, 400000, temp.get(i));
+
 		}
 		System.out.println("尾号个数" + temp.size());
 		System.out.println("可匹配的个数" + s.tmp);
 		System.out.println("分开匹配总和" + test);
-		System.out.println("中签率" + (s.iopNum/s.buyNum));
+		System.out.println("中签率" + (s.iopNum / s.buyNum));
 
 	}
 
-	//对外开放主接口
-	public  List<String> MainSelection(double ipoNum, double buyNum) {
+	// 对外开放主接口
+	public List<String> MainSelection(double ipoNum, double buyNum) {
 		this.iopNum = ipoNum;
 		this.buyNum = buyNum;
 		GetSucRate();
@@ -43,12 +44,13 @@ public class Selection {
 		AdjustmentNum();
 		return endNumList;
 	}
-	//总体中签数匹配
-	private void MatchingEndNum(List<String> temp){
+
+	// 总体中签数匹配
+	private void MatchingEndNum(List<String> temp) {
 		for (int i = 0; i < temp.size(); i++) {
 			String endNum = temp.get(i);
 			int len = endNum.length();
-			String buyNumString = String.valueOf((int)buyNum);
+			String buyNumString = String.valueOf((int) buyNum);
 			if (Long.parseLong(buyNumString.substring(buyNumString.length() - len, buyNumString.length())) >= Long.parseLong(endNum)) {
 				if (buyNumString.length() == len)
 					tmp += 1;
@@ -62,69 +64,70 @@ public class Selection {
 			}
 		}
 	}
-	//个人中签数匹配
-	public int OwnMatchingEndNum(int numStart,int numCounts,String numEnd){
+
+	// 个人中签数匹配
+	public int OwnMatchingEndNum(int numStart, int numCounts, String numEnd) {
 		String strNumStart = String.valueOf(numStart);
-		if(strNumStart.length()<numEnd.length()){
+		if (strNumStart.length() < numEnd.length()) {
 			return 0;
 		}
-		int tempEnd = numStart+numCounts-1;
+		int tempEnd = numStart + numCounts - 1;
 		int iNumEnd = Integer.parseInt(numEnd);
 		String strTempEnd = String.valueOf(tempEnd);
-		String numStartEnd = strNumStart.substring(strNumStart.length()-numEnd.length(),strNumStart.length());
+		String numStartEnd = strNumStart.substring(strNumStart.length() - numEnd.length(), strNumStart.length());
 		int lenEndNum = numEnd.length();
-		strNumStart = strNumStart.substring(0, strNumStart.length()-lenEndNum);
-		strTempEnd = strTempEnd.substring(0, strTempEnd.length()-lenEndNum);
+		strNumStart = strNumStart.substring(0, strNumStart.length() - lenEndNum);
+		strTempEnd = strTempEnd.substring(0, strTempEnd.length() - lenEndNum);
 		int tempNumStart = Integer.parseInt(strNumStart);
 		int tempNumEnd = Integer.parseInt(strTempEnd);
-		if(tempNumEnd>tempNumStart){
-			if(IsContainRight(tempEnd,numEnd)&&IsContainLeft(numStart,numEnd)){
-				return tempNumEnd - tempNumStart+1;
+		if (tempNumEnd > tempNumStart) {
+			if (IsContainRight(tempEnd, numEnd) && IsContainLeft(numStart, numEnd)) {
+				return tempNumEnd - tempNumStart + 1;
+			} else if (IsContainRight(tempEnd, numEnd) || IsContainLeft(numStart, numEnd)) {
+				return tempNumEnd - tempNumStart;
+			} else {
+				return tempNumEnd - tempNumStart - 1;
 			}
-			else if(IsContainRight(tempEnd,numEnd)||IsContainLeft(numStart,numEnd)){
-					return tempNumEnd - tempNumStart;
-			}
-			else{ 
-					return tempNumEnd - tempNumStart-1;
-			}
-			
-		}else if(tempNumEnd == tempNumStart){
-			if(Integer.parseInt(numStartEnd)<=iNumEnd&&Integer.parseInt(numStartEnd)+numCounts-1>=iNumEnd){
+
+		} else if (tempNumEnd == tempNumStart) {
+			if (Integer.parseInt(numStartEnd) <= iNumEnd && Integer.parseInt(numStartEnd) + numCounts - 1 >= iNumEnd) {
 				return 1;
-			}else{
+			} else {
 				return 0;
 			}
-		}else{
+		} else {
 			return 0;
 		}
 	}
-	//判断尾号开始是否在区间内
-	private boolean IsContainLeft(int num,String numEnd){
+
+	// 判断尾号开始是否在区间内
+	private boolean IsContainLeft(int num, String numEnd) {
 		String strNum = String.valueOf(num);
 		int iNumEnd = Integer.parseInt(numEnd);
-		strNum = strNum.substring(strNum.length()-numEnd.length(),strNum.length());
-		if(Integer.parseInt(strNum)<=iNumEnd){
+		strNum = strNum.substring(strNum.length() - numEnd.length(), strNum.length());
+		if (Integer.parseInt(strNum) <= iNumEnd) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-	//判断尾号结束是否在区间内
-		private boolean IsContainRight(int num,String numEnd){
-			String strNum = String.valueOf(num);
-			int iNumEnd = Integer.parseInt(numEnd);
-			strNum = strNum.substring(strNum.length()-numEnd.length(),strNum.length());
-			if(Integer.parseInt(strNum)>=iNumEnd){
-				return true;
-			}else{
-				return false;
-			}
+
+	// 判断尾号结束是否在区间内
+	private boolean IsContainRight(int num, String numEnd) {
+		String strNum = String.valueOf(num);
+		int iNumEnd = Integer.parseInt(numEnd);
+		strNum = strNum.substring(strNum.length() - numEnd.length(), strNum.length());
+		if (Integer.parseInt(strNum) >= iNumEnd) {
+			return true;
+		} else {
+			return false;
 		}
-	
+	}
+
 	// 号码补齐
 	private void AdjustmentNum() {
 		while (tmp < iopNum) {
-			int temp = (int)Math.pow(10, String.valueOf((int)buyNum).length()-1);
+			int temp = (int) Math.pow(10, String.valueOf((int) buyNum).length() - 1);
 			String zero = String.valueOf(temp).substring(1, String.valueOf(temp).length());
 			DecimalFormat df = new DecimalFormat(zero);
 			Random rd = new Random();
@@ -133,7 +136,7 @@ public class Selection {
 			while (!DeleSame(strEndNum)) {
 				strEndNum = String.valueOf(rd.nextInt(((int) buyNum - iTemp)) + iTemp);
 			}
-			if(strEndNum.length()< String.valueOf((int)buyNum).length()-1)
+			if (strEndNum.length() < String.valueOf((int) buyNum).length() - 1)
 				strEndNum = df.format(Integer.parseInt(strEndNum));
 			endNumList.add(strEndNum);
 			tmp++;
@@ -155,18 +158,18 @@ public class Selection {
 
 	// 拆分中签率
 	private void SplitSucRate() {
-		if(String.valueOf((int) buyNum).length() - 2>decimalNum.length()){
+		if (String.valueOf((int) buyNum).length() - 2 > decimalNum.length()) {
 			for (int i = 0; i < decimalNum.length(); i++) {
 				SplitSucRate(i);
 			}
-		}else{
+		} else {
 			for (int i = 0; i < String.valueOf((int) buyNum).length() - 2; i++) {
 				SplitSucRate(i);
 			}
 		}
 	}
-	
-	private void SplitSucRate(int i){
+
+	private void SplitSucRate(int i) {
 		String m_Decimal = decimalNum.substring(i, i + 1);
 		if (!m_Decimal.equals("0")) {
 			int m_num = (int) Math.pow(10, i + 1);
@@ -184,14 +187,15 @@ public class Selection {
 			}
 			return true;
 		} else {
-			
+
 			return true;
 		}
 	}
-	private boolean DeleSame(int m_num,int m_result,int temp,DecimalFormat df){
+
+	private boolean DeleSame(int m_num, int m_result, int temp, DecimalFormat df) {
 		for (int i = 0; i < m_num; i++) {
 			int endNum = (m_result + i * (temp / m_num)) % temp;
-			if(endNum==0){
+			if (endNum == 0) {
 				endNum++;
 			}
 			if (!DeleSame(df.format(endNum))) {
@@ -200,6 +204,7 @@ public class Selection {
 		}
 		return true;
 	}
+
 	// 生成尾号
 	private void GetOtherEndNum(int m_num, int temp) {
 		if (temp % m_num == 0) {
@@ -207,23 +212,23 @@ public class Selection {
 			int m_result = rd.nextInt(temp);
 			String zero = String.valueOf(temp).substring(1, String.valueOf(temp).length());
 			DecimalFormat df = new DecimalFormat(zero);
-			while (!DeleSame(m_num,m_result,temp,df)) {
+			while (!DeleSame(m_num, m_result, temp, df)) {
 				m_result = rd.nextInt(temp);
 			}
 			for (int i = 0; i < m_num; i++) {
 				int endNum = (m_result + i * (temp / m_num)) % temp;
-				if(endNum==0){
+				if (endNum == 0) {
 					endNum++;
 				}
 				endNumList.add(df.format(endNum));
 			}
-		
+
 		} else {
 			fnSplitNum(m_num, temp);
 		}
 	}
 
-	//中签率拆分后 不整除 中签率拆分
+	// 中签率拆分后 不整除 中签率拆分
 	private void fnSplitNum(int m_num, int temp) {
 		if (m_num == 3) {
 			GetOtherEndNum(1, temp);
