@@ -21,7 +21,7 @@ public interface TradetimeService {
 	public int insert(Tradetime tradetime);
 
 	// 删除交易节
-	public int delete(Integer ids);
+	public int delete(String ids);
 
 	// 根据主键查询交易节
 	public Tradetime selectByKey(Short id);

@@ -14,7 +14,7 @@ public interface IpoTradtimeMapper {
 
 	public IpoTradetime selectByKey(Short id);
 
-	public void deleteByPrimaryKey(int id);// ????????????????
+	public void deleteByPrimaryKey(Short id);
 
 	public void updateByAll(IpoTradetime tradetime);
 

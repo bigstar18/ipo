@@ -194,7 +194,7 @@ document.onkeypress=showKeyPress;
 						<td>
 							<div class="warning">
 								<div class="content">
-									温馨提示 :交易节添加
+									温馨提示 :交易节修改
 								</div>
 							</div>
 						</td>

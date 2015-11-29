@@ -89,10 +89,14 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public int delete(Integer ids) {
+	public int delete(String ids) {
 		logger.info("进入交易节删除" + ids);
-		// int sectionid = Integer.parseInt(String.valueOf(ids));
-		tradetimeMapper.deleteByPrimaryKey(ids);
+		String[] id = ids.split(",");
+		for (int i = 0; i < id.length; i++) {
+			// int sectionid = Integer.parseInt(String.valueOf(id[i]));
+			short sectionid = Short.parseShort(String.valueOf(id[i]));
+			tradetimeMapper.deleteByPrimaryKey(sectionid);
+		}
 		return 1;
 	}
 

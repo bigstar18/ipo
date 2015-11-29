@@ -104,15 +104,14 @@ public class TradetimeController {
 	// 删除交易节
 	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
 	@ResponseBody
-	public int deleteTradetime(int ids) {
+	public String deleteTradetime(String ids) {
 		logger.info("进入删除交易节" + "ids:" + ids);
 		try {
-
 			int status = tradetimeService.delete(ids);
-			return status;
+			return "seccess";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return "error";
 		}
 	}
 
@@ -124,7 +123,7 @@ public class TradetimeController {
 		short sectionID1 = Short.parseShort(sectionID);
 		Tradetime tradetime = tradetimeService.selectByKey(sectionID1);
 		request.setAttribute("tradetime", tradetime);
-		return "app/tradetime/add_tradeTime";
+		return "app/tradetime/update_tradetime";
 	}
 
 	// 添加交易节视图

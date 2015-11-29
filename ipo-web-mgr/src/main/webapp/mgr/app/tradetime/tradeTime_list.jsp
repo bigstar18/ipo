@@ -102,7 +102,7 @@ function addForward(){
 		$('tt').datagrid('reload');
 	} 
 }
-
+//修改信息跳转
 function updateForward(id) {
 	//获取配置权限的 URL
 	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionID="+id;
@@ -114,14 +114,26 @@ function updateForward(id) {
 
 	document.location.href = url;
 }
-
+//删除
 function deleteList(){
 	var checkedItems = $('#tt').datagrid('getChecked');
 	var ids = [];
 	$.each(checkedItems,function(index,item){
 		ids.push(item.sectionid);
 	});
-	var deleteUrl = "<%=request.getContextPath()%>/TradetimeController/deleteTradetime";
+	var id = ids.join(",");
+	if(confirm("确定删除该品种吗？")){
+		  var row = $("#tt").datagrid("getSelected"); 
+		  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
+			  if(data=='seccess'){
+				  alert("删除成功！")
+				  $('#tt').datagrid('reload');
+			  }
+			  if(data=='error'){
+				  alert("发生异常，删除失败！")
+			  }
+				  });
+		  }
 }
 
 </script>

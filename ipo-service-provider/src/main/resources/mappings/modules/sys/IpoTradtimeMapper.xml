@@ -24,7 +24,7 @@
   </select>
   
   <select id="selectByKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
-  	select <include refid="Base_Column_List" /> from IPO_TRADETIME where t.sectionid = #{sectionid,jdbcType=DECIMAL}
+  	select <include refid="Base_Column_List" /> from IPO_TRADETIME where sectionid = #{sectionid,jdbcType=DECIMAL}
   </select>
   
   <update id="updateByAll" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime">
