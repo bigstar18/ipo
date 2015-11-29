@@ -247,7 +247,7 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/findExsitCommIds", method = RequestMethod.GET)
 	@ResponseBody
-	public String findExsitCommIds(@RequestParam("commoidtyid") String commid) throws IOException {
+	public String findExsitCommIds(@RequestParam("commodityid") String commid) throws IOException {
 		log.info("查询已存在的商品ID");
 		try {
 

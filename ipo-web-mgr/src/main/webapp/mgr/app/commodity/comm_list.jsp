@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-
+<script src="<%=request.getContextPath()%>/static/jquery-easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 <script type="text/javascript">
  
 $(document).ready(function() {
@@ -36,7 +36,7 @@ $(document).ready(function() {
              align: "center",
              title : '商品名称',
              formatter:function(value,row){
-          	    return "<a href=\"#\" onclick=\"updateCommodity("+row+")\">"+value+"</a>";
+          	    return "<a href=\"#\" onclick=\"updateCommodity("+row.commodityid+","+row.breedid+")\">"+value+"</a>";
           }
          }, {  
              field : 'commodityid',  
@@ -47,7 +47,11 @@ $(document).ready(function() {
              field : 'currstatus',  
              width : 200,  
              align: "center",
-             title : '状态' 
+             title : '状态' ,
+             formatter:function(value){
+            	 if(value=='0') return "有效";
+            	 if(value=='1') return "暂停交易";
+           }
           }, {  
               field : 'listingdate',  
               width : 200,  
@@ -96,8 +100,8 @@ function deleteCommodity(){
 } --%>
 
 //修改商品配置信息，跳转到修改页面
-function updateCommodity(row){
-	var Url = "<%=request.getContextPath()%>/IpoController/updateCommodity?commodityid="+row.commodityid+"&&breedid="+row.breedid;
+function updateCommodity(comid,breedid){
+	var Url = "<%=request.getContextPath()%>/IpoController/updateCommodity?commodityid="+comid+"&&breedid="+breedid;
 	document.location.href = Url;
 }
 

@@ -342,4 +342,31 @@ public class VIpoCommConf implements Serializable{
     public void setContractfactorname(String contractfactorname) {
         this.contractfactorname = contractfactorname == null ? null : contractfactorname.trim();
     }
+
+	@Override
+	public String toString() {
+		return "VIpoCommConf [commodityid=" + commodityid + ", commodityname="
+				+ commodityname + ", price=" + price + ", units=" + units
+				+ ", counts=" + counts + ", starttime=" + starttime
+				+ ", endtime=" + endtime + ", maxapplynum=" + maxapplynum
+				+ ", status=" + status + ", breedid=" + breedid
+				+ ", tradedays=" + tradedays + ", codedelivery=" + codedelivery
+				+ ", nonissuereg=" + nonissuereg + ", pubmemberid="
+				+ pubmemberid + ", minapplynum=" + minapplynum
+				+ ", minapplyquamove=" + minapplyquamove + ", publishalgr="
+				+ publishalgr + ", dealerpubcharatio=" + dealerpubcharatio
+				+ ", mktdeapubcharatio=" + mktdeapubcharatio
+				+ ", publishercharatio=" + publishercharatio
+				+ ", mktpubcharatio=" + mktpubcharatio + ", currstatus="
+				+ currstatus + ", supervisedprice=" + supervisedprice
+				+ ", listingdate=" + listingdate + ", lasttradate="
+				+ lasttradate + ", contractfactor=" + contractfactor
+				+ ", minpricemove=" + minpricemove + ", minquantitymove="
+				+ minquantitymove + ", spreadalgr=" + spreadalgr
+				+ ", spreaduplmt=" + spreaduplmt + ", spreaddownlmt="
+				+ spreaddownlmt + ", contractfactorname=" + contractfactorname
+				+ ", mapperid=" + mapperid + "]";
+	}
+    
+    
 }
