@@ -114,6 +114,7 @@ function updateComm(){
   		         return $(this).form('validate');
   		     },
   		     success:function(data){
+  		    	 alert("修改成功！");
  		    	 returntoList();
   		     }
   		 });  

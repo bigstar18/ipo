@@ -91,7 +91,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -114,7 +114,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -141,7 +141,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -287,7 +287,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 	
@@ -313,7 +313,7 @@ public class BreedController extends BaseController {
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "";
+			return "error";
 		}
 	}
 
@@ -326,12 +326,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/addCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public void addCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String addCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("新增商品");
 		try {
 			ipoCommConfService.addCommodity(ipocomm);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 
@@ -344,12 +346,14 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public void updateCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String updateCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("修改商品");
 		try {
 			ipoCommConfService.updateCommodity(ipocomm);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
 	}
 

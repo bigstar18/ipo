@@ -116,7 +116,7 @@ function addComm(){
                   		         return $(this).form('validate');
                   		     },
                   		     success:function(data){
-                  		    	// document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
+                  		    	alert("增加成功！");
                   		    	 returntoList();
                   		     }
                   		 });  
