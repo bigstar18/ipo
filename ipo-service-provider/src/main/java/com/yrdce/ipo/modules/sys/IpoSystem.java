@@ -49,6 +49,7 @@ public class IpoSystem {
 	public static final String DATE_FORMATTER = "yyyy-MM-dd";
 	public static final String DATETIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
+	public static SimpleDateFormat sdtf = new SimpleDateFormat(DATETIME_FORMATTER);
 
 	// 线程安全?
 	private String status;
@@ -77,7 +78,7 @@ public class IpoSystem {
 		if (!isTradeTimeInclude5m())
 			return null;
 		IpoSysStatus status = mapper.selectAll();
-		String dbDate = mapper.getDBTime().substring(0, 10);
+		String dbDate = sdf.format(mapper.getDBTime());
 		if (status != null) {// 有记录
 			if (sdf.format(status.getTradedate()).equals(dbDate))
 				return null;

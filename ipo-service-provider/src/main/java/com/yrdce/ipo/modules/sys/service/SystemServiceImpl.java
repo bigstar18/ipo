@@ -3,6 +3,8 @@
  */
 package com.yrdce.ipo.modules.sys.service;
 
+import java.util.Date;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +55,18 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public String getDBTime() {
+	public Date getDBTime() {
 		try {
 			return mapper.getDBTime();
+		} catch (Exception e) {
+			logger.error("error:", e);
+			return null;
+		}
+	}
+
+	public String getDBTimeStr() {
+		try {
+			return mapper.getDBTimeStr();
 		} catch (Exception e) {
 			logger.error("error:", e);
 			return null;
@@ -69,6 +80,7 @@ public class SystemServiceImpl implements SystemService {
 		String status = null;
 		if (OPR_MARKET_OPEN.equals(code)) {
 			status = ipoSystem.openMarket();
+			msg.getBusiness().put("tradeDate", getDBTimeStr());
 		} else if (OPR_TRADE_PAUSE.equals(code)) {
 			status = ipoSystem.pauseTrade();
 		} else if (OPR_TRADE_RESUME.equals(code)) {

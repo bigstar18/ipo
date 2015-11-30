@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.util.Date;
+
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
@@ -39,7 +41,7 @@ public interface SystemService {
 	 * 
 	 * @return
 	 */
-	public String getDBTime();
+	public Date getDBTime();
 
 	/**
 	 * 系统是否可用（含是否是交易时间）
