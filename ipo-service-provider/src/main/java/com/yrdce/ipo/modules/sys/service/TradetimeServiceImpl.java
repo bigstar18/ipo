@@ -9,13 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoNottradedayMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoTradetimeCommMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
 import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoNottradeday;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
+import com.yrdce.ipo.modules.sys.entity.IpoTradetimeComm;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
@@ -35,6 +38,52 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Autowired
 	private IpoNottradedayMapper notTradeTimeMapper;
+	
+	@Autowired
+	private IpoTradetimeCommMapper ipotradetimecomm;
+	
+	
+
+	public IpoTradtimeMapper getTradetimeMapper() {
+		return tradetimeMapper;
+	}
+
+	public void setTradetimeMapper(IpoTradtimeMapper tradetimeMapper) {
+		this.tradetimeMapper = tradetimeMapper;
+	}
+
+	public TABreedtradepropMapper getBreedtradepropMapper() {
+		return breedtradepropMapper;
+	}
+
+	public void setBreedtradepropMapper(TABreedtradepropMapper breedtradepropMapper) {
+		this.breedtradepropMapper = breedtradepropMapper;
+	}
+
+	public TACommoditytradepropMapper getCommoditytradepropMapper() {
+		return commoditytradepropMapper;
+	}
+
+	public void setCommoditytradepropMapper(
+			TACommoditytradepropMapper commoditytradepropMapper) {
+		this.commoditytradepropMapper = commoditytradepropMapper;
+	}
+
+	public IpoNottradedayMapper getNotTradeTimeMapper() {
+		return notTradeTimeMapper;
+	}
+
+	public void setNotTradeTimeMapper(IpoNottradedayMapper notTradeTimeMapper) {
+		this.notTradeTimeMapper = notTradeTimeMapper;
+	}
+
+	public IpoTradetimeCommMapper getIpotradetimecomm() {
+		return ipotradetimecomm;
+	}
+
+	public void setIpotradetimecomm(IpoTradetimeCommMapper ipotradetimecomm) {
+		this.ipotradetimecomm = ipotradetimecomm;
+	}
 
 	@Override
 	public List<Tradetime> selectByPage(String page, String rows) {
@@ -73,14 +122,23 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public int insert(Tradetime tradetime) {
+	@Transactional
+	public int insert(Tradetime tradetime,String comms) {
 		logger.info("进入交易节添加" + tradetime.toString());
 		try {
+			String[] comidarray=comms.split(","); 
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);
 			logger.info("tradetime1:" + tradetime1);
 			tradetime1.setModifytime(new Date());
+			tradetime1.setSectionid(tradetimeMapper.getPK());
 			tradetimeMapper.insert(tradetime1);
+			for(String comid:comidarray){
+				IpoTradetimeComm ipotracom=new IpoTradetimeComm();
+				ipotracom.setCommodityid(comid);
+				ipotracom.setTradetimeid(tradetime1.getSectionid());
+				ipotradetimecomm.insert(ipotracom);
+			}
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class IpoCommodityConf {
     private String commodityid;
@@ -69,6 +70,8 @@ public class IpoCommodityConf {
     private String contractfactorname;
 
     private String mapperid;
+    
+    private List<IpoTradetime> tradetime;
 
     public String getCommodityid() {
         return commodityid;
@@ -333,4 +336,14 @@ public class IpoCommodityConf {
     public void setMapperid(String mapperid) {
         this.mapperid = mapperid == null ? null : mapperid.trim();
     }
+
+	public List<IpoTradetime> getTradetime() {
+		return tradetime;
+	}
+
+	public void setTradetime(List<IpoTradetime> tradetime) {
+		this.tradetime = tradetime;
+	}
+    
+    
 }

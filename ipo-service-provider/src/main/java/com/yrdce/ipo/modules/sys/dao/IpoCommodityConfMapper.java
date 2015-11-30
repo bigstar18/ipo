@@ -26,8 +26,10 @@ public interface IpoCommodityConfMapper {
 
 	List<String> findAllCommIds();
 	
-	List<IpoCommodityConf> findAllIpoCommConfs(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoCommodityConf> findAllIpoCommConfsByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 	
 	int countAll();// 获取商品总数
+	
+	List<IpoCommodityConf> findAllIpoCommConfs();
 
 }

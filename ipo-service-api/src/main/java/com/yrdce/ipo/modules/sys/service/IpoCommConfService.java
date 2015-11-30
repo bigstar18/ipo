@@ -32,7 +32,10 @@ public interface IpoCommConfService {
 	public void deleteCommodityByBreedID(Long breedid);
 	
 	//分页查询所有商品
-	public List<VIpoCommConf> findIpoCommConf(String page, String rows) ;
+	public List<VIpoCommConf> findIpoCommConfsByPage(String page, String rows) ;
+	
+	//查询所有商品
+	public List<VIpoCommConf> findIpoCommConfs();
 	
 	//获取所有商品数
 	public int getAllComms() ;

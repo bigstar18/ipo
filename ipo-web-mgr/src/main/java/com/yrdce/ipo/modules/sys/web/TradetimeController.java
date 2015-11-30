@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.TradetimeService;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 交易节增删改查
@@ -35,6 +37,10 @@ public class TradetimeController {
 
 	@Autowired
 	private TradetimeService tradetimeService;
+	
+	@Autowired
+	private IpoCommConfService ipoCommConfService;
+	
 
 	// 交易节信息展示
 	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
@@ -88,15 +94,14 @@ public class TradetimeController {
 
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
 	@ResponseBody
-	public int addTradetime(Tradetime tradetime) {
+	public String addTradetime(Tradetime tradetime,@RequestParam("comms")String comms ) {
 		logger.info("进入添加交易节");
 		try {
-
-			int i = tradetimeService.insert(tradetime);
-			return i;
+			int i = tradetimeService.insert(tradetime,comms);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return "error";
 		}
 
 	}
@@ -130,7 +135,9 @@ public class TradetimeController {
 	@RequestMapping(value = "/addTradetimeforward", method = RequestMethod.GET)
 	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		logger.info("进入新增 视图");
-		return "app/tradetime/add_tradeTime";
+		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
+		request.setAttribute("commlist", comlist);
+		return "app/tradetime/add_tradeTime3";
 	}
 
 	// 非交易日查询
