@@ -341,6 +341,6 @@
   	</select>
   	
   	  <select id="select" resultMap="BaseResultMap">
-  		select * from T_A_TRADETIME 
+  		select * from T_A_TRADETIME where STATUS = 0
   	</select>
 </mapper>

@@ -133,12 +133,12 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<VIpoCommConf> findIpoCommConf(String page, String rows) {
+	public List<VIpoCommConf> findIpoCommConfsByPage(String page, String rows) {
 			page = (page == null ? "1" : page);
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfs((curpage - 1) * pagesize
+			List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfsByPage((curpage - 1) * pagesize
 					+ 1, curpage * pagesize);
 			List<VIpoCommConf> ipocomcoflist2=new ArrayList<VIpoCommConf>();
 			for (int i = 0; i < ipocomcoflist.size(); i++) {
@@ -152,5 +152,17 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	@Override
 	public int getAllComms() {
 	return ipoCommodityConfmapper.countAll();	
+	}
+
+	@Override
+	public List<VIpoCommConf> findIpoCommConfs() {
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfs();
+		List<VIpoCommConf> ipocomcoflist2=new ArrayList<VIpoCommConf>();
+		for (int i = 0; i < ipocomcoflist.size(); i++) {
+			VIpoCommConf vipocomconf = new VIpoCommConf();
+			BeanUtils.copyProperties(ipocomcoflist.get(i), vipocomconf);
+			ipocomcoflist2.add(vipocomconf);
+		}
+		return ipocomcoflist2;
 	}
 }

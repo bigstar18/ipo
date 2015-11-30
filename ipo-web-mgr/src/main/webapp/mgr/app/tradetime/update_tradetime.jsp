@@ -30,6 +30,12 @@ document.onkeypress=showKeyPress;
 		
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
+			 var tradeTime = window.dialogArguments;
+				alert("id:"+tradeTime.sectionid);
+				document.getElementById("name").value = tradeTime.name;
+				document.getElementById("status").value = tradeTime.status;
+				document.getElementById("starttime").value = tradeTime.starttime;
+				document.getElementById("endtime").value = tradeTime.endtime;
 		//ajax验证
 		jQuery("#frm").validationEngine( {
 			ajaxFormValidation : true,
@@ -182,6 +188,8 @@ document.onkeypress=showKeyPress;
 			    event.returnValue=true;
 			  }
 			}
+			 
+			
 
 </script>
 	</head>

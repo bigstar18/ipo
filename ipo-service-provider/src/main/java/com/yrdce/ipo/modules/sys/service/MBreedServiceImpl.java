@@ -14,7 +14,7 @@ import com.yrdce.ipo.modules.sys.vo.MBreed;
 
 @Service("mBreedservice")
 public class MBreedServiceImpl implements MBreedService {
-	
+
 	@Autowired
 	private MBreedMapper mbreedmapper;
 
@@ -25,7 +25,6 @@ public class MBreedServiceImpl implements MBreedService {
 	public void setMbreedmapper(MBreedMapper mbreedmapper) {
 		this.mbreedmapper = mbreedmapper;
 	}
-
 
 	@Override
 	@Transactional(readOnly = true)
@@ -43,10 +42,22 @@ public class MBreedServiceImpl implements MBreedService {
 
 	@Override
 	public MBreed getMBreed(Long breedid) {
-		MBreed breed=new MBreed();
-		com.yrdce.ipo.modules.sys.entity.MBreed mbreed=mbreedmapper.selectByPrimaryKey(breedid);
+		MBreed breed = new MBreed();
+		com.yrdce.ipo.modules.sys.entity.MBreed mbreed = mbreedmapper.selectByPrimaryKey(breedid);
 		BeanUtils.copyProperties(mbreed, breed);
 		return breed;
+	}
+
+	@Override
+	public List<MBreed> findMBreedsByPage(String page, String rows) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTotalMBreeds() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

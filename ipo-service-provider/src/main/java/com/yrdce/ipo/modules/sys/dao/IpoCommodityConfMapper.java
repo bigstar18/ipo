@@ -1,11 +1,11 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 
 @MyBatisDao
 public interface IpoCommodityConfMapper {
@@ -25,9 +25,11 @@ public interface IpoCommodityConfMapper {
 	int deleteByBreedid(@Param("breedid") Long breedid);// 根据品种ID删除对应商品
 
 	List<String> findAllCommIds();
-	
-	List<IpoCommodityConf> findAllIpoCommConfs(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
-	
+
+	List<IpoCommodityConf> findAllIpoCommConfsByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+
 	int countAll();// 获取商品总数
+
+	List<IpoCommodityConf> findAllIpoCommConfs();
 
 }

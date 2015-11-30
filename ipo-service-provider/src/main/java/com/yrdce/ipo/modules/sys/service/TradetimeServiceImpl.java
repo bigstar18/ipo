@@ -1,6 +1,9 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoNottradedayMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
@@ -35,6 +39,52 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Autowired
 	private IpoNottradedayMapper notTradeTimeMapper;
+
+	@Autowired
+	private IpoTradetimeCommMapper ipotradetimecomm;
+
+	@Autowired
+	private SysStatusService sysStatusService;
+
+	public IpoTradtimeMapper getTradetimeMapper() {
+		return tradetimeMapper;
+	}
+
+	public void setTradetimeMapper(IpoTradtimeMapper tradetimeMapper) {
+		this.tradetimeMapper = tradetimeMapper;
+	}
+
+	public TABreedtradepropMapper getBreedtradepropMapper() {
+		return breedtradepropMapper;
+	}
+
+	public void setBreedtradepropMapper(TABreedtradepropMapper breedtradepropMapper) {
+		this.breedtradepropMapper = breedtradepropMapper;
+	}
+
+	public TACommoditytradepropMapper getCommoditytradepropMapper() {
+		return commoditytradepropMapper;
+	}
+
+	public void setCommoditytradepropMapper(TACommoditytradepropMapper commoditytradepropMapper) {
+		this.commoditytradepropMapper = commoditytradepropMapper;
+	}
+
+	public IpoNottradedayMapper getNotTradeTimeMapper() {
+		return notTradeTimeMapper;
+	}
+
+	public void setNotTradeTimeMapper(IpoNottradedayMapper notTradeTimeMapper) {
+		this.notTradeTimeMapper = notTradeTimeMapper;
+	}
+
+	public IpoTradetimeCommMapper getIpotradetimecomm() {
+		return ipotradetimecomm;
+	}
+
+	public void setIpotradetimecomm(IpoTradetimeCommMapper ipotradetimecomm) {
+		this.ipotradetimecomm = ipotradetimecomm;
+	}
 
 	@Override
 	public List<Tradetime> selectByPage(String page, String rows) {
@@ -73,14 +123,23 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public int insert(Tradetime tradetime) {
+	@Transactional
+	public int insert(Tradetime tradetime, String comms) {
 		logger.info("进入交易节添加" + tradetime.toString());
 		try {
+			String[] comidarray = comms.split(",");
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);
 			logger.info("tradetime1:" + tradetime1);
 			tradetime1.setModifytime(new Date());
+			tradetime1.setSectionid(tradetimeMapper.getPK());
 			tradetimeMapper.insert(tradetime1);
+			for (String comid : comidarray) {
+				IpoTradetimeComm ipotracom = new IpoTradetimeComm();
+				ipotracom.setCommodityid(comid);
+				ipotracom.setTradetimeid(tradetime1.getSectionid());
+				ipotradetimecomm.insert(ipotracom);
+			}
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +152,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 		logger.info("进入交易节删除" + ids);
 		String[] id = ids.split(",");
 		for (int i = 0; i < id.length; i++) {
-			// int sectionid = Integer.parseInt(String.valueOf(id[i]));
 			short sectionid = Short.parseShort(String.valueOf(id[i]));
 			tradetimeMapper.deleteByPrimaryKey(sectionid);
 		}
@@ -119,9 +177,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public int selectByBreedAndCommodity(Short id) {
 		logger.info("根据id查询商品和品名与交易节的关联" + id);
 		int result = 0;
-		List breedtradeprop = new ArrayList();
 		List commoditytradeprop = new ArrayList();
-		breedtradeprop = breedtradepropMapper.selectByBreed(id);
+		List breedtradeprop = breedtradepropMapper.selectByBreed(id);
 		commoditytradeprop = commoditytradepropMapper.selectByCommodity(id);
 		if ((breedtradeprop != null) && (breedtradeprop.size() > 0))
 			result = -1;
@@ -142,9 +199,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public List<Tradetime> selectAll() {
 		logger.info("进入查询所有交易节信息");
 		try {
-			List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
 			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-			tradetime1 = tradetimeMapper.selectAll();
+			List<IpoTradetime> tradetime1 = tradetimeMapper.selectAll();
 			for (int i = 0; i < tradetime1.size(); i++) {
 				Tradetime tradetime = new Tradetime();
 				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
@@ -166,6 +222,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 		try {
 			IpoNottradeday nottradeday = new IpoNottradeday();
 			BeanUtils.copyProperties(notTradeDay, nottradeday);
+			nottradeday.setModifytime(new Date());
 			notTradeTimeMapper.updateByPrimaryKeySelective(nottradeday);
 			return seccess;
 		} catch (Exception e) {
@@ -188,6 +245,62 @@ public class TradetimeServiceImpl implements TradetimeService {
 			return null;
 		}
 
+	}
+
+	@Override
+	public boolean getTime() {
+		// TODO Auto-generated method stub
+		// 获取数据可时间
+		String DBTime = sysStatusService.getDBTime();
+		// 获取交易节时间
+		List<IpoTradetime> list = tradetimeMapper.selectAll();
+		for (int i = 0; i < list.size(); i++) {
+			String startTime = list.get(i).getStarttime();
+			String endTime = list.get(i).getEndtime();
+			long begin = Long.parseLong(startTime.replaceAll(":", ""));
+			long finish = Long.parseLong(endTime.replaceAll(":", ""));
+			long now = Long.parseLong(DBTime.replaceAll(":", ""));
+
+			if (now >= begin && now < finish) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean timeComparison() {
+		// 获取数据库时间
+		String DBTime = sysStatusService.getDBTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		Date date;
+		try {
+			date = sdf.parse(DBTime);
+			Calendar rightNow = Calendar.getInstance();
+			rightNow.setTime(date);
+			// 当前时间加5分钟
+			rightNow.add(Calendar.MINUTE, 5);
+			Date dt1 = rightNow.getTime();
+			String str = sdf.format(dt1);
+			// 获取交易节时间
+			List<IpoTradetime> list = tradetimeMapper.selectAll();
+			for (int i = 0; i < list.size(); i++) {
+				String startTime = list.get(i).getStarttime();
+
+				long begin = Long.parseLong(startTime.replaceAll(":", ""));
+				long now = Long.parseLong(str.replaceAll(":", ""));
+
+				if (now >= begin) {
+					return true;
+				}
+			}
+
+			return false;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

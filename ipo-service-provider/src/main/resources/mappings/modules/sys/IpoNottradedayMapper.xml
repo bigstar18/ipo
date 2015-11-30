@@ -175,18 +175,10 @@
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNottradeday" >
     update IPO_NOTTRADEDAY
-    <set >
-      <if test="week != null" >
+    set
         WEEK = #{week,jdbcType=VARCHAR},
-      </if>
-      <if test="day != null" >
         DAY = #{day,jdbcType=VARCHAR},
-      </if>
-      <if test="modifytime != null" >
-        MODIFYTIME = #{modifytime,jdbcType=DATE},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=DECIMAL}
+        MODIFYTIME = #{modifytime,jdbcType=DATE}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNottradeday" >
     update IPO_NOTTRADEDAY

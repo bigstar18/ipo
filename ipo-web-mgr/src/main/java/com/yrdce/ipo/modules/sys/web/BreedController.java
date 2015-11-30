@@ -290,7 +290,7 @@ public class BreedController extends BaseController {
 			return "error";
 		}
 	}
-	
+
 	/**
 	 * 查询所有商品列表
 	 * 
@@ -300,11 +300,10 @@ public class BreedController extends BaseController {
 	 */
 	@RequestMapping(value = "/findAllComms", method = RequestMethod.GET)
 	@ResponseBody
-	public String findAllComms(@RequestParam("page") String page, @RequestParam("rows") String rows)
-			throws IOException {
+	public String findAllComms(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("查询所有商品列表");
 		try {
-			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConf(page, rows);
+			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfsByPage(page, rows);
 			int totalnum = ipoCommConfService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);

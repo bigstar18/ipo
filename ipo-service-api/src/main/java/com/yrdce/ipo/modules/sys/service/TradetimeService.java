@@ -18,7 +18,7 @@ public interface TradetimeService {
 	public int upDate(Tradetime tradetime);
 
 	// 增加交易节
-	public int insert(Tradetime tradetime);
+	public int insert(Tradetime tradetime, String comms);
 
 	// 删除交易节
 	public int delete(String ids);
@@ -40,5 +40,11 @@ public interface TradetimeService {
 
 	// 非交易日查询
 	public Nottradeday select();
+
+	// 判断当前时间是否在交易节前5分钟
+	public boolean timeComparison();
+
+	// 判断当前是否是交易节时间
+	public boolean getTime();
 
 }

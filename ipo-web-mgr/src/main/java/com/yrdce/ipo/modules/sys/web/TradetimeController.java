@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.TradetimeService;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 交易节增删改查
@@ -35,6 +37,9 @@ public class TradetimeController {
 
 	@Autowired
 	private TradetimeService tradetimeService;
+
+	@Autowired
+	private IpoCommConfService ipoCommConfService;
 
 	// 交易节信息展示
 	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
@@ -88,15 +93,14 @@ public class TradetimeController {
 
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
 	@ResponseBody
-	public int addTradetime(Tradetime tradetime) {
+	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
 		logger.info("进入添加交易节");
 		try {
-
-			int i = tradetimeService.insert(tradetime);
-			return i;
+			int i = tradetimeService.insert(tradetime, comms);
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return "error";
 		}
 
 	}
@@ -108,7 +112,7 @@ public class TradetimeController {
 		logger.info("进入删除交易节" + "ids:" + ids);
 		try {
 			int status = tradetimeService.delete(ids);
-			return "seccess";
+			return "seccuss";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -129,8 +133,22 @@ public class TradetimeController {
 	// 添加交易节视图
 	@RequestMapping(value = "/addTradetimeforward", method = RequestMethod.GET)
 	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-		logger.info("进入新增 视图");
-		return "app/tradetime/add_tradeTime";
+		logger.info("进入新增视图");
+		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
+		request.setAttribute("commlist", comlist);
+		return "app/tradetime/add_tradeTime3";
+	}
+
+	// 非交易节视图
+	@RequestMapping(value = "/getNottradedayforward", method = RequestMethod.GET)
+	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		logger.info("进入非交易日视图");
+		Nottradeday nottradeday = tradetimeService.select();
+		String week = nottradeday.getWeek();
+		String day = nottradeday.getDay();
+		request.setAttribute("week", week);
+		request.setAttribute("day", day);
+		return "app/tradetime/notTradeDay";
 	}
 
 	// 非交易日查询
@@ -139,7 +157,6 @@ public class TradetimeController {
 	public Nottradeday getNottradeday() {
 		try {
 			Nottradeday nottradeday = tradetimeService.select();
-
 			return nottradeday;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,16 +165,17 @@ public class TradetimeController {
 	}
 
 	// 更新、修改
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public int update(Nottradeday notTradeDay) {
+	public String update(Nottradeday notTradeDay) {
+		logger.info("week:" + notTradeDay.getWeek() + "day:" + notTradeDay.getDay());
 		try {
 			int status;// 1：成功 2：失败
 			status = tradetimeService.insertByNottradeday(notTradeDay);
-			return status;
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 2;
+			return "error";
 		}
 	}
 }

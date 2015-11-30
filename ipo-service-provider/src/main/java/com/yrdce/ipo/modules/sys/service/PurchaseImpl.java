@@ -70,12 +70,12 @@ public class PurchaseImpl implements Purchase {
 					String start = tradetime.getStarttime();
 					String end = tradetime.getEndtime();
 
-					// 获取状态
-					Short i = tradetime.getStatus();
-					// 获取当前时间
-					if (i != 1)
-						continue;
-					logger.info("获取交易状态" + i);
+					// // 获取状态
+					// Short i = tradetime.getStatus();
+					// // 获取当前时间
+					// if (i != 1)
+					// continue;
+					// logger.info("获取交易状态" + i);
 
 					long begin = Long.parseLong(start.replaceAll(":", ""));
 					long finish = Long.parseLong(end.replaceAll(":", ""));

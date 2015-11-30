@@ -106,8 +106,10 @@ function addForward(){
 function updateForward(id) {
 	//获取配置权限的 URL
 	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionID="+id;
+	var row = $("#tt").datagrid("getSelected");
+	alert(row.sectionid);
 	//给 URL 添加参数
-	if(showDialog(updateUrl, "", 800, 550)){
+	if(showDialog(updateUrl, row, 800, 550)){
 		//如果添加成功，则刷新列表
 		$('tt').datagrid('reload');
 	} 
