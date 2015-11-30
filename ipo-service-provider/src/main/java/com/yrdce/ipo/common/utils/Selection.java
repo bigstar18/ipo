@@ -64,7 +64,6 @@ public class Selection {
 		SplitSucRate();
 		MatchingEndNum(endNumList);
 		AdjustmentNum();
-		System.out.println("尾号数:"+endNumList.size());
 		return endNumList;
 	}
 	//总体中签数匹配

@@ -95,7 +95,7 @@ public class Taskmanage extends TimerTask {
 				}
 			}
 			System.out.println("摇号开始");
-			// 摇号获取系统当前时间的前2天
+			// 摇号获取系统当前时间的前2天。
 			IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
 			String ballotNowtime = DateUtil.getTime(2);
 			// // 查询前一天交易订单
