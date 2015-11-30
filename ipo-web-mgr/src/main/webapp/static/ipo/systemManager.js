@@ -23,8 +23,10 @@ function showMarket (data)
 {
 	$ ('#tradeDate').text (data.tradedate);
 	$ ('#marketStatus').text (data.statusStr);
-	$ ('#remark').text (data.note);
-	$ ('#session').text (data.sectionid);
+	if (data.note != null)
+		$ ('#remark').text (data.note);
+	if (data.sectionid != null)
+		$ ('#session').text (data.sectionid);
 	if (data.status != '0')
 	{
 		$ ('#tradeColor').css ("color", "gray");
@@ -144,6 +146,7 @@ function balanceChk_onclick (id)
 				    alert ("执行成功");
 				    // alert (data.business.status);
 				    buttonStatus (data.business.status);
+				    $ ('#tradeDate').text (data.business.tradeDate);
 			    }
 			    else
 			    {

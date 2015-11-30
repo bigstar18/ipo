@@ -21,5 +21,7 @@ public interface IpoSysStatusMapper {
 
 	IpoSysStatus selectAll();
 
-	String getDBTime();
+	String getDBTimeStr();
+
+	Date getDBTime();
 }

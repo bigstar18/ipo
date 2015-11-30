@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.utils.DateUtils;
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
@@ -57,7 +58,7 @@ public class SysController {
 			Short status = value.getStatus();
 			if (status != null && statusMap.containsKey(String.valueOf(status)))
 				value.setStatusStr((String) statusMap.get(String.valueOf(status)));
-			value.setSysTime(systemService.getDBTime());
+			value.setSysTime(DateUtils.formatDateTime(systemService.getDBTime()));
 			return JSON.json(value);
 		} catch (Exception e) {
 			log.error("error:", e);

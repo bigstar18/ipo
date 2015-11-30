@@ -21,7 +21,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
  *
  */
 @Component
-public class IpoSystem {
+public class SystemManager {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	// statusMap.put("0", "初始化完成");
@@ -49,6 +49,7 @@ public class IpoSystem {
 	public static final String DATE_FORMATTER = "yyyy-MM-dd";
 	public static final String DATETIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
+	public static SimpleDateFormat sdtf = new SimpleDateFormat(DATETIME_FORMATTER);
 
 	// 线程安全?
 	private String status;
@@ -59,12 +60,37 @@ public class IpoSystem {
 
 	@Autowired
 	private IpoSysStatusMapper mapper;
+	@Autowired
+	private SectionManager sectionManager;
 
 	@PostConstruct
 	public void postConstruct() {
 		logger.info("执行IpoSystem: postConstruct");
-		// TODO 启动线程
-		// 交易节对象
+
+		sectionManager.init();
+		startListener();
+	}
+
+	public void startListener() {
+		Thread t = new Thread() {
+			public void run() {
+				Thread.currentThread().setName("SystemManager线程");
+				logger.info(Thread.currentThread() + ": 线程启动");
+				while (true) {
+					if (status == null) {
+						try {
+							openMarket();
+						} catch (Exception e) {
+							// e.printStackTrace();
+						}
+					}
+
+					threadSleep(5000);
+				}
+			}
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 
 	/**
@@ -77,7 +103,7 @@ public class IpoSystem {
 		if (!isTradeTimeInclude5m())
 			return null;
 		IpoSysStatus status = mapper.selectAll();
-		String dbDate = mapper.getDBTime().substring(0, 10);
+		String dbDate = sdf.format(mapper.getDBTime());
 		if (status != null) {// 有记录
 			if (sdf.format(status.getTradedate()).equals(dbDate))
 				return null;
@@ -187,14 +213,14 @@ public class IpoSystem {
 		while (true) {
 			if (lockStatus.compareAndSet(false, true))
 				break;
-			sleep(200);
+			threadSleep(200);
 
 		}
 		lockStatus.compareAndSet(true, false);
 		return status;
 	}
 
-	private void sleep(long millis) {
+	private void threadSleep(long millis) {
 		try {
 			Thread.currentThread().sleep(millis);
 		} catch (InterruptedException e) {
@@ -206,12 +232,10 @@ public class IpoSystem {
 		while (true) {
 			if (lockStatus.compareAndSet(false, true))
 				break;
-			sleep(200);
-
+			threadSleep(200);
 		}
-		lockStatus.compareAndSet(true, false);
-
 		this.status = status;
+		lockStatus.compareAndSet(true, false);
 	}
 
 	public String getTradeDate() {

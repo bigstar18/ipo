@@ -22,9 +22,7 @@
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
 	<dubbo:registry address="${dubbo.registry.address}" check="false" />
 	<dubbo:consumer check="false" timeout="30000" retries="0" />
-
     <!--uncomment this if you want to test dubbo's monitor-->
-
     <!--<dubbo:monitor protocol="registry"/>-->
 
 	<dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
