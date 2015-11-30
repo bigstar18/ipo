@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
-import com.yrdce.ipo.modules.sys.IpoSystem;
+import com.yrdce.ipo.modules.sys.SystemManager;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
@@ -30,7 +30,7 @@ public class SystemServiceImpl implements SystemService {
 	private IpoSysStatusMapper mapper;
 
 	@Autowired
-	private IpoSystem ipoSystem;
+	private SystemManager systemManager;
 
 	/*
 	 * (non-Javadoc)
@@ -79,16 +79,16 @@ public class SystemServiceImpl implements SystemService {
 		ResultMsg msg = new ResultMsg();
 		String status = null;
 		if (OPR_MARKET_OPEN.equals(code)) {
-			status = ipoSystem.openMarket();
+			status = systemManager.openMarket();
 			msg.getBusiness().put("tradeDate", getDBTimeStr());
 		} else if (OPR_TRADE_PAUSE.equals(code)) {
-			status = ipoSystem.pauseTrade();
+			status = systemManager.pauseTrade();
 		} else if (OPR_TRADE_RESUME.equals(code)) {
-			status = ipoSystem.resumeTrade();
+			status = systemManager.resumeTrade();
 		} else if (OPR_TRADE_CLOSE.equals(code)) {
-			status = ipoSystem.closeTrade();
+			status = systemManager.closeTrade();
 		} else if (OPR_MARKET_CLOSE.equals(code)) {
-			status = ipoSystem.closeMarket();
+			status = systemManager.closeMarket();
 		}
 
 		if (status != null) {

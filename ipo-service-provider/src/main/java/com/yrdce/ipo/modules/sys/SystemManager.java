@@ -21,7 +21,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
  *
  */
 @Component
-public class IpoSystem {
+public class SystemManager {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	// statusMap.put("0", "初始化完成");
