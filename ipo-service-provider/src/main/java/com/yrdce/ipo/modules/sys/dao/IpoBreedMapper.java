@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 public interface IpoBreedMapper {
 	    int countAll();
 
-	    int deleteByExample(IpoBreedExample example);
+	    int deleteByBreedid(Long breedid);
 
 	    int insert(IpoBreed record);
 	    

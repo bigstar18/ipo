@@ -9,7 +9,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 public abstract class Selection2 {
 
-	// ¶ÔÍâ½Ó¿Ú
+	// ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
 	public static List<String> execSelection(double ipoNum, double buyNum) throws Exception {
 		List<String> endNumList = new ArrayList<String>();
 
@@ -22,13 +22,13 @@ public abstract class Selection2 {
 		return endNumList;
 	}
 
-	// »ñµÃÖÐÇ©ÂÊ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½
 	private static String calSucRate(double ipoNum, double buyNum) {
 		long buyNumLong = Double.valueOf(buyNum).longValue();
-		System.out.println("Éê¹º×Ö·û´®Îª£º" + buyNumLong);
+		System.out.println("ï¿½ê¹ºï¿½Ö·ï¿½Îªï¿½ï¿½" + buyNumLong);
 
 		double result = ipoNum / buyNum;
-		System.out.println("ÖÐÇ©ÂÊÊÇ£º" + result);
+		System.out.println("ï¿½ï¿½Ç©ï¿½ï¿½ï¿½Ç£ï¿½" + result);
 
 		int buyLen = String.valueOf(buyNumLong).length();
 		String strZ = "";
@@ -42,11 +42,11 @@ public abstract class Selection2 {
 		String succRate = df.format(result);
 		String[] tmp = succRate.split("\\.");
 
-		System.out.println("ÖÐÇ©ÂÊ×Ö·û´®ÊÇ£º" + tmp[1] + " Éê¹º×Ö·û´®³¤¶ÈÎª£º" + (String.valueOf(buyNumLong).length()));
+		System.out.println("ï¿½ï¿½Ç©ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ç£ï¿½" + tmp[1] + " ï¿½ê¹ºï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½ï¿½" + (String.valueOf(buyNumLong).length()));
 		return tmp[1];
 	}
 
-	// È¡Î»(²ð·ÖÖÐÇ©ÂÊ) ²¢Éú³ÉÏàÓ¦µÄÎ²ºÅ
+	// È¡Î»(ï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Î²ï¿½ï¿½
 	private static void splitSucRate(long ipoNum, long buyNum, String decimalNum, List<String> endNumList) throws Exception {
 		long succCount = 0l;
 		String strBuyNum = String.valueOf(buyNum);
@@ -59,7 +59,8 @@ public abstract class Selection2 {
 
 				succCount += makeEndNum(Integer.parseInt(rateNum), range, buyNum, endNumList);
 
-				System.out.println("µ±Ç°ÅäºÅ×ÜÊýÊÇ£º" + succCount + " ·¢ÐÐ×ÜÊýÊÇ£º" + ipoNum);
+				System.out.println("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + succCount + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + ipoNum);
+
 			}
 
 			if (ipoNum - succCount <= Integer.valueOf(strBuyNum.substring(0, 2)))
@@ -68,7 +69,7 @@ public abstract class Selection2 {
 		AdjustmentNum(succCount, ipoNum, buyNum, decimalNum, endNumList);
 	}
 
-	// Éú³ÉÎ²ºÅ
+	// ï¿½ï¿½ï¿½Î²ï¿½ï¿½
 	private static long makeEndNum(int rateNum, long range, long buyNum, List<String> endNumList) throws Exception {
 		if (range % rateNum == 0) {
 			long start = range / 10;
@@ -86,9 +87,10 @@ public abstract class Selection2 {
 				long endNum = (result + i * (range / (rateNum))) % range;//
 				String endNumStr = df.format(endNum);
 
-				if (!endNumList.contains(endNumStr)) {// never,Ô½À´Ô½´ó
+				if (!endNumList.contains(endNumStr)) {// never,Ô½ï¿½ï¿½Ô½ï¿½ï¿½
+
 					endNumList.add(endNumStr);
-					System.out.println("rateNum=" + rateNum + " Î²ºÅ£º" + endNum + " Êý³¤ÊÇ£º" + String.valueOf(range - 1).length());
+					System.out.println("rateNum=" + rateNum + " Î²ï¿½Å£ï¿½" + endNum + " ï¿½ï¿½ï¿½Ç£ï¿½" + String.valueOf(range - 1).length());
 					// System.out.println("result=" + result + " range=" + range);
 
 					int len = endNumStr.length();
@@ -124,7 +126,7 @@ public abstract class Selection2 {
 		}
 	}
 
-	// ÅÅÖØ
+	// ï¿½ï¿½ï¿½ï¿½
 	private static boolean notIncludePre(String strRd, List<String> endNumList) {
 		if (endNumList.size() != 0) {
 			for (int i = 0; i < endNumList.size(); i++) {
@@ -136,7 +138,7 @@ public abstract class Selection2 {
 		return true;
 	}
 
-	// ºÅÂë²¹È«
+	// ï¿½ï¿½ï¿½ë²¹È«
 	private static void AdjustmentNum(long succCount, long ipoNum, long buyNum, String decimalNum, List<String> endNumList) {
 		while (succCount < ipoNum) {
 			// int buyLen = String.valueOf(buyNum).length() - 1;
@@ -146,9 +148,9 @@ public abstract class Selection2 {
 			}
 			endNumList.add(strEndNum);
 			succCount++;
-			System.out.println("AdjustmentNum: Î²ºÅ£º" + strEndNum);
+			System.out.println("AdjustmentNum: Î²ï¿½Å£ï¿½" + strEndNum);
 		}
-		System.out.println("AdjustmentNum: µ±Ç°ÅäºÅ×ÜÊýÊÇ£º" + succCount + " ·¢ÐÐ×ÜÊýÊÇ£º" + ipoNum);
+		System.out.println("AdjustmentNum: ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + succCount + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½" + ipoNum);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -158,7 +160,7 @@ public abstract class Selection2 {
 
 	public static void test() throws Exception {
 		List<String> result = Selection2.execSelection(23450, 1005700);
-		System.out.println("Î²ºÅ¸öÊý£º" + result.size());
+		System.out.println("Î²ï¿½Å¸ï¿½ï¿½ï¿½" + result.size());
 	}
 
 	public static void test2() {

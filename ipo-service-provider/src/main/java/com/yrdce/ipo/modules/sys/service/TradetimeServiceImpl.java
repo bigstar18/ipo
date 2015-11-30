@@ -1,19 +1,22 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Service;
+
+import com.yrdce.ipo.modules.sys.dao.IpoNottradedayMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
 import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoNottradeday;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
+import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
 @Service("tradetimeservice")
@@ -30,17 +33,19 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Autowired
 	private TACommoditytradepropMapper commoditytradepropMapper;
 
+	@Autowired
+	private IpoNottradedayMapper notTradeTimeMapper;
+
 	@Override
-	public List<Tradetime> select(String page, String rows) {
+	public List<Tradetime> selectByPage(String page, String rows) {
 		logger.info("进入分页查询交易节信息" + "page:" + page + "rows:" + rows);
 		try {
 			page = (page == null ? "1" : page);
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
 			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-			tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1, curpage * pagesize);
+			List<IpoTradetime> tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1, curpage * pagesize);
 			for (int i = 0; i < tradetime1.size(); i++) {
 				Tradetime tradetime = new Tradetime();
 				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
@@ -52,7 +57,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 			return null;
 		}
 	}
-
 
 	@Override
 	public int upDate(Tradetime tradetime) {
@@ -70,10 +74,12 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Override
 	public int insert(Tradetime tradetime) {
-		logger.info("进入交易节添加" + tradetime);
+		logger.info("进入交易节添加" + tradetime.toString());
 		try {
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);
+			logger.info("tradetime1:" + tradetime1);
+			tradetime1.setModifytime(new Date());
 			tradetimeMapper.insert(tradetime1);
 			return 1;
 		} catch (Exception e) {
@@ -83,17 +89,15 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public int delete(Object[] ids) {
+	public int delete(String ids) {
 		logger.info("进入交易节删除" + ids);
-		if (ids != null) {
-			for (Object id : ids) {
-				int sectionid = Integer.parseInt(String.valueOf(id));
-				tradetimeMapper.deleteByPrimaryKey(sectionid);
-			}
-			return 1;
-		} else {
-			return 2;
+		String[] id = ids.split(",");
+		for (int i = 0; i < id.length; i++) {
+			// int sectionid = Integer.parseInt(String.valueOf(id[i]));
+			short sectionid = Short.parseShort(String.valueOf(id[i]));
+			tradetimeMapper.deleteByPrimaryKey(sectionid);
 		}
+		return 1;
 	}
 
 	@Override
@@ -137,20 +141,53 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	public List<Tradetime> selectAll() {
 		logger.info("进入查询所有交易节信息");
-		try{
-		List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
-		List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-		tradetime1 = tradetimeMapper.selectAll();
-		for (int i = 0; i < tradetime1.size(); i++) {
-			Tradetime tradetime = new Tradetime();
-			BeanUtils.copyProperties(tradetime1.get(i), tradetime);
-			tradetime2.add(tradetime);
-		}
-		return tradetime2;
-		}catch(Exception e){
+		try {
+			List<IpoTradetime> tradetime1 = new ArrayList<IpoTradetime>();
+			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
+			tradetime1 = tradetimeMapper.selectAll();
+			for (int i = 0; i < tradetime1.size(); i++) {
+				Tradetime tradetime = new Tradetime();
+				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
+				tradetime2.add(tradetime);
+			}
+			return tradetime2;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	// 非交易日插入(删除、更新、提交共用此方法)
+	@Override
+	public int insertByNottradeday(Nottradeday notTradeDay) {
+		logger.info("非交易节设置");
+		int seccess = 1;
+		int error = 2;
+		try {
+			IpoNottradeday nottradeday = new IpoNottradeday();
+			BeanUtils.copyProperties(notTradeDay, nottradeday);
+			notTradeTimeMapper.updateByPrimaryKeySelective(nottradeday);
+			return seccess;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error;
+		}
+	}
+
+	// 非交易日查询
+	@Override
+	public Nottradeday select() {
+		logger.info("非交易节查询");
+		try {
+			Nottradeday nottradeday = new Nottradeday();
+			IpoNottradeday ipoNottradeday = notTradeTimeMapper.select();
+			BeanUtils.copyProperties(ipoNottradeday, nottradeday);
+			return nottradeday;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

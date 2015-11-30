@@ -2,26 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
-    <result column="BALLOTNOSTARTLEN" property="ballotNoStartLen" jdbcType="INTEGER" />
-    <result column="BALLOTNOENDLEN" property="ballotNoEndLen" jdbcType="INTEGER"/>
-    <result column="BALLOTNO" property="ballotNo" jdbcType="VARCHAR" />
-    <result column="CREATETIMR" property="createTime" jdbcType="DATE" />
+    <constructor >
+      <idArg column="ID" jdbcType="DECIMAL" javaType="java.lang.Short" />
+      <arg column="COMMODITYID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BALLOTNOSTARTLEN" jdbcType="DECIMAL" javaType="java.lang.Short" />
+      <arg column="BALLOTNOENDLEN" jdbcType="DECIMAL" javaType="java.lang.Short" />
+      <arg column="BALLOTNO" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATETIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
   </resultMap>
-  
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo">
-  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
-	SELECT SEQ_IPO_BALLOTNO_INFO.NEXTVAL FROM dual
-	</selectKey>
-  	insert into IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIME)
-    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=INTEGER}, 
-      #{ballotnoendlen,jdbcType=INTEGER}, #{ballotno,jdbcType=INTEGER}, #{createtime,jdbcType=DATE})
+  <sql id="Base_Column_List" >
+    ID, COMMODITYID, BALLOTNOSTARTLEN, BALLOTNOENDLEN, BALLOTNO, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRADE_GNNT.IPO_BALLOTNO_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TRADE_GNNT.IPO_BALLOTNO_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    insert into TRADE_GNNT.IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, 
+      BALLOTNOENDLEN, BALLOTNO, CREATETIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=DECIMAL}, 
+      #{ballotnoendlen,jdbcType=DECIMAL}, #{ballotno,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
-
-	<select id="selectByCommodityid" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select * from IPO_BALLOTNO_INFO where commodityid = #{commodityid,jdbcType=VARCHAR}
-	</select>
-
-  </mapper>
-  
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    insert into TRADE_GNNT.IPO_BALLOTNO_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="commodityid != null" >
+        COMMODITYID,
+      </if>
+      <if test="ballotnostartlen != null" >
+        BALLOTNOSTARTLEN,
+      </if>
+      <if test="ballotnoendlen != null" >
+        BALLOTNOENDLEN,
+      </if>
+      <if test="ballotno != null" >
+        BALLOTNO,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityid != null" >
+        #{commodityid,jdbcType=VARCHAR},
+      </if>
+      <if test="ballotnostartlen != null" >
+        #{ballotnostartlen,jdbcType=DECIMAL},
+      </if>
+      <if test="ballotnoendlen != null" >
+        #{ballotnoendlen,jdbcType=DECIMAL},
+      </if>
+      <if test="ballotno != null" >
+        #{ballotno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    update TRADE_GNNT.IPO_BALLOTNO_INFO
+    <set >
+      <if test="commodityid != null" >
+        COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      </if>
+      <if test="ballotnostartlen != null" >
+        BALLOTNOSTARTLEN = #{ballotnostartlen,jdbcType=DECIMAL},
+      </if>
+      <if test="ballotnoendlen != null" >
+        BALLOTNOENDLEN = #{ballotnoendlen,jdbcType=DECIMAL},
+      </if>
+      <if test="ballotno != null" >
+        BALLOTNO = #{ballotno,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    update TRADE_GNNT.IPO_BALLOTNO_INFO
+    set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      BALLOTNOSTARTLEN = #{ballotnostartlen,jdbcType=DECIMAL},
+      BALLOTNOENDLEN = #{ballotnoendlen,jdbcType=DECIMAL},
+      BALLOTNO = #{ballotno,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

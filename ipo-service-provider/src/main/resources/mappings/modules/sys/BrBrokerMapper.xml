@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.BrBrokerMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    <id column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="AREAID" property="areaid" jdbcType="DECIMAL" />
+    <result column="MEMBERTYPE" property="membertype" jdbcType="DECIMAL" />
+    <result column="TIMELIMIT" property="timelimit" jdbcType="DATE" />
+    <result column="MARKETMANAGER" property="marketmanager" jdbcType="VARCHAR" />
+    <result column="MODIFYTIME" property="modifytime" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.BrBroker" extends="BaseResultMap" >
+    <result column="NOTE" property="note" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BROKERID, PASSWORD, NAME, TELEPHONE, MOBILE, EMAIL, ADDRESS, FIRMID, AREAID, MEMBERTYPE, 
+    TIMELIMIT, MARKETMANAGER, MODIFYTIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    NOTE
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.BrBrokerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BR_BROKER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.BrBrokerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BR_BROKER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BR_BROKER
+    where BROKERID = #{brokerid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BR_BROKER
+    where BROKERID = #{brokerid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.BrBrokerExample" >
+    delete from BR_BROKER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    insert into BR_BROKER (BROKERID, PASSWORD, NAME, 
+      TELEPHONE, MOBILE, EMAIL, 
+      ADDRESS, FIRMID, AREAID, 
+      MEMBERTYPE, TIMELIMIT, MARKETMANAGER, 
+      MODIFYTIME, NOTE)
+    values (#{brokerid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{firmid,jdbcType=VARCHAR}, #{areaid,jdbcType=DECIMAL}, 
+      #{membertype,jdbcType=DECIMAL}, #{timelimit,jdbcType=DATE}, #{marketmanager,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=DATE}, #{note,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    insert into BR_BROKER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brokerid != null" >
+        BROKERID,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="firmid != null" >
+        FIRMID,
+      </if>
+      <if test="areaid != null" >
+        AREAID,
+      </if>
+      <if test="membertype != null" >
+        MEMBERTYPE,
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT,
+      </if>
+      <if test="marketmanager != null" >
+        MARKETMANAGER,
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brokerid != null" >
+        #{brokerid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="firmid != null" >
+        #{firmid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="membertype != null" >
+        #{membertype,jdbcType=DECIMAL},
+      </if>
+      <if test="timelimit != null" >
+        #{timelimit,jdbcType=DATE},
+      </if>
+      <if test="marketmanager != null" >
+        #{marketmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=DATE},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.BrBrokerExample" resultType="java.lang.Integer" >
+    select count(*) from BR_BROKER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BR_BROKER
+    <set >
+      <if test="record.brokerid != null" >
+        BROKERID = #{record.brokerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        TELEPHONE = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firmid != null" >
+        FIRMID = #{record.firmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaid != null" >
+        AREAID = #{record.areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.membertype != null" >
+        MEMBERTYPE = #{record.membertype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.timelimit != null" >
+        TIMELIMIT = #{record.timelimit,jdbcType=DATE},
+      </if>
+      <if test="record.marketmanager != null" >
+        MARKETMANAGER = #{record.marketmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifytime != null" >
+        MODIFYTIME = #{record.modifytime,jdbcType=DATE},
+      </if>
+      <if test="record.note != null" >
+        NOTE = #{record.note,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update BR_BROKER
+    set BROKERID = #{record.brokerid,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TELEPHONE = #{record.telephone,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      FIRMID = #{record.firmid,jdbcType=VARCHAR},
+      AREAID = #{record.areaid,jdbcType=DECIMAL},
+      MEMBERTYPE = #{record.membertype,jdbcType=DECIMAL},
+      TIMELIMIT = #{record.timelimit,jdbcType=DATE},
+      MARKETMANAGER = #{record.marketmanager,jdbcType=VARCHAR},
+      MODIFYTIME = #{record.modifytime,jdbcType=DATE},
+      NOTE = #{record.note,jdbcType=CLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BR_BROKER
+    set BROKERID = #{record.brokerid,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TELEPHONE = #{record.telephone,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      FIRMID = #{record.firmid,jdbcType=VARCHAR},
+      AREAID = #{record.areaid,jdbcType=DECIMAL},
+      MEMBERTYPE = #{record.membertype,jdbcType=DECIMAL},
+      TIMELIMIT = #{record.timelimit,jdbcType=DATE},
+      MARKETMANAGER = #{record.marketmanager,jdbcType=VARCHAR},
+      MODIFYTIME = #{record.modifytime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    update BR_BROKER
+    <set >
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="firmid != null" >
+        FIRMID = #{firmid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        AREAID = #{areaid,jdbcType=DECIMAL},
+      </if>
+      <if test="membertype != null" >
+        MEMBERTYPE = #{membertype,jdbcType=DECIMAL},
+      </if>
+      <if test="timelimit != null" >
+        TIMELIMIT = #{timelimit,jdbcType=DATE},
+      </if>
+      <if test="marketmanager != null" >
+        MARKETMANAGER = #{marketmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        MODIFYTIME = #{modifytime,jdbcType=DATE},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=CLOB},
+      </if>
+    </set>
+    where BROKERID = #{brokerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    update BR_BROKER
+    set PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      FIRMID = #{firmid,jdbcType=VARCHAR},
+      AREAID = #{areaid,jdbcType=DECIMAL},
+      MEMBERTYPE = #{membertype,jdbcType=DECIMAL},
+      TIMELIMIT = #{timelimit,jdbcType=DATE},
+      MARKETMANAGER = #{marketmanager,jdbcType=VARCHAR},
+      MODIFYTIME = #{modifytime,jdbcType=DATE},
+      NOTE = #{note,jdbcType=CLOB}
+    where BROKERID = #{brokerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.BrBroker" >
+    update BR_BROKER
+    set PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      FIRMID = #{firmid,jdbcType=VARCHAR},
+      AREAID = #{areaid,jdbcType=DECIMAL},
+      MEMBERTYPE = #{membertype,jdbcType=DECIMAL},
+      TIMELIMIT = #{timelimit,jdbcType=DATE},
+      MARKETMANAGER = #{marketmanager,jdbcType=VARCHAR},
+      MODIFYTIME = #{modifytime,jdbcType=DATE}
+    where BROKERID = #{brokerid,jdbcType=VARCHAR}
+  </update>
+   <select id="findAllPublisher"  resultMap="BaseResultMap" >
+    select  
+   <include refid="Base_Column_List" /> 
+   from BR_BROKER where  MEMBERTYPE= (select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='发行会员' )
+  </select>
+</mapper>

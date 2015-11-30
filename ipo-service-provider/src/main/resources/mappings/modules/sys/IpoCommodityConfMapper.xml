@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+    <id column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="UNITS" property="units" jdbcType="DECIMAL" />
+    <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+    <result column="STARTTIME" property="starttime" jdbcType="DATE" />
+    <result column="ENDTIME" property="endtime" jdbcType="DATE" />
+    <result column="MAXAPPLYNUM" property="maxapplynum" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="BREEDID" property="breedid" jdbcType="DECIMAL" />
+    <result column="TRADEDAYS" property="tradedays" jdbcType="DECIMAL" />
+    <result column="CODEDELIVERY" property="codedelivery" jdbcType="DECIMAL" />
+    <result column="NONISSUEREG" property="nonissuereg" jdbcType="DECIMAL" />
+    <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+    <result column="MINAPPLYNUM" property="minapplynum" jdbcType="DECIMAL" />
+    <result column="MINAPPLYQUAMOVE" property="minapplyquamove" jdbcType="DECIMAL" />
+    <result column="PUBLISHALGR" property="publishalgr" jdbcType="DECIMAL" />
+    <result column="DEALERPUBCHARATIO" property="dealerpubcharatio" jdbcType="DECIMAL" />
+    <result column="MKTDEAPUBCHARATIO" property="mktdeapubcharatio" jdbcType="DECIMAL" />
+    <result column="PUBLISHERCHARATIO" property="publishercharatio" jdbcType="DECIMAL" />
+    <result column="MKTPUBCHARATIO" property="mktpubcharatio" jdbcType="DECIMAL" />
+    <result column="CURRSTATUS" property="currstatus" jdbcType="DECIMAL" />
+    <result column="SUPERVISEDPRICE" property="supervisedprice" jdbcType="DECIMAL" />
+    <result column="LISTINGDATE" property="listingdate" jdbcType="DATE" />
+    <result column="LASTTRADATE" property="lasttradate" jdbcType="DATE" />
+    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
+    <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
+    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
+    <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
+    <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
+    <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
+    <result column="MAPPERID" property="mapperid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+   COMMODITYID, COMMODITYNAME, PRICE, UNITS, COUNTS, STARTTIME, ENDTIME, MAXAPPLYNUM, 
+    STATUS, BREEDID, TRADEDAYS, CODEDELIVERY, NONISSUEREG, PUBMEMBERID, MINAPPLYNUM, 
+    MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
+    MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, 
+    MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT, CONTRACTFACTORNAME,MAPPERID
+  </sql>
+  <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid}) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="findAllIpoCommConfs"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="countByBreedid" parameterType="Long" resultType="java.lang.Integer" >
+    select count(*) from IPO_COMMODITY_CONF where BREEDID = #{breedid}
+  </select>
+   <select id="countAll" resultType="java.lang.Integer" >
+    select count(*) from IPO_COMMODITY_CONF
+  </select>
+  <select id="findIpoCommConfByCommid"  resultMap="BaseResultMap"  parameterType="String" >
+    select 
+     <include refid="Base_Column_List" />
+    from  IPO_COMMODITY_CONF  where COMMODITYID = #{commid} 
+  </select> 
+   <select id="findAllCommIds"  resultType="String"   >
+    select COMMODITYID  from  IPO_COMMODITY_CONF 
+  </select> 
+   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+    insert into IPO_COMMODITY_CONF ( COMMODITYID, COMMODITYNAME, 
+      PRICE, UNITS, COUNTS, 
+      STARTTIME, ENDTIME, MAXAPPLYNUM, 
+      STATUS, BREEDID, TRADEDAYS, 
+      CODEDELIVERY, NONISSUEREG, PUBMEMBERID, 
+      MINAPPLYNUM, MINAPPLYQUAMOVE, PUBLISHALGR, 
+      DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
+      MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, 
+      LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, 
+      MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, 
+      SPREADUPLMT, SPREADDOWNLMT, CONTRACTFACTORNAME,
+       MAPPERID)
+    values ( #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
+      #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{breedid,jdbcType=DECIMAL}, #{tradedays,jdbcType=DECIMAL}, 
+      #{codedelivery,jdbcType=DECIMAL}, #{nonissuereg,jdbcType=DECIMAL}, #{pubmemberid,jdbcType=VARCHAR}, 
+      #{minapplynum,jdbcType=DECIMAL}, #{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, 
+      #{dealerpubcharatio,jdbcType=DECIMAL}, #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, 
+      #{mktpubcharatio,jdbcType=DECIMAL}, #{currstatus,jdbcType=DECIMAL}, #{supervisedprice,jdbcType=DECIMAL}, 
+      #{listingdate,jdbcType=DATE}, #{lasttradate,jdbcType=DATE}, #{contractfactor,jdbcType=DECIMAL}, 
+      #{minpricemove,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
+      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL}, #{contractfactorname,jdbcType=VARCHAR}, 
+      #{mapperid,jdbcType=VARCHAR}
+      )
+  </insert>
+   <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+   update IPO_COMMODITY_CONF
+    set COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      UNITS = #{units,jdbcType=DECIMAL},
+      COUNTS = #{counts,jdbcType=DECIMAL},
+      STARTTIME = #{starttime,jdbcType=DATE},
+      ENDTIME = #{endtime,jdbcType=DATE},
+      MAXAPPLYNUM = #{maxapplynum,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      BREEDID = #{breedid,jdbcType=DECIMAL},
+      TRADEDAYS = #{tradedays,jdbcType=DECIMAL},
+      CODEDELIVERY = #{codedelivery,jdbcType=DECIMAL},
+      NONISSUEREG = #{nonissuereg,jdbcType=DECIMAL},
+      PUBMEMBERID = #{pubmemberid,jdbcType=VARCHAR},
+      MINAPPLYNUM = #{minapplynum,jdbcType=DECIMAL},
+      MINAPPLYQUAMOVE = #{minapplyquamove,jdbcType=DECIMAL},
+      PUBLISHALGR = #{publishalgr,jdbcType=DECIMAL},
+      DEALERPUBCHARATIO = #{dealerpubcharatio,jdbcType=DECIMAL},
+      MKTDEAPUBCHARATIO = #{mktdeapubcharatio,jdbcType=DECIMAL},
+      PUBLISHERCHARATIO = #{publishercharatio,jdbcType=DECIMAL},
+      MKTPUBCHARATIO = #{mktpubcharatio,jdbcType=DECIMAL},
+      CURRSTATUS = #{currstatus,jdbcType=DECIMAL},
+      SUPERVISEDPRICE = #{supervisedprice,jdbcType=DECIMAL},
+      LISTINGDATE = #{listingdate,jdbcType=DATE},
+      LASTTRADATE = #{lasttradate,jdbcType=DATE},
+      CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
+      MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
+      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
+      SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
+      SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
+      SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
+      CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
+      MAPPERID = #{mapperid,jdbcType=VARCHAR}
+      where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByCommid" parameterType="String" >
+    delete from IPO_COMMODITY_CONF  where COMMODITYID = #{commid} 
+  </delete>
+  <delete id="deleteByBreedid" parameterType="Long" >
+    delete from IPO_COMMODITY_CONF  where BREEDID = #{breedid} 
+  </delete>
+</mapper>

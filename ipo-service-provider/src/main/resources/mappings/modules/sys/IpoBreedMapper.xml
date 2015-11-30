@@ -94,6 +94,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+   <delete id="deleteByBreedid" parameterType="Long" >
+    delete from IPO_BREED where BREEDID = #{breedid}
+  </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreed" >
     insert into IPO_BREED (BREEDID, BREEDNAME, SORTID, 
       CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, 
@@ -112,8 +115,7 @@
   </insert>
    <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreed" >
     update IPO_BREED
-    set BREEDID = #{breedid,jdbcType=DECIMAL},
-      BREEDNAME = #{breedname,jdbcType=VARCHAR},
+    set  BREEDNAME = #{breedname,jdbcType=VARCHAR},
       SORTID = #{sortid,jdbcType=DECIMAL},
       CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
       MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
@@ -132,12 +134,13 @@
       MKTPUBCHARATIO = #{mktpubcharatio,jdbcType=DECIMAL},
       CONTRACTCURRENCY = #{contractcurrency,jdbcType=DECIMAL},
       TRADEDAYS = #{tradedays,jdbcType=DECIMAL}
+      where  BREEDID = #{breedid,jdbcType=DECIMAL}
   </update>
  <select id="countAll" resultType="java.lang.Integer" >
     select count(*) from IPO_BREED
  </select>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t order by BREEDID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
     <select id="selectByBreedid"  resultMap="BaseResultMap"  parameterType="Long" >
     select 
@@ -145,13 +148,13 @@
     from  IPO_BREED  where BREEDID = #{breedid,jdbcType=DECIMAL} 
   </select> 
   <select id="getAllByName"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t where BREEDNAME like  #{breedname}) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_BREED t where BREEDNAME like  #{breedname} order by BREEDID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="countByName" parameterType="String" resultType="java.lang.Integer" >
     select count(*) from IPO_BREED where BREEDNAME like  #{breedname}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select <include refid="Base_Column_List" /> from IPO_BREED
+    select <include refid="Base_Column_List" /> from IPO_BREED order by BREEDID
   </select>
 
 </mapper>

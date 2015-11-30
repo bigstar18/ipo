@@ -18,26 +18,35 @@ function addBreed(){
 	var bname=$("#bname").val();
 	var spreadalgr=$("#spreadalgr").val();
 	var publishalgr=$("#publishalgr").val();
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
-		 $.ajax({  
-			 type: 'GET',  //
-		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
-		     contentType: "application/json; charset=utf-8", 
-		     data:{"breedid":breedid},  
-			 dataType: 'json',  
-		     success : function(data, stats) { 
-			           if(data=='0'){
-			        	   alert("该品种已配置，请选择其他品种！")
-			           }
-                       if(data=='1'){
-                    	$("#frm").attr("action","<%=request.getContextPath()%>/BreedController/addBreed");
-               	     	$("#frm").submit();
-			           }
-                       if(data=='2'){
-                    	   alert("系统内部异常！")
-			           }
-			        }    
-				});  }
+	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){
+            	 $.ajax({  
+        			 type: 'GET',  //
+        		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
+        		     contentType: "application/json; charset=utf-8", 
+        		     data:{"breedid":breedid},  
+        			 dataType: 'json',  
+        		     success : function(data, stats) { 
+        			           if(data=='0'){
+        			        	   alert("该品种已配置，请选择其他品种！")
+        			           }
+                               if(data=='1'){
+                            	   $('#frm').form({
+                            		     url:'<%=request.getContextPath()%>/BreedController/addBreed',
+                            		     onSubmit:function(){
+                            		         return $(this).form('validate');
+                            		     },
+                            		     success:function(data){
+                            		    	 document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
+                            		     }
+                            		 });  
+                            	   $('#frm').submit(); 
+        			           }
+                               if(data=='2'){
+                            	   alert("系统内部异常！")
+        			           }
+        			        }    
+        				});
+            }
 			else{
 					alert("所有参数必填！");
 		}
@@ -45,12 +54,20 @@ function addBreed(){
 		
 function updateBreed(){
 	var breedid=$("#breedid").val();
-	var bname=$("#bname").val();
+	var bname=$("#breedname").val();
 	var spreadalgr=$("#spreadalgr").val();
 	var publishalgr=$("#publishalgr").val();
 	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
-     $("#frm").attr("action","<%=request.getContextPath()%>/BreedController/updateBreed");
-      $("#frm").submit();
+		$('#frm').form({
+		     url:'<%=request.getContextPath()%>/BreedController/updateBreed',
+		     onSubmit:function(){
+		         return $(this).form('validate');
+		     },
+		     success:function(data){
+		    	 document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
+		     }
+		 }); 
+		$('#frm').submit(); 
 	}
 }
 
@@ -93,7 +110,7 @@ function spreadAlgr_onchange(value)
 function setSortName(value) {
 	var breedslist =<%=request.getAttribute("breedlist") %>; 
 	 for(var o in breedslist){  
-	        if (value == breedslist[o].breedid ) {
+	        if (value == breedslist[o].breedname ) {
 				$("#breedid").val(breedslist[o].breedid);
 				$("#breedname").val(breedslist[o].breedname);
 				$("#sortid").val(breedslist[o].categoryid);
@@ -135,10 +152,10 @@ function setSortName(value) {
         			 					<td align="right" width="98"><span class="required">品种名称</span>：</td>
 	      								<td style="white-space:nowrap;">
 	      								   <c:if test="${crud == 'create'}">
-		      									<select id="bname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
+		      									<select id="bname" name="breedname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="mbreed" items="${Mlist}">
-                                                      <option <c:if test="${entity.breedid==mbreed.breedid }">selected</c:if> value="${mbreed.breedid}">${mbreed.breedname}</option>
+                                                      <option value="${mbreed.breedname}">${mbreed.breedname}</option>
                                                     </c:forEach>
 								            	</select>
 								            </c:if> 
@@ -147,7 +164,6 @@ function setSortName(value) {
 								            </c:if>
 							            	<input id="sortid" type="hidden" name="sortid" value="${entity.sortid }" />
 							            	<input id="breedid" type="hidden" name="breedid" value="${entity.breedid }" />
-							            	<input id="breedname" type="hidden" name="breedname" value="${entity.breedname }" />
 		          							<span class="required">*</span>
 		          						</td>
 										<td align="right" width="90">报价货币：</td>     
@@ -265,7 +281,7 @@ function setSortName(value) {
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
+            								onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled;width: 60"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 

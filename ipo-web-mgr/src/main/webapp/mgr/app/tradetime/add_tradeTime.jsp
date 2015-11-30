@@ -24,33 +24,52 @@ document.onkeypress=showKeyPress;
 		<title>交易节添加</title>
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
-		<script src="${publicPath }/js/jquery-1.6.min.js" type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
-		<script src="${mgrpath }/app/tradetime/js/submitform.js" type="text/javascript" charset="UTF-8"></script>
-		<script src="${mgrpath }/app/tradetime/js/WdatePicker.js" type="text/javascript" charset="UTF-8"></script>
 		
 		<script type="text/javascript"> 
-			 $("#add").click(function() {
-				 
-				    function ret(){
-					flag = save_onclick();
-					if(flag){
-						if(confirm("您确认操作吗？")){
-							return true;
-							};
-							return false;
-						}
+		 $(document).ready(function() {
+		//ajax验证
+		jQuery("#frm").validationEngine( {
+			ajaxFormValidation : true,
+			onAjaxFormComplete : ajaxValidationCallback,
+			onBeforeAjaxFormValidation : beforeCall
+		});
+
+		//提交前事件
+		function beforeCall(form, options) {
+			return true;
+		} 
+
+		//提交后事件
+		function ajaxValidationCallback(status, form, json, options) {
+			//如果返回成功
+			if (status === true) {
+				var flag = false;
+				
+			    flag = save_onclick();
+			    alert(flag);
+			   	if(flag){
+			    	var vaild = affirm("您确定要操作吗？");
+					if(vaild){
+						$("#frm").submit();
+						$("#add").attr("disabled",true);
 					}
-					
-					//修改按钮注册点击事件
-					$("#add").click(function(){
-						//验证信息
-						if(jQuery("#frm").validationEngine('validateform')){	
-						}
-					});
-					change();
-			 });
+			   	}
+			} else {
+				$("#sectionID").focus();
+			}
+		}
+				 
+		//修改按钮注册点击事件
+		$("#add").click(function(){
+			//验证信息
+			if(jQuery("#frm").validationEngine('validateform')){
+				return false;
+			}
+		});
+		 });
 
 			 function isTime(val) {
 					var str=val;
@@ -85,16 +104,9 @@ document.onkeypress=showKeyPress;
 			
 			// 获取市场参数
 			function getMarket(){
-				//var oldAjaxAsync = $.ajaxSettings.async;
-				//var url = "http://10.0.100.182:10061/timebargain_mgr/ajaxcheck/firmSet/getMarketJson.action";
-				//$.ajaxSettings.async = false;
-				//$.getJSON(url,null,function call(result){
-
+				
 					// 设置交易时间类型，0：同一天交易；1：跨天交易
 					document.getElementById("tradeTimeType").value = 0;
-				//});
-				//$.ajaxSettings.async = oldAjaxAsync;
-
 			}
 
 			//save
@@ -102,33 +114,33 @@ document.onkeypress=showKeyPress;
 			{
 				// 获取市场参数的交易时间类型	
 				getMarket();
-			  if(document.forms(0).tradeTimeType.value != ""){
+			  if(document.forms[0].tradeTimeType.value != ""){
 
 				
-					if (document.forms(0).startTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].starttime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms(0).startTime.value)) {
+					if (!isTime(document.forms[0].starttime.value)) {
 						alert("交易开始时间格式不正确！");
-						document.forms(0).startTime.focus();
+						document.forms[0].starttime.focus();
 						return false;
 					}
 					
-					if (document.forms(0).endTime.value.indexOf("：") != "-1") {
+					if (document.forms[0].endtime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
 					}
-					if (!isTime(document.forms(0).endTime.value)) {
+					if (!isTime(document.forms[0].endtime.value)) {
 						alert("交易结束时间格式不正确！");
-						document.forms(0).endTime.focus();
+						document.forms[0].endTime.focus();
 						return false;
 					}
 					
-					if (document.forms(0).tradeTimeType.value == "0") {//同一天交易
+					if (document.forms[0].tradeTimeType.value == "0") {//同一天交易
 						if (true) {
 						
-							var startTimes = document.forms(0).startTime.value.split(":");
+							var startTimes = document.forms[0].starttime.value.split(":");
 							
 							var dateST = new Date(0,0,0,startTimes[0],startTimes[1],startTimes[2]);
 							var hourST = dateST.getHours();
@@ -136,7 +148,7 @@ document.onkeypress=showKeyPress;
 							var secondST = dateST.getSeconds();
 							var relDateST = parseInt(hourST)*3600 + parseInt(minuteST)*60 + parseInt(secondST);
 							
-							var endTimes = document.forms(0).endTime.value.split(":");
+							var endTimes = document.forms[0].endtime.value.split(":");
 							var dateET = new Date(0,0,0,endTimes[0],endTimes[1],endTimes[2]);
 							var hourET = dateET.getHours();
 							var minuteET = dateET.getMinutes();
@@ -144,7 +156,7 @@ document.onkeypress=showKeyPress;
 							var relDateET = parseInt(hourET)*3600 + parseInt(minuteET)*60 + parseInt(secondET);
 							if (relDateST > relDateET || relDateST == relDateET) {
 								alert("交易开始时间应早于交易结束时间！");
-								document.forms(0).startTime.focus();
+								document.forms[0].starttime.focus();
 								return false;
 							}
 						}
@@ -175,7 +187,7 @@ document.onkeypress=showKeyPress;
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post" onSubmit = "return ret()" action="<%=request.getContextPath()%>/TradetimeController/addTradetime">
+		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/addTradetime">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -203,37 +215,26 @@ document.onkeypress=showKeyPress;
 												<div>
 											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
 												<tr>
-													<td align="right">
-														<span class="required">*</span>
-														交易节编号：
-													</td>
-													<td>
-													   <input type="text" id="sectionID" name="entity.sectionID"
-															class="validate[required] input_text datepicker"/>
-													</td>
 													
 													<td align="right">
 														<span class="required">*</span>
 														交易节名称：
 													</td>
 													<td>
-													    <input type="text" id="name" name="entity.name" 
+													    <input type="text" id="name" name="name" 
 															class="validate[required] input_text datepicker"/>
 													</td>
-												</tr>
-												<tr>
-													<td align="right">
+													<td align="left">
 														<span class="required">*</span>
 														当前交易节状态：
 													</td>
 													<td>
-														<select id="status" name="entity.status" class="validate[required]" style="width:120">
+														<select id="status" name="status" class="validate[required]" style="width:120">
 															  <option value=""></option>
 									                          <option value="0">无效</option>
 										                      <option value="1" selected="selected">正常</option>
 														</select>
 													</td>
-													
 												</tr>
 												
 												<tr>
@@ -242,22 +243,21 @@ document.onkeypress=showKeyPress;
 														当前交易节开始时间：
 													</td>
 													<td>
-														<input type="text" id="startTime" name="entity.startTime" 
+														<input type="text" id="starttime" name="starttime" 
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 													
-													<td align="right">
+													<td align="left">
 													    <span class="required">*</span>
 														当前交易节结束时间：
 													</td>
 													<td>
-														<input type="text" id="endTime" name="entity.endTime" 
+														<input type="text" id="endtime" name="endtime" 
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 												</tr>
-
 											</table>
 										</div>
 									</td>
@@ -272,8 +272,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<input type="submit" value="添加" class="btn_sec" id="add"/>
-
+							<button class="btn_sec" id="add" >添加</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

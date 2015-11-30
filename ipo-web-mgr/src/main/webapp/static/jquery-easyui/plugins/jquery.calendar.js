@@ -372,7 +372,7 @@ $.fn.calendar.parseOptions=function(_43){
 var t=$(_43);
 return $.extend({},$.parser.parseOptions(_43,[{firstDay:"number",fit:"boolean",border:"boolean"}]));
 };
-$.fn.calendar.defaults={width:180,height:180,fit:false,border:true,firstDay:0,weeks:["S","M","T","W","T","F","S"],months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],year:new Date().getFullYear(),month:new Date().getMonth()+1,current:(function(){
+$.fn.calendar.defaults={width:180,height:180,fit:false,border:true,firstDay:0,weeks:["一", "二", "三", "四", "五", "六", "日"],months:["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],year:new Date().getFullYear(),month:new Date().getMonth()+1,current:(function(){
 var d=new Date();
 return new Date(d.getFullYear(),d.getMonth(),d.getDate());
 })(),formatter:function(_44){

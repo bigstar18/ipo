@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yrdce.ipo.modules.sys.dao.MBreedMapper;
 import com.yrdce.ipo.modules.sys.entity.MBreedExample;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
-import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 @Service("mBreedservice")
 public class MBreedServiceImpl implements MBreedService {
@@ -27,21 +26,10 @@ public class MBreedServiceImpl implements MBreedService {
 		this.mbreedmapper = mbreedmapper;
 	}
 
-	@Override
-	public List<MBreed> findMBreedsByPage(String page, String rows) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public int getTotalMBreeds() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
+	@Transactional(readOnly = true)
 	public List<MBreed> findAll() {
-		try{
 		List<com.yrdce.ipo.modules.sys.entity.MBreed> mbreedslist = new ArrayList<com.yrdce.ipo.modules.sys.entity.MBreed>();
 		List<MBreed> mbreedslist2 = new ArrayList<MBreed>();
 		mbreedslist = mbreedmapper.selectByExample(new MBreedExample());
@@ -51,16 +39,14 @@ public class MBreedServiceImpl implements MBreedService {
 			mbreedslist2.add(mbreed);
 		}
 		return mbreedslist2;
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
 	public MBreed getMBreed(Long breedid) {
-		// TODO Auto-generated method stub
-		return null;
+		MBreed breed=new MBreed();
+		com.yrdce.ipo.modules.sys.entity.MBreed mbreed=mbreedmapper.selectByPrimaryKey(breedid);
+		BeanUtils.copyProperties(mbreed, breed);
+		return breed;
 	}
 
 }

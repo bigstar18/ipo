@@ -1,7 +1,6 @@
 package com.yrdce.ipo.common.task;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,19 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yrdce.ipo.common.utils.DateUtil;
-import com.yrdce.ipo.common.utils.Selection;
-import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
-import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
-import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.service.Distribution;
-
 
 /**
  * 定时器
@@ -46,14 +40,17 @@ public class Taskmanage extends TimerTask {
 
 	//private GetBallotNoUtils getBallotNoUtils;
 	private Selection selection;
+
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
 	private IpoCommodityMapper commodity;
 	@Autowired
 	private IpoDistributionMapper ipoDistribution;
-	@Autowired
-	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
+
+	// @Autowired
+	// private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
+
 	@Override
 	public void run() {
 		try {
@@ -154,6 +151,7 @@ public class Taskmanage extends TimerTask {
 				}
 
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

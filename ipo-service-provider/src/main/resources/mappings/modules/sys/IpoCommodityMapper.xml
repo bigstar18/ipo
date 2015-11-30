@@ -110,9 +110,9 @@
 	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
 	</selectKey>
-    insert into IPO_COMMODITY_SALE
+    insert into IPO_COMMODITY_SALE (
     <include refid="Base_Column_List" />
-    values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+    ) values (#{id,jdbcType=INTEGER}, #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=INTEGER}, #{counts,jdbcType=INTEGER}, 
       #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE},#{purchaseCredits,jdbcType=BIGINT},#{status,jdbcType=INTEGER})
   </insert>
@@ -333,7 +333,6 @@
 	on c.commodityid = t1.commodityid) a) b
 	where b.TNO between #{beginnum} and  #{endnum}
    </select>
-   
    <select id="getCounts" resultType="java.lang.Integer">
    	select count(0) from IPO_COMMODITY_SALE
    </select>
@@ -344,6 +343,18 @@
    
    <update id="updateByStatus" parameterType="map">
    	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
+    <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity">
+   	update IPO_COMMODITY_SALE set 
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      UNITS = #{units,jdbcType=INTEGER},
+      COUNTS = #{counts,jdbcType=INTEGER},
+      STARTTIME = #{starttime,jdbcType=DATE},
+      ENDTIME = #{endtime,jdbcType=DATE},
+      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      STATUS = #{status,jdbcType=INTEGER}
+      where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
    </update>
    <select id="getAllBycommodityid"  resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended"  parameterType="map" >
   select b.* from

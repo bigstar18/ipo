@@ -13,7 +13,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoBreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 
 @Service("vIpoABreedService")
-@Transactional(readOnly = true)
 public class IpoABreedServiceImpl implements VIpoABreedService {
 	
 	@Autowired
@@ -30,8 +29,8 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<VIpoABreed> findIpoABreedsByPage(String page, String rows) {
-		try {
 			page = (page == null ? "1" : page);
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
@@ -46,25 +45,16 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 				ipoabreedslist2.add(vipoabreed);
 			}
 			return ipoabreedslist2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
 	public int getTotalIpoABreeds() {
-		try{
 			return ipoBreedMapper.countAll();	
-		}catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<VIpoABreed> findAll() {
-		try {
 			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
 			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
 			ipoabreedslist = ipoBreedMapper.selectAll();
@@ -74,10 +64,6 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 				ipoabreedslist2.add(vipoabreed);
 			}
 			return ipoabreedslist2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
@@ -90,37 +76,31 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	
 
 	@Override
+	@Transactional
 	public void updateBreed(VIpoABreed breed) {
-		try{
 			IpoBreed ipoabreed=new IpoBreed();
 			BeanUtils.copyProperties(breed, ipoabreed);
 			ipoBreedMapper.update(ipoabreed);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
 	}
 
 	@Override
+	@Transactional
 	public void deleteBreed(Long breedid) {
-		// TODO Auto-generated method stub
-		
+		ipoBreedMapper.deleteByBreedid(breedid);
 	}
 
 	@Override
+	@Transactional
 	public void addBreed(VIpoABreed breed) {
-		try{
 		IpoBreed ipoabreed=new IpoBreed();
 		BeanUtils.copyProperties(breed, ipoabreed);
 		ipoBreedMapper.insert(ipoabreed);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<VIpoABreed> findIpoABreedsByName(String name, String page,
 			String rows) {
-		try {
 			page = (page == null ? "1" : page);
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
@@ -135,20 +115,12 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 				ipoabreedslist2.add(vipoabreed);
 			}
 			return ipoabreedslist2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	
 	}
 
 	@Override
 	public int getTotalIpoABreedsByName(String name) {
-		try{
 			return ipoBreedMapper.countByName("%"+name+"%");	
-		}catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
 	}
 
 }
