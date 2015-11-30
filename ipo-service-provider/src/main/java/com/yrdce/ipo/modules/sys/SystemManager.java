@@ -60,12 +60,37 @@ public class SystemManager {
 
 	@Autowired
 	private IpoSysStatusMapper mapper;
+	@Autowired
+	private SectionManager sectionManager;
 
 	@PostConstruct
 	public void postConstruct() {
 		logger.info("执行IpoSystem: postConstruct");
-		// TODO 启动线程
-		// 交易节对象
+
+		sectionManager.init();
+		startListener();
+	}
+
+	public void startListener() {
+		Thread t = new Thread() {
+			public void run() {
+				Thread.currentThread().setName("SystemManager线程");
+				logger.info(Thread.currentThread() + ": 线程启动");
+				while (true) {
+					if (status == null) {
+						try {
+							openMarket();
+						} catch (Exception e) {
+							// e.printStackTrace();
+						}
+					}
+
+					threadSleep(5000);
+				}
+			}
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 
 	/**
@@ -188,14 +213,14 @@ public class SystemManager {
 		while (true) {
 			if (lockStatus.compareAndSet(false, true))
 				break;
-			sleep(200);
+			threadSleep(200);
 
 		}
 		lockStatus.compareAndSet(true, false);
 		return status;
 	}
 
-	private void sleep(long millis) {
+	private void threadSleep(long millis) {
 		try {
 			Thread.currentThread().sleep(millis);
 		} catch (InterruptedException e) {
@@ -207,12 +232,10 @@ public class SystemManager {
 		while (true) {
 			if (lockStatus.compareAndSet(false, true))
 				break;
-			sleep(200);
-
+			threadSleep(200);
 		}
-		lockStatus.compareAndSet(true, false);
-
 		this.status = status;
+		lockStatus.compareAndSet(true, false);
 	}
 
 	public String getTradeDate() {
