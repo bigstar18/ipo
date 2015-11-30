@@ -1,9 +1,23 @@
 package com.yrdce.ipo.common.utils;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 
 public class Selection {
 	private double iopNum;// 持仓量
@@ -13,23 +27,28 @@ public class Selection {
 	long tmp = 0l;
 	private List<String> endNumList = new ArrayList<String>();
 
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 		Selection s = new Selection();
 		int test=0;
-		List<String> temp = s.MainSelection(233445, 1009733);
+		List<String> temp = s.MainSelection(5855458, 50855458);
 		for (int i = 0; i < temp.size(); i++) {
 			System.out.println(temp.get(i));
-			test+=s.OwnMatchingEndNum(10000001,9733,temp.get(i));
-			test+=s.OwnMatchingEndNum(10005700,500000,temp.get(i));
-			test+=s.OwnMatchingEndNum(10505700,100000,temp.get(i));
-			test+=s.OwnMatchingEndNum(10605700,400000,temp.get(i));
+			test+=s.OwnMatchingEndNum(1000000001,855458,temp.get(i));
+			test+=s.OwnMatchingEndNum(1000855458,50000000,temp.get(i));
+			//test+=s.OwnMatchingEndNum(10505700,100000,temp.get(i));
+			//test+=s.OwnMatchingEndNum(10605700,400000,temp.get(i));
 			
 		}
 		System.out.println("尾号个数" + temp.size());
 		System.out.println("可匹配的个数" + s.tmp);
 		System.out.println("分开匹配总和" + test);
 		System.out.println("中签率" + (s.iopNum/s.buyNum));
+		s.tmp = 0l;
+		s.MatchingEndNum( temp);
+		System.out.println("可匹配的个数" + s.tmp);
+		
 
 	}
 
@@ -37,10 +56,15 @@ public class Selection {
 	public  List<String> MainSelection(double ipoNum, double buyNum) {
 		this.iopNum = ipoNum;
 		this.buyNum = buyNum;
+		System.out.println("发售量："+ipoNum);
+		System.out.println("申购量："+buyNum);
+		tmp = 0l;
+		endNumList.clear();
 		GetSucRate();
 		SplitSucRate();
 		MatchingEndNum(endNumList);
 		AdjustmentNum();
+		System.out.println("尾号数:"+endNumList.size());
 		return endNumList;
 	}
 	//总体中签数匹配
@@ -62,6 +86,7 @@ public class Selection {
 			}
 		}
 	}
+
 	//个人中签数匹配
 	public int OwnMatchingEndNum(int numStart,int numCounts,String numEnd){
 		String strNumStart = String.valueOf(numStart);
@@ -124,7 +149,7 @@ public class Selection {
 	// 号码补齐
 	private void AdjustmentNum() {
 		while (tmp < iopNum) {
-			int temp = (int)Math.pow(10, String.valueOf((int)buyNum).length()-1);
+			int temp = (int)Math.pow(10, String.valueOf((int)buyNum).length());
 			String zero = String.valueOf(temp).substring(1, String.valueOf(temp).length());
 			DecimalFormat df = new DecimalFormat(zero);
 			Random rd = new Random();
@@ -133,16 +158,18 @@ public class Selection {
 			while (!DeleSame(strEndNum)) {
 				strEndNum = String.valueOf(rd.nextInt(((int) buyNum - iTemp)) + iTemp);
 			}
-			if(strEndNum.length()< String.valueOf((int)buyNum).length()-1)
+			if(strEndNum.length()< String.valueOf((int)buyNum).length())
 				strEndNum = df.format(Integer.parseInt(strEndNum));
 			endNumList.add(strEndNum);
 			tmp++;
+			
 		}
 	}
 
 	// 获取中签率
 	private void GetSucRate() {
 		double result = iopNum / buyNum;
+		System.out.println("中签率："+result);
 		int iTemp = String.valueOf((int) buyNum).length();
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(iTemp);

@@ -43,7 +43,7 @@ public class Taskmanage extends TimerTask {
 	private IpoOrderMapper order;
 	@Autowired
 	private Distribution distribution;
-	@Autowired
+
 	//private GetBallotNoUtils getBallotNoUtils;
 	private Selection selection;
 	@Autowired
@@ -96,6 +96,7 @@ public class Taskmanage extends TimerTask {
 			}
 			System.out.println("摇号开始");
 			// 摇号获取系统当前时间的前2天
+			IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
 			String ballotNowtime = DateUtil.getTime(2);
 			// // 查询前一天交易订单
 			System.out.println("等待摇号订单查询开始");
@@ -107,9 +108,9 @@ public class Taskmanage extends TimerTask {
 				for(IpoCommodity ipoComm : ipoCommList){
 					String commId =	ipoComm.getCommodityid();//获取需要摇号的商品id
 					int commCounts = ipoComm.getCounts();//改商品的发行数量
-					System.out.println("开始获取申购总量");
+					System.out.println("开始获取申购总量"+commId);
 					int saleCounts = order.bycommodityid(commId);//根据发售id获取申购总量
-					System.out.println("成功获取申购总量");
+					System.out.println("成功获取申购总量"+saleCounts);
 					//摇号开始
 					System.out.println(ipoComm.getCommodityid()+"订单摇号开始");
 					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);//尾号集合
@@ -123,19 +124,24 @@ public class Taskmanage extends TimerTask {
 					System.out.println("中签号匹配开始");
 					for(IpoDistribution ipoDis:ipoDidList){
 						int userGetNum=0;
+						System.out.println(ipoDis.getUserid()+"尾号个数"+endNumList.size());
+						System.out.println(ipoDis.getUserid()+"起始号码"+ipoDis.getStartnumber());
+						System.out.println(ipoDis.getUserid()+"匹配个数"+ipoDis.getPcounts());
 						for(String endNum:endNumList){
+							
 							userGetNum+=selection.OwnMatchingEndNum((int)ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
 						}
+						System.out.println(ipoDis.getUserid()+"匹配个数"+userGetNum);
 						ipoDis.setZcounts(userGetNum);//更新对象中匹配的个数
 						ipoDistribution.updateByPrimaryKey(ipoDis);//更新数据库记录
 					}
 					System.out.println("中签号匹配完成");
-					System.out.println("尾号记录开始");
+					System.out.println(commId+"尾号记录开始");
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 					Date dt = sdf.parse(DateUtil.getTime(0));
 					//将尾号记录到数据库
 					for(String endNum:endNumList){
-						IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
+						
 						ipoBallotNoInfo.setBallotno(endNum);
 						ipoBallotNoInfo.setBallotnoendlen(numLength);
 						ipoBallotNoInfo.setBallotnostartlen(numLength-endNum.length());
@@ -144,7 +150,7 @@ public class Taskmanage extends TimerTask {
 						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
 						
 					}
-					System.out.println("尾号记录成功");
+					System.out.println(commId+"尾号记录成功");
 				}
 
 			}
