@@ -344,5 +344,4 @@ public class IpoCommodityConf {
 	public void setTradetime(List<IpoTradetime> tradetime) {
 		this.tradetime = tradetime;
 	}
-
 }

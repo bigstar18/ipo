@@ -37,7 +37,6 @@
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" ref="brBrokerService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SystemService" ref="systemService" protocol="dubbo" />
 
-
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
 	<bean id="Purchase" class="com.yrdce.ipo.modules.sys.service.PurchaseImpl" />

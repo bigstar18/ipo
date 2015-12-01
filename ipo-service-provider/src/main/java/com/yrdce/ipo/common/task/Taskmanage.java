@@ -43,8 +43,8 @@ public class Taskmanage extends TimerTask {
 	@Autowired
 	private Distribution distribution;
 
+	// private GetBallotNoUtils getBallotNoUtils;
 	private Selection selection;
-
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
@@ -138,9 +138,11 @@ public class Taskmanage extends TimerTask {
 						ipoBallotNoInfo.setCommodityid(commId);
 						ipoBallotNoInfo.setCreatetime(dt);
 						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
+
 					}
 					System.out.println(commId + "尾号记录成功");
 				}
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

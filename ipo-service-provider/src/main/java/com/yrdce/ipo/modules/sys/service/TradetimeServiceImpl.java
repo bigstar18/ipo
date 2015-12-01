@@ -116,8 +116,10 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	@Transactional
 	public int insert(Tradetime tradetime, String comms) {
+
 		logger.info("进入交易节添加" + tradetime.toString());
 		try {
+
 			String[] comidarray = comms.split(",");
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);

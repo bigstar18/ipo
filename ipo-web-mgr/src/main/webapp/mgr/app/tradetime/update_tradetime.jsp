@@ -21,7 +21,7 @@ document.onkeypress=showKeyPress;
 <html>
 	<head>
 	    <base target="_self" />
-		<title>交易节添加</title>
+		<title>交易节更新</title>
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
 		<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
@@ -31,7 +31,6 @@ document.onkeypress=showKeyPress;
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
 			 var tradeTime = window.dialogArguments;
-				alert("id:"+tradeTime.sectionid);
 				document.getElementById("name").value = tradeTime.name;
 				document.getElementById("status").value = tradeTime.status;
 				document.getElementById("starttime").value = tradeTime.starttime;
@@ -202,7 +201,7 @@ document.onkeypress=showKeyPress;
 						<td>
 							<div class="warning">
 								<div class="content">
-									温馨提示 :交易节修改
+									温馨提示 :交易节更新
 								</div>
 							</div>
 						</td>
@@ -215,7 +214,7 @@ document.onkeypress=showKeyPress;
 										<div class="div_cxtj">
 											<div class="div_cxtjL"></div>
 											<div class="div_cxtjC">
-												添加交易节
+												交易节更新
 											</div>
 											<div class="div_cxtjR"></div>
 										</div>

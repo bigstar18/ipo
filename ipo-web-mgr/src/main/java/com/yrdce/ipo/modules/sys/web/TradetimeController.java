@@ -79,7 +79,6 @@ public class TradetimeController {
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
 	@ResponseBody
 	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
-		logger.info("进入添加交易节");
 		try {
 			int i = tradetimeService.insert(tradetime, comms);
 			return "success";
@@ -106,12 +105,11 @@ public class TradetimeController {
 
 	// 修改交易节视图
 	@RequestMapping(value = "/updateTradetimeforward", method = RequestMethod.GET)
-	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model,
-			@RequestParam("sectionID") String sectionID) throws IOException {
+	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		logger.info("进入修改视图");
-		short sectionID1 = Short.parseShort(sectionID);
-		Tradetime tradetime = tradetimeService.selectByKey(sectionID1);
-		request.setAttribute("tradetime", tradetime);
+		// short sectionID1 = Short.parseShort(sectionID);
+		// Tradetime tradetime = tradetimeService.selectByKey(sectionID1);
+		// request.setAttribute("tradetime", tradetime);
 		return "app/tradetime/update_tradetime";
 	}
 

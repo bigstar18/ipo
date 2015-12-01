@@ -29,7 +29,7 @@ public interface IpoCommodityConfMapper {
 	List<IpoCommodityConf> findAllIpoCommConfsByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int countAll();// 获取商品总数
-	
+
 	List<IpoCommodityConf> findAllIpoCommConfs();
 
 }

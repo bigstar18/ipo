@@ -24,8 +24,11 @@
 		<include refid="Base_Column_List" />
 		from TRADE_GNNT.IPO_SYSSTATUS
 	</select>
-	<select id="getDBTime" resultType="String">
+	<select id="getDBTimeStr" resultType="String">
 		select to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') from dual
+	</select>
+	<select id="getDBTime" resultType="java.util.Date">
+		select sysdate from dual
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.util.Date">
 		delete from TRADE_GNNT.IPO_SYSSTATUS

@@ -11,6 +11,13 @@
     <result column= "MODIFYTIME" property="modifytime" jdbcType="DATE"/>
   </resultMap>
   
+  <!--  <resultMap type="com.yrdce.ipo.modules.sys.entity.IpoTradetime" id="tradeTimeCommMap" extends="BaseResultMap">  
+        <collection property="ipoCommodity" ofType="IpoCommodityConf">  
+            <id property="commodityid" column="COMMODITYID" />  
+            <result property="commodityname" column="COMMODITYNAME" />  
+        </collection>  
+    </resultMap>   -->  
+  
   <sql id="Base_Column_List" >
     SECTIONID, NAME, STARTTIME, ENDTIME, STATUS, MODIFYTIME
   </sql>
@@ -49,10 +56,11 @@
     where SECTIONID = #{sectionid,jdbcType=DECIMAL}
   </update>
   
-  <insert id="insert" useGeneratedKeys="true" keyProperty="sectionid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime" >
-    <selectKey resultType="Short" order="BEFORE" keyProperty="sectionid">
-	SELECT SEQ_IPO_TRADETIME.NEXTVAL FROM dual
-	</selectKey>
+  <select id="getPK" resultType="Short">
+  	SELECT SEQ_IPO_TRADETIME.NEXTVAL FROM dual
+  </select>
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime" >
 	insert into IPO_TRADETIME 
 	<trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="sectionid != null" >
@@ -104,4 +112,15 @@
   	<select id="selectByCounts" resultType="java.lang.Integer">
   		select count(*) from IPO_TRADETIME
   	</select>
+  	
+  	 <!-- 保存交易节和商品之间的关系信息 -->  
+    <!-- <insert id="saveRelativity" parameterType="IpoTradetimeComm">  
+     <selectKey resultType="Integer" order="BEFORE" keyProperty="id">
+	  SELECT SEQ_IPO_TRADETIME_COMM.NEXTVAL FROM dual
+	 </selectKey>
+        insert into IPO_TRADETIME_COMM(ID,TRADETIMEID,COMMODITYID)  
+        values(#{id},#{tradetime.sectionid},#{commodity.commodityid})  
+    </insert>  
+    -->  
+
  </mapper>

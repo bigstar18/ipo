@@ -104,16 +104,15 @@ function addForward(){
 }
 //修改信息跳转
 function updateForward(id) {
+	alert(id);
 	//获取配置权限的 URL
-	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionID="+id;
+	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
 	var row = $("#tt").datagrid("getSelected");
 	//给 URL 添加参数
 	if(showDialog(updateUrl, row, 800, 550)){
 		//如果添加成功，则刷新列表
 		$('tt').datagrid('reload');
 	} 
-
-	document.location.href = url;
 }
 //删除
 function deleteList(){

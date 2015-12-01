@@ -18,6 +18,7 @@ public interface TradetimeService {
 	public int upDate(Tradetime tradetime);
 
 	// 增加交易节
+
 	public int insert(Tradetime tradetime, String comms);
 
 	// 删除交易节
