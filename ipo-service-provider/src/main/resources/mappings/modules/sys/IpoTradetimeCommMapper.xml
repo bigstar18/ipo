@@ -129,11 +129,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetimeCommExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_TRADETIME_COMM
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+  <select id="countById" parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    select count(*) from IPO_TRADETIME_COMM where TRADETIMEID = #{tradetimeid,jdbcType=DECIMAL}
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update IPO_TRADETIME_COMM

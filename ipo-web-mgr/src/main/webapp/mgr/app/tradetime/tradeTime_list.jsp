@@ -23,8 +23,8 @@ $(document).ready(function() {
          pageSize:10,
          pageList:[5,10,15],
          nowrap:true,
-         singleSelect:true,
          striped:true,
+         singleSelect:true,
          collapsible:false,
          url:'<%=request.getContextPath()%>/TradetimeController/getTradetimeList', //搜索前,触发此action请求所有用户信息  
          fitColumns:true,//允许表格自动缩放,以适应父容器
@@ -104,9 +104,9 @@ function addForward(){
 }
 //修改信息跳转
 function updateForward(id) {
+	var row = $("#tt").datagrid("getSelected");
 	//获取配置权限的 URL
 	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
-	var row = $("#tt").datagrid("getSelected");
 	//给 URL 添加参数
 	if(showDialog(updateUrl, row, 800, 550)){
 		//如果添加成功，则刷新列表
@@ -124,12 +124,12 @@ function deleteList(){
 	if(confirm("确定删除该交易节吗？")){
 		  var row = $("#tt").datagrid("getSelected"); 
 		  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
-			  if(data=='seccess'){
+			  if(data=='succes'){
 				  alert("删除成功！")
 				  $('#tt').datagrid('reload');
 			  }
 			  if(data=='error'){
-				  alert("发生异常，删除失败！")
+				  alert("该交易节与商品有关联，不可删除")
 			  }
 				  });
 		  }

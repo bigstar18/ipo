@@ -30,12 +30,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Autowired
 	private IpoTradtimeMapper tradetimeMapper;
 
-	/*
-	 * @Autowired private TABreedtradepropMapper breedtradepropMapper;
-	 * 
-	 * @Autowired private TACommoditytradepropMapper commoditytradepropMapper;
-	 */
-
 	@Autowired
 	private IpoNottradedayMapper notTradeTimeMapper;
 
@@ -103,8 +97,10 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public int upDate(Tradetime tradetime) {
 		logger.info("进入交易节修改" + tradetime);
 		try {
+			logger.debug("id:" + tradetime.getSectionid());
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);
+			tradetime1.setModifytime(new Date());
 			tradetimeMapper.updateByAll(tradetime1);
 			return 1;
 		} catch (Exception e) {
@@ -285,4 +281,17 @@ public class TradetimeServiceImpl implements TradetimeService {
 		return false;
 	}
 
+	// 判断交易节与商品是否有关联
+	@Override
+	public boolean tradeTimeAndCom(String ids) {
+		String[] id = ids.split(",");
+		for (int i = 0; i < id.length; i++) {
+			int tradeTimeId = Integer.parseInt(id[i]);
+			int counts = ipotradetimecomm.countById(tradeTimeId);
+			if (counts == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

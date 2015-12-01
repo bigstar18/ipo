@@ -34,6 +34,7 @@ document.onkeypress=showKeyPress;
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
 			 var tradeTime = window.dialogArguments;
+			 	document.getElementById("sectionid").value = tradeTime.sectionid;
 				document.getElementById("name").value = tradeTime.name;
 				document.getElementById("status").value = tradeTime.status;
 				document.getElementById("starttime").value = tradeTime.starttime;
@@ -177,7 +178,7 @@ document.onkeypress=showKeyPress;
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/updateTradetime">
+		<form id="frm" name="frm" method="post" enctype="mutipart/form-data">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -211,6 +212,7 @@ document.onkeypress=showKeyPress;
 														交易节名称：
 													</td>
 													<td>
+														<input id="sectionid" name="sectionid" type="hidden">
 													    <input type="text" id="name" name="name" value=""
 														class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>
 													</td>

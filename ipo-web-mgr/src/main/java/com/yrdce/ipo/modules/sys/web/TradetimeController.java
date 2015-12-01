@@ -94,11 +94,14 @@ public class TradetimeController {
 	@ResponseBody
 	public String deleteTradetime(String ids) {
 		logger.info("进入删除交易节" + "ids:" + ids);
-		try {
+		// 根据交易节id查询与商品的关联
+		Boolean falg = tradetimeService.tradeTimeAndCom(ids);
+		logger.info(falg + "");
+		// 判断是否有关联
+		if (falg) {
 			int status = tradetimeService.delete(ids);
-			return "seccuss";
-		} catch (Exception e) {
-			e.printStackTrace();
+			return "succes";
+		} else {
 			return "error";
 		}
 	}
@@ -130,6 +133,12 @@ public class TradetimeController {
 		Nottradeday nottradeday = tradetimeService.select();
 		String week = nottradeday.getWeek();
 		String day = nottradeday.getDay();
+		if (week == null) {
+			week = "";
+		}
+		if (day == null) {
+			day = "";
+		}
 		request.setAttribute("week", week);
 		request.setAttribute("day", day);
 		return "app/tradetime/notTradeDay";

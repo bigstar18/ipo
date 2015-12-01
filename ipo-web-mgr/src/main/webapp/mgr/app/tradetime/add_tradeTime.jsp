@@ -16,9 +16,17 @@
 		
 <script type="text/javascript"> 
  function addTradetime(){
-        		var status=$("#status").val();     
-        		if(status!='请选择'){ 
-        			var flag=save_onclick();
+        		var status=$("#status").val();  
+        		var comms = document.getElementsByName("comms");
+    			var commArry = [];
+    			for(var i = 0;i<comms.length;i++){
+    				if(comms[i].checked){
+    					commArry.push(comms[i].value);
+    				}
+    			}
+    			var flag=false;
+    			flag=save_onclick();
+        		if(status!='请选择'&&commArry.length!=0){ 
         			if(flag){
         	            $('#frm').form({
         	                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
@@ -26,14 +34,16 @@
         	                 return $(this).form('validate');
         	                  },
         	                success:function(data){
-        	                  		alert("增加成功！");
+        	                  		alert("增加成功！");//火狐浏览器会重复提交 360浏览器不会
         	                  }
         	                 });  
         	             $('#frm').submit(); 	
-        			}	}else{
-        						alert("请选择交易节状态");
+        			}	
         			}
-        	}           
+        		else{
+        						alert("所有参数必填");
+        			}
+}           
            
  function isTime(val) {
 		var str=val;
