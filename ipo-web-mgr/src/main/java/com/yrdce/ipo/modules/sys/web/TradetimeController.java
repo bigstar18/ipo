@@ -100,7 +100,7 @@ public class TradetimeController {
 		// 判断是否有关联
 		if (falg) {
 			int status = tradetimeService.delete(ids);
-			return "succes";
+			return "success";
 		} else {
 			return "error";
 		}

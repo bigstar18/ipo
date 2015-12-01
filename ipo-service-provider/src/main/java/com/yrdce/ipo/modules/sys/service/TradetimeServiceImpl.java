@@ -115,7 +115,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 		logger.info("进入交易节添加" + tradetime.toString());
 		try {
-
+            
 			String[] comidarray = comms.split(",");
 			IpoTradetime tradetime1 = new IpoTradetime();
 			BeanUtils.copyProperties(tradetime, tradetime1);

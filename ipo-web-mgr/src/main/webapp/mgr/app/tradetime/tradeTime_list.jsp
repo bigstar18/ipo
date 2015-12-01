@@ -124,7 +124,7 @@ function deleteList(){
 	if(confirm("确定删除该交易节吗？")){
 		  var row = $("#tt").datagrid("getSelected"); 
 		  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
-			  if(data=='succes'){
+			  if(data=='success'){
 				  alert("删除成功！")
 				  $('#tt').datagrid('reload');
 			  }
@@ -142,6 +142,7 @@ function deleteList(){
 	<div class="warning">
 			<div class="content">
 				温馨提示 :添加、删除、修改交易节
+				                  修改交易节请先选择该条数据，然后点击编号货名称进行修改
 			</div>
 		</div>
 	<div id="tb" >
