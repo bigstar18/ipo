@@ -20,7 +20,8 @@ public interface IpoNottradedayMapper {
 
 	int insertSelective(IpoNottradeday record);
 
-	List<IpoNottradeday> selectByExample(IpoNottradedayExample example);
+	// 查询所有非交易日
+	List<IpoNottradeday> selectByAll();
 
 	IpoNottradeday select();
 

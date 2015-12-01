@@ -17,7 +17,7 @@
 <script type="text/javascript"> 
  function addTradetime(){
         		var status=$("#status").val();     
-        		if(status!=''){ 
+        		if(status!='请选择'){ 
         			var flag=save_onclick();
         			if(flag){
         	            $('#frm').form({
@@ -31,7 +31,7 @@
         	                 });  
         	             $('#frm').submit(); 	
         			}	}else{
-        						alert("所有参数必填！");
+        						alert("请选择交易节状态");
         			}
         	}           
            
@@ -195,7 +195,7 @@ else
 													</td>
 													<td>
 														<select id="status" name="status" style="width:120">
-															  <option value=""></option>
+															  <option value="">请选择</option>
 									                          <option value="0">无效</option>
 										                      <option value="1" selected="selected">正常</option>
 														</select>

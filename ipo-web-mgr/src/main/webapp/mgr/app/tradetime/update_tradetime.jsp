@@ -22,11 +22,14 @@ document.onkeypress=showKeyPress;
 	<head>
 	    <base target="_self" />
 		<title>交易节更新</title>
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
-		<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
-		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
+		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
@@ -35,47 +38,27 @@ document.onkeypress=showKeyPress;
 				document.getElementById("status").value = tradeTime.status;
 				document.getElementById("starttime").value = tradeTime.starttime;
 				document.getElementById("endtime").value = tradeTime.endtime;
-		//ajax验证
-		jQuery("#frm").validationEngine( {
-			ajaxFormValidation : true,
-			onAjaxFormComplete : ajaxValidationCallback,
-			onBeforeAjaxFormValidation : beforeCall
-		});
-
-		//提交前事件
-		function beforeCall(form, options) {
-			return true;
-		} 
-
-		//提交后事件
-		function ajaxValidationCallback(status, form, json, options) {
-			//如果返回成功
-			if (status === true) {
-				var flag = false;
-				
-			    flag = save_onclick();
-			    alert(flag);
-			   	if(flag){
-			    	var vaild = affirm("您确定要操作吗？");
-					if(vaild){
-						$("#frm").submit();
-						$("#add").attr("disabled",true);
-					}
-			   	}
-			} else {
-				$("#sectionID").focus();
-			}
-		}
-				 
-		//修改按钮注册点击事件
-		$("#add").click(function(){
-			//验证信息
-			if(jQuery("#frm").validationEngine('validateform')){
-				return false;
-			}
-		});
 		 });
-
+				function updateTradetime(){
+					var status=$("#status").val();     
+	        		if(status!='请选择'){ 
+	        			var flag=save_onclick();
+	        			if(flag){
+	        	            $('#frm').form({
+	        	                url:'<%=request.getContextPath()%>/TradetimeController/updateTradetime',
+	        	                onSubmit:function(){
+	        	                 return $(this).form('validate');
+	        	                  },
+	        	                success:function(data){
+	        	                  		alert("增加成功！");
+	        	                  }
+	        	                 });  
+	        	             $('#frm').submit(); 	
+	        			}	}else{
+	        						alert("请选择交易节状态");
+	        			}
+				}
+				 
 			 function isTime(val) {
 					var str=val;
 				    
@@ -228,8 +211,8 @@ document.onkeypress=showKeyPress;
 														交易节名称：
 													</td>
 													<td>
-													    <input type="text" id="name" name="name" 
-															class="validate[required] input_text datepicker"/>
+													    <input type="text" id="name" name="name" value=""
+														class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>
 													</td>
 													<td align="left">
 														<span class="required">*</span>
@@ -279,7 +262,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" >确定</button>
+							<button class="btn_sec" id="add" onclick="updateTradetime()">确定</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

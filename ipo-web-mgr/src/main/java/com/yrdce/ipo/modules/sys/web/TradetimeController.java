@@ -61,7 +61,7 @@ public class TradetimeController {
 	}
 
 	// 修改交易节
-	@RequestMapping(value = "/updateTradetime", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST)
 	@ResponseBody
 	public int updateTradetime(Tradetime tradetime) {
 		logger.info("修改交易节" + "tradetime:" + tradetime);
