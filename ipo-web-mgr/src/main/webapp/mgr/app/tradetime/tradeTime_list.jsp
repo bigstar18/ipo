@@ -107,7 +107,6 @@ function updateForward(id) {
 	//获取配置权限的 URL
 	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionID="+id;
 	var row = $("#tt").datagrid("getSelected");
-	alert(row.sectionid);
 	//给 URL 添加参数
 	if(showDialog(updateUrl, row, 800, 550)){
 		//如果添加成功，则刷新列表
@@ -124,7 +123,7 @@ function deleteList(){
 		ids.push(item.sectionid);
 	});
 	var id = ids.join(",");
-	if(confirm("确定删除该品种吗？")){
+	if(confirm("确定删除该交易节吗？")){
 		  var row = $("#tt").datagrid("getSelected"); 
 		  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
 			  if(data=='seccess'){

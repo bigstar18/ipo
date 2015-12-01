@@ -292,7 +292,7 @@ public class BreedController extends BaseController {
 	}
 
 	/**
-	 * 查询所有商品列表
+	 * 分页查询所有商品列表
 	 * 
 	 * @param
 	 * @return
@@ -315,7 +315,8 @@ public class BreedController extends BaseController {
 			return "error";
 		}
 	}
-
+	
+	
 	/**
 	 * 增加商品
 	 * 

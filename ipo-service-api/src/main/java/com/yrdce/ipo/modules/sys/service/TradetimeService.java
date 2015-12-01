@@ -27,7 +27,7 @@ public interface TradetimeService {
 	public Tradetime selectByKey(Short id);
 
 	// 根据交易节主键查询相关联的商品和品种
-	public int selectByBreedAndCommodity(Short id);
+	// public int selectByBreedAndCommodity(Short id);
 
 	// 查询交易节总数
 	public int selectByCounts();

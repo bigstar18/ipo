@@ -60,21 +60,6 @@ public class TradetimeController {
 		}
 	}
 
-	// 跳出修改页面时的一次查询
-	@RequestMapping(value = "/getTradetime", method = RequestMethod.GET)
-	@ResponseBody
-	public String getTradetime(short id) {
-		logger.info("根据主键查询交易节信息" + "id:" + id);
-		try {
-			Tradetime tradetime = tradetimeService.selectByKey(id);
-			return JSON.json(tradetime);
-		} catch (Exception e) {
-			logger.info("修改交易节信息转换json失败");
-			e.printStackTrace();
-			return "";
-		}
-	}
-
 	// 修改交易节
 	@RequestMapping(value = "/updateTradetime", method = RequestMethod.GET)
 	@ResponseBody
@@ -135,8 +120,9 @@ public class TradetimeController {
 	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		logger.info("进入新增视图");
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
+		logger.info("" + comlist.size());
 		request.setAttribute("commlist", comlist);
-		return "app/tradetime/add_tradeTime3";
+		return "app/tradetime/add_tradeTime";
 	}
 
 	// 非交易节视图

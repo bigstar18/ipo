@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
-import com.yrdce.ipo.modules.sys.dao.TATradetimeMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
-import com.yrdce.ipo.modules.sys.entity.TATradetime;
+import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
 
 /**
  * 申购服务
@@ -40,7 +40,7 @@ public class PurchaseImpl implements Purchase {
 	@Autowired
 	private IpoOrderMapper order;
 	@Autowired
-	private TATradetimeMapper tat;
+	private IpoTradtimeMapper tradTime;
 
 	// 时间判断
 	public boolean isInDates(String sId) {
@@ -64,9 +64,9 @@ public class PurchaseImpl implements Purchase {
 
 				// 获取数据库中共有几条时间记录
 				logger.info("获取交易节表信息");
-				List<TATradetime> list = tat.select();
-				for (int r = 0; r < list.size(); r++) {
-					TATradetime tradetime = list.get(r);
+				List<IpoTradetime> list = tradTime.selectAll();
+				for (int i = 0; i < list.size(); i++) {
+					IpoTradetime tradetime = list.get(i);
 					String start = tradetime.getStarttime();
 					String end = tradetime.getEndtime();
 

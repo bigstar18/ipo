@@ -20,15 +20,10 @@
 	</bean>
 
 	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
-<<<<<<< HEAD
 	<dubbo:registry address="${dubbo.registry.address}" />
 	<dubbo:registry check="false" />
 	<dubbo:consumer check="false" />
-	<dubbo:consumer delay="-1" timeout="30000" retries="0" />
-=======
-	<dubbo:registry address="${dubbo.registry.address}" check="false" />
 	<dubbo:consumer check="false" timeout="30000" retries="0" />
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
     <!--uncomment this if you want to test dubbo's monitor-->
     <!--<dubbo:monitor protocol="registry"/>-->
 

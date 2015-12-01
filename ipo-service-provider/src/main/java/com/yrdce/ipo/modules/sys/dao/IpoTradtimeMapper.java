@@ -23,4 +23,6 @@ public interface IpoTradtimeMapper {
 	public int selectByCounts();
 
 	public List<IpoTradetime> selectAll();// 所有
+	
+	public short getPK();
 }

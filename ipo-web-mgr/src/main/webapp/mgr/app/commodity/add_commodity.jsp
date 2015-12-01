@@ -168,23 +168,7 @@ function spreadAlgr_onchange(value)
 		$("#spreadDownLmtPercent").hide();
 	}
 }
-
-function onSelect(d) {
-    var issd = this.id == 'starttime', sd = issd ? d : new Date($('#starttime').datebox('getValue')), ed = issd ? new Date($('#endtime').datebox('getValue')) : d;
-        if (ed < sd) {
-            alert('结束日期小于开始日期');
-            //只要选择了日期，不管是开始或者结束都对比一下，如果结束小于开始，则清空结束日期的值并弹出日历选择框
-            $('#endtime').datebox('setValue', '').datebox('showPanel');
-        }
-    }
-function onSelect2(d) {
-    var issd = this.id == 'listingdate', sd = issd ? d : new Date($('#listingdate').datebox('getValue')), ed = issd ? new Date($('#lasttradate').datebox('getValue')) : d;
-        if (ed < sd) {
-            alert('结束日期小于开始日期');
-            $('#lasttradate').datebox('setValue', '').datebox('showPanel');
-        }
-    }    
-	
+    	
 </script>
 </head>
 <body leftmargin="14" topmargin="0">

@@ -1,18 +1,17 @@
 package com.yrdce.ipo.modules.sys.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-public class TABreedtradepropExample {
+public class IpoTradetimeCommExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TABreedtradepropExample() {
+    public IpoTradetimeCommExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -106,209 +105,193 @@ public class TABreedtradepropExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-        }
-
-        public Criteria andBreedidIsNull() {
-            addCriterion("BREEDID is null");
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidIsNotNull() {
-            addCriterion("BREEDID is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidEqualTo(Long value) {
-            addCriterion("BREEDID =", value, "breedid");
+        public Criteria andIdEqualTo(BigDecimal value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidNotEqualTo(Long value) {
-            addCriterion("BREEDID <>", value, "breedid");
+        public Criteria andIdNotEqualTo(BigDecimal value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidGreaterThan(Long value) {
-            addCriterion("BREEDID >", value, "breedid");
+        public Criteria andIdGreaterThan(BigDecimal value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidGreaterThanOrEqualTo(Long value) {
-            addCriterion("BREEDID >=", value, "breedid");
+        public Criteria andIdGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidLessThan(Long value) {
-            addCriterion("BREEDID <", value, "breedid");
+        public Criteria andIdLessThan(BigDecimal value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidLessThanOrEqualTo(Long value) {
-            addCriterion("BREEDID <=", value, "breedid");
+        public Criteria andIdLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidIn(List<Long> values) {
-            addCriterion("BREEDID in", values, "breedid");
+        public Criteria andIdIn(List<BigDecimal> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidNotIn(List<Long> values) {
-            addCriterion("BREEDID not in", values, "breedid");
+        public Criteria andIdNotIn(List<BigDecimal> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidBetween(Long value1, Long value2) {
-            addCriterion("BREEDID between", value1, value2, "breedid");
+        public Criteria andIdBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andBreedidNotBetween(Long value1, Long value2) {
-            addCriterion("BREEDID not between", value1, value2, "breedid");
+        public Criteria andIdNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidIsNull() {
-            addCriterion("SECTIONID is null");
+        public Criteria andTradetimeidIsNull() {
+            addCriterion("TRADETIMEID is null");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidIsNotNull() {
-            addCriterion("SECTIONID is not null");
+        public Criteria andTradetimeidIsNotNull() {
+            addCriterion("TRADETIMEID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidEqualTo(Short value) {
-            addCriterion("SECTIONID =", value, "sectionid");
+        public Criteria andTradetimeidEqualTo(Short value) {
+            addCriterion("TRADETIMEID =", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidNotEqualTo(Short value) {
-            addCriterion("SECTIONID <>", value, "sectionid");
+        public Criteria andTradetimeidNotEqualTo(Short value) {
+            addCriterion("TRADETIMEID <>", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidGreaterThan(Short value) {
-            addCriterion("SECTIONID >", value, "sectionid");
+        public Criteria andTradetimeidGreaterThan(Short value) {
+            addCriterion("TRADETIMEID >", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidGreaterThanOrEqualTo(Short value) {
-            addCriterion("SECTIONID >=", value, "sectionid");
+        public Criteria andTradetimeidGreaterThanOrEqualTo(Short value) {
+            addCriterion("TRADETIMEID >=", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidLessThan(Short value) {
-            addCriterion("SECTIONID <", value, "sectionid");
+        public Criteria andTradetimeidLessThan(Short value) {
+            addCriterion("TRADETIMEID <", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidLessThanOrEqualTo(Short value) {
-            addCriterion("SECTIONID <=", value, "sectionid");
+        public Criteria andTradetimeidLessThanOrEqualTo(Short value) {
+            addCriterion("TRADETIMEID <=", value, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidIn(List<Short> values) {
-            addCriterion("SECTIONID in", values, "sectionid");
+        public Criteria andTradetimeidIn(List<Short> values) {
+            addCriterion("TRADETIMEID in", values, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidNotIn(List<Short> values) {
-            addCriterion("SECTIONID not in", values, "sectionid");
+        public Criteria andTradetimeidNotIn(List<Short> values) {
+            addCriterion("TRADETIMEID not in", values, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidBetween(Short value1, Short value2) {
-            addCriterion("SECTIONID between", value1, value2, "sectionid");
+        public Criteria andTradetimeidBetween(Short value1, Short value2) {
+            addCriterion("TRADETIMEID between", value1, value2, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andSectionidNotBetween(Short value1, Short value2) {
-            addCriterion("SECTIONID not between", value1, value2, "sectionid");
+        public Criteria andTradetimeidNotBetween(Short value1, Short value2) {
+            addCriterion("TRADETIMEID not between", value1, value2, "tradetimeid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeIsNull() {
-            addCriterion("MODIFYTIME is null");
+        public Criteria andCommodityidIsNull() {
+            addCriterion("COMMODITYID is null");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeIsNotNull() {
-            addCriterion("MODIFYTIME is not null");
+        public Criteria andCommodityidIsNotNull() {
+            addCriterion("COMMODITYID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeEqualTo(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME =", value, "modifytime");
+        public Criteria andCommodityidEqualTo(String value) {
+            addCriterion("COMMODITYID =", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME <>", value, "modifytime");
+        public Criteria andCommodityidNotEqualTo(String value) {
+            addCriterion("COMMODITYID <>", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME >", value, "modifytime");
+        public Criteria andCommodityidGreaterThan(String value) {
+            addCriterion("COMMODITYID >", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME >=", value, "modifytime");
+        public Criteria andCommodityidGreaterThanOrEqualTo(String value) {
+            addCriterion("COMMODITYID >=", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeLessThan(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME <", value, "modifytime");
+        public Criteria andCommodityidLessThan(String value) {
+            addCriterion("COMMODITYID <", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MODIFYTIME <=", value, "modifytime");
+        public Criteria andCommodityidLessThanOrEqualTo(String value) {
+            addCriterion("COMMODITYID <=", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeIn(List<Date> values) {
-            addCriterionForJDBCDate("MODIFYTIME in", values, "modifytime");
+        public Criteria andCommodityidLike(String value) {
+            addCriterion("COMMODITYID like", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("MODIFYTIME not in", values, "modifytime");
+        public Criteria andCommodityidNotLike(String value) {
+            addCriterion("COMMODITYID not like", value, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MODIFYTIME between", value1, value2, "modifytime");
+        public Criteria andCommodityidIn(List<String> values) {
+            addCriterion("COMMODITYID in", values, "commodityid");
             return (Criteria) this;
         }
 
-        public Criteria andModifytimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MODIFYTIME not between", value1, value2, "modifytime");
+        public Criteria andCommodityidNotIn(List<String> values) {
+            addCriterion("COMMODITYID not in", values, "commodityid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityidBetween(String value1, String value2) {
+            addCriterion("COMMODITYID between", value1, value2, "commodityid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityidNotBetween(String value1, String value2) {
+            addCriterion("COMMODITYID not between", value1, value2, "commodityid");
             return (Criteria) this;
         }
     }

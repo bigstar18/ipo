@@ -87,12 +87,18 @@ $(document).ready(function() {
 						<br />
 	<div class="div_list">
 	<table id="tt" width="100%"></table>
-		<!-- <div id="tb" style="padding:5px;height:auto">
+	<!--	 <div id="tb" style="padding:5px;height:auto">
 		<div style="margin-bottom:5px">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addCommodity();" id="add">添加商品</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="returnBreedList();" id="delete">返回品种</a>
+		</div> 
+		<div>
+		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post">
+			品种名称: <input id="breedname" name="breedname" class="easyui-textbox" style="width:80px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+		</form> 
 		</div>
-	</div> -->
+	</div>-->
 	</div>
 	</td>
 	</tr>

@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class IpoTradetime {
 	private Short sectionid;
@@ -14,6 +15,8 @@ public class IpoTradetime {
 	private Short status;
 
 	private Date modifytime;
+
+	private List<IpoCommodityConf> ipoCommodity;
 
 	public Date getModifytime() {
 		return modifytime;
@@ -61,6 +64,14 @@ public class IpoTradetime {
 
 	public void setStatus(Short status) {
 		this.status = status;
+	}
+
+	public List<IpoCommodityConf> getIpoCommodity() {
+		return ipoCommodity;
+	}
+
+	public void setIpoCommodity(List<IpoCommodityConf> ipoCommodity) {
+		this.ipoCommodity = ipoCommodity;
 	}
 
 }

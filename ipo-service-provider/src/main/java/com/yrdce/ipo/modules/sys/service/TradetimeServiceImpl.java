@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,11 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoNottradedayMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoTradetimeCommMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
-import com.yrdce.ipo.modules.sys.dao.TABreedtradepropMapper;
-import com.yrdce.ipo.modules.sys.dao.TACommoditytradepropMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoNottradeday;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
+import com.yrdce.ipo.modules.sys.entity.IpoTradetimeComm;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
 
@@ -31,11 +30,11 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Autowired
 	private IpoTradtimeMapper tradetimeMapper;
 
-	@Autowired
-	private TABreedtradepropMapper breedtradepropMapper;
-
-	@Autowired
-	private TACommoditytradepropMapper commoditytradepropMapper;
+	/*
+	 * @Autowired private TABreedtradepropMapper breedtradepropMapper;
+	 * 
+	 * @Autowired private TACommoditytradepropMapper commoditytradepropMapper;
+	 */
 
 	@Autowired
 	private IpoNottradedayMapper notTradeTimeMapper;
@@ -44,7 +43,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 	private IpoTradetimeCommMapper ipotradetimecomm;
 
 	@Autowired
-	private SysStatusService sysStatusService;
+	private SystemService systemService;
 
 	public IpoTradtimeMapper getTradetimeMapper() {
 		return tradetimeMapper;
@@ -52,22 +51,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	public void setTradetimeMapper(IpoTradtimeMapper tradetimeMapper) {
 		this.tradetimeMapper = tradetimeMapper;
-	}
-
-	public TABreedtradepropMapper getBreedtradepropMapper() {
-		return breedtradepropMapper;
-	}
-
-	public void setBreedtradepropMapper(TABreedtradepropMapper breedtradepropMapper) {
-		this.breedtradepropMapper = breedtradepropMapper;
-	}
-
-	public TACommoditytradepropMapper getCommoditytradepropMapper() {
-		return commoditytradepropMapper;
-	}
-
-	public void setCommoditytradepropMapper(TACommoditytradepropMapper commoditytradepropMapper) {
-		this.commoditytradepropMapper = commoditytradepropMapper;
 	}
 
 	public IpoNottradedayMapper getNotTradeTimeMapper() {
@@ -84,6 +67,14 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	public void setIpotradetimecomm(IpoTradetimeCommMapper ipotradetimecomm) {
 		this.ipotradetimecomm = ipotradetimecomm;
+	}
+
+	public SystemService getSystemService() {
+		return systemService;
+	}
+
+	public void setSystemService(SystemService systemService) {
+		this.systemService = systemService;
 	}
 
 	@Override
@@ -173,20 +164,12 @@ public class TradetimeServiceImpl implements TradetimeService {
 		}
 	}
 
-	@Override
-	public int selectByBreedAndCommodity(Short id) {
-		logger.info("根据id查询商品和品名与交易节的关联" + id);
-		int result = 0;
-		List commoditytradeprop = new ArrayList();
-		List breedtradeprop = breedtradepropMapper.selectByBreed(id);
-		commoditytradeprop = commoditytradepropMapper.selectByCommodity(id);
-		if ((breedtradeprop != null) && (breedtradeprop.size() > 0))
-			result = -1;
-		else if ((commoditytradeprop != null) && (commoditytradeprop.size() > 0)) {
-			result = -2;
-		}
-		return result;
-	}
+	/*
+	 * @Override public int selectByBreedAndCommodity(Short id) { logger.info("根据id查询商品和品名与交易节的关联" + id); int result = 0; List commoditytradeprop =
+	 * new ArrayList(); List breedtradeprop = breedtradepropMapper.selectByBreed(id); commoditytradeprop =
+	 * commoditytradepropMapper.selectByCommodity(id); if ((breedtradeprop != null) && (breedtradeprop.size() > 0)) result = -1; else if
+	 * ((commoditytradeprop != null) && (commoditytradeprop.size() > 0)) { result = -2; } return result; }
+	 */
 
 	@Override
 	public int selectByCounts() {
@@ -247,11 +230,14 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	}
 
+	// 是否在交易节时间内
 	@Override
 	public boolean getTime() {
 		// TODO Auto-generated method stub
 		// 获取数据可时间
-		String DBTime = sysStatusService.getDBTime();
+		Date DBTime = systemService.getDBTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String DBTime1 = sdf.format(DBTime);
 		// 获取交易节时间
 		List<IpoTradetime> list = tradetimeMapper.selectAll();
 		for (int i = 0; i < list.size(); i++) {
@@ -259,7 +245,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 			String endTime = list.get(i).getEndtime();
 			long begin = Long.parseLong(startTime.replaceAll(":", ""));
 			long finish = Long.parseLong(endTime.replaceAll(":", ""));
-			long now = Long.parseLong(DBTime.replaceAll(":", ""));
+			long now = Long.parseLong(DBTime1.replaceAll(":", ""));
 
 			if (now >= begin && now < finish) {
 				return true;
@@ -269,38 +255,32 @@ public class TradetimeServiceImpl implements TradetimeService {
 		return false;
 	}
 
+	// 是否在交易节前5分钟
 	@Override
 	public boolean timeComparison() {
 		// 获取数据库时间
-		String DBTime = sysStatusService.getDBTime();
+		Date DBTime = systemService.getDBTime();
+		Calendar rightNow = Calendar.getInstance();
+		rightNow.setTime(DBTime);
+		// 当前时间加5分钟
+		rightNow.add(Calendar.MINUTE, 5);
+		Date dt1 = rightNow.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		Date date;
-		try {
-			date = sdf.parse(DBTime);
-			Calendar rightNow = Calendar.getInstance();
-			rightNow.setTime(date);
-			// 当前时间加5分钟
-			rightNow.add(Calendar.MINUTE, 5);
-			Date dt1 = rightNow.getTime();
-			String str = sdf.format(dt1);
-			// 获取交易节时间
-			List<IpoTradetime> list = tradetimeMapper.selectAll();
-			for (int i = 0; i < list.size(); i++) {
-				String startTime = list.get(i).getStarttime();
+		String str = sdf.format(dt1);
+		// 获取交易节时间
+		List<IpoTradetime> list = tradetimeMapper.selectAll();
+		for (int i = 0; i < list.size(); i++) {
+			String startTime = list.get(i).getStarttime();
 
-				long begin = Long.parseLong(startTime.replaceAll(":", ""));
-				long now = Long.parseLong(str.replaceAll(":", ""));
+			long begin = Long.parseLong(startTime.replaceAll(":", ""));
+			long now = Long.parseLong(str.replaceAll(":", ""));
 
-				if (now >= begin) {
-					return true;
-				}
+			if (now >= begin) {
+				return true;
 			}
-
-			return false;
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return false;
 		}
+
+		return false;
 	}
 
 }

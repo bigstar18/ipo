@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.yrdce.ipo.modules.sys.service.SysStatusService;
+import com.yrdce.ipo.common.utils.DateUtils;
+import com.yrdce.ipo.common.vo.ResultMsg;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -20,8 +23,8 @@ import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
  * 
  */
 @Controller
-@RequestMapping("tradeController")
-public class TradeController {
+@RequestMapping("sysController")
+public class SysController {
 	public static Map statusMap = new HashMap();
 
 	static {
@@ -38,28 +41,49 @@ public class TradeController {
 		statusMap.put("10", "交易结算完成");
 	}
 
-	private static Logger log = org.slf4j.LoggerFactory.getLogger(TradeController.class);
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(SysController.class);
 
 	@Autowired
-	private SysStatusService sysStatusService;
+	private SystemService systemService;
 
-	// 交易节信息展示
-	@RequestMapping(value = "/getTradeStatus", method = RequestMethod.GET)
+	// 系统状态
+	@RequestMapping(value = "/getSysStatus", method = RequestMethod.GET)
 	@ResponseBody
 	public String getTradeStatus() throws IOException {
 		try {
-			IpoSysStatus value = sysStatusService.querySysStatus();
+			IpoSysStatus value = systemService.querySysStatus();
 			if (value == null) {
 				value = new IpoSysStatus();
 			}
 			Short status = value.getStatus();
 			if (status != null && statusMap.containsKey(String.valueOf(status)))
 				value.setStatusStr((String) statusMap.get(String.valueOf(status)));
-			value.setSysTime(sysStatusService.getDBTime());
+			value.setSysTime(DateUtils.formatDateTime(systemService.getDBTime()));
 			return JSON.json(value);
 		} catch (Exception e) {
 			log.error("error:", e);
 			return "";
+		}
+	}
+
+	// 系统操作
+	@RequestMapping(value = "/sysOperate", method = RequestMethod.POST)
+	@ResponseBody
+	public String sysControl(@RequestParam("code") String oprCode) throws IOException {
+		try {
+			if (oprCode == null)
+				throw new Exception("operate code is null.");
+			ResultMsg msg = systemService.sysControl(oprCode);
+			if (msg == null) {
+				msg = new ResultMsg();
+				msg.setResult(ResultMsg.RESULT_ERROR);
+			}
+			return JSON.json(msg);
+		} catch (Exception e) {
+			log.error("error:", e);
+			ResultMsg msg = new ResultMsg();
+			msg.setResult(ResultMsg.RESULT_EXCEPTION);
+			return JSON.json(msg);
 		}
 	}
 

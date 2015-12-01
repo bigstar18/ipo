@@ -48,16 +48,4 @@ public class MBreedServiceImpl implements MBreedService {
 		return breed;
 	}
 
-	@Override
-	public List<MBreed> findMBreedsByPage(String page, String rows) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getTotalMBreeds() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

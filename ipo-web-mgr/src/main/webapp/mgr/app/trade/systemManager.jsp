@@ -3,7 +3,7 @@
 <html>
 <head>
 <title></title>
-<script src="<%=request.getContextPath()%>/static/ipo/tradeStatusManager.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/systemManager.js" type="text/javascript"></script>
 </head>
 <body leftmargin="0" topmargin="0" onkeypress="keyEnter(event.keyCode);">
 	<table width="550" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -34,18 +34,18 @@
 											<td height="3" colspan="2"></td>
 										</tr>
 										<tr>
-											<td height="35" colspan="2"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;当前时间：</span> <span id="systime" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;">${sysTime}</span>&nbsp;&nbsp;</td>
+											<td height="35" colspan="2"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;当前时间：</span> <span id="systime" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
 											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;交易日期：</span> <span id="tradeDate" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"><fmt:formatDate
-														value="${systemStatus.tradeDate}" pattern="yyyy-MM-dd" /></span></td>
+														value="" pattern="yyyy-MM-dd" /></span></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;市场状态：</span> <span id="marketStatus" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;">${tradeStatusMap[systemStatus.status]}</span>&nbsp;&nbsp;&nbsp;</td>
+											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;市场状态：</span> <span id="marketStatus" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;备注：</span> <span id="remark" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;">${systemStatus.note}</span>&nbsp;&nbsp;</td>
-											<td height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;交易节：</span> <span id="session" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;">${systemStatus.sectionID}</span>&nbsp;&nbsp;</td>
+											<td height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;备注：</span> <span id="remark" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;</td>
+											<td height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;交易节：</span> <span id="session" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
 											<td height="3" colspan="2"></td>
