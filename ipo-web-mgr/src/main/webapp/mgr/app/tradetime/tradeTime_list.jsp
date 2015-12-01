@@ -104,7 +104,6 @@ function addForward(){
 }
 //修改信息跳转
 function updateForward(id) {
-	alert(id);
 	//获取配置权限的 URL
 	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
 	var row = $("#tt").datagrid("getSelected");

@@ -22,7 +22,7 @@ public interface IpoTradtimeMapper {
 
 	public int selectByCounts();
 
-	public List<IpoTradetime> selectAll();// 所有
-	
+	public List<IpoTradetime> selectAll();// 查询所有交易节
+
 	public short getPK();
 }
