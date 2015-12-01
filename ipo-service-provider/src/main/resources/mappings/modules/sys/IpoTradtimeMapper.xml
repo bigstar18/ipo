@@ -35,7 +35,7 @@
   </select>
   
   <update id="updateByAll" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetime">
-    update Ipo_Tradtime
+    update IPO_TRADETIME
     <set >
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
@@ -112,6 +112,7 @@
   	<select id="selectByCounts" resultType="java.lang.Integer">
   		select count(*) from IPO_TRADETIME
   	</select>
+  	
   	
   	 <!-- 保存交易节和商品之间的关系信息 -->  
     <!-- <insert id="saveRelativity" parameterType="IpoTradetimeComm">  

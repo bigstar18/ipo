@@ -61,7 +61,7 @@ public class TradetimeController {
 	}
 
 	// 修改交易节
-	@RequestMapping(value = "/updateTradetime", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST)
 	@ResponseBody
 	public int updateTradetime(Tradetime tradetime) {
 		logger.info("修改交易节" + "tradetime:" + tradetime);
@@ -130,6 +130,8 @@ public class TradetimeController {
 		Nottradeday nottradeday = tradetimeService.select();
 		String week = nottradeday.getWeek();
 		String day = nottradeday.getDay();
+		if(week==null){week="";}
+		if(day==null){day="";}
 		request.setAttribute("week", week);
 		request.setAttribute("day", day);
 		return "app/tradetime/notTradeDay";

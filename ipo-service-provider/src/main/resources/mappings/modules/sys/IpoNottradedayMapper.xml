@@ -68,21 +68,13 @@
   <sql id="Base_Column_List" >
     ID, WEEK, DAY, MODIFYTIME
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNottradedayExample" >
+  <select id="selectByAll" resultMap="BaseResultMap" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
     <include refid="Base_Column_List" />
     from IPO_NOTTRADEDAY
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
   </select>
-  <select id="select" resultMap="BaseResultMap" >
+  <!-- 只可能有一条记录-->
+  <select id="select" resultType="com.yrdce.ipo.modules.sys.entity.IpoNottradeday" >
     select 
     <include refid="Base_Column_List" />
     from IPO_NOTTRADEDAY

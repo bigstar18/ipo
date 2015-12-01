@@ -3,15 +3,17 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" href="<%=request.getContextPath()%>/mgr/skinstyle/default/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="<%=request.getContextPath()%>/mgr/skinstyle/default/css/validationengine/template.css" type="text/css" />
-		<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-		<script src="<%=request.getContextPath()%>/mgr/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> 
-		<script src="<%=request.getContextPath()%>/mgr/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>
-		
-		<title>非交易日设置</title>
+	<head>
+	    <base target="_self" />
+		<title>非交易节设置</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
+		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+        <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
+		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<style type="text/css">
 		button {
 			width: 200px;
@@ -28,7 +30,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<form id="frm" enctype="multipart/form-data"  taargetType="hidden">
+					<form id="frm" name="frm" method="POST" enctype="mutipart/form-data">
 						<fieldset>
 							<legend>
 								<b style="color: red;"> 非交易日设置 </b>
@@ -94,7 +96,7 @@
 									</tr>
 									<tr>
 										<td align="center">
-											<button id = "update" onclick="update();">提交</button>
+											<input type="button" onclick="update()" value="提交"/>
 										</td>
 									</tr>
 								</tbody>
@@ -106,15 +108,12 @@
 		</tbody>
 	</table>
 	<script type="text/javascript">
-    
-	
     	$(document).ready(function() {
 		window_onload();
     });
 	
 	
-	function window_onload()
-	{
+	function window_onload(){
 	    var relWeek = "<%=request.getAttribute("week") %>";
 	    if (relWeek) {
 	    	var relWeeks = relWeek.split(",");
@@ -122,37 +121,19 @@
 	    	for (j = 0; j < relWeeks.length; j++) {
 	    		for (i = 0; i < weeks.length; i++) {
 	    			if (relWeeks[j] == weeks[i].value) {
-	    			
 	    				weeks[i].checked = true;
 	    			}
 	    		}
 	    	}
 	    }	
 	    var day = "<%=request.getAttribute("day") %>";
-	    if(day==null)
-	    {document.getElementById("day").value = "";}
-	    else{
-	    document.getElementById("day").value = day;}
-	}
-	
-	function save_onclick()
-	{
-		
-		var is = date();
-		if (document.getElementById("day").value != "") {
-			if (!is) {
-			return false;
-			}
-		}
-		return true;
-	}
-  
+	    document.getElementById("day").value = day;
+	}	
 	 
 	function update(){
 		
-		 if($("#frm").validationEngine('validateform')){ 
 			var flag = false;
-			flag = save_onclick();
+			flag = date();
 			var weeks = document.getElementsByName("week");
 			var weekArry = [];
 			for(var i = 0;i<weeks.length;i++){
@@ -160,27 +141,24 @@
 					 weekArry.push(weeks[i].value);
 				}
 			}
-			var day = document.getElementsById("day").value;
+			var day = document.getElementById("day").value;
 			alert(day);
 			var week = weekArry.join(',');
 			if (flag) {
-				var vaild = confirm("您确定要操作吗？");
-				if(vaild){
-				 	$.post('<%=request.getContextPath()%>/TradetimeController/update',{week:week,day:day},function(data,status){
-				 		if(data=='success'){
-							  alert("删除成功！");
-							  //window.location.reload();
-						  }
-						  if(data=='error'){
-							  alert("发生异常，删除失败！");
-						  }
-				 	});	
-				}
+				$('#frm').form({
+	                url:'<%=request.getContextPath()%>/TradetimeController/update',
+	                onSubmit:function(){
+	                 return $(this).form('validate');
+	                  },
+	                success:function(data){
+	                  		alert("提交成功！");
+	                  }
+	                 });  
+	             $('#frm').submit(); 	
 			}
-				
-		}
 	}                                              
 	    
+	//验证日期输入格式是否正确
 	  function date(){  
 	  	if (document.getElementById("day").value != "") {
 	  		var relDay0 = document.getElementById("day").value;
