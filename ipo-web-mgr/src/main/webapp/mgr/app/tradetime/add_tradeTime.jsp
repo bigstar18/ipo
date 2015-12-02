@@ -15,35 +15,29 @@
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		
 <script type="text/javascript"> 
- function addTradetime(){
-        		var status=$("#status").val();  
-        		var comms = document.getElementsByName("comms");
-    			var commArry = [];
-    			for(var i = 0;i<comms.length;i++){
-    				if(comms[i].checked){
-    					commArry.push(comms[i].value);
-    				}
-    			}
-    			var flag=false;
-    			flag=save_onclick();
-        		if(status!='请选择'&&commArry.length!=0){ 
-        			if(flag){
-        	            $('#frm').form({
-        	                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
-        	                onSubmit:function(){
-        	                 return $(this).form('validate');
-        	                  },
-        	                success:function(data){
-        	                  		alert("增加成功！");//火狐浏览器会重复提交 360浏览器不会
-        	                  }
-        	                 });  
-        	             $('#frm').submit(); 	
-        			}	
-        			}
-        		else{
-        						alert("所有参数必填");
-        			}
-}           
+
+function mysubmit(){
+	var flag=false;
+	flag=save_onclick();
+	if(flag){
+	var name=$("#name").val()
+	var status=$("#status").val();  
+	var comms = document.getElementsByName("comms");
+	var commArry = [];
+	for(var i = 0;i<comms.length;i++){
+		if(comms[i].checked){
+			commArry.push(comms[i].value);
+		}
+	}
+	if(name==''||status==''||commArry.length==0){
+		alert("所有参数必填！")
+		return false;
+	}
+	}else{
+		return false;
+	}
+	 } 
+
            
  function isTime(val) {
 		var str=val;
@@ -162,7 +156,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="POST" enctype="mutipart/form-data">
+		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/addTradetime"  method="POST" enctype="mutipart/form-data" onsubmit="return mysubmit();">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -265,7 +259,7 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" onclick="addTradetime()">添加</button>
+							<button class="btn_sec" id="add" type="submit">添加</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>
