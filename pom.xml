@@ -1112,7 +1112,7 @@
 						<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
 					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
 					<!-- <warName>${project.artifactId}</warName> -->
-						<warName>example</warName>
+						<!-- <warName>example</warName> -->
 					</configuration>
 				</plugin>
 			
