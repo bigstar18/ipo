@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -51,9 +52,20 @@ public class SectionManager {
 				}
 			});
 		}
+		printSections();
+
 		nonTradeDay = nottradedayMapper.select();
 		if (nonTradeDay != null)
 			logger.info("非交易日: 星期=({}),日期={}", nonTradeDay.getWeek(), nonTradeDay.getDay());
+	}
+
+	private void printSections() {
+		if (tradetimes != null && tradetimes.size() > 0) {
+			for (Iterator iterator = tradetimes.iterator(); iterator.hasNext();) {
+				IpoTradetime ipoTradetime = (IpoTradetime) iterator.next();
+				logger.info("当前交易节设置：id={},start={},end={}", ipoTradetime.getSectionid(), ipoTradetime.getStarttime(), ipoTradetime.getEndtime());
+			}
+		}
 	}
 
 	// 是否是交易日
@@ -158,6 +170,9 @@ public class SectionManager {
 	/**
 	 * 离第一个交易节还差多少毫秒
 	 * 当天的交易日
+	 * 
+	 * @deprecated 无用 ,
+	 * @see SectionManager#getNextTradeTimeFromNow(Date)
 	 * 
 	 * @param date
 	 * @return

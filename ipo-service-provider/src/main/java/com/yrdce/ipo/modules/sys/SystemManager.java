@@ -79,6 +79,7 @@ public class SystemManager {
 		initTime();
 
 		initStatus();
+		logger.info("当前系统状态：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 
 		startListener();
 	}
@@ -140,7 +141,7 @@ public class SystemManager {
 				Thread.currentThread().setName("SystemManager线程");
 				logger.info(Thread.currentThread() + ": 线程启动");
 				while (true) {
-					if (status == null) {// 没开
+					if (status == null) {// 没有初始化
 						Date date = new Date(System.currentTimeMillis() + timeDiff);
 						if (sectionManager.isOpenMarketTime(date)) {
 							try {
@@ -157,7 +158,7 @@ public class SystemManager {
 					} else {
 						switch (Integer.parseInt(status)) {
 						case 0:// opened, ready to trade
-							long tradeTime = sectionManager.getFirstTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+							long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
 							try {
 								threadSleep(tradeTime + 1);
 								startTradeInternal();
@@ -249,6 +250,8 @@ public class SystemManager {
 			sysStatus.setNote(remark);
 
 			mapper.updateByPrimaryKeySelective(sysStatus);
+
+			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 		} catch (Exception e) {
 			logger.info("error:", e);
 		}
