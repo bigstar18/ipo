@@ -295,12 +295,12 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.STARTTIME >=trunc(sysdate)) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.STARTTIME >=trunc(sysdate) order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
      <include refid="Base_Column_List" />
-     from IPO_COMMODITY_SALE
+     from IPO_COMMODITY_SALE order by COMMODITYID
   </select>
    <select id="selectByComid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
@@ -311,17 +311,17 @@
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
-   	from IPO_COMMODITY_SALE where to_char(STARTTIME,'yyyy-MM-dd') = #{satrttime,jdbcType=VARCHAR}
+   	from IPO_COMMODITY_SALE where to_char(STARTTIME,'yyyy-MM-dd') = #{satrttime,jdbcType=VARCHAR}  order by ID
    </select>
    
    <select id="selectByEnd" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
-   	from IPO_COMMODITY_SALE where to_char(ENDTIME,'yyyy-MM-dd') = #{endtime,jdbcType=VARCHAR}
+   	from IPO_COMMODITY_SALE where to_char(ENDTIME,'yyyy-MM-dd') = #{endtime,jdbcType=VARCHAR}  order by ID
    </select>
    
    <select id="getAll"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    
    <select id="selectByCommodityAndOrder" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="map">
@@ -330,7 +330,7 @@
 	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
 	left outer join 
 	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
-	on c.commodityid = t1.commodityid) a) b
+	on c.commodityid = t1.commodityid) a order by a.ID) b
 	where b.TNO between #{beginnum} and  #{endnum}
    </select>
    <select id="getCounts" resultType="java.lang.Integer">
@@ -362,7 +362,7 @@
 	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
 	left outer join 
 	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
-	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a) b
+	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a order by a.ID) b
 	where b.TNO between #{beginnum} and  #{endnum}
   </select>
 </mapper>

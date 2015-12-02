@@ -81,7 +81,7 @@ public class TradetimeController {
 	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
 		try {
 			int i = tradetimeService.insert(tradetime, comms);
-			return "success";
+			return "app/tradetime/tradeTime_list";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

@@ -1658,6 +1658,6 @@
    <select id="selectAll" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from T_COMMODITY
+    from T_COMMODITY order by COMMODITYID
   </select>
 </mapper>

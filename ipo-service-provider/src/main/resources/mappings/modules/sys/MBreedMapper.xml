@@ -99,7 +99,7 @@
     <include refid="Base_Column_List" />
     from M_BREED where BeLongModule like '%40%' and status=1 order by breedID
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="com.yrdce.ipo.modules.sys.entity.MBreed" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     ,
