@@ -213,6 +213,18 @@ var promptTime = 60;
 				</DIV>
 				<div id="div_drw_Content" style="display: inline;">
 					<DIV id=tree>
+					<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 运营管理","");</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("交易状态管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
+									M01.add(M0101);</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>
+						        	
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;

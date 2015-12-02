@@ -62,7 +62,7 @@ public class Taskmanage extends TimerTask {
 			// 已截至日期为依据取发售表商品
 			List<IpoCommodity> commod = commodity.selectByEnd(oldtime);
 			for (IpoCommodity com : commod) {
-				int id = Integer.parseInt(com.getId());
+				int id = com.getId();
 				List<IpoOrder> orderList = new ArrayList<IpoOrder>();
 				orderList = order.selectByCid(id);
 
