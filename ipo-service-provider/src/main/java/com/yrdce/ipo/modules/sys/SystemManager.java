@@ -147,11 +147,13 @@ public class SystemManager {
 							}
 						}
 					} else {
-						if (isPreTradeDayNormal(new Date(System.currentTimeMillis() + timeDiff))) {
+						Date now = new Date(System.currentTimeMillis() + timeDiff);
+						if (sdf.format(now).equals(tradeDate) || isPreTradeDayNormal(now)) {
 							switch (Integer.parseInt(status)) {
 							case 0:// opened, ready to trade
 								long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
 								try {
+									logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。");
 									threadSleep(tradeTime + 1);
 									startTradeInternal();
 								} catch (InterruptedException e) {
@@ -160,6 +162,7 @@ public class SystemManager {
 							case 1:// market closed, ready for next day
 								long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
 								try {
+									logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。");
 									threadSleep(nextOpenTime + 1);
 									reopenMarketInternal();
 								} catch (InterruptedException e) {
@@ -169,6 +172,7 @@ public class SystemManager {
 								long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
 										section);
 								try {
+									logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。");
 									threadSleep(continuedTime);
 									if (sectionManager.isLastSection(section))
 										closeMarketInternal();
@@ -181,6 +185,7 @@ public class SystemManager {
 								long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
 								// to trade
 								try {
+									logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。");
 									threadSleep(nextTradeTime);
 									startTradeInternal();// 新交易节
 								} catch (InterruptedException e) {
@@ -188,6 +193,7 @@ public class SystemManager {
 								break;
 							case 7:// trade close;
 									// close market
+								logger.info("系统交易结束，开始闭市。");
 								closeMarketInternal();
 								break;
 							default:

@@ -37,8 +37,7 @@
 											<td height="35" colspan="2"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;当前时间：</span> <span id="systime" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;交易日期：</span> <span id="tradeDate" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"><fmt:formatDate
-														value="" pattern="yyyy-MM-dd" /></span></td>
+											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;交易日期：</span> <span id="tradeDate" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span></td>
 										</tr>
 										<tr>
 											<td colspan="2" align="left" height="35"><span style="font-weight: bold; color: #f38243; font-size: 14px">&nbsp;&nbsp;市场状态：</span> <span id="marketStatus" style="font-family: 宋体; font-size: 12px; font-weight: bold; color: #7d0c01;"></span>&nbsp;&nbsp;&nbsp;</td>
