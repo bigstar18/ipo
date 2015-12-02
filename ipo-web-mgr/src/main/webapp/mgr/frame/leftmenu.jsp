@@ -219,7 +219,7 @@ var promptTime = 60;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 运营管理","");</SCRIPT>
 
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("交易状态管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
+									M0101 = new WebFXTreeItem("交易状态管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trade/systemManager.jsp");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
@@ -229,9 +229,17 @@ var promptTime = 60;
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交易参数设置","");</SCRIPT>
-
+                     
+                        <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("交易节管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/TradetimeController/getTradetimeList");
+									M01.add(M0101);</SCRIPT>
+						
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("商品管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
+									M01.add(M0101);</SCRIPT>
+						
+						 <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("非交易日设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/TradetimeController/getNottradeday");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
