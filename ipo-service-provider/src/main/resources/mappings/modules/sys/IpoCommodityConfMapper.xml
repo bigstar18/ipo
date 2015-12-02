@@ -102,13 +102,13 @@
     MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT, CONTRACTFACTORNAME,MAPPERID
   </sql>
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid}) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="findAllIpoCommConfsByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t order by t.COMMODITYID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="findAllIpoCommConfs"  resultMap="BaseResultMap" >
-  select <include refid="Base_Column_List" /> from  IPO_COMMODITY_CONF 
+  select <include refid="Base_Column_List" /> from  IPO_COMMODITY_CONF order by COMMODITYID
   </select>
    <select id="countByBreedid" parameterType="Long" resultType="java.lang.Integer" >
     select count(*) from IPO_COMMODITY_CONF where BREEDID = #{breedid}
@@ -116,13 +116,13 @@
    <select id="countAll" resultType="java.lang.Integer" >
     select count(*) from IPO_COMMODITY_CONF
   </select>
-  <select id="findIpoCommConfByCommid"  resultMap="BaseResultMap"  parameterType="String" >
+  <select id="findIpoCommConfByCommid"  resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf"  parameterType="String" >
     select 
      <include refid="Base_Column_List" />
     from  IPO_COMMODITY_CONF  where COMMODITYID = #{commid} 
   </select> 
    <select id="findAllCommIds"  resultType="String"   >
-    select COMMODITYID  from  IPO_COMMODITY_CONF 
+    select COMMODITYID  from  IPO_COMMODITY_CONF order by COMMODITYID
   </select> 
    <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
     insert into IPO_COMMODITY_CONF ( COMMODITYID, COMMODITYNAME, 
