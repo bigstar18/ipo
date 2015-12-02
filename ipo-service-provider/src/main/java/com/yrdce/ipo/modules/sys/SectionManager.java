@@ -3,6 +3,7 @@
  */
 package com.yrdce.ipo.modules.sys;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +42,7 @@ public class SectionManager {
 	private IpoNottradeday nonTradeDay;
 
 	public void init() {
-		tradetimes = tradtimeMapper.selectAll();
+		List<IpoTradetime> tradetimes = tradtimeMapper.selectAll();// suppot reload
 		if (tradetimes != null && tradetimes.size() > 0) {
 			Collections.sort(tradetimes, new Comparator<IpoTradetime>() {
 				@Override
@@ -52,6 +53,8 @@ public class SectionManager {
 				}
 			});
 		}
+
+		this.tradetimes = tradetimes;
 		printSections();
 
 		nonTradeDay = nottradedayMapper.select();
@@ -305,5 +308,59 @@ public class SectionManager {
 		calendar.set(Calendar.SECOND, Integer.parseInt(tmp[2]));
 
 		return calendar;
+	}
+
+	public static void main(String[] args) throws Exception {
+		SectionManager.Test test = new Test();
+		test.init();
+		test.reSet();
+		test.print();
+	}
+
+	public static class Test {
+		List list = new ArrayList();
+
+		public void init() {
+			for (int i = 0; i < 100; i++) {
+				list.add(String.valueOf(i));
+			}
+		}
+
+		public void print() throws Exception {
+			// 不安全 有影响
+			// for (int i = 0; i < list.size(); i++) {
+			// System.out.println(list.get(i));
+			// Thread.currentThread().sleep(10);
+			// }
+
+			// 不受影响
+			// for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			// Object object = (Object) iterator.next();
+			// System.out.println(object);
+			// Thread.currentThread().sleep(10);
+			// }
+
+			// 不受影响
+			for (Object object : list) {
+				System.out.println(object);
+				Thread.currentThread().sleep(10);
+			}
+		}
+
+		public void reSet() {
+			Thread t = new Thread() {
+				public void run() {
+					List a = new ArrayList();
+					a.add("1");
+					try {
+						Thread.currentThread().sleep(50);
+					} catch (InterruptedException e) {
+					}
+					list = a;// 有影响
+				}
+			};
+			t.start();
+		}
+
 	}
 }

@@ -51,4 +51,9 @@ public interface SystemService {
 	 */
 	public boolean canSystemTrade() throws Exception;
 
+	/**
+	 * 重新载入交易节和非交易日
+	 */
+	public void reloadSections();
+
 }

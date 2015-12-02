@@ -106,4 +106,9 @@ public class SystemServiceImpl implements SystemService {
 		return systemManager.canSystemTrade();
 	}
 
+	@Override
+	public void reloadSections() {
+		systemManager.reloadSections();
+	}
+
 }

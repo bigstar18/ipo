@@ -52,7 +52,7 @@ public class SystemManager {
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
 	public static SimpleDateFormat sdtf = new SimpleDateFormat(DATETIME_FORMATTER);
 
-	// 线程安全?
+	// 线程安全? 数据库状态的映射
 	private String status;
 	private String tradeDate;
 	private String section;
@@ -126,22 +126,13 @@ public class SystemManager {
 	}
 
 	// 交易日切换
-	private void reopenMarketInternal() {
-		try {
-			openMarket();
-		} catch (Exception e) {
-			logger.info("exception:", e);
-		}
-	}
-
-	// 交易日切换
 	private void startListener() {
 		listener = new Thread() {
 			public void run() {
 				Thread.currentThread().setName("SystemManager线程");
 				logger.info(Thread.currentThread() + ": 线程启动");
 				while (true) {
-					if (status == null) {// 没有初始化
+					if (status == null) {// 没有初始化，没有前交易日
 						Date date = new Date(System.currentTimeMillis() + timeDiff);
 						if (sectionManager.isOpenMarketTime(date)) {
 							try {
@@ -156,54 +147,62 @@ public class SystemManager {
 							}
 						}
 					} else {
-						switch (Integer.parseInt(status)) {
-						case 0:// opened, ready to trade
-							long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+						if (isPreTradeDayNormal(new Date(System.currentTimeMillis() + timeDiff))) {
+							switch (Integer.parseInt(status)) {
+							case 0:// opened, ready to trade
+								long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+								try {
+									threadSleep(tradeTime + 1);
+									startTradeInternal();
+								} catch (InterruptedException e) {
+								}
+								break;
+							case 1:// market closed, ready for next day
+								long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+								try {
+									threadSleep(nextOpenTime + 1);
+									reopenMarketInternal();
+								} catch (InterruptedException e) {
+								}
+								break;
+							case 5:// trading
+								long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
+										section);
+								try {
+									threadSleep(continuedTime);
+									if (sectionManager.isLastSection(section))
+										closeMarketInternal();
+									else
+										restBetweenSection();// 节间休息
+								} catch (InterruptedException e) {
+								}
+								break;
+							case 6:// rest
+								long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
+								// to trade
+								try {
+									threadSleep(nextTradeTime);
+									startTradeInternal();// 新交易节
+								} catch (InterruptedException e) {
+								}
+								break;
+							case 7:// trade close;
+									// close market
+								closeMarketInternal();
+								break;
+							default:
+								try {
+									threadSleep(1000);
+								} catch (InterruptedException e) {
+								}
+								break;
+							}
+						} else {
+							logger.info("前一交易日没有正常结束：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 							try {
-								threadSleep(tradeTime + 1);
-								startTradeInternal();
+								threadSleep(600000);// 休眠10分钟，可被打断
 							} catch (InterruptedException e) {
 							}
-							break;
-						case 1:// market closed, ready for next day
-							long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-							try {
-								threadSleep(nextOpenTime + 1);
-								reopenMarketInternal();
-							} catch (InterruptedException e) {
-							}
-							break;
-						case 5:// trading
-							long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
-									section);
-							try {
-								threadSleep(continuedTime);
-								if (sectionManager.isLastSection(section))
-									closeMarketInternal();
-								else
-									restBetweenSection();// 节间休息
-							} catch (InterruptedException e) {
-							}
-							break;
-						case 6:// rest
-							long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
-							// to trade
-							try {
-								threadSleep(nextTradeTime);
-								startTradeInternal();// 新交易节
-							} catch (InterruptedException e) {
-							}
-							break;
-						case 7:// trade close;
-								// close market
-							closeMarketInternal();
-							break;
-						default:
-							try {
-								threadSleep(1000);
-							} catch (InterruptedException e) {
-							}
-							break;
 						}
 					}
 				}
@@ -211,6 +210,32 @@ public class SystemManager {
 		};
 		listener.setDaemon(true);
 		listener.start();
+	}
+
+	// 判断前一交易日是否正常结束
+	private boolean isPreTradeDayNormal(Date date) {
+		IpoSysStatus sysStatus = mapper.selectAll();
+		if (sysStatus != null) {// 有记录
+			if (sysStatus.getTradedate().getTime() < date.getTime()) {
+				return STATUS_FINANCE_SETTLED.equals(sysStatus.getStatus());
+			}
+		}
+
+		return false;
+	}
+
+	// 交易状态是否是今天的
+	private boolean isTradeDayToday(Date date) {
+		return sdf.format(date).equals(tradeDate);
+	}
+
+	// 交易日切换
+	private void reopenMarketInternal() {
+		try {
+			openMarket();
+		} catch (Exception e) {
+			logger.info("exception:", e);
+		}
 	}
 
 	// 开市交易
@@ -292,6 +317,9 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public String pauseTrade() throws Exception {
+		if (!isTradeDayToday(new Date(System.currentTimeMillis() + timeDiff)))
+			return null;
+
 		if (lockStatus.compareAndSet(false, true)) {
 			if ((status.equals(STATUS_TRADE_DOING) || status.equals(STATUS_TRADE_REST))) {
 				status = STATUS_TRADE_PAUSE;
@@ -312,6 +340,9 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public String resumeTrade() throws Exception {
+		if (!isTradeDayToday(new Date(System.currentTimeMillis() + timeDiff)))
+			return null;
+
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
 				status = STATUS_TRADE_DOING;
@@ -332,6 +363,9 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public String closeTrade() throws Exception {
+		if (!isTradeDayToday(new Date(System.currentTimeMillis() + timeDiff)))
+			return null;
+
 		if (lockStatus.compareAndSet(false, true)) {
 			status = STATUS_TRADE_CLOSE;
 			updateSysStatus(null, "结束交易");
@@ -349,6 +383,9 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public String closeMarket() throws Exception {
+		if (!isTradeDayToday(new Date(System.currentTimeMillis() + timeDiff)))
+			return null;
+
 		if (lockStatus.compareAndSet(false, true)) {
 			if (!status.equals(STATUS_MARKET_CLOSE)) {
 				status = STATUS_MARKET_CLOSE;
@@ -370,6 +407,13 @@ public class SystemManager {
 	 */
 	public boolean canSystemTrade() throws Exception {
 		return STATUS_TRADE_DOING.equals(status);
+	}
+
+	/**
+	 * 重新载入交易节和非交易日
+	 */
+	public void reloadSections() {
+		sectionManager.init();
 	}
 
 	private void threadSleep(long millis) throws InterruptedException {
