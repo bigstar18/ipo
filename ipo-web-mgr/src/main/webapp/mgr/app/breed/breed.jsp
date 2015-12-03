@@ -170,7 +170,7 @@ function setSortName(value) {
 										<td align="right" width="90">报价货币：</td>     
             							<td>  
 											<input id="contractcurrency" name="contractcurrency" value="${entity.contractcurrency }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" />
+			  									style="width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" />
 											<span class="required">如元、美元等</span>
 										</td>
 							        </tr>  
