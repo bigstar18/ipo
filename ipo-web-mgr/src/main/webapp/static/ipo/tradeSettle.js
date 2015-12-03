@@ -40,11 +40,14 @@ function showStatus (result)
 	$ ('#balanceStatus').html (statusStr);
 }
 
-// 添加信息跳转
+// 添加信息跳转 //可以加进度条
 function addF ()
 {
 	if (confirm ("您确定要操作吗？"))
 	{
+		alert ("没有需要结算的订单。");
+		return;
+		setTimeout ("getStatus()", 3000);
 		$ ('#add').css ('disabled', "true");// 立刻禁止
 		
 		$.ajax (
@@ -55,8 +58,14 @@ function addF ()
 		    dataType : 'json',
 		    success : function (data)
 		    {
-			    setTimeout ("getStatus()", 2000);
-			    updateList (data);
+			    if (data.result == 'success')
+			    {
+				    alert ("执行成功");
+			    }
+			    else
+			    {
+				    alert (data.msg);
+			    }
 		    }
 		});
 	}

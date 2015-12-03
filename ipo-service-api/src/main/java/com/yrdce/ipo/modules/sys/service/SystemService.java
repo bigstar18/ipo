@@ -45,6 +45,14 @@ public interface SystemService {
 	public ResultMsg sysControl(String code) throws Exception;
 
 	/**
+	 * 结算
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public ResultMsg settle() throws Exception;
+
+	/**
 	 * 获取数据库当前时间
 	 * 
 	 * @return

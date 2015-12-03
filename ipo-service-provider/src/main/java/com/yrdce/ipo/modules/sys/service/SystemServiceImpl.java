@@ -37,6 +37,25 @@ public class SystemServiceImpl implements SystemService {
 	@Autowired
 	private SystemManager systemManager;
 
+	@Override
+	public Date getDBTime() {
+		try {
+			return mapper.getDBTime();
+		} catch (Exception e) {
+			logger.error("error:", e);
+			return null;
+		}
+	}
+
+	public String getDBTimeStr() {
+		try {
+			return mapper.getDBTimeStr();
+		} catch (Exception e) {
+			logger.error("error:", e);
+			return null;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -60,22 +79,13 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public Date getDBTime() {
-		try {
-			return mapper.getDBTime();
-		} catch (Exception e) {
-			logger.error("error:", e);
-			return null;
-		}
+	public String getSysStatusFromMem() {
+		return systemManager.getStatus();
 	}
 
-	public String getDBTimeStr() {
-		try {
-			return mapper.getDBTimeStr();
-		} catch (Exception e) {
-			logger.error("error:", e);
-			return null;
-		}
+	@Override
+	public boolean canSystemTrade() throws Exception {
+		return systemManager.canSystemTrade();
 	}
 
 	@Override
@@ -107,18 +117,18 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public boolean canSystemTrade() throws Exception {
-		return systemManager.canSystemTrade();
+	@Transactional
+	public synchronized ResultMsg settle() throws Exception {
+		ResultMsg msg = new ResultMsg();
+
+		systemManager.settle();
+
+		return msg;
 	}
 
 	@Override
 	public void reloadSections() {
 		systemManager.reloadSections();
-	}
-
-	@Override
-	public String getSysStatusFromMem() {
-		return systemManager.getStatus();
 	}
 
 	@Override

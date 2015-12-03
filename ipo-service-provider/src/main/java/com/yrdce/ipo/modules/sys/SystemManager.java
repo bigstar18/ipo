@@ -169,6 +169,15 @@ public class SystemManager {
 								} catch (InterruptedException e) {
 								}
 								break;
+							case 3:// 发现财务结算完成，准备下个交易日的开市
+								nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+								try {
+									logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+									threadSleep(nextOpenTime + 1);
+									reopenMarketInternal();
+								} catch (InterruptedException e) {
+								}
+								break;
 							case 5:// trading
 								long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
 										section);
@@ -247,32 +256,28 @@ public class SystemManager {
 
 	// 开市交易
 	private void startTradeInternal() {
-		this.status = STATUS_TRADE_DOING;
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 		this.tradeDate = sdf.format(date);
 		section = String.valueOf(sectionManager.getCurrentSectionId(date));
 
-		updateSysStatus(Short.parseShort(section), "交易中");
+		updateSysStatus(STATUS_TRADE_DOING, Short.parseShort(section), "交易中");
 	}
 
 	// 节间休息 section不变
 	private void restBetweenSection() {
-		status = STATUS_TRADE_REST;
-
-		updateSysStatus(null, "节间休息");
+		updateSysStatus(STATUS_TRADE_REST, null, "节间休息");
 	}
 
 	// 闭市
 	private void closeMarketInternal() {
-		this.status = STATUS_MARKET_CLOSE;
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 		this.tradeDate = sdf.format(date);
 
-		updateSysStatus(null, "闭市");
+		updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
 	}
 
 	// 状态变更入库
-	private void updateSysStatus(Short sectionId, String remark) {
+	private void updateSysStatus(String status, Short sectionId, String remark) {
 		try {
 			IpoSysStatus sysStatus = new IpoSysStatus();
 			sysStatus.setTradedate(sdf.parse(tradeDate));
@@ -282,6 +287,7 @@ public class SystemManager {
 			sysStatus.setNote(remark);
 
 			mapper.updateByPrimaryKeySelective(sysStatus);
+			this.status = status;// 先入库后变更状态，防止事务回滚导致状态不一致
 
 			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 		} catch (Exception e) {
@@ -291,6 +297,20 @@ public class SystemManager {
 
 	private void threadSleep(long millis) throws InterruptedException {
 		Thread.currentThread().sleep(millis);
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * 系统是否可交易
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean canSystemTrade() throws Exception {
+		return STATUS_TRADE_DOING.equals(status);
 	}
 
 	/**
@@ -333,8 +353,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if ((status.equals(STATUS_TRADE_DOING) || status.equals(STATUS_TRADE_REST))) {
-				status = STATUS_TRADE_PAUSE;
-				updateSysStatus(null, "暂停交易");
+				updateSysStatus(STATUS_TRADE_PAUSE, null, "暂停交易");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -356,8 +375,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
-				status = STATUS_TRADE_DOING;
-				updateSysStatus(null, "恢复交易");
+				updateSysStatus(STATUS_TRADE_DOING, null, "恢复交易");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -378,8 +396,7 @@ public class SystemManager {
 			return null;
 
 		if (lockStatus.compareAndSet(false, true)) {
-			status = STATUS_TRADE_CLOSE;
-			updateSysStatus(null, "结束交易");
+			updateSysStatus(STATUS_TRADE_CLOSE, null, "结束交易");
 
 			lockStatus.compareAndSet(true, false);
 			listener.interrupt();
@@ -399,8 +416,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (!status.equals(STATUS_MARKET_CLOSE)) {
-				status = STATUS_MARKET_CLOSE;
-				updateSysStatus(null, "闭市");
+				updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -410,14 +426,23 @@ public class SystemManager {
 		return null;
 	}
 
-	/**
-	 * 系统是否可交易
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public boolean canSystemTrade() throws Exception {
-		return STATUS_TRADE_DOING.equals(status);
+	public void settle() throws Exception {
+		// "select f.billid from T_billFrozen f, T_E_GageBill g where f.operation = g.id and Operationtype = 0 and g.commodityid in (select
+		// CommodityID from T_Commodity where SettleDate <= (select trunc(tradedate) from t_systemstatus))");
+
+		// 解冻仓单 抵押unFrozenStocks(15, arrayOfString);
+
+		// i = tradeRMI.balance();
+
+		// FN_T_CloseMarketProcess
+
+		if (!STATUS_MARKET_CLOSE.equals(status))
+			throw new Exception("交易服务器没有闭市操作，不能结算！");
+
+		// updateSysStatus(STATUS_MARKET_SETTLING, null, "结算中");
+		// TODO
+
+		updateSysStatus(STATUS_MARKET_SETTLED, null, "");
 	}
 
 	/**
@@ -425,10 +450,6 @@ public class SystemManager {
 	 */
 	public void reloadSections() {
 		sectionManager.init();
-	}
-
-	public String getStatus() {
-		return status;
 	}
 
 }

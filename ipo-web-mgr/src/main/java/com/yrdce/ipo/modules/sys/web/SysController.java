@@ -71,7 +71,7 @@ public class SysController {
 		}
 	}
 
-	// 系统操作
+	// 系统操作// TODO 记日志
 	@RequestMapping(value = "/sysOperate", method = RequestMethod.POST)
 	@ResponseBody
 	public String sysControl(@RequestParam("code") String oprCode, HttpSession session) throws IOException {
@@ -104,58 +104,27 @@ public class SysController {
 		}
 	}
 
-	// 结算
+	// 结算 ，防止并发
 	@RequestMapping(value = "/settle", method = RequestMethod.POST)
 	@ResponseBody
-	public String settle(HttpSession session) {
-		// localSystemStatus.setStatus(2); t.note = '结算中';
-
-		// 解冻仓单 抵押unFrozenStocks(15, arrayOfString);
-		// 交易服务器没有闭市操作，不能结算！ tradeRMI.balance();
-
-		// FN_T_CloseMarketProcess
-
-		// localSystemStatus.setStatus(10);
-		// localSystemStatus.setSectionID(null);
-		// localSystemStatus.setNote(null);
-		// localSystemStatus.setRecoverTime(null);
-
-		// ResultVO localResultVO = null;
-		// try {
-		// List localList = getService().getListBySql(
-		// "select f.billid from T_billFrozen f, T_E_GageBill g where f.operation = g.id and Operationtype = 0 and g.commodityid in (select
-		// CommodityID from T_Commodity where SettleDate <= (select trunc(tradedate) from t_systemstatus))");
-		// arrayOfString = new String[9999999];
-		// for (int j = 0; j < localList.size(); j++) {
-		// Map localMap = (Map) localList.get(j);
-		// String str2 = localMap.get("BILLID").toString();
-		// arrayOfString[j] = str2;
-		// }
-		// if ((localList != null) && (localList.size() > 0)) {
-		// localResultVO = iTradeService.unFrozenStocks(15, arrayOfString);
-		// }
-		// if ((localResultVO == null) || (localResultVO.getResult() >= 0L) || (localResultVO.getResult() == -2L)) {
-		// i = tradeRMI.balance();
-		// if (i == 1) {
-		// addReturnValue(1, 111502L);
-		// writeOperateLog(1503, "交易结算成功", 1, "");
-		// } else if (i == -2) {
-		// addReturnValue(-1, 131517L);
-		// writeOperateLog(1503, "交收处理出错", 0, "");
-		// } else {
-		// addReturnValue(-1, 131518L);
-		// writeOperateLog(1503, "交易结算失败", 0, "");
-		// }
-		// }
-		// } catch (Exception localException) {
-		// String[] arrayOfString = localException.getMessage().split(":");
-		// String str1 = arrayOfString[(arrayOfString.length - 1)];
-		// addReturnValue(-1, 131519L, new Object[] { str1 });
-		// writeOperateLog(1503, "RMI交易结算失败！" + localException.getMessage(), 0, "");
-		// }
-		return null;
+	public String settle(HttpSession session) throws Exception {
+		try {
+			ResultMsg msg = systemService.settle();
+			if (msg == null) {
+				msg = new ResultMsg();
+				msg.setResult(ResultMsg.RESULT_ERROR);
+			}
+			return JSON.json(msg);
+		} catch (Exception e) {
+			log.error("error:", e);
+			ResultMsg msg = new ResultMsg();
+			msg.setResult(ResultMsg.RESULT_EXCEPTION);
+			msg.setMsg(e.getLocalizedMessage());
+			return JSON.json(msg);
+		}
 	}
 
+	// writeOperateLog(1503, "RMI交易结算失败！" + localException.getMessage(), 0, "");
 	/**
 	 * 写操作日志
 	 * 
