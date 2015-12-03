@@ -7,36 +7,46 @@
 		<title>交易节添加</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		
 <script type="text/javascript"> 
 
-function mysubmit(){
-	var flag=false;
-	flag=save_onclick();
-	if(flag){
-	var name=$("#name").val()
-	var status=$("#status").val();  
-	var comms = document.getElementsByName("comms");
-	var commArry = [];
-	for(var i = 0;i<comms.length;i++){
-		if(comms[i].checked){
-			commArry.push(comms[i].value);
+function addTradeTime(){
+	var status=$("#status").val();     
+	if(status!=''){ 
+		var flag=save_onclick();
+		var comms = document.getElementsByName("comms");
+		var commArry = [];
+		for(var i = 0;i<comms.length;i++){
+			if(comms[i].checked){
+				commArry.push(comms[i].value);
+			}
 		}
-	}
-	if(name==''||status==''||commArry.length==0){
-		alert("所有参数必填！")
-		return false;
-	}
+		if(flag){
+			if(commArry.length !=0){
+            $('#frm').form({
+                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
+                onSubmit:function(){
+                 return $(this).form('validate');
+                  },
+                success:function(data){
+                	$("#add").attr("disabled",true);
+                  		alert("增加成功！");
+                  		window.close();
+                  }
+                 });  
+             $('#frm').submit();
+             window.returnValue =true;
+		}else{
+			alert("请选择关联商品");
+		}	
+		}	
+	
 	}else{
-		return false;
-	}
-	 } 
+					alert("请选择交易节状态");
+		}
+	 }         
 
            
  function isTime(val) {
@@ -156,7 +166,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/addTradetime"  method="POST" enctype="mutipart/form-data" onsubmit="return mysubmit();">
+		<form id="frm" name="frm"  enctype="mutipart/form-data">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -259,7 +269,8 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" type="submit">添加</button>
+							<button class="btn_sec" id="add" onClick="addTradeTime();">添加</button>
+
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

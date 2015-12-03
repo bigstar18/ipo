@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.TradetimeComm;
 
 /**
  * 
@@ -15,7 +16,10 @@ public interface TradetimeService {
 	public List<Tradetime> selectByPage(String page, String rows);
 
 	// 修改交易节
-	public int upDate(Tradetime tradetime);
+	public int upDate(Tradetime tradetime, String comms);
+
+	// 查询与交易节关联的商品
+	public List<TradetimeComm> getTradetimeByComm(Short id);
 
 	// 增加交易节
 
@@ -37,7 +41,7 @@ public interface TradetimeService {
 	public List<Tradetime> selectAll();
 
 	// 非交易日插入(删除、更新、提交共用此方法)
-	public int insertByNottradeday(Nottradeday notTradeDay);
+	public int insertByNottradeday(Nottradeday notTradeDays) throws Exception;
 
 	// 非交易日查询
 	public Nottradeday select();
