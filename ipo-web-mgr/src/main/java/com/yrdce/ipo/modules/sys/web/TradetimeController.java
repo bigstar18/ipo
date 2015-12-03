@@ -117,8 +117,7 @@ public class TradetimeController {
 
 	// 交易节视图
 	@RequestMapping(value = "/getTradeTimeForward", method = RequestMethod.GET)
-	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model,
-			@RequestParam("sectionid") String sectionid) throws IOException {
+	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
 		return "app/tradetime/tradeTime_list";
 
