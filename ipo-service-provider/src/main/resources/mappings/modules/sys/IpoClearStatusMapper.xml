@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
+    <constructor >
+      <idArg column="ACTIONID" jdbcType="DECIMAL" javaType="java.lang.Short" />
+      <arg column="ACTIONNOTE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="STATUS" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="FINISHTIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACTIONID, ACTIONNOTE, STATUS, FINISHTIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRADE_GNNT.IPO_CLEARSTATUS
+    where ACTIONID = #{actionid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TRADE_GNNT.IPO_CLEARSTATUS
+    where ACTIONID = #{actionid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
+    insert into TRADE_GNNT.IPO_CLEARSTATUS (ACTIONID, ACTIONNOTE, STATUS, 
+      FINISHTIME)
+    values (#{actionid,jdbcType=DECIMAL}, #{actionnote,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{finishtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
+    insert into TRADE_GNNT.IPO_CLEARSTATUS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="actionid != null" >
+        ACTIONID,
+      </if>
+      <if test="actionnote != null" >
+        ACTIONNOTE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="finishtime != null" >
+        FINISHTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="actionid != null" >
+        #{actionid,jdbcType=DECIMAL},
+      </if>
+      <if test="actionnote != null" >
+        #{actionnote,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="finishtime != null" >
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
+    update TRADE_GNNT.IPO_CLEARSTATUS
+    <set >
+      <if test="actionnote != null" >
+        ACTIONNOTE = #{actionnote,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="finishtime != null" >
+        FINISHTIME = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ACTIONID = #{actionid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
+    update TRADE_GNNT.IPO_CLEARSTATUS
+    set ACTIONNOTE = #{actionnote,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      FINISHTIME = #{finishtime,jdbcType=TIMESTAMP}
+    where ACTIONID = #{actionid,jdbcType=DECIMAL}
+  </update>
+</mapper>

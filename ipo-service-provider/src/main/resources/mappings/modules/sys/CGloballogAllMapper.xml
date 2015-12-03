@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.CGloballogAllMapper">
+	<resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
+		<constructor>
+			<idArg column="ID" jdbcType="DECIMAL" javaType="java.lang.Long" />
+			<arg column="OPERATOR" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="OPERATETIME" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="OPERATETYPE" jdbcType="DECIMAL" javaType="java.lang.Short" />
+			<arg column="OPERATEIP" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="OPERATORTYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="MARK" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="OPERATECONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="CURRENTVALUE" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="OPERATERESULT" jdbcType="DECIMAL" javaType="java.lang.Short" />
+			<arg column="LOGTYPE" jdbcType="DECIMAL" javaType="java.lang.Short" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, OPERATOR, OPERATETIME, OPERATETYPE, OPERATEIP, OPERATORTYPE, MARK, OPERATECONTENT,
+		CURRENTVALUE, OPERATERESULT, LOGTYPE
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from TRADE_GNNT.C_GLOBALLOG_ALL
+		where ID = #{id,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from TRADE_GNNT.C_GLOBALLOG_ALL
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
+		<selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+			SELECT SEQ_C_GLOBALLOG.NEXTVAL FROM dual
+		</selectKey>
+		insert into TRADE_GNNT.C_GLOBALLOG_ALL (ID, OPERATOR, OPERATETIME,
+		OPERATETYPE, OPERATEIP, OPERATORTYPE,
+		MARK, OPERATECONTENT, CURRENTVALUE,
+		OPERATERESULT,
+		LOGTYPE)
+		values (#{id,jdbcType=DECIMAL},
+		#{operator,jdbcType=VARCHAR}, #{operatetime,jdbcType=TIMESTAMP},
+		#{operatetype,jdbcType=DECIMAL}, #{operateip,jdbcType=VARCHAR},
+		#{operatortype,jdbcType=VARCHAR},
+		#{mark,jdbcType=VARCHAR},
+		#{operatecontent,jdbcType=VARCHAR}, #{currentvalue,jdbcType=VARCHAR},
+		#{operateresult,jdbcType=DECIMAL}, #{logtype,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
+		<selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+			SELECT SEQ_C_GLOBALLOG.NEXTVAL FROM dual
+		</selectKey>
+		insert into TRADE_GNNT.C_GLOBALLOG_ALL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="operatetime != null">
+				OPERATETIME,
+			</if>
+			<if test="operatetype != null">
+				OPERATETYPE,
+			</if>
+			<if test="operateip != null">
+				OPERATEIP,
+			</if>
+			<if test="operatortype != null">
+				OPERATORTYPE,
+			</if>
+			<if test="mark != null">
+				MARK,
+			</if>
+			<if test="operatecontent != null">
+				OPERATECONTENT,
+			</if>
+			<if test="currentvalue != null">
+				CURRENTVALUE,
+			</if>
+			<if test="operateresult != null">
+				OPERATERESULT,
+			</if>
+			<if test="logtype != null">
+				LOGTYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=DECIMAL},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operatetime != null">
+				#{operatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatetype != null">
+				#{operatetype,jdbcType=DECIMAL},
+			</if>
+			<if test="operateip != null">
+				#{operateip,jdbcType=VARCHAR},
+			</if>
+			<if test="operatortype != null">
+				#{operatortype,jdbcType=VARCHAR},
+			</if>
+			<if test="mark != null">
+				#{mark,jdbcType=VARCHAR},
+			</if>
+			<if test="operatecontent != null">
+				#{operatecontent,jdbcType=VARCHAR},
+			</if>
+			<if test="currentvalue != null">
+				#{currentvalue,jdbcType=VARCHAR},
+			</if>
+			<if test="operateresult != null">
+				#{operateresult,jdbcType=DECIMAL},
+			</if>
+			<if test="logtype != null">
+				#{logtype,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
+		update TRADE_GNNT.C_GLOBALLOG_ALL
+		<set>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operatetime != null">
+				OPERATETIME = #{operatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatetype != null">
+				OPERATETYPE = #{operatetype,jdbcType=DECIMAL},
+			</if>
+			<if test="operateip != null">
+				OPERATEIP = #{operateip,jdbcType=VARCHAR},
+			</if>
+			<if test="operatortype != null">
+				OPERATORTYPE = #{operatortype,jdbcType=VARCHAR},
+			</if>
+			<if test="mark != null">
+				MARK = #{mark,jdbcType=VARCHAR},
+			</if>
+			<if test="operatecontent != null">
+				OPERATECONTENT = #{operatecontent,jdbcType=VARCHAR},
+			</if>
+			<if test="currentvalue != null">
+				CURRENTVALUE = #{currentvalue,jdbcType=VARCHAR},
+			</if>
+			<if test="operateresult != null">
+				OPERATERESULT = #{operateresult,jdbcType=DECIMAL},
+			</if>
+			<if test="logtype != null">
+				LOGTYPE = #{logtype,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
+		update TRADE_GNNT.C_GLOBALLOG_ALL
+		set OPERATOR = #{operator,jdbcType=VARCHAR},
+		OPERATETIME = #{operatetime,jdbcType=TIMESTAMP},
+		OPERATETYPE =
+		#{operatetype,jdbcType=DECIMAL},
+		OPERATEIP = #{operateip,jdbcType=VARCHAR},
+		OPERATORTYPE = #{operatortype,jdbcType=VARCHAR},
+		MARK = #{mark,jdbcType=VARCHAR},
+		OPERATECONTENT =
+		#{operatecontent,jdbcType=VARCHAR},
+		CURRENTVALUE = #{currentvalue,jdbcType=VARCHAR},
+		OPERATERESULT = #{operateresult,jdbcType=DECIMAL},
+		LOGTYPE = #{logtype,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=DECIMAL}
+	</update>
+</mapper>

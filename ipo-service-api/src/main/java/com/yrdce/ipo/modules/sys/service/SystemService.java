@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.Date;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
+import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
