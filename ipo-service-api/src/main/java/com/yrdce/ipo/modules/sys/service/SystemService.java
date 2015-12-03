@@ -3,7 +3,6 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.Date;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
-import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -23,8 +22,7 @@ public interface SystemService {
 	public static final String OPR_MARKET_CLOSE = "07";
 
 	/**
-	 * 查询系统状态，只有一条记录，or null
-	 * from 数据库
+	 * 查询系统状态，只有一条记录，or null from 数据库
 	 * 
 	 * @return
 	 */

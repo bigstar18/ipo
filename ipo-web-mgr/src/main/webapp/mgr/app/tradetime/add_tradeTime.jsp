@@ -166,7 +166,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm"  enctype="mutipart/form-data">
+		<form id="frm" name="frm" method="post"  enctype="mutipart/form-data">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>

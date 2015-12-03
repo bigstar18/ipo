@@ -63,12 +63,19 @@ public class TradetimeController {
 
 	// 修改交易节
 	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST)
-	@ResponseBody
-	public String updateTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
-		logger.info("修改交易节" + "tradetime:" + tradetime);
+	public String updateTradetime(HttpServletRequest request, HttpServletResponse response, Model model, Tradetime tradetime,
+			@RequestParam(value = "comms", required = false) String comms) {
+		logger.info("修改交易节" + "tradetime:" + tradetime + comms);
+
 		try {
-			tradetimeService.upDate(tradetime, comms);
-			return "success";
+			if (comms != null) {
+				tradetimeService.upDate(tradetime, comms);
+				return "app/tradetime/close";
+			} else {
+				comms = "no";
+				tradetimeService.upDate(tradetime, comms);
+				return "app/tradetime/close";
+			}
 		} catch (Exception e) {
 			return "error";
 		}

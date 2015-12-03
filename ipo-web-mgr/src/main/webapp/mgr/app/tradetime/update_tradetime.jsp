@@ -24,12 +24,8 @@ document.onkeypress=showKeyPress;
 		<title>交易节更新</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		
 		<script type="text/javascript"> 
 		 $(document).ready(function() {
@@ -51,28 +47,28 @@ document.onkeypress=showKeyPress;
 			    		}
 			    		</c:forEach>
 		 });
-				function updateTradetime(){
-					var status=$("#status").val();     
-	        		if(status!=''){ 
-	        			var flag=save_onclick();
-	        			if(flag){
-	        	            $('#frm').form({
-	        	                url:'<%=request.getContextPath()%>/TradetimeController/updateTradetime',
-	        	                onSubmit:function(){
-	        	                 return $(this).form('validate');
-	        	                  },
-	        	                success:function(data){
-	        	                	$("#add").attr("disabled",true);
-	        	                  		alert("修改成功！");
-	        	                  		window.close();
-	        	                  }
-	        	                 });  
-	        	             $('#frm').submit();
-	        	             window.returnValue =true;
-	        			}	}else{
-	        						alert("请选择交易节状态");
-	        			}
+		 
+		 function mysubmit(){
+				var flag=false;
+				flag=save_onclick();
+				if(flag){
+				var name=$("#name").val()
+				var status=$("#status").val();  
+				var comms = document.getElementsByName("comms");
+				var commArry = [];
+				for(var i = 0;i<comms.length;i++){
+					if(comms[i].checked){
+						commArry.push(comms[i].value);
+					}
 				}
+				if(name==''||status==''){
+					alert("*号为必填项")
+					return false;
+				}
+				}else{
+					return false;
+				}
+		}
 				 
 			 function isTime(val) {
 					var str=val;
@@ -192,7 +188,7 @@ document.onkeypress=showKeyPress;
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post" enctype="mutipart/form-data">
+		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/updateTradetime"  method="POST" onsubmit="return mysubmit();">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -267,7 +263,6 @@ document.onkeypress=showKeyPress;
 												
 												<tr>
 													<td align="right">
-														<span class="required">*</span>
 														当前交易节关联商品：
 													</td>
 													<td colspan="3">
@@ -295,7 +290,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" onclick="updateTradetime();" DialogResult="true">确定</button>
+							<button class="btn_sec" id="add" type="submit" DialogResult="true">确定</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

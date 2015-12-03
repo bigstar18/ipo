@@ -13,6 +13,7 @@
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 
 <script type="text/javascript">
+
  
 $(document).ready(function() {
 	
@@ -26,7 +27,7 @@ $(document).ready(function() {
          striped:true,
          singleSelect:true,
          collapsible:false,
-         url:'<%=request.getContextPath()%>/TradetimeController/getTradetimeList', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/TradetimeController/getTradetimeList?rand='+Math.random(), //搜索前,触发此action请求所有用户信息  
          fitColumns:true,//允许表格自动缩放,以适应父容器
          sortName:'sectionid',
          sortOrder:'asc',
@@ -121,18 +122,22 @@ function deleteList(){
 		ids.push(item.sectionid);
 	});
 	var id = ids.join(",");
-	if(confirm("确定删除该交易节吗？")){
-		  var row = $("#tt").datagrid("getSelected"); 
-		  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
-			  if(data=='success'){
-				  alert("删除成功！")
-				  $('#tt').datagrid('reload');
+	if(id.length != 0){
+		if(confirm("确定删除该交易节吗？")){
+			  var row = $("#tt").datagrid("getSelected"); 
+			  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
+				  if(data=='success'){
+					  alert("删除成功！")
+					  $('#tt').datagrid('reload');
+				  }
+				  if(data=='error'){
+					  alert("该交易节与商品有关联，不可删除")
+				  }
+					  });
 			  }
-			  if(data=='error'){
-				  alert("该交易节与商品有关联，不可删除")
-			  }
-				  });
-		  }
+	}else{
+		alert("请选择要删除的交易节");
+	}
 }
 
 

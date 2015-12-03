@@ -100,24 +100,33 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public int upDate(Tradetime tradetime, String comms) {
 		logger.info("进入交易节修改" + tradetime);
 
-		logger.debug("id:" + tradetime.getSectionid());
-		String[] comidarray = comms.split(",");
+		logger.info("id:" + tradetime.getSectionid());
+
 		IpoTradetime tradetime1 = new IpoTradetime();
 		BeanUtils.copyProperties(tradetime, tradetime1);
 		tradetime1.setModifytime(new Date());
 		tradetimeMapper.updateByAll(tradetime1);
-		logger.info("修改成功");
-		// 获取交易节id删除关联表数据
-		Short tradeTimeId = tradetime1.getSectionid();
-		BigDecimal tradeTimeId1 = new BigDecimal(tradeTimeId);
-		ipotradetimecomm.deleteBytradetimeid(tradeTimeId1);
+		if (comms.equals("no")) {
 
-		// 插入数据
-		for (String comid : comidarray) {
-			IpoTradetimeComm ipotracom = new IpoTradetimeComm();
-			ipotracom.setCommodityid(comid);
-			ipotracom.setTradetimeid(tradetime1.getSectionid());
-			ipotradetimecomm.insert(ipotracom);
+			// 获取交易节id删除关联表数据
+			Short tradeTimeId = tradetime1.getSectionid();
+			BigDecimal tradeTimeId1 = new BigDecimal(tradeTimeId);
+			ipotradetimecomm.deleteBytradetimeid(tradeTimeId1);
+		} else {
+			// 获取交易节id删除关联表数据
+			Short tradeTimeId = tradetime1.getSectionid();
+			BigDecimal tradeTimeId1 = new BigDecimal(tradeTimeId);
+			ipotradetimecomm.deleteBytradetimeid(tradeTimeId1);
+
+			// 插入数据
+			String[] comidarray = comms.split(",");
+			for (String comid : comidarray) {
+				IpoTradetimeComm ipotracom = new IpoTradetimeComm();
+				ipotracom.setCommodityid(comid);
+				ipotracom.setTradetimeid(tradetime1.getSectionid());
+				ipotradetimecomm.insert(ipotracom);
+			}
+
 		}
 		return 1;
 	}
@@ -189,14 +198,14 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	public List<Tradetime> selectAll() {
 		logger.info("进入查询所有交易节信息");
-			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-			List<IpoTradetime> tradetime1 = tradetimeMapper.selectAll();
-			for (int i = 0; i < tradetime1.size(); i++) {
-				Tradetime tradetime = new Tradetime();
-				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
-				tradetime2.add(tradetime);
-			}
-			return tradetime2;
+		List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
+		List<IpoTradetime> tradetime1 = tradetimeMapper.selectAll();
+		for (int i = 0; i < tradetime1.size(); i++) {
+			Tradetime tradetime = new Tradetime();
+			BeanUtils.copyProperties(tradetime1.get(i), tradetime);
+			tradetime2.add(tradetime);
+		}
+		return tradetime2;
 	}
 
 	// 非交易日插入(删除、更新、提交共用此方法)
