@@ -19,7 +19,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 
 /**
  * @author hxx
- *
+ *         只能单机部署，多机的话考虑 redis
  */
 @Component
 public class SystemManager {
@@ -54,6 +54,7 @@ public class SystemManager {
 
 	// 线程安全? 数据库状态的映射
 	private String status;
+
 	private String tradeDate;
 	private String section;
 
@@ -288,6 +289,10 @@ public class SystemManager {
 		}
 	}
 
+	private void threadSleep(long millis) throws InterruptedException {
+		Thread.currentThread().sleep(millis);
+	}
+
 	/**
 	 * 
 	 * 开市，操作失败返回null
@@ -422,8 +427,8 @@ public class SystemManager {
 		sectionManager.init();
 	}
 
-	private void threadSleep(long millis) throws InterruptedException {
-		Thread.currentThread().sleep(millis);
+	public String getStatus() {
+		return status;
 	}
 
 }
