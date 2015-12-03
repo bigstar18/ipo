@@ -166,7 +166,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/addTradetime"  method="POST" enctype="mutipart/form-data" onsubmit="return mysubmit();">
+		<form id="frm" name="frm"  enctype="mutipart/form-data">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -269,11 +269,8 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-<<<<<<< HEAD
 							<button class="btn_sec" id="add" onClick="addTradeTime();">添加</button>
-=======
-							<button class="btn_sec" id="add" type="submit">添加</button>
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
+
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>
