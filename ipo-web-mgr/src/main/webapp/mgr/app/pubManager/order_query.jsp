@@ -12,10 +12,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-
-</head>
-<body>
-	<script type="text/javascript">
+<script type="text/javascript">
 
 $(document).ready(function() {
 	
@@ -121,7 +118,9 @@ function doSearch(){
 			});
 
 		}
-	</script>
+</script>
+</head>
+<body>
 	<div id="main_body">
 		<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
 			<tr>

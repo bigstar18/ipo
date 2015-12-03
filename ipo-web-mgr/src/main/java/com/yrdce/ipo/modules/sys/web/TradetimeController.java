@@ -115,6 +115,15 @@ public class TradetimeController {
 		}
 	}
 
+	// 交易节视图
+	@RequestMapping(value = "/getTradeTimeForward", method = RequestMethod.GET)
+	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam("sectionid") String sectionid) throws IOException {
+
+		return "app/tradetime/update_tradetime";
+
+	}
+
 	// 修改交易节视图
 	@RequestMapping(value = "/updateTradetimeforward", method = RequestMethod.GET)
 	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model,
@@ -125,11 +134,7 @@ public class TradetimeController {
 		request.setAttribute("comm", list);
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
 		request.setAttribute("commlist", comlist);
-
-		// short sectionID1 = Short.parseShort(sectionID);
-		// Tradetime tradetime = tradetimeService.selectByKey(sectionID1);
-		// request.setAttribute("tradetime", tradetime);
-		return "app/tradetime/update_tradetime";
+		return "app/tradetime/tradeTime_list";
 	}
 
 	// 添加交易节视图
