@@ -43,7 +43,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/IssuedManage", method = RequestMethod.GET)
 	public String IssuedManage(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/pubManager/Issued";
+		return "app/pubManager/issued";
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/ApplySuccManage", method = RequestMethod.GET)
 	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/pubManager/OrderQuery";
+		return "app/pubManager/order_query";
 	}
 
 	/**

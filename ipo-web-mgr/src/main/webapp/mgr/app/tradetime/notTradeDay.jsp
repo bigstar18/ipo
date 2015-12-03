@@ -8,12 +8,8 @@
 		<title>非交易节设置</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<style type="text/css">
 		button {
 			width: 200px;
@@ -30,7 +26,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<form id="frm" name="frm" method="POST" enctype="mutipart/form-data">
+					<form id="frm" name="frm" method="POST">
 						<fieldset>
 							<legend>
 								<b style="color: red;"> 非交易日设置 </b>
