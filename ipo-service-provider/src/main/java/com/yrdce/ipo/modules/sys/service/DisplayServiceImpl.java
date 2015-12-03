@@ -46,20 +46,20 @@ public class DisplayServiceImpl implements DisplayService {
 			String ID = sId.toUpperCase();
 			BigDecimal monery = new BigDecimal(monery1);
 			// 获得商品名称
-			IpoCommodity c = commodity.selectByComid(ID);
-			if (c != null) {
-				String name = c.getCommodityname();
+			IpoCommodity com = commodity.selectByComid(ID);
+			if (com != null) {
+				String name = com.getCommodityname();
 				// 获取商品单价
-				BigDecimal price = c.getPrice();
+				BigDecimal price = com.getPrice();
 				// 获取配售单位
-				int units = c.getUnits();
+				int units = com.getUnits();
 				BigDecimal Unitprice = new BigDecimal(units);
 				// 1单位价格
 				BigDecimal total = price.multiply(Unitprice);
 				// 计算可购买多少单位
 				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
 				// 获得申购额度
-				long purchaseCredits = c.getPurchaseCredits();
+				long purchaseCredits = com.getPurchaseCredits();
 
 				Display display = new Display(name, number, units, price, purchaseCredits);
 

@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
 import com.yrdce.ipo.modules.sys.entity.IpoTradetimeComm;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.TradetimeComm;
 
 @Service("tradetimeservice")
 public class TradetimeServiceImpl implements TradetimeService {
@@ -94,19 +96,30 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public int upDate(Tradetime tradetime) {
+	@Transactional
+	public int upDate(Tradetime tradetime, String comms) {
 		logger.info("进入交易节修改" + tradetime);
-		try {
-			logger.debug("id:" + tradetime.getSectionid());
-			IpoTradetime tradetime1 = new IpoTradetime();
-			BeanUtils.copyProperties(tradetime, tradetime1);
-			tradetime1.setModifytime(new Date());
-			tradetimeMapper.updateByAll(tradetime1);
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 2;
+
+		logger.debug("id:" + tradetime.getSectionid());
+		String[] comidarray = comms.split(",");
+		IpoTradetime tradetime1 = new IpoTradetime();
+		BeanUtils.copyProperties(tradetime, tradetime1);
+		tradetime1.setModifytime(new Date());
+		tradetimeMapper.updateByAll(tradetime1);
+		logger.info("修改成功");
+		// 获取交易节id删除关联表数据
+		Short tradeTimeId = tradetime1.getSectionid();
+		BigDecimal tradeTimeId1 = new BigDecimal(tradeTimeId);
+		ipotradetimecomm.deleteBytradetimeid(tradeTimeId1);
+
+		// 插入数据
+		for (String comid : comidarray) {
+			IpoTradetimeComm ipotracom = new IpoTradetimeComm();
+			ipotracom.setCommodityid(comid);
+			ipotracom.setTradetimeid(tradetime1.getSectionid());
+			ipotradetimecomm.insert(ipotracom);
 		}
+		return 1;
 	}
 
 	@Override
@@ -114,29 +127,26 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public int insert(Tradetime tradetime, String comms) {
 
 		logger.info("进入交易节添加" + tradetime.toString());
-		try {
-            
-			String[] comidarray = comms.split(",");
-			IpoTradetime tradetime1 = new IpoTradetime();
-			BeanUtils.copyProperties(tradetime, tradetime1);
-			logger.info("tradetime1:" + tradetime1);
-			tradetime1.setModifytime(new Date());
-			tradetime1.setSectionid(tradetimeMapper.getPK());
-			tradetimeMapper.insert(tradetime1);
-			for (String comid : comidarray) {
-				IpoTradetimeComm ipotracom = new IpoTradetimeComm();
-				ipotracom.setCommodityid(comid);
-				ipotracom.setTradetimeid(tradetime1.getSectionid());
-				ipotradetimecomm.insert(ipotracom);
-			}
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 2;
+
+		String[] comidarray = comms.split(",");
+		IpoTradetime tradetime1 = new IpoTradetime();
+		BeanUtils.copyProperties(tradetime, tradetime1);
+		logger.info("tradetime1:" + tradetime1);
+		tradetime1.setModifytime(new Date());
+		tradetime1.setSectionid(tradetimeMapper.getPK());
+		tradetimeMapper.insert(tradetime1);
+		// 插入数据
+		for (String comid : comidarray) {
+			IpoTradetimeComm ipotracom = new IpoTradetimeComm();
+			ipotracom.setCommodityid(comid);
+			ipotracom.setTradetimeid(tradetime1.getSectionid());
+			ipotradetimecomm.insert(ipotracom);
 		}
+		return 1;
 	}
 
 	@Override
+	@Transactional
 	public int delete(String ids) {
 		logger.info("进入交易节删除" + ids);
 		String[] id = ids.split(",");
@@ -179,7 +189,6 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	public List<Tradetime> selectAll() {
 		logger.info("进入查询所有交易节信息");
-		try {
 			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
 			List<IpoTradetime> tradetime1 = tradetimeMapper.selectAll();
 			for (int i = 0; i < tradetime1.size(); i++) {
@@ -188,27 +197,26 @@ public class TradetimeServiceImpl implements TradetimeService {
 				tradetime2.add(tradetime);
 			}
 			return tradetime2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	// 非交易日插入(删除、更新、提交共用此方法)
 	@Override
-	public int insertByNottradeday(Nottradeday notTradeDay) {
+	@Transactional
+	public int insertByNottradeday(Nottradeday notTradeDay) throws Exception {
 		logger.info("非交易节设置");
 		int seccess = 1;
-		int error = 2;
-		try {
-			IpoNottradeday nottradeday = new IpoNottradeday();
-			BeanUtils.copyProperties(notTradeDay, nottradeday);
-			nottradeday.setModifytime(new Date());
+		IpoNottradeday nottradeday = new IpoNottradeday();
+		BeanUtils.copyProperties(notTradeDay, nottradeday);
+		nottradeday.setModifytime(new Date());
+		Long status = nottradeday.getId();
+		logger.info(status + "");
+		if (status == 1) {
 			notTradeTimeMapper.updateByPrimaryKeySelective(nottradeday);
 			return seccess;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return error;
+		} else {
+			nottradeday.setId(1L);
+			notTradeTimeMapper.insert(nottradeday);
+			return seccess;
 		}
 	}
 
@@ -216,16 +224,11 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Override
 	public Nottradeday select() {
 		logger.info("非交易节查询");
-		try {
-			Nottradeday nottradeday = new Nottradeday();
-			IpoNottradeday ipoNottradeday = notTradeTimeMapper.select();
-			BeanUtils.copyProperties(ipoNottradeday, nottradeday);
-			return nottradeday;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		Nottradeday nottradeday = new Nottradeday();
 
+		IpoNottradeday ipoNottradeday = notTradeTimeMapper.select();
+		BeanUtils.copyProperties(ipoNottradeday, nottradeday);
+		return nottradeday;
 	}
 
 	// 是否在交易节时间内
@@ -293,5 +296,19 @@ public class TradetimeServiceImpl implements TradetimeService {
 			}
 		}
 		return false;
+	}
+
+	// 根据交易节id查询关联商品信息
+	@Override
+	public List<TradetimeComm> getTradetimeByComm(Short id) {
+		BigDecimal tradeTimeId1 = new BigDecimal(id);
+		List<IpoTradetimeComm> list = ipotradetimecomm.selectBytradetimeid(tradeTimeId1);
+		List<TradetimeComm> list1 = new ArrayList<TradetimeComm>();
+		for (int i = 0; i < list.size(); i++) {
+			TradetimeComm tradeTimeComm = new TradetimeComm();
+			BeanUtils.copyProperties(list.get(i), tradeTimeComm);
+			list1.add(tradeTimeComm);
+		}
+		return list1;
 	}
 }

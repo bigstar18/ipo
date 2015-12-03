@@ -39,10 +39,21 @@ document.onkeypress=showKeyPress;
 				document.getElementById("status").value = tradeTime.status;
 				document.getElementById("starttime").value = tradeTime.starttime;
 				document.getElementById("endtime").value = tradeTime.endtime;
+				
+			    	var weeks = $(":checkbox");
+			    		<c:forEach var = "id" items="${comm}">
+			    		var ids = ${id.commodityid};
+			    		for (i = 0; i < weeks.length; i++) {
+			    			
+			    			if (ids == weeks[i].value) {
+			    				weeks[i].checked = true;
+			    			}
+			    		}
+			    		</c:forEach>
 		 });
 				function updateTradetime(){
 					var status=$("#status").val();     
-	        		if(status!='请选择'){ 
+	        		if(status!=''){ 
 	        			var flag=save_onclick();
 	        			if(flag){
 	        	            $('#frm').form({
@@ -51,10 +62,13 @@ document.onkeypress=showKeyPress;
 	        	                 return $(this).form('validate');
 	        	                  },
 	        	                success:function(data){
-	        	                  		alert("增加成功！");
+	        	                	$("#add").attr("disabled",true);
+	        	                  		alert("修改成功！");
+	        	                  		window.close();
 	        	                  }
 	        	                 });  
-	        	             $('#frm').submit(); 	
+	        	             $('#frm').submit();
+	        	             window.returnValue =true;
 	        			}	}else{
 	        						alert("请选择交易节状态");
 	        			}
@@ -222,7 +236,7 @@ document.onkeypress=showKeyPress;
 													</td>
 													<td>
 														<select id="status" name="status" class="validate[required]" style="width:120">
-															  <option value=""></option>
+															  <option value="">请选择</option>
 									                          <option value="0">无效</option>
 										                      <option value="1" selected="selected">正常</option>
 														</select>
@@ -250,6 +264,23 @@ document.onkeypress=showKeyPress;
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 												</tr>
+												
+												<tr>
+													<td align="right">
+														<span class="required">*</span>
+														当前交易节关联商品：
+													</td>
+													<td colspan="3">
+													  <c:forEach var="comm" items="${commlist}" varStatus="status">
+						                                <div style="width: 100px; float: left;">
+							                             	<input type="checkbox" name="comms" class="NormalInput" value="${comm.commodityid }"/>
+								                             <label class="hand">
+								                             <c:out value="${comm.commodityname}"/>
+							                                 </label>
+						                                 </div>
+						                                </c:forEach>  
+													</td>
+												</tr>
 											</table>
 										</div>
 									</td>
@@ -264,7 +295,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" onclick="updateTradetime()">确定</button>
+							<button class="btn_sec" id="add" onclick="updateTradetime();" DialogResult="true">确定</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

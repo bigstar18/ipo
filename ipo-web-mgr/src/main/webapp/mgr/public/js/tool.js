@@ -483,7 +483,7 @@ function checkQueryDate(startDate,endDate) {
 	 if (s!="" && s > now ) {
 		alert("开始日期不能大于当前日期");
 		return false;
-	}else if(e!="" &&　e>now){
+	}else if(e!="" &&e>now){
 		alert("结束日期不能大于当前日期");
 		return false;
 	}
@@ -504,7 +504,7 @@ function checkQueryBirtDate(startDate,endDate) {
 	if (s!="" && s > now ) {
 		alert("开始日期不能大于当前日期");
 		return false;
-	}else if(e!="" &&　e>now){
+	}else if(e!="" &&e>now){
 		alert("结束日期不能大于当前日期");
 		return false;
 	}

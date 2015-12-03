@@ -11,19 +11,12 @@
     <result column= "MODIFYTIME" property="modifytime" jdbcType="DATE"/>
   </resultMap>
   
-  <!--  <resultMap type="com.yrdce.ipo.modules.sys.entity.IpoTradetime" id="tradeTimeCommMap" extends="BaseResultMap">  
-        <collection property="ipoCommodity" ofType="IpoCommodityConf">  
-            <id property="commodityid" column="COMMODITYID" />  
-            <result property="commodityname" column="COMMODITYNAME" />  
-        </collection>  
-    </resultMap>   -->  
-  
   <sql id="Base_Column_List" >
     SECTIONID, NAME, STARTTIME, ENDTIME, STATUS, MODIFYTIME
   </sql>
   
   <select id="selectByAll" resultMap="BaseResultMap" parameterType="map">
-  	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_TRADETIME t) a where a.TNO between  #{page} and  #{rows}
+  	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_TRADETIME t order by SECTIONID) a where a.TNO between  #{page} and  #{rows}
   </select>
   
    <select id="selectAll" resultMap="BaseResultMap">

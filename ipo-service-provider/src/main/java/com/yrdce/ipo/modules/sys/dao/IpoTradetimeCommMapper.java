@@ -15,7 +15,7 @@ public interface IpoTradetimeCommMapper {
 
 	int deleteByExample(IpoTradetimeCommExample example);
 
-	int deleteByPrimaryKey(BigDecimal id);
+	int deleteBytradetimeid(BigDecimal tradetimeid);
 
 	int insert(IpoTradetimeComm record);
 
@@ -23,7 +23,7 @@ public interface IpoTradetimeCommMapper {
 
 	List<IpoTradetimeComm> selectByExample(IpoTradetimeCommExample example);
 
-	IpoTradetimeComm selectByPrimaryKey(BigDecimal id);
+	List<IpoTradetimeComm> selectBytradetimeid(BigDecimal tradetimeid);
 
 	int updateByExampleSelective(@Param("record") IpoTradetimeComm record, @Param("example") IpoTradetimeCommExample example);
 
