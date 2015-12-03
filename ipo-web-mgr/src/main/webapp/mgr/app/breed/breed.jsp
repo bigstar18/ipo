@@ -126,7 +126,7 @@ function setSortName(value) {
 <body leftmargin="14" topmargin="0">
 	<table border="0"  height="100%" width="100%"  align="center" >
 		<tr>
-			<td>
+			<div style="margin-top: 50px;">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置品种信息</b></legend>
@@ -369,7 +369,7 @@ function setSortName(value) {
 				</span>
 			</fieldset>
 			</form>
-		</td>
+		</div>
 	</tr>
 </table>
 </body>
