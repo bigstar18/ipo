@@ -5,6 +5,7 @@ function getStatus ()
 	    type : 'GET', //
 	    url : getRootPath () + "/sysController/getSettleStatus",
 	    async : false,
+	    cache : false,
 	    dataType : 'json',
 	    success : function (data)
 	    {
@@ -30,11 +31,11 @@ function showStatus (result)
 	}
 	if (result == 1)
 	{// 只有闭市状态可以做交易结算
-		$ ('#add').attr ('disabled', "false");
+		$ ('#add').css ("disabled", "false");
 	}
 	else
 	{
-		$ ('#add').attr ('disabled', "true");
+		$ ('#add').css ('disabled', "true");
 	}
 	$ ('#balanceStatus').html (statusStr);
 }
@@ -44,12 +45,13 @@ function addF ()
 {
 	if (confirm ("您确定要操作吗？"))
 	{
-		$ ('#add').attr ('disabled', "true");// 立刻禁止
+		$ ('#add').css ('disabled', "true");// 立刻禁止
 		
 		$.ajax (
 		{
 		    type : 'POST', //
 		    url : getRootPath () + "/sysController/settle",
+		    cache : false,
 		    dataType : 'json',
 		    success : function (data)
 		    {

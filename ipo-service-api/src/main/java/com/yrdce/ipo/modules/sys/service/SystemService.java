@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.Date;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
+import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -23,10 +24,18 @@ public interface SystemService {
 
 	/**
 	 * 查询系统状态，只有一条记录，or null
+	 * from 数据库
 	 * 
 	 * @return
 	 */
 	public IpoSysStatus querySysStatus();
+
+	/**
+	 * 查询内存中的系统状态；
+	 * 
+	 * @return
+	 */
+	public String getSysStatusFromMem();
 
 	/**
 	 * 控制系统状态
@@ -55,5 +64,12 @@ public interface SystemService {
 	 * 重新载入交易节和非交易日
 	 */
 	public void reloadSections();
+
+	/**
+	 * 写操作日志
+	 * 
+	 * @param log
+	 */
+	public void writeOperateLog(CGloballogAll log) throws Exception;
 
 }

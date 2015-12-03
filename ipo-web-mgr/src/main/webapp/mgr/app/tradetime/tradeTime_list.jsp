@@ -99,18 +99,18 @@ function addForward(){
 	var addUrl="<%=request.getContextPath()%>/TradetimeController/addTradetimeforward";
 	 if(showDialog(addUrl, "", 800, 550)){
 		//如果添加成功，则刷新列表
-		$('tt').datagrid('reload');
+		$('#tt').datagrid('reload');
 	} 
 }
 //修改信息跳转
 function updateForward(id) {
 	var row = $("#tt").datagrid("getSelected");
 	//获取配置权限的 URL
-	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
+	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionid="+id;
 	//给 URL 添加参数
 	if(showDialog(updateUrl, row, 800, 550)){
 		//如果添加成功，则刷新列表
-		$('tt').datagrid('reload');
+		$('#tt').datagrid('reload');
 	} 
 }
 //删除
@@ -135,14 +135,15 @@ function deleteList(){
 		  }
 }
 
+
 </script>
 </head>
 <body>
 <div id="main_body">
 	<div class="warning">
 			<div class="content">
-				温馨提示 :添加、删除、修改交易节
-				                  修改交易节请先选择该条数据，然后点击编号货名称进行修改
+				温馨提示 :添加、删除、修改交易节<br/>
+				       <span class="required">&nbsp; 修改交易节请先选择该条数据，然后点击编号或名称进行修改</span>
 			</div>
 		</div>
 	<div id="tb" >

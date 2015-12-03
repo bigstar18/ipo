@@ -2,25 +2,22 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoTradtimeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
-import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
 
 /**
  * 申购服务
@@ -29,7 +26,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoTradetime;
  * 
  */
 @Service("Purchase")
-@Transactional(readOnly = true)
 public class PurchaseImpl implements Purchase {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -40,7 +36,8 @@ public class PurchaseImpl implements Purchase {
 	@Autowired
 	private IpoOrderMapper order;
 	@Autowired
-	private IpoTradtimeMapper tradTime;
+	@Qualifier("systemService")
+	private SystemService system;
 
 	// 时间判断
 	public boolean isInDates(String sId) {
@@ -51,46 +48,8 @@ public class PurchaseImpl implements Purchase {
 			Date ftimeStart1 = c.getStarttime();
 			Date ftimeEnd1 = c.getEndtime();
 			Date times = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			// //获取上平发售的开始时间
-			// String ftimeStart = sdf.format(ftimeStart1);
-			// //获取商品的截至日期
-			// String ftimeEnd = sdf.format(ftimeEnd1);
-			// //获取系统当时时间
-			// String nowtimes = sdf.format(times);
 			if (times.after(ftimeStart1) && times.before(ftimeEnd1)) {
-
-				// if (ftimeStart.equals(nowtimes) && ftimeStart != null) {
-
-				// 获取数据库中共有几条时间记录
-				logger.info("获取交易节表信息");
-				List<IpoTradetime> list = tradTime.selectAll();
-				for (int i = 0; i < list.size(); i++) {
-					IpoTradetime tradetime = list.get(i);
-					String start = tradetime.getStarttime();
-					String end = tradetime.getEndtime();
-
-					// // 获取状态
-					// Short i = tradetime.getStatus();
-					// // 获取当前时间
-					// if (i != 1)
-					// continue;
-					// logger.info("获取交易状态" + i);
-
-					long begin = Long.parseLong(start.replaceAll(":", ""));
-					long finish = Long.parseLong(end.replaceAll(":", ""));
-					// 自动补0
-					String hours = String.format("%02d", times.getHours());
-					String minutes = String.format("%02d", times.getMinutes());
-					String seconds = String.format("%02d", times.getSeconds());
-
-					long now = Long.parseLong(hours + minutes + seconds);
-					logger.info("开始时间:" + begin + "结束时间:" + finish + "系统时间:" + now);
-
-					if (now >= begin && now < finish) {
-						return true;
-					}
-				}
+				return true;
 			}
 			return false;
 		} catch (Exception e) {
@@ -102,83 +61,95 @@ public class PurchaseImpl implements Purchase {
 
 	// 申购
 	@Override
+	@Transactional(readOnly = true)
 	public int apply(String userId, String sId, Integer counts, Integer id) {
 		logger.info("进入申购方法");
+		final int SECCESS = 0;
+		final int NOT_COMMODITY_TIME = 1;
+		final int LACK_OF_FUNDS = 2;
+		final int REPEAT = 3;
+		final int ERROR = 4;
+		final int OUT_OF_QUOTA = 5;
+		final int NOT_TIME = 6;
 		try {
-			String ID = sId.toUpperCase();
-			if (this.isInDates(ID)) {
-				logger.info("进入时间判断");
-				if (this.repeat(userId, sId)) {
-					logger.info("进入重复申购");
-					// TODO Auto-generated method stub
-					// 获取商品信息
-					logger.info("获取商品信息");
-					IpoCommodity commodity = com.selectByComid(ID);
-					// 获取商品名称
-					String name = commodity.getCommodityname();
-					// 商品单价
-					BigDecimal price = commodity.getPrice();
-					// 获取申购额度
-					long e = commodity.getPurchaseCredits();
-					// 发售单位
-					int units = commodity.getUnits();
-					// 获取客户可用资金
-					logger.info("调用资金存储函数");
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("monery", "");
-					param.put("userid", userId);
-					param.put("lock", 0);
-					funds.getMonery(param);
-					BigDecimal monery = (BigDecimal) param.get("monery");
-					// int类型转换，购买几个单位
-					BigDecimal bigDecimal = new BigDecimal(counts);
-					// 一单位
-					BigDecimal Unitprice = new BigDecimal(units);
-					// 1单位价格
-					BigDecimal total = price.multiply(Unitprice);
-					// 申购消费总额
-					BigDecimal allMonery = bigDecimal.multiply(total);
-					// 申购额度判断
-					if (counts < e) {
-						// 申购资金判断
-						if (monery.compareTo(allMonery) != -1) {
-							logger.info("进入资金判断");
-							// 当前时间
-							Timestamp date = new Timestamp(System.currentTimeMillis());
-							IpoOrder d = new IpoOrder();
-							d.setUserid(userId);
-							d.setCommodityid(sId);
-							d.setCommodityname(name);
-							d.setCounts(counts);
-							d.setCreatetime(date);
-							d.setFrozenfunds(allMonery);
-							d.setFrozenst(0);
-							d.setCommodity_id(id);
-							order.insert(d);
-							// 0：申购成功
-							// 1：配号成功
-							// 2：摇号成功
-							// 3：结算成功
-							com.updateByStatus(0, sId);
+			if (system.canSystemTrade()) {
+				String ID = sId.toUpperCase();
+				if (this.isInDates(ID)) {
+					logger.info("进入时间判断");
+					if (this.repeat(userId, sId)) {
+						logger.info("进入重复申购");
+						// TODO Auto-generated method stub
+						// 获取商品信息
+						logger.info("获取商品信息");
+						IpoCommodity commodity = com.selectByComid(ID);
+						// 获取商品名称
+						String name = commodity.getCommodityname();
+						// 商品单价
+						BigDecimal price = commodity.getPrice();
+						// 获取申购额度
+						long e = commodity.getPurchaseCredits();
+						// 发售单位
+						int units = commodity.getUnits();
+						// 获取客户可用资金
+						logger.info("调用资金存储函数");
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("monery", "");
+						param.put("userid", userId);
+						param.put("lock", 0);
+						funds.getMonery(param);
+						BigDecimal monery = (BigDecimal) param.get("monery");
+						// int类型转换，购买几个单位
+						BigDecimal bigDecimal = new BigDecimal(counts);
+						// 一单位
+						BigDecimal Unitprice = new BigDecimal(units);
+						// 1单位价格
+						BigDecimal total = price.multiply(Unitprice);
+						// 申购消费总额
+						BigDecimal allMonery = bigDecimal.multiply(total);
+						// 申购额度判断
+						if (counts < e) {
+							// 申购资金判断
+							if (monery.compareTo(allMonery) != -1) {
+								logger.info("进入资金判断");
+								// 当前时间
+								Timestamp date = new Timestamp(System.currentTimeMillis());
+								IpoOrder d = new IpoOrder();
+								d.setUserid(userId);
+								d.setCommodityid(sId);
+								d.setCommodityname(name);
+								d.setCounts(counts);
+								d.setCreatetime(date);
+								d.setFrozenfunds(allMonery);
+								d.setFrozenst(0);
+								d.setCommodity_id(id);
+								order.insert(d);
+								// 0：申购成功
+								// 1：配号成功
+								// 2：摇号成功
+								// 3：结算成功
+								com.updateByStatus(0, sId);
 
-							this.frozen(userId, allMonery);
+								this.frozen(userId, allMonery);
 
-							return 0;
+								return SECCESS;
+							} else {
+								return LACK_OF_FUNDS;
+							}
 						} else {
-							return 2;
+							return OUT_OF_QUOTA;
 						}
 					} else {
-						return 5;
+						return REPEAT;
 					}
 				} else {
-					return 3;
+					return NOT_COMMODITY_TIME;
 				}
 			} else {
-				return 1;
+				return NOT_TIME;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 4;
+			return ERROR;
 		}
 	}
 

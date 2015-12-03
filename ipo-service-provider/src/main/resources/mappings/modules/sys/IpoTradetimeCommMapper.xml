@@ -81,15 +81,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+  <select id="selectBytradetimeid" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
     from IPO_TRADETIME_COMM
-    where ID = #{id,jdbcType=DECIMAL}
+    where TRADETIMEID = #{tradetimeid,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <delete id="deleteBytradetimeid" parameterType="java.math.BigDecimal" >
     delete from IPO_TRADETIME_COMM
-    where ID = #{id,jdbcType=DECIMAL}
+    where TRADETIMEID = #{tradetimeid,jdbcType=DECIMAL}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTradetimeCommExample" >
     delete from IPO_TRADETIME_COMM

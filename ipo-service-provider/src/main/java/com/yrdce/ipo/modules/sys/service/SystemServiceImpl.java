@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.SystemManager;
+import com.yrdce.ipo.modules.sys.dao.CGloballogAllMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
+import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -28,6 +30,9 @@ public class SystemServiceImpl implements SystemService {
 
 	@Autowired
 	private IpoSysStatusMapper mapper;
+
+	@Autowired
+	private CGloballogAllMapper logMapper;
 
 	@Autowired
 	private SystemManager systemManager;
@@ -109,6 +114,19 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public void reloadSections() {
 		systemManager.reloadSections();
+	}
+
+	@Override
+	public String getSysStatusFromMem() {
+		return systemManager.getStatus();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void writeOperateLog(CGloballogAll log) throws Exception {
+		com.yrdce.ipo.modules.sys.entity.CGloballogAll entity = new com.yrdce.ipo.modules.sys.entity.CGloballogAll();
+		BeanUtils.copyProperties(entity, log);
+		logMapper.insertSelective(entity);
 	}
 
 }

@@ -6,13 +6,13 @@
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
         <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+		<style type="text/css">input {line-height: 14px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
 		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
 		<title>商品新增</title>
 		<script type="text/javascript"> 
-		
 $(function () {
 	     $("#listingdate").datebox({
 	         required: "true",
@@ -174,7 +174,7 @@ function spreadAlgr_onchange(value)
 <body leftmargin="14" topmargin="0">
 	<table border="0"  height="100%" width="100%"  align="center" >
 		<tr>
-			<td>
+			<div style="margin-top: 50px;">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置商品信息</b></legend>
@@ -483,7 +483,7 @@ function spreadAlgr_onchange(value)
 				</span>
 			</fieldset>
 			</form>
-		</td>
+		</div>
 	</tr>
 </table>
 </body>

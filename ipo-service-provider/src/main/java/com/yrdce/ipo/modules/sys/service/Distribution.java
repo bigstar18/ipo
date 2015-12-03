@@ -42,16 +42,16 @@ public class Distribution {
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
 	@SuppressWarnings("unused")
-	public void start(List<IpoOrder> o) {
+	public void start(List<IpoOrder> orderList) {
 		// 获得系统当前时间的前一天
 		// String oldtime = DateUtil.getTime(1);
 
 		// 获取系统前一天订单列表
-		// List<IpoOrder> o = order.selectAll(oldtime);
-		if (o != null || o.size() > 0) {
+		// List<IpoOrder> orderList = order.selectAll(oldtime);
+		if (orderList != null || orderList.size() > 0) {
 			logger.info("获取前一天订单列表");
-			for (int i = 0; i < o.size(); i++) {
-				IpoOrder order1 = o.get(i);
+			for (int i = 0; i < orderList.size(); i++) {
+				IpoOrder order1 = orderList.get(i);
 				String sId = order1.getCommodityid();
 				String userid = order1.getUserid();
 				int counts = order1.getCounts();
@@ -60,72 +60,37 @@ public class Distribution {
 				// 获取商品总配号数
 				int sum = order.selectbysid(sId) + 10000000;
 				// 获取记录表有无记录
-				int a = unmberofrecord.selectbysid(sId);
+				int all = unmberofrecord.selectbysid(sId);
 				// 格局配号规则选择配号方式
 				if (sum < 99999999) {
-					int count1 = 0;
-					if (a == 0) {
+					if (all == 0) {
 						System.out.println("3 - 1");
-						// 更新记录表
-						Map<String, Object> map = new HashMap<String, Object>();
-						map.put("counts", counts);
-						map.put("commodityid", sId);
-						unmberofrecord.update(map);
-						// 插入ipodistribution表
-						ipodistribution.setCommodityname(sname);
+						int allCounts = 0;
 						long startNum = 10000001;
-						ipodistribution.setStartnumber(startNum);
-						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(counts);
-						ipodistribution.setCommodityid(sId);
-						Date date = new Date();
-						ipodistribution.setPtime(date);
-						distribution.insert(ipodistribution);
-
+						// 更新数据
+						this.updateTable(allCounts, sId, sname, startNum, userid, counts);
 					} else {
 						System.out.println("3 - 2");
-						count1 = a + counts;
-						System.out.println(count1);
-						int count2 = a;
-						System.out.println(count2);
-						long startNum = 10000001 + count2;
-						Map<String, Object> map = new HashMap<String, Object>();
-						map.put("counts", count1);
-						map.put("commodityid", sId);
-						unmberofrecord.update(map);
-						ipodistribution.setCommodityname(sname);
-						ipodistribution.setStartnumber(startNum);
-						ipodistribution.setUserid(userid);
-						ipodistribution.setPcounts(counts);
-						ipodistribution.setCommodityid(sId);
-						Date date = new Date();
-						ipodistribution.setPtime(date);
-						distribution.insert(ipodistribution);
+						int allCounts = all + counts;
+						System.out.println(allCounts);
+						long startNum = 10000001 + all;
+						// 更新数据
+						this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+
 					}
 				} else {
 					int Record = 0;
 					int Records = Record++;
 					if (Records < 99999999) {
-						if (a == 0) {
+						if (all == 0) {
 							System.out.println("4 - 1");
 							// 更新记录表
-							Map<String, Object> map = new HashMap<String, Object>();
-							map.put("counts", counts);
-							map.put("commodityid", sId);
-							unmberofrecord.update(map);
-							// 插入ipodistribution表
-							ipodistribution.setCommodityname(sname);
 							String str1 = 10000001 + "";
 							StringBuffer str2 = new StringBuffer("111111");
 							String str3 = str2.append(str1).toString();
-							long num = Long.parseLong(str3);
-							ipodistribution.setStartnumber(num);
-							ipodistribution.setUserid(userid);
-							ipodistribution.setPcounts(counts);
-							ipodistribution.setCommodityid(sId);
-							Date date = new Date();
-							ipodistribution.setPtime(date);
-							distribution.insert(ipodistribution);
+							long startNum = Long.parseLong(str3);
+							// 更新数据
+							this.updateTable(counts, sId, sname, startNum, userid, counts);
 
 						} else {
 							System.out.println("4 - 2");
@@ -133,46 +98,24 @@ public class Distribution {
 							String str = 10000001 + "";
 							StringBuffer str1 = new StringBuffer("111111");
 							String str2 = (str1.append(str)).toString();
-							long x = Long.parseLong(str2);
-							int count3 = a + counts;
-							long count2 = x + a;
-							Map<String, Object> map = new HashMap<String, Object>();
-							map.put("counts", count3);
-							map.put("commodityid", sId);
-							unmberofrecord.update(map);
-							ipodistribution.setCommodityname(sname);
-							ipodistribution.setStartnumber(count2);
-							ipodistribution.setUserid(userid);
-							ipodistribution.setPcounts(counts);
-							ipodistribution.setCommodityid(sId);
-							Date date = new Date();
-							ipodistribution.setPtime(date);
-							distribution.insert(ipodistribution);
+							long serialNumber = Long.parseLong(str2);
+							int allCounts = all + counts;
+							long startNum = serialNumber + all;
+							// 更新数据
+							this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+
 						}
 
 					} else {
-						if (a == 0) {
+						if (all == 0) {
 							System.out.println("5 - 1");
 
-							// 更新记录表
-							Map<String, Object> map = new HashMap<String, Object>();
-							map.put("counts", counts);
-							map.put("commodityid", sId);
-							unmberofrecord.update(map);
-
-							// 插入ipodistribution表
-							ipodistribution.setCommodityname(sname);
 							String str1 = 10000001 + "";
 							StringBuffer str2 = new StringBuffer("222222");
 							String str3 = str2.append(str1).toString();
-							long num = Long.parseLong(str3);
-							ipodistribution.setStartnumber(num);
-							ipodistribution.setUserid(userid);
-							ipodistribution.setPcounts(counts);
-							ipodistribution.setCommodityid(sId);
-							Date date = new Date();
-							ipodistribution.setPtime(date);
-							distribution.insert(ipodistribution);
+							long startNum = Long.parseLong(str3);
+							// 更新数据
+							this.updateTable(counts, sId, sname, startNum, userid, counts);
 
 						} else {
 							System.out.println("5 - 2");
@@ -180,21 +123,11 @@ public class Distribution {
 							String str = 10000001 + "";
 							StringBuffer str1 = new StringBuffer("222222");
 							String str3 = (str1.append(str)).toString();
-							long x = Long.parseLong(str3);
-							int count4 = a + counts;
-							long count3 = x + a;
-							Map<String, Object> map = new HashMap<String, Object>();
-							map.put("counts", count4);
-							map.put("commodityid", sId);
-							unmberofrecord.update(map);
-							ipodistribution.setCommodityname(sname);
-							ipodistribution.setStartnumber(count3);
-							ipodistribution.setUserid(userid);
-							ipodistribution.setPcounts(counts);
-							ipodistribution.setCommodityid(sId);
-							Date date = new Date();
-							ipodistribution.setPtime(date);
-							distribution.insert(ipodistribution);
+							long serialNumber = Long.parseLong(str3);
+							int allCounts = all + counts;
+							long startNum = serialNumber + all;
+							// 更新数据
+							this.updateTable(allCounts, sId, sname, startNum, userid, counts);
 
 						}
 
@@ -212,5 +145,22 @@ public class Distribution {
 			unmberofrecord.deleteAll();
 		}
 
+	}
+
+	public void updateTable(int allCounts, String sId, String sname, long num, String userId, int counts) {
+		// 更新配号临时表
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("counts", allCounts);
+		map.put("commodityid", sId);
+		unmberofrecord.update(map);
+		// 插入更新数据
+		ipodistribution.setCommodityname(sname);
+		ipodistribution.setStartnumber(num);
+		ipodistribution.setUserid(userId);
+		ipodistribution.setPcounts(counts);
+		ipodistribution.setCommodityid(sId);
+		Date date = new Date();
+		ipodistribution.setPtime(date);
+		distribution.insert(ipodistribution);
 	}
 }
