@@ -76,7 +76,7 @@ public class BreedController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/findIpoABreeds", method = RequestMethod.GET)
+	@RequestMapping(value = "/findIpoABreeds", method = RequestMethod.POST)
 	@ResponseBody
 	public String findIpoABreeds(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询品种列表");
@@ -156,6 +156,7 @@ public class BreedController extends BaseController {
 	@ResponseBody
 	public String addBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("增加一个品种");
+		log.info(vipoabreed.toString());
 		try {
 			vIpoABreedService.addBreed(vipoabreed);
 			return "true";

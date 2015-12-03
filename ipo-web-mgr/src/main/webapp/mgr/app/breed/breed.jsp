@@ -19,31 +19,39 @@ function addBreed(){
 	var bname=$("#bname").val();
 	var spreadalgr=$("#spreadalgr").val();
 	var publishalgr=$("#publishalgr").val();
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){
+	var flag= $('#frm').form('validate');
+	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''&&flag==true){
             	 $.ajax({  
         			 type: 'GET',  //
         		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
         		     contentType: "application/json; charset=utf-8", 
-        		     data:{"breedid":breedid},  
+        		     data:{"breedid":breedid,"randnum":Math.floor(Math.random()*1000000)},  
         			 dataType: 'json',  
         		     success : function(data, stats) { 
         			           if(data=='0'){
         			        	   alert("该品种已配置，请选择其他品种！")
         			           }
                                if(data=='1'){
-                            	   $('#frm').form({
-                            		     url:'<%=request.getContextPath()%>/BreedController/addBreed',
-                            		     onSubmit:function(){
-                            		         return $(this).form('validate');
-                            		     },
-                            		     success:function(data){
-                            		    	 document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
-                            		     }
-                            		 });  
-                            	   $('#frm').submit(); 
+                            	   $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: "<%=request.getContextPath()%>/BreedController/addBreed",       
+                                       data: $("#frm").serialize(),      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("添加成功！"); 
+                                           returntoList();
+                                    	   }else{
+                                    		   alert("系统异常，请联系管理员");  
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("系统异常，请联系管理员");  
+                                       }  
+                                   }) 
         			           }
                                if(data=='2'){
-                            	   alert("系统内部异常！")
+                            	   alert("系统内部异常,请联系管理员")
         			           }
         			        }    
         				});
@@ -54,26 +62,37 @@ function addBreed(){
 }
 		
 function updateBreed(){
-	var breedid=$("#breedid").val();
-	var bname=$("#breedname").val();
+	
+	var bname=$("#bname").val();
 	var spreadalgr=$("#spreadalgr").val();
 	var publishalgr=$("#publishalgr").val();
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''){ 
-		$('#frm').form({
-		     url:'<%=request.getContextPath()%>/BreedController/updateBreed',
-		     onSubmit:function(){
-		         return $(this).form('validate');
-		     },
-		     success:function(data){
-		    	 document.location.href = "<%=request.getContextPath()%>/IpoController/CommodityManage";
-		     }
-		 }); 
-		$('#frm').submit(); 
-	}
+	var flag= $('#frm').form('validate');
+	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''&&flag==true){
+                            	   $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: "<%=request.getContextPath()%>/BreedController/updateBreed",       
+                                       data: $("#frm").serialize(),      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("修改成功！"); 
+                                           returntoList();
+                                    	   }else{
+                                    		   alert("系统异常，请联系管理员");  
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("系统异常，请联系管理员");  
+                                       }  
+                                   }); 
+            }
+			else{
+					alert("所有参数必填！");
+		}
 }
 
 function returntoList(){
-	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityManage";
+	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityManage?randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
 }
 		
@@ -127,7 +146,7 @@ function setSortName(value) {
 <body leftmargin="14" topmargin="0">
 	<table border="0"  height="100%" width="100%"  align="center" >
 		<tr>
-			<div style="margin-top: 50px;">
+			<td style="margin-top: 50px;">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置品种信息</b></legend>
@@ -370,7 +389,7 @@ function setSortName(value) {
 				</span>
 			</fieldset>
 			</form>
-		</div>
+		</td>
 	</tr>
 </table>
 </body>
