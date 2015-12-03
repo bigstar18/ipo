@@ -97,7 +97,6 @@ function addComm(){
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
 	var commid=$("#commodityid").val();
-	//var listingdate=$('#listingdate').datebox('getValue');
 	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
 		 $.ajax({  
 			 type: 'GET',  
