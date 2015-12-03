@@ -24,11 +24,7 @@
 <!--	<listener>
 		<listener-class>gnnt.MEBS.common.front.common.Global</listener-class>
 	</listener>-->
-<<<<<<< HEAD
-	 <filter>
-=======
 	<filter>
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
 		<filter-name>checkUrl</filter-name>
 		<filter-class>com.yrdce.ipo.integrate.SecurityFilter</filter-class>
 	</filter>
