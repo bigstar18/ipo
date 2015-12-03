@@ -97,7 +97,6 @@ function addComm(){
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
 	var commid=$("#commodityid").val();
-	//var listingdate=$('#listingdate').datebox('getValue');
 	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
 		 $.ajax({  
 			 type: 'GET',  
@@ -174,7 +173,7 @@ function spreadAlgr_onchange(value)
 <body leftmargin="14" topmargin="0">
 	<table border="0"  height="100%" width="100%"  align="center" >
 		<tr>
-			<div style="margin-top: 50px;">
+			<td style="margin-top: 50px;">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置商品信息</b></legend>
@@ -483,7 +482,7 @@ function spreadAlgr_onchange(value)
 				</span>
 			</fieldset>
 			</form>
-		</div>
+		</td>
 	</tr>
 </table>
 </body>

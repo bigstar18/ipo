@@ -17,7 +17,7 @@ $(document).ready(function() {
 	 $('#tt').datagrid({  
          title:'品种列表',  
          iconCls:'icon-ok', 
-         method:"get",
+         method:"post",
          height:400,
          pageSize:10,  
          pageList:[5,10,15],  
@@ -26,7 +26,7 @@ $(document).ready(function() {
          striped:true,  
          collapsible:false,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds?randnum='+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds', //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
@@ -77,7 +77,7 @@ function doSearch(){
          striped:true,  
          collapsible:false,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/BreedController/findBreedByName?breedname='+ encodeURI(encodeURI(breedname))+'&&randnum='+Math.floor(Math.random()*1000000) , //搜索  
+         url:'<%=request.getContextPath()%>/BreedController/findBreedByName?breedname='+ encodeURI(encodeURI(breedname)) , //搜索  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
@@ -144,7 +144,7 @@ function deleteBreed(){
 
 //修改品种配置信息，跳转到修改页面
 function updateBreed(breedid){
-	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000) ;
+	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid ;
 	document.location.href = Url;
 }
 

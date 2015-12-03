@@ -17,7 +17,7 @@ $(document).ready(function() {
 	 $('#tt').datagrid({  
          title:'商品列表',  
          iconCls:'icon-ok', 
-         method:"get",
+         method:"post",
          height:400,
          pageSize:10,  
          pageList:[5,10,15],  
@@ -107,7 +107,7 @@ function updateCommodity(comid,breedid){
 
 //返回品种列表
 function returnBreedList(){
-	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityManage";
+	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityManage?randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
 }
 
