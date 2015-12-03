@@ -271,7 +271,7 @@ public class BreedController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/findCommsByBreedId", method = RequestMethod.GET)
+	@RequestMapping(value = "/findCommsByBreedId", method = RequestMethod.POST)
 	@ResponseBody
 	public String findCommsByBreedId(@RequestParam("breedid") String breedid, @RequestParam("page") String page, @RequestParam("rows") String rows)
 			throws IOException {
