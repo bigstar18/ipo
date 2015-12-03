@@ -26,7 +26,7 @@ $(document).ready(function() {
          striped:true,  
          collapsible:false,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/BreedController/findIpoABreeds?randnum='+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
@@ -77,7 +77,7 @@ function doSearch(){
          striped:true,  
          collapsible:false,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/BreedController/findBreedByName?breedname='+ encodeURI(encodeURI(breedname)) , //搜索  
+         url:'<%=request.getContextPath()%>/BreedController/findBreedByName?breedname='+ encodeURI(encodeURI(breedname))+'&&randnum='+Math.floor(Math.random()*1000000) , //搜索  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
@@ -116,7 +116,7 @@ function doSearch(){
     
 //跳转到添加品种页面
 function addForward(){
-	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward";
+	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward?randnum="+Math.floor(Math.random()*1000000);
 }
 
 //删除品种
@@ -144,13 +144,13 @@ function deleteBreed(){
 
 //修改品种配置信息，跳转到修改页面
 function updateBreed(breedid){
-	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid;
+	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000) ;
 	document.location.href = Url;
 }
 
 //查询对应商品列表
 function getCommBelonged(breedid) {
-	var Url = "<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid;//get方式提交
+	var Url = "<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000);//get方式提交
 	document.location.href = Url;
 }
 
