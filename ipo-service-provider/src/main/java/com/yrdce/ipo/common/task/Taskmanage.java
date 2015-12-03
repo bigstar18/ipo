@@ -63,7 +63,6 @@ public class Taskmanage extends TimerTask {
 			for (IpoCommodity com : commod) {
 				int id = com.getId();
 				List<IpoOrder> orderList = order.selectByCid(id);
-
 				if (orderList != null && orderList.size() != 0) {
 					// 去重
 					List<String> list = order.select(id);

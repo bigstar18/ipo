@@ -7,6 +7,7 @@ import java.util.Date;
  * 发售商品表
  */
 public class IpoCommodity {
+
 	private Integer id;
 
 	private String commodityid; // 商品代码
@@ -27,16 +28,16 @@ public class IpoCommodity {
 
 	private int status;// 申购状态
 
-	public int getStatus() {
-		return status;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
 	}
 
 	public void setStatus(int status) {

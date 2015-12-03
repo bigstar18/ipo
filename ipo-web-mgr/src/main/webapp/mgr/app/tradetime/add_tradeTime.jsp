@@ -7,14 +7,11 @@
 		<title>交易节添加</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <%-- <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" /> --%>
-		<%-- <link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" /> --%>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<%-- <script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script> --%>	
-		<%-- <script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> --%>
 		
 <script type="text/javascript"> 
+
 function addTradeTime(){
 	var status=$("#status").val();     
 	if(status!=''){ 
@@ -50,6 +47,7 @@ function addTradeTime(){
 					alert("请选择交易节状态");
 		}
 	 }         
+
            
  function isTime(val) {
 		var str=val;
@@ -168,7 +166,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="POST" enctype="mutipart/form-data">
+		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/addTradetime"  method="POST" enctype="mutipart/form-data" onsubmit="return mysubmit();">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -271,7 +269,11 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
+<<<<<<< HEAD
 							<button class="btn_sec" id="add" onClick="addTradeTime();">添加</button>
+=======
+							<button class="btn_sec" id="add" type="submit">添加</button>
+>>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

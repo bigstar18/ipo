@@ -83,6 +83,7 @@ public class TradetimeController {
 		try {
 			tradetimeService.insert(tradetime, comms);
 			return "success";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
