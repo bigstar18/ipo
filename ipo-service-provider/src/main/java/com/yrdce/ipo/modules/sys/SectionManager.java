@@ -73,6 +73,9 @@ public class SectionManager {
 
 	// 是否是交易日
 	private boolean isTradeDay(Date date) {
+		if (nonTradeDay == null)
+			return true;
+
 		String nonDayStr = nonTradeDay.getDay();
 
 		String inputDay = SystemManager.sdf.format(date);
