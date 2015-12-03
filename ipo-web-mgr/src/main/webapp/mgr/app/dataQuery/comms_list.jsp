@@ -181,7 +181,7 @@ function doSearch(){
 	<div class="div_list">
 	<table id="tt" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
-		<div>
+		<%-- <div>
 		<form name="frm" action="<%=request.getContextPath()%>/CommodityController/QueryByConditions" method="post">
 			状态: 	<select id="status" name="currstatus" style="width:80">
 					<option value=""></option>
@@ -196,7 +196,7 @@ function doSearch(){
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 
 			<input class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
-		</div>
+		</div> --%>
 	</div>
 	</div>
 	</td>

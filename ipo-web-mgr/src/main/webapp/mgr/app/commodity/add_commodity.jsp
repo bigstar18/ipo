@@ -97,32 +97,38 @@ function addComm(){
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
 	var commid=$("#commodityid").val();
-	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
+	var flag= $('#frm').form('validate');
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
 		 $.ajax({  
 			 type: 'GET',  
 		      url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",  
 		     contentType: "application/json; charset=utf-8", 
-		     data:{"commodityid":commid},  
+		     data:{"commodityid":commid,"randnum":Math.floor(Math.random()*1000000)},  
 			 dataType: 'json',  
 		     success : function(data, stats) { 
 			           if(data=='0'){
 			        	   alert("商品代码已存在，请重新输入！")
 			           }
                        if(data=='1'){
-                    	   $('#frm').form({
-                  		     url:'<%=request.getContextPath()%>/BreedController/addCommodity',
-                  		     onSubmit:function(){
-                  		         return $(this).form('validate');
-                  		     },
-                  		     success:function(data){
-                  		    	alert("增加成功！");
-                  		    	 returntoList();
-                  		     }
-                  		 });  
-                  	   $('#frm').submit(); 
+                    	   $.ajax({ 
+                               type: "post",  
+                               url: "<%=request.getContextPath()%>/BreedController/addCommodity",       
+                               data: $("#frm").serialize(),      
+                               success: function(data) { 
+                            	   if(data=='true'){
+                                   alert("添加成功！"); 
+                                   returntoList();
+                            	   }else{
+                            		   alert("系统异常，请联系管理员");  
+                            	   }
+                               },  
+                               error: function(data) {  
+                                   alert("系统异常，请联系管理员");  
+                               }  
+                           }) ;
 			           }
                        if(data=='2'){
-                    	   alert("系统内部异常！")
+                    	   alert("系统内部异常,请联系管理员！")
 			           }
 			        }    
 				});
@@ -133,7 +139,7 @@ function addComm(){
 		
 function returntoList(){
 	var breedid=$("#breedid").val();
-	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid;
+	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
 }
 		
