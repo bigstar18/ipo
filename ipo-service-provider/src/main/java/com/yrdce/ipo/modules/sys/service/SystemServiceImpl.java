@@ -103,8 +103,12 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public boolean canSystemTrade() throws Exception {
-		// TODO
-		return true;
+		return systemManager.canSystemTrade();
+	}
+
+	@Override
+	public void reloadSections() {
+		systemManager.reloadSections();
 	}
 
 }

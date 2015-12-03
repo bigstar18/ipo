@@ -2,7 +2,6 @@ package com.yrdce.ipo.common.task;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
@@ -62,9 +61,8 @@ public class Taskmanage extends TimerTask {
 			// 已截至日期为依据取发售表商品
 			List<IpoCommodity> commod = commodity.selectByEnd(oldtime);
 			for (IpoCommodity com : commod) {
-				int id = Integer.parseInt(com.getId());
-				List<IpoOrder> orderList = new ArrayList<IpoOrder>();
-				orderList = order.selectByCid(id);
+				int id = com.getId();
+				List<IpoOrder> orderList = order.selectByCid(id);
 
 				if (orderList != null && orderList.size() != 0) {
 					// 去重

@@ -20,6 +20,7 @@ import com.yrdce.ipo.modules.sys.service.TradetimeService;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.TradetimeComm;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
@@ -63,13 +64,13 @@ public class TradetimeController {
 	// 修改交易节
 	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST)
 	@ResponseBody
-	public int updateTradetime(Tradetime tradetime) {
+	public String updateTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
 		logger.info("修改交易节" + "tradetime:" + tradetime);
 		try {
-			int i = tradetimeService.upDate(tradetime);
-			return i;
+			tradetimeService.upDate(tradetime, comms);
+			return "success";
 		} catch (Exception e) {
-			return 0;
+			return "error";
 		}
 
 	}
@@ -80,7 +81,7 @@ public class TradetimeController {
 	@ResponseBody
 	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
 		try {
-			int i = tradetimeService.insert(tradetime, comms);
+			tradetimeService.insert(tradetime, comms);
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +100,7 @@ public class TradetimeController {
 		logger.info(falg + "");
 		// 判断是否有关联
 		if (falg) {
-			int status = tradetimeService.delete(ids);
+			tradetimeService.delete(ids);
 			return "success";
 		} else {
 			return "error";
@@ -108,8 +109,15 @@ public class TradetimeController {
 
 	// 修改交易节视图
 	@RequestMapping(value = "/updateTradetimeforward", method = RequestMethod.GET)
-	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam("sectionid") String sectionid) throws IOException {
 		logger.info("进入修改视图");
+		short id = Short.parseShort(sectionid);
+		List<TradetimeComm> list = tradetimeService.getTradetimeByComm(id);
+		request.setAttribute("comm", list);
+		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
+		request.setAttribute("commlist", comlist);
+
 		// short sectionID1 = Short.parseShort(sectionID);
 		// Tradetime tradetime = tradetimeService.selectByKey(sectionID1);
 		// request.setAttribute("tradetime", tradetime);
@@ -131,17 +139,25 @@ public class TradetimeController {
 	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		logger.info("进入非交易日视图");
 		Nottradeday nottradeday = tradetimeService.select();
-		String week = nottradeday.getWeek();
-		String day = nottradeday.getDay();
-		if (week == null) {
-			week = "";
+		if (!nottradeday.equals(null)) {
+			String week = nottradeday.getWeek();
+			String day = nottradeday.getDay();
+			if (week == null) {
+				week = "";
+			}
+			if (day == null) {
+				day = "";
+			}
+			request.setAttribute("week", week);
+			request.setAttribute("day", day);
+			request.setAttribute("id", "1");
+			return "app/tradetime/notTradeDay";
+		} else {
+			request.setAttribute("week", null);
+			request.setAttribute("day", null);
+			request.setAttribute("id", "0");
+			return "app/tradetime/notTradeDay";
 		}
-		if (day == null) {
-			day = "";
-		}
-		request.setAttribute("week", week);
-		request.setAttribute("day", day);
-		return "app/tradetime/notTradeDay";
 	}
 
 	// 非交易日查询
@@ -161,10 +177,9 @@ public class TradetimeController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String update(Nottradeday notTradeDay) {
-		logger.info("week:" + notTradeDay.getWeek() + "day:" + notTradeDay.getDay());
+		logger.info("week:" + notTradeDay.getWeek() + "day:" + notTradeDay.getDay() + "id:" + notTradeDay.getId());
 		try {
-			int status;// 1：成功 2：失败
-			status = tradetimeService.insertByNottradeday(notTradeDay);
+			tradetimeService.insertByNottradeday(notTradeDay);
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();

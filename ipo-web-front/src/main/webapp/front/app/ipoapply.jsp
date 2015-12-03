@@ -36,7 +36,8 @@
 			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
-			                <th data-options="field:'commodityid',width:160">产品代码</th>
+			                <th data-options="field:'id',width:160">商品编号</th>
+			                <th data-options="field:'commodityid',width:160">商品代码</th>
 			                <th data-options="field:'commodityname',width:160">申购产品</th>
 			                <th data-options="field:'price',width:160">发售价格</th>
 			                <th data-options="field:'units',width:160">配售单位</th>
@@ -68,7 +69,7 @@
 			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
 				      <div class="form-group">
 				        <label style="width: 70px">购买量：</label>
-				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
+				        <input type="text"  id="quantity" onfocus="clearRemind()"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
 				      </div>
 				    </form>
 				     <div>
@@ -158,6 +159,10 @@ $(document).ready(function() {
 		}     
 	});
 });
+
+function clearRemind(){
+	$("#remind").text("");
+}
 
 //日期转换
 function dateconvertfunc(value,row){

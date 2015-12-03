@@ -15,7 +15,7 @@
  
 $(document).ready(function() {
 	 $('#tt').datagrid({  
-         title:'商品列表',  
+         title:'商品查询',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,

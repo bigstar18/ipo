@@ -7,7 +7,7 @@ import java.util.Date;
  * 发售商品表
  */
 public class IpoCommodity {
-	private String id;
+	private Integer id;
 
 	private String commodityid; // 商品代码
 
@@ -31,6 +31,14 @@ public class IpoCommodity {
 		return status;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
@@ -41,14 +49,6 @@ public class IpoCommodity {
 
 	public void setPurchaseCredits(int purchaseCredits) {
 		this.purchaseCredits = purchaseCredits;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
 	}
 
 	public String getCommodityid() {

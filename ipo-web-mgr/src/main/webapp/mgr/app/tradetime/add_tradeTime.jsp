@@ -7,43 +7,49 @@
 		<title>交易节添加</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+        <%-- <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" /> --%>
+		<%-- <link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" /> --%>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script>	
-		<script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script>
+		<%-- <script src="${mgrPath }/app/ipo/js/jquery.validationEngine.js" type="text/javascript" charset="UTF-8"></script> --%>	
+		<%-- <script src="${mgrPath }/app/ipo/js/languages/jquery.validationEngine-zh_CN.js" type="text/javascript" charset="UTF-8"></script> --%>
 		
 <script type="text/javascript"> 
- function addTradetime(){
-        		var status=$("#status").val();  
-        		var comms = document.getElementsByName("comms");
-    			var commArry = [];
-    			for(var i = 0;i<comms.length;i++){
-    				if(comms[i].checked){
-    					commArry.push(comms[i].value);
-    				}
-    			}
-    			var flag=false;
-    			flag=save_onclick();
-        		if(status!='请选择'&&commArry.length!=0){ 
-        			if(flag){
-        	            $('#frm').form({
-        	                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
-        	                onSubmit:function(){
-        	                 return $(this).form('validate');
-        	                  },
-        	                success:function(data){
-        	                  		alert("增加成功！");//火狐浏览器会重复提交 360浏览器不会
-        	                  }
-        	                 });  
-        	             $('#frm').submit(); 	
-        			}	
-        			}
-        		else{
-        						alert("所有参数必填");
-        			}
-}           
+function addTradeTime(){
+	var status=$("#status").val();     
+	if(status!=''){ 
+		var flag=save_onclick();
+		var comms = document.getElementsByName("comms");
+		var commArry = [];
+		for(var i = 0;i<comms.length;i++){
+			if(comms[i].checked){
+				commArry.push(comms[i].value);
+			}
+		}
+		if(flag){
+			if(commArry.length !=0){
+            $('#frm').form({
+                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
+                onSubmit:function(){
+                 return $(this).form('validate');
+                  },
+                success:function(data){
+                	$("#add").attr("disabled",true);
+                  		alert("增加成功！");
+                  		window.close();
+                  }
+                 });  
+             $('#frm').submit();
+             window.returnValue =true;
+		}else{
+			alert("请选择关联商品");
+		}	
+		}	
+	
+	}else{
+					alert("请选择交易节状态");
+		}
+	 }         
            
  function isTime(val) {
 		var str=val;
@@ -265,7 +271,7 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" onclick="addTradetime()">添加</button>
+							<button class="btn_sec" id="add" onClick="addTradeTime();">添加</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

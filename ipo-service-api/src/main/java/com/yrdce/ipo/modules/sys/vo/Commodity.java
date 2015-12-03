@@ -22,6 +22,10 @@ public class Commodity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@JsonProperty("id")
+	@XmlElement(name = "id")
+	private int id;
+
 	@JsonProperty("commodityid")
 	@XmlElement(name = "commodityid")
 	@NotNull
@@ -83,6 +87,14 @@ public class Commodity implements Serializable {
 		this.units = units;
 		this.starttime = starttime;
 		this.endtime = endtime;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCommodityid() {

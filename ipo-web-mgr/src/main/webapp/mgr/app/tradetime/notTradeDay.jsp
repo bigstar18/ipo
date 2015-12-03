@@ -86,6 +86,7 @@
 														<tr>
 															<td></td>
 															<td>例如 ：2008-10-01,2008-10-02,2008-10-03</td>
+															<input type="hidden" id="id" name="id">
 														</tr>
 													</tbody>
 												</table>
@@ -128,6 +129,8 @@
 	    }	
 	    var day = "<%=request.getAttribute("day") %>";
 	    document.getElementById("day").value = day;
+	    var status = "<%=request.getAttribute("id") %>";
+	    document.getElementById("id").value = status;
 	}	
 	 
 	function update(){
@@ -142,7 +145,6 @@
 				}
 			}
 			var day = document.getElementById("day").value;
-			alert(day);
 			var week = weekArry.join(',');
 			if (flag) {
 				$('#frm').form({

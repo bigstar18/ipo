@@ -89,12 +89,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNottradeday" >
-  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
-	SELECT SEQ_IPO_NOTTRADEDAY.NEXTVAL FROM dual
-	</selectKey>
-    insert into IPO_NOTTRADEDAY (ID, WEEK, DAY, 
-      MODIFYTIME)
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoNottradeday" >
+    insert into IPO_NOTTRADEDAY (ID, WEEK, DAY, MODIFYTIME)
     values (#{id,jdbcType=DECIMAL}, #{week,jdbcType=VARCHAR}, #{day,jdbcType=VARCHAR}, 
       #{modifytime,jdbcType=DATE})
   </insert>
