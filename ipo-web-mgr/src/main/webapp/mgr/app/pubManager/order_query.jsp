@@ -54,7 +54,7 @@ $(document).ready(function() {
 		 },{
 			field : 'frozenfunds',
 			width : 200,
-			title : '资金冻结',
+			title : '资金冻结'
 		 }]],  
          pagination : true 
      });  
@@ -106,7 +106,7 @@ function doSearch(){
 	}, {
 		field : 'frozenfunds',
 		width : 200,
-		title : '资金冻结',
+		title : '资金冻结'
 	} ] ],
 		pagination : true
 	});
