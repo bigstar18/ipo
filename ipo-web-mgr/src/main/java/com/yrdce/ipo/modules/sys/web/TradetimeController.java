@@ -120,7 +120,7 @@ public class TradetimeController {
 	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam("sectionid") String sectionid) throws IOException {
 
-		return "app/tradetime/update_tradetime";
+		return "app/tradetime/tradeTime_list";
 
 	}
 
