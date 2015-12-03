@@ -76,9 +76,10 @@ public class CommodityController extends BaseController {
 	public void setDistributionService(DistributionService distributionService) {
 		this.distributionService = distributionService;
 	}
+	
 
 	/**
-	 * mgr手动摇号服务
+	 * 数据查询（商品查询）
 	 * 
 	 * @param
 	 * @return
@@ -89,8 +90,7 @@ public class CommodityController extends BaseController {
 	public String findCommsx(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询发售商品信息");
 		try {
-			List<Commodity> clist = new ArrayList<Commodity>();
-			clist = commodityService.getList(page, rows);
+			List<Commodity> clist = commodityService.findCommList(page, rows);
 			int totalnums = commodityService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -116,8 +116,7 @@ public class CommodityController extends BaseController {
 			throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			List<Distribution> dlist = new ArrayList<Distribution>();
-			dlist = distributionService.getDistriList(page, rows, userid);
+			List<Distribution> dlist  = distributionService.getDistriList(page, rows, userid);
 			// int totalnums = distributionService.getAllDistris();
 			ResponseResult result = new ResponseResult();
 			// result.setTotal(totalnums);

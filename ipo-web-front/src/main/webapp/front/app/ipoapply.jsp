@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String userId ="888";%><html>
+<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String userId ="888";%><html>
 <head>
 <title>投资者申购页面</title>
      <meta name="decorator" content="default"/>
@@ -36,7 +36,7 @@ String userId ="888";%><html>
 			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
 			        <thead>
 			            <tr>
-			                <th data-options="field:'id',width:160">商品编号</th>
+			                <th data-options="field:'id',width:0">商品编号</th>
 			                <th data-options="field:'commodityid',width:160">商品代码</th>
 			                <th data-options="field:'commodityname',width:160">申购产品</th>
 			                <th data-options="field:'price',width:160">发售价格</th>
@@ -58,8 +58,8 @@ String userId ="888";%><html>
 			        <h4>详细信息：</h4>
 			        <p>账户编号：<b id="userId"><%=userId %></b></p>
 			        <p>申购产品：<b id="comname"></b></p>
-			        <p>可用资金：<b id="money"></b></p>
-			        <p>可购买数量：<b id="counts"></b></p>
+			        <p>可用资金(/元)：<b id="money"></b></p>
+			        <p>可购买数量(/单位)：<b id="counts"></b></p>
 			        <p>申购额度：<b id="limit"></b></p>
 			        <input type="hidden"   id="price"/>
 			        <input type="hidden"   id="units"/>
@@ -69,7 +69,7 @@ String userId ="888";%><html>
 			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
 				      <div class="form-group">
 				        <label style="width: 70px">购买量：</label>
-				        <input type="text"  id="quantity" onfocus="clearRemind()"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
+				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
 				      </div>
 				    </form>
 				     <div>
@@ -81,6 +81,7 @@ String userId ="888";%><html>
 <script type="text/javascript">
 
 $(document).ready(function() {
+	$('#mytb').datagrid('hideColumn','id');
 	 var p = $('#mytb').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        pageSize: 10,
@@ -160,9 +161,6 @@ $(document).ready(function() {
 	});
 });
 
-function clearRemind(){
-	$("#remind").text("");
-}
 
 //日期转换
 function dateconvertfunc(value,row){

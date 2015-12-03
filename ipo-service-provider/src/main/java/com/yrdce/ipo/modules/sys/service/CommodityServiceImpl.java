@@ -44,9 +44,8 @@ public class CommodityServiceImpl implements CommodityService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
+			List<IpoCommodity> commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
 			List<Commodity> commlist2 = new ArrayList<Commodity>();
-			commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
 			for (int i = 0; i < commlist.size(); i++) {
 				Commodity commo = new Commodity();
 				BeanUtils.copyProperties(commlist.get(i), commo);

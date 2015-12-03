@@ -141,8 +141,7 @@ public class CommodityController extends BaseController {
 	public String findCommsx(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询发售商品信息");
 		try {
-			List<Commodity> clist = new ArrayList<Commodity>();
-			clist = commodityService.findCommList(page, rows);
+			List<Commodity> clist  = commodityService.findCommList(page, rows);
 			int totalnums = commodityService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);

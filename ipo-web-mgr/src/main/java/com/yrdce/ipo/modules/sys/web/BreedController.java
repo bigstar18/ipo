@@ -224,8 +224,7 @@ public class BreedController extends BaseController {
 		log.info("查询已配置IPO信息的品种ID");
 		try {
 			Long bid = Long.parseLong(breedid);
-			List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
-			blist = vIpoABreedService.findAll();
+			List<VIpoABreed> blist  = vIpoABreedService.findAll();
 			for (int i = 0; i < blist.size(); i++) {
 				if (bid.equals(blist.get(i).getBreedid())) {
 					return "0";// 该品种ID已存在

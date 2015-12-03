@@ -105,7 +105,7 @@
     </if>
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    <selectKey resultType="String" order="BEFORE" keyProperty="id">
+    <selectKey resultType="Integer" order="BEFORE" keyProperty="id">
 
 	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
@@ -117,7 +117,7 @@
       #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE},#{purchaseCredits,jdbcType=BIGINT},#{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
-    <selectKey resultType="String" order="BEFORE" keyProperty="id">
+    <selectKey resultType="Integer" order="BEFORE" keyProperty="id">
 
 	SELECT SEQ_IPO_COMMODITY_SALE.NEXTVAL FROM dual
 
