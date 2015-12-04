@@ -57,16 +57,6 @@ public class IpoCommodityConf {
 
 	private BigDecimal contractfactor;
 
-	private BigDecimal minpricemove;
-
-	private Integer minquantitymove;
-
-	private Short spreadalgr;
-
-	private BigDecimal spreaduplmt;
-
-	private BigDecimal spreaddownlmt;
-
 	private String contractfactorname;
 
 	private String mapperid;
@@ -279,46 +269,6 @@ public class IpoCommodityConf {
 
 	public void setContractfactor(BigDecimal contractfactor) {
 		this.contractfactor = contractfactor;
-	}
-
-	public BigDecimal getMinpricemove() {
-		return minpricemove;
-	}
-
-	public void setMinpricemove(BigDecimal minpricemove) {
-		this.minpricemove = minpricemove;
-	}
-
-	public Integer getMinquantitymove() {
-		return minquantitymove;
-	}
-
-	public void setMinquantitymove(Integer minquantitymove) {
-		this.minquantitymove = minquantitymove;
-	}
-
-	public Short getSpreadalgr() {
-		return spreadalgr;
-	}
-
-	public void setSpreadalgr(Short spreadalgr) {
-		this.spreadalgr = spreadalgr;
-	}
-
-	public BigDecimal getSpreaduplmt() {
-		return spreaduplmt;
-	}
-
-	public void setSpreaduplmt(BigDecimal spreaduplmt) {
-		this.spreaduplmt = spreaduplmt;
-	}
-
-	public BigDecimal getSpreaddownlmt() {
-		return spreaddownlmt;
-	}
-
-	public void setSpreaddownlmt(BigDecimal spreaddownlmt) {
-		this.spreaddownlmt = spreaddownlmt;
 	}
 
 	public String getContractfactorname() {
