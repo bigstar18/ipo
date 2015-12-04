@@ -20,7 +20,7 @@ import com.yrdce.ipo.modules.sys.vo.Display;
  * @author Bob
  * 
  */
-@Service("DisplayService")
+@Service("displayService")
 public class DisplayServiceImpl implements DisplayService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());

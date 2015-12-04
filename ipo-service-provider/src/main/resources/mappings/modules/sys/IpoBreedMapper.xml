@@ -5,12 +5,7 @@
     <id column="BREEDID" property="breedid" jdbcType="DECIMAL" />
     <result column="BREEDNAME" property="breedname" jdbcType="VARCHAR" />
     <result column="SORTID" property="sortid" jdbcType="DECIMAL" />
-    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
-    <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
-    <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
-    <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
-    <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
-    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" /> 
     <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
     <result column="MINAPPLYNUM" property="minapplynum" jdbcType="DECIMAL" />
     <result column="MAXAPPLYNUM" property="maxapplynum" jdbcType="DECIMAL" />
@@ -83,46 +78,30 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    BREEDID, BREEDNAME, SORTID, CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, SPREADUPLMT, 
-    SPREADDOWNLMT, MINQUANTITYMOVE, CONTRACTFACTORNAME, MINAPPLYNUM, MAXAPPLYNUM, MINAPPLYQUAMOVE, 
+    BREEDID, BREEDNAME, SORTID, CONTRACTFACTOR, CONTRACTFACTORNAME, MINAPPLYNUM, MAXAPPLYNUM, MINAPPLYQUAMOVE, 
     PUBLISHALGR, DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, MKTPUBCHARATIO, 
     CONTRACTCURRENCY, TRADEDAYS
-  </sql>
-  <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreedExample" >
-    delete from IPO_BREED
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
+  </sql> 
    <delete id="deleteByBreedid" parameterType="Long" >
     delete from IPO_BREED where BREEDID = #{breedid}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreed" >
     insert into IPO_BREED (BREEDID, BREEDNAME, SORTID, 
-      CONTRACTFACTOR, MINPRICEMOVE, SPREADALGR, 
-      SPREADUPLMT, SPREADDOWNLMT, MINQUANTITYMOVE, 
-      CONTRACTFACTORNAME, MINAPPLYNUM, MAXAPPLYNUM, 
+      CONTRACTFACTOR,CONTRACTFACTORNAME, MINAPPLYNUM, MAXAPPLYNUM, 
       MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, 
       MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, MKTPUBCHARATIO, 
       CONTRACTCURRENCY, TRADEDAYS)
     values (#{breedid,jdbcType=DECIMAL}, #{breedname,jdbcType=VARCHAR}, #{sortid,jdbcType=DECIMAL}, 
-      #{contractfactor,jdbcType=DECIMAL}, #{minpricemove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
-      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, 
-      #{contractfactorname,jdbcType=VARCHAR}, #{minapplynum,jdbcType=DECIMAL}, #{maxapplynum,jdbcType=DECIMAL}, 
-      #{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, #{dealerpubcharatio,jdbcType=DECIMAL}, 
-      #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, #{mktpubcharatio,jdbcType=DECIMAL}, 
-      #{contractcurrency,jdbcType=VARCHAR}, #{tradedays,jdbcType=DECIMAL})
+      #{contractfactor,jdbcType=DECIMAL},#{contractfactorname,jdbcType=VARCHAR}, #{minapplynum,jdbcType=DECIMAL}, 
+      #{maxapplynum,jdbcType=DECIMAL},#{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, 
+      #{dealerpubcharatio,jdbcType=DECIMAL},#{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, 
+      #{mktpubcharatio,jdbcType=DECIMAL},#{contractcurrency,jdbcType=VARCHAR}, #{tradedays,jdbcType=DECIMAL})
   </insert>
    <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBreed" >
     update IPO_BREED
     set  BREEDNAME = #{breedname,jdbcType=VARCHAR},
       SORTID = #{sortid,jdbcType=DECIMAL},
       CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
-      MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
-      SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
-      SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
-      SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
-      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
       CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
       MINAPPLYNUM = #{minapplynum,jdbcType=DECIMAL},
       MAXAPPLYNUM = #{maxapplynum,jdbcType=DECIMAL},
@@ -156,5 +135,4 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from IPO_BREED order by BREEDID
   </select>
-
 </mapper>

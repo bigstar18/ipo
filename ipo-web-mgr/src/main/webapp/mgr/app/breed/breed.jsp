@@ -17,10 +17,10 @@
 function addBreed(){
 	var breedid=$("#breedid").val();
 	var bname=$("#bname").val();
-	var spreadalgr=$("#spreadalgr").val();
-	var publishalgr=$("#publishalgr").val();
+	var concurrency=$("#contractcurrency").val();
+    var publishalgr=$("#publishalgr").val();
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''&&flag==true){
+	if(bname!=''&&concurrency!= ''&&publishalgr!= ''&&flag==true){
             	 $.ajax({  
         			 type: 'GET',  //
         		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
@@ -64,10 +64,10 @@ function addBreed(){
 function updateBreed(){
 	
 	var bname=$("#bname").val();
-	var spreadalgr=$("#spreadalgr").val();
+	var concurrency=$("#contractcurrency").val();
 	var publishalgr=$("#publishalgr").val();
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&spreadalgr!= ''&& publishalgr!= ''&&flag==true){
+	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&flag==true){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
@@ -116,16 +116,6 @@ function on_change(){
 	}
 }
 
-function spreadAlgr_onchange(value)
-{
-	if (value == "1") {
-		$("#spreadUpLmtPercent").show();
-		$("#spreadDownLmtPercent").show();
-	}else {
-		$("#spreadUpLmtPercent").hide();
-		$("#spreadDownLmtPercent").hide();
-	}
-}
 
 function setSortName(value) {
 	var breedslist =<%=request.getAttribute("breedlist") %>; 
@@ -144,6 +134,10 @@ function setSortName(value) {
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 : 品种<c:if test="${crud == 'create'}">添加 </c:if><c:if test="${crud == 'update'}">修改 </c:if> </div>
+		<div class="content" style="color: red">手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费  </div>
+	</div>
 	<table border="0"  height="100%" width="100%"  align="center" >
 		<tr>
 			<td style="margin-top: 50px;">
@@ -187,10 +181,12 @@ function setSortName(value) {
 		          							<span class="required">*</span>
 		          						</td>
 										<td align="right" width="90">报价货币：</td>     
-            							<td>  
-											<input id="contractcurrency" name="contractcurrency" value="${entity.contractcurrency }"
-			  									style="width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" />
-											<span class="required">如元、美元等</span>
+            							<td> 
+            							<select id="contractcurrency" name="contractcurrency" style="width:80">
+												<option value=""></option>
+											    <option value="1" <c:if test="${entity.contractcurrency==1 }">selected</c:if>>元</option>
+												<option value="2" <c:if test="${entity.contractcurrency==2 }">selected</c:if>>美元</option>
+										   </select> 
 										</td>
 							        </tr>  
 								</table >
@@ -224,59 +220,18 @@ function setSortName(value) {
         								<td align="right" >交易单位：</td> 
             							<td> 
 			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()"/>
+			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,precision:2,invalidMessage:'请输入精度为2的正数！'"/>
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
 			  								</span>          
             							</td>
-            							<td align="right"></td>
-										<td>
-										</td>
-        							</tr>
-							        <tr>
-							            <td align="right" >&nbsp;涨跌停板算法：</td>
-							            <td >
-											<select id="spreadalgr" name="spreadalgr" style="width:80" onchange="spreadAlgr_onchange(this.value)">
-												<option value=""></option>
-											    <option value="1" <c:if test="${entity.spreadalgr==1 }">selected</c:if>>按百分比</option>
-												<option value="2" <c:if test="${entity.spreadalgr==2 }">selected</c:if>>按绝对值</option>
-										   </select> <span class="required">*</span>            
-							            </td>        
-							            <td align="right">涨幅上限：</td>
-							            <td>
-			  								<input id="spreaduplmt" name="spreaduplmt" maxlength="10" value="${entity.spreaduplmt }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
-			  								<span id="spreadUpLmtPercent">%</span>           
-            							</td>
-            							<td align="right">跌幅下限：</td>
-            							<td>
-											<input id="spreaddownlmt" name="spreaddownlmt" maxlength="10" value="${entity.spreaddownlmt }"
-												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
-											<span id="spreadDownLmtPercent">%</span>          
-								      	</td>
-								      	<td>&nbsp;</td>
-								      	<script type="text/javascript">
-							            	if ("${entity.spreadalgr}" == "1"){$("#spreadUpLmtPercent").show();$("#spreadDownLmtPercent").show();} else {$("#spreadUpLmtPercent").hide();$("#spreadDownLmtPercent").hide();}
-							            </script>
-        							</tr> 
-									<tr>
-										<td align="right">&nbsp;最小变动价位(元)：</td>
-            							<td>
-			  								<input type="text" id="minpricemove" name="minpricemove"  value="${entity.minpricemove }"
-			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>          
-            							</td>
-            							<td align="right">&nbsp;最小变动数量：</td>
-            							<td>
-			  								<input type="text" id="minquantitymove" name="minquantitymove" value="${entity.minquantitymove }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
-            							</td>
             							<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 80" />          
+			  								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9,invalidMessage:'请输入1-9的整数'"  style="ime-mode:disabled; width: 80" />          
 										</td>
-         							</tr>
+        							</tr>
 	 							</table >
 								</span>
 								</fieldset>
@@ -301,17 +256,17 @@ function setSortName(value) {
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled;width: 60"/>          
+            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="ime-mode:disabled;width: 60"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 60"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
             							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 60"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
 										</td>
         							</tr>
 							        <tr>

@@ -107,8 +107,7 @@ public class BreedController extends BaseController {
 	public String selectBreed() throws IOException {
 		log.info("查询所有分配到IPO权限下的品种至下拉框");
 		try {
-			List<MBreed> Mlist = new ArrayList<MBreed>();
-			Mlist = mBreedservice.findAll();
+			List<MBreed> Mlist  = mBreedservice.findAll();
 			ResponseResult result = new ResponseResult();
 			result.setRows(Mlist);
 			return JSON.json(result);

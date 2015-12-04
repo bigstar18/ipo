@@ -28,11 +28,6 @@
     <result column="LISTINGDATE" property="listingdate" jdbcType="DATE" />
     <result column="LASTTRADATE" property="lasttradate" jdbcType="DATE" />
     <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
-    <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
-    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
-    <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
-    <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
-    <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
     <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
     <result column="MAPPERID" property="mapperid" jdbcType="VARCHAR" />
   </resultMap>
@@ -99,7 +94,7 @@
     STATUS, BREEDID, TRADEDAYS, CODEDELIVERY, NONISSUEREG, PUBMEMBERID, MINAPPLYNUM, 
     MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
     MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, 
-    MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT, CONTRACTFACTORNAME,MAPPERID
+    CONTRACTFACTORNAME,MAPPERID
   </sql>
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -134,9 +129,7 @@
       DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
       MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, 
       LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, 
-      MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, 
-      SPREADUPLMT, SPREADDOWNLMT, CONTRACTFACTORNAME,
-       MAPPERID)
+      CONTRACTFACTORNAME,MAPPERID)
     values ( #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
       #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, 
@@ -146,9 +139,7 @@
       #{dealerpubcharatio,jdbcType=DECIMAL}, #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, 
       #{mktpubcharatio,jdbcType=DECIMAL}, #{currstatus,jdbcType=DECIMAL}, #{supervisedprice,jdbcType=DECIMAL}, 
       #{listingdate,jdbcType=DATE}, #{lasttradate,jdbcType=DATE}, #{contractfactor,jdbcType=DECIMAL}, 
-      #{minpricemove,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
-      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL}, #{contractfactorname,jdbcType=VARCHAR}, 
-      #{mapperid,jdbcType=VARCHAR}
+      #{contractfactorname,jdbcType=VARCHAR},#{mapperid,jdbcType=VARCHAR}
       )
   </insert>
    <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
@@ -178,11 +169,6 @@
       LISTINGDATE = #{listingdate,jdbcType=DATE},
       LASTTRADATE = #{lasttradate,jdbcType=DATE},
       CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
-      MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
-      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
-      SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
-      SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
-      SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
       CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
       MAPPERID = #{mapperid,jdbcType=VARCHAR}
       where COMMODITYID = #{commodityid,jdbcType=VARCHAR}

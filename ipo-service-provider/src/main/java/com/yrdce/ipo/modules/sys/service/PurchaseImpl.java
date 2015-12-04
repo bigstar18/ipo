@@ -25,7 +25,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  * @author Bob
  * 
  */
-@Service("Purchase")
+@Service("purchase")
 public class PurchaseImpl implements Purchase {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());

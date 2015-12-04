@@ -25,8 +25,8 @@
 
     <!-- we add the group property since there's another annotation-configured service impl: com.yrdce.ipo.user.facade.AnnotationDrivenUserRestServiceImpl -->
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.CommodityService" ref="commodityService" protocol="dubbo" />
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DisplayService" ref="DisplayService" protocol="dubbo" />
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.Purchase" ref="Purchase" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DisplayService" ref="displayService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.Purchase" ref="purchase" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DistributionService" ref="distributionService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.OrderService" ref="orderService" protocol="dubbo"/>
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" ref="vIpoABreedService" protocol="dubbo"/>
@@ -38,8 +38,8 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SystemService" ref="systemService" protocol="dubbo" />
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
-	<bean id="DisplayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
-	<bean id="Purchase" class="com.yrdce.ipo.modules.sys.service.PurchaseImpl" />
+	<bean id="displayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
+	<bean id="purchase" class="com.yrdce.ipo.modules.sys.service.PurchaseImpl" />
 	<bean id="distributionService" class="com.yrdce.ipo.modules.sys.service.DistributionServiceImpl" />
 	<bean id="orderService" class="com.yrdce.ipo.modules.sys.service.OrderServiceImpl" />
 	<bean id="vIpoABreedService" class="com.yrdce.ipo.modules.sys.service.IpoABreedServiceImpl" />

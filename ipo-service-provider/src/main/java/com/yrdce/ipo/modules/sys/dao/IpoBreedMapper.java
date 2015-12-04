@@ -2,7 +2,6 @@ package com.yrdce.ipo.modules.sys.dao;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoBreed;
-import com.yrdce.ipo.modules.sys.entity.IpoBreedExample;
 
 import java.util.List;
 
