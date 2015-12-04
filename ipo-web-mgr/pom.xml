@@ -13,7 +13,7 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
-		 
+
 		<dependency>
 			<groupId>com.yrdce</groupId>
 			<artifactId>ipo-service-api</artifactId>
@@ -356,17 +356,12 @@
 	</dependencies>
 
 	<build>
+		<finalName>ipo-provider</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<!-- Compiler 插件, 设定JDK版本 -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<showWarnings>true</showWarnings>
-				</configuration>
 			</plugin>
 			
 			<!-- war 打包插件, 设定war包名称不带版本号 -->

@@ -22,11 +22,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/logonServerUtil.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ognl-3.0.6.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xwork-core-2.3.16.1.jar"/>
-	<classpathentry excluding="**" kind="src" output="src/main/webapp/WEB-INF/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -42,5 +37,10 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/common_mgr.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/MgrCheckLogon.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ecside.jar"/>
+	<classpathentry excluding="**" kind="src" output="src/main/webapp/WEB-INF/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

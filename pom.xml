@@ -841,7 +841,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 			<plugin>
@@ -849,7 +849,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -872,6 +872,11 @@
 							</goals>
 						</execution>
 					</executions> -->
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.7</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-source-plugin</artifactId>
@@ -914,6 +919,40 @@
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							</manifest>
 						</archive>
+					</configuration>
+				</plugin>
+				<!-- war 打包插件, 设定war包名称不带版本号 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven_war_plugin.version}</version>
+					<configuration>
+						<packagingExcludes>
+						<!-- WEB-INF/classes/com/thinkgem/jeesite/** -->
+							WEB-INF/classes/org/apache/ibatis/**,
+							WEB-INF/classes/org/mybatis/spring/**
+						</packagingExcludes>
+						<warSourceExcludes>
+							static/bootstrap/2.3.1/docs/**,
+							static/ckeditor/_samples/**,
+							static/ckeditor/_source/**,
+							static/ckfinder/_samples/**,
+							static/ckfinder/help/**,
+							static/compressor*/**,
+							static/jquery-jbox/2.3/docs/**,
+							static/jquery-jbox/2.3/Skins2/**,
+							static/jquery-validation/1.11.0/demo/**,
+							static/jquery-ztree/3.5.12/demo/**,
+							static/My97DatePicker/docs/**,
+							static/supcan/doc/**,
+							static/SuperSlide/demo/**,
+							static/treeTable/demo/**,
+						<!-- userfiles/**, --><!-- /**/*.jsp, -->
+							test/**
+						</warSourceExcludes>
+						<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
+					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
+					<!-- <warName>${project.artifactId}</warName> -->
 					</configuration>
 				</plugin>
 				<plugin>
@@ -1000,6 +1039,44 @@
 						</systemProperties>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>	
+				
+			<!-- tomcat7插件 -->
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat7-maven-plugin</artifactId>
+					<version>${tomcat.version}</version>
+					<configuration>
+						<port>${webserver.port}</port>
+						<path>/${project.artifactId}</path>
+						<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+					</configuration>
+				</plugin><!-- jetty插件 -->
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.3.4.v20151007</version>
+					<configuration>
+						<connectors>
+							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+								<port>${webserver.port}</port>
+							</connector>
+						</connectors>
+						<webAppConfig>
+							<contextPath>/${project.artifactId}</contextPath>
+						</webAppConfig>
+						<systemProperties>
+							<systemProperty>
+								<name>org.mortbay.util.URI.charset</name>
+								<value>${project.build.sourceEncoding}</value>
+							</systemProperty>
+						</systemProperties>
+					</configuration>
+				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
@@ -1032,107 +1109,7 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-			<!-- JSP 预编译插件  jspweb.xml
-			<plugin>
-				<groupId>org.jasig.mojo.jspc</groupId>
-				<artifactId>jspc-maven-plugin</artifactId>
-				<version>2.0.0</version>
-				<configuration>
-					<injectString>&lt;!- - [INSERT FRAGMENT HERE] - -&gt;</injectString>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.jasig.mojo.jspc</groupId>
-						<artifactId>jspc-compiler-tomcat6</artifactId>
-						<version>2.0.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>-->
-						
-			<!-- 混淆代码
-			<plugin>
-				<groupId>com.github.wvengen</groupId>
-				<artifactId>proguard-maven-plugin</artifactId>
-				<version>2.0.6</version>
-				<executions>
-					<execution>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>proguard</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-			        <obfuscate>true</obfuscate>
-			    	<options>
-                        <option>-injars ${project.build.directory}/${project.artifactId}/WEB-INF/lib/jeesite.jar</option>
-                    </options>
-                    <outjar>${project.artifactId}/WEB-INF/lib/jeesite_out.jar</outjar>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
-			        <proguardInclude>${basedir}/proguard.cfg</proguardInclude>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<libs>
-						<lib>${java.home}/lib/rt.jar</lib>
-						<lib>${java.home}/lib/jsse.jar</lib>
-			            <lib>${java.home}/lib/jce.jar</lib>
-					</libs>
-			        <addMavenDescriptor>false</addMavenDescriptor>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>net.sf.proguard</groupId>
-						<artifactId>proguard-base</artifactId>
-						<version>4.9</version>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
-			</plugin> -->
-
-			<!-- war 打包插件, 设定war包名称不带版本号 -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<configuration>
-						<packagingExcludes>
-						<!-- WEB-INF/classes/com/thinkgem/jeesite/** -->
-							WEB-INF/classes/org/apache/ibatis/**,
-							WEB-INF/classes/org/mybatis/spring/**
-						</packagingExcludes>
-						<warSourceExcludes>
-							static/bootstrap/2.3.1/docs/**,
-							static/ckeditor/_samples/**,
-							static/ckeditor/_source/**,
-							static/ckfinder/_samples/**,
-							static/ckfinder/help/**,
-							static/compressor*/**,
-							static/jquery-jbox/2.3/docs/**,
-							static/jquery-jbox/2.3/Skins2/**,
-							static/jquery-validation/1.11.0/demo/**,
-							static/jquery-ztree/3.5.12/demo/**,
-							static/My97DatePicker/docs/**,
-							static/supcan/doc/**,
-							static/SuperSlide/demo/**,
-							static/treeTable/demo/**,
-						<!-- userfiles/**, --><!-- /**/*.jsp, -->
-							test/**
-						</warSourceExcludes>
-						<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
-					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
-					<!-- <warName>${project.artifactId}</warName> -->
-						<!-- <warName>example</warName> -->
-					</configuration>
-				</plugin>
-			
-			<!-- Eclipse 插件 -->
+				<!-- Eclipse 插件 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-eclipse-plugin</artifactId>
@@ -1156,53 +1133,187 @@
 						</additionalProjectnatures>
 					</configuration>
 				</plugin>
-			
-			<!-- tomcat7插件 -->
+								
+				<!-- JSP 预编译插件  jspweb.xml
 				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>${tomcat.version}</version>
+					<groupId>org.jasig.mojo.jspc</groupId>
+					<artifactId>jspc-maven-plugin</artifactId>
+					<version>2.0.0</version>
 					<configuration>
-						<port>${webserver.port}</port>
-						<path>/${project.artifactId}</path>
-						<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+						<injectString>&lt;!- - [INSERT FRAGMENT HERE] - -&gt;</injectString>
 					</configuration>
-				</plugin>
-			
-			<!-- jetty插件 -->
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>org.jasig.mojo.jspc</groupId>
+							<artifactId>jspc-compiler-tomcat6</artifactId>
+							<version>2.0.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>-->
+							
+				<!-- 混淆代码
 				<plugin>
-					<groupId>org.eclipse.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.3.4.v20151007</version>
+					<groupId>com.github.wvengen</groupId>
+					<artifactId>proguard-maven-plugin</artifactId>
+					<version>2.0.6</version>
+					<executions>
+						<execution>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>proguard</goal>
+							</goals>
+						</execution>
+					</executions>
 					<configuration>
-						<connectors>
-							<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-								<port>${webserver.port}</port>
-							</connector>
-						</connectors>
-						<webAppConfig>
-							<contextPath>/${project.artifactId}</contextPath>
-						</webAppConfig>
-						<systemProperties>
-							<systemProperty>
-								<name>org.mortbay.util.URI.charset</name>
-								<value>${project.build.sourceEncoding}</value>
-							</systemProperty>
-						</systemProperties>
+				        <obfuscate>true</obfuscate>
+				    	<options>
+	                        <option>-injars ${project.build.directory}/${project.artifactId}/WEB-INF/lib/jeesite.jar</option>
+	                    </options>
+	                    <outjar>${project.artifactId}/WEB-INF/lib/jeesite_out.jar</outjar>
+	                    <outputDirectory>${project.build.directory}</outputDirectory>
+				        <proguardInclude>${basedir}/proguard.cfg</proguardInclude>
+						<source>${jdk.version}</source>
+						<target>${jdk.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<libs>
+							<lib>${java.home}/lib/rt.jar</lib>
+							<lib>${java.home}/lib/jsse.jar</lib>
+				            <lib>${java.home}/lib/jce.jar</lib>
+						</libs>
+				        <addMavenDescriptor>false</addMavenDescriptor>
 					</configuration>
-				</plugin>
-				
-				<!-- war打包插件, 设定war包名称不带版本号 -->
-					<!-- <plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.4</version>
-						<configuration>
-							<warName>${project.artifactId}</warName>
-						</configuration>
-					</plugin> -->
+					<dependencies>
+						<dependency>
+							<groupId>net.sf.proguard</groupId>
+							<artifactId>proguard-base</artifactId>
+							<version>4.9</version>
+							<scope>runtime</scope>
+						</dependency>
+					</dependencies>
+				</plugin> -->
 			</plugins>
 		</pluginManagement>
 
+		<filters><!-- 子项目运行 -->
+			<filter>../filters/filter-${env}.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
+
+	<profiles>
+       <!-- 开发环境，默认激活 在构建时可以使用-P参数激活一个或多个profile，多个之间用逗号分隔-->
+		<profile>
+			<id>local</id>
+			<properties>
+				<env>local</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/deploy</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<activation>
+				<activeByDefault>true</activeByDefault><!--默认启用的是dev环境配置-->
+			</activation>
+		</profile>
+       <!-- 生产环境 -->
+		<profile>
+			<id>23</id>
+			<properties>
+				<env>23</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/deploy</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+       <!-- 测试环境 -->
+		<profile>
+			<id>184</id>
+			<properties>
+				<env>184</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/deploy</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
