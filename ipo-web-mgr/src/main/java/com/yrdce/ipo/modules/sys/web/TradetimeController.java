@@ -43,7 +43,7 @@ public class TradetimeController {
 	private IpoCommConfService ipoCommConfService;
 
 	// 交易节信息展示
-	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.POST)
 	@ResponseBody
 	public String getTradetimeList(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		logger.info("交易节信息展示" + "page:" + page + "rows:" + rows);
@@ -133,7 +133,7 @@ public class TradetimeController {
 		request.setAttribute("comm", list);
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
 		request.setAttribute("commlist", comlist);
-		return "app/tradetime/tradeTime_list";
+		return "app/tradetime/update_tradetime";
 	}
 
 	// 添加交易节视图

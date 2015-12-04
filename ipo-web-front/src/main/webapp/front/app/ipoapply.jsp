@@ -151,7 +151,10 @@ $(document).ready(function() {
 	            }  
 	            if (data == "5") {  
 	            	$("#remind").text("超出商品申购额度！");
-	            }  
+	            }
+	            if(data == "6"){
+	            	$("#remind").text("不在商品发售期");
+	            }
 	        },  
 	        error : function(data) {  
 	        	$("#remind").text("系统出现异常，请重新登陆！");

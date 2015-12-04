@@ -94,7 +94,8 @@
 		<copyright>Copyright 1999-2012 Alibaba Group.&#10; &#10;Licensed under
 			the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you
 			may not use
-			this file except in compliance with the License.&#10;You
+			this file except in compliance with the
+			License.&#10;You
 			may obtain a copy of the License at&#10; &#10;
 			http://www.apache.org/licenses/LICENSE-2.0&#10; &#10;Unless required
 			by applicable law or agreed to in writing, software&#10;distributed
@@ -103,22 +104,23 @@
 			BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 			express or implied.&#10;See the
 			License for the specific language
-			governing permissions and&#10;limitations under the License.</copyright>
+			governing
+			permissions and&#10;limitations under the License.</copyright>
 		<profile.name>oss</profile.name>
 
 		<!-- for maven compiler plugin -->
-		<maven_compiler_plugin.version>2.3.2</maven_compiler_plugin.version>
+		<maven_compiler_plugin.version>3.3</maven_compiler_plugin.version>
 		<java_source.version>1.6</java_source.version>
 		<java_target.version>1.6</java_target.version>
 		<file_encoding>UTF-8</file_encoding>
 
-		<maven_source_plugin.version>2.1.1</maven_source_plugin.version>
-		<maven_jar_plugin.version>2.3.2</maven_jar_plugin.version>
-		<maven_war_plugin.version>2.1.1</maven_war_plugin.version>
-		<maven_install_plugin.version>2.3.1</maven_install_plugin.version>
-		<maven_deploy_plugin.version>2.7</maven_deploy_plugin.version>
+		<maven_source_plugin.version>2.4</maven_source_plugin.version>
+		<maven_jar_plugin.version>2.6</maven_jar_plugin.version>
+		<maven_war_plugin.version>2.6</maven_war_plugin.version>
+		<maven_install_plugin.version>2.5.2</maven_install_plugin.version>
+		<maven_deploy_plugin.version>2.8.2</maven_deploy_plugin.version>
 
-		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
 	</properties>
 	<prerequisites>
 		<maven>3.0.0</maven>
@@ -358,11 +360,6 @@
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
 			</dependency>
 			<!-- Test libs -->
 			<dependency>
@@ -845,107 +842,18 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>true</addMavenDescriptor>
-						<index>true</index>
-						<manifest>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<useSystemClassLoader>true</useSystemClassLoader>
-					<forkMode>once</forkMode>
-					<argLine>${argline}</argLine>
-					<systemProperties>
-						<!-- common shared -->
-						<property>
-							<name>transporter</name>
-							<value>${transporter}</value>
-						</property>
-						<property>
-							<name>serialization</name>
-							<value>${serialization}</value>
-						</property>
-						<!-- server side -->
-						<property>
-							<name>port</name>
-							<value>${port}</value>
-						</property>
-						<property>
-							<name>threadpool</name>
-							<value>${threadpool}</value>
-						</property>
-						<property>
-							<name>threads</name>
-							<value>${threads}</value>
-						</property>
-						<property>
-							<name>iothreads</name>
-							<value>${iothreads}</value>
-						</property>
-						<!-- client side -->
-						<property>
-							<name>server</name>
-							<value>${server}</value>
-						</property>
-						<property>
-							<name>timeout</name>
-							<value>${timeout}</value>
-						</property>
-						<property>
-							<name>length</name>
-							<value>${length}</value>
-						</property>
-						<property>
-							<name>connections</name>
-							<value>${connections}</value>
-						</property>
-						<property>
-							<name>base</name>
-							<value>${base}</value>
-						</property>
-						<property>
-							<name>concurrent</name>
-							<value>${concurrent}</value>
-						</property>
-						<property>
-							<name>runs</name>
-							<value>${runs}</value>
-						</property>
-						<property>
-							<name>onerror</name>
-							<value>${onerror}</value>
-						</property>
-					</systemProperties>
-				</configuration>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skip>${skip_maven_deploy}</skip>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -953,22 +861,30 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>${maven_jar_plugin.version}</version>
-					<configuration>
-						<encoding>${project.build.sourceEncoding}</encoding>
-					</configuration>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.0.0</version>
+					<!-- <executions>
+						<execution>
+							<id>auto-clean</id>
+							<phase>initialize</phase>
+							<goals>
+								<goal>clean</goal>
+							</goals>
+						</execution>
+					</executions> -->
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>${maven_install_plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>${maven_deploy_plugin.version}</version>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven_source_plugin.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>package</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -980,8 +896,108 @@
 						<target>${java_target.version}</target>
 						<encoding>${file_encoding}</encoding>
 						<compilerArgs>
-							<arg>-XX:MaxPermSize=512M</arg>
+							<arg>-XX:MaxPermSize=500M</arg>
 						</compilerArgs>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven_jar_plugin.version}</version>
+					<configuration>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<archive>
+							<addMavenDescriptor>true</addMavenDescriptor>
+							<index>true</index>
+							<manifest>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven_install_plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven_deploy_plugin.version}</version>
+					<configuration>
+						<skip>${skip_maven_deploy}</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<useSystemClassLoader>true</useSystemClassLoader>
+						<forkMode>once</forkMode>
+						<argLine>${argline}</argLine>
+						<systemProperties>
+						<!-- common shared -->
+							<property>
+								<name>transporter</name>
+								<value>${transporter}</value>
+							</property>
+							<property>
+								<name>serialization</name>
+								<value>${serialization}</value>
+							</property>
+						<!-- server side -->
+							<property>
+								<name>port</name>
+								<value>${port}</value>
+							</property>
+							<property>
+								<name>threadpool</name>
+								<value>${threadpool}</value>
+							</property>
+							<property>
+								<name>threads</name>
+								<value>${threads}</value>
+							</property>
+							<property>
+								<name>iothreads</name>
+								<value>${iothreads}</value>
+							</property>
+						<!-- client side -->
+							<property>
+								<name>server</name>
+								<value>${server}</value>
+							</property>
+							<property>
+								<name>timeout</name>
+								<value>${timeout}</value>
+							</property>
+							<property>
+								<name>length</name>
+								<value>${length}</value>
+							</property>
+							<property>
+								<name>connections</name>
+								<value>${connections}</value>
+							</property>
+							<property>
+								<name>base</name>
+								<value>${base}</value>
+							</property>
+							<property>
+								<name>concurrent</name>
+								<value>${concurrent}</value>
+							</property>
+							<property>
+								<name>runs</name>
+								<value>${runs}</value>
+							</property>
+							<property>
+								<name>onerror</name>
+								<value>${onerror}</value>
+							</property>
+						</systemProperties>
 					</configuration>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings

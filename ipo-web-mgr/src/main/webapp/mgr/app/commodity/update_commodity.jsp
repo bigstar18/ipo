@@ -106,19 +106,24 @@ function updateComm(){
 	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
-	//alert($('#listingdate').datebox('getValue'));
-	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''){ 
-		 $('#frm').form({
-  		     url:'<%=request.getContextPath()%>/BreedController/updateCommodity',
-  		     onSubmit:function(){
-  		         return $(this).form('validate');
-  		     },
-  		     success:function(data){
-  		    	 alert("修改成功！");
- 		    	 returntoList();
-  		     }
-  		 });  
-  	   $('#frm').submit(); 
+	var flag= $('#frm').form('validate');
+	if(curstatus!=''&&spreadalgr!= ''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
+		 $.ajax({ 
+             type: "post",  
+             url: "<%=request.getContextPath()%>/BreedController/updateCommodity",       
+             data: $("#frm").serialize(),      
+             success: function(data) { 
+          	   if(data=='true'){
+                 alert("修改成功！"); 
+                 returntoList();
+          	   }else{
+          		   alert("系统异常，请联系管理员");  
+          	   }
+             },  
+             error: function(data) {  
+                 alert("系统异常，请联系管理员");  
+             }  
+         }); 
 	}else{
 		alert("所有参数必填！");
 	}
@@ -126,7 +131,7 @@ function updateComm(){
 
 function returntoList(){
 	var breedid=$("#breedid").val();
-	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid;
+	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
 }
 		
