@@ -19,7 +19,7 @@ $(document).ready(function() {
 	
 	 $('#tt').datagrid({
          iconCls:'icon-ok',
-         method:"get",
+         method:"post",
          height:400,
          pageSize:10,
          pageList:[5,10,15],

@@ -14,9 +14,9 @@
 
 
 <script type="text/javascript">
- 
+
 $(document).ready(function() {
-	
+
 	 $('#tt').datagrid({  
          title:'发行摇号',  
          iconCls:'icon-ok', 
@@ -67,14 +67,14 @@ $(document).ready(function() {
 				}
 			}
 		 }]],  
-         pagination : true,  
+         pagination : true
      });  
 	
 	 var p = $('#tt').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });  
 });
 

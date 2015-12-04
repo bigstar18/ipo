@@ -128,7 +128,7 @@
 	    var status = "<%=request.getAttribute("id") %>";
 	    document.getElementById("id").value = status;
 	}	
-	 
+
 	function update(){
 		
 			var flag = false;
@@ -151,13 +151,13 @@
 	                success:function(data){
 	                  		alert("提交成功！");
 	                  }
-	                 });  
-	             $('#frm').submit(); 	
+	                 });
+	             $('#frm').submit();
 			}
-	}                                              
-	    
+	}
+
 	//验证日期输入格式是否正确
-	  function date(){  
+	  function date(){
 	  	if (document.getElementById("day").value != "") {
 	  		var relDay0 = document.getElementById("day").value;
 	  		
@@ -165,16 +165,16 @@
 	  		var days = relDays0.split(",");
 	  		for (i = 0; i < days.length; i++) {
 	  			ymd1 = days[i].split("-");
-	  			month1=ymd1[1]-1   
-	    		var Date1 = new Date(ymd1[0],month1,ymd1[2]);     
+	  			month1=ymd1[1]-1
+	    		var Date1 = new Date(ymd1[0],month1,ymd1[2]);
 	  			if (Date1.getMonth()+1!=ymd1[1] || Date1.getDate()!=ymd1[2] || Date1.getFullYear()!=ymd1[0] || ymd1[0].length!=4 || ymd1[1].length!=2 || ymd1[2].length!=2){   
-	           		alert("非法日期,请依【YYYY-MM-DD】格式输入");   
-	           		document.getElementById("day").focus();   
-	           		return false;                       
+	           		alert("非法日期,请依【YYYY-MM-DD】格式输入");
+	           		document.getElementById("day").focus();
+	           		return false;
 	    		}
-	    		
+
 	  		}
-	  		
+
 	  		for (j = 0; j < days.length; j++) {
 	  			for (k = 0; k < days.length; k++) {
 	  				var relDays = days[j];
@@ -188,7 +188,7 @@
 	  				}
 	  			}
 	  		}
-	  		document.getElementById("day").value = relDays0;   
+	  		document.getElementById("day").value = relDays0;
 	  		return true;
 	  	}
 	  }
