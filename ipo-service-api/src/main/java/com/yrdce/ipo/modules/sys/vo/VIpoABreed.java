@@ -15,6 +15,16 @@ public class VIpoABreed implements Serializable{
     private Long sortid;
 
     private BigDecimal contractfactor;
+    
+    private BigDecimal minpricemove;
+
+    private Short spreadalgr;
+
+    private BigDecimal spreaduplmt;
+
+    private BigDecimal spreaddownlmt;
+
+    private Short minquantitymove;
 
     private String contractfactorname;
 
@@ -159,22 +169,64 @@ public class VIpoABreed implements Serializable{
     public void setTradedays(Integer tradedays) {
         this.tradedays = tradedays;
     }
+    
+	public BigDecimal getMinpricemove() {
+		return minpricemove;
+	}
+
+	public void setMinpricemove(BigDecimal minpricemove) {
+		this.minpricemove = minpricemove;
+	}
+
+	public Short getSpreadalgr() {
+		return spreadalgr;
+	}
+
+	public void setSpreadalgr(Short spreadalgr) {
+		this.spreadalgr = spreadalgr;
+	}
+
+	public BigDecimal getSpreaduplmt() {
+		return spreaduplmt;
+	}
+
+	public void setSpreaduplmt(BigDecimal spreaduplmt) {
+		this.spreaduplmt = spreaduplmt;
+	}
+
+	public BigDecimal getSpreaddownlmt() {
+		return spreaddownlmt;
+	}
+
+	public void setSpreaddownlmt(BigDecimal spreaddownlmt) {
+		this.spreaddownlmt = spreaddownlmt;
+	}
+
+	public Short getMinquantitymove() {
+		return minquantitymove;
+	}
+
+	public void setMinquantitymove(Short minquantitymove) {
+		this.minquantitymove = minquantitymove;
+	}
 
 	@Override
 	public String toString() {
 		return "VIpoABreed [breedid=" + breedid + ", breedname=" + breedname
 				+ ", sortid=" + sortid + ", contractfactor=" + contractfactor
-				+ ", contractfactorname=" + contractfactorname
-				+ ", minapplynum=" + minapplynum + ", maxapplynum="
-				+ maxapplynum + ", minapplyquamove=" + minapplyquamove
-				+ ", publishalgr=" + publishalgr + ", dealerpubcharatio="
-				+ dealerpubcharatio + ", mktdeapubcharatio="
-				+ mktdeapubcharatio + ", publishercharatio="
-				+ publishercharatio + ", mktpubcharatio=" + mktpubcharatio
-				+ ", contractcurrency=" + contractcurrency + ", tradedays="
-				+ tradedays + "]";
+				+ ", minpricemove=" + minpricemove + ", spreadalgr="
+				+ spreadalgr + ", spreaduplmt=" + spreaduplmt
+				+ ", spreaddownlmt=" + spreaddownlmt + ", minquantitymove="
+				+ minquantitymove + ", contractfactorname="
+				+ contractfactorname + ", minapplynum=" + minapplynum
+				+ ", maxapplynum=" + maxapplynum + ", minapplyquamove="
+				+ minapplyquamove + ", publishalgr=" + publishalgr
+				+ ", dealerpubcharatio=" + dealerpubcharatio
+				+ ", mktdeapubcharatio=" + mktdeapubcharatio
+				+ ", publishercharatio=" + publishercharatio
+				+ ", mktpubcharatio=" + mktpubcharatio + ", contractcurrency="
+				+ contractcurrency + ", tradedays=" + tradedays + "]";
 	}
 
 	
-    
 }

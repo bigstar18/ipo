@@ -9,7 +9,17 @@ public class IpoBreed {
 
     private Long sortid;
 
-    private BigDecimal contractfactor;  
+    private BigDecimal contractfactor; 
+    
+    private BigDecimal minpricemove;
+
+    private Short spreadalgr;
+
+    private BigDecimal spreaduplmt;
+
+    private BigDecimal spreaddownlmt;
+
+    private Short minquantitymove;
 
     private String contractfactorname;
 
@@ -153,4 +163,47 @@ public class IpoBreed {
     public void setTradedays(Integer tradedays) {
         this.tradedays = tradedays;
     }
+
+	public BigDecimal getMinpricemove() {
+		return minpricemove;
+	}
+
+	public void setMinpricemove(BigDecimal minpricemove) {
+		this.minpricemove = minpricemove;
+	}
+
+	public Short getSpreadalgr() {
+		return spreadalgr;
+	}
+
+	public void setSpreadalgr(Short spreadalgr) {
+		this.spreadalgr = spreadalgr;
+	}
+
+	public BigDecimal getSpreaduplmt() {
+		return spreaduplmt;
+	}
+
+	public void setSpreaduplmt(BigDecimal spreaduplmt) {
+		this.spreaduplmt = spreaduplmt;
+	}
+
+	public BigDecimal getSpreaddownlmt() {
+		return spreaddownlmt;
+	}
+
+	public void setSpreaddownlmt(BigDecimal spreaddownlmt) {
+		this.spreaddownlmt = spreaddownlmt;
+	}
+
+	public Short getMinquantitymove() {
+		return minquantitymove;
+	}
+
+	public void setMinquantitymove(Short minquantitymove) {
+		this.minquantitymove = minquantitymove;
+	}
+    
+    
+    
 }
