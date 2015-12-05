@@ -124,7 +124,11 @@
 	    	}
 	    }	
 	    var day = "<%=request.getAttribute("day") %>";
-	    document.getElementById("day").value = day;
+	    if(day != null){
+	    	document.getElementById("day").value = day;
+	    }else{
+	    	document.getElementById("day").value = "";
+	    }
 	    var status = "<%=request.getAttribute("id") %>";
 	    document.getElementById("id").value = status;
 	}	
@@ -154,6 +158,7 @@
 	                 });
 	             $('#frm').submit();
 			}
+			
 	}
 
 	//验证日期输入格式是否正确
@@ -189,6 +194,8 @@
 	  			}
 	  		}
 	  		document.getElementById("day").value = relDays0;
+	  		return true;
+	  	}else{
 	  		return true;
 	  	}
 	  }

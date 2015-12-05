@@ -43,7 +43,7 @@ public class TradetimeController {
 	private IpoCommConfService ipoCommConfService;
 
 	// 交易节信息展示
-	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.POST)
+	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String getTradetimeList(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		logger.info("交易节信息展示" + "page:" + page + "rows:" + rows);
@@ -62,10 +62,11 @@ public class TradetimeController {
 	}
 
 	// 修改交易节
-	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public String updateTradetime(HttpServletRequest request, HttpServletResponse response, Model model, Tradetime tradetime,
 			@RequestParam(value = "comms", required = false) String comms) {
 		logger.info("修改交易节" + "tradetime:" + tradetime + comms);
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 
 		try {
 			if (comms != null) {
@@ -84,9 +85,10 @@ public class TradetimeController {
 
 	// 添加交易节
 
-	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST)
+	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		try {
 			tradetimeService.insert(tradetime, comms);
 			return "success";
@@ -99,7 +101,7 @@ public class TradetimeController {
 	}
 
 	// 删除交易节
-	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String deleteTradetime(String ids) {
 		logger.info("进入删除交易节" + "ids:" + ids);
@@ -151,7 +153,8 @@ public class TradetimeController {
 	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		logger.info("进入非交易日视图");
 		Nottradeday nottradeday = tradetimeService.select();
-		if (!nottradeday.equals(null)) {
+		logger.info("nottradeday:" + nottradeday);
+		if (nottradeday != null) {
 			String week = nottradeday.getWeek();
 			String day = nottradeday.getDay();
 			if (week == null) {
@@ -162,12 +165,12 @@ public class TradetimeController {
 			}
 			request.setAttribute("week", week);
 			request.setAttribute("day", day);
-			request.setAttribute("id", "1");
+			request.setAttribute("id", 1);
 			return "app/tradetime/notTradeDay";
 		} else {
 			request.setAttribute("week", null);
 			request.setAttribute("day", null);
-			request.setAttribute("id", "0");
+			request.setAttribute("id", 0);
 			return "app/tradetime/notTradeDay";
 		}
 	}
