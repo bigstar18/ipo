@@ -138,9 +138,9 @@ function setSortName(value) {
 		<div class="title font_orange_14b">温馨提示 : 品种<c:if test="${crud == 'create'}">添加 </c:if><c:if test="${crud == 'update'}">修改 </c:if> </div>
 		<div class="content" style="color: red">手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费  </div>
 	</div>
-	<table border="0"  height="100%" width="100%"  align="center" >
+	<table border="0"  height="100%" width="100%"  >
 		<tr>
-			<td style="margin-top: 50px;">
+			<td>
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置品种信息</b></legend>
