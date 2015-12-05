@@ -1,10 +1,17 @@
+$ (document).ready (function ()
+{
+	$ ('#add').css ('disabled', "true");
+	
+	getStatus ();
+});
+
 function getStatus ()
 {// 要防缓存？
 	$.ajax (
 	{
 	    type : 'GET', //
 	    url : getRootPath () + "/sysController/getSettleStatus",
-	    async : false,
+	    // async : false,
 	    cache : false,
 	    dataType : 'json',
 	    success : function (data)
@@ -12,6 +19,8 @@ function getStatus ()
 		    showStatus (data);
 	    }
 	});
+	
+	setTimeout ("getStatus()", 2000);
 }
 
 function showStatus (result)
@@ -45,7 +54,6 @@ function addF ()
 {
 	if (confirm ("您确定要操作吗？"))
 	{
-		setTimeout ("getStatus()", 3000);
 		$ ('#add').css ('disabled', "true");// 立刻禁止
 		
 		$.ajax (
