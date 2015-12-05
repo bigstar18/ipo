@@ -148,11 +148,11 @@
       <if test="endtime != null" >
         ENDTIME,
       </if>
-      <if test="purchasecredits != null">
-      	purchasecredits,
+      <if test="purchaseCredits != null">
+      	PURCHASECREDITS,
       </if>
       <if test="status != null">
-      	status,
+      	STATUS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -221,8 +221,8 @@
       <if test="record.endtime != null" >
         ENDTIME = #{record.endtime,jdbcType=DATE},
       </if>
-      <if test="record.purchasecredits != null">
-      	PURCHASECREDITS = #{record.purchasecredits,jdbcType=BIGINT},
+      <if test="record.purchaseCredits != null">
+      	PURCHASECREDITS = #{record.purchaseCredits,jdbcType=BIGINT},
       </if>
       <if test="record.status != null">
       	STATUS = #{record.status,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
       COUNTS = #{record.counts,jdbcType=INTEGER},
       STARTTIME = #{record.starttime,jdbcType=DATE},
       ENDTIME = #{record.endtime,jdbcType=DATE},
-      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      PURCHASECREDITS = #{purchaseCredits,jdbcType=BIGINT},
       STATUS =#{status,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,8 +272,8 @@
       <if test="endtime != null" >
         ENDTIME = #{endtime,jdbcType=DATE},
       </if>
-      <if test="purchasecredits!= null">
-      	PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      <if test="purchaseCredits!= null">
+      	PURCHASECREDITS = #{purchaseCredits,jdbcType=BIGINT},
       </if>
       <if test="status != null">
       	STATUS = #{status,jdbcType=INTEGER}
@@ -281,6 +281,48 @@
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  
+   <select id="queryByConditions" resultMap="BaseResultMap"  parameterType="map" >
+   	 select <include refid="Base_Column_List" /> 
+   	 from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where 1=1 
+   	   <if test="record.commodityid != null" >
+       and t.COMMODITYID = #{record.commodityid,jdbcType=VARCHAR} 
+      </if>
+      <if test="record.commodityname != null" >
+       and t.COMMODITYNAME like #{record.commodityname,jdbcType=VARCHAR}
+      </if>
+      <if test="record.starttime != null" >
+      and  t.STARTTIME = #{record.starttime,jdbcType=DATE}
+      </if>
+      <if test="record.endtime != null" >
+      and  t.ENDTIME = #{record.endtime,jdbcType=DATE}
+      </if>
+      <if test="record.status != 0">
+      and	t.STATUS = #{record.status,jdbcType=INTEGER}
+      </if>
+   	  order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+  
+   <select id="countByConditions" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
+   	 select count(*) from IPO_COMMODITY_SALE t where 1=1
+   	   <if test="commodityid != null" >
+      and  t.COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      </if>
+      <if test="commodityname != null" >
+      and t.COMMODITYNAME like #{commodityname,jdbcType=VARCHAR}
+      </if>
+      <if test="starttime != null" >
+      and t.STARTTIME = #{starttime,jdbcType=DATE}
+      </if>
+      <if test="endtime != null" >
+      and  t.ENDTIME = #{endtime,jdbcType=DATE}
+      </if>
+      <if test="status != 0">
+      and t.STATUS = #{status,jdbcType=INTEGER}
+      </if>
+  </select>
+  
+  
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
     update IPO_COMMODITY_SALE
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
@@ -290,7 +332,7 @@
       COUNTS = #{counts,jdbcType=INTEGER},
       STARTTIME = #{starttime,jdbcType=DATE},
       ENDTIME = #{endtime,jdbcType=DATE},
-      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      PURCHASECREDITS = #{purchaseCredits,jdbcType=BIGINT},
       STATUS = #{status,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -352,7 +394,7 @@
       COUNTS = #{counts,jdbcType=INTEGER},
       STARTTIME = #{starttime,jdbcType=DATE},
       ENDTIME = #{endtime,jdbcType=DATE},
-      PURCHASECREDITS = #{purchasecredits,jdbcType=BIGINT},
+      PURCHASECREDITS = #{purchaseCredits,jdbcType=BIGINT},
       STATUS = #{status,jdbcType=INTEGER}
       where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
    </update>

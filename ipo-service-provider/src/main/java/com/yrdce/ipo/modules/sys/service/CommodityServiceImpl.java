@@ -156,4 +156,35 @@ public class CommodityServiceImpl implements CommodityService {
 		return counts1;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Commodity> queryByConditions(String page, String rows,
+			Commodity comm) {
+		logger.info("条件查询发售商品服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		IpoCommodity example=new IpoCommodity();
+		BeanUtils.copyProperties(comm, example);
+		List<IpoCommodity> commlist = ipoCommodityMapper.queryByConditions((curpage - 1) * pagesize + 1, curpage * pagesize, example);
+		List<Commodity> commlist2 = new ArrayList<Commodity>();
+		for (int i = 0; i < commlist.size(); i++) {
+			Commodity commo = new Commodity();
+			BeanUtils.copyProperties(commlist.get(i), commo);
+			commo.setPrice(commlist.get(i).getPrice().doubleValue());
+			commlist2.add(commo);
+		}
+		return commlist2;
+	}
+
+	@Override
+	public Integer countByConditions(Commodity comm) {
+		IpoCommodity example=new IpoCommodity();
+		BeanUtils.copyProperties(comm, example);
+		return ipoCommodityMapper.countByConditions(example);
+	}
+
+	
+	
 }

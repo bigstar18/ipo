@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 
+/**
+ * @author chenjing
+ *
+ */
 public interface CommodityService {
 
 	// 分页获取可申购商品列表
@@ -28,4 +32,10 @@ public interface CommodityService {
 
 	// 根据商品代码分页获取商品详细信息
 	public Commodity getCommodityByPage(String page, String rows, String commodityid);
+	
+	//发售后台发售商品条件查询
+	public List<Commodity> queryByConditions(String page, String rows,Commodity comm);
+	
+	//发售后台发售商品条件查询总数
+	public Integer countByConditions(Commodity comm);
 }

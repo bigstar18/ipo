@@ -1,7 +1,8 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,13 +86,60 @@ public class CommodityController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/findComms", method = RequestMethod.GET)
+	@RequestMapping(value = "/findComms", method = RequestMethod.POST)
 	@ResponseBody
 	public String findCommsx(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询发售商品信息");
 		try {
 			List<Commodity> clist = commodityService.findCommList(page, rows);
 			int totalnums = commodityService.getAllComms();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(clist);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	/**
+	 * 发售商品查询（模糊查询）
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
+	@ResponseBody
+	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows,@RequestParam("status") String status,
+			@RequestParam("commodityname") String commodityname,@RequestParam("commodityid") String commodityid,
+			@RequestParam("starttime") String starttime,@RequestParam("endtime") String endtime) throws IOException {
+		log.info("条件查询发售商品信息");
+		try {
+			Commodity comm=new Commodity();
+			if(!commodityid.equals("")){
+				comm.setCommodityid(commodityid);
+			}
+			if(!commodityname.equals("")){
+				comm.setCommodityname("%"+commodityname+"%");
+			}
+			if(!status.equals("")){
+				comm.setStatus(Integer.parseInt(status));
+			}
+			if(!starttime.equals("")){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date date=sdf.parse(starttime);
+				comm.setStarttime(date);
+			}
+			if(!endtime.equals("")){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date date=sdf.parse(endtime);
+				comm.setEndtime(date);
+			}
+			List<Commodity> clist = commodityService.queryByConditions(page, rows, comm);
+			int totalnums = commodityService.countByConditions(comm).intValue();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);

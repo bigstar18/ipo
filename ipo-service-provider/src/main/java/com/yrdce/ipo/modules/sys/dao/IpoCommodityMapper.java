@@ -24,7 +24,11 @@ public interface IpoCommodityMapper {
 	int insertSelective(IpoCommodity record);
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
+	
+	List<IpoCommodity> queryByConditions(@Param("beginnum") int beginnum, @Param("endnum") int endnum,@Param("record")IpoCommodity record);
 
+	int countByConditions(IpoCommodity record);
+	
 	List<IpoCommodity> selectAll();
 
 	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
