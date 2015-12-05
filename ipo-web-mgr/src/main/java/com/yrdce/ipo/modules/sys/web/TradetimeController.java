@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,13 @@ public class TradetimeController {
 			@RequestParam(value = "comms", required = false) String comms) {
 		logger.info("修改交易节" + "tradetime:" + tradetime + comms);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
-
+		try {
+			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
+			tradetime.setName(name);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			if (comms != null) {
 				tradetimeService.upDate(tradetime, comms);
@@ -90,6 +97,8 @@ public class TradetimeController {
 	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		try {
+			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
+			tradetime.setName(name);
 			tradetimeService.insert(tradetime, comms);
 			return "success";
 

@@ -54,8 +54,10 @@
 			enableSelectByExample="false" selectByExampleQueryId="false">
 			<property name="useActualColumnNames" value="false" />
 		</table> -->
-		<table schema="TRADE_GNNT" tableName="IPO_CLEARSTATUS" domainObjectName="IpoClearStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
+		<!-- <columnRenamingRule searchString="^N" replaceString="" />
+		这个可以把字段的前缀c,n给去掉。   schema=""不要schema -->
+		<table schema="" tableName="IPO_CLEARSTATUS" domainObjectName="IpoClearStatus" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
 			<property name="useActualColumnNames" value="false" />
 		</table>
 	</context>

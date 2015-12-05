@@ -23,6 +23,11 @@ public interface SystemService {
 	public static final String OPR_MARKET_CLOSE = "07";
 
 	/**
+	 * 重新载入交易节和非交易日
+	 */
+	public void reloadSections();
+
+	/**
 	 * 查询系统状态，只有一条记录，or null from 数据库
 	 * 
 	 * @return
@@ -66,11 +71,6 @@ public interface SystemService {
 	 * @throws Exception
 	 */
 	public boolean canSystemTrade() throws Exception;
-
-	/**
-	 * 重新载入交易节和非交易日
-	 */
-	public void reloadSections();
 
 	/**
 	 * 写操作日志

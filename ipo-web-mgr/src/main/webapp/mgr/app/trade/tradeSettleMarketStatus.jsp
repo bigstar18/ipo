@@ -5,7 +5,7 @@
 <title>结算</title>
 <script src="<%=request.getContextPath()%>/static/ipo/tradeSettle.js" type="text/javascript"></script>
 </head>
-<body onload="getStatus();">
+<body>
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td valign="middle">

@@ -17,15 +17,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
     select 
     <include refid="Base_Column_List" />
-    from TRADE_GNNT.IPO_BALLOTNO_INFO
+    from IPO_BALLOTNO_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
-    delete from TRADE_GNNT.IPO_BALLOTNO_INFO
+    delete from IPO_BALLOTNO_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    insert into TRADE_GNNT.IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, 
+    insert into IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, 
       BALLOTNOENDLEN, BALLOTNO, CREATETIME
       )
     values (#{id,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{ballotnostartlen,jdbcType=DECIMAL}, 
@@ -33,7 +33,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    insert into TRADE_GNNT.IPO_BALLOTNO_INFO
+    insert into IPO_BALLOTNO_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -76,7 +76,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    update TRADE_GNNT.IPO_BALLOTNO_INFO
+    update IPO_BALLOTNO_INFO
     <set >
       <if test="commodityid != null" >
         COMMODITYID = #{commodityid,jdbcType=VARCHAR},
@@ -97,7 +97,7 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
-    update TRADE_GNNT.IPO_BALLOTNO_INFO
+    update IPO_BALLOTNO_INFO
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       BALLOTNOSTARTLEN = #{ballotnostartlen,jdbcType=DECIMAL},
       BALLOTNOENDLEN = #{ballotnoendlen,jdbcType=DECIMAL},

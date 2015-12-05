@@ -188,7 +188,7 @@ document.onkeypress=showKeyPress;
 	</head>
 
 	<body>
-		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/updateTradetime"  method="POST" onsubmit="return mysubmit();">
+		<form id="frm" name="frm" action="<%=request.getContextPath()%>/TradetimeController/updateTradetime"  method="POST" onsubmit="return mysubmit();" accept-charset="UTF-8">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
