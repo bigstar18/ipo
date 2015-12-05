@@ -15,6 +15,7 @@
 function addTradeTime(){
 	var status=$("#status").val();     
 	if(status!=''){ 
+		var flag=false;
 		var flag=save_onclick();
 		var comms = document.getElementsByName("comms");
 		var commArry = [];
@@ -24,25 +25,14 @@ function addTradeTime(){
 			}
 		}
 		if(flag){
-			
 			window.returnValue =true;
-           <%--  $('#frm').form({
-                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
-                onSubmit:function(){
-                 return $(this).form('validate');
-                  },
-                success:function(data){
-                	$("#add").attr("disabled",true);
-                  		alert("增加成功！");
-                  		window.close();
-                  }
-                 });  
-             $('#frm').submit();
-             window.returnValue =true; --%>
+		}else{
+			return false;
 		}
 	
 	}else{
 					alert("请选择交易节状态");
+					return false;
 		}
 	 }         
 
@@ -164,7 +154,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/addTradetime" onsubmit="return mysubmit();">
+		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/addTradetime" onsubmit="return addTradeTime();">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>

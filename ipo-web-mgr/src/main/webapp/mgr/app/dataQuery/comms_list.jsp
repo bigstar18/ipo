@@ -32,7 +32,7 @@ $(document).ready(function() {
      		commodityname: null,
      		commodityid: null,
      		starttime:null,
-     		endtime: null,
+     		endtime: null
     	    },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
@@ -130,7 +130,7 @@ function doSearch(){
 		commodityname: $('#commodityname').val(),
 		commodityid: $('#commodityid').val(),
 		starttime: $('#starttime').datebox('getValue'),
-		endtime: $('#endtime').datebox('getValue'),
+		endtime: $('#endtime').datebox('getValue')
 	});
 }
 
