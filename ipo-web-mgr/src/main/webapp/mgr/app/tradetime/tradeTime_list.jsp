@@ -114,6 +114,7 @@ function updateForward(id) {
 		$('#tt').datagrid('reload');
 	} 
 }
+
 //删除
 function deleteList(){
 	var checkedItems = $('#tt').datagrid('getChecked');

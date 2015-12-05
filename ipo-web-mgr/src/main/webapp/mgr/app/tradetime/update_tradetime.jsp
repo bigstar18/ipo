@@ -64,6 +64,8 @@ document.onkeypress=showKeyPress;
 				if(name==''||status==''){
 					alert("*号为必填项")
 					return false;
+				}else{
+					window.returnValue =true;
 				}
 				}else{
 					return false;
@@ -290,7 +292,7 @@ document.onkeypress=showKeyPress;
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" type="submit" DialogResult="true">确定</button>
+							<button class="btn_sec" id="add" type="submit">确定</button>
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>
 						</td>

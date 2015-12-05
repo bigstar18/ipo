@@ -137,19 +137,23 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 		logger.info("进入交易节添加" + tradetime.toString());
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
-		String[] comidarray = comms.split(",");
+
 		IpoTradetime tradetime1 = new IpoTradetime();
 		BeanUtils.copyProperties(tradetime, tradetime1);
 		logger.info("tradetime1:" + tradetime1);
 		tradetime1.setModifytime(new Date());
 		tradetime1.setSectionid(tradetimeMapper.getPK());
+
 		tradetimeMapper.insert(tradetime1);
-		// 插入数据
-		for (String comid : comidarray) {
-			IpoTradetimeComm ipotracom = new IpoTradetimeComm();
-			ipotracom.setCommodityid(comid);
-			ipotracom.setTradetimeid(tradetime1.getSectionid());
-			ipotradetimecomm.insert(ipotracom);
+		if (!comms.equals("no")) {
+			// 插入数据
+			String[] comidarray = comms.split(",");
+			for (String comid : comidarray) {
+				IpoTradetimeComm ipotracom = new IpoTradetimeComm();
+				ipotracom.setCommodityid(comid);
+				ipotracom.setTradetimeid(tradetime1.getSectionid());
+				ipotradetimecomm.insert(ipotracom);
+			}
 		}
 		return 1;
 	}
