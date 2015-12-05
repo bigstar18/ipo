@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <html>
@@ -166,7 +166,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post"  enctype="mutipart/form-data">
+		<form id="frm" name="frm" method="post">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>

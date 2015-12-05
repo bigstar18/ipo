@@ -101,7 +101,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 		logger.info("进入交易节修改" + tradetime);
 
 		logger.info("id:" + tradetime.getSectionid());
-
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		IpoTradetime tradetime1 = new IpoTradetime();
 		BeanUtils.copyProperties(tradetime, tradetime1);
 		tradetime1.setModifytime(new Date());
@@ -136,7 +136,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 	public int insert(Tradetime tradetime, String comms) {
 
 		logger.info("进入交易节添加" + tradetime.toString());
-
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		String[] comidarray = comms.split(",");
 		IpoTradetime tradetime1 = new IpoTradetime();
 		BeanUtils.copyProperties(tradetime, tradetime1);
@@ -236,8 +236,12 @@ public class TradetimeServiceImpl implements TradetimeService {
 		Nottradeday nottradeday = new Nottradeday();
 
 		IpoNottradeday ipoNottradeday = notTradeTimeMapper.select();
-		BeanUtils.copyProperties(ipoNottradeday, nottradeday);
-		return nottradeday;
+		if (ipoNottradeday != null) {
+			BeanUtils.copyProperties(ipoNottradeday, nottradeday);
+			return nottradeday;
+		} else {
+			return null;
+		}
 	}
 
 	// 是否在交易节时间内
