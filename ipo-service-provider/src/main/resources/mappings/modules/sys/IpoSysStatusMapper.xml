@@ -16,13 +16,13 @@
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.util.Date">
 		select
 		<include refid="Base_Column_List" />
-		from TRADE_GNNT.IPO_SYSSTATUS
+		from IPO_SYSSTATUS
 		where TRADEDATE = #{tradedate,jdbcType=TIMESTAMP}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from TRADE_GNNT.IPO_SYSSTATUS
+		from IPO_SYSSTATUS
 	</select>
 	<select id="getDBTimeStr" resultType="String">
 		select to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') from dual
@@ -31,18 +31,18 @@
 		select sysdate from dual
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.util.Date">
-		delete from TRADE_GNNT.IPO_SYSSTATUS
+		delete from IPO_SYSSTATUS
 		where TRADEDATE = #{tradedate,jdbcType=TIMESTAMP}
 	</delete>
 	<insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSysStatus">
-		insert into TRADE_GNNT.IPO_SYSSTATUS (TRADEDATE, STATUS, SECTIONID,
+		insert into IPO_SYSSTATUS (TRADEDATE, STATUS, SECTIONID,
 		NOTE, RECOVERTIME)
 		values (#{tradedate,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL},
 		#{sectionid,jdbcType=DECIMAL},
 		#{note,jdbcType=VARCHAR}, #{recovertime,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSysStatus">
-		insert into TRADE_GNNT.IPO_SYSSTATUS
+		insert into IPO_SYSSTATUS
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="tradedate != null">
 				TRADEDATE,
@@ -79,7 +79,7 @@
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSysStatus">
-		update TRADE_GNNT.IPO_SYSSTATUS
+		update IPO_SYSSTATUS
 		<set>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
@@ -96,8 +96,26 @@
 		</set>
 		where TRADEDATE = #{tradedate,jdbcType=TIMESTAMP}
 	</update>
+	<update id="updateByPrimaryKeySelectiveLock" parameterType="map">
+		update IPO_SYSSTATUS
+		<set>
+			<if test="record.status != null">
+				STATUS = #{record.status,jdbcType=DECIMAL},
+			</if>
+			<if test="record.sectionid != null">
+				SECTIONID = #{record.sectionid,jdbcType=DECIMAL},
+			</if>
+			<if test="record.note != null">
+				NOTE = #{record.note,jdbcType=VARCHAR},
+			</if>
+			<if test="record.recovertime != null">
+				RECOVERTIME = #{record.recovertime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where TRADEDATE = #{record.tradedate,jdbcType=TIMESTAMP} and STATUS = #{oldStatus,jdbcType=DECIMAL}
+	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSysStatus">
-		update TRADE_GNNT.IPO_SYSSTATUS
+		update IPO_SYSSTATUS
 		set STATUS = #{status,jdbcType=DECIMAL},
 		SECTIONID = #{sectionid,jdbcType=DECIMAL},
 		NOTE = #{note,jdbcType=VARCHAR},

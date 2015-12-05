@@ -15,21 +15,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
     select 
     <include refid="Base_Column_List" />
-    from TRADE_GNNT.IPO_CLEARSTATUS
+    from IPO_CLEARSTATUS
     where ACTIONID = #{actionid,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
-    delete from TRADE_GNNT.IPO_CLEARSTATUS
+    delete from IPO_CLEARSTATUS
     where ACTIONID = #{actionid,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
-    insert into TRADE_GNNT.IPO_CLEARSTATUS (ACTIONID, ACTIONNOTE, STATUS, 
+    insert into IPO_CLEARSTATUS (ACTIONID, ACTIONNOTE, STATUS, 
       FINISHTIME)
     values (#{actionid,jdbcType=DECIMAL}, #{actionnote,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
       #{finishtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
-    insert into TRADE_GNNT.IPO_CLEARSTATUS
+    insert into IPO_CLEARSTATUS
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="actionid != null" >
         ACTIONID,
@@ -60,7 +60,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
-    update TRADE_GNNT.IPO_CLEARSTATUS
+    update IPO_CLEARSTATUS
     <set >
       <if test="actionnote != null" >
         ACTIONNOTE = #{actionnote,jdbcType=VARCHAR},
@@ -75,7 +75,7 @@
     where ACTIONID = #{actionid,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoClearStatus" >
-    update TRADE_GNNT.IPO_CLEARSTATUS
+    update IPO_CLEARSTATUS
     set ACTIONNOTE = #{actionnote,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=CHAR},
       FINISHTIME = #{finishtime,jdbcType=TIMESTAMP}

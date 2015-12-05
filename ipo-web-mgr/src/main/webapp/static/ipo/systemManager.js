@@ -1,10 +1,36 @@
 $ (document).ready (function ()
 {
+	disableAllButton ();
+	reloadSections ();
+	getSysStatus ();
+});
+function disableAllButton ()
+{
+	$ ('#ok2').attr ('disabled', "true");
+	$ ('#ok3').attr ('disabled', "true");
+	$ ('#ok4').attr ('disabled', "true");
+	$ ('#ok1').attr ('disabled', "true");
+	$ ('#ok11').attr ('disabled', "true");
+}
+function reloadSections ()
+{
+	$.ajax (
+	{
+	    type : 'POST', //
+	    url : getRootPath () + "/sysController/reloadSections",
+	    dataType : 'json',
+	    async : false,
+	    cache : false
+	});
+}
+function getSysStatus ()
+{
 	$.ajax (
 	{
 	    type : 'GET', //
 	    url : getRootPath () + "/sysController/getSysStatus",
 	    dataType : 'json',
+	    cache : false,
 	    success : function (data)
 	    {
 		    showTime (data.sysTime);
@@ -12,7 +38,7 @@ $ (document).ready (function ()
 		    buttonStatus (data.status);
 	    }
 	});
-});
+}
 // {"sysTime":null,"status":1,"sectionid":1,"tradedate":"2015-11-28 19:23:26","recovertime":null,"note":"aa"}
 function showTime (sysTime)
 {
@@ -100,6 +126,7 @@ function buttonStatus (result)
 		$ ('#ok11').attr ('disabled', "true");
 	}
 }
+
 function balanceChk_onclick (id)
 {
 	var name;

@@ -13,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 
 /**
@@ -46,7 +50,7 @@ public class SystemManager {
 	public static final String STATUS_TRADE_REST = "6";
 	public static final String STATUS_TRADE_CLOSE = "7";
 	public static final String STATUS_MARKET_SETTLED = "10";
-
+	public static final String CLEAR_STATUS_Y = "Y";
 	public static final String DATE_FORMATTER = "yyyy-MM-dd";
 	public static final String DATETIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
@@ -54,15 +58,15 @@ public class SystemManager {
 
 	// 线程安全? 数据库状态的映射
 	private String status;
-
 	private String tradeDate;
 	private String section;
 
 	private long timeDiff = 0l;
-
 	private AtomicBoolean lockStatus = new AtomicBoolean(false);
 	private Thread listener;
 
+	@Autowired
+	private IpoClearStatusMapper clearStatusMapper;
 	@Autowired
 	private IpoSysStatusMapper mapper;
 	@Autowired
@@ -263,7 +267,7 @@ public class SystemManager {
 	}
 
 	// 开市交易
-	private void startTradeInternal() {
+	private void startTradeInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 		this.tradeDate = sdf.format(date);
 		section = String.valueOf(sectionManager.getCurrentSectionId(date));
@@ -272,12 +276,12 @@ public class SystemManager {
 	}
 
 	// 节间休息 section不变
-	private void restBetweenSection() {
+	private void restBetweenSection() throws Exception {
 		updateSysStatus(STATUS_TRADE_REST, null, "节间休息");
 	}
 
 	// 闭市
-	private void closeMarketInternal() {
+	private void closeMarketInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 		this.tradeDate = sdf.format(date);
 
@@ -285,7 +289,7 @@ public class SystemManager {
 	}
 
 	// 状态变更入库
-	private void updateSysStatus(String status, Short sectionId, String remark) {
+	private void updateSysStatus(String status, Short sectionId, String remark) throws Exception {
 		try {
 			IpoSysStatus sysStatus = new IpoSysStatus();
 			sysStatus.setTradedate(sdf.parse(tradeDate));
@@ -294,12 +298,15 @@ public class SystemManager {
 				sysStatus.setSectionid(sectionId);
 			sysStatus.setNote(remark);
 
-			mapper.updateByPrimaryKeySelective(sysStatus);
+			int i = mapper.updateByPrimaryKeySelective(sysStatus);
+			if (i < 1)
+				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
 			this.status = status;// 先入库后变更状态，防止事务回滚导致状态不一致
 
 			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 		} catch (Exception e) {
 			logger.info("error:", e);
+			throw e;
 		}
 	}
 
@@ -437,20 +444,62 @@ public class SystemManager {
 	public void settle() throws Exception {
 		// "select f.billid from T_billFrozen f, T_E_GageBill g where f.operation = g.id and Operationtype = 0 and g.commodityid in (select
 		// CommodityID from T_Commodity where SettleDate <= (select trunc(tradedate) from t_systemstatus))");
-
 		// 解冻仓单 抵押unFrozenStocks(15, arrayOfString);
 
-		// i = tradeRMI.balance();
-
-		// FN_T_CloseMarketProcess
+		// i = tradeRMI.balance(); // FN_T_CloseMarketProcess
 
 		if (!STATUS_MARKET_CLOSE.equals(status))
 			throw new Exception("交易服务器没有闭市操作，不能结算！");
 
-		// updateSysStatus(STATUS_MARKET_SETTLING, null, "结算中");
+		updateSysStatusLock(STATUS_MARKET_CLOSE, STATUS_MARKET_SETTLING, null, "结算中");
+		updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
 		// TODO
 
 		updateSysStatus(STATUS_MARKET_SETTLED, null, "");
+	}
+
+	// 预防多实例并发
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	private void updateSysStatusLock(String oldStatus, String toStatus, Short sectionId, String remark) throws Exception {
+		try {
+			IpoSysStatus sysStatus = new IpoSysStatus();
+			sysStatus.setTradedate(sdf.parse(tradeDate));
+			sysStatus.setStatus(Short.parseShort(toStatus));
+			if (sectionId != null)
+				sysStatus.setSectionid(sectionId);
+			sysStatus.setNote(remark);
+
+			int i = mapper.updateByPrimaryKeySelectiveLock(sysStatus, new Short(oldStatus));
+			if (i < 1)
+				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
+			this.status = toStatus;// 先入库后变更状态，防止事务回滚导致状态不一致
+
+			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, toStatus, section);
+		} catch (Exception e) {
+			logger.info("error:", e);
+			throw e;
+		}
+		// batchUpdate（）
+		// -2表示update成功，但无法获取准确数目。
+	}
+
+	// 状态变更入库
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	private void updateClearStatus(Short actionId, String status) throws Exception {
+		try {
+			IpoClearStatus clearStatus = new IpoClearStatus();
+			clearStatus.setActionid(actionId);
+			clearStatus.setStatus(status);
+			Date date = new Date(System.currentTimeMillis() + timeDiff);
+			clearStatus.setFinishtime(date);
+
+			clearStatusMapper.updateByPrimaryKeySelective(clearStatus);
+
+			logger.info("清算状态：actionId={},status={},time={}", actionId, status, date);
+		} catch (Exception e) {
+			logger.info("error:", e);
+			throw e;
+		}
 	}
 
 	/**
@@ -458,6 +507,10 @@ public class SystemManager {
 	 */
 	public void reloadSections() {
 		sectionManager.init();
+	}
+
+	public static void main(String[] args) {
+		System.out.println("基本类型：short 二进制位数：" + Short.SIZE);
 	}
 
 }

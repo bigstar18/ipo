@@ -23,18 +23,18 @@
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
-		from TRADE_GNNT.C_GLOBALLOG_ALL
+		from C_GLOBALLOG_ALL
 		where ID = #{id,jdbcType=DECIMAL}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from TRADE_GNNT.C_GLOBALLOG_ALL
+		delete from C_GLOBALLOG_ALL
 		where ID = #{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
 		<selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
 			SELECT SEQ_C_GLOBALLOG.NEXTVAL FROM dual
 		</selectKey>
-		insert into TRADE_GNNT.C_GLOBALLOG_ALL (ID, OPERATOR, OPERATETIME,
+		insert into C_GLOBALLOG_ALL (ID, OPERATOR, OPERATETIME,
 		OPERATETYPE, OPERATEIP, OPERATORTYPE,
 		MARK, OPERATECONTENT, CURRENTVALUE,
 		OPERATERESULT,
@@ -51,7 +51,7 @@
 		<selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
 			SELECT SEQ_C_GLOBALLOG.NEXTVAL FROM dual
 		</selectKey>
-		insert into TRADE_GNNT.C_GLOBALLOG_ALL
+		insert into C_GLOBALLOG_ALL
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -124,7 +124,7 @@
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
-		update TRADE_GNNT.C_GLOBALLOG_ALL
+		update C_GLOBALLOG_ALL
 		<set>
 			<if test="operator != null">
 				OPERATOR = #{operator,jdbcType=VARCHAR},
@@ -160,7 +160,7 @@
 		where ID = #{id,jdbcType=DECIMAL}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.CGloballogAll">
-		update TRADE_GNNT.C_GLOBALLOG_ALL
+		update C_GLOBALLOG_ALL
 		set OPERATOR = #{operator,jdbcType=VARCHAR},
 		OPERATETIME = #{operatetime,jdbcType=TIMESTAMP},
 		OPERATETYPE =

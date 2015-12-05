@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.web;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.common.utils.DateUtils;
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.service.SystemService;
@@ -46,10 +49,29 @@ public class SysController {
 		statusMap.put("10", "交易结算完成");
 	}
 
-	private static Logger log = org.slf4j.LoggerFactory.getLogger(SysController.class);
+	public static final int SYS_LOG_CATALOGID = 4001;
+	public static final int SYS_LOG_OPE_SUCC = 4001;
+	public static final int SYS_LOG_OPE_FAILURE = 4001;
 
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(SysController.class);
 	@Autowired
 	private SystemService systemService;
+	private ExecutorService executorService = Executors
+			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("writeOperateLog-%d").setDaemon(true).build());
+
+	// 重新载入交易节
+	@RequestMapping(value = "/reloadSections", method = RequestMethod.POST)
+	@ResponseBody
+	public String reloadSections() throws IOException {
+		try {
+			log.info("==================reloadSections");
+			systemService.reloadSections();
+			return "";
+		} catch (Exception e) {
+			log.error("error:", e);
+			return "";
+		}
+	}
 
 	// 系统状态
 	@RequestMapping(value = "/getSysStatus", method = RequestMethod.GET)
@@ -71,11 +93,12 @@ public class SysController {
 		}
 	}
 
-	// 系统操作// TODO 记日志
+	// 系统操作
 	@RequestMapping(value = "/sysOperate", method = RequestMethod.POST)
 	@ResponseBody
 	public String sysControl(@RequestParam("code") String oprCode, HttpSession session) throws IOException {
 		try {
+			log.info("==================sysOperate, code= {}", oprCode);
 			if (oprCode == null)
 				throw new Exception("operate code is null.");
 			ResultMsg msg = systemService.sysControl(oprCode);
@@ -83,9 +106,12 @@ public class SysController {
 				msg = new ResultMsg();
 				msg.setResult(ResultMsg.RESULT_ERROR);
 			}
+			writeOperateLog(SYS_LOG_CATALOGID, "IPO系统控制: " + oprCode, SYS_LOG_OPE_SUCC, "", session);
 			return JSON.json(msg);
 		} catch (Exception e) {
 			log.error("error:", e);
+			writeOperateLog(SYS_LOG_CATALOGID, "IPO系统控制: " + oprCode, SYS_LOG_OPE_FAILURE, e.getLocalizedMessage(), session);
+
 			ResultMsg msg = new ResultMsg();
 			msg.setResult(ResultMsg.RESULT_EXCEPTION);
 			return JSON.json(msg);
@@ -114,9 +140,13 @@ public class SysController {
 				msg = new ResultMsg();
 				msg.setResult(ResultMsg.RESULT_ERROR);
 			}
+			writeOperateLog(SYS_LOG_CATALOGID, "IPO交易结算: " + msg.getMsg(), SYS_LOG_OPE_SUCC, "", session);
+
 			return JSON.json(msg);
 		} catch (Exception e) {
 			log.error("error:", e);
+			writeOperateLog(SYS_LOG_CATALOGID, "IPO交易结算: " + e.getLocalizedMessage(), SYS_LOG_OPE_FAILURE, "", session);
+
 			ResultMsg msg = new ResultMsg();
 			msg.setResult(ResultMsg.RESULT_EXCEPTION);
 			msg.setMsg(e.getLocalizedMessage());
@@ -137,27 +167,32 @@ public class SysController {
 	 * @param mark
 	 *            备注
 	 */
-	private void writeOperateLog(int catalogID, String content, int operateResult, String mark, HttpSession session) {
-		CGloballogAll operateLog = new CGloballogAll();
-		operateLog.setLogtype(Short.valueOf("1"));
-		// 当前用户
-		UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+	private void writeOperateLog(final int catalogID, final String content, final int operateResult, final String mark, final HttpSession session) {
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				CGloballogAll operateLog = new CGloballogAll();
+				operateLog.setLogtype(Short.valueOf("1"));
+				// 当前用户
+				UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 
-		// 设置日志内容
-		operateLog.setOperator(user.getUserID());
-		operateLog.setOperateip(user.getLogonIp());
-		operateLog.setOperatetime(systemService.getDBTime());
-		operateLog.setOperatetype(new Short(String.valueOf(catalogID)));
-		operateLog.setOperatortype(user.getLogonType());
-		operateLog.setOperatecontent(content);
-		operateLog.setOperateresult(new Short(String.valueOf(operateResult)));
-		operateLog.setMark(mark);
+				// 设置日志内容
+				operateLog.setOperator(user.getUserID());
+				operateLog.setOperateip(user.getLogonIp());
+				operateLog.setOperatetime(systemService.getDBTime());
+				operateLog.setOperatetype(new Short(String.valueOf(catalogID)));
+				operateLog.setOperatortype(user.getLogonType());
+				operateLog.setOperatecontent(content);
+				operateLog.setOperateresult(new Short(String.valueOf(operateResult)));
+				operateLog.setMark(mark);
 
-		try {
-			systemService.writeOperateLog(operateLog);
-		} catch (Exception e) {
-			log.error("writeOperateLog", e);
-		}
+				try {
+					systemService.writeOperateLog(operateLog);
+				} catch (Exception e) {
+					log.error("writeOperateLog", e);
+				}
+			}
+		});
 	}
 
 }

@@ -2,6 +2,8 @@ package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.Date;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 
@@ -16,6 +18,8 @@ public interface IpoSysStatusMapper {
 	IpoSysStatus selectByPrimaryKey(Date tradedate);
 
 	int updateByPrimaryKeySelective(IpoSysStatus record);
+
+	int updateByPrimaryKeySelectiveLock(@Param("record") IpoSysStatus record, @Param("oldStatus") Short oldStatus);
 
 	int updateByPrimaryKey(IpoSysStatus record);
 

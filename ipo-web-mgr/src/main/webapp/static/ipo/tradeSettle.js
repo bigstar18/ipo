@@ -45,8 +45,6 @@ function addF ()
 {
 	if (confirm ("您确定要操作吗？"))
 	{
-		alert ("没有需要结算的订单。");
-		return;
 		setTimeout ("getStatus()", 3000);
 		$ ('#add').css ('disabled', "true");// 立刻禁止
 		
