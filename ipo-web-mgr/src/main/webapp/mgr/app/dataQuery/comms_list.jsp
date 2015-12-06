@@ -8,6 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+<style type="text/css">input {line-height: 14px;}</style>
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
@@ -57,6 +58,7 @@ $(document).ready(function() {
             	 if(value=='2') return "已配号";
             	 if(value=='3') return "已摇号";
             	 if(value=='4') return "已结算";
+            	 return "未上市";
            }
           }, {  
               field : 'starttime',  

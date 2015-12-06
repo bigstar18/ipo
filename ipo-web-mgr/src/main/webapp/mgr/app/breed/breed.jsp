@@ -140,7 +140,7 @@ function setSortName(value) {
 	</div>
 	<table border="0"  height="100%" width="100%"  >
 		<tr>
-			<td>
+			<td valign="top">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置品种信息</b></legend>
@@ -166,7 +166,7 @@ function setSortName(value) {
         			 					<td align="right" width="98"><span class="required">品种名称</span>：</td>
 	      								<td style="white-space:nowrap;">
 	      								   <c:if test="${crud == 'create'}">
-		      									<select id="bname" name="breedname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
+		      									<select id="bname" name="breedname" style="width:80" class="validate[required]" onchange="setSortName(this.value)">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="mbreed" items="${Mlist}">
                                                       <option value="${mbreed.breedname}">${mbreed.breedname}</option>
@@ -214,13 +214,13 @@ function setSortName(value) {
         								<input type="hidden" id="cmdtyPrefix"/>   
         	  							<td align="right">&nbsp;&nbsp;报价单位：</td>
             							<td>元/<input id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }"
-            								class="easyui-validatebox textbox" data-options="required:true,readonly:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  readonly="readonly"/>          
+            								class="easyui-validatebox textbox" data-options="required:true,readonly:true,missingMessage:'必填项'"  style="width: 80; background-color: C0C0C0"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>  
             							</td>    
         								<td align="right" >交易单位：</td> 
             							<td> 
 			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,precision:2,invalidMessage:'请输入精度为2的正数！'"/>
+			  									style="ime-mode:disabled; width: 80" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,precision:2,invalidMessage:'请输入精度为2的正数！'"/>
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
@@ -256,17 +256,17 @@ function setSortName(value) {
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="ime-mode:disabled;width: 60"/>          
+            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="ime-mode:disabled;width: 80"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 60"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 80"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
             							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 60"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 80"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
 										</td>
         							</tr>
 							        <tr>
@@ -281,13 +281,13 @@ function setSortName(value) {
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 			  								<span id="dealerpubcharatioPercent">%</span>          
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
-												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+												style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 											<span id="mktdeapubcharatioPercent">%</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
