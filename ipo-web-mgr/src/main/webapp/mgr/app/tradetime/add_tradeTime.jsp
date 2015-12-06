@@ -15,6 +15,7 @@
 function addTradeTime(){
 	var status=$("#status").val();     
 	if(status!=''){ 
+		var flag=false;
 		var flag=save_onclick();
 		var comms = document.getElementsByName("comms");
 		var commArry = [];
@@ -24,27 +25,14 @@ function addTradeTime(){
 			}
 		}
 		if(flag){
-			if(commArry.length !=0){
-            $('#frm').form({
-                url:'<%=request.getContextPath()%>/TradetimeController/addTradetime',
-                onSubmit:function(){
-                 return $(this).form('validate');
-                  },
-                success:function(data){
-                	$("#add").attr("disabled",true);
-                  		alert("增加成功！");
-                  		window.close();
-                  }
-                 });  
-             $('#frm').submit();
-             window.returnValue =true;
+			window.returnValue =true;
 		}else{
-			alert("请选择关联商品");
-		}	
-		}	
+			return false;
+		}
 	
 	}else{
 					alert("请选择交易节状态");
+					return false;
 		}
 	 }         
 
@@ -166,7 +154,7 @@ else
 	</head>
 
 	<body>
-		<form id="frm" name="frm" method="post">
+		<form id="frm" name="frm" method="post" action="<%=request.getContextPath()%>/TradetimeController/addTradetime" onsubmit="return addTradeTime();">
 			<div class="div_cx">
 				<table border="0" width="100%" align="center">
 					<tr>
@@ -200,8 +188,8 @@ else
 														交易节名称：
 													</td>
 													<td>
-													<input id="name" name="name" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/> 
+													<input id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 60"/> 
 													</td>
 													<td align="left">
 														<span class="required">*</span>
@@ -269,7 +257,7 @@ else
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">
-							<button class="btn_sec" id="add" onClick="addTradeTime();">添加</button>
+							<button class="btn_sec" id="add" type="submit">添加</button>
 
 							&nbsp;&nbsp;
 							<button class="btn_sec" onClick="window.close();">关闭</button>

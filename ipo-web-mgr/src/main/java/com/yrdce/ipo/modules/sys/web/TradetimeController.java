@@ -93,14 +93,19 @@ public class TradetimeController {
 	// 添加交易节
 
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	@ResponseBody
-	public String addTradetime(Tradetime tradetime, @RequestParam("comms") String comms) {
+	public String addTradetime(Tradetime tradetime, @RequestParam(value = "comms", required = false) String comms) {
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		try {
 			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
 			tradetime.setName(name);
-			tradetimeService.insert(tradetime, comms);
-			return "success";
+			if (comms != null) {
+				tradetimeService.insert(tradetime, comms);
+				return "app/tradetime/close";
+			} else {
+				comms = "no";
+				tradetimeService.insert(tradetime, comms);
+				return "app/tradetime/close";
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
