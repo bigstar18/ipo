@@ -93,7 +93,7 @@
 									</tr>
 									<tr>
 										<td align="center">
-											<input type="button" onclick="update()" value="提交"/>
+											<input type="button" onclick="updateww();" value="提交"/>
 										</td>
 									</tr>
 								</tbody>
@@ -124,16 +124,17 @@
 	    	}
 	    }	
 	    var day = "<%=request.getAttribute("day") %>";
-	    if(day != null){
+	    if(day != "null"){
 	    	document.getElementById("day").value = day;
+	    	
 	    }else{
 	    	document.getElementById("day").value = "";
 	    }
-	    var status = "<%=request.getAttribute("id") %>";
+	    var status = <%=request.getAttribute("id") %>;
 	    document.getElementById("id").value = status;
 	}	
 
-	function update(){
+	function updateww(){
 		
 			var flag = false;
 			flag = date();

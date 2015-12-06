@@ -40,15 +40,15 @@ $(document).ready(function() {
              field : 'sectionid',
              width : 200,
              title : '交易节编号',
-			 formatter:function(value,row){
-         	    return "<a href=\"#\" onclick=\"updateForward("+value+")\">"+value+"</a>";
+			 formatter:function(value,row,index){
+         	    return "<a href=\"#\" onclick=\"updateForward("+index+")\">"+value+"</a>";
 			}
          }, {
              field : 'name',
              width : 200,
              title : '交易节名称',
-			 formatter:function(value,row){
-         	    return "<a href=\"#\" onclick=\"updateForward("+row.sectionid+")\">"+value+"</a>";
+			 formatter:function(value,row,index){
+         	    return "<a href=\"#\" onclick=\"updateForward("+index+")\">"+value+"</a>";
 			}
          }, {
              field : 'starttime',
@@ -104,15 +104,15 @@ function addForward(){
 	} 
 }
 //修改信息跳转
-function updateForward(id) {
+function updateForward(index) {
+	$('#tt').datagrid('selectRow',index);
 	var row = $("#tt").datagrid("getSelected");
-	//获取配置权限的 URL
-	var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionid="+id;
-	//给 URL 添加参数
-	if(showDialog(updateUrl, row, 800, 550)){
-		//如果添加成功，则刷新列表
-		$('#tt').datagrid('reload');
-	} 
+		   var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
+			//给 URL 添加参数
+			if(showDialog(updateUrl, row, 800, 550)){
+				//如果添加成功，则刷新列表
+				$('#tt').datagrid('reload');
+			}
 }
 
 //删除
@@ -141,6 +141,15 @@ function deleteList(){
 	}
 }
 
+/* $(document).ready(function() {
+	 $('#tt').datagrid({
+	  onClickRow: function(rowIndex, rowData){
+	   rows = $('#tt').datagrid('getSelected');
+	   updateForward(rowData);
+	  }
+	 });
+	}); */
+
 
 </script>
 </head>
@@ -149,7 +158,6 @@ function deleteList(){
 	<div class="warning">
 			<div class="content">
 				温馨提示 :添加、删除、修改交易节<br/>
-				       <span class="required">&nbsp; 修改交易节请先选择该条数据，然后点击编号或名称进行修改</span>
 			</div>
 		</div>
 	<div id="tb" >

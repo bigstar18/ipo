@@ -121,6 +121,7 @@ public class Taskmanage extends TimerTask {
 						System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 						ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
 						ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
+						commodity.updateByStatus(2, commId);
 					}
 					System.out.println("中签号匹配完成");
 					System.out.println(commId + "尾号记录开始");
