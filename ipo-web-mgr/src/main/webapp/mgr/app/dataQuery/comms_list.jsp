@@ -8,6 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+<style type="text/css">input {line-height: 14px;}</style>
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
@@ -32,7 +33,7 @@ $(document).ready(function() {
      		commodityname: null,
      		commodityid: null,
      		starttime:null,
-     		endtime: null,
+     		endtime: null
     	    },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
@@ -57,6 +58,7 @@ $(document).ready(function() {
             	 if(value=='2') return "已配号";
             	 if(value=='3') return "已摇号";
             	 if(value=='4') return "已结算";
+            	 return "未上市";
            }
           }, {  
               field : 'starttime',  
@@ -130,7 +132,7 @@ function doSearch(){
 		commodityname: $('#commodityname').val(),
 		commodityid: $('#commodityid').val(),
 		starttime: $('#starttime').datebox('getValue'),
-		endtime: $('#endtime').datebox('getValue'),
+		endtime: $('#endtime').datebox('getValue')
 	});
 }
 

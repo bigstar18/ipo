@@ -116,16 +116,13 @@ function addComm(){
                                url: "<%=request.getContextPath()%>/BreedController/addCommodity",       
                                data: $("#frm").serialize(),      
                                success: function(data) { 
-                            	   if(data=='true'){
+                            	   if(data=='success'){
                                    alert("添加成功！"); 
                                    returntoList();
                             	   }else{
                             		   alert("系统异常，请联系管理员");  
                             	   }
-                               },  
-                               error: function(data) {  
-                                   alert("系统异常，请联系管理员");  
-                               }  
+                               }
                            }) ;
 			           }
                        if(data=='2'){
@@ -173,7 +170,7 @@ function on_change(){
 	</div>
 	<table border="0"  height="100%" width="100%">
 		<tr>
-			<td>
+			<td valign="top">
 				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
 				<fieldset>
 				<legend class="common"><b>设置商品信息</b></legend>
@@ -200,7 +197,7 @@ function on_change(){
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${entity.breedname }"
-            								class="easyui-textbox" data-options="required:true"  style="width: 60; background-color:gray"  readonly="readonly"/>          
+            								class="easyui-textbox" data-options="required:true"  style="width: 80; background-color:gray"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>   
             							</td>    
         								<td align="right" ></td> 
@@ -213,12 +210,12 @@ function on_change(){
 									<tr>
         	  							<td align="right">商品名称：</td>
             							<td><input id="commodityname" name="commodityname" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 80"/>          
             							</td>    
         								<td align="right" >商品代码：</td> 
             							<td> 
 			  							<input id="commodityid" name="commodityid" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>          
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 80"/>          
             							</td>
             							<td align="right">当前状态</td>
 										<td>
@@ -233,15 +230,15 @@ function on_change(){
 							            <td align="right" >开市指导价：</td>
             							<td >
             							<input id="supervisedprice" name="supervisedprice" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 60"/>
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 80"/>
 							            </td>        
 							            <td align="right">上市日期：</td>
 							            <td>
-			  							<input type="text" id="listingdate" name="listingdate" value="" ></input>       
+			  							<input type="text" id="listingdate" name="listingdate" value="" style="width: 80"></input>       
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input type="text" id="lasttradate" name="lasttradate" value=""></input> 
+										<input type="text" id="lasttradate" name="lasttradate" value="" style="width: 80"></input> 
 								      	</td>
         							</tr> 
 									<tr>
@@ -257,7 +254,7 @@ function on_change(){
             							</td>
             							<td align="right">对应现货商品</td>
 										<td>
-										<select id="mapperid" name="mapperid" style="width:100">
+										<select id="mapperid" name="mapperid" style="width:80">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="Tcomm" items="${Tlist}">
                                                       <option value="${Tcomm.commodityid}">${Tcomm.name}</option>
@@ -289,7 +286,7 @@ function on_change(){
 									<tr>
         	  							<td align="right">交易单位：</td>
             							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"   readonly="readonly"
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60; background-color: C0C0C0"  />          
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 80; background-color: C0C0C0"  />          
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
@@ -347,7 +344,7 @@ function on_change(){
 								    <tr>
         	  							<td align="right">发行会员编号：</td>
             							<td>
-            							<select id="pubmemberid" name="pubmemberid" style="width:100">
+            							<select id="pubmemberid" name="pubmemberid" style="width:80">
 								            		<option value="">请选择</option>
                                                     <c:forEach var="pubmember" items="${Blist}">
                                                       <option value="${pubmember.brokerid}">${pubmember.name}</option>
@@ -356,27 +353,27 @@ function on_change(){
             							</td>    
         								<td align="right" >发行开始日期：</td> 
             							<td> 
-			  								<input type="text" id="starttime" name="starttime" value=""></input> 
+			  								<input type="text" id="starttime" name="starttime" value="" style="width: 80"></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input type="text" id="endtime" name="endtime" value=""></input> 
+											<input type="text" id="endtime" name="endtime" value="" style="width: 80"></input> 
 										</td>
         							</tr>
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="width: 60"/>          
+            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="width: 80"/>          
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 80" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
             							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 60" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 80" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
 										</td>
         							</tr>
 							        <tr>
@@ -391,13 +388,13 @@ function on_change(){
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
-			  									style="ime-mode:disabled; width: 60" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 			  								<span id="dealerpubcharatioPercent">%</span>          
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
-												style="ime-mode:disabled; width: 70" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+												style="ime-mode:disabled; width: 80" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
 											<span id="mktdeapubcharatioPercent">%</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
