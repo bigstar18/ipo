@@ -130,6 +130,14 @@ public class SysController {
 		}
 	}
 
+	// 交易结算结果记录
+	@RequestMapping(value = "/getClearRecords", method = RequestMethod.GET)
+	@ResponseBody
+	public String getClearRecords() throws IOException {
+		// TODO
+		return null;
+	}
+
 	// 结算 ，防止并发
 	@RequestMapping(value = "/settle", method = RequestMethod.POST)
 	@ResponseBody

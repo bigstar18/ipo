@@ -72,248 +72,6 @@ public class SystemManager {
 	@Autowired
 	private SectionManager sectionManager;
 
-	@PostConstruct
-	private void postConstruct() throws Exception {
-		logger.info("执行IpoSystem: postConstruct");
-
-		sectionManager.init();
-		init();
-	}
-
-	private void init() throws Exception {
-		initTime();
-
-		initStatus();
-		logger.info("当前系统状态：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
-
-		startListener();
-	}
-
-	// 时间差
-	private void initTime() {
-		timeDiff = mapper.getDBTime().getTime() - System.currentTimeMillis();
-		logger.info("数据库时间-本机时间 相差： {}.", timeDiff);
-	}
-
-	// 系统状态
-	private void initStatus() throws Exception {
-		IpoSysStatus sysStatus = mapper.selectAll();
-		if (sysStatus != null) {
-			status = String.valueOf(sysStatus.getStatus());
-			tradeDate = sdf.format(sysStatus.getTradedate());
-			if (sysStatus.getSectionid() != null)
-				section = String.valueOf(sysStatus.getSectionid());
-		} else
-			openMarketInternal();
-	}
-
-	// 市场初始化，自动
-	private void openMarketInternal() throws Exception {
-		Date date = new Date(System.currentTimeMillis() + timeDiff);
-		if (sectionManager.isOpenMarketTime(date)) {
-			initSysStatus(sdf.format(date));
-		}
-	}
-
-	// 初始化入库
-	private void initSysStatus(String dbDate) throws Exception {
-		IpoSysStatus sysStatus = new IpoSysStatus();
-		sysStatus.setTradedate(sdf.parse(dbDate));
-		sysStatus.setStatus(Short.parseShort(STATUS_MARKET_INIT));
-		sysStatus.setSectionid(null);
-		sysStatus.setNote(null);
-		sysStatus.setRecovertime(null);
-
-		mapper.insert(sysStatus);
-
-		this.status = STATUS_MARKET_INIT;
-		this.tradeDate = dbDate;
-	}
-
-	// 交易日切换
-	private void startListener() {
-		listener = new Thread() {
-			public void run() {
-				Thread.currentThread().setName("SystemManager线程");
-				logger.info(Thread.currentThread() + ": 线程启动");
-				while (true) {
-					try {
-						if (status == null) {// 没有初始化，没有前交易日
-							Date date = new Date(System.currentTimeMillis() + timeDiff);
-							if (sectionManager.isOpenMarketTime(date)) {
-								try {
-									openMarketInternal();
-								} catch (Exception e) {
-								}
-							} else {// 休眠到下次开市时间
-								long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(date);
-								try {
-									threadSleep(nextOpenTime);// 只是休眠
-								} catch (InterruptedException e) {
-								}
-							}
-						} else {
-							Date now = new Date(System.currentTimeMillis() + timeDiff);
-							if (sdf.format(now).equals(tradeDate) || isPreTradeDayNormal(now)) {
-								switch (Integer.parseInt(status)) {
-								case 0:// opened, ready to trade
-									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									try {
-										logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。", tradeTime);
-										threadSleep(tradeTime + 1);
-										startTradeInternal();
-									} catch (InterruptedException e) {
-									}
-									break;
-								case 1:// market closed, ready for next day
-									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									try {
-										logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
-										threadSleep(nextOpenTime + 1);
-										reopenMarketInternal();
-									} catch (InterruptedException e) {
-									}
-									break;
-								case 3:// 发现财务结算完成，准备下个交易日的开市
-									nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									try {
-										logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
-										threadSleep(nextOpenTime + 1);
-										reopenMarketInternal();
-									} catch (InterruptedException e) {
-									}
-									break;
-								case 5:// trading
-									long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
-											section);
-									try {
-										logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。", continuedTime);
-										threadSleep(continuedTime);
-										if (sectionManager.isLastSection(section))
-											closeMarketInternal();
-										else
-											restBetweenSection();// 节间休息
-									} catch (InterruptedException e) {
-									}
-									break;
-								case 6:// rest
-									long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
-									// to trade
-									try {
-										logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。", nextTradeTime);
-										threadSleep(nextTradeTime);
-										startTradeInternal();// 新交易节
-									} catch (InterruptedException e) {
-									}
-									break;
-								case 7:// trade close;
-										// close market
-									logger.info("系统交易结束，开始闭市。");
-									closeMarketInternal();
-									break;
-								default:
-									try {
-										threadSleep(1000);
-									} catch (InterruptedException e) {
-									}
-									break;
-								}
-							} else {
-								logger.info("前一交易日没有正常结束：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
-								try {
-									threadSleep(600000);// 休眠10分钟，可被打断
-								} catch (InterruptedException e) {
-								}
-							}
-						}
-					} catch (Throwable t) {
-						logger.error(t.getLocalizedMessage(), t);
-						try {
-							threadSleep(30000);
-						} catch (InterruptedException e) {
-						}
-					}
-				}
-			}
-		};
-		listener.setDaemon(true);
-		listener.start();
-	}
-
-	// 判断前一交易日是否正常结束
-	private boolean isPreTradeDayNormal(Date date) {
-		IpoSysStatus sysStatus = mapper.selectAll();
-		if (sysStatus != null) {// 有记录
-			if (sysStatus.getTradedate().getTime() < date.getTime()) {
-				return STATUS_FINANCE_SETTLED.equals(sysStatus.getStatus());
-			}
-		}
-
-		return false;
-	}
-
-	// 交易状态是否是今天的
-	private boolean isTradeDayToday(Date date) {
-		return sdf.format(date).equals(tradeDate);
-	}
-
-	// 交易日切换
-	private void reopenMarketInternal() {
-		try {
-			openMarket();
-		} catch (Exception e) {
-			logger.info("exception:", e);
-		}
-	}
-
-	// 开市交易
-	private void startTradeInternal() throws Exception {
-		Date date = new Date(System.currentTimeMillis() + timeDiff);
-		this.tradeDate = sdf.format(date);
-		section = String.valueOf(sectionManager.getCurrentSectionId(date));
-
-		updateSysStatus(STATUS_TRADE_DOING, Short.parseShort(section), "交易中");
-	}
-
-	// 节间休息 section不变
-	private void restBetweenSection() throws Exception {
-		updateSysStatus(STATUS_TRADE_REST, null, "节间休息");
-	}
-
-	// 闭市
-	private void closeMarketInternal() throws Exception {
-		Date date = new Date(System.currentTimeMillis() + timeDiff);
-		this.tradeDate = sdf.format(date);
-
-		updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
-	}
-
-	// 状态变更入库
-	private void updateSysStatus(String status, Short sectionId, String remark) throws Exception {
-		try {
-			IpoSysStatus sysStatus = new IpoSysStatus();
-			sysStatus.setTradedate(sdf.parse(tradeDate));
-			sysStatus.setStatus(Short.parseShort(status));
-			if (sectionId != null)
-				sysStatus.setSectionid(sectionId);
-			sysStatus.setNote(remark);
-
-			int i = mapper.updateByPrimaryKeySelective(sysStatus);
-			if (i < 1)
-				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
-			this.status = status;// 先入库后变更状态，防止事务回滚导致状态不一致
-
-			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
-		} catch (Exception e) {
-			logger.info("error:", e);
-			throw e;
-		}
-	}
-
-	private void threadSleep(long millis) throws InterruptedException {
-		Thread.currentThread().sleep(millis);
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -458,6 +216,246 @@ public class SystemManager {
 		updateSysStatus(STATUS_MARKET_SETTLED, null, "");
 	}
 
+	/**
+	 * 重新载入交易节和非交易日
+	 */
+	public void reloadSections() {
+		sectionManager.init();
+		listener.interrupt();// 让系统重新判别状态
+	}
+
+	@PostConstruct
+	private void postConstruct() throws Exception {
+		logger.info("执行IpoSystem: postConstruct");
+
+		sectionManager.init();
+		init();
+	}
+
+	private void init() throws Exception {
+		initTime();
+
+		initStatus();
+		logCurStatus();
+
+		startListener();
+	}
+
+	// 时间差
+	private void initTime() {
+		timeDiff = mapper.getDBTime().getTime() - System.currentTimeMillis();
+		logger.info("数据库时间-本机时间 相差： {}.", timeDiff);
+	}
+
+	// 系统状态
+	private void initStatus() throws Exception {
+		IpoSysStatus sysStatus = mapper.selectAll();
+		if (sysStatus != null) {
+			status = String.valueOf(sysStatus.getStatus());
+			tradeDate = sdf.format(sysStatus.getTradedate());
+			if (sysStatus.getSectionid() != null)
+				section = String.valueOf(sysStatus.getSectionid());
+		} else
+			openMarketInternal();
+	}
+
+	private void logCurStatus() {
+		logger.info("当前系统状态：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
+	}
+
+	// 市场初始化，自动
+	private void openMarketInternal() throws Exception {
+		Date date = new Date(System.currentTimeMillis() + timeDiff);
+		if (sectionManager.isOpenMarketTime(date)) {
+			initSysStatus(sdf.format(date));
+		}
+	}
+
+	// 初始化入库
+	private void initSysStatus(String dbDate) throws Exception {
+		IpoSysStatus sysStatus = new IpoSysStatus();
+		sysStatus.setTradedate(sdf.parse(dbDate));
+		sysStatus.setStatus(Short.parseShort(STATUS_MARKET_INIT));
+		sysStatus.setSectionid(null);
+		sysStatus.setNote(null);
+		sysStatus.setRecovertime(null);
+
+		mapper.insert(sysStatus);
+
+		this.status = STATUS_MARKET_INIT;
+		this.tradeDate = dbDate;
+	}
+
+	// 交易日切换
+	private void startListener() {
+		listener = new Thread() {
+			public void run() {
+				Thread.currentThread().setName("SystemManager线程");
+				logger.info(Thread.currentThread() + ": 线程启动");
+				while (true) {
+					try {
+						if (status == null) {// 没有初始化，没有前交易日
+							Date date = new Date(System.currentTimeMillis() + timeDiff);
+							if (sectionManager.isOpenMarketTime(date)) {
+								try {
+									openMarketInternal();
+								} catch (Exception e) {
+								}
+							} else {// 休眠到下次开市时间
+								long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(date);
+								threadSleep(nextOpenTime);// 可被打断
+							}
+						} else {
+							Date now = new Date(System.currentTimeMillis() + timeDiff);
+							if (sdf.format(now).equals(tradeDate) || isPreTradeDayNormal(now)) {
+								switch (Integer.parseInt(status)) {
+								case 0:// opened, ready to trade
+									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。", tradeTime);
+
+									if (tradeTime > 0)
+										threadSleep(tradeTime + 1);
+									startTradeInternal();
+
+									break;
+								case 1:// market closed, ready for next day
+									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+
+									threadSleep(nextOpenTime + 1);
+									reopenMarketInternal();
+
+									break;
+								case 3:// 发现财务结算完成，准备下个交易日的开市
+									nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+
+									threadSleep(nextOpenTime + 1);
+									reopenMarketInternal();
+
+									break;
+								case 5:// trading
+									long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
+											section);
+									logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。", continuedTime);
+
+									threadSleep(continuedTime);
+									if (sectionManager.isLastSection(section))
+										closeMarketInternal();
+									else
+										restBetweenSection();// 节间休息
+
+									break;
+								case 6:// rest
+									long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
+									logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。", nextTradeTime);
+
+									threadSleep(nextTradeTime);
+									startTradeInternal();// 新交易节 // to trade
+
+									break;
+								case 7:// trade close; // close market
+									logger.info("系统交易结束，开始闭市。");
+
+									closeMarketInternal();
+									break;
+								default:
+									threadSleep(1000);
+									break;
+								}
+							} else {
+								logger.info("前一交易日没有正常结束：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
+								threadSleep(600000);// 休眠10分钟，可被打断
+							}
+						}
+					} catch (Throwable t) {
+						logger.error(t.getLocalizedMessage(), t);
+						threadSleep(30000);
+					}
+				}
+			}
+		};
+		listener.setDaemon(true);
+		listener.start();
+	}
+
+	// 判断前一交易日是否正常结束
+	private boolean isPreTradeDayNormal(Date date) {
+		IpoSysStatus sysStatus = mapper.selectAll();
+		if (sysStatus != null) {// 有记录
+			if (sysStatus.getTradedate().getTime() < date.getTime()) {
+				return STATUS_FINANCE_SETTLED.equals(sysStatus.getStatus());
+			}
+		}
+
+		return false;
+	}
+
+	// 交易状态是否是今天的
+	private boolean isTradeDayToday(Date date) {
+		return sdf.format(date).equals(tradeDate);
+	}
+
+	// 交易日切换
+	private void reopenMarketInternal() {
+		try {
+			openMarket();
+		} catch (Exception e) {
+			logger.info("exception:", e);
+		}
+	}
+
+	// 开市交易
+	private void startTradeInternal() throws Exception {
+		Date date = new Date(System.currentTimeMillis() + timeDiff);
+		this.tradeDate = sdf.format(date);
+		section = String.valueOf(sectionManager.getCurrentSectionId(date));
+
+		updateSysStatus(STATUS_TRADE_DOING, Short.parseShort(section), "交易中");
+	}
+
+	// 节间休息 section不变
+	private void restBetweenSection() throws Exception {
+		updateSysStatus(STATUS_TRADE_REST, null, "节间休息");
+	}
+
+	// 闭市
+	private void closeMarketInternal() throws Exception {
+		Date date = new Date(System.currentTimeMillis() + timeDiff);
+		this.tradeDate = sdf.format(date);
+
+		updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
+	}
+
+	// 状态变更入库
+	private void updateSysStatus(String status, Short sectionId, String remark) throws Exception {
+		try {
+			IpoSysStatus sysStatus = new IpoSysStatus();
+			sysStatus.setTradedate(sdf.parse(tradeDate));
+			sysStatus.setStatus(Short.parseShort(status));
+			if (sectionId != null)
+				sysStatus.setSectionid(sectionId);
+			sysStatus.setNote(remark);
+
+			int i = mapper.updateByPrimaryKeySelective(sysStatus);
+			if (i < 1)
+				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
+			this.status = status;// 先入库后变更状态，防止事务回滚导致状态不一致
+			logChangeStatus();
+		} catch (Exception e) {
+			logger.info("error:", e);
+			throw e;
+		}
+	}
+
+	private void threadSleep(long millis) {
+		try {
+			Thread.currentThread().sleep(millis);// 只是休眠
+		} catch (InterruptedException e) {
+			logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}", Thread.currentThread().getName(), tradeDate, status, section);
+		}
+	}
+
 	// 预防多实例并发
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	private void updateSysStatusLock(String oldStatus, String toStatus, Short sectionId, String remark) throws Exception {
@@ -474,13 +472,17 @@ public class SystemManager {
 				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
 			this.status = toStatus;// 先入库后变更状态，防止事务回滚导致状态不一致
 
-			logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, toStatus, section);
+			logChangeStatus();
 		} catch (Exception e) {
 			logger.info("error:", e);
 			throw e;
 		}
 		// batchUpdate（）
 		// -2表示update成功，但无法获取准确数目。
+	}
+
+	private void logChangeStatus() {
+		logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 	}
 
 	// 状态变更入库
@@ -500,13 +502,6 @@ public class SystemManager {
 			logger.info("error:", e);
 			throw e;
 		}
-	}
-
-	/**
-	 * 重新载入交易节和非交易日
-	 */
-	public void reloadSections() {
-		sectionManager.init();
 	}
 
 	public static void main(String[] args) {

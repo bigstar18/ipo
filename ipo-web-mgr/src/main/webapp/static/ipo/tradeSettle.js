@@ -1,3 +1,4 @@
+var clearStatus;
 $ (document).ready (function ()
 {
 	$ ('#add').css ('disabled', "true");
@@ -19,12 +20,16 @@ function getStatus ()
 		    showStatus (data);
 	    }
 	});
-	
-	setTimeout ("getStatus()", 2000);
+	// 结算成功了就不做
+	if (clearStatus != 3 && clearStatus != 10)
+	{
+		setTimeout ("getStatus()", 2000);
+	}
 }
 
 function showStatus (result)
 {
+	clearStatus = result;
 	var statusStr = "";
 	if (result == 2)
 	{
@@ -75,18 +80,4 @@ function addF ()
 		    }
 		});
 	}
-}
-
-function updateList (data)
-{
-	// id,status,time
-}
-
-function ecReloadF ()
-{
-	if (document.readyState == "complete") // 当页面加载状态为完全结束时进入
-	{
-		ECSideUtil.reload ('ec');
-	}
-	setTimeout ("ecReloadF()", 1000);
 }

@@ -62,6 +62,133 @@ public class SectionManager {
 			logger.info("非交易日: 星期=({}),日期={}", nonTradeDay.getWeek(), nonTradeDay.getDay());
 	}
 
+	/**
+	 * 是否是开市时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public boolean isOpenMarketTime(Date date) {
+		if (!isTradeDay(date))
+			return false;
+
+		if (isTimeInSections(date))
+			return true;
+		else if (isTimeIn5mBeforeSection(date))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * 现在离开市时间有多久毫秒，注意：没有计算非交易日
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public long getOpenMarketTimeFromNow(Date date) {
+		long in = date.getTime();
+		long start = getTimeBeforSection5m(date).getTimeInMillis();
+		long result = start - in;
+		return result < 0 ? dayOfMM + result : result;
+	}
+
+	/**
+	 * 离第一个交易节还差多少毫秒
+	 * 当天的交易日
+	 * 
+	 * @deprecated 无用 ,
+	 * @see SectionManager#getNextTradeTimeFromNow(Date)
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public long getFirstTradeTimeFromNow(Date date) {
+		long in = date.getTime();
+		long start = getFirstSectionTimeByDate(date).getTimeInMillis();
+		long result = start - in;
+		return result;
+	}
+
+	/**
+	 * 离当前交易节结束还有多少毫秒
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public long getCurSectionEndTimeFromNow(Date date, String sectionId) {
+		if (tradetimes != null) {
+			for (IpoTradetime ipoTradetime : tradetimes) {
+				String section = String.valueOf(ipoTradetime.getSectionid());
+				if (section.equals(sectionId)) {
+					long in = date.getTime();
+					long end = getEndTime(ipoTradetime, date).getTimeInMillis();
+
+					return end - in;
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 下一个交易节开始还有多少毫秒
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public long getNextTradeTimeFromNow(Date date) {
+		if (isTimeInSections(date))
+			return 0;// 立刻开始
+
+		if (tradetimes != null) {
+			int input = date.getHours() * 10000 + date.getMinutes() * 100 + date.getSeconds();
+			for (IpoTradetime ipoTradetime : tradetimes) {
+				String start = ipoTradetime.getStarttime().replaceAll(":", "");
+				if (input <= Integer.parseInt(start)) {// 有序
+					long in = date.getTime();
+					long next = getStartTime(ipoTradetime, date).getTimeInMillis();
+
+					return next - in;
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 是否是最后一个交易节
+	 * 
+	 * @param sectionId
+	 * @return
+	 */
+	public boolean isLastSection(String sectionId) {
+		IpoTradetime tradetime = getLastSection();
+		if (tradetime != null) {
+			return sectionId.equals(tradetime.getSectionid().toString());
+		}
+		return false;
+	}
+
+	/**
+	 * 现在所处的交易节
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public int getCurrentSectionId(Date date) {
+		IpoTradetime ipoTradetime = getSectionByTime(date);
+
+		if (ipoTradetime != null) {
+			return ipoTradetime.getSectionid();
+
+		}
+
+		return -1;
+	}
+
 	private void printSections() {
 		if (tradetimes != null && tradetimes.size() > 0) {
 			for (Iterator iterator = tradetimes.iterator(); iterator.hasNext();) {
@@ -140,130 +267,6 @@ public class SectionManager {
 			return getStartTime(tradetimes.get(0), date);
 		}
 		return null;
-	}
-
-	/**
-	 * 是否是开市时间
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public boolean isOpenMarketTime(Date date) {
-		if (!isTradeDay(date))
-			return false;
-
-		if (isTimeInSections(date))
-			return true;
-		else if (isTimeIn5mBeforeSection(date))
-			return true;
-		else
-			return false;
-	}
-
-	/**
-	 * 现在离开市时间有多久毫秒，注意：没有计算非交易日
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public long getOpenMarketTimeFromNow(Date date) {
-		long in = date.getTime();
-		long start = getTimeBeforSection5m(date).getTimeInMillis();
-		long result = start - in;
-		return result < 0 ? dayOfMM + result : result;
-	}
-
-	/**
-	 * 离第一个交易节还差多少毫秒
-	 * 当天的交易日
-	 * 
-	 * @deprecated 无用 ,
-	 * @see SectionManager#getNextTradeTimeFromNow(Date)
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public long getFirstTradeTimeFromNow(Date date) {
-		long in = date.getTime();
-		long start = getFirstSectionTimeByDate(date).getTimeInMillis();
-		long result = start - in;
-		return result;
-	}
-
-	/**
-	 * 离当前交易节结束还有多少毫秒
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public long getCurSectionEndTimeFromNow(Date date, String sectionId) {
-		if (tradetimes != null) {
-			for (IpoTradetime ipoTradetime : tradetimes) {
-				String section = String.valueOf(ipoTradetime.getSectionid());
-				if (section.equals(sectionId)) {
-					long in = date.getTime();
-					long end = getEndTime(ipoTradetime, date).getTimeInMillis();
-
-					return end - in;
-				}
-			}
-		}
-
-		return 0;
-	}
-
-	/**
-	 * 下一个交易节开始还有多少毫秒
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public long getNextTradeTimeFromNow(Date date) {
-		if (tradetimes != null) {
-			int input = date.getHours() * 10000 + date.getMinutes() * 100 + date.getSeconds();
-			for (IpoTradetime ipoTradetime : tradetimes) {
-				String start = ipoTradetime.getStarttime().replaceAll(":", "");
-				if (input <= Integer.parseInt(start)) {// 有序
-					long in = date.getTime();
-					long next = getStartTime(ipoTradetime, date).getTimeInMillis();
-
-					return next - in;
-				}
-			}
-		}
-
-		return 0;
-	}
-
-	/**
-	 * 是否是最后一个交易节
-	 * 
-	 * @param sectionId
-	 * @return
-	 */
-	public boolean isLastSection(String sectionId) {
-		IpoTradetime tradetime = getLastSection();
-		if (tradetime != null) {
-			return sectionId.equals(tradetime.getSectionid().toString());
-		}
-		return false;
-	}
-
-	/**
-	 * 现在所处的交易节
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public int getCurrentSectionId(Date date) {
-		IpoTradetime ipoTradetime = getSectionByTime(date);
-
-		if (ipoTradetime != null) {
-			return ipoTradetime.getSectionid();
-
-		}
-
-		return -1;
 	}
 
 	// 最后一个交易节

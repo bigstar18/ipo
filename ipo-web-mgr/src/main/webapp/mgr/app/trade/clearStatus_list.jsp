@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>财务结算</title>
+<script src="<%=request.getContextPath()%>/static/ipo/clearStatus.js" type="text/javascript"></script>
 </head>
 <body>
 	<table id="dg" title="手工结算" class="easyui-datagrid" toolbar="#toolbar" fitColumns="true" singleSelect="true">

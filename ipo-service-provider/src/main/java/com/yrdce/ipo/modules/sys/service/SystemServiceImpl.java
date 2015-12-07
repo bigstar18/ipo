@@ -132,6 +132,12 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
+	public String getClearRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void writeOperateLog(CGloballogAll log) throws Exception {
 		com.yrdce.ipo.modules.sys.entity.CGloballogAll entity = new com.yrdce.ipo.modules.sys.entity.CGloballogAll();
