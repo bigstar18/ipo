@@ -34,7 +34,6 @@ $(document).ready(function() {
          remoteSort:false,
          columns : [ [ {
         	 fiele : 'checked',
-        	 width : 200,
         	 checkbox:true
          },{
              field : 'sectionid',
@@ -78,7 +77,7 @@ $(document).ready(function() {
         	 if(data){
         		 $.each(data.rows, function(index, item){
         			 if(item.checked){
-        				 $('#dg').datagrid('checkRow', index);
+        				 $('#tt').datagrid('checkRow', index);
         			 }
         		 });
         	 }
@@ -140,17 +139,6 @@ function deleteList(){
 		alert("请选择要删除的交易节");
 	}
 }
-
-/* $(document).ready(function() {
-	 $('#tt').datagrid({
-	  onClickRow: function(rowIndex, rowData){
-	   rows = $('#tt').datagrid('getSelected');
-	   updateForward(rowData);
-	  }
-	 });
-	}); */
-
-
 </script>
 </head>
 <body>
@@ -169,10 +157,5 @@ function deleteList(){
 	<table id="tt" width="100%"></table>
 		
 </div>
-		<!-- 编辑和过滤所使用的 通用的文本框模板 -->
-		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
-			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
-		</textarea>
 </body>
-
 </html>
