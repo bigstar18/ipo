@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 @Service("ipoCommConfService")
 public class CommoConfServiceImpl implements IpoCommConfService {
+	
+	static Logger log = LoggerFactory.getLogger(CommoConfServiceImpl.class);
 	
 	@Autowired
 	private IpoCommodityConfMapper ipoCommodityConfmapper;
@@ -80,6 +84,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			VIpoCommConf ipocommconf=new VIpoCommConf();
 			IpoCommodityConf comm=ipoCommodityConfmapper.findIpoCommConfByCommid(commid);
 			if(comm!=null){
+			log.info(comm.toString());
 			BeanUtils.copyProperties(comm, ipocommconf);
 			}
 			return ipocommconf;
