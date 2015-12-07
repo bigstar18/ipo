@@ -222,6 +222,7 @@ public class SystemManager {
 	 */
 	public void reloadSections() {
 		sectionManager.init();
+		reloadStatus();
 		listener.interrupt();// 让系统重新判别状态
 	}
 
@@ -258,6 +259,17 @@ public class SystemManager {
 				section = String.valueOf(sysStatus.getSectionid());
 		} else
 			openMarketInternal();
+	}
+
+	// 系统状态
+	private void reloadStatus() {
+		IpoSysStatus sysStatus = mapper.selectAll();
+		if (sysStatus != null) {
+			status = String.valueOf(sysStatus.getStatus());
+			tradeDate = sdf.format(sysStatus.getTradedate());
+			if (sysStatus.getSectionid() != null)
+				section = String.valueOf(sysStatus.getSectionid());
+		}
 	}
 
 	private void logCurStatus() {
@@ -312,48 +324,63 @@ public class SystemManager {
 								switch (Integer.parseInt(status)) {
 								case 0:// opened, ready to trade
 									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。", tradeTime);
+									try {
+										logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。", tradeTime);
+										Thread.currentThread().sleep(tradeTime + 1);
 
-									if (tradeTime > 0)
-										threadSleep(tradeTime + 1);
-									startTradeInternal();
-
+										startTradeInternal();
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
 									break;
 								case 1:// market closed, ready for next day
 									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+									try {
+										logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+										Thread.currentThread().sleep(nextOpenTime + 1);
 
-									threadSleep(nextOpenTime + 1);
-									reopenMarketInternal();
-
+										reopenMarketInternal();
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
 									break;
 								case 3:// 发现财务结算完成，准备下个交易日的开市
 									nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
-									logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+									try {
+										logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+										Thread.currentThread().sleep(nextOpenTime + 1);
 
-									threadSleep(nextOpenTime + 1);
-									reopenMarketInternal();
-
+										reopenMarketInternal();
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
 									break;
 								case 5:// trading
 									long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
 											section);
-									logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。", continuedTime);
+									try {
+										logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。", continuedTime);
+										Thread.currentThread().sleep(continuedTime);
 
-									threadSleep(continuedTime);
-									if (sectionManager.isLastSection(section))
-										closeMarketInternal();
-									else
-										restBetweenSection();// 节间休息
-
+										if (sectionManager.isLastSection(section))
+											closeMarketInternal();
+										else
+											restBetweenSection();// 节间休息
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
 									break;
 								case 6:// rest
 									long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
-									logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。", nextTradeTime);
+									// to trade
+									try {
+										logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。", nextTradeTime);
+										Thread.currentThread().sleep(nextTradeTime);
 
-									threadSleep(nextTradeTime);
-									startTradeInternal();// 新交易节 // to trade
-
+										startTradeInternal();// 新交易节
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
 									break;
 								case 7:// trade close; // close market
 									logger.info("系统交易结束，开始闭市。");
@@ -453,8 +480,12 @@ public class SystemManager {
 		try {
 			Thread.currentThread().sleep(millis);// 只是休眠
 		} catch (InterruptedException e) {
-			logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}", Thread.currentThread().getName(), tradeDate, status, section);
+			logResumeStatus();
 		}
+	}
+
+	private void logResumeStatus() {
+		logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}", Thread.currentThread().getName(), tradeDate, status, section);
 	}
 
 	// 预防多实例并发
