@@ -14,6 +14,21 @@
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 <script type="text/javascript">
  
+function parseISO8601(dateStringInRange) {
+     var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+         date = new Date(NaN), month,
+         parts = isoExp.exec(dateStringInRange);
+   
+     if(parts) {
+       month = +parts[2];
+       date.setFullYear(parts[1], month - 1, parts[3]);
+       if(month != date.getMonth() + 1) {
+         date.setTime(NaN);
+       }
+     }
+     return date;//new Date(str) IE8不兼容
+   }
+ 	 
 $(document).ready(function() {
 	 $('#tt').datagrid({  
          title:'发售商品查询',  
@@ -96,8 +111,8 @@ $(document).ready(function() {
 		                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 		                },
 		                onSelect:function (date){
-		                  var stime=new Date($('#starttime').datebox('getValue'));
-		   		          var etime=new Date($('#endtime').datebox('getValue'));
+		                  var stime=parseISO8601($('#starttime').datebox('getValue'));
+		   		          var etime=parseISO8601($('#endtime').datebox('getValue'));
 		   		    	   if (etime < stime) {
 		   		               alert('结束日期小于开始日期');
 		   		               $('#starttime').datebox('setValue', '').datebox('showPanel');
@@ -113,17 +128,14 @@ $(document).ready(function() {
 		                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 		                },
 		                onSelect:function (date){
-		                  var stime=new Date($('#starttime').datebox('getValue'));
-		   		          var etime=new Date($('#endtime').datebox('getValue'));
+		                  var stime=parseISO8601($('#starttime').datebox('getValue'));
+		   		          var etime=parseISO8601($('#endtime').datebox('getValue'));
 		   		    	   if (etime < stime) {
 		   		               alert('结束日期小于开始日期');
 		   		               $('#endtime').datebox('setValue', '').datebox('showPanel');
 		   		           } 	
 		   	     	}
 		            });  
-		       
-	    
-	    
 });
 
 function doSearch(){

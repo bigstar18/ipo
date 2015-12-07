@@ -42,6 +42,12 @@ public interface SystemService {
 	public String getSysStatusFromMem();
 
 	/**
+	 * 
+	 * @return
+	 */
+	public String getClearRecords();
+
+	/**
 	 * 控制系统状态
 	 * 
 	 * @param code

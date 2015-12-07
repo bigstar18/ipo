@@ -42,16 +42,17 @@
 			                <th data-options="field:'price',width:160">发售价格</th>
 			                <th data-options="field:'units',width:160">配售单位</th>
 			                <th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
+			                <th data-options="field:'endtime',width:160,formatter:dateconvertfunc">发售日期</th>
 			            </tr>
 			        </thead>
 			    </table>
 			
 			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:385px;padding:10px;overflow:hidden;">
-				    <form class="form-inline"  id="fm1" style="margin-top: 10px">
+				    <form class="form-inline"  id="fm1" style="margin-top: 10px" onsubmit="return false;">
 				      <div class="form-group">
 				        <label>产品代码：</label>
 				        <input type="hidden" id="id" />
-				        <input type="text" id="commodityid"   class="form-control"  placeholder="请输入产品代码" style="height: 25px; padding-top: 0px; padding-bottom: 0px;"  onkeyup="showInfo(this.value)">
+				        <input type="text" id="commodityid" class="form-control"  placeholder="请输入产品代码" style="height: 25px; padding-top: 0px; padding-bottom: 0px;"  onkeyup="showInfo(this.value)" autocomplete="off" />
 				      </div>
 				    </form>
 				    <div class="infos">
@@ -138,7 +139,7 @@ $(document).ready(function() {
 	            	$("#remind").text("提交订单成功！");
 	            }  
 	            if (data == "1") {  
-	            	$("#remind").text("现在非申购时间！");
+	            	$("#remind").text("不在商品发售期！");
 	            }  
 	            if (data == "2") {  
 	            	$("#remind").text("资金不足！");
@@ -153,7 +154,7 @@ $(document).ready(function() {
 	            	$("#remind").text("超出商品申购额度！");
 	            }
 	            if(data == "6"){
-	            	$("#remind").text("不在商品发售期");
+	            	$("#remind").text("现在非申购时间！");
 	            }
 	        },  
 	        error : function(data) {  

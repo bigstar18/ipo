@@ -72,18 +72,10 @@ $(document).ready(function() {
          pagination : true,
          rownumbers : false,
          selectOnCheck: false,
-         checkOnSelect: false,
-         onLoadSuccess:function(data){ 
-        	 if(data){
-        		 $.each(data.rows, function(index, item){
-        			 if(item.checked){
-        				 $('#tt').datagrid('checkRow', index);
-        			 }
-        		 });
-        	 }
-         }
+         checkOnSelect: false
+         
      });
-	
+	 $('tt').datagrid('fitColumns');
 	 var p = $('#tt').datagrid('getPager');
 	    $(p).pagination({
 	        beforePageText: '第',

@@ -11,6 +11,6 @@ public interface Purchase {
 	 * 
 	 * Methods:商品申购
 	 */
-	public int apply(String userid, String sid, Integer count, Integer id);
+	public int apply(String userid, String sid, Integer count, Integer id) throws Exception;
 
 }
