@@ -78,8 +78,13 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	public VIpoCommConf getVIpoCommConfByCommid(String commid) {
 		try{
 			VIpoCommConf ipocommconf=new VIpoCommConf();
+			if(ipoCommodityConfmapper.findIpoCommConfByCommid(commid)!=null){
 			BeanUtils.copyProperties(ipoCommodityConfmapper.findIpoCommConfByCommid(commid), ipocommconf);
-			return ipocommconf;	
+			return ipocommconf;
+			}
+			else{
+				return null;
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
