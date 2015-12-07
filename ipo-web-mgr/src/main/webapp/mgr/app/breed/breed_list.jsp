@@ -145,7 +145,7 @@ function deleteBreed(){
 
 //修改品种配置信息，跳转到修改页面
 function updateBreed(breedid){
-	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid ;
+	var Url = "<%=request.getContextPath()%>/IpoController/updateBreedforward?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000) ;
 	document.location.href = Url;
 }
 

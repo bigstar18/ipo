@@ -185,7 +185,7 @@ public class IpoController extends BaseController {
 		request.setAttribute("crud", "update");
 		log.info("跳转至修改页面");
 		VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
-		System.out.println(vbreed);
+		log.info(vbreed.toString());
 		Mlist = mBreedservice.findAll();
 		request.setAttribute("Mlist", Mlist);
 		request.setAttribute("entity", vbreed);
