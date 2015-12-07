@@ -63,18 +63,32 @@ public class SectionManager {
 	}
 
 	/**
+	 * 是否是交易时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public boolean isTradeTime(Date date) {
+		if (!isTradeDay(date))
+			return false;
+
+		if (isTimeInSections(date))
+			return true;
+		else
+			return false;
+	}
+
+	/**
 	 * 是否是开市时间
 	 * 
 	 * @param date
 	 * @return
 	 */
 	public boolean isOpenMarketTime(Date date) {
-		if (!isTradeDay(date))
-			return false;
-
-		if (isTimeInSections(date))
+		if (isTradeTime(date))
 			return true;
-		else if (isTimeIn5mBeforeSection(date))
+
+		if (isTimeIn5mBeforeSection(date))
 			return true;
 		else
 			return false;

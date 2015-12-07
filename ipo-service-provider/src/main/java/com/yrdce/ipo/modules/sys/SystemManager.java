@@ -83,7 +83,8 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public boolean canSystemTrade() throws Exception {
-		return STATUS_TRADE_DOING.equals(status);
+		Date date = new Date(System.currentTimeMillis() + timeDiff);
+		return STATUS_TRADE_DOING.equals(status) && isTradeDayToday(date) && sectionManager.isTradeTime(date);
 	}
 
 	/**
@@ -307,7 +308,7 @@ public class SystemManager {
 							}
 						} else {
 							Date now = new Date(System.currentTimeMillis() + timeDiff);
-							if (sdf.format(now).equals(tradeDate) || isPreTradeDayNormal(now)) {
+							if (isTradeDayToday(now) || isPreTradeDayNormal(now)) {
 								switch (Integer.parseInt(status)) {
 								case 0:// opened, ready to trade
 									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
