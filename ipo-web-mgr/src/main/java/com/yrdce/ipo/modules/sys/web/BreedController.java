@@ -81,13 +81,12 @@ public class BreedController extends BaseController {
 	public String findIpoABreeds(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询品种列表");
 		try {
-			List<VIpoABreed> tlist = new ArrayList<VIpoABreed>();
-			tlist = vIpoABreedService.findIpoABreedsByPage(page, rows);
+			List<VIpoABreed> tlist  = vIpoABreedService.findIpoABreedsByPage(page, rows);
 			int totalnums = vIpoABreedService.getTotalIpoABreeds();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
-			// System.out.println(JSON.json(result));
+			log.info(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();

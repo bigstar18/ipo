@@ -42,7 +42,7 @@
 			                <th data-options="field:'price',width:160">发售价格</th>
 			                <th data-options="field:'units',width:160">配售单位</th>
 			                <th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
-			                <th data-options="field:'endtime',width:160,formatter:dateconvertfunc">发售日期</th>
+			                <th data-options="field:'endtime',width:160,formatter:dateconvertfunc">截止日期</th>
 			            </tr>
 			        </thead>
 			    </table>

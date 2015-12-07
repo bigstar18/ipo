@@ -299,10 +299,11 @@
   padding: 0px 2px;
   *margin-top: -1px;
   *height: 18px;
-  *line-height: 18px;
+  *line-height: 14px;
   _height: 18px;
-  _line-height: 18px;
+  _line-height: 14px;
   vertical-align: baseline;
+  line-height: 14px;
 }
 .combo-arrow {
   width: 18px;
@@ -1255,6 +1256,7 @@ a:hover.l-btn-disabled {
 .pagination-page-list,
 .pagination .pagination-num {
   border-color: #95B8E7;
+  line-height: 14px;
 }
 .calendar {
   border-width: 1px;
