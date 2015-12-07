@@ -166,7 +166,8 @@ public class CommodityServiceImpl implements CommodityService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		IpoCommodity example=new IpoCommodity();
-		BeanUtils.copyProperties(comm, example);
+		if(comm!=null){
+		BeanUtils.copyProperties(comm, example);}
 		List<IpoCommodity> commlist = ipoCommodityMapper.queryByConditions((curpage - 1) * pagesize + 1, curpage * pagesize, example);
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
 		for (int i = 0; i < commlist.size(); i++) {
@@ -181,7 +182,8 @@ public class CommodityServiceImpl implements CommodityService {
 	@Override
 	public Integer countByConditions(Commodity comm) {
 		IpoCommodity example=new IpoCommodity();
-		BeanUtils.copyProperties(comm, example);
+		if(comm!=null){
+			BeanUtils.copyProperties(comm, example);}
 		return ipoCommodityMapper.countByConditions(example);
 	}
 

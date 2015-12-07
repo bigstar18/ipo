@@ -29,9 +29,8 @@ public class MBreedServiceImpl implements MBreedService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<MBreed> findAll() {
-		List<com.yrdce.ipo.modules.sys.entity.MBreed> mbreedslist = new ArrayList<com.yrdce.ipo.modules.sys.entity.MBreed>();
+		List<com.yrdce.ipo.modules.sys.entity.MBreed> mbreedslist = mbreedmapper.selectByExample(new MBreedExample());
 		List<MBreed> mbreedslist2 = new ArrayList<MBreed>();
-		mbreedslist = mbreedmapper.selectByExample(new MBreedExample());
 		for (int i = 0; i < mbreedslist.size(); i++) {
 			MBreed mbreed = new MBreed();
 			BeanUtils.copyProperties(mbreedslist.get(i), mbreed);

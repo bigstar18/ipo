@@ -28,7 +28,7 @@ public interface VIpoABreedService {
 	public void addBreed(VIpoABreed breed);
 	
 	//修改一个品种
-	public void updateBreed(VIpoABreed breed);
+	public int updateBreed(VIpoABreed breed);
 	
 	//删除一个品种
 	public void deleteBreed(Long breedid);

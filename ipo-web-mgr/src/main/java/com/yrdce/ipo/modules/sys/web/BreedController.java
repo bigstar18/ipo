@@ -176,8 +176,12 @@ public class BreedController extends BaseController {
 	public String updateBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("修改一个品种");
 		try {
-			vIpoABreedService.updateBreed(vipoabreed);
-			return "true";
+			int num=vIpoABreedService.updateBreed(vipoabreed);
+			if(num!=0){
+			return "true";}
+			else{
+				return "false";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -281,7 +285,7 @@ public class BreedController extends BaseController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
-			System.out.println(JSON.json(result));
+			log.info(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -306,7 +310,7 @@ public class BreedController extends BaseController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
-			System.out.println(JSON.json(result));
+			log.info(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,6 +331,8 @@ public class BreedController extends BaseController {
 	public String addCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("新增商品");
 		try {
+			if(ipocomm!=null){
+			log.info(ipocomm.toString());}
 			ipoCommConfService.addCommodity(ipocomm);
 			return "success";
 		} catch (Exception e) {
@@ -347,6 +353,8 @@ public class BreedController extends BaseController {
 	public String updateCommodity(VIpoCommConf ipocomm) throws IOException {
 		log.info("修改商品");
 		try {
+			if(ipocomm!=null){
+				log.info(ipocomm.toString());}
 			ipoCommConfService.updateCommodity(ipocomm);
 			return "success";
 		} catch (Exception e) {

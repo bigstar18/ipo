@@ -78,13 +78,11 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	public VIpoCommConf getVIpoCommConfByCommid(String commid) {
 		try{
 			VIpoCommConf ipocommconf=new VIpoCommConf();
-			if(ipoCommodityConfmapper.findIpoCommConfByCommid(commid)!=null){
-			BeanUtils.copyProperties(ipoCommodityConfmapper.findIpoCommConfByCommid(commid), ipocommconf);
+			IpoCommodityConf comm=ipoCommodityConfmapper.findIpoCommConfByCommid(commid);
+			if(comm!=null){
+			BeanUtils.copyProperties(comm, ipocommconf);
+			}
 			return ipocommconf;
-			}
-			else{
-				return null;
-			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -96,11 +94,13 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	public void addCommodity(VIpoCommConf comm) {
 			IpoCommodityConf ipocommconf=new IpoCommodityConf();
 			IpoCommodity ipocomm=new IpoCommodity();
+			if(comm!=null){
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
 			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
 			ipocomm.setUnits(comm.getUnits().intValue());
 			ipocomm.setCounts(comm.getCounts().intValue());
+			}
 			ipoCommodityConfmapper.insert(ipocommconf);
 			commoditymapper.insert(ipocomm);
 	}
@@ -110,11 +110,13 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	public void updateCommodity(VIpoCommConf comm) {
 			IpoCommodityConf ipocommconf=new IpoCommodityConf();
 			IpoCommodity ipocomm=new IpoCommodity();
+			if(comm!=null){
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
 			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
 			ipocomm.setUnits(comm.getUnits().intValue());
 			ipocomm.setCounts(comm.getCounts().intValue());
+			}
 			ipoCommodityConfmapper.update(ipocommconf);
 			commoditymapper.update(ipocomm);
 	}

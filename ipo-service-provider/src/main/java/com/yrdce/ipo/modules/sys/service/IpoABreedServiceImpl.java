@@ -35,10 +35,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
-			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoBreedMapper.getAllByPage((curpage - 1) * pagesize
+			List<IpoBreed> ipoabreedslist = ipoBreedMapper.getAllByPage((curpage - 1) * pagesize
 					+ 1, curpage * pagesize);
+			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
 				BeanUtils.copyProperties(ipoabreedslist.get(i), vipoabreed);
@@ -55,9 +54,8 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<VIpoABreed> findAll() {
-			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
+			List<IpoBreed> ipoabreedslist =ipoBreedMapper.selectAll();
 			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoBreedMapper.selectAll();
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
 				BeanUtils.copyProperties(ipoabreedslist.get(i), vipoabreed);
@@ -69,7 +67,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Override
 	public VIpoABreed getIpoABreed(Long breedid) {
 		VIpoABreed ipoabreed=new VIpoABreed();
-		BeanUtils.copyProperties(ipoBreedMapper.selectByBreedid(breedid), ipoabreed);
+		IpoBreed breed=ipoBreedMapper.selectByBreedid(breedid);
+		if(breed!=null){
+		BeanUtils.copyProperties(breed, ipoabreed);}
 		return ipoabreed;
 	}
 
@@ -77,10 +77,12 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 
 	@Override
 	@Transactional
-	public void updateBreed(VIpoABreed breed) {
+	public int updateBreed(VIpoABreed breed) {
 			IpoBreed ipoabreed=new IpoBreed();
-			BeanUtils.copyProperties(breed, ipoabreed);
-			ipoBreedMapper.update(ipoabreed);
+			if(breed!=null){
+			BeanUtils.copyProperties(breed, ipoabreed);}
+			int num=ipoBreedMapper.update(ipoabreed);
+			return num;
 	}
 
 	@Override
@@ -93,7 +95,8 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 	@Transactional
 	public void addBreed(VIpoABreed breed) {
 		IpoBreed ipoabreed=new IpoBreed();
-		BeanUtils.copyProperties(breed, ipoabreed);
+		if(breed!=null){
+		BeanUtils.copyProperties(breed, ipoabreed);}
 		ipoBreedMapper.insert(ipoabreed);
 	}
 
@@ -105,10 +108,9 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 			rows = (rows == null ? "5" : rows);
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
-			List<IpoBreed> ipoabreedslist = new ArrayList<IpoBreed>();
-			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
-			ipoabreedslist = ipoBreedMapper.getAllByName("%"+name+"%",(curpage - 1) * pagesize
+			List<IpoBreed> ipoabreedslist = ipoBreedMapper.getAllByName("%"+name+"%",(curpage - 1) * pagesize
 					+ 1, curpage * pagesize);
+			List<VIpoABreed> ipoabreedslist2 = new ArrayList<VIpoABreed>();
 			for (int i = 0; i < ipoabreedslist.size(); i++) {
 				VIpoABreed vipoabreed = new VIpoABreed();
 				BeanUtils.copyProperties(ipoabreedslist.get(i), vipoabreed);
