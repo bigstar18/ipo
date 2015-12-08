@@ -163,10 +163,10 @@ function doSearch(){
 		<div>
 			状态: 	<select id="status" name="status" style="width:80">
 					<option value="">请选择</option>
-					<option value="1">已申购</option>
-					<option value="2">已配号</option>
-					<option value="3">已摇号</option>
-					<option value="4">已结算</option>
+					<option value="0">未配号</option>
+					<option value="1">已配号</option>
+					<option value="2">已摇号</option>
+					<option value="3">已结算</option>
 					</select>
 			商品名称：<input type="text" id="commodityname" name="commodityname" />
 			商品代码：<input type="text" id="commodityid" name="commodityid" />

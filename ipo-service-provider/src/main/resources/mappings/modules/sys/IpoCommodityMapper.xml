@@ -189,7 +189,7 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityExample" resultType="java.lang.Integer" >
-    select count(*) from IPO_COMMODITY_SALE where STARTTIME >=trunc(sysdate)
+    select count(*) from IPO_COMMODITY_SALE where ENDTIME >=trunc(sysdate)
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -297,7 +297,7 @@
       <if test="record.endtime != null" >
       and  t.ENDTIME = #{record.endtime,jdbcType=DATE}
       </if>
-      <if test="record.status != 0">
+      <if test="record.status != 4">
       and	t.STATUS = #{record.status,jdbcType=INTEGER}
       </if>
    	  order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -337,7 +337,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.STARTTIME >=trunc(sysdate) order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
+  select <include refid="Base_Column_List" /> from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.ENDTIME >=trunc(sysdate) order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
@@ -347,7 +347,7 @@
    <select id="selectByComid"  resultMap="BaseResultMap"  parameterType="map" >
     select 
      <include refid="Base_Column_List" />
-    from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} 
+    from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} and ENDTIME >=trunc(sysdate)
   </select>
   
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">

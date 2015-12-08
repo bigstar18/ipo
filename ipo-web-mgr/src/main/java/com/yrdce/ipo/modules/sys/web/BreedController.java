@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -332,6 +333,9 @@ public class BreedController extends BaseController {
 		log.info("新增商品");
 		try {
 			if(ipocomm!=null){
+				ipocomm.setStatus(new BigDecimal(0));
+				ipocomm.setCodedelivery(new BigDecimal(1));	
+				ipocomm.setNonissuereg(new BigDecimal(1));	
 			log.info(ipocomm.toString());}
 			ipoCommConfService.addCommodity(ipocomm);
 			return "success";

@@ -53,8 +53,7 @@ $(document).ready(function() {
             	 if(value=='0') return "未配号";
             	 if(value=='1') return "已配号";
             	 if(value=='2') return "已摇号";
-            	 if(value=='3') return "已中签";
-            	 if(value=='4') return "已结算";
+            	 if(value=='3') return "已结算";
            }
           }, {  
               field : 'listingdate',  

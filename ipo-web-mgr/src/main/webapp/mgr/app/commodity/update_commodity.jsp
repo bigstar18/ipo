@@ -119,11 +119,10 @@
 function updateComm(){
 	var curstatus=$("#currstatus").val();
 	var publishalgr=$("#publishalgr").val();
-	var nonissuereg=$("#nonissuereg").val();
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
 	var flag= $('#frm').form('validate');
-	if(curstatus!=''&&publishalgr!=''&&nonissuereg!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
+	if(curstatus!=''&&publishalgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
 		 $.ajax({ 
              type: "post",  
              url: "<%=request.getContextPath()%>/BreedController/updateCommodity",       
@@ -237,15 +236,22 @@ function on_change(){
             							<td >
             							<input id="supervisedprice" name="supervisedprice" value="${entity.supervisedprice }"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 100; background-color: C0C0C0"/>
-							            </td>        
+							            </td> 
+							            <td align="right">对应现货商品</td>
+										<td>
+										<c:set var='mappercomm' value="${entity.mapperid}" ></c:set>
+										<select id="mapperid" name="mapperid" style="width:100">
+								            		<option value="">请选择</option>
+                                                    <c:forEach var="Tcomm" items="${Tlist}">
+                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq mappercomm}">selected</c:if>>${Tcomm.name}</option>
+                                                    </c:forEach>
+								         </select>
+										</td>       
 							            <td align="right">上市日期：</td>
 							            <td><input type="hidden" id="listtime" value="${listing }">
 			  								<input  type="text" id="listingdate"   name="listingdate"  style="width: 100"></input>       
             							</td>
-            							<td align="right">最后交易日：</td>
-            							<td><input type="hidden" id="lasttime" value="${lasttrade }">
-										<input  type="text" id="lasttradate"   name="lasttradate" value="" style="width: 100"></input> 
-								      	</td>
+            							
         							</tr> 
 									<tr>
 										<td align="right">发行价：</td>
@@ -258,16 +264,10 @@ function on_change(){
             							<input type="text" id="units" name="units"  value="${entity.units }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项(500或500的整数倍)',min:0,precision:2"/>          
             							</td>
-            							<td align="right">对应现货商品</td>
-										<td>
-										<c:set var='mappercomm' value="${entity.mapperid}" ></c:set>
-										<select id="mapperid" name="mapperid" style="width:100">
-								            		<option value="">请选择</option>
-                                                    <c:forEach var="Tcomm" items="${Tlist}">
-                                                      <option value="${Tcomm.commodityid}" <c:if test="${Tcomm.commodityid eq mappercomm}">selected</c:if>>${Tcomm.name}</option>
-                                                    </c:forEach>
-								         </select>
-										</td>
+            							<td align="right">最后交易日：</td>
+            							<td><input type="hidden" id="lasttime" value="${lasttrade }">
+										<input  type="text" id="lasttradate"   name="lasttradate" value="" style="width: 100"></input> 
+								      	</td>
          							</tr>
 	 							</table >
 								</span>
@@ -288,7 +288,7 @@ function on_change(){
 					         	</table>
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left"  class="common">   
 									<tr>
         	  							<td align="right">交易单位：</td>
             							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"  onkeypress="return onlyNumberInput()"
@@ -298,34 +298,15 @@ function on_change(){
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
 			  								</span> 
 			  								<input type="hidden" id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }" />
-            							</td>    
-        								<td align="right"></td>
-            							<td></td>
+            							</td> 
             							<td align="right"></td>
-            							<td></td>
-        							</tr>
-									<tr>
-            							<td align="right">T+N交易天数：</td>
+            							<td></td>   
+        								<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
 			  									class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9,invalidMessage:'请输入1-9的整数'"  style="ime-mode:disabled; width: 100" />          
 										</td>
-										<td align="right">是否开启标码提货：</td>
-										<td>
-										<select id="codedelivery" name="codedelivery" style="width:100">
-											    <option value="0" <c:if test="${entity.codedelivery==0 }">selected</c:if>>开启</option>
-												<option value="1" <c:if test="${entity.codedelivery==1 }">selected</c:if>>关闭</option>
-										   </select>
-										</td>
-										<td align="right">非发行注册：</td>
-										<td>
-										<select id="nonissuereg" name="nonissuereg" style="width:100">
-										        <option value=""></option>
-											    <option value="0" <c:if test="${entity.nonissuereg==0 }">selected</c:if>>是</option>
-												<option value="1" <c:if test="${entity.nonissuereg==1 }">selected</c:if>>否</option>
-										   </select>
-										</td>
-         							</tr>
+        							</tr>
 	 							</table >
 								</span>
 								</fieldset>
@@ -356,31 +337,32 @@ function on_change(){
                                                       <option value="${pubmember.brokerid}" <c:if test="${pubmember.brokerid eq publisher}">selected</c:if>>${pubmember.name}</option>
                                                     </c:forEach>
 								            	</select>
-            							</td>    
+            							</td>  
+            							<td align="right" >最大申购数量：</td> 
+            							<td> 
+			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
+            							</td>  
         								<td align="right" >发行开始日期：</td> 
             							<td> <input type="hidden" id="stime" value="${start }">
 			  								<input type="text" id="starttime" name="starttime" value="" style="width: 100"></input> 
 			  							</td>
-            							<td align="right">发行结束日期：</td>
-										<td>
-										<input type="hidden" id="etime" value="${end }">
-											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input> 
-										</td>
+            							
         							</tr>
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
             								class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="width: 100"/>          
             							</td>    
-        								<td align="right" >最大申购数量：</td> 
-            							<td> 
-			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
-            							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
+										</td>
+										<td align="right">发行结束日期：</td>
+										<td>
+										<input type="hidden" id="etime" value="${end }">
+											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input> 
 										</td>
         							</tr>
 							        <tr>
