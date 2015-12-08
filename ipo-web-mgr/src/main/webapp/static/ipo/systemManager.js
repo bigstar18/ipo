@@ -36,6 +36,7 @@ function getSysStatus ()
 		    showTime (data.sysTime);
 		    showMarket (data);
 		    buttonStatus (data.status);
+		    judgeTradeDay (data.sysTime, data.tradedate, data.status)
 	    }
 	});
 }
@@ -119,6 +120,19 @@ function buttonStatus (result)
 	// }
 	if (result == "0" || result == "1" || result == "2" || result == "10")
 	{// 初始化完成、闭市状态、结算中、交易结算完成
+		$ ('#ok2').attr ('disabled', "true");
+		$ ('#ok3').attr ('disabled', "true");
+		$ ('#ok4').attr ('disabled', "true");
+		$ ('#ok1').attr ('disabled', "true");
+		$ ('#ok11').attr ('disabled', "true");
+	}
+}
+
+function judgeTradeDay (sysTime, tradeDate, status)
+{
+	var tmp = sysTime.substring (0, 10) + " 00:00:00";
+	if (tmp != tradeDate && "3" != status)
+	{
 		$ ('#ok2').attr ('disabled', "true");
 		$ ('#ok3').attr ('disabled', "true");
 		$ ('#ok4').attr ('disabled', "true");
