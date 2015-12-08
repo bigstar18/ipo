@@ -1,6 +1,9 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -206,6 +209,7 @@ public class IpoController extends BaseController {
 		log.info("跳转至新增商品页面");
 		try {
 		VIpoABreed ipobreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
+		log.info(ipobreed+"");
 		Blist = brBrokerService.findAllPublisher();
 		Tlist = tCommodityService.findAllTCommodity();
 		request.setAttribute("entity", ipobreed);
@@ -217,7 +221,14 @@ public class IpoController extends BaseController {
 			return "error";
 		}
 	}
+	
 
+	public String formatDate(Date date){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
+	
+	
 	/*
 	 * 修改商品视图
 	 */
@@ -227,10 +238,21 @@ public class IpoController extends BaseController {
 		log.info("跳转至修改商品页面");
 		try {
 		VIpoCommConf ipocomm = ipoCommConfService.getVIpoCommConfByCommid(commodityid);
+		if(ipocomm!=null){
+			String start=formatDate(ipocomm.getStarttime());
+			String end=formatDate(ipocomm.getEndtime());
+			String listing=formatDate(ipocomm.getListingdate());
+			String lasttrade=formatDate(ipocomm.getLasttradate());
+			request.setAttribute("start", start);
+			request.setAttribute("end", end);
+			request.setAttribute("listing", listing);
+			request.setAttribute("lasttrade", lasttrade);
+		}
 		Blist = brBrokerService.findAllPublisher();
 		Tlist = tCommodityService.findAllTCommodity();
 		MBreed breed = mBreedservice.getMBreed(Long.parseLong(breedid));
 		String breedname = breed.getBreedname();
+		log.info(ipocomm+"");
 		request.setAttribute("entity", ipocomm);
 		request.setAttribute("breedname", breedname);
 		request.setAttribute("Tlist", Tlist);

@@ -173,6 +173,7 @@ function getCommBelonged(breedid) {
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post">
 			品种名称: <input id="breedname" name="breedname" class="easyui-textbox" style="width:80px">
+			<input type="hidden">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>

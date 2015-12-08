@@ -108,16 +108,13 @@
 		   		           } 	
 		   	     	} 
 		            });  
-              $("#listingdate").datebox("setValue",formatDate($("#listtime").val()));
-              $("#lasttradate").datebox("setValue",formatDate($("#lasttime").val()));
-              $("#starttime").datebox("setValue",formatDate($("#stime").val()));
-              $("#endtime").datebox("setValue",formatDate($("#etime").val()));   
+             $("#listingdate").datebox("setValue",$("#listtime").val());
+              $("#lasttradate").datebox("setValue",$("#lasttime").val());
+              $("#starttime").datebox("setValue",$("#stime").val());
+              $("#endtime").datebox("setValue",$("#etime").val());  
 		  });	
 		
-function formatDate(date){
-	var day=new Date(date);
-	return day.getFullYear()+"-"+(day.getMonth()+1)+"-"+day.getDate();
-}	
+	
 		
 function updateComm(){
 	var curstatus=$("#currstatus").val();
@@ -242,11 +239,11 @@ function on_change(){
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" onkeypress="return onlyNumberInput()" style="width: 100; background-color: C0C0C0"/>
 							            </td>        
 							            <td align="right">上市日期：</td>
-							            <td><input type="hidden" id="listtime" value="${entity.listingdate }">
-			  								<input  type="text" id="listingdate"   name="listingdate" value="" style="width: 100"></input>       
+							            <td><input type="hidden" id="listtime" value="${listing }">
+			  								<input  type="text" id="listingdate"   name="listingdate"  style="width: 100"></input>       
             							</td>
             							<td align="right">最后交易日：</td>
-            							<td><input type="hidden" id="lasttime" value="${entity.lasttradate }">
+            							<td><input type="hidden" id="lasttime" value="${lasttrade }">
 										<input  type="text" id="lasttradate"   name="lasttradate" value="" style="width: 100"></input> 
 								      	</td>
         							</tr> 
@@ -361,12 +358,12 @@ function on_change(){
 								            	</select>
             							</td>    
         								<td align="right" >发行开始日期：</td> 
-            							<td> <input type="hidden" id="stime" value="${entity.starttime }">
+            							<td> <input type="hidden" id="stime" value="${start }">
 			  								<input type="text" id="starttime" name="starttime" value="" style="width: 100"></input> 
 			  							</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-										<input type="hidden" id="etime" value="${entity.endtime }">
+										<input type="hidden" id="etime" value="${end }">
 											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input> 
 										</td>
         							</tr>
