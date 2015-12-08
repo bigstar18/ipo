@@ -118,7 +118,7 @@ public class PurchaseImpl implements Purchase {
 					// 申购消费总额
 					BigDecimal allMonery = bigDecimal.multiply(total);
 					// 申购额度判断
-					if (counts < e) {
+					if (counts <= e) {
 						// 申购资金判断
 						if (monery.compareTo(allMonery) != -1) {
 							logger.info("进入资金判断");

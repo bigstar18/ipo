@@ -180,7 +180,7 @@ function doSearch(){
 		
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
-		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="line-height:26px;border:1px solid #ccc">
+		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="border:1px solid #ccc">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>
@@ -190,10 +190,7 @@ function doSearch(){
 	</tr>
     </table>
 </div>
-		<!-- 编辑和过滤所使用的 通用的文本框模板 -->
-		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
-			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
-		</textarea>
+		
 </body>                
 
 

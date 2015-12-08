@@ -380,7 +380,7 @@
    </select>
    
    <select id="getCountsByPage" resultType="java.lang.Integer" parameterType="java.lang.String">
-   	select count(0) from IPO_COMMODITY_SALE where COMMODITYID like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')
+   	select count(0) from IPO_COMMODITY_SALE where upper(COMMODITYID) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')
    </select>
    
    <update id="updateByStatus" parameterType="map">

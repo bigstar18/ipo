@@ -114,8 +114,7 @@ public class QueryController {
 	public String findRockNums(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		logger.info("分页查询发售商品信息");
 		try {
-			List<Commodity> clist = new ArrayList<Commodity>();
-			clist = commodityService.getList(page, rows);
+			List<Commodity> clist = commodityService.getList(page, rows);
 			logger.info(clist.toString());
 			int totalnums = commodityService.getCounts();
 			logger.info(totalnums + "");
@@ -136,14 +135,16 @@ public class QueryController {
 	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String commodityInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam("commodityid") String commodityid) {
+			@RequestParam(value = "commodityid", required = false) String commodityid) {
 		logger.info("根据商品id查询商品信息");
 		try {
-			List<Commodity> clist = new ArrayList<Commodity>();
-			clist.add(commodityService.getCommodityByPage(page, rows, commodityid));
+			if (commodityid == null) {
+				commodityid = "";
+			}
+			List<Commodity> clist = commodityService.getCommodityByPage(page, rows, commodityid);
 			logger.info(clist.toString());
 			int totalnums = commodityService.getCountsByPage(commodityid);
-			logger.info(totalnums + "");
+			logger.info("totalnums:" + totalnums);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
