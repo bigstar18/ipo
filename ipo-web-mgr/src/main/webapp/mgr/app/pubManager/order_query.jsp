@@ -135,8 +135,8 @@ function doSearch(){
 									action="<%=request.getContextPath()%>/QueryController/commodityInfo"
 									method="post">
 									交易商代码: <input id="userid" name="userid" class="easyui-textbox"
-										style="border: 1px solid #ccc"> <a
-										href="#" class="easyui-linkbutton" iconCls="icon-search"
+										style="border: 1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'> 
+										<a href="#" class="easyui-linkbutton" iconCls="icon-search"
 										id="view" onclick="doSearch()">查询</a>
 								</form>
 							</div>

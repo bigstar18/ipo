@@ -180,7 +180,7 @@ function doSearch(){
 		
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
-		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="border:1px solid #ccc">
+		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>

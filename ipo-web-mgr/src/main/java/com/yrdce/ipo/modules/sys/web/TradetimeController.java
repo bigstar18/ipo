@@ -21,6 +21,7 @@ import com.yrdce.ipo.modules.sys.service.TradetimeService;
 import com.yrdce.ipo.modules.sys.vo.Nottradeday;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Tradetime;
+import com.yrdce.ipo.modules.sys.vo.TradetimeComm;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
@@ -140,11 +141,12 @@ public class TradetimeController {
 
 	// 修改交易节视图
 	@RequestMapping(value = "/updateTradetimeforward", method = RequestMethod.GET)
-	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam("sectionid") String sectionid) throws IOException {
 		logger.info("进入修改视图");
-		// short id = Short.parseShort(sectionid);
-		// List<TradetimeComm> list = tradetimeService.getTradetimeByComm(id);
-		// request.setAttribute("comm", list);
+		short id = Short.parseShort(sectionid);
+		List<TradetimeComm> list = tradetimeService.getTradetimeByComm(id);
+		request.setAttribute("comm", list);
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
 		request.setAttribute("commlist", comlist);
 		return "app/tradetime/update_tradetime";

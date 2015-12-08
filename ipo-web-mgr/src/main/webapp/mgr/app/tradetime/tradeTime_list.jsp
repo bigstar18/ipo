@@ -40,14 +40,14 @@ $(document).ready(function() {
              width : 200,
              title : '交易节编号',
 			 formatter:function(value,row,index){
-         	    return "<a href=\"#\" onclick=\"updateForward("+index+")\">"+value+"</a>";
+         	    return "<a href=\"#\" onclick=\"updateForward("+index+","+value+")\">"+value+"</a>";
 			}
          }, {
              field : 'name',
              width : 200,
              title : '交易节名称',
 			 formatter:function(value,row,index){
-         	    return "<a href=\"#\" onclick=\"updateForward("+index+")\">"+value+"</a>";
+         	    return "<a href=\"#\" onclick=\"updateForward("+index+","+row.sectionid+")\">"+value+"</a>";
 			}
          }, {
              field : 'starttime',
@@ -95,10 +95,10 @@ function addForward(){
 	} 
 }
 //修改信息跳转
-function updateForward(index) {
+function updateForward(index,id) {
 	$('#tt').datagrid('selectRow',index);
 	var row = $("#tt").datagrid("getSelected");
-		   var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward";
+		   var updateUrl = "<%=request.getContextPath()%>/TradetimeController/updateTradetimeforward?sectionid="+id;
 			//给 URL 添加参数
 			if(showDialog(updateUrl, row, 800, 550)){
 				//如果添加成功，则刷新列表

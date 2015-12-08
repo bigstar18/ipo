@@ -35,12 +35,10 @@ document.onkeypress=showKeyPress;
 				document.getElementById("status").value = tradeTime.status;
 				document.getElementById("starttime").value = tradeTime.starttime;
 				document.getElementById("endtime").value = tradeTime.endtime;
-				
 			    	var weeks = $(":checkbox");
 			    		<c:forEach var = "id" items="${comm}">
 			    		var ids = ${id.commodityid};
 			    		for (i = 0; i < weeks.length; i++) {
-			    			
 			    			if (ids == weeks[i].value) {
 			    				weeks[i].checked = true;
 			    			}
