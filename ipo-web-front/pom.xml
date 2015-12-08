@@ -360,7 +360,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>ipo-provider</finalName>
+		<finalName>ipo_front</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<!-- Compiler 插件, 设定JDK版本 -->
@@ -400,7 +400,6 @@
 					<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
 					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
 					<!-- <warName>${project.artifactId}</warName> -->
-					<warName>ipo_front</warName>
 				</configuration>
 			</plugin>
 			
