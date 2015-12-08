@@ -69,11 +69,10 @@ $(document).ready(function() {
              align: "center",
              title : '状态' ,
              formatter:function(value){
-            	 if(value=='1') return "已申购";
-            	 if(value=='2') return "已配号";
-            	 if(value=='3') return "已摇号";
-            	 if(value=='4') return "已结算";
-            	 return "未上市";
+            	 if(value=='0') return "未申购";
+            	 if(value=='1') return "已配号";
+            	 if(value=='2') return "已摇号";
+            	 if(value=='3') return "已结算";
            }
           }, {  
               field : 'starttime',  
