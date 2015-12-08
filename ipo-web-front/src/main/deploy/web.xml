@@ -24,7 +24,7 @@
 <!--	<listener>
 		<listener-class>gnnt.MEBS.common.front.common.Global</listener-class>
 	</listener>-->
-	${web.SecurityFilter.prefix}
+
 	<filter>
 		<filter-name>checkUrl</filter-name>
 		<filter-class>com.yrdce.ipo.integrate.SecurityFilter</filter-class>
@@ -33,7 +33,6 @@
 		<filter-name>checkUrl</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
-	${web.SecurityFilter.suffix}
 	
 	<filter>
 		<filter-name>encodingFilter</filter-name>

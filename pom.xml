@@ -9,6 +9,7 @@
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<properties>
+		<webXmlPath>src/main/webapp/WEB-INF/web.xml</webXmlPath>
 		<!-- Common libs -->
 		<spring.bom.version>3.2.14.RELEASE</spring.bom.version>
 		<javassist.version>3.15.0-GA</javassist.version>
@@ -849,13 +850,10 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-			</plugin> -->
+			</plugin> 
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 
 		<pluginManagement>
@@ -896,13 +894,17 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven_compiler_plugin.version}</version>
 					<configuration>
-						<fork>true</fork>
 						<source>${java_source.version}</source>
 						<target>${java_target.version}</target>
 						<encoding>${file_encoding}</encoding>
+						<!-- <useIncrementalCompilation>false</useIncrementalCompilation>
+						<fork>true</fork>
 						<compilerArgs>
 							<arg>-XX:MaxPermSize=500M</arg>
-						</compilerArgs>
+						</compilerArgs> -->
+						<compilerArguments>
+							<extdirs>${project.basedir}\src\main\webapp\WEB-INF\lib</extdirs>
+						</compilerArguments>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -950,8 +952,8 @@
 						<!-- userfiles/**, --><!-- /**/*.jsp, -->
 							test/**
 						</warSourceExcludes>
-						<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
-					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
+						<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+						<!-- <webXml>${project.basedir}/target/jspweb.xml</webXml> -->
 					<!-- <warName>${project.artifactId}</warName> -->
 					</configuration>
 				</plugin>
@@ -973,6 +975,7 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven-surefire-plugin.version}</version>
 					<configuration>
+						<skipTests>true</skipTests>
 						<useSystemClassLoader>true</useSystemClassLoader>
 						<forkMode>once</forkMode>
 						<argLine>${argline}</argLine>
@@ -1200,16 +1203,6 @@
 				</plugin> -->
 			</plugins>
 		</pluginManagement>
-
-		<filters><!-- 子项目运行 -->
-			<filter>../filters/filter-${env}.properties</filter>
-		</filters>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
 
 	<profiles>
@@ -1220,66 +1213,38 @@
 				<env>local</env>
 			</properties>
 			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/src/main/resources</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<filters>
+					<filter>../filters/filter-local.properties</filter>
+				</filters>
 			</build>
-			<activation>
-				<activeByDefault>true</activeByDefault><!--默认启用的是dev环境配置-->
-			</activation>
+			<!-- 默认启用的是dev环境配置 -->
+			<!-- <activation>
+				<activeByDefault>true</activeByDefault>
+			</activation> -->
 		</profile>
        <!-- 生产环境 -->
 		<profile>
 			<id>23</id>
 			<properties>
 				<env>23</env>
+				<webXmlPath>${project.basedir}/src/main/deploy/web.xml</webXmlPath>
 			</properties>
 			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/src/main/resources</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<filters>
+					<filter>../filters/filter-23.properties</filter>
+				</filters>
 			</build>
 		</profile>
        <!-- 测试环境 -->
@@ -1287,33 +1252,55 @@
 			<id>184</id>
 			<properties>
 				<env>184</env>
+				<webXmlPath>${project.basedir}/src/main/deploy/web.xml</webXmlPath>
 			</properties>
 			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-resources</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/deploy</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/src/main/resources</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<filters>
+					<filter>../filters/filter-184.properties</filter>
+				</filters>
 			</build>
 		</profile>
 	</profiles>
+
+	<!-- <resource>
+		<directory>src/main/deploy</directory>
+		<filtering>true</filtering>
+		<targetPath>${project.build.directory}/${project.build.finalName}/WEB-INF</targetPath>
+	</resource> -->
+	<!-- <plugins>
+		<plugin>
+			<artifactId>maven-resources-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>copy-resources</id>
+					<phase>validate</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<overwrite>true</overwrite>
+						<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF</outputDirectory>
+						<resources>
+							<resource>
+								<directory>src/main/deploy</directory>
+								<filtering>true</filtering>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins> -->
+	<modules>
+		<module>ipo-service-api</module>
+		<module>ipo-service-provider</module>
+		<module>ipo-web-front</module>
+		<module>ipo-web-mgr</module>
+	</modules>
 </project>

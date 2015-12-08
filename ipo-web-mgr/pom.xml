@@ -345,7 +345,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -393,8 +392,9 @@
 						<!-- /**/*.jsp, -->
 						test/**
 					</warSourceExcludes>
-					<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
-					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
+					<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+					<webXml>${webXmlPath}</webXml>
+					<!-- <webXml>${project.basedir}/target/jspweb.xml</webXml> -->
 					<!-- <warName>${project.artifactId}</warName> -->
 				</configuration>
 			</plugin>

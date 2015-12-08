@@ -412,7 +412,7 @@ public class SystemManager {
 		IpoSysStatus sysStatus = mapper.selectAll();
 		if (sysStatus != null) {// 有记录
 			if (sysStatus.getTradedate().getTime() < date.getTime()) {
-				return STATUS_FINANCE_SETTLED.equals(sysStatus.getStatus());
+				return STATUS_FINANCE_SETTLED.equals(String.valueOf(sysStatus.getStatus()));
 			}
 		}
 
