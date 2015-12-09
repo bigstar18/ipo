@@ -89,7 +89,7 @@ public class SystemManager {
 
 	/**
 	 * 
-	 * 开市，操作失败返回null
+	 * 开市，操作失败返回null，检查时间、状态
 	 * 
 	 * @throws Exception
 	 */
@@ -127,7 +127,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if ((status.equals(STATUS_TRADE_DOING) || status.equals(STATUS_TRADE_REST))) {
-				updateSysStatus(STATUS_TRADE_PAUSE, null, "暂停交易");
+				updateSysStatus(tradeDate, STATUS_TRADE_PAUSE, "暂停交易");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -149,7 +149,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
-				updateSysStatus(STATUS_TRADE_DOING, null, "恢复交易");
+				updateSysStatus(tradeDate, STATUS_TRADE_DOING, "恢复交易");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -170,7 +170,7 @@ public class SystemManager {
 			return null;
 
 		if (lockStatus.compareAndSet(false, true)) {
-			updateSysStatus(STATUS_TRADE_CLOSE, null, "结束交易");
+			updateSysStatus(tradeDate, STATUS_TRADE_CLOSE, "结束交易");
 
 			lockStatus.compareAndSet(true, false);
 			listener.interrupt();
@@ -190,7 +190,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (!status.equals(STATUS_MARKET_CLOSE)) {
-				updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
+				updateSysStatus(tradeDate, STATUS_MARKET_CLOSE, "闭市");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -214,7 +214,7 @@ public class SystemManager {
 		updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
 		// TODO
 
-		updateSysStatus(STATUS_MARKET_SETTLED, null, "");
+		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, "");
 	}
 
 	/**
@@ -251,25 +251,23 @@ public class SystemManager {
 
 	// 系统状态
 	private void initStatus() throws Exception {
-		IpoSysStatus sysStatus = mapper.selectAll();
-		if (sysStatus != null) {
-			status = String.valueOf(sysStatus.getStatus());
-			tradeDate = sdf.format(sysStatus.getTradedate());
-			if (sysStatus.getSectionid() != null)
-				section = String.valueOf(sysStatus.getSectionid());
-		} else
+		IpoSysStatus sysStatus = reloadStatus();
+		if (sysStatus == null)
 			openMarketInternal();
 	}
 
 	// 系统状态
-	private void reloadStatus() {
+	private IpoSysStatus reloadStatus() {
 		IpoSysStatus sysStatus = mapper.selectAll();
 		if (sysStatus != null) {
 			status = String.valueOf(sysStatus.getStatus());
 			tradeDate = sdf.format(sysStatus.getTradedate());
 			if (sysStatus.getSectionid() != null)
 				section = String.valueOf(sysStatus.getSectionid());
+			else
+				section = null;
 		}
+		return sysStatus;
 	}
 
 	private void logCurStatus() {
@@ -297,6 +295,7 @@ public class SystemManager {
 
 		this.status = STATUS_MARKET_INIT;
 		this.tradeDate = dbDate;
+		section = null;
 	}
 
 	// 交易日切换
@@ -436,39 +435,46 @@ public class SystemManager {
 	// 开市交易
 	private void startTradeInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
-		this.tradeDate = sdf.format(date);
-		section = String.valueOf(sectionManager.getCurrentSectionId(date));
 
-		updateSysStatus(STATUS_TRADE_DOING, Short.parseShort(section), "交易中");
+		updateSysStatus(sdf.format(date), STATUS_TRADE_DOING, String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
 	}
 
 	// 节间休息 section不变
 	private void restBetweenSection() throws Exception {
-		updateSysStatus(STATUS_TRADE_REST, null, "节间休息");
+		updateSysStatus(tradeDate, STATUS_TRADE_REST, "节间休息");
 	}
 
 	// 闭市
 	private void closeMarketInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
-		this.tradeDate = sdf.format(date);
 
-		updateSysStatus(STATUS_MARKET_CLOSE, null, "闭市");
+		updateSysStatus(sdf.format(date), STATUS_MARKET_CLOSE, "闭市");
 	}
 
 	// 状态变更入库
-	private void updateSysStatus(String status, Short sectionId, String remark) throws Exception {
+	private void updateSysStatus(String tradeDate, String status, String remark) throws Exception {
+		updateSysStatus(tradeDate, status, null, remark);
+	}
+
+	// 状态变更入库
+	private void updateSysStatus(String tradeDate, String status, String sectionId, String remark) throws Exception {
 		try {
 			IpoSysStatus sysStatus = new IpoSysStatus();
 			sysStatus.setTradedate(sdf.parse(tradeDate));
 			sysStatus.setStatus(Short.parseShort(status));
 			if (sectionId != null)
-				sysStatus.setSectionid(sectionId);
+				sysStatus.setSectionid(Short.valueOf(sectionId));
 			sysStatus.setNote(remark);
 
 			int i = mapper.updateByPrimaryKeySelective(sysStatus);
 			if (i < 1)
 				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
+
 			this.status = status;// 先入库后变更状态，防止事务回滚导致状态不一致
+			this.tradeDate = tradeDate;
+			if (sectionId != null)
+				this.section = sectionId;
+
 			logChangeStatus();
 		} catch (Exception e) {
 			logger.info("error:", e);
@@ -476,6 +482,7 @@ public class SystemManager {
 		}
 	}
 
+	// 无须捕获打断异常的地方调用
 	private void threadSleep(long millis) {
 		try {
 			Thread.currentThread().sleep(millis);// 只是休眠
@@ -502,7 +509,10 @@ public class SystemManager {
 			int i = mapper.updateByPrimaryKeySelectiveLock(sysStatus, new Short(oldStatus));
 			if (i < 1)
 				throw new Exception("更新不成功：status=" + sysStatus + " tradeDate=" + tradeDate);
+
 			this.status = toStatus;// 先入库后变更状态，防止事务回滚导致状态不一致
+			if (sectionId != null)
+				this.section = sectionId.toString();
 
 			logChangeStatus();
 		} catch (Exception e) {

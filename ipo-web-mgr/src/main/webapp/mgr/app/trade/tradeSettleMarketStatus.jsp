@@ -9,8 +9,8 @@
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td valign="middle">
-				<a name="手工结算" onclick="addF();" className="anniu_btn" id="add" class="easyui-linkbutton">手工结算</a>&nbsp;&nbsp;<font style="font-size: 13px;" id="balanceStatus">结算状态：未执行</font>
-			</td>
+				<button class="anniu_btn" id="add" action="/issue/tradeEnd/tradeEnd.action" onclick="addF();">手工结算</button>&nbsp;&nbsp;<font style="font-size: 13px;" id="balanceStatus"></font>
+		</td>
 		</tr>
 	</table>
 </body>

@@ -1,7 +1,7 @@
 var clearStatus;
 $ (document).ready (function ()
 {
-	$ ('#add').css ('disabled', "true");
+	$ ('#add').attr ('disabled', "true");
 	
 	getStatus ();
 });
@@ -23,7 +23,7 @@ function getStatus ()
 	// 结算成功了就不做
 	if (clearStatus != 3 && clearStatus != 10)
 	{
-		setTimeout ("getStatus()", 2000);
+		setTimeout ("getStatus()", 3000);
 	}
 }
 
@@ -45,11 +45,11 @@ function showStatus (result)
 	}
 	if (result == 1)
 	{// 只有闭市状态可以做交易结算
-		$ ('#add').css ("disabled", "false");
+		$ ('#add').attr ("disabled", "false");
 	}
 	else
 	{
-		$ ('#add').css ('disabled', "true");
+		$ ('#add').attr ('disabled', "true");
 	}
 	$ ('#balanceStatus').html (statusStr);
 }
@@ -59,7 +59,7 @@ function addF ()
 {
 	if (confirm ("您确定要操作吗？"))
 	{
-		$ ('#add').css ('disabled', "true");// 立刻禁止
+		$ ('#add').attr ('disabled', "true");// 立刻禁止
 		
 		$.ajax (
 		{
