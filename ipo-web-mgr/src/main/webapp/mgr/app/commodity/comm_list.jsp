@@ -37,7 +37,7 @@ $(document).ready(function() {
              align: "center",
              title : '商品名称',
              formatter:function(value,row){
-          	    return "<a href=\"#\" onclick=\"updateCommodity("+row.commodityid+","+row.breedid+")\">"+value+"</a>";
+          	    return "<a href=\"#\" onclick=\"updateCommodity('"+row.commodityid+"','"+row.breedid+"')\">"+value+"</a>";
           }
          }, {  
              field : 'commodityid',  
@@ -136,10 +136,6 @@ function returnBreedList(){
 	</tr>
     </table>
 </div>
-		<!-- 编辑和过滤所使用的 通用的文本框模板 -->
-		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
-			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
-		</textarea>
 </body>
 
 </html>
