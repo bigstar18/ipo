@@ -48,6 +48,7 @@ public class DisplayServiceImpl implements DisplayService {
 			// 获得商品名称
 			IpoCommodity com = commodity.selectByComid(ID);
 			if (com != null) {
+				int id = com.getId();
 				String name = com.getCommodityname();
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
@@ -61,7 +62,7 @@ public class DisplayServiceImpl implements DisplayService {
 				// 获得申购额度
 				long purchaseCredits = com.getPurchaseCredits();
 
-				Display display = new Display(name, number, units, price, purchaseCredits);
+				Display display = new Display(id, name, number, units, price, purchaseCredits);
 
 				return display;
 			} else {

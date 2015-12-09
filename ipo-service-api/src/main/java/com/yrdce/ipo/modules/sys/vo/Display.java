@@ -8,6 +8,7 @@ public class Display implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8909435383589858100L;
+	private Integer id;
 	private String sid;
 	private String name;
 	private BigDecimal monery;
@@ -20,16 +21,23 @@ public class Display implements Serializable {
 
 	}
 
-	public Display(String name, int number, int units, BigDecimal price, long purchaseCredits) {
+	public Display(int id, String name, int number, int units, BigDecimal price, long purchaseCredits) {
 		super();
-		// this.sid = sid;
+		this.id = id;
 		this.name = name;
-		// this.monery = monery;
 		this.number = number;
 		this.units = units;
 		this.price = price;
 		this.purchaseCredits = purchaseCredits;
 
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public long getPurchaseCredits() {
