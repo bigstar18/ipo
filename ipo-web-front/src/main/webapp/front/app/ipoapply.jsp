@@ -218,7 +218,7 @@ function getDetail(index, data) {
 		           $("#limit").text(com.purchaseCredits);
 		           $("#price").val(com.price);
 		           $("#units").val(com.units);
-		           $("#id").val(com.sid);
+		           $("#id").val(com.id);
 	               }
 	         }
 	        else{
