@@ -53,16 +53,16 @@ $(document).ready(function() {
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
-         columns : [ [ {  
-             field : 'commodityname',  
+         columns : [ [ {
+        	 field : 'commodityid',  
+             width : 200, 
+             align: "center",
+             title : '商品代码'
+         }, {
+        	 field : 'commodityname',  
              width : 200,  
              align: "center",
              title : '商品名称'
-         }, {  
-             field : 'commodityid',  
-             width : 200, 
-             align: "center",
-             title : '商品代码'  
          }, {  
              field : 'status',  
              width : 200,  
@@ -160,6 +160,8 @@ function doSearch(){
 	<table id="tt" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
 		<div>
+			商品代码：<input type="text" id="commodityid" name="commodityid" />
+			商品名称：<input type="text" id="commodityname" name="commodityname" />
 			状态: 	<select id="status" name="status" style="width:80">
 					<option value="">请选择</option>
 					<option value="0">未配号</option>
@@ -167,8 +169,6 @@ function doSearch(){
 					<option value="2">已摇号</option>
 					<option value="3">已结算</option>
 					</select>
-			商品名称：<input type="text" id="commodityname" name="commodityname" />
-			商品代码：<input type="text" id="commodityid" name="commodityid" />
 			发售日期：<input type="text" id="starttime" name="starttime"></input> 
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 
 			<input type="button" value="查询" onclick="doSearch()"/>				

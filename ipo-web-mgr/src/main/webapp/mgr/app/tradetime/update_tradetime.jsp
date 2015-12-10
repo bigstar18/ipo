@@ -37,7 +37,8 @@ document.onkeypress=showKeyPress;
 				document.getElementById("endtime").value = tradeTime.endtime;
 			    	var weeks = $(":checkbox");
 			    		<c:forEach var = "id" items="${comm}">
-			    		var ids = ${id.commodityid};
+			    		var ids = '${id.commodityid}';
+			    		alert(ids);
 			    		for (i = 0; i < weeks.length; i++) {
 			    			if (ids == weeks[i].value) {
 			    				weeks[i].checked = true;
@@ -214,7 +215,7 @@ document.onkeypress=showKeyPress;
 										</div>
 										<div style="clear: both;"></div>
 												<div>
-											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
+											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style" style=" white-space:nowrap;">
 												<tr>
 													
 													<td align="right">
@@ -224,9 +225,9 @@ document.onkeypress=showKeyPress;
 													<td>
 														<input id="sectionid" name="sectionid" type="hidden">
 													    <input type="text" id="name" name="name" value=""
-														class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 60"/>
+														class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 120"/>
 													</td>
-													<td align="left">
+													<td align="right">
 														<span class="required">*</span>
 														当前交易节状态：
 													</td>
@@ -250,7 +251,7 @@ document.onkeypress=showKeyPress;
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 													
-													<td align="left">
+													<td align="right">
 													    <span class="required">*</span>
 														当前交易节结束时间：
 													</td>

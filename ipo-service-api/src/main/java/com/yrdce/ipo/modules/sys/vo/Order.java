@@ -20,6 +20,10 @@ public class Order implements Serializable {
 	 */
 	private static final long serialVersionUID = -8285225304887656105L;
 
+	@JsonProperty("orderid")
+	@XmlElement(name = "orderid")
+	private int orderid;// 订单
+
 	// 交易商id
 	@JsonProperty("userid")
 	@XmlElement(name = "userid")
@@ -54,6 +58,14 @@ public class Order implements Serializable {
 	@JsonProperty("commodity_id")
 	@XmlElement(name = "commodity_id")
 	private Integer commodity_id;// 发售表主键ID
+
+	public int getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
+	}
 
 	public Integer getCommodity_id() {
 		return commodity_id;

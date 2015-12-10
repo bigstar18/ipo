@@ -35,27 +35,38 @@ $(document).ready(function() {
          columns : [ [ {  
              field : 'commodityid',  
              width : 200,  
+             align: "center",
              title : '商品代码'  
-         }, {  
+         },{
+        	 field : 'commodityname',  
+             width : 200,  
+             align: "center",
+             title : '商品名称'
+         },{  
              field : 'starttime',  
              width : 200,  
+             align: "center",
              title : '发行开始日期'  
          }, {  
              field : 'endtime',  
-             width : 200,  
+             width : 200, 
+             align: "center",
              title : '发行截至日期'
          },{
 			field : 'counts',
 			width : 200,
+			align: "center",
 			title : '网上发行量'
 		 },{
 			field : 'ccounts',
 			width : 200,
+			align: "center",
 			title :  '申购数量'
 		 },{
 			field : 'operating',
 			width : 200,
-			title : '开始摇号',
+			align: "center",
+			title : '发行状态',
 			formatter:function(value,row){
 				if(row.status == 0){
 					return '申购成功';
@@ -121,27 +132,33 @@ function doSearch(){
          columns : [ [ {  
              field : 'commodityid',  
              width : 200,  
+             align: "center",
              title : '商品代码'  
          }, {  
              field : 'starttime',  
              width : 200,  
+             align: "center",
              title : '发行开始日期'  
          }, {  
              field : 'endtime',  
              width : 200,  
+             align: "center",
              title : '发行截至日期'
          },{
 			field : 'counts',
 			width : 200,
+			align: "center",
 			title : '网上发行量'
 		 },{
 			field : 'ccounts',
 			width : 200,
+			align: "center",
 			title :  '申购数量'
 		 },{
 			field : 'operating',
 			width : 200,
-			title : '开始摇号',
+			align: "center",
+			title : '发行状态',
 			formatter:function(value,row){
 				if(row.status == 0){
 					return '申购成功';

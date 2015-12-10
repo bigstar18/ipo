@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%><html>
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";%><html>
 <head>
 <title>申购记录查询页面</title>
      <meta name="decorator" content="default"/>
@@ -35,11 +35,12 @@
             data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/getOrder?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
-                        <th data-options="field:'commodityid',width:200">商品编号</th>
-						<th data-options="field:'commodityname',width:180">商品名称</th>
-						<th data-options="field:'counts',width:200">已申购数量</th>
-						<th data-options="field:'createtime',width:200,formatter:dateconvertfunc">申购时间</th>
-						<th data-options="field:'frozenfunds',width:200">资金冻结</th>
+            			<th data-options="field:'orderid',align: 'center',width:200">订单号</th>
+                        <th data-options="field:'commodityid',align: 'center',width:200">商品编号</th>
+						<th data-options="field:'commodityname',align: 'center',width:180">商品名称</th>
+						<th data-options="field:'counts',align: 'center',width:200">已申购数量</th>
+						<th data-options="field:'createtime',align: 'center',width:200,formatter:dateconvertfunc">申购时间</th>
+						<th data-options="field:'frozenfunds',align: 'center',width:200">资金冻结</th>
             </tr>
         </thead>
     </table>

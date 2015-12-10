@@ -262,7 +262,7 @@ function on_change(){
             							<td align="right">发售单位</td>
             							<td>
             							<input type="text" id="units" name="units"  value="${entity.units }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项(500或500的整数倍)',min:0,precision:2"/>          
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'必填项(500或500的整数倍)',min:0,precision:2"/>          
             							</td>
             							<td align="right">最后交易日：</td>
             							<td><input type="hidden" id="lasttime" value="${lasttrade }">
@@ -303,8 +303,8 @@ function on_change(){
             							<td></td>   
         								<td align="right">T+N交易天数：</td>
 										<td>
-										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  									class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9,invalidMessage:'请输入1-9的整数'"  style="ime-mode:disabled; width: 100" />          
+										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }"  
+			  									class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9,invalidMessage:'请输入1-9的整数'"  style="ime-mode:disabled; width: 100" />          
 										</td>
         							</tr>
 	 							</table >
@@ -341,7 +341,7 @@ function on_change(){
             							<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
             							</td>  
         								<td align="right" >发行开始日期：</td> 
             							<td> <input type="hidden" id="stime" value="${start }">
@@ -352,12 +352,12 @@ function on_change(){
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="width: 100"/>          
+            								class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="width: 100"/>          
             							</td>    
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
 										</td>
 										<td align="right">发行结束日期：</td>
 										<td>
@@ -395,7 +395,7 @@ function on_change(){
 										<td align="right">发行数量：</td>
             							<td>
             							<input type="text" id="counts" name="counts"  value="${entity.counts }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>          
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>          
             							</td>
             							<td align="right">发行商发行手续费比例：</td>
             							<td>

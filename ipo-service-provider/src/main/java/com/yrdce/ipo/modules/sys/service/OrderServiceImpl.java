@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
 			for (int i = 0; i < list.size(); i++) {
 				Order order = new Order();
+				order.setOrderid(list.get(i).getOrderid());
 				order.setUserid(list.get(i).getUserid());
 				order.setCommodityid(list.get(i).getCommodityid());
 				order.setCommodityname(list.get(i).getCommodityname());

@@ -29,6 +29,7 @@ $(document).ready(function() {
          collapsible:false,
          url:'<%=request.getContextPath()%>/TradetimeController/getTradetimeList?rand='+Math.random(), //搜索前,触发此action请求所有用户信息  
          fitColumns:true,//允许表格自动缩放,以适应父容器
+         loadMsg:'数据加载中......', 
          sortName:'sectionid',
          sortOrder:'asc',
          remoteSort:false,
@@ -38,6 +39,7 @@ $(document).ready(function() {
          },{
              field : 'sectionid',
              width : 200,
+             align: "center",
              title : '交易节编号',
 			 formatter:function(value,row,index){
          	    return "<a href=\"#\" onclick=\"updateForward("+index+","+value+")\">"+value+"</a>";
@@ -45,6 +47,7 @@ $(document).ready(function() {
          }, {
              field : 'name',
              width : 200,
+             align: "center",
              title : '交易节名称',
 			 formatter:function(value,row,index){
          	    return "<a href=\"#\" onclick=\"updateForward("+index+","+row.sectionid+")\">"+value+"</a>";
@@ -52,14 +55,17 @@ $(document).ready(function() {
          }, {
              field : 'starttime',
              width : 200,
+             align: "center",
              title : '交易节开始时间' 
          },{
 			field : 'endtime',
 			width :	200,
+			align: "center",
 			title : '交易节结束时间'
 		 },{
 			field : 'status',
 			width : 200,
+			align: "center",
 			title : '交易状态',
 			formatter:function(value,row){
 				if(row.status == 0){

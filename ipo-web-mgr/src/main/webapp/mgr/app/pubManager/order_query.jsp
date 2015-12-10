@@ -35,26 +35,32 @@ $(document).ready(function() {
          columns : [ [ {  
              field : 'userid',  
              width : 200,  
+             align: "center",
              title : '交易商代码'  
          }, {  
              field : 'commodityid',  
              width : 200,  
+             align: "center",
              title : '商品编号'  
          }, {  
              field : 'commodityname',  
-             width : 200,  
+             width : 200, 
+             align: "center",
              title : '商品名称'
          },{
 			field : 'counts',
 			width : 200,
+			align: "center",
 			title : '已申购数量'
 		 },{
 			field : 'createtime',
 			width : 200,
+			align: "center",
 			title :  '申购时间'
 		 },{
 			field : 'frozenfunds',
 			width : 200,
+			align: "center",
 			title : '资金冻结'
 		 }]],  
          pagination : true 
@@ -87,26 +93,32 @@ function doSearch(){
 		 columns : [ [ {
 		 field : 'userid',
 		 width : 200,
+		 align: "center",
 		 title : '交易商代码'
 	}, {
 		field : 'commodityid',
 		width : 200,
+		align: "center",
 		title : '商品编号'
 	}, {
 		field : 'commodityname',
 		width : 200,
+		align: "center",
 		title : '商品名称'
 	}, {
 		field : 'counts',
 		width : 200,
+		align: "center",
 		title : '已申购数量'
 	}, {
 		field : 'createtime',
 		width : 200,
+		align: "center",
 		title : '申购时间'
 	}, {
 		field : 'frozenfunds',
 		width : 200,
+		align: "center",
 		title : '资金冻结'
 	} ] ],
 		pagination : true

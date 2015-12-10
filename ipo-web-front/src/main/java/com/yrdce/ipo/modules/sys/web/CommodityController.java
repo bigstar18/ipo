@@ -141,7 +141,7 @@ public class CommodityController extends BaseController {
 	public String findCommsx(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询发售商品信息");
 		try {
-			List<Commodity> clist  = commodityService.findCommList(page, rows);
+			List<Commodity> clist = commodityService.findCommList(page, rows);
 			int totalnums = commodityService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -252,8 +252,7 @@ public class CommodityController extends BaseController {
 			throws IOException {
 		log.info("根据用户ID查询订单信息");
 		try {
-			List<Order> clist = new ArrayList<Order>();
-			clist = orderService.getOrderInfo(page, rows, userid);
+			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
 			int totalnums = orderService.getAll(userid);
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
