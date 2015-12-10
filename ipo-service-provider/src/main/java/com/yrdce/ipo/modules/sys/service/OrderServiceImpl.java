@@ -21,7 +21,6 @@ import com.yrdce.ipo.modules.sys.vo.Order;
  * 
  */
 @Service("orderService")
-@Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
 
 	static org.slf4j.Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
@@ -30,87 +29,69 @@ public class OrderServiceImpl implements OrderService {
 	private IpoOrderMapper ipoOrderMapper;
 
 	@Override
-	public List<Order> getOrderInfo(String page, String rows, String userId) {
+	@Transactional(readOnly = true)
+	public List<Order> getOrderInfo(String page, String rows, String userId) throws Exception {
 		logger.info("根据id进入分页查询订单表");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<Order> list2 = new ArrayList<Order>();
+		List<IpoOrder> list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1, curpage * pagesize, userId);
 
-		List<Order> list2 = null;
-		try {
-			page = (page == null ? "1" : page);
-			rows = (rows == null ? "5" : rows);
-			int curpage = Integer.parseInt(page);
-			int pagesize = Integer.parseInt(rows);
-
-			List<IpoOrder> list = new ArrayList<IpoOrder>();
-			list2 = new ArrayList<Order>();
-
-			list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1, curpage * pagesize, userId);
-
-			for (int i = 0; i < list.size(); i++) {
-				Order order = new Order();
-				order.setOrderid(list.get(i).getOrderid());
-				order.setUserid(list.get(i).getUserid());
-				order.setCommodityid(list.get(i).getCommodityid());
-				order.setCommodityname(list.get(i).getCommodityname());
-				order.setCounts(list.get(i).getCounts());
-				Timestamp timestamp = list.get(i).getCreatetime();
-				Date date = new Date(timestamp.getTime());
-				order.setCreatetime(date);
-				order.setFrozenfunds(list.get(i).getFrozenfunds());
-				logger.info(order.toString());
-				list2.add(order);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (int i = 0; i < list.size(); i++) {
+			Order order = new Order();
+			order.setOrderid(list.get(i).getOrderid());
+			order.setUserid(list.get(i).getUserid());
+			order.setCommodityid(list.get(i).getCommodityid());
+			order.setCommodityname(list.get(i).getCommodityname());
+			order.setCounts(list.get(i).getCounts());
+			Timestamp timestamp = list.get(i).getCreatetime();
+			Date date = new Date(timestamp.getTime());
+			order.setCreatetime(date);
+			order.setFrozenfunds(list.get(i).getFrozenfunds());
+			logger.info(order.toString());
+			list2.add(order);
 		}
 		return list2;
 	}
 
 	@Override
-	public int getAll(String userid) {
+	@Transactional(readOnly = true)
+	public int getAll(String userid) throws Exception {
 		logger.info("根据id查询共有几条订单信息");
-		try {
-			return ipoOrderMapper.selectByCounts(userid);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return ipoOrderMapper.selectByCounts(userid);
 	}
 
 	@Override
-	public List<Order> getOrder(String page, String rows) {
+	@Transactional(readOnly = true)
+	public List<Order> getOrder(String page, String rows) throws Exception {
 		logger.info("分页查询订单信息");
-		List<Order> list2 = null;
-		try {
-			page = (page == null ? "1" : page);
-			rows = (rows == null ? "5" : rows);
-			int curpage = Integer.parseInt(page);
-			int pagesize = Integer.parseInt(rows);
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<Order> list2 = new ArrayList<Order>();
+		List<IpoOrder> list = ipoOrderMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
 
-			List<IpoOrder> list = new ArrayList<IpoOrder>();
-			list2 = new ArrayList<Order>();
-
-			list = ipoOrderMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
-
-			for (int i = 0; i < list.size(); i++) {
-				Order order = new Order();
-				order.setCommodityid(list.get(i).getCommodityid());
-				order.setCommodityname(list.get(i).getCommodityname());
-				order.setCounts(list.get(i).getCounts());
-				Timestamp timestamp = list.get(i).getCreatetime();
-				Date date = new Date(timestamp.getTime());
-				order.setCreatetime(date);
-				order.setFrozenfunds(list.get(i).getFrozenfunds());
-				order.setUserid(list.get(i).getUserid());
-				list2.add(order);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (int i = 0; i < list.size(); i++) {
+			Order order = new Order();
+			order.setCommodityid(list.get(i).getCommodityid());
+			order.setCommodityname(list.get(i).getCommodityname());
+			order.setCounts(list.get(i).getCounts());
+			Timestamp timestamp = list.get(i).getCreatetime();
+			Date date = new Date(timestamp.getTime());
+			order.setCreatetime(date);
+			order.setFrozenfunds(list.get(i).getFrozenfunds());
+			order.setUserid(list.get(i).getUserid());
+			list2.add(order);
 		}
 		return list2;
 	}
 
 	@Override
-	public int getAllOrder() {
+	@Transactional(readOnly = true)
+	public int getAllOrder() throws Exception {
 		logger.info("查询共有几条记录");
 
 		int counts = ipoOrderMapper.selectByCounts(null);

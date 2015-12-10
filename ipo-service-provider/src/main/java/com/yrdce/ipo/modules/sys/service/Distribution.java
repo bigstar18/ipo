@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
@@ -36,13 +37,11 @@ public class Distribution {
 	@Autowired
 	private IpoCommodityMapper commodity;
 
-	// @Autowired
-	// private GetBallotNoUtils getBallotNoUtils;
-
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
 	@SuppressWarnings("unused")
-	public void start(List<IpoOrder> orderList) {
+	@Transactional
+	public void start(List<IpoOrder> orderList) throws Exception {
 		// 获得系统当前时间的前一天
 		// String oldtime = DateUtil.getTime(1);
 

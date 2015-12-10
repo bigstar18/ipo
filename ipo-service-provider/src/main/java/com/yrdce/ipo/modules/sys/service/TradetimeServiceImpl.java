@@ -74,7 +74,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public List<Tradetime> selectByPage(String page, String rows) {
+	@Transactional(readOnly = true)
+	public List<Tradetime> selectByPage(String page, String rows) throws Exception {
 		logger.info("进入分页查询交易节信息" + "page:" + page + "rows:" + rows);
 		try {
 			page = (page == null ? "1" : page);
@@ -97,7 +98,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Override
 	@Transactional
-	public int upDate(Tradetime tradetime, String comms) {
+	public int upDate(Tradetime tradetime, String comms) throws Exception {
 		logger.info("进入交易节修改" + tradetime);
 
 		logger.info("id:" + tradetime.getSectionid());
@@ -133,7 +134,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Override
 	@Transactional
-	public int insert(Tradetime tradetime, String comms) {
+	public int insert(Tradetime tradetime, String comms) throws Exception {
 
 		logger.info("进入交易节添加" + tradetime.toString());
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
@@ -160,7 +161,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	@Override
 	@Transactional
-	public int delete(String ids) {
+	public int delete(String ids) throws Exception {
 		logger.info("进入交易节删除" + ids);
 		String[] id = ids.split(",");
 		for (int i = 0; i < id.length; i++) {
@@ -171,7 +172,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 	}
 
 	@Override
-	public Tradetime selectByKey(Short id) {
+	@Transactional(readOnly = true)
+	public Tradetime selectByKey(Short id) throws Exception {
 		logger.info("根据id查询交易节信息" + id);
 		try {
 			IpoTradetime tradetime1;
@@ -193,14 +195,16 @@ public class TradetimeServiceImpl implements TradetimeService {
 	 */
 
 	@Override
-	public int selectByCounts() {
+	@Transactional(readOnly = true)
+	public int selectByCounts() throws Exception {
 		logger.info("查询交易节共有几条信息");
 		int count = tradetimeMapper.selectByCounts();
 		return count;
 	}
 
 	@Override
-	public List<Tradetime> selectAll() {
+	@Transactional(readOnly = true)
+	public List<Tradetime> selectAll() throws Exception {
 		logger.info("进入查询所有交易节信息");
 		List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
 		List<IpoTradetime> tradetime1 = tradetimeMapper.selectAll();
@@ -235,7 +239,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	// 非交易日查询
 	@Override
-	public Nottradeday select() {
+	@Transactional(readOnly = true)
+	public Nottradeday select() throws Exception {
 		logger.info("非交易节查询");
 		Nottradeday nottradeday = new Nottradeday();
 
@@ -303,7 +308,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	// 判断交易节与商品是否有关联
 	@Override
-	public boolean tradeTimeAndCom(String ids) {
+	@Transactional(readOnly = true)
+	public boolean tradeTimeAndCom(String ids) throws Exception {
 		String[] id = ids.split(",");
 		for (int i = 0; i < id.length; i++) {
 			int tradeTimeId = Integer.parseInt(id[i]);
@@ -317,7 +323,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 
 	// 根据交易节id查询关联商品信息
 	@Override
-	public List<TradetimeComm> getTradetimeByComm(Short id) {
+	@Transactional(readOnly = true)
+	public List<TradetimeComm> getTradetimeByComm(Short id) throws Exception {
 		BigDecimal tradeTimeId1 = new BigDecimal(id);
 		List<IpoTradetimeComm> list = ipotradetimecomm.selectBytradetimeid(tradeTimeId1);
 		List<TradetimeComm> list1 = new ArrayList<TradetimeComm>();

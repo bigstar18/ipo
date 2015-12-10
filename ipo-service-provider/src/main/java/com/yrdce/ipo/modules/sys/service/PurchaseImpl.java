@@ -73,7 +73,7 @@ public class PurchaseImpl implements Purchase {
 
 	// 申购
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public int apply(String userId, String sId, Integer counts, Integer id) throws Exception {
 		logger.info("进入申购方法");
 		final int SECCESS = 0;

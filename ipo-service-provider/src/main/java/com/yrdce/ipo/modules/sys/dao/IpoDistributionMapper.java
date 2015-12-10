@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoDistributionExample;
+import com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended;
 
 @MyBatisDao
 public interface IpoDistributionMapper {
@@ -26,7 +27,7 @@ public interface IpoDistributionMapper {
 
 	List<IpoDistribution> selectAll();
 
-	List<IpoDistribution> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);// 分页获取配号信息
+	List<IpoDistributionExtended> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);// 分页获取配号信息
 
 	// 分页获取配号表
 	List<IpoDistribution> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
@@ -50,6 +51,6 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> selectByTime(String date);
 
 	int selectByCount();
-	
+
 	List<IpoDistribution> selectByCommId(String commId);
 }

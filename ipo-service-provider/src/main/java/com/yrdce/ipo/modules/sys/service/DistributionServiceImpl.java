@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
+import com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 
 @Service("distributionService")
-@Transactional(readOnly = true)
+
 public class DistributionServiceImpl implements DistributionService {
 
 	@Autowired
@@ -28,91 +29,62 @@ public class DistributionServiceImpl implements DistributionService {
 	}
 
 	@Override
-	public List<Distribution> getDistriList(String page, String rows, String userid) {
-		List<Distribution> list2 = null;
-		try {
-			page = (page == null ? "1" : page);
-			rows = (rows == null ? "5" : rows);
-			int curpage = Integer.parseInt(page);
-			int pagesize = Integer.parseInt(rows);
-			List<IpoDistribution> list = new ArrayList<IpoDistribution>();
-			list2 = new ArrayList<Distribution>();
-			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
-			for (int i = 0; i < list.size(); i++) {
-				Distribution distrib = new Distribution();
-				BeanUtils.copyProperties(list.get(i), distrib);
-				list2.add(distrib);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			list2 = null;
+	@Transactional(readOnly = true)
+	public List<Distribution> getDistriList(String page, String rows, String userid) throws Exception {
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<Distribution> list2 = new ArrayList<Distribution>();
+		List<IpoDistributionExtended> list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
+		for (int i = 0; i < list.size(); i++) {
+			Distribution distrib = new Distribution();
+			BeanUtils.copyProperties(list.get(i), distrib);
+			list2.add(distrib);
 		}
 		return list2;
 	}
 
 	@Override
-	public int getAllDistris(String userid) {
-		try {
-			return ipoDistributionMapper.countByExample(userid);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+	public int getAllDistris(String userid) throws Exception {
+		return ipoDistributionMapper.countByExample(userid);
 	}
 
 	/*
 	 * 获取客户所有配号信息
 	 */
 	@Override
-	public List<Distribution> findAll() {
-		List<Distribution> list2 = null;
-		try {
-			List<IpoDistribution> list = new ArrayList<IpoDistribution>();
-			list2 = new ArrayList<Distribution>();
-			list = ipoDistributionMapper.selectAll();
-			for (int i = 0; i < list.size(); i++) {
-				Distribution distrib = new Distribution();
-				BeanUtils.copyProperties(list.get(i), distrib);
-				list2.add(distrib);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public List<Distribution> findAll() throws Exception {
+		List<Distribution> list2 = new ArrayList<Distribution>();
+		List<IpoDistribution> list = ipoDistributionMapper.selectAll();
+		for (int i = 0; i < list.size(); i++) {
+			Distribution distrib = new Distribution();
+			BeanUtils.copyProperties(list.get(i), distrib);
+			list2.add(distrib);
 		}
 		return list2;
 	}
 
 	@Override
-	public List<Distribution> getDistriAllList(String page, String rows) {
-		List<Distribution> list2 = null;
-		try {
-			page = (page == null ? "1" : page);
-			rows = (rows == null ? "5" : rows);
-			int curpage = Integer.parseInt(page);
-			int pagesize = Integer.parseInt(rows);
-			List<IpoDistribution> list = new ArrayList<IpoDistribution>();
-			list2 = new ArrayList<Distribution>();
-			list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
-			for (int i = 0; i < list.size(); i++) {
-				Distribution distrib = new Distribution();
-				BeanUtils.copyProperties(list.get(i), distrib);
-				list2.add(distrib);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			list2 = null;
+	public List<Distribution> getDistriAllList(String page, String rows) throws Exception {
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<Distribution> list2 = new ArrayList<Distribution>();
+		List<IpoDistribution> list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+		for (int i = 0; i < list.size(); i++) {
+			Distribution distrib = new Distribution();
+			BeanUtils.copyProperties(list.get(i), distrib);
+			list2.add(distrib);
 		}
 		return list2;
 	}
 
 	@Override
-	public int getAllDistribution() {
+	public int getAllDistribution() throws Exception {
 		int i = 0;
-		try {
-			i = ipoDistributionMapper.selectByCount();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		i = ipoDistributionMapper.selectByCount();
 		return i;
 	}
 }

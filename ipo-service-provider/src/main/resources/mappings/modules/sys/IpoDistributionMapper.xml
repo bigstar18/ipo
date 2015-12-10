@@ -332,10 +332,13 @@
       	NUMBERS = #{numbers,jdbcType=BLOB}
       	where COMMODITYID = #{commodityid,jdbcType=VARCHAR} and USERID = #{userid,jdbcType=VARCHAR}
   </update>
-  <select id="getAllByPage"  resultMap="BaseResultMap"  parameterType="map" >
-    select 
-    <include refid="Base_Column_List" /> 
-    from (select t.*,rownum TNO from IPO_DISTRIBUTION t where t.USERID = #{userid,jdbcType=VARCHAR} ) a where a.TNO between  #{beginnum} and  #{endnum}
+  <select id="getAllByPage"  resultType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended"  parameterType="map" >
+    select * from 
+	(select t.*,rownum TNO from
+	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid 
+	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityname=o.commodityname
+	where d.userid=#{userid,jdbcType=VARCHAR})t
+	) a where a.TNO between #{beginnum} and  #{endnum}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 

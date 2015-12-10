@@ -60,6 +60,18 @@ public class Distribution implements Serializable {
 	@XmlElement(name = "zcounts")
 	private int zcounts;// 中签数量
 
+	@JsonProperty("orderid")
+	@XmlElement(name = "orderid")
+	private int orderid;// 订单
+
+	public int getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
+	}
+
 	public int getZcounts() {
 		return zcounts;
 	}
