@@ -1,85 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=GBK"
-    pageEncoding="GBK"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%>   
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="GBK"%>
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%><html>
+<%
+	String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+	//String userId ="888";
+%><html>
 <head>
 <title>投资者申购页面</title>
-     <meta name="decorator" content="default"/>
-     <link rel="stylesheet" href="${ctxStatic}/bootstrap/2.3.1/css_default/bootstrap.min.css">
-	 <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
-     <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css"> 
-     <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
-	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+<meta name="decorator" content="default" />
+<link rel="stylesheet"  href="${ctxStatic}/bootstrap/2.3.1/css_default/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
+<link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
+<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 <style type="text/css">
-.panel{float:left}
-.infos{margin-top:10px}
-.infos h4{margin-top: 10px; margin-bottom: 13px}
-.infos p{ margin-bottom: 13px}
+.panel {
+	float: left
+}
+
+.infos {
+	margin-top: 10px
+}
+
+.infos h4 {
+	margin-top: 10px;
+	margin-bottom: 13px
+}
+
+.infos p {
+	margin-bottom: 13px
+}
 </style>
 </head>
 <body>
-<div class="main">
-	<div class="msg">您当前的位置：<span>商品申购</span></div>
-	<div class="warning">
-		<div class="title font_orange_14b">温馨提示 :</div>
-		<div class="content">在此展示投资者申购所需要的信息。</div>
-	</div>
-	<div class="col-xs-12">
-		<div style="height:350px;">		 
-			  <table id="mytb" class="easyui-datagrid"  title="可申购商品列表"   style="width:70%;height:385px;"
-			            data-options="singleSelect:true,autoRowHeight:false,nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
-			        <thead>
-			            <tr>
-			                <th data-options="field:'id',width:0">商品编号</th>
-			                <th data-options="field:'commodityid',width:160">商品代码</th>
-			                <th data-options="field:'commodityname',width:160">申购产品</th>
-			                <th data-options="field:'price',width:160">发售价格</th>
-			                <th data-options="field:'units',width:160">配售单位</th>
-			                <th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
-			                <th data-options="field:'endtime',width:160,formatter:dateconvertfunc">截止日期</th>
-			            </tr>
-			        </thead>
-			    </table>
-			
-			    <div class="easyui-panel"   title="投资者申购信息"  style="width:30%;height:385px;padding:10px;overflow:hidden;">
-				    <form class="form-inline"  id="fm1" style="margin-top: 10px" onsubmit="return false;">
-				      <div class="form-group">
-				        <label>产品代码：</label>
-				        <input type="hidden" id="id" />
-				        <input type="text" id="commodityid" class="form-control"  placeholder="请输入产品代码" style="height: 25px; padding-top: 0px; padding-bottom: 0px;"  onkeyup="showInfo(this.value)" autocomplete="off" />
-				      </div>
-				    </form>
-				    <div class="infos">
-			        <h4>详细信息：</h4>
-			        <p>账户编号：<b id="userId"><%=userId %></b></p>
-			        <p>申购产品：<b id="comname"></b></p>
-			        <p>可用资金(/元)：<b id="money"></b></p>
-			        <p>可购买数量(/单位)：<b id="counts"></b></p>
-			        <p>申购额度：<b id="limit"></b></p>
-			        <input type="hidden"   id="price"/>
-			        <input type="hidden"   id="units"/>
-			        <input type="hidden"   id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo"/>
-			        <input type="hidden"   id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos"/>
-			      </div>
-			      <form class="form-inline" id="fm2" style="margin-bottom: 12px">
-				      <div class="form-group">
-				        <label style="width: 70px">购买量：</label>
-				        <input type="text"  id="quantity"  class="easyui-numberbox" data-options="required:true,min:1,missingMessage:'申购必填'">
-				      </div>
-				    </form>
-				     <div>
-				     <button type="button"  id="btn"  style="float:left;padding-right: 25px; padding-left: 25px; height: 30px;">申购</button><b id="remind" style="color: red;float:left;line-height: 30px; height:40px;margin-left: 20px;"></b>	  
-				    </div>
-				    </div>
+	<div class="main">
+		<div class="msg">
+			您当前的位置：<span>商品申购</span>
+		</div>
+		<div class="warning">
+			<div class="title font_orange_14b">温馨提示 :</div>
+			<div class="content">在此展示投资者申购所需要的信息。</div>
+		</div>
+		<div class="col-xs-12">
+			<div style="height: 350px;">
+				<table id="mytb" class="easyui-datagrid" title="可申购商品列表"
+					style="width: 70%; height: 385px;"
+					data-options="singleSelect:true,autoRowHeight:false,toolbar:'#tb',nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
+					<thead>
+						<tr>
+							<th data-options="field:'id',width:0">商品编号</th>
+							<th data-options="field:'commodityid',width:160">商品代码</th>
+							<th data-options="field:'commodityname',width:160">申购产品</th>
+							<th data-options="field:'price',width:160">发售价格</th>
+							<th data-options="field:'units',width:160">发售数量</th>
+							<th data-options="field:'counts',width:160">发售数量</th>
+							<th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
+							<th data-options="field:'endtime',width:160,formatter:dateconvertfunc">截止日期</th>
+						</tr>
+					</thead>
+				</table>
+                 <div id="tb" style="padding:5px;height:auto">
+		          <div>
+		        	商品代码：<input type="text" id="commodityid" name="commodityid" />
+			              商品名称：<input type="text" id="commodityname" name="commodityname" />
+		          <input type="button" value="查询" onclick="doSearch()"/>				
+		          </div> 
+	             </div>
+				<div class="easyui-panel" title="详细信息"  style="width: 30%; height: 385px; padding: 10px; overflow: hidden;">
+					<div class="infos">
+						 <input type="hidden" id="id" />
+						<p>账户编号：<b id="userId"><%=userId%></b></p>
+						<p>申购产品：<b id="comname"></b></p>
+						<p>可用资金(/元)：<b id="money"></b></p>
+						<p>可购买数量(/单位)：<b id="counts"></b></p>
+						<p>申购额度：<b id="limit"></b></p>
+						<input type="hidden" id="price" /> <input type="hidden" id="units" />
+						<input type="hidden" id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo" />
+						<input type="hidden" id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos" />
+					</div>
+					<form class="form-inline" id="fm2" style="margin-bottom: 12px">
+						<div class="form-group">
+							<label style="width: 70px">购买量：</label> 
+							<input type="text"  id="quantity" class="easyui-numberbox"  data-options="required:true,min:1,missingMessage:'申购必填'">
+						</div>
+					<div>
+						<button type="button" id="btn" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px;">申购</button>
+						<b id="remind" style="color: red; float: left; line-height: 30px; height: 40px; margin-left: 20px;"></b>
+					</div>
+					</form>
+				</div>
 			</div>
-	</div>
+		</div>
 <script type="text/javascript">
+//日期转换
+function dateconvertfunc(value,row){
+        return value.substr(0,10);
+}
 
 $(document).ready(function() {
 	$('#mytb').datagrid('hideColumn','id');
@@ -97,7 +118,7 @@ $(document).ready(function() {
 		    type: 'GET',  
 		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",  
 		    contentType: "application/json; charset=utf-8", 
-		    data:{"userid":"<%=userId %>"},  
+		    data:{"userid":"<%=userId%>"},  
 		    dataType: 'json',  
 		    async: true,  
 		    success : function(data, stats) {  
@@ -126,7 +147,7 @@ $(document).ready(function() {
 		if(moneyneed>money){
 			$("#remind").text("资金不足！");
 		}else{
-		var infos={ "id":$("#id").val(),"userid":"<%=userId %>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
+		var infos={ "id":$("#id").val(),"userid":"<%=userId%>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val() };
 		    $.ajax({  
 		    type: 'GET',  
 		    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
@@ -165,11 +186,7 @@ $(document).ready(function() {
 	});
 });
 
-
-//日期转换
-function dateconvertfunc(value,row){
-        return value.substr(0,10);
-} 
+ 
 //联动
 function getDetail(index, data) {
 	  if (data) {
@@ -194,8 +211,21 @@ function getDetail(index, data) {
 				});  
 	        }
 }
+
+function doSearch(){
+	$("#mytb").datagrid({
+		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditions',
+	    queryParams:{  
+	    	commodityid:$("#commodityid").val(),  
+	    	commodityname:$("#commodityname").val()  
+		    }  
+	});
+}
+
+
+
 //申购面板异步刷新
- function showInfo(str){
+<%--  function showInfo(str){
             var xmlhttp;
           if (str.length==0) {
         	   $("#comname").text("");
@@ -230,10 +260,10 @@ function getDetail(index, data) {
 
 	  }
     };
-           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+str+"&money="+$("#money").text(),true);
-           xmlhttp.send();
-}
+           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+ str + "&money=" + $("#money").text(), true);
+				xmlhttp.send();
+			} --%>
 </script>
-</div>
+	</div>
 </body>
 </html>
