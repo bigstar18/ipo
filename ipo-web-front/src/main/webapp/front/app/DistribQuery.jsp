@@ -35,10 +35,11 @@
             data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityname',width:200">申购产品</th>
-                <th data-options="field:'startnumber',width:180">起始配号</th>
-                <th data-options="field:'pcounts',width:200">配号数量</th>
-                <th data-options="field:'ptime',width:200,formatter:dateconvertfunc">配号时间</th>
+            	<th data-options="field:'orderid',align: 'center',width:200">订单号</th>
+                <th data-options="field:'commodityname',align: 'center',width:200">申购产品</th>
+                <th data-options="field:'startnumber',align: 'center',width:180">起始配号</th>
+                <th data-options="field:'pcounts',align: 'center',width:200">配号数量</th>
+                <th data-options="field:'ptime',align: 'center',width:200,formatter:dateconvertfunc">配号时间</th>
             </tr>
         </thead>
     </table>

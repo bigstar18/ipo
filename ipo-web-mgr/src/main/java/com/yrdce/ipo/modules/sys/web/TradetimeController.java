@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,11 +70,6 @@ public class TradetimeController {
 		try {
 			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
 			tradetime.setName(name);
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
 			if (comms != null) {
 				tradetimeService.upDate(tradetime, comms);
 				return "app/tradetime/close";
@@ -85,7 +79,7 @@ public class TradetimeController {
 				return "app/tradetime/close";
 			}
 		} catch (Exception e) {
-			return "error";
+			return "public/error/500";
 		}
 
 	}
@@ -109,7 +103,7 @@ public class TradetimeController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return "public/error/500";
 		}
 
 	}
@@ -120,20 +114,28 @@ public class TradetimeController {
 	public String deleteTradetime(String ids) {
 		logger.info("进入删除交易节" + "ids:" + ids);
 		// 根据交易节id查询与商品的关联
-		Boolean falg = tradetimeService.tradeTimeAndCom(ids);
-		logger.info(falg + "");
-		// 判断是否有关联
-		if (falg) {
-			tradetimeService.delete(ids);
-			return "success";
-		} else {
+		try {
+			Boolean falg = tradetimeService.tradeTimeAndCom(ids);
+			logger.info(falg + "");
+			// 判断是否有关联
+			if (falg) {
+
+				tradetimeService.delete(ids);
+
+				return "success";
+			} else {
+				return "error";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return "error";
 		}
 	}
 
 	// 交易节视图
 	@RequestMapping(value = "/getTradeTimeForward", method = RequestMethod.GET)
-	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String getTradeTimeForward(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		return "app/tradetime/tradeTime_list";
 
@@ -145,16 +147,24 @@ public class TradetimeController {
 			@RequestParam("sectionid") String sectionid) throws IOException {
 		logger.info("进入修改视图");
 		short id = Short.parseShort(sectionid);
-		List<TradetimeComm> list = tradetimeService.getTradetimeByComm(id);
-		request.setAttribute("comm", list);
-		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
-		request.setAttribute("commlist", comlist);
-		return "app/tradetime/update_tradetime";
+		List<TradetimeComm> list;
+		try {
+			list = tradetimeService.getTradetimeByComm(id);
+
+			request.setAttribute("comm", list);
+			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
+			request.setAttribute("commlist", comlist);
+			return "app/tradetime/update_tradetime";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "public/error/500";
+		}
 	}
 
 	// 添加交易节视图
 	@RequestMapping(value = "/addTradetimeforward", method = RequestMethod.GET)
-	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) {
 		logger.info("进入新增视图");
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
 		logger.info("" + comlist.size());
@@ -164,28 +174,36 @@ public class TradetimeController {
 
 	// 非交易节视图
 	@RequestMapping(value = "/getNottradedayforward", method = RequestMethod.GET)
-	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) {
 		logger.info("进入非交易日视图");
-		Nottradeday nottradeday = tradetimeService.select();
-		logger.info("nottradeday:" + nottradeday);
-		if (nottradeday != null) {
-			String week = nottradeday.getWeek();
-			String day = nottradeday.getDay();
-			if (week == null) {
-				week = "";
+		Nottradeday nottradeday;
+		try {
+			nottradeday = tradetimeService.select();
+
+			logger.info("nottradeday:" + nottradeday);
+			if (nottradeday != null) {
+				String week = nottradeday.getWeek();
+				String day = nottradeday.getDay();
+				if (week == null) {
+					week = "";
+				}
+				if (day == null) {
+					day = "";
+				}
+				request.setAttribute("week", week);
+				request.setAttribute("day", day);
+				request.setAttribute("id", 1);
+				return "app/tradetime/notTradeDay";
+			} else {
+				request.setAttribute("week", null);
+				request.setAttribute("day", null);
+				request.setAttribute("id", 0);
+				return "app/tradetime/notTradeDay";
 			}
-			if (day == null) {
-				day = "";
-			}
-			request.setAttribute("week", week);
-			request.setAttribute("day", day);
-			request.setAttribute("id", 1);
-			return "app/tradetime/notTradeDay";
-		} else {
-			request.setAttribute("week", null);
-			request.setAttribute("day", null);
-			request.setAttribute("id", 0);
-			return "app/tradetime/notTradeDay";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "public/error/500";
 		}
 	}
 

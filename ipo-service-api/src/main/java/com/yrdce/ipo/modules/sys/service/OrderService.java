@@ -7,15 +7,15 @@ import com.yrdce.ipo.modules.sys.vo.Order;
 public interface OrderService {
 
 	// 根据用户ID获取订单表的信息分页展示
-	public List<Order> getOrderInfo(String page, String rows, String userId);
+	public List<Order> getOrderInfo(String page, String rows, String userId) throws Exception;
 
 	// 获取当前用户所有订单记录数
-	public int getAll(String userid);
+	public int getAll(String userid) throws Exception;
 
 	// 订单表的信息分页展示
-	public List<Order> getOrder(String page, String rows);
+	public List<Order> getOrder(String page, String rows) throws Exception;
 
 	// 获取所有订单记录数
-	public int getAllOrder();
+	public int getAllOrder() throws Exception;
 
 }

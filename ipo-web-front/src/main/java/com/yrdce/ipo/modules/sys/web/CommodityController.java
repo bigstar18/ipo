@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -229,8 +228,7 @@ public class CommodityController extends BaseController {
 			throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			List<Distribution> dlist = new ArrayList<Distribution>();
-			dlist = distributionService.getDistriList(page, rows, userid);
+			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid);
 			int totalnums = distributionService.getAllDistris(userid);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);

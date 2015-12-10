@@ -35,9 +35,10 @@
             data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">
         <thead>
             <tr>
-                <th data-options="field:'commodityid',width:200">商品编号</th>
-				<th data-options="field:'commodityname',width:180">商品名称</th>
-				<th data-options="field:'zcounts',width:200">中签数量</th>
+            	<th data-options="field:'orderid',align: 'center',width:200">订单号</th>
+                <th data-options="field:'commodityid',align: 'center',width:200">商品编号</th>
+				<th data-options="field:'commodityname',align: 'center',width:180">商品名称</th>
+				<th data-options="field:'zcounts',align: 'center',width:200">中签数量</th>
             </tr>
         </thead>
     </table>
