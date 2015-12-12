@@ -57,8 +57,8 @@ public class DisplayServiceImpl implements DisplayService {
 				BigDecimal Unitprice = new BigDecimal(units);
 				// 1单位价格
 				BigDecimal total = price.multiply(Unitprice);
-				// 计算可购买多少单位
-				int number = (monery.divide(total, 0, BigDecimal.ROUND_DOWN)).intValue();
+				// 计算可购买多少
+				int number = (monery.divide(price, 0, BigDecimal.ROUND_DOWN)).intValue();
 				// 获得申购额度
 				long purchaseCredits = com.getPurchaseCredits();
 
