@@ -39,7 +39,7 @@ public interface IpoOrderMapper {
 
 	List<IpoOrder> selectAll(String date);
 
-	List<String> select(int commodity_id);
+	List<String> select(String commodityid);
 
 	void insertAll();
 
@@ -55,7 +55,7 @@ public interface IpoOrderMapper {
 
 	int selectByCounts(String userid);
 
-	List<IpoOrder> selectByCid(int commodity_id);
-	
-	int ipoCommSum(Map<String,String> map);
+	List<IpoOrder> selectByCid(String commodityid);
+
+	int ipoCommSum(Map<String, String> map);
 }

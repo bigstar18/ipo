@@ -407,4 +407,8 @@
 	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a order by a.ID) b
 	where b.TNO between #{beginnum} and  #{endnum}
   </select>
+  
+  <select id="selectByCommodityid" restltType = "java.lang.Integer" parameterType="java.lang.String">
+  	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
+  </select>
 </mapper>

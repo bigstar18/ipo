@@ -59,4 +59,6 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodityExtended> getAllBycommodityid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("commodityid") String commodityid);
+
+	int selectByCommodityid(String commodityid);
 }

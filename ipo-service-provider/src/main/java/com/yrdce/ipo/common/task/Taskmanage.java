@@ -14,12 +14,14 @@ import org.springframework.stereotype.Component;
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.common.utils.Selection;
 import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
@@ -52,35 +54,45 @@ public class Taskmanage extends TimerTask {
 	private IpoDistributionMapper ipoDistribution;
 	@Autowired
 	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
+	@Autowired
+	private IpoCommodityConfMapper commodityConfMapper;
 
 	@Override
 	public void run() {
 		try {
-			// 获得系统当前时间的前一天
-			String oldtime = DateUtil.getTime(1);
-			// 已截至日期为依据取发售表商品
-			List<IpoCommodity> commod = commodity.selectByEnd(oldtime);
-			for (IpoCommodity com : commod) {
-				int id = com.getId();
-				List<IpoOrder> orderList = order.selectByCid(id);
-				if (orderList != null && orderList.size() != 0) {
-					// 去重
-					List<String> list = order.select(id);
-					logger.info("复制插入商品id");
-					for (int i = 0; i < list.size(); i++) {
-						frecord = new IpoNumberofrecords();
-						String sid = list.get(i);
-						Date date = new Date();
-						frecord.setCommodityid(sid);
-						frecord.setCounts(BigDecimal.valueOf(0));
-						frecord.setNowtime(date);
-						unmberofrecord.insert(frecord);
-					}
+			List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
+			logger.info("遍历商品配置表");
+			for (IpoCommodityConf conf : commodityConfList) {
+				int day = conf.getTradedays();
+				String oldtime = DateUtil.getTime(day);
+				Date endtime = conf.getEndtime();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String endtime1 = sdf.format(endtime);
+				if (oldtime.equals(endtime1)) {
+					logger.info("T+N天符合要求");
+					String commodityid = conf.getCommodityid();
+					List<IpoOrder> orderList = order.selectByCid(commodityid);
+					if (orderList != null) {
+						// 去重
+						List<String> list = order.select(commodityid);
+						logger.info("复制插入商品id");
+						for (int i = 0; i < list.size(); i++) {
+							frecord = new IpoNumberofrecords();
+							String sid = list.get(i);
+							Date date = new Date();
+							frecord.setCommodityid(sid);
+							frecord.setCounts(BigDecimal.valueOf(0));
+							frecord.setNowtime(date);
+							unmberofrecord.insert(frecord);
+						}
 
-					// 配号任务开始
-					distribution.start(orderList);
+						logger.info("调用配号任务");
+						distribution.start(orderList);
+					}
 				}
+
 			}
+
 			System.out.println("摇号开始");
 			// 摇号获取系统当前时间的前2天。
 			IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();

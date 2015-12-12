@@ -39,7 +39,6 @@ public class Distribution {
 
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
-	@SuppressWarnings("unused")
 	@Transactional
 	public void start(List<IpoOrder> orderList) throws Exception {
 		// 获得系统当前时间的前一天
@@ -47,13 +46,15 @@ public class Distribution {
 
 		// 获取系统前一天订单列表
 		// List<IpoOrder> orderList = order.selectAll(oldtime);
-		if (orderList != null || orderList.size() > 0) {
+		if (orderList.size() > 0) {
 			logger.info("获取前一天订单列表");
 			for (int i = 0; i < orderList.size(); i++) {
 				IpoOrder order1 = orderList.get(i);
 				String sId = order1.getCommodityid();
 				String userid = order1.getUserid();
 				int counts = order1.getCounts();
+				int units = commodity.selectByCommodityid(sId);
+				int units1 = counts / units;
 				String sname = order1.getCommodityname();
 
 				// 获取商品总配号数
@@ -67,14 +68,14 @@ public class Distribution {
 						int allCounts = 0;
 						long startNum = 10000001;
 						// 更新数据
-						this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+						this.updateTable(allCounts, sId, sname, startNum, userid, units1);
 					} else {
 						System.out.println("3 - 2");
-						int allCounts = all + counts;
+						int allCounts = all + units1;
 						System.out.println(allCounts);
 						long startNum = 10000001 + all;
 						// 更新数据
-						this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+						this.updateTable(allCounts, sId, sname, startNum, userid, units1);
 
 					}
 				} else {
@@ -89,7 +90,7 @@ public class Distribution {
 							String str3 = str2.append(str1).toString();
 							long startNum = Long.parseLong(str3);
 							// 更新数据
-							this.updateTable(counts, sId, sname, startNum, userid, counts);
+							this.updateTable(units1, sId, sname, startNum, userid, units1);
 
 						} else {
 							System.out.println("4 - 2");
@@ -98,10 +99,10 @@ public class Distribution {
 							StringBuffer str1 = new StringBuffer("111111");
 							String str2 = (str1.append(str)).toString();
 							long serialNumber = Long.parseLong(str2);
-							int allCounts = all + counts;
+							int allCounts = all + units1;
 							long startNum = serialNumber + all;
 							// 更新数据
-							this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+							this.updateTable(allCounts, sId, sname, startNum, userid, units1);
 
 						}
 
@@ -114,7 +115,7 @@ public class Distribution {
 							String str3 = str2.append(str1).toString();
 							long startNum = Long.parseLong(str3);
 							// 更新数据
-							this.updateTable(counts, sId, sname, startNum, userid, counts);
+							this.updateTable(units1, sId, sname, startNum, userid, units1);
 
 						} else {
 							System.out.println("5 - 2");
@@ -123,10 +124,10 @@ public class Distribution {
 							StringBuffer str1 = new StringBuffer("222222");
 							String str3 = (str1.append(str)).toString();
 							long serialNumber = Long.parseLong(str3);
-							int allCounts = all + counts;
+							int allCounts = all + units1;
 							long startNum = serialNumber + all;
 							// 更新数据
-							this.updateTable(allCounts, sId, sname, startNum, userid, counts);
+							this.updateTable(allCounts, sId, sname, startNum, userid, units1);
 
 						}
 
@@ -145,17 +146,17 @@ public class Distribution {
 
 	}
 
-	public void updateTable(int allCounts, String sId, String sname, long num, String userId, int counts) {
+	public void updateTable(int allCounts, String sId, String sname, long num, String userId, int units1) {
 		// 更新配号临时表
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("counts", allCounts);
+		map.put("units1", allCounts);
 		map.put("commodityid", sId);
 		unmberofrecord.update(map);
 		// 插入更新数据
 		ipodistribution.setCommodityname(sname);
 		ipodistribution.setStartnumber(num);
 		ipodistribution.setUserid(userId);
-		ipodistribution.setPcounts(counts);
+		ipodistribution.setPcounts(units1);
 		ipodistribution.setCommodityid(sId);
 		Date date = new Date();
 		ipodistribution.setPtime(date);
