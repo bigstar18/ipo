@@ -109,17 +109,20 @@ public class PurchaseImpl implements Purchase {
 					param.put("lock", 0);
 					funds.getMonery(param);
 					BigDecimal monery = (BigDecimal) param.get("monery");
-					// int类型转换，购买几个单位
-					// BigDecimal bigDecimal = new BigDecimal(counts);
-					// 总数除以发售单位得到共买几个单位
-					int u = counts / units;
-					BigDecimal bigDecimal = new BigDecimal(u);
-					// 一单位
-					BigDecimal Unitprice = new BigDecimal(units);
-					// 1单位价格
-					BigDecimal total = price.multiply(Unitprice);
+					// int类型转换
+					BigDecimal bigDecimal = new BigDecimal(counts);
 					// 申购消费总额
-					BigDecimal allMonery = bigDecimal.multiply(total);
+					BigDecimal allMonery = bigDecimal.multiply(price);
+
+					// 总数除以发售单位得到共买几个单位
+					// int u = counts / units;
+					// BigDecimal counts1 = new BigDecimal(u);
+					// 一单位
+					// BigDecimal Unitprice = new BigDecimal(units);
+					// 1单位价格
+					// BigDecimal total = price.multiply(Unitprice);
+					// 申购消费总额
+					// BigDecimal allMonery = counts1.multiply(total);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断
@@ -131,7 +134,7 @@ public class PurchaseImpl implements Purchase {
 							d.setUserid(userId);
 							d.setCommodityid(sId);
 							d.setCommodityname(name);
-							d.setCounts(u);
+							d.setCounts(counts);
 							d.setCreatetime(date);
 							d.setFrozenfunds(allMonery);
 							d.setFrozenst(0);

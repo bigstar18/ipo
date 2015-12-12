@@ -306,8 +306,8 @@
     and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
     </select>
     
-    <select id="select" resultType="java.lang.String">
-    	select distinct COMMODITYID from IPO_ORDER where COMMODITY_ID = #{commodity_id,jdbcType=INTEGER}
+    <select id="select" resultType="java.lang.String" parameterType="java.lang.String">
+    	select distinct COMMODITYID from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
     </select>
     
    <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -342,8 +342,8 @@
    	select count(0) from IPO_ORDER where USERID like concat(concat('%',#{userid,jdbcType=VARCHAR}),'%')
    </select>
    
-   <select id="selectByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-   	select <include refid="Base_Column_List" /> from IPO_ORDER where COMMODITY_ID = #{commodity_id,jdbcType=INTEGER}
+   <select id="selectByCid" resultMap="BaseResultMap" parameterType="java.lang.String">
+   	select <include refid="Base_Column_List" /> from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
    </select>
    
 

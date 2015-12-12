@@ -426,7 +426,12 @@
 	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a order by a.ID) b
 	where b.TNO between #{beginnum} and  #{endnum}
   </select>
+<<<<<<< HEAD
    <select id="selectByCommodityid" resultType = "java.lang.Integer" parameterType="java.lang.String">
+=======
+  
+  <select id="selectByCommodityid" restltType = "java.lang.Integer" parameterType="java.lang.String">
+>>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
   	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
 </mapper>

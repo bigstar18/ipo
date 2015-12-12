@@ -68,9 +68,11 @@ public interface IpoCommodityMapper {
 	void updateByStatus(@Param("status") int status,
 			@Param("commodityid") String commodityid);
 
+
 	List<IpoCommodityExtended> getAllBycommodityid(
 			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("commodityid") String commodityid);
 	
+
 	int selectByCommodityid(String commodityid);
 }
