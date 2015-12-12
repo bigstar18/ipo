@@ -159,7 +159,44 @@ public class CommodityController extends BaseController {
 	}
 
 	/**
-	 * 发售商品查询（模糊查询）
+	 * 前台发售商品查询（模糊查询）
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/QueryByConditionsFront", method = RequestMethod.POST)
+	@ResponseBody
+	public String QueryByConditionsFront(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("commodityname") String commodityname,
+			@RequestParam("commodityid") String commodityid) throws IOException {
+		log.info("条件查询发售商品信息");
+		try {
+			Commodity comm = new Commodity();
+			if (!commodityid.equals("")) {
+				comm.setCommodityid(commodityid + "%");
+			}
+			if (!commodityname.equals("")) {
+				comm.setCommodityname("%" + commodityname + "%");
+			}
+			List<Commodity> clist = commodityService.queryByConditionsfront(
+					page, rows, comm);
+			int totalnums = commodityService.countByConditionsfront(comm)
+					.intValue();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(clist);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	/**
+	 * 后台发售商品查询（模糊查询）
 	 * 
 	 * @param
 	 * @return

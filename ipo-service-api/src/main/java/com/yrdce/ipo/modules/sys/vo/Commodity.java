@@ -67,6 +67,11 @@ public class Commodity implements Serializable {
 	@NotNull
 	private int status;// 状态
 
+	@JsonProperty("purchaseCredits")
+	@XmlElement(name = "purchaseCredits")
+	@NotNull
+	private int purchaseCredits;// 申购额度
+
 	@JsonProperty("ccounts")
 	@XmlElement(name = "ccounts")
 	@NotNull
@@ -76,22 +81,26 @@ public class Commodity implements Serializable {
 		super();
 	}
 
-	public Commodity(String commodityid, String commodityname,Date starttime, Date endtime,int status) {
+	public Commodity(String commodityid, String commodityname, Date starttime,
+			Date endtime, int status) {
 		super();
 		this.commodityid = commodityid;
 		this.commodityname = commodityname;
 		this.starttime = starttime;
 		this.endtime = endtime;
-		this.status=status;
+		this.status = status;
 	}
-	
-	public Commodity(int id,String commodityid, String commodityname, double price, int units, Date starttime, Date endtime) {
+
+	public Commodity(int id, String commodityid, String commodityname,
+			double price, int units, int purchaseCredits, Date starttime,
+			Date endtime) {
 		super();
-		this.id=id;
+		this.id = id;
 		this.commodityid = commodityid;
 		this.commodityname = commodityname;
 		this.price = price;
 		this.units = units;
+		this.purchaseCredits = purchaseCredits;
 		this.starttime = starttime;
 		this.endtime = endtime;
 	}
@@ -152,6 +161,14 @@ public class Commodity implements Serializable {
 		this.endtime = endtime;
 	}
 
+	public int getPurchaseCredits() {
+		return purchaseCredits;
+	}
+
+	public void setPurchaseCredits(int purchaseCredits) {
+		this.purchaseCredits = purchaseCredits;
+	}
+
 	public int getCounts() {
 		return counts;
 	}
@@ -178,8 +195,12 @@ public class Commodity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "商品 [商品=" + commodityid + ", 名称=" + commodityname + ", 发售价格=" + price + ", 配售单位=" + units + ", 发售总数=" + counts + ", 发售日期=" + starttime
-				+ ", 截止日期=" + endtime + ", 状态=" + status + ", 申购总数=" + ccounts + "]";
+		return "Commodity [id=" + id + ", commodityid=" + commodityid
+				+ ", commodityname=" + commodityname + ", price=" + price
+				+ ", units=" + units + ", counts=" + counts + ", starttime="
+				+ starttime + ", endtime=" + endtime + ", status=" + status
+				+ ", purchaseCredits=" + purchaseCredits + ", ccounts="
+				+ ccounts + "]";
 	}
 
 }

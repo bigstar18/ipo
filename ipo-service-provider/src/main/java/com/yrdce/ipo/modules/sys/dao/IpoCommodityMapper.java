@@ -25,21 +25,30 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
 
-	List<IpoCommodity> queryByConditions(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("record") IpoCommodity record);
+	List<IpoCommodity> queryByConditions(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoCommodity record);
+
+	List<IpoCommodity> queryByConditionsfront(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoCommodity record);
 
 	int countByConditions(IpoCommodity record);
 
+	int countByConditionsfront(IpoCommodity record);
+
 	List<IpoCommodity> selectAll();
 
-	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
+	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(int id);
 
 	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息
 
-	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
+	int updateByExampleSelective(@Param("record") IpoCommodity record,
+			@Param("example") IpoCommodityExample example);
 
-	int updateByExample(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
+	int updateByExample(@Param("record") IpoCommodity record,
+			@Param("example") IpoCommodityExample example);
 
 	int updateByPrimaryKeySelective(IpoCommodity record);
 
@@ -49,14 +58,19 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectByEnd(String enddate);
 
-	List<IpoCommodityExtended> selectByCommodityAndOrder(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoCommodityExtended> selectByCommodityAndOrder(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int getCounts();
 
 	int getCountsByPage(String commodityid);
 
-	void updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
-
-	List<IpoCommodityExtended> getAllBycommodityid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+	void updateByStatus(@Param("status") int status,
 			@Param("commodityid") String commodityid);
+
+	List<IpoCommodityExtended> getAllBycommodityid(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("commodityid") String commodityid);
+	
+	int selectByCommodityid(String commodityid);
 }

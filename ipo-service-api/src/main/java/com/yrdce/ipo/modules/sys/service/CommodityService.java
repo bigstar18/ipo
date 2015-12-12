@@ -31,11 +31,20 @@ public interface CommodityService {
 	public Integer getCountsByPage(String commodityid);
 
 	// 根据商品代码分页获取商品详细信息
-	public List<Commodity> getCommodityByPage(String page, String rows, String commodityid);
+	public List<Commodity> getCommodityByPage(String page, String rows,
+			String commodityid);
 
 	// 发售后台发售商品条件查询
-	public List<Commodity> queryByConditions(String page, String rows, Commodity comm);
+	public List<Commodity> queryByConditions(String page, String rows,
+			Commodity comm);
 
 	// 发售后台发售商品条件查询总数
 	public Integer countByConditions(Commodity comm);
+
+	// 发售前台发售商品条件查询
+	public List<Commodity> queryByConditionsfront(String page, String rows,
+			Commodity comm);
+
+	// 发售前台发售商品条件查询总数
+	public Integer countByConditionsfront(Commodity comm);
 }

@@ -281,7 +281,17 @@
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  
+   <select id="queryByConditionsfront" resultMap="BaseResultMap"  parameterType="map" >
+   	 select <include refid="Base_Column_List" /> 
+   	 from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where t.ENDTIME >=trunc(sysdate) 
+   	   <if test="record.commodityid != null" >
+       and t.COMMODITYID like #{record.commodityid,jdbcType=VARCHAR} 
+      </if>
+      <if test="record.commodityname != null" >
+       and t.COMMODITYNAME like #{record.commodityname,jdbcType=VARCHAR}
+      </if>
+   	  order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
    <select id="queryByConditions" resultMap="BaseResultMap"  parameterType="map" >
    	 select <include refid="Base_Column_List" /> 
    	 from (select <include refid="Base_Column_List" />,rownum TNO from IPO_COMMODITY_SALE t  where 1=1 
@@ -319,6 +329,15 @@
       </if>
       <if test="status != 0">
       and t.STATUS = #{status,jdbcType=INTEGER}
+      </if>
+  </select>
+   <select id="countByConditionsfront" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodity" >
+   	 select count(*) from IPO_COMMODITY_SALE t where  t.ENDTIME >=trunc(sysdate)
+   	   <if test="commodityid != null" >
+      and  t.COMMODITYID like #{commodityid,jdbcType=VARCHAR}
+      </if>
+      <if test="commodityname != null" >
+      and t.COMMODITYNAME like #{commodityname,jdbcType=VARCHAR}
       </if>
   </select>
   
@@ -406,5 +425,8 @@
 	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
 	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a order by a.ID) b
 	where b.TNO between #{beginnum} and  #{endnum}
+  </select>
+   <select id="selectByCommodityid" resultType = "java.lang.Integer" parameterType="java.lang.String">
+  	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
 </mapper>
