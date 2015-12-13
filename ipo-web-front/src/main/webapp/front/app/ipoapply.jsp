@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<% //String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-String userId ="888";
+<% String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+//String userId ="888";
 %><html>
 <head>
 <title>投资者申购页面</title>
@@ -87,7 +87,7 @@ String userId ="888";
 					<form class="form-inline" id="fm2" style="margin-bottom: 12px" onsubmit="return false;">
 						<div class="form-group">
 							<label style="font-size: 16px;">购买量：</label> 
-							<input type="text"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+							<input type="text" onfocus="clearNote()"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                                     onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" />
 						</div>
 					<div>
@@ -215,6 +215,9 @@ function onlyNumberInput(){
 	 }
 }
 
+function clearNote(){
+	  $("#remind").text("");
+}
 //联动
 function getDetail(index, data) {
 	  if (data) {
