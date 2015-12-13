@@ -187,6 +187,7 @@ function setSortName(value) {
 											    <option value="1" <c:if test="${entity.contractcurrency==1 }">selected</c:if>>元</option>
 												<option value="2" <c:if test="${entity.contractcurrency==2 }">selected</c:if>>美元</option>
 										   </select> 
+										   <span class="required">*</span>   
 										</td>
 							        </tr>  
 								</table >
@@ -219,16 +220,18 @@ function setSortName(value) {
         								<td align="right" >交易单位：</td> 
             							<td> 
 			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,precision:2,invalidMessage:'请输入精度为2的正数！'"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入精度为2的正数',min:0,precision:2"/>
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
-			  								</span>          
+			  								</span>
+			  								<span class="required">*</span>            
             							</td>
             							<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9,invalidMessage:'请输入1-9的整数'"  style="ime-mode:disabled; width: 100" />          
+			  								 class="easyui-numberbox" data-options="required:true,missingMessage:'请输入1-9的整数',min:0,max:9"  style="ime-mode:disabled; width: 100" />          
+										<span class="required">*</span>    
 										</td>
         							</tr>
 	 							</table >
@@ -246,7 +249,7 @@ function setSortName(value) {
 					         		<tr>
 					              		<td><b>发行参数</b></td>
 					                    <td><hr width="100%" class="pickList"/></td>
-					                    <td ><img id="baseinfo_img2" src="<c:url value="${skinPath }/image/app/timebargain/ctl_detail_Up.gif"/>" style="cursor:hand" onclick=""/></td>
+					                    <td ></td>
 					             	</tr>
 					         	</table>
 					       		</legend>
@@ -255,17 +258,20 @@ function setSortName(value) {
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								 class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:9999999999,invalidMessage:'请填入10位以内的正整数！'"  style="ime-mode:disabled;width: 100"/>          
+            								 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数！',min:0,max:9999999999"  style="ime-mode:disabled;width: 100"/>          
+            							<span class="required">*</span>   
             							</td>    
         								<td align="right" >最大申购数量：</td> 
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
-			  									style="ime-mode:disabled; width: 100"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,invalidMessage:'请填入32位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 100"  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正整数！',min:0"/>
+            							<span class="required">*</span>   
             							</td>
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
-			  									style="ime-mode:disabled; width: 100"  class="easyui-validatebox numberbox" data-options="required:true,missingMessage:'必填项',min:0,max:99999999,invalidMessage:'请填入8位以内的正整数！'"/>
+			  									style="ime-mode:disabled; width: 100"  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数！',min:0,max:99999999"/>
+										<span class="required">*</span>   
 										</td>
         							</tr>
 							        <tr>
@@ -281,13 +287,13 @@ function setSortName(value) {
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
 			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
-			  								<span id="dealerpubcharatioPercent">%</span>          
+			  								<span id="dealerpubcharatioPercent">%</span><span class="required">*</span>         
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
 												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
-											<span id="mktdeapubcharatioPercent">%</span>          
+											<span id="mktdeapubcharatioPercent">%</span><span class="required">*</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
 								      	<script type="text/javascript">
@@ -302,13 +308,13 @@ function setSortName(value) {
             							<td>
 			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
 			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />  
-			  								<span id="publishercharatioPercent">%</span>        
+			  								<span id="publishercharatioPercent">%</span><span class="required">*</span>       
             							</td>
             							<td align="right">发行商发行手续费市场留存比例：</td>
 										<td>
 										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
 			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />          
-										<span id="mktpubcharatioPercent">%</span>
+										<span id="mktpubcharatioPercent">%</span><span class="required">*</span>   
 										</td>
 										<td>&nbsp;</td>
 								      	<script type="text/javascript">

@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
 <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
+<style type="text/css">input {line-height: 14px;}</style>
 <script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
@@ -23,16 +24,16 @@
 }
 
 .infos {
-	margin-top: 10px
+	margin-top: 25px
 }
 
 .infos h4 {
-	margin-top: 10px;
-	margin-bottom: 13px
+	margin-top: 25px;
+	margin-bottom: 25px
 }
 
 .infos p {
-	margin-bottom: 13px
+	margin-bottom: 25px
 }
 </style>
 </head>
@@ -56,8 +57,9 @@
 							<th data-options="field:'commodityid',width:160">商品代码</th>
 							<th data-options="field:'commodityname',width:160">申购产品</th>
 							<th data-options="field:'price',width:160">发售价格</th>
-							<th data-options="field:'units',width:160">发售数量</th>
+							<th data-options="field:'units',width:160">配售单位</th>
 							<th data-options="field:'counts',width:160">发售数量</th>
+							<th data-options="field:'purchaseCredits',width:0">申购额度</th>
 							<th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
 							<th data-options="field:'endtime',width:160,formatter:dateconvertfunc">截止日期</th>
 						</tr>
@@ -65,31 +67,32 @@
 				</table>
                  <div id="tb" style="padding:5px;height:auto">
 		          <div>
-		        	商品代码：<input type="text" id="commodityid" name="commodityid" />
-			              商品名称：<input type="text" id="commodityname" name="commodityname" />
+		        	商品代码：<input type="text" id="commid" name="commodityid" style="margin-bottom: 0px;"/>
+			              商品名称：<input type="text" id="commname" name="commodityname" style="margin-bottom: 0px;"/>
 		          <input type="button" value="查询" onclick="doSearch()"/>				
 		          </div> 
 	             </div>
-				<div class="easyui-panel" title="详细信息"  style="width: 30%; height: 385px; padding: 10px; overflow: hidden;">
+				<div class="easyui-panel" title="详细信息"  style="width: 30%; height: 385px; padding: 10px; overflow: hidden;font-size: 16px;">
 					<div class="infos">
 						 <input type="hidden" id="id" />
+						 <input type="hidden" id="commodityid" />
+						 <input type="hidden" id="price" />
+					     <input type="hidden" id="units" />
 						<p>账户编号：<b id="userId"><%=userId%></b></p>
 						<p>申购产品：<b id="comname"></b></p>
 						<p>可用资金(/元)：<b id="money"></b></p>
-						<p>可购买数量(/单位)：<b id="counts"></b></p>
-						<p>申购额度：<b id="limit"></b></p>
-						<input type="hidden" id="price" /> <input type="hidden" id="units" />
-						<input type="hidden" id="pathStr1" value="<%=request.getContextPath()%>/CommodityController/getUserInfo" />
-						<input type="hidden" id="pathStr2" value="<%=request.getContextPath()%>/CommodityController/getInfos" />
+						<p>可购买数量：<b id="availibleQua"></b></p>
+						<p>申购额度：<b id="purchaseCredits"></b></p>
 					</div>
-					<form class="form-inline" id="fm2" style="margin-bottom: 12px">
+					<form class="form-inline" id="fm2" style="margin-bottom: 12px" onsubmit="return false;">
 						<div class="form-group">
-							<label style="width: 70px">购买量：</label> 
-							<input type="text"  id="quantity" class="easyui-numberbox"  data-options="required:true,min:1,missingMessage:'申购必填'">
+							<label style="font-size: 16px;">购买量：</label> 
+							<input type="text"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" />
 						</div>
 					<div>
-						<button type="button" id="btn" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px;">申购</button>
-						<b id="remind" style="color: red; float: left; line-height: 30px; height: 40px; margin-left: 20px;"></b>
+						<button type="button" id="btn" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px; margin-top: 30px;">申购</button>
+						<b id="remind" style="color: red; float: left; line-height: 30px; height: 40px; margin-left: 20px;margin-top: 30px;"></b>
 					</div>
 					</form>
 				</div>
@@ -101,8 +104,41 @@ function dateconvertfunc(value,row){
         return value.substr(0,10);
 }
 
+function onlyNumberInput(){
+	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
+		    event.returnValue=false;
+	 }
+}
+
+//联动
+function getDetail(index, data) {
+	  if (data) {
+		        $("#remind").text("");
+		        $("#id").val(data.id);
+		        $("#commodityid").val(data.commodityid);
+		        $("#comname").text(data.commodityname);
+		        $("#purchaseCredits").text(data.purchaseCredits);
+		        $("#price").val(data.price);
+		        $("#units").val(data.units);
+		        var money=$("#money").text();
+		        $("#availibleQua").text(parseInt(money/(data.price)));
+	        }
+}
+
+function doSearch(){
+	$("#mytb").datagrid({
+		method:'POST',
+		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditionsFront',
+	    queryParams:{  
+	    	commodityid:$("#commid").val(),  
+	    	commodityname:$("#commname").val()  
+		    }  
+	});
+}
+
 $(document).ready(function() {
 	$('#mytb').datagrid('hideColumn','id');
+	$('#mytb').datagrid('hideColumn','purchaseCredits');
 	 var p = $('#mytb').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        pageSize: 10,
@@ -125,9 +161,10 @@ $(document).ready(function() {
 	        }    
 		});  
 
+
 	$("#btn").bind('click',function(){
 		if($("#comname").text()==""){
-			$("#remind").text("请输入正确的商品编号！");
+			$("#remind").text("请先选中某个商品再进行申购！");
 			return;
 		}
 		if($("#quantity").val().length>9){
@@ -135,14 +172,17 @@ $(document).ready(function() {
 			return;
 		}
 		if($("#quantity").val().length==0){
-			$("#remind").text("请输入购买量！");
+			$("#remind").text("申购量必填！");
+			return;
+		}
+		if($("#quantity").val()%($("#units").val())!=0){
+			$("#remind").text("请输入该商品配售单位整数倍的申购量！");
 			return;
 		}
 		var price=$("#price").val();
-		var units=$("#units").val();
 		var num=$("#quantity").val();
-		var moneyneed=parseFloat(price)*parseInt(num)*parseInt(units);
-		var money= parseFloat( $("#money").text());
+		var moneyneed=parseFloat(price)*parseInt(num);
+		var money= parseFloat($("#money").text());
 		if(moneyneed>money){
 			$("#remind").text("资金不足！");
 		}else{
@@ -167,9 +207,6 @@ $(document).ready(function() {
 	            if (data == "3") {  
 	            	$("#remind").text("您已提交订单，请勿重复操作！");
 	            }  
-	            if (data == "4") {  
-	            	$("#remind").text("提交订单失败！");
-	            }  
 	            if (data == "5") {  
 	            	$("#remind").text("超出商品申购额度！");
 	            }
@@ -185,83 +222,6 @@ $(document).ready(function() {
 	});
 });
 
- 
-//联动
-function getDetail(index, data) {
-	  if (data) {
-		        $("#commodityid").val(data.commodityid);
-		        $("#comname").text(data.commodityname);
-		        $("#price").val(data.price);
-		        $("#units").val(data.units);
-		        $("#id").val(data.id);
-		        $("#remind").text("");
-		        var comid= data.commodityid;
-		  	  $.ajax({  
-				    type: 'GET',  
-				    url: "<%=request.getContextPath()%>/CommodityController/getInfos",  
-				    contentType: "application/json; charset=utf-8", 
-				    data:{"commodityid":comid,"money": $("#money").text()},  
-				    dataType: 'json',  
-				    async: true,  
-				    success : function(data, stats) {  
-			            $("#counts").text(data.number);
-			            $("#limit").text(data.purchaseCredits);
-			        }    
-				});  
-	        }
-}
-
-function doSearch(){
-	$("#mytb").datagrid({
-		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditions',
-	    queryParams:{  
-	    	commodityid:$("#commodityid").val(),  
-	    	commodityname:$("#commodityname").val()  
-		    }  
-	});
-}
-
-
-
-//申购面板异步刷新
-<%--  function showInfo(str){
-            var xmlhttp;
-          if (str.length==0) {
-        	   $("#comname").text("");
-	           $("#counts").text("");
-	           $("#limit").text("");
-	           $("#remind").text("");
-	           $("#id").text("");
-              return; 
-           }
-         if (window.XMLHttpRequest) {
-            xmlhttp=new XMLHttpRequest();  }
-        else {
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
-        xmlhttp.onreadystatechange=function() { 
-        	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-	               if( xmlhttp.responseText){
-	            	   var com=eval('(' + xmlhttp.responseText + ')');
-		           $("#comname").text(com.name);
-		           $("#counts").text(com.number);
-		           $("#limit").text(com.purchaseCredits);
-		           $("#price").val(com.price);
-		           $("#units").val(com.units);
-		           $("#id").val(com.id);
-	               }
-	         }
-	        else{
-	        	   $("#comname").text("");
-		           $("#counts").text("");
-		           $("#limit").text("");
-		           $("#remind").text("");
-		           $("#id").text("");
-
-	  }
-    };
-           xmlhttp.open("GET","<%=request.getContextPath()%>/CommodityController/getInfos?commodityid="+ str + "&money=" + $("#money").text(), true);
-				xmlhttp.send();
-			} --%>
 </script>
 	</div>
 </body>

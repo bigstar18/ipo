@@ -17,7 +17,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 
 @Service("commodityService")
-
 public class CommodityServiceImpl implements CommodityService {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -44,7 +43,8 @@ public class CommodityServiceImpl implements CommodityService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoCommodity> commlist = ipoCommodityMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoCommodity> commlist = ipoCommodityMapper.getAllByPage(
+				(curpage - 1) * pagesize + 1, curpage * pagesize);
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
 		for (int i = 0; i < commlist.size(); i++) {
 			Commodity commo = new Commodity();
@@ -58,7 +58,8 @@ public class CommodityServiceImpl implements CommodityService {
 	@Override
 	public Commodity getCommodity(String commid) {
 		logger.info("根据商品ID查询信息");
-		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commid.toUpperCase());
+		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commid
+				.toUpperCase());
 		logger.info("ipoCom:" + ipoCom.toString());
 		if (ipoCom == null) {
 			return null;
@@ -106,7 +107,9 @@ public class CommodityServiceImpl implements CommodityService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		List<IpoCommodityExtended> commlist = ipoCommodityMapper.selectByCommodityAndOrder((curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoCommodityExtended> commlist = ipoCommodityMapper
+				.selectByCommodityAndOrder((curpage - 1) * pagesize + 1,
+						curpage * pagesize);
 		if (commlist == null) {
 			return null;
 		}
@@ -129,7 +132,8 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public List<Commodity> getCommodityByPage(String page, String rows, String commodityid) {
+	public List<Commodity> getCommodityByPage(String page, String rows,
+			String commodityid) {
 		logger.info("根据商品id分页查询mgr后台发行摇号");
 
 		page = (page == null ? "1" : page);
@@ -138,7 +142,8 @@ public class CommodityServiceImpl implements CommodityService {
 		int pagesize = Integer.parseInt(rows);
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
 		List<IpoCommodityExtended> commlist;
-		commlist = ipoCommodityMapper.getAllBycommodityid((curpage - 1) * pagesize + 1, curpage * pagesize, commodityid.toUpperCase());
+		commlist = ipoCommodityMapper.getAllBycommodityid((curpage - 1)
+				* pagesize + 1, curpage * pagesize, commodityid.toUpperCase());
 		if (commlist == null) {
 			return null;
 		}
@@ -153,7 +158,8 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public Integer getCountsByPage(String commodityid) {
-		int counts = ipoCommodityMapper.getCountsByPage(commodityid.toUpperCase());
+		int counts = ipoCommodityMapper.getCountsByPage(commodityid
+				.toUpperCase());
 		logger.info("counts:" + counts);
 		Integer counts1 = Integer.valueOf(counts);
 		return counts1;
@@ -161,7 +167,8 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Commodity> queryByConditions(String page, String rows, Commodity comm) {
+	public List<Commodity> queryByConditions(String page, String rows,
+			Commodity comm) {
 		logger.info("条件查询发售商品服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -171,7 +178,8 @@ public class CommodityServiceImpl implements CommodityService {
 		if (comm != null) {
 			BeanUtils.copyProperties(comm, example);
 		}
-		List<IpoCommodity> commlist = ipoCommodityMapper.queryByConditions((curpage - 1) * pagesize + 1, curpage * pagesize, example);
+		List<IpoCommodity> commlist = ipoCommodityMapper.queryByConditions(
+				(curpage - 1) * pagesize + 1, curpage * pagesize, example);
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
 		for (int i = 0; i < commlist.size(); i++) {
 			Commodity commo = new Commodity();
@@ -189,6 +197,41 @@ public class CommodityServiceImpl implements CommodityService {
 			BeanUtils.copyProperties(comm, example);
 		}
 		return ipoCommodityMapper.countByConditions(example);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Commodity> queryByConditionsfront(String page, String rows,
+			Commodity comm) {
+		logger.info("前台条件查询发售商品服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		IpoCommodity example = new IpoCommodity();
+		if (comm != null) {
+			BeanUtils.copyProperties(comm, example);
+		}
+		List<IpoCommodity> commlist = ipoCommodityMapper
+				.queryByConditionsfront((curpage - 1) * pagesize + 1, curpage
+						* pagesize, example);
+		List<Commodity> commlist2 = new ArrayList<Commodity>();
+		for (int i = 0; i < commlist.size(); i++) {
+			Commodity commo = new Commodity();
+			BeanUtils.copyProperties(commlist.get(i), commo);
+			commo.setPrice(commlist.get(i).getPrice().doubleValue());
+			commlist2.add(commo);
+		}
+		return commlist2;
+	}
+
+	@Override
+	public Integer countByConditionsfront(Commodity comm) {
+		IpoCommodity example = new IpoCommodity();
+		if (comm != null) {
+			BeanUtils.copyProperties(comm, example);
+		}
+		return ipoCommodityMapper.countByConditionsfront(example);
 	}
 
 }
