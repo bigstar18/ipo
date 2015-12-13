@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";
+<% //String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";
 %><html>
 <head>
 <title>投资者申购页面</title>
@@ -99,43 +99,6 @@
 			</div>
 		</div>
 <script type="text/javascript">
-//日期转换
-function dateconvertfunc(value,row){
-        return value.substr(0,10);
-}
-
-function onlyNumberInput(){
-	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
-		    event.returnValue=false;
-	 }
-}
-
-//联动
-function getDetail(index, data) {
-	  if (data) {
-		        $("#remind").text("");
-		        $("#id").val(data.id);
-		        $("#commodityid").val(data.commodityid);
-		        $("#comname").text(data.commodityname);
-		        $("#purchaseCredits").text(data.purchaseCredits);
-		        $("#price").val(data.price);
-		        $("#units").val(data.units);
-		        var money=$("#money").text();
-		        $("#availibleQua").text(parseInt(money/(data.price)));
-	        }
-}
-
-function doSearch(){
-	$("#mytb").datagrid({
-		method:'POST',
-		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditionsFront',
-	    queryParams:{  
-	    	commodityid:$("#commid").val(),  
-	    	commodityname:$("#commname").val()  
-		    }  
-	});
-}
-
 $(document).ready(function() {
 	$('#mytb').datagrid('hideColumn','id');
 	$('#mytb').datagrid('hideColumn','purchaseCredits');
@@ -222,6 +185,50 @@ $(document).ready(function() {
 	});
 });
 
+function doSearch(){
+	$("#mytb").datagrid({
+		method:'POST',
+		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditionsFront',
+	    queryParams:{  
+	    	commodityid:$("#commid").val(),  
+	    	commodityname:$("#commname").val()  
+		    }  
+	});
+	 var p = $('#mytb').datagrid('getPager'); 
+	    $(p).pagination({ 
+	        pageSize: 10,
+	        pageList: [5,10,15],
+	        beforePageText: '第',
+	        afterPageText: '页    共 {pages} 页', 
+	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+	    });
+}
+
+//日期转换
+function dateconvertfunc(value,row){
+        return value.substr(0,10);
+}
+
+function onlyNumberInput(){
+	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
+		    event.returnValue=false;
+	 }
+}
+
+//联动
+function getDetail(index, data) {
+	  if (data) {
+		        $("#remind").text("");
+		        $("#id").val(data.id);
+		        $("#commodityid").val(data.commodityid);
+		        $("#comname").text(data.commodityname);
+		        $("#purchaseCredits").text(data.purchaseCredits);
+		        $("#price").val(data.price);
+		        $("#units").val(data.units);
+		        var money=$("#money").text();
+		        $("#availibleQua").text(parseInt(money/(data.price)));
+	        }
+}
 </script>
 	</div>
 </body>

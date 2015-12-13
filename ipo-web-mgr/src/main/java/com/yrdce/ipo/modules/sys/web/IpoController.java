@@ -36,10 +36,10 @@ import com.yrdce.ipo.modules.sys.vo.VTCommodity;
  */
 @Controller
 @RequestMapping("IpoController")
-
 public class IpoController extends BaseController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(IpoController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(IpoController.class);
 
 	@Autowired
 	private MBreedService mBreedservice;
@@ -130,7 +130,8 @@ public class IpoController extends BaseController {
 	 * 交易节管理视图
 	 */
 	@RequestMapping(value = "/tradeTimeManage", method = RequestMethod.GET)
-	public String tradeTimeManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String tradeTimeManage(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/tradetime/tradeTime_list";
 	}
 
@@ -138,7 +139,8 @@ public class IpoController extends BaseController {
 	 * 品种管理视图
 	 */
 	@RequestMapping(value = "/CommodityManage", method = RequestMethod.GET)
-	public String CommodityManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String CommodityManage(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/breed/breed_list";
 	}
 
@@ -146,7 +148,9 @@ public class IpoController extends BaseController {
 	 * 商品列表视图
 	 */
 	@RequestMapping(value = "/CommodityList", method = RequestMethod.GET)
-	public String CommodityList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("breedID") String breedid) {
+	public String CommodityList(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("breedID") String breedid) {
 		request.setAttribute("breedID", breedid);
 		return "app/commodity/comm_list";
 	}
@@ -155,15 +159,44 @@ public class IpoController extends BaseController {
 	 * 商品查询视图
 	 */
 	@RequestMapping(value = "/CommodityQuery", method = RequestMethod.GET)
-	public String CommodityQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String CommodityQuery(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/dataQuery/comms_list";
+	}
+
+	/*
+	 * 交收管理提货单审核视图
+	 */
+	@RequestMapping(value = "/DeliveryApprove", method = RequestMethod.GET)
+	public String DeliveryApprove(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/delivery/approve";
+	}
+
+	/*
+	 * 交收管理提货单注销视图
+	 */
+	@RequestMapping(value = "/DeliveryCancel", method = RequestMethod.GET)
+	public String DeliveryCancel(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/delivery/cancel";
+	}
+
+	/*
+	 * 交收管理提货单查询视图
+	 */
+	@RequestMapping(value = "/DeliveryQuery", method = RequestMethod.GET)
+	public String DeliveryQuery(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		return "app/delivery/query";
 	}
 
 	/*
 	 * 新增品种视图
 	 */
 	@RequestMapping(value = "/addBreedforward", method = RequestMethod.GET)
-	public String addBreedforward(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String addBreedforward(HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
 		try {
 			request.setAttribute("crud", "create");
 			log.info("跳转至新增页面");
@@ -181,12 +214,14 @@ public class IpoController extends BaseController {
 	 * 修改品种视图
 	 */
 	@RequestMapping(value = "/updateBreedforward", method = RequestMethod.GET)
-	public String updateBreedforward(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("breedID") String breedid)
-			throws IOException {
+	public String updateBreedforward(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("breedID") String breedid) throws IOException {
 		try {
 			request.setAttribute("crud", "update");
 			log.info("跳转至修改页面");
-			VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
+			VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long
+					.parseLong(breedid));
 			log.info(vbreed.toString());
 			Mlist = mBreedservice.findAll();
 			request.setAttribute("Mlist", Mlist);
@@ -203,11 +238,13 @@ public class IpoController extends BaseController {
 	 * 新增商品视图
 	 */
 	@RequestMapping(value = "/addCommodity", method = RequestMethod.GET)
-	public String addCommodity(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("breedid") String breedid)
-			throws IOException {
+	public String addCommodity(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("breedid") String breedid) throws IOException {
 		log.info("跳转至新增商品页面");
 		try {
-			VIpoABreed ipobreed = vIpoABreedService.getIpoABreed(Long.parseLong(breedid));
+			VIpoABreed ipobreed = vIpoABreedService.getIpoABreed(Long
+					.parseLong(breedid));
 			log.info(ipobreed + "");
 			Blist = brBrokerService.findAllPublisher();
 			Tlist = tCommodityService.findAllTCommodity();
@@ -230,11 +267,14 @@ public class IpoController extends BaseController {
 	 * 修改商品视图
 	 */
 	@RequestMapping(value = "/updateCommodity", method = RequestMethod.GET)
-	public String updateCommodity(HttpServletRequest request, HttpServletResponse response, Model model,
-			@RequestParam("commodityid") String commodityid, @RequestParam("breedid") String breedid) throws IOException {
+	public String updateCommodity(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("commodityid") String commodityid,
+			@RequestParam("breedid") String breedid) throws IOException {
 		log.info("跳转至修改商品页面");
 		try {
-			VIpoCommConf ipocomm = ipoCommConfService.getVIpoCommConfByCommid(commodityid);
+			VIpoCommConf ipocomm = ipoCommConfService
+					.getVIpoCommConfByCommid(commodityid);
 			if (ipocomm != null) {
 				String start = formatDate(ipocomm.getStarttime());
 				String end = formatDate(ipocomm.getEndtime());
