@@ -27,9 +27,7 @@
 		<div class="title font_orange_14b">温馨提示 :</div>
 		<div class="content">在此展示投资者的申购记录信息。</div>
 	</div>
-
 		<div class="col-xs-12">
-		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table  id="mytb"  class="easyui-datagrid"  title="申购记录查询"   style="width:100%;height:385px"
             data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/getOrder?userid=<%=userId %>',method:'get'">

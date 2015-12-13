@@ -29,7 +29,6 @@
 	</div>
 
 		<div class="col-xs-12">
-		<br>
 			<div id="myTabContent" class="tab-content">
 		   <table  id="mytb"  class="easyui-datagrid"  title="ÖÐÇ©¼ÇÂ¼²éÑ¯"   style="width:100%;height:385px"
             data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>',method:'get'">

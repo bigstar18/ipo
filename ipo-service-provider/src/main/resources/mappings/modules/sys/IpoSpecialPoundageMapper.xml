@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpecialPoundageMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
+    <id column="POUNDAGE_ID" property="poundageId" jdbcType="DECIMAL" />
+    <result column="DEALER_ID" property="dealerId" jdbcType="VARCHAR" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
+    <result column="POUNDAGE_ALGR" property="poundageAlgr" jdbcType="DECIMAL" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="REGISTER_RATIO" property="registerRatio" jdbcType="DECIMAL" />
+    <result column="CANCEL_RATIO" property="cancelRatio" jdbcType="DECIMAL" />
+    <result column="SAIL_RATIO" property="sailRatio" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from IPO_SPECIAL_POUNDAGE
+    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
+    insert into IPO_SPECIAL_POUNDAGE (POUNDAGE_ID, DEALER_ID, COMMODITY_ID, 
+      POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
+      CANCEL_RATIO, SAIL_RATIO)
+    values (#{poundageId,jdbcType=DECIMAL}, #{dealerId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
+      #{poundageAlgr,jdbcType=DECIMAL}, #{modifyDate,jdbcType=DATE}, #{registerRatio,jdbcType=DECIMAL}, 
+      #{cancelRatio,jdbcType=DECIMAL}, #{sailRatio,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
+    update IPO_SPECIAL_POUNDAGE
+    set DEALER_ID = #{dealerId,jdbcType=VARCHAR},
+      COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      POUNDAGE_ALGR = #{poundageAlgr,jdbcType=DECIMAL},
+      MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+      REGISTER_RATIO = #{registerRatio,jdbcType=DECIMAL},
+      CANCEL_RATIO = #{cancelRatio,jdbcType=DECIMAL},
+      SAIL_RATIO = #{sailRatio,jdbcType=DECIMAL}
+    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
+    CANCEL_RATIO, SAIL_RATIO
+    from IPO_SPECIAL_POUNDAGE
+    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
+    CANCEL_RATIO, SAIL_RATIO
+    from IPO_SPECIAL_POUNDAGE
+  </select>
+</mapper>

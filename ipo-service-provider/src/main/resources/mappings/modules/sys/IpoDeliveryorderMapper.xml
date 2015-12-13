@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
+    <id column="DELIVERYORDER_ID" property="deliveryorderId" jdbcType="DECIMAL" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
+    <result column="COMMODITY_NAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="DEALER_ID" property="dealerId" jdbcType="VARCHAR" />
+    <result column="DEALER_NAME" property="dealerName" jdbcType="VARCHAR" />
+    <result column="WAREHOUSE_ID" property="warehouseId" jdbcType="VARCHAR" />
+    <result column="WAREHOUSE_NAME" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="DELIVERY_QUATITY" property="deliveryQuatity" jdbcType="DECIMAL" />
+    <result column="DELIVERY_COUNTS" property="deliveryCounts" jdbcType="DECIMAL" />
+    <result column="DELIVERY_METHOD" property="deliveryMethod" jdbcType="VARCHAR" />
+    <result column="METHOD_ID" property="methodId" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="DELIVERY_DATE" property="deliveryDate" jdbcType="DATE" />
+    <result column="APPLY_DATE" property="applyDate" jdbcType="DATE" />
+    <result column="APPROVAL_STATUS" property="approvalStatus" jdbcType="DECIMAL" />
+    <result column="APPROVERS" property="approvers" jdbcType="VARCHAR" />
+    <result column="APPROVE_DATE" property="approveDate" jdbcType="DATE" />
+    <result column="CANCELER" property="canceler" jdbcType="VARCHAR" />
+    <result column="CANCEL_DATE" property="cancelDate" jdbcType="DATE" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from IPO_DELIVERYORDER
+    where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
+    insert into IPO_DELIVERYORDER (DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, 
+      DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
+      WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, 
+      DELIVERY_METHOD, METHOD_ID, UNIT, 
+      DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, 
+      APPROVERS, APPROVE_DATE, CANCELER, 
+      CANCEL_DATE, REMARKS)
+    values (#{deliveryorderId,jdbcType=DECIMAL}, #{commodityId,jdbcType=VARCHAR}, #{commodityName,jdbcType=VARCHAR}, 
+      #{dealerId,jdbcType=VARCHAR}, #{dealerName,jdbcType=VARCHAR}, #{warehouseId,jdbcType=VARCHAR}, 
+      #{warehouseName,jdbcType=VARCHAR}, #{deliveryQuatity,jdbcType=DECIMAL}, #{deliveryCounts,jdbcType=DECIMAL}, 
+      #{deliveryMethod,jdbcType=VARCHAR}, #{methodId,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
+      #{deliveryDate,jdbcType=DATE}, #{applyDate,jdbcType=DATE}, #{approvalStatus,jdbcType=DECIMAL}, 
+      #{approvers,jdbcType=VARCHAR}, #{approveDate,jdbcType=DATE}, #{canceler,jdbcType=VARCHAR}, 
+      #{cancelDate,jdbcType=DATE}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
+    update IPO_DELIVERYORDER
+    set COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+      COMMODITY_NAME = #{commodityName,jdbcType=VARCHAR},
+      DEALER_ID = #{dealerId,jdbcType=VARCHAR},
+      DEALER_NAME = #{dealerName,jdbcType=VARCHAR},
+      WAREHOUSE_ID = #{warehouseId,jdbcType=VARCHAR},
+      WAREHOUSE_NAME = #{warehouseName,jdbcType=VARCHAR},
+      DELIVERY_QUATITY = #{deliveryQuatity,jdbcType=DECIMAL},
+      DELIVERY_COUNTS = #{deliveryCounts,jdbcType=DECIMAL},
+      DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR},
+      METHOD_ID = #{methodId,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      DELIVERY_DATE = #{deliveryDate,jdbcType=DATE},
+      APPLY_DATE = #{applyDate,jdbcType=DATE},
+      APPROVAL_STATUS = #{approvalStatus,jdbcType=DECIMAL},
+      APPROVERS = #{approvers,jdbcType=VARCHAR},
+      APPROVE_DATE = #{approveDate,jdbcType=DATE},
+      CANCELER = #{canceler,jdbcType=VARCHAR},
+      CANCEL_DATE = #{cancelDate,jdbcType=DATE},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
+    WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
+    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, 
+    REMARKS
+    from IPO_DELIVERYORDER
+    where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
+    WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
+    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, 
+    REMARKS
+    from IPO_DELIVERYORDER
+  </select>
+</mapper>

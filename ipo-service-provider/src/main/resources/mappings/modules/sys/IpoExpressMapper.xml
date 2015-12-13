@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoExpressMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
+    <id column="EXPRESS_ID" property="expressId" jdbcType="DECIMAL" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="COST" property="cost" jdbcType="DECIMAL" />
+    <result column="EXPRESS_DATE" property="expressDate" jdbcType="DATE" />
+    <result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from IPO_EXPRESS
+    where EXPRESS_ID = #{expressId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
+    insert into IPO_EXPRESS (EXPRESS_ID, ADDRESS, COST, 
+      EXPRESS_DATE, RECEIVER, TEL
+      )
+    values (#{expressId,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{cost,jdbcType=DECIMAL}, 
+      #{expressDate,jdbcType=DATE}, #{receiver,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
+    update IPO_EXPRESS
+    set ADDRESS = #{address,jdbcType=VARCHAR},
+      COST = #{cost,jdbcType=DECIMAL},
+      EXPRESS_DATE = #{expressDate,jdbcType=DATE},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR}
+    where EXPRESS_ID = #{expressId,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select EXPRESS_ID, ADDRESS, COST, EXPRESS_DATE, RECEIVER, TEL
+    from IPO_EXPRESS
+    where EXPRESS_ID = #{expressId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select EXPRESS_ID, ADDRESS, COST, EXPRESS_DATE, RECEIVER, TEL
+    from IPO_EXPRESS
+  </select>
+</mapper>
