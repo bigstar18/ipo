@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -134,8 +135,16 @@ public class SysController {
 	@RequestMapping(value = "/getClearRecords", method = RequestMethod.GET)
 	@ResponseBody
 	public String getClearRecords() throws IOException {
-		// TODO
-		return null;
+		try {
+			List records = systemService.getClearRecords();
+			if (records != null)
+				return JSON.json(records);
+			else
+				return null;
+		} catch (Exception e) {
+			log.error("error:", e);
+			return null;
+		}
 	}
 
 	// 结算 ，防止并发

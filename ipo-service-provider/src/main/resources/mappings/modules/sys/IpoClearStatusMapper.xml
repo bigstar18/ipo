@@ -12,6 +12,11 @@
   <sql id="Base_Column_List" >
     ACTIONID, ACTIONNOTE, STATUS, FINISHTIME
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from IPO_CLEARSTATUS order by ACTIONID
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
     select 
     <include refid="Base_Column_List" />

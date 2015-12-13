@@ -12,9 +12,13 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
@@ -71,6 +75,8 @@ public class SystemManager {
 	private IpoSysStatusMapper mapper;
 	@Autowired
 	private SectionManager sectionManager;
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 
 	public String getStatus() {
 		return status;
@@ -149,7 +155,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
-				updateSysStatus(tradeDate, STATUS_TRADE_DOING, "恢复交易");
+				updateSysStatus(tradeDate, STATUS_TRADE_DOING, "交易中");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -190,7 +196,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (!status.equals(STATUS_MARKET_CLOSE)) {
-				updateSysStatus(tradeDate, STATUS_MARKET_CLOSE, "闭市");
+				updateSysStatus(tradeDate, STATUS_MARKET_CLOSE, "", "闭市");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -214,7 +220,7 @@ public class SystemManager {
 		updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
 		// TODO
 
-		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, "");
+		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
 	}
 
 	/**
@@ -448,7 +454,7 @@ public class SystemManager {
 	private void closeMarketInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 
-		updateSysStatus(sdf.format(date), STATUS_MARKET_CLOSE, "闭市");
+		updateSysStatus(sdf.format(date), STATUS_MARKET_CLOSE, "", "闭市");
 	}
 
 	// 状态变更入库
@@ -495,9 +501,12 @@ public class SystemManager {
 		logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}", Thread.currentThread().getName(), tradeDate, status, section);
 	}
 
-	// 预防多实例并发
+	// 预防多实例并发 //注解事务无效
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	private void updateSysStatusLock(String oldStatus, String toStatus, Short sectionId, String remark) throws Exception {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+		TransactionStatus transactionStatus = transactionManager.getTransaction(def);
 		try {
 			IpoSysStatus sysStatus = new IpoSysStatus();
 			sysStatus.setTradedate(sdf.parse(tradeDate));
@@ -514,9 +523,12 @@ public class SystemManager {
 			if (sectionId != null)
 				this.section = sectionId.toString();
 
+			transactionManager.commit(transactionStatus);
+
 			logChangeStatus();
 		} catch (Exception e) {
 			logger.info("error:", e);
+			transactionManager.rollback(transactionStatus);
 			throw e;
 		}
 		// batchUpdate（）
@@ -527,9 +539,12 @@ public class SystemManager {
 		logger.info("系统状态变更为：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
 	}
 
-	// 状态变更入库
+	// 状态变更入库 //注解事务无效
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	private void updateClearStatus(Short actionId, String status) throws Exception {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+		TransactionStatus transactionStatus = transactionManager.getTransaction(def);
 		try {
 			IpoClearStatus clearStatus = new IpoClearStatus();
 			clearStatus.setActionid(actionId);
@@ -538,10 +553,12 @@ public class SystemManager {
 			clearStatus.setFinishtime(date);
 
 			clearStatusMapper.updateByPrimaryKeySelective(clearStatus);
+			transactionManager.commit(transactionStatus);
 
 			logger.info("清算状态：actionId={},status={},time={}", actionId, status, date);
 		} catch (Exception e) {
 			logger.info("error:", e);
+			transactionManager.rollback(transactionStatus);
 			throw e;
 		}
 	}

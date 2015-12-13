@@ -3,7 +3,9 @@
  */
 package com.yrdce.ipo.modules.sys.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -12,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.SystemManager;
 import com.yrdce.ipo.modules.sys.dao.CGloballogAllMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
+import com.yrdce.ipo.modules.sys.vo.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -30,10 +35,10 @@ public class SystemServiceImpl implements SystemService {
 
 	@Autowired
 	private IpoSysStatusMapper mapper;
-
 	@Autowired
 	private CGloballogAllMapper logMapper;
-
+	@Autowired
+	private IpoClearStatusMapper clearStatusMapper;
 	@Autowired
 	private SystemManager systemManager;
 
@@ -132,9 +137,24 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Override
-	public String getClearRecords() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IpoClearStatus> getClearRecords() {
+		try {
+			List<com.yrdce.ipo.modules.sys.entity.IpoClearStatus> records = clearStatusMapper.selectAll();
+			if (records != null && records.size() > 0) {
+				List<IpoClearStatus> result = new ArrayList<IpoClearStatus>();
+				for (com.yrdce.ipo.modules.sys.entity.IpoClearStatus ipoClearStatus : records) {
+					IpoClearStatus vo = new IpoClearStatus();
+					BeanUtils.copyProperties(vo, ipoClearStatus);
+
+					result.add(vo);
+				}
+				return result;
+			}
+			return null;
+		} catch (Exception e) {
+			Log.info("getClearRecords", e);
+			return null;
+		}
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
+import com.yrdce.ipo.modules.sys.vo.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.vo.IpoSysStatus;
 
 /**
@@ -42,10 +44,11 @@ public interface SystemService {
 	public String getSysStatusFromMem();
 
 	/**
+	 * 结算项
 	 * 
 	 * @return
 	 */
-	public String getClearRecords();
+	public List<IpoClearStatus> getClearRecords();
 
 	/**
 	 * 控制系统状态

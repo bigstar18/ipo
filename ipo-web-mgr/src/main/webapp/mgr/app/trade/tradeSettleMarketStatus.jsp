@@ -6,7 +6,7 @@
 <script src="<%=request.getContextPath()%>/static/ipo/tradeSettle.js" type="text/javascript"></script>
 </head>
 <body>
-	<table border="0" cellspacing="0" cellpadding="0">
+	<table border="0" cellspacing="0" cellpadding="0" class="table1_style">
 		<tr>
 			<td valign="middle">
 				<button class="anniu_btn" id="add" action="/issue/tradeEnd/tradeEnd.action" onclick="addF();">手工结算</button>&nbsp;&nbsp;<font style="font-size: 13px;" id="balanceStatus"></font>
