@@ -14,11 +14,12 @@
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
 <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-<style type="text/css">input {line-height: 14px;}</style>
 <script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 <style type="text/css">
+
+
 .panel {
 	float: left
 }
@@ -67,8 +68,8 @@
 				</table>
                  <div id="tb" style="padding:5px;height:auto">
 		          <div>
-		        	商品代码：<input type="text" id="commid" name="commodityid" style="margin-bottom: 0px;"/>
-			              商品名称：<input type="text" id="commname" name="commodityname" style="margin-bottom: 0px;"/>
+		        	商品代码：<input type="text" id="commid" name="commodityid" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
+			              商品名称：<input type="text" id="commname" name="commodityname" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
 		          <input type="button" value="查询" onclick="doSearch()"/>				
 		          </div> 
 	             </div>
@@ -88,7 +89,7 @@
 						<div class="form-group">
 							<label style="font-size: 16px;">购买量：</label> 
 							<input type="text" onfocus="clearNote()"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
-                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" />
+                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
 						</div>
 					<div>
 						<button type="button" id="btn" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px; margin-top: 30px;">申购</button>
