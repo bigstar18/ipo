@@ -56,10 +56,17 @@
 		<property name="configLocation" value="classpath:${ehcache.configFile}" />
 	</bean>
 	
-	<!-- 计划任务配置，用 @Service @Lazy(false)标注类，用@Scheduled(cron = "0 0 2 * * ?")标注方法 -->
-	<task:executor id="executor" pool-size="10" />
-	<task:scheduler id="scheduler" pool-size="10" />
-	<task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
+	<!-- 定时器开关-->  
+	<task:annotation-driven /> 
+    <bean id="taskTest" class="com.yrdce.ipo.common.task.Taskmanage"></bean>  
+    
+    <task:scheduled-tasks>  
+    <!--   这里表示的是从第五秒开始 ，每三秒执行一次 （而不是 三分之五 秒执行一次哦~~）-->  
+    <task:scheduled ref="taskTest" method="run" cron="0 10 0 * * ?" />  
+    </task:scheduled-tasks>
+	<!-- <task:executor id="executor" pool-size="10" /> -->
+	<!-- <task:scheduler id="scheduler" pool-size="10" />-->
+	<!-- <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" /> -->
     
 	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 

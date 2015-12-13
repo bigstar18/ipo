@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,8 +62,7 @@ public class QueryController {
 	public String getAllOrder(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
 		logger.info("查询订单信息");
 		try {
-			List<Order> clist = new ArrayList<Order>();
-			clist = orderService.getOrder(page, rows);
+			List<Order> clist = orderService.getOrder(page, rows);
 			int totalnums = orderService.getAllOrder();
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
@@ -87,8 +85,7 @@ public class QueryController {
 			throws IOException {
 		logger.info("根据用户ID查询订单信息");
 		try {
-			List<Order> clist = new ArrayList<Order>();
-			clist = orderService.getOrderInfo(page, rows, userid);
+			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
 			int totalnums = orderService.getAll(userid);
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);

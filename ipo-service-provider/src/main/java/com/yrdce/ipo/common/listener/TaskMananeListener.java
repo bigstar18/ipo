@@ -43,16 +43,15 @@ public class TaskMananeListener implements ServletContextListener {
 			now.set(Calendar.MINUTE, 10);
 			now.set(Calendar.SECOND, 0);
 
-			Date date = new Date();
-			Date i = now.getTime();
-			if (now.getTime().before(date)) {
-				now.setTime(date);
+			// Date date = new Date();
+			Date date = now.getTime();
+			if (now.getTime().before(new Date())) {
+				// now.setTime(date);
 				now.add(Calendar.DATE, 1);
-
-				i = now.getTime();
+				date = now.getTime();
 			}
 
-			timer.schedule(task, i);
+			timer.schedule(task, date);
 
 		} catch (Exception e) {
 			e.printStackTrace();
