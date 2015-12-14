@@ -124,7 +124,7 @@ public class SectionManager {
 		long in = date.getTime();
 		long start = getFirstSectionTimeByDate(date).getTimeInMillis();
 		long result = start - in;
-		return result;
+		return result > 0 ? result : 0;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class SectionManager {
 					long in = date.getTime();
 					long end = getEndTime(ipoTradetime, date).getTimeInMillis();
 
-					return end - in;
+					return end >= in ? end - in : 0;
 				}
 			}
 		}
@@ -167,7 +167,7 @@ public class SectionManager {
 					long in = date.getTime();
 					long next = getStartTime(ipoTradetime, date).getTimeInMillis();
 
-					return next - in;
+					return next >= in ? next - in : 0;
 				}
 			}
 		}
