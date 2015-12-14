@@ -11,13 +11,14 @@ import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 public interface DeliveryOrderService {
 
 	/**
-	 * 分页查询所有提货单
+	 * 分页查询所有提货单(模糊查询)
 	 * 
 	 * @param page
 	 * @param rows
 	 * @return
 	 */
-	public List<DeliveryOrder> findAllDeliOrdersByPage(String page, String rows);
+	public List<DeliveryOrder> findAllDeliOrdersByPage(String page,
+			String rows, DeliveryOrder deorder);
 
 	/**
 	 * 查询提货单总数
@@ -26,7 +27,7 @@ public interface DeliveryOrderService {
 	 * @param rows
 	 * @return
 	 */
-	public Integer getTotalNum();
+	public Integer getTotalNum(DeliveryOrder deorder);
 
 	/**
 	 * 分页查询待审核提货单

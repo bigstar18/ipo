@@ -13,7 +13,7 @@
 	 <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"> 
      <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css"> 
      <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-	<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="${ctxStatic}/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 	<script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js"   type="text/javascript"></script>
 	<script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <style type="text/css">
