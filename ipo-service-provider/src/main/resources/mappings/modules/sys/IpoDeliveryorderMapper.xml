@@ -21,6 +21,7 @@
     <result column="APPROVE_DATE" property="approveDate" jdbcType="DATE" />
     <result column="CANCELER" property="canceler" jdbcType="VARCHAR" />
     <result column="CANCEL_DATE" property="cancelDate" jdbcType="DATE" />
+    <result column="POSITION" property="position" jdbcType="DECIMAL" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -34,14 +35,14 @@
       DELIVERY_METHOD, METHOD_ID, UNIT, 
       DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, 
       APPROVERS, APPROVE_DATE, CANCELER, 
-      CANCEL_DATE, REMARKS)
+      CANCEL_DATE,POSITION, REMARKS)
     values (#{deliveryorderId,jdbcType=DECIMAL}, #{commodityId,jdbcType=VARCHAR}, #{commodityName,jdbcType=VARCHAR}, 
       #{dealerId,jdbcType=VARCHAR}, #{dealerName,jdbcType=VARCHAR}, #{warehouseId,jdbcType=VARCHAR}, 
       #{warehouseName,jdbcType=VARCHAR}, #{deliveryQuatity,jdbcType=DECIMAL}, #{deliveryCounts,jdbcType=DECIMAL}, 
       #{deliveryMethod,jdbcType=VARCHAR}, #{methodId,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
       #{deliveryDate,jdbcType=DATE}, #{applyDate,jdbcType=DATE}, #{approvalStatus,jdbcType=DECIMAL}, 
       #{approvers,jdbcType=VARCHAR}, #{approveDate,jdbcType=DATE}, #{canceler,jdbcType=VARCHAR}, 
-      #{cancelDate,jdbcType=DATE}, #{remarks,jdbcType=VARCHAR})
+      #{cancelDate,jdbcType=DATE},#{position,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
     update IPO_DELIVERYORDER
@@ -63,13 +64,14 @@
       APPROVE_DATE = #{approveDate,jdbcType=DATE},
       CANCELER = #{canceler,jdbcType=VARCHAR},
       CANCEL_DATE = #{cancelDate,jdbcType=DATE},
+      POSITION = #{position,jdbcType=DECIMAL},
       REMARKS = #{remarks,jdbcType=VARCHAR}
     where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
     WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
-    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, 
+    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, POSITION
     REMARKS
     from IPO_DELIVERYORDER
     where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=DECIMAL}
@@ -77,7 +79,7 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
     WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
-    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, 
+    DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, POSITION
     REMARKS
     from IPO_DELIVERYORDER
   </select>

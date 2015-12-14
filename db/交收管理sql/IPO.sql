@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      ORACLE Version 11g                           */
-/* Created on:     2015/12/12 13:18:26                          */
+/* Created on:     2015/12/14 14:10:31                          */
 /*==============================================================*/
 
 
@@ -38,6 +38,7 @@ create table IPO_DELIVERYORDER
    APPROVE_DATE         DATE,
    CANCELER             VARCHAR2(32),
    CANCEL_DATE          DATE,
+   POSITION             NUMBER(12),
    REMARKS              VARCHAR2(200),
    constraint PK_IPO_DELIVERYORDER primary key (DELIVERYORDER_ID)
 );

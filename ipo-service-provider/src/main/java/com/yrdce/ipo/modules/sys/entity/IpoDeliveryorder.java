@@ -3,203 +3,234 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.util.Date;
 
 public class IpoDeliveryorder {
-    private Long deliveryorderId;
+	private Long deliveryorderId;
 
-    private String commodityId;
+	private String commodityId;
 
-    private String commodityName;
+	private String commodityName;
 
-    private String dealerId;
+	private String dealerId;
 
-    private String dealerName;
+	private String dealerName;
 
-    private String warehouseId;
+	private String warehouseId;
 
-    private String warehouseName;
+	private String warehouseName;
 
-    private Long deliveryQuatity;
+	private Long deliveryQuatity;
 
-    private Long deliveryCounts;
+	private Long deliveryCounts;
 
-    private String deliveryMethod;
+	private String deliveryMethod;
 
-    private Long methodId;
+	private Long methodId;
 
-    private String unit;
+	private String unit;
 
-    private Date deliveryDate;
+	private Date deliveryDate;
 
-    private Date applyDate;
+	private Date applyDate;
 
-    private Integer approvalStatus;
+	private Integer approvalStatus;
 
-    private String approvers;
+	private String approvers;
 
-    private Date approveDate;
+	private Date approveDate;
 
-    private String canceler;
+	private String canceler;
 
-    private Date cancelDate;
+	private Date cancelDate;
 
-    private String remarks;
+	private Long position;
 
-    public Long getDeliveryorderId() {
-        return deliveryorderId;
-    }
+	private String remarks;
 
-    public void setDeliveryorderId(Long deliveryorderId) {
-        this.deliveryorderId = deliveryorderId;
-    }
+	public Long getDeliveryorderId() {
+		return deliveryorderId;
+	}
 
-    public String getCommodityId() {
-        return commodityId;
-    }
+	public void setDeliveryorderId(Long deliveryorderId) {
+		this.deliveryorderId = deliveryorderId;
+	}
 
-    public void setCommodityId(String commodityId) {
-        this.commodityId = commodityId == null ? null : commodityId.trim();
-    }
+	public String getCommodityId() {
+		return commodityId;
+	}
 
-    public String getCommodityName() {
-        return commodityName;
-    }
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId == null ? null : commodityId.trim();
+	}
 
-    public void setCommodityName(String commodityName) {
-        this.commodityName = commodityName == null ? null : commodityName.trim();
-    }
+	public String getCommodityName() {
+		return commodityName;
+	}
 
-    public String getDealerId() {
-        return dealerId;
-    }
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName == null ? null : commodityName
+				.trim();
+	}
 
-    public void setDealerId(String dealerId) {
-        this.dealerId = dealerId == null ? null : dealerId.trim();
-    }
+	public String getDealerId() {
+		return dealerId;
+	}
 
-    public String getDealerName() {
-        return dealerName;
-    }
+	public void setDealerId(String dealerId) {
+		this.dealerId = dealerId == null ? null : dealerId.trim();
+	}
 
-    public void setDealerName(String dealerName) {
-        this.dealerName = dealerName == null ? null : dealerName.trim();
-    }
+	public String getDealerName() {
+		return dealerName;
+	}
 
-    public String getWarehouseId() {
-        return warehouseId;
-    }
+	public void setDealerName(String dealerName) {
+		this.dealerName = dealerName == null ? null : dealerName.trim();
+	}
 
-    public void setWarehouseId(String warehouseId) {
-        this.warehouseId = warehouseId == null ? null : warehouseId.trim();
-    }
+	public String getWarehouseId() {
+		return warehouseId;
+	}
 
-    public String getWarehouseName() {
-        return warehouseName;
-    }
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId == null ? null : warehouseId.trim();
+	}
 
-    public void setWarehouseName(String warehouseName) {
-        this.warehouseName = warehouseName == null ? null : warehouseName.trim();
-    }
+	public String getWarehouseName() {
+		return warehouseName;
+	}
 
-    public Long getDeliveryQuatity() {
-        return deliveryQuatity;
-    }
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName == null ? null : warehouseName
+				.trim();
+	}
 
-    public void setDeliveryQuatity(Long deliveryQuatity) {
-        this.deliveryQuatity = deliveryQuatity;
-    }
+	public Long getDeliveryQuatity() {
+		return deliveryQuatity;
+	}
 
-    public Long getDeliveryCounts() {
-        return deliveryCounts;
-    }
+	public void setDeliveryQuatity(Long deliveryQuatity) {
+		this.deliveryQuatity = deliveryQuatity;
+	}
 
-    public void setDeliveryCounts(Long deliveryCounts) {
-        this.deliveryCounts = deliveryCounts;
-    }
+	public Long getDeliveryCounts() {
+		return deliveryCounts;
+	}
 
-    public String getDeliveryMethod() {
-        return deliveryMethod;
-    }
+	public void setDeliveryCounts(Long deliveryCounts) {
+		this.deliveryCounts = deliveryCounts;
+	}
 
-    public void setDeliveryMethod(String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
-    }
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
 
-    public Long getMethodId() {
-        return methodId;
-    }
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
+				.trim();
+	}
 
-    public void setMethodId(Long methodId) {
-        this.methodId = methodId;
-    }
+	public Long getMethodId() {
+		return methodId;
+	}
 
-    public String getUnit() {
-        return unit;
-    }
+	public void setMethodId(Long methodId) {
+		this.methodId = methodId;
+	}
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
+	public String getUnit() {
+		return unit;
+	}
 
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
+	public void setUnit(String unit) {
+		this.unit = unit == null ? null : unit.trim();
+	}
 
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
 
-    public Date getApplyDate() {
-        return applyDate;
-    }
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
 
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
-    }
+	public Date getApplyDate() {
+		return applyDate;
+	}
 
-    public Integer getApprovalStatus() {
-        return approvalStatus;
-    }
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
+	}
 
-    public void setApprovalStatus(Integer approvalStatus) {
-        this.approvalStatus = approvalStatus;
-    }
+	public Integer getApprovalStatus() {
+		return approvalStatus;
+	}
 
-    public String getApprovers() {
-        return approvers;
-    }
+	public void setApprovalStatus(Integer approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
 
-    public void setApprovers(String approvers) {
-        this.approvers = approvers == null ? null : approvers.trim();
-    }
+	public String getApprovers() {
+		return approvers;
+	}
 
-    public Date getApproveDate() {
-        return approveDate;
-    }
+	public void setApprovers(String approvers) {
+		this.approvers = approvers == null ? null : approvers.trim();
+	}
 
-    public void setApproveDate(Date approveDate) {
-        this.approveDate = approveDate;
-    }
+	public Date getApproveDate() {
+		return approveDate;
+	}
 
-    public String getCanceler() {
-        return canceler;
-    }
+	public void setApproveDate(Date approveDate) {
+		this.approveDate = approveDate;
+	}
 
-    public void setCanceler(String canceler) {
-        this.canceler = canceler == null ? null : canceler.trim();
-    }
+	public String getCanceler() {
+		return canceler;
+	}
 
-    public Date getCancelDate() {
-        return cancelDate;
-    }
+	public void setCanceler(String canceler) {
+		this.canceler = canceler == null ? null : canceler.trim();
+	}
 
-    public void setCancelDate(Date cancelDate) {
-        this.cancelDate = cancelDate;
-    }
+	public Date getCancelDate() {
+		return cancelDate;
+	}
 
-    public String getRemarks() {
-        return remarks;
-    }
+	public void setCancelDate(Date cancelDate) {
+		this.cancelDate = cancelDate;
+	}
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks == null ? null : remarks.trim();
-    }
+	public Long getPosition() {
+		return position;
+	}
+
+	public void setPosition(Long position) {
+		this.position = position;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks == null ? null : remarks.trim();
+	}
+
+	@Override
+	public String toString() {
+		return "IpoDeliveryorder [deliveryorderId=" + deliveryorderId
+				+ ", commodityId=" + commodityId + ", commodityName="
+				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
+				+ dealerName + ", warehouseId=" + warehouseId
+				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
+				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
+				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate="
+				+ deliveryDate + ", applyDate=" + applyDate
+				+ ", approvalStatus=" + approvalStatus + ", approvers="
+				+ approvers + ", approveDate=" + approveDate + ", canceler="
+				+ canceler + ", cancelDate=" + cancelDate + ", position="
+				+ position + ", remarks=" + remarks + "]";
+	}
+
 }

@@ -55,6 +55,8 @@ public class DeliveryOrder implements Serializable {
 
 	private Date cancelDate;
 
+	private Long position;
+
 	private String remarks;
 
 	public Long getDeliveryorderId() {
@@ -212,6 +214,14 @@ public class DeliveryOrder implements Serializable {
 		this.cancelDate = cancelDate;
 	}
 
+	public Long getPosition() {
+		return position;
+	}
+
+	public void setPosition(Long position) {
+		this.position = position;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}
@@ -219,4 +229,22 @@ public class DeliveryOrder implements Serializable {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks == null ? null : remarks.trim();
 	}
+
+	@Override
+	public String toString() {
+		return "DeliveryOrder [deliveryorderId=" + deliveryorderId
+				+ ", commodityId=" + commodityId + ", commodityName="
+				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
+				+ dealerName + ", warehouseId=" + warehouseId
+				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
+				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
+				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate="
+				+ deliveryDate + ", applyDate=" + applyDate
+				+ ", approvalStatus=" + approvalStatus + ", approvers="
+				+ approvers + ", approveDate=" + approveDate + ", canceler="
+				+ canceler + ", cancelDate=" + cancelDate + ", position="
+				+ position + ", remarks=" + remarks + "]";
+	}
+
 }
