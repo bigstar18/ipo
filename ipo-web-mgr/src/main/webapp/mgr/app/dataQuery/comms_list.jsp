@@ -69,7 +69,7 @@ $(document).ready(function() {
              align: "center",
              title : '状态' ,
              formatter:function(value){
-            	 if(value=='0') return "未申购";
+            	 if(value=='0') return "未配号";
             	 if(value=='1') return "已配号";
             	 if(value=='2') return "已摇号";
             	 if(value=='3') return "已结算";

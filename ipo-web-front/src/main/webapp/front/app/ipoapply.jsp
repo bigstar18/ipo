@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
 <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-<script src="${ctxStatic}/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 <style type="text/css">
@@ -88,12 +88,11 @@
 					<form class="form-inline" id="fm2" style="margin-bottom: 12px" onsubmit="return false;">
 						<div class="form-group">
 							<label style="font-size: 16px;">购买量：</label> 
-							<input type="text" onfocus="clearNote()"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+							<input type="text"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                                     onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
 						</div>
 					<div>
-						<button type="button" id="btn" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px; margin-top: 30px;">申购</button>
-						<b id="remind" style="color: red; float: left; line-height: 30px; height: 40px; margin-left: 20px;margin-top: 30px;"></b>
+						<button type="button" id="btn" onclick="apply()" style="float: left; padding-right: 25px; padding-left: 25px; height: 30px; margin-top: 30px;">申购</button>
 					</div>
 					</form>
 				</div>
@@ -124,66 +123,6 @@ $(document).ready(function() {
 	            $("#money").text(data);
 	        }    
 		});  
-
-
-	$("#btn").bind('click',function(){
-		if($("#comname").text()==""){
-			$("#remind").text("请先选中某个商品再进行申购！");
-			return;
-		}
-		if($("#quantity").val().length>9){
-			$("#remind").text("购买量过大！");
-			return;
-		}
-		if($("#quantity").val().length==0){
-			$("#remind").text("申购量必填！");
-			return;
-		}
-		if($("#quantity").val()%($("#units").val())!=0){
-			$("#remind").text("请输入该商品配售单位整数倍的申购量！");
-			return;
-		}
-		var price=$("#price").val();
-		var num=$("#quantity").val();
-		var moneyneed=parseFloat(price)*parseInt(num);
-		var money= parseFloat($("#money").text());
-		if(moneyneed>money){
-			$("#remind").text("资金不足！");
-		}else{
-		var infos={ "id":$("#id").val(),"userid":"<%=userId%>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val(),"randnum":Math.floor(Math.random()*1000000) };
-		    $.ajax({  
-		    type: 'GET',  
-		    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
-		    contentType: "application/json; charset=utf-8", 
-		    data:infos,  
-		    dataType: 'json',  
-		    async: true,  
-		    success : function(data, stats) {  
-		        if (data == "0") {  
-	            	$("#remind").text("提交订单成功！");
-	            }  
-	            if (data == "1") {  
-	            	$("#remind").text("不在商品发售期！");
-	            }  
-	            if (data == "2") {  
-	            	$("#remind").text("资金不足！");
-	            }  
-	            if (data == "3") {  
-	            	$("#remind").text("您已提交订单，请勿重复操作！");
-	            }  
-	            if (data == "5") {  
-	            	$("#remind").text("超出商品申购额度！");
-	            }
-	            if(data == "6"){
-	            	$("#remind").text("现在非申购时间！");
-	            }
-	        },  
-	        error : function(data) {  
-	        	$("#remind").text("系统出现异常，请重新登陆！");
-	        }  
-		});  
-		}     
-	});
 });
 
 function doSearch(){
@@ -205,6 +144,65 @@ function doSearch(){
 	    });
 }
 
+function apply(){
+	if($("#comname").text()==""){
+		alert("请先选中某个商品再进行申购！");
+		return;
+	}
+	if($("#quantity").val().length>9){
+		alert("购买量过大！");
+		return;
+	}
+	if($("#quantity").val().length==0){
+		alert("申购量必填！");
+		return;
+	}
+	if($("#quantity").val()%($("#units").val())!=0){
+		alert("请输入该商品配售单位整数倍的申购量！");
+		return;
+	}
+	var price=$("#price").val();
+	var num=$("#quantity").val();
+	var moneyneed=parseFloat(price)*parseInt(num);
+	var money= parseFloat($("#money").text());
+	if(moneyneed>money){
+		alert("资金不足！");
+	}else{
+	var infos={ "id":$("#id").val(),"userid":"<%=userId%>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val(),"randnum":Math.floor(Math.random()*1000000) };
+	    $.ajax({  
+	    type: 'GET',  
+	    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
+	    contentType: "application/json; charset=utf-8", 
+	    data:infos,  
+	    dataType: 'json',  
+	    async: true,  
+	    success : function(data, stats) {  
+	        if (data == "0") {  
+	        	alert("提交订单成功！");
+            }  
+            if (data == "1") {  
+            	alert("不在商品发售期！");
+            }  
+            if (data == "2") {  
+            	alert("资金不足！");
+            }  
+            if (data == "3") { 
+            	alert("您已提交订单，请勿重复操作！");
+            }  
+            if (data == "5") {  
+            	alert("超出商品申购额度！");
+            }
+            if(data == "6"){
+            	alert("现在非申购时间！");
+            } 
+        },  
+        error : function(data) {  
+        	alert("系统出现异常，请重新登陆！");
+        }  
+	});  
+	}     
+}
+
 //日期转换
 function dateconvertfunc(value,row){
         return value.substr(0,10);
@@ -216,13 +214,9 @@ function onlyNumberInput(){
 	 }
 }
 
-function clearNote(){
-	  $("#remind").text("");
-}
 //联动
 function getDetail(index, data) {
 	  if (data) {
-		        $("#remind").text("");
 		        $("#id").val(data.id);
 		        $("#commodityid").val(data.commodityid);
 		        $("#comname").text(data.commodityname);
