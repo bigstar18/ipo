@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.VFFirmcurfundsMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.VFFirmcurfunds" >
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="F_BALANCE" property="fBalance" jdbcType="DECIMAL" />
+    <result column="L_BALANCE" property="lBalance" jdbcType="DECIMAL" />
+    <result column="Y_BALANCE" property="yBalance" jdbcType="DECIMAL" />
+    <result column="BALANCESUBTRACT" property="balancesubtract" jdbcType="DECIMAL" />
+    <result column="LASTWARRANTY" property="lastwarranty" jdbcType="DECIMAL" />
+    <result column="FROZENFUNDS" property="frozenfunds" jdbcType="DECIMAL" />
+    <result column="USER_BALANCE" property="userBalance" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.VFFirmcurfunds" >
+    insert into V_F_FIRMCURFUNDS (FIRMID, NAME, F_BALANCE, 
+      L_BALANCE, Y_BALANCE, BALANCESUBTRACT, 
+      LASTWARRANTY, FROZENFUNDS, USER_BALANCE
+      )
+    values (#{firmid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fBalance,jdbcType=DECIMAL}, 
+      #{lBalance,jdbcType=DECIMAL}, #{yBalance,jdbcType=DECIMAL}, #{balancesubtract,jdbcType=DECIMAL}, 
+      #{lastwarranty,jdbcType=DECIMAL}, #{frozenfunds,jdbcType=DECIMAL}, #{userBalance,jdbcType=DECIMAL}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select FIRMID, NAME, F_BALANCE, L_BALANCE, Y_BALANCE, BALANCESUBTRACT, LASTWARRANTY, 
+    FROZENFUNDS, USER_BALANCE
+    from V_F_FIRMCURFUNDS
+  </select>
+</mapper>
