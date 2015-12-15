@@ -1,9 +1,9 @@
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class IpoSpecialPoundage {
+public class SpecialPoundage {
     private Long poundageId;
 
     private String dealerId;

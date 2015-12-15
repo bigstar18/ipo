@@ -27,4 +27,10 @@
     FROZENFUNDS, USER_BALANCE
     from V_F_FIRMCURFUNDS
   </select>
+  <select id="selectInfoByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select FIRMID, NAME, F_BALANCE, L_BALANCE, Y_BALANCE, BALANCESUBTRACT, LASTWARRANTY, 
+    FROZENFUNDS, USER_BALANCE
+    from V_F_FIRMCURFUNDS
+    where NAME=#{name,jdbcType=VARCHAR}
+  </select>
 </mapper>
