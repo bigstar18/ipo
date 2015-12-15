@@ -183,10 +183,6 @@ function getCommBelonged(breedid) {
 	</tr>
     </table>
 </div>
-		<!-- 编辑和过滤所使用的 通用的文本框模板 -->
-		<textarea id="ecs_t_input" rows="" cols="" style="display: none">
-			<input type="text" class="inputtext" value="" onblur="ECSideUtil.updateEditCell(this)" style="width: 100%;" name="" />
-		</textarea>
 </body>
 
 </html>
