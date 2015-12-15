@@ -1,16 +1,19 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import java.util.List;
 
+import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoExpress;
+
+@MyBatisDao
 public interface IpoExpressMapper {
-    int deleteByPrimaryKey(String expressId);
+	int deleteByPrimaryKey(String expressId);
 
-    int insert(IpoExpress record);
+	int insert(IpoExpress record);
 
-    IpoExpress selectByPrimaryKey(String expressId);
+	IpoExpress selectByPrimaryKey(String expressId);
 
-    List<IpoExpress> selectAll();
+	List<IpoExpress> selectAll();
 
-    int updateByPrimaryKey(IpoExpress record);
+	int updateByPrimaryKey(IpoExpress record);
 }
