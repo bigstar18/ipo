@@ -1,32 +1,16 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
-
-@MyBatisDao
 public interface IpoDeliveryorderMapper {
-	List<IpoDeliveryorder> findAllDeliOrdersByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("record") IpoDeliveryorder record);
+    int deleteByPrimaryKey(String deliveryorderId);
 
-	int getTotalNum(@Param("record") IpoDeliveryorder record);
+    int insert(IpoDeliveryorder record);
 
-	List<IpoDeliveryorder> approveDeliOrdersByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+    IpoDeliveryorder selectByPrimaryKey(String deliveryorderId);
 
-	int getApproveNum();
+    List<IpoDeliveryorder> selectAll();
 
-	int deleteByPrimaryKey(Long deliveryorderId);
-
-	int insert(IpoDeliveryorder record);
-
-	IpoDeliveryorder selectByPrimaryKey(Long deliveryorderId);
-
-	List<IpoDeliveryorder> selectAll();
-
-	int updateByPrimaryKey(IpoDeliveryorder record);
+    int updateByPrimaryKey(IpoDeliveryorder record);
 }

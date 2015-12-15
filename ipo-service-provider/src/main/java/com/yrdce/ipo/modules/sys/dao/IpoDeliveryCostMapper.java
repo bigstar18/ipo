@@ -1,19 +1,16 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import java.util.List;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
-
-@MyBatisDao
 public interface IpoDeliveryCostMapper {
-	int deleteByPrimaryKey(Long deliveryId);
+    int deleteByPrimaryKey(String deliveryId);
 
-	int insert(IpoDeliveryCost record);
+    int insert(IpoDeliveryCost record);
 
-	IpoDeliveryCost selectByPrimaryKey(Long deliveryId);
+    IpoDeliveryCost selectByPrimaryKey(String deliveryId);
 
-	List<IpoDeliveryCost> selectAll();
+    List<IpoDeliveryCost> selectAll();
 
-	int updateByPrimaryKey(IpoDeliveryCost record);
+    int updateByPrimaryKey(IpoDeliveryCost record);
 }

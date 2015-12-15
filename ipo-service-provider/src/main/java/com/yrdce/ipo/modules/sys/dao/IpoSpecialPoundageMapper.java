@@ -1,15 +1,14 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage;
 import java.util.List;
-@MyBatisDao
+
 public interface IpoSpecialPoundageMapper {
-    int deleteByPrimaryKey(Long poundageId);
+    int deleteByPrimaryKey(String poundageId);
 
     int insert(IpoSpecialPoundage record);
 
-    IpoSpecialPoundage selectByPrimaryKey(Long poundageId);
+    IpoSpecialPoundage selectByPrimaryKey(String poundageId);
 
     List<IpoSpecialPoundage> selectAll();
 

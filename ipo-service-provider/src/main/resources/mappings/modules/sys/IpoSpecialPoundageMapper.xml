@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpecialPoundageMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
-    <id column="POUNDAGE_ID" property="poundageId" jdbcType="DECIMAL" />
+    <id column="POUNDAGE_ID" property="poundageId" jdbcType="VARCHAR" />
     <result column="DEALER_ID" property="dealerId" jdbcType="VARCHAR" />
     <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="POUNDAGE_ALGR" property="poundageAlgr" jdbcType="DECIMAL" />
@@ -10,15 +10,15 @@
     <result column="POUNDAGE_RATIO" property="poundageRatio" jdbcType="DECIMAL" />
     <result column="POUNDAGE_TYPE" property="poundageType" jdbcType="VARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_SPECIAL_POUNDAGE
-    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+    where POUNDAGE_ID = #{poundageId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
     insert into IPO_SPECIAL_POUNDAGE (POUNDAGE_ID, DEALER_ID, COMMODITY_ID, 
       POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 
       POUNDAGE_TYPE)
-    values (#{poundageId,jdbcType=DECIMAL}, #{dealerId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
+    values (#{poundageId,jdbcType=VARCHAR}, #{dealerId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
       #{poundageAlgr,jdbcType=DECIMAL}, #{modifyDate,jdbcType=DATE}, #{poundageRatio,jdbcType=DECIMAL}, 
       #{poundageType,jdbcType=VARCHAR})
   </insert>
@@ -30,13 +30,13 @@
       MODIFY_DATE = #{modifyDate,jdbcType=DATE},
       POUNDAGE_RATIO = #{poundageRatio,jdbcType=DECIMAL},
       POUNDAGE_TYPE = #{poundageType,jdbcType=VARCHAR}
-    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+    where POUNDAGE_ID = #{poundageId,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 
     POUNDAGE_TYPE
     from IPO_SPECIAL_POUNDAGE
-    where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
+    where POUNDAGE_ID = #{poundageId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 

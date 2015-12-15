@@ -1,19 +1,16 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import java.util.List;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoPickup;
-
-@MyBatisDao
 public interface IpoPickupMapper {
-	int deleteByPrimaryKey(Long pickupId);
+    int deleteByPrimaryKey(String pickupId);
 
-	int insert(IpoPickup record);
+    int insert(IpoPickup record);
 
-	IpoPickup selectByPrimaryKey(Long pickupId);
+    IpoPickup selectByPrimaryKey(String pickupId);
 
-	List<IpoPickup> selectAll();
+    List<IpoPickup> selectAll();
 
-	int updateByPrimaryKey(IpoPickup record);
+    int updateByPrimaryKey(IpoPickup record);
 }

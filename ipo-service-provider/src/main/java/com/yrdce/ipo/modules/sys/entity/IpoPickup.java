@@ -1,18 +1,18 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 public class IpoPickup {
-    private Long pickupId;
+    private String pickupId;
 
     private String pickupPassword;
 
     private String idcardNum;
 
-    public Long getPickupId() {
+    public String getPickupId() {
         return pickupId;
     }
 
-    public void setPickupId(Long pickupId) {
-        this.pickupId = pickupId;
+    public void setPickupId(String pickupId) {
+        this.pickupId = pickupId == null ? null : pickupId.trim();
     }
 
     public String getPickupPassword() {

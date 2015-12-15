@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoExpress {
-    private Long expressId;
+    private String expressId;
 
     private String address;
 
@@ -16,12 +16,12 @@ public class IpoExpress {
 
     private String tel;
 
-    public Long getExpressId() {
+    public String getExpressId() {
         return expressId;
     }
 
-    public void setExpressId(Long expressId) {
-        this.expressId = expressId;
+    public void setExpressId(String expressId) {
+        this.expressId = expressId == null ? null : expressId.trim();
     }
 
     public String getAddress() {
