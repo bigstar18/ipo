@@ -17,47 +17,47 @@ public class DeliveryOrder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long deliveryorderId;
+	public Long deliveryorderId;
 
-	private String commodityId;
+	public String commodityId;
 
-	private String commodityName;
+	public String commodityName;
 
-	private String dealerId;
+	public String dealerId;
 
-	private String dealerName;
+	public String dealerName;
 
-	private String warehouseId;
+	public String warehouseId;
 
-	private String warehouseName;
+	public String warehouseName;
 
-	private Long deliveryQuatity;
+	public Long deliveryQuatity;
 
-	private Long deliveryCounts;
+	public Long deliveryCounts;
 
-	private String deliveryMethod;
+	public String deliveryMethod;
 
-	private Long methodId;
+	public Long methodId;
 
-	private String unit;
+	public String unit;
 
-	private Date deliveryDate;
+	public Date deliveryDate;
 
-	private Date applyDate;
+	public Date applyDate;
 
-	private Integer approvalStatus;
+	public Integer approvalStatus;
 
-	private String approvers;
+	public String approvers;
 
-	private Date approveDate;
+	public Date approveDate;
 
-	private String canceler;
+	public String canceler;
 
-	private Date cancelDate;
+	public Date cancelDate;
 
-	private Long position;
+	public Long position;
 
-	private String remarks;
+	public String remarks;
 
 	public Long getDeliveryorderId() {
 		return deliveryorderId;

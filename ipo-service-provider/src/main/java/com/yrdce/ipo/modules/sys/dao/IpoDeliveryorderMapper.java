@@ -9,6 +9,12 @@ import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 
 @MyBatisDao
 public interface IpoDeliveryorderMapper {
+
+	List<IpoDeliveryorder> findAllDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+
+	int getTotalNum();
+
 	List<IpoDeliveryorder> findAllDeliOrdersByPage(
 			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("record") IpoDeliveryorder record);

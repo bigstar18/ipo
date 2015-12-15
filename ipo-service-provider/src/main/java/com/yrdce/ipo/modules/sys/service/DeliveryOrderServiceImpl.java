@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
@@ -31,6 +32,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<DeliveryOrder> findAllDeliOrdersByPage(String page,
 			String rows, DeliveryOrder deorder) {
 		Log.info("分页查询提货单服务");
@@ -65,6 +67,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<DeliveryOrder> approveDeliOrdersByPage(String page, String rows) {
 		Log.info("分页查询待审核提货单服务");
 		page = (page == null ? "1" : page);
@@ -103,6 +106,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
+	@Transactional
 	public String updateDeliveryOrder(DeliveryOrder order) {
 		Log.info("审核提货单");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
@@ -114,6 +118,31 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			}
 		}
 		return "审核失败";
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<DeliveryOrder> findAllDeliOrdersByPage(String page, String rows) {
+		Log.info("分页查询提货单服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<IpoDeliveryorder> dorderslist = deliveryordermapper
+				.findAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
+						* pagesize);
+		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
+		for (int i = 0; i < dorderslist.size(); i++) {
+			DeliveryOrder temp = new DeliveryOrder();
+			BeanUtils.copyProperties(dorderslist.get(i), temp);
+			dorderslist2.add(temp);
+		}
+		return dorderslist2;
+	}
+
+	@Override
+	public Integer getTotalNum() {
+		return deliveryordermapper.getTotalNum();
 	}
 
 }
