@@ -49,6 +49,7 @@ public class Distribution {
 		if (orderList.size() > 0) {
 			logger.info("获取前一天订单列表");
 			for (int i = 0; i < orderList.size(); i++) {
+				logger.info("循环次数：" + i);
 				IpoOrder order1 = orderList.get(i);
 				String sId = order1.getCommodityid();
 				String userid = order1.getUserid();
@@ -59,16 +60,14 @@ public class Distribution {
 
 				// 获取商品总配号数
 				int sum = order.selectbysid(sId) + 10000000;
-				// 获取记录表有无记录
 				int all = unmberofrecord.selectbysid(sId);
 				// 格局配号规则选择配号方式
 				if (sum < 99999999) {
 					if (all == 0) {
 						System.out.println("3 - 1");
-						int allCounts = 0;
 						long startNum = 10000001;
 						// 更新数据
-						this.updateTable(allCounts, sId, sname, startNum, userid, units1);
+						this.updateTable(units1, sId, sname, startNum, userid, units1);
 					} else {
 						System.out.println("3 - 2");
 						int allCounts = all + units1;
@@ -141,24 +140,26 @@ public class Distribution {
 				commodity.updateByStatus(1, sId);
 				logger.info("配号成功");
 			}
+			// 插入历史
+			unmberofrecord.insertAll();
 			// 删除配号临时表
 			unmberofrecord.deleteAll();
 		}
 
 	}
 
-	public void updateTable(int allCounts, String sId, String sname, long num, String userId, int units1) {
+	public void updateTable(int allcounts, String sid, String sname, long num, String userId, int units1) {
 		// 更新配号临时表
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("units1", allCounts);
-		map.put("commodityid", sId);
+		map.put("counts", allcounts);
+		map.put("commodityid", sid);
 		unmberofrecord.update(map);
 		// 插入更新数据
 		ipodistribution.setCommodityname(sname);
 		ipodistribution.setStartnumber(num);
 		ipodistribution.setUserid(userId);
 		ipodistribution.setPcounts(units1);
-		ipodistribution.setCommodityid(sId);
+		ipodistribution.setCommodityid(sid);
 		Date date = new Date();
 		ipodistribution.setPtime(date);
 		distribution.insert(ipodistribution);
