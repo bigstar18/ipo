@@ -38,7 +38,6 @@ document.onkeypress=showKeyPress;
 			    	var weeks = $(":checkbox");
 			    		<c:forEach var = "id" items="${comm}">
 			    		var ids = '${id.commodityid}';
-			    		alert(ids);
 			    		for (i = 0; i < weeks.length; i++) {
 			    			if (ids == weeks[i].value) {
 			    				weeks[i].checked = true;
@@ -196,7 +195,7 @@ document.onkeypress=showKeyPress;
 						<td>
 							<div class="warning">
 								<div class="content">
-									温馨提示 :交易节更新
+									温馨提示 :交易节修改
 								</div>
 							</div>
 						</td>
@@ -209,7 +208,7 @@ document.onkeypress=showKeyPress;
 										<div class="div_cxtj">
 											<div class="div_cxtjL"></div>
 											<div class="div_cxtjC">
-												交易节更新
+												交易节修改
 											</div>
 											<div class="div_cxtjR"></div>
 										</div>

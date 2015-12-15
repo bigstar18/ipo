@@ -43,7 +43,7 @@ public class Distribution {
 	public void start(List<IpoOrder> orderList) throws Exception {
 		// 获得系统当前时间的前一天
 		// String oldtime = DateUtil.getTime(1);
-
+		logger.info("进入配号功能" + orderList.size());
 		// 获取系统前一天订单列表
 		// List<IpoOrder> orderList = order.selectAll(oldtime);
 		if (orderList.size() > 0) {
@@ -139,6 +139,7 @@ public class Distribution {
 				// 2：摇号成功
 				// 3：结算成功
 				commodity.updateByStatus(1, sId);
+				logger.info("配号成功");
 			}
 			// 删除配号临时表
 			unmberofrecord.deleteAll();

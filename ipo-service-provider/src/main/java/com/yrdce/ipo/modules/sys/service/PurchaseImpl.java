@@ -43,32 +43,26 @@ public class PurchaseImpl implements Purchase {
 	// 时间判断
 	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
-		try {
-			IpoCommodity c = com.selectByComid(sId);
-			logger.info("获取开始时间");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			// 获取开售日期
-			Date ftimeStart1 = c.getStarttime();
-			String ftimeStart = sdf.format(ftimeStart1).replaceAll("-", "");
-			int start = Integer.parseInt(ftimeStart);
-			// 获取截至日期
-			Date ftimeEnd1 = c.getEndtime();
-			String ftimrEnd = sdf.format(ftimeEnd1).replaceAll("-", "");
-			int end = Integer.parseInt(ftimrEnd);
-			// 获取当前日期
-			Date times = new Date();
-			String time = sdf.format(times).replaceAll("-", "");
-			int now = Integer.parseInt(time);
-			logger.info(">>>>>>>>>>>>" + "start:" + start + " " + "end:" + end + " " + "now:" + now);
-			if (now >= start && now < end) {
-				return true;
-			}
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		IpoCommodity c = com.selectByComid(sId);
+		logger.info("获取开始时间");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// 获取开售日期
+		Date ftimeStart1 = c.getStarttime();
+		String ftimeStart = sdf.format(ftimeStart1).replaceAll("-", "");
+		int start = Integer.parseInt(ftimeStart);
+		// 获取截至日期
+		Date ftimeEnd1 = c.getEndtime();
+		String ftimrEnd = sdf.format(ftimeEnd1).replaceAll("-", "");
+		int end = Integer.parseInt(ftimrEnd);
+		// 获取当前日期
+		Date times = new Date();
+		String time = sdf.format(times).replaceAll("-", "");
+		int now = Integer.parseInt(time);
+		logger.info(">>>>>>>>>>>>" + "start:" + start + " " + "end:" + end + " " + "now:" + now);
+		if (now >= start && now <= end) {
+			return true;
 		}
-
+		return false;
 	}
 
 	// 申购
@@ -169,9 +163,7 @@ public class PurchaseImpl implements Purchase {
 			param.put("userid", userId);
 			param.put("amount", mony);
 			param.put("moduleid", "40");
-			System.out.println(new Date());
 			funds.getfrozen(param);
-			System.out.println(new Date());
 			BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
 			return monery;
 		} catch (Exception e) {
