@@ -17,7 +17,7 @@ public class DeliveryOrder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Long deliveryorderId;
+	public String deliveryorderId;
 
 	public String commodityId;
 
@@ -59,11 +59,11 @@ public class DeliveryOrder implements Serializable {
 
 	public String remarks;
 
-	public Long getDeliveryorderId() {
+	public String getDeliveryorderId() {
 		return deliveryorderId;
 	}
 
-	public void setDeliveryorderId(Long deliveryorderId) {
+	public void setDeliveryorderId(String deliveryorderId) {
 		this.deliveryorderId = deliveryorderId;
 	}
 
