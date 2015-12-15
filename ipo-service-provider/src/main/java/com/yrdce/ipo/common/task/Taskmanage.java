@@ -63,16 +63,21 @@ public class Taskmanage extends TimerTask {
 			List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
 			logger.info("遍历商品配置表");
 			for (IpoCommodityConf conf : commodityConfList) {
+				logger.info("遍历商品配置表1");
 				int day = conf.getTradedays();
+				logger.info("day:" + day);
 				String oldtime = DateUtil.getTime(day);
+				logger.info("oldtime:" + oldtime);
 				Date endtime = conf.getEndtime();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String endtime1 = sdf.format(endtime);
+				logger.info("endtime1:" + endtime1);
 				if (oldtime.equals(endtime1)) {
 					logger.info("T+N天符合要求");
 					String commodityid = conf.getCommodityid();
 					List<IpoOrder> orderList = order.selectByCid(commodityid);
-					if (orderList != null) {
+					logger.info("长度1：" + orderList.size());
+					if (orderList.size() != 0) {
 						// 去重
 						List<String> list = order.select(commodityid);
 						logger.info("复制插入商品id");
@@ -87,6 +92,7 @@ public class Taskmanage extends TimerTask {
 						}
 
 						logger.info("调用配号任务");
+						logger.info("长度2：" + orderList.size());
 						distribution.start(orderList);
 					}
 				}

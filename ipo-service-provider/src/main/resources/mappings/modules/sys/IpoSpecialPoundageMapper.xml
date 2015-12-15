@@ -7,9 +7,8 @@
     <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="POUNDAGE_ALGR" property="poundageAlgr" jdbcType="DECIMAL" />
     <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
-    <result column="REGISTER_RATIO" property="registerRatio" jdbcType="DECIMAL" />
-    <result column="CANCEL_RATIO" property="cancelRatio" jdbcType="DECIMAL" />
-    <result column="SAIL_RATIO" property="sailRatio" jdbcType="DECIMAL" />
+    <result column="POUNDAGE_RATIO" property="poundageRatio" jdbcType="DECIMAL" />
+    <result column="POUNDAGE_TYPE" property="poundageType" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from IPO_SPECIAL_POUNDAGE
@@ -17,11 +16,11 @@
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
     insert into IPO_SPECIAL_POUNDAGE (POUNDAGE_ID, DEALER_ID, COMMODITY_ID, 
-      POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
-      CANCEL_RATIO, SAIL_RATIO)
+      POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 
+      POUNDAGE_TYPE)
     values (#{poundageId,jdbcType=DECIMAL}, #{dealerId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
-      #{poundageAlgr,jdbcType=DECIMAL}, #{modifyDate,jdbcType=DATE}, #{registerRatio,jdbcType=DECIMAL}, 
-      #{cancelRatio,jdbcType=DECIMAL}, #{sailRatio,jdbcType=DECIMAL})
+      #{poundageAlgr,jdbcType=DECIMAL}, #{modifyDate,jdbcType=DATE}, #{poundageRatio,jdbcType=DECIMAL}, 
+      #{poundageType,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage" >
     update IPO_SPECIAL_POUNDAGE
@@ -29,20 +28,19 @@
       COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
       POUNDAGE_ALGR = #{poundageAlgr,jdbcType=DECIMAL},
       MODIFY_DATE = #{modifyDate,jdbcType=DATE},
-      REGISTER_RATIO = #{registerRatio,jdbcType=DECIMAL},
-      CANCEL_RATIO = #{cancelRatio,jdbcType=DECIMAL},
-      SAIL_RATIO = #{sailRatio,jdbcType=DECIMAL}
+      POUNDAGE_RATIO = #{poundageRatio,jdbcType=DECIMAL},
+      POUNDAGE_TYPE = #{poundageType,jdbcType=VARCHAR}
     where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
-    CANCEL_RATIO, SAIL_RATIO
+    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 
+    POUNDAGE_TYPE
     from IPO_SPECIAL_POUNDAGE
     where POUNDAGE_ID = #{poundageId,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, REGISTER_RATIO, 
-    CANCEL_RATIO, SAIL_RATIO
+    select POUNDAGE_ID, DEALER_ID, COMMODITY_ID, POUNDAGE_ALGR, MODIFY_DATE, POUNDAGE_RATIO, 
+    POUNDAGE_TYPE
     from IPO_SPECIAL_POUNDAGE
   </select>
 </mapper>

@@ -14,11 +14,9 @@ public class IpoSpecialPoundage {
 
     private Date modifyDate;
 
-    private BigDecimal registerRatio;
+    private BigDecimal poundageRatio;
 
-    private BigDecimal cancelRatio;
-
-    private BigDecimal sailRatio;
+    private String poundageType;
 
     public Long getPoundageId() {
         return poundageId;
@@ -60,27 +58,19 @@ public class IpoSpecialPoundage {
         this.modifyDate = modifyDate;
     }
 
-    public BigDecimal getRegisterRatio() {
-        return registerRatio;
+    public BigDecimal getPoundageRatio() {
+        return poundageRatio;
     }
 
-    public void setRegisterRatio(BigDecimal registerRatio) {
-        this.registerRatio = registerRatio;
+    public void setPoundageRatio(BigDecimal poundageRatio) {
+        this.poundageRatio = poundageRatio;
     }
 
-    public BigDecimal getCancelRatio() {
-        return cancelRatio;
+    public String getPoundageType() {
+        return poundageType;
     }
 
-    public void setCancelRatio(BigDecimal cancelRatio) {
-        this.cancelRatio = cancelRatio;
-    }
-
-    public BigDecimal getSailRatio() {
-        return sailRatio;
-    }
-
-    public void setSailRatio(BigDecimal sailRatio) {
-        this.sailRatio = sailRatio;
+    public void setPoundageType(String poundageType) {
+        this.poundageType = poundageType == null ? null : poundageType.trim();
     }
 }
