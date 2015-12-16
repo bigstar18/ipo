@@ -335,12 +335,12 @@ public class IpoController extends BaseController {
 			request.setAttribute("applyDate", applyDate);
 			request.setAttribute("entity", deorder);
 			String methodId = deorder.getMethodId() + "";
-			if (deorder.getDeliveryMethod().equals("1")) {
+			if (deorder.getDeliveryMethod().equals("自提")) {
 				Pickup pickup = deliveryorderservice.getPickUpDetail(methodId);
 				request.setAttribute("detail", pickup);
 				request.setAttribute("flag", "pickup");
 			}
-			if (deorder.getDeliveryMethod().equals("2")) {
+			if (deorder.getDeliveryMethod().equals("在线配送")) {
 				Express express = deliveryorderservice
 						.getExpressDetail(methodId);
 				request.setAttribute("detail", express);
