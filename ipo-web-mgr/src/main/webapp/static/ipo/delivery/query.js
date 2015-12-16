@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-         title:'所有提货单列表',  
+         title:'提货单查询',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -123,7 +123,7 @@ function doSearch(){
             });*/
             
   $('#dg').datagrid({  
-         title:'所有提货单列表',  
+         title:'提货单查询',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,

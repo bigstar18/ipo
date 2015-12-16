@@ -130,7 +130,7 @@
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
       </if>
-       <if test="record.approvalStatus != 0" >
+       <if test="record.approvalStatus != null" >
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
       <if test="record.dealerId != null" >
@@ -140,10 +140,10 @@
   
   <select id="approveDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
     select <include refid="Base_Column_List" />
-    from (select t.*,rownum TNO from IPO_DELIVERYORDER t order by t.DELIVERYORDER_ID where t.APPROVAL_STATUS = 0) a where a.TNO between  #{beginnum} and  #{endnum}
+    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS = 1 order by t.DELIVERYORDER_ID ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getApproveNum" resultType="java.lang.Integer" >
-  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS = 0
+  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS = 1
   </select>
 
   

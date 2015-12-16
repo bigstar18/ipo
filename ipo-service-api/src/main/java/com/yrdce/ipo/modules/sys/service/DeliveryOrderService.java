@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
+import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.Pickup;
 
 /**
  * @author chenjing
@@ -57,8 +59,6 @@ public interface DeliveryOrderService {
 	/**
 	 * 查询待审核提货单总数
 	 * 
-	 * @param page
-	 * @param rows
 	 * @return
 	 */
 	public Integer getApproveNum();
@@ -66,19 +66,43 @@ public interface DeliveryOrderService {
 	/**
 	 * 根据提货单号查询提货单
 	 * 
-	 * @param page
-	 * @param rows
+	 * @param deliveryOrderID
 	 * @return
 	 */
 	public DeliveryOrder getDeliveryOrderByDeliOrderID(String deliOrderID);
 
 	/**
-	 * 审核提货单
+	 * 审核自提提货单
 	 * 
-	 * @param page
-	 * @param rows
+	 * @param order
+	 * @param pickup
 	 * @return
 	 */
-	public String updateDeliveryOrder(DeliveryOrder order);
+	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup);
+
+	/**
+	 * 审核配送提货单
+	 * 
+	 * @param order
+	 * @param express
+	 * @return
+	 */
+	public String updateDeliveryOrder(DeliveryOrder order, Express express);
+
+	/**
+	 * 查询自提详细信息
+	 * 
+	 * @param pickUpId
+	 * @return
+	 */
+	public Pickup getPickUpDetail(String pickUpId);
+
+	/**
+	 * 查询配送详细信息
+	 * 
+	 * @param expressId
+	 * @return
+	 */
+	public Express getExpressDetail(String expressId);
 
 }
