@@ -162,11 +162,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	public String updateDeliveryOrder(DeliveryOrder order, Express express) {
 		Log.info("审核配送提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
+		IpoExpress ipoexpress = new IpoExpress();
 		if (order != null) {
-			BeanUtils.copyProperties(order, deorder);
-			int num = deliveryordermapper.updateByPrimaryKey(deorder);
-			if (num != 0) {
-				return "已审核";
+			if (express != null) {
+				BeanUtils.copyProperties(order, deorder);
+				BeanUtils.copyProperties(express, ipoexpress);
+				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
+				int exnum = ipoexpressmapper.updateByPrimaryKey(ipoexpress);
+				if (onum != 0 && exnum != 0) {
+					return "已审核";
+				}
 			}
 		}
 		return "审核失败";

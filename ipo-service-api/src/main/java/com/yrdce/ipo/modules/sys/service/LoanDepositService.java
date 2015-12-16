@@ -12,4 +12,5 @@ import com.yrdce.ipo.modules.sys.vo.Firmcurfunds;
 public interface LoanDepositService {
 	public List<Firmcurfunds> GetAllInfo();//获取表内所有信息
 	public List<Firmcurfunds> GetInfoByName(String name);//根据畅销会员名称查信息
+	public List<Firmcurfunds> GetInfoByType(int memberType);//根据会员类型查询
 }

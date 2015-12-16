@@ -28,9 +28,14 @@
     from V_F_FIRMCURFUNDS
   </select>
   <select id="selectInfoByName" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	select FIRMID, NAME, F_BALANCE, L_BALANCE, Y_BALANCE, BALANCESUBTRACT, LASTWARRANTY, 
-    FROZENFUNDS, USER_BALANCE
-    from V_F_FIRMCURFUNDS
-    where NAME=#{name,jdbcType=VARCHAR}
+  	  select v.FIRMID, v.NAME, v.F_BALANCE, v.L_BALANCE, v.Y_BALANCE, v.BALANCESUBTRACT, v.LASTWARRANTY, v.FROZENFUNDS, v.USER_BALANCE
+	  from V_F_FIRMCURFUNDS v 
+	  left join br_broker b on v.firmId = b.firmid 
+	  left join br_brokertype bt on b.membertype = bt.borkertype
+	  where bt.brokername='承销会员' and v.name = =#{name,jdbcType=VARCHAR}
+  </select>
+  <select id="getInfoByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	  select v.FIRMID, v.NAME, v.F_BALANCE, v.L_BALANCE, v.Y_BALANCE, v.BALANCESUBTRACT, v.LASTWARRANTY, v.FROZENFUNDS, v.USER_BALANCE
+  	  from V_F_FIRMCURFUNDS v join br_broker b on (v.firmId = b.firmid) where b.MEMBERTYPE=#{membertype,jdbcType=DECIMAL}
   </select>
 </mapper>

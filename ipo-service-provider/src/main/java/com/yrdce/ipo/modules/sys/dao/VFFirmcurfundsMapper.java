@@ -9,4 +9,5 @@ public interface VFFirmcurfundsMapper {
 
     List<VFFirmcurfunds> selectAll();
     List<VFFirmcurfunds> selectInfoByName(String name);
+    List<VFFirmcurfunds> getInfoByType(int memberType);
 }
