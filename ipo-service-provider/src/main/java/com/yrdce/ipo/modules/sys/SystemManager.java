@@ -150,12 +150,13 @@ public class SystemManager {
 	 * @throws Exception
 	 */
 	public String resumeTrade() throws Exception {
-		if (!isTradeDayToday(new Date(System.currentTimeMillis() + timeDiff)))
+		Date date = new Date(System.currentTimeMillis() + timeDiff);
+		if (!isTradeDayToday(date))
 			return null;
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
-				updateSysStatus(tradeDate, STATUS_TRADE_DOING, "交易中");
+				updateSysStatus(tradeDate, STATUS_TRADE_DOING, String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -196,7 +197,7 @@ public class SystemManager {
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (!status.equals(STATUS_MARKET_CLOSE)) {
-				updateSysStatus(tradeDate, STATUS_MARKET_CLOSE, "", "闭市");
+				updateSysStatus(tradeDate, STATUS_MARKET_CLOSE, "闭市");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -212,6 +213,11 @@ public class SystemManager {
 		// 解冻仓单 抵押unFrozenStocks(15, arrayOfString);
 
 		// i = tradeRMI.balance(); // FN_T_CloseMarketProcess
+		// FN_F_UpdateFrozenFunds
+		// FN_T_TradeFlow
+		// FN_F_UpdateFundsFull
+
+		// 计算手续费、插入资金流水 货款 增值税 冻结资金 收延期费
 
 		if (!STATUS_MARKET_CLOSE.equals(status))
 			throw new Exception("交易服务器没有闭市操作，不能结算！");
@@ -454,7 +460,7 @@ public class SystemManager {
 	private void closeMarketInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 
-		updateSysStatus(sdf.format(date), STATUS_MARKET_CLOSE, "", "闭市");
+		updateSysStatus(sdf.format(date), STATUS_MARKET_CLOSE, "闭市");
 	}
 
 	// 状态变更入库
