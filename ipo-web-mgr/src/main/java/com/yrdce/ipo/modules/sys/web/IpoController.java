@@ -328,8 +328,12 @@ public class IpoController extends BaseController {
 			throws IOException {
 		DeliveryOrder deorder = deliveryorderservice
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
-		request.setAttribute("entity", deorder);
 		if (deorder != null) {
+			String deliveryDate = formatDate(deorder.getDeliveryDate());
+			String applyDate = formatDate(deorder.getApplyDate());
+			request.setAttribute("deliveryDate", deliveryDate);
+			request.setAttribute("applyDate", applyDate);
+			request.setAttribute("entity", deorder);
 			String methodId = deorder.getMethodId() + "";
 			if (deorder.getDeliveryMethod().equals("1")) {
 				Pickup pickup = deliveryorderservice.getPickUpDetail(methodId);

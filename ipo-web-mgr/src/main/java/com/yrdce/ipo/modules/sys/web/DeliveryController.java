@@ -154,8 +154,8 @@ public class DeliveryController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkPorders(@RequestParam("entity") DeliveryOrder deorder,
-			@RequestParam("detail") Pickup detail) throws IOException {
+	public String checkPorders(DeliveryOrder deorder, Pickup detail)
+			throws IOException {
 		log.info("进行自提方式提货单审核");
 		try {
 			deliveryorderservice.updateDeliveryOrder(deorder, detail);
@@ -175,8 +175,8 @@ public class DeliveryController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkEorders(@RequestParam("entity") DeliveryOrder deorder,
-			@RequestParam("detail") Express detail) throws IOException {
+	public String checkEorders(DeliveryOrder deorder, Express detail)
+			throws IOException {
 		log.info("进行在线配送方式提货单审核");
 		try {
 			deliveryorderservice.updateDeliveryOrder(deorder, detail);
