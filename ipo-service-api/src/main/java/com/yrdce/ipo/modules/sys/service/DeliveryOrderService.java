@@ -34,7 +34,7 @@ public interface DeliveryOrderService {
 	 * @param deorder
 	 * @return
 	 */
-	public List<DeliveryOrder> findAllDeliOrdersByPage(String page,
+	public List<DeliveryOrder> queryAllDeliOrdersByPage(String page,
 			String rows, DeliveryOrder deorder);
 
 	/**
@@ -43,7 +43,7 @@ public interface DeliveryOrderService {
 	 * @param deorder
 	 * @return
 	 */
-	public Integer getTotalNum(DeliveryOrder deorder);
+	public Integer getQueryNum(DeliveryOrder deorder);
 
 	/**
 	 * 分页查询待审核提货单
