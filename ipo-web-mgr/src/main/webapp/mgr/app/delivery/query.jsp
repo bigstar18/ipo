@@ -28,7 +28,7 @@
 					</select>
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
 			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clear()"/>			
+			<input type="button" value="重置" onclick="clearInfo()"/>			
 		</div> 
 		</from>
 	</div>

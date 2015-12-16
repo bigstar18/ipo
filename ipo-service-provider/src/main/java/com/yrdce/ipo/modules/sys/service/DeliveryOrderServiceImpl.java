@@ -33,9 +33,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DeliveryOrder> findAllDeliOrdersByPage(String page,
+	public List<DeliveryOrder> queryAllDeliOrdersByPage(String page,
 			String rows, DeliveryOrder deorder) {
-		Log.info("分页查询提货单服务");
+		Log.info("分页模糊查询提货单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
@@ -45,25 +45,26 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			BeanUtils.copyProperties(deorder, record);
 		}
 		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.findAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
+				.queryAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
 						* pagesize, record);
 		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
 		for (int i = 0; i < dorderslist.size(); i++) {
 			DeliveryOrder temp = new DeliveryOrder();
 			BeanUtils.copyProperties(dorderslist.get(i), temp);
 			dorderslist2.add(temp);
+			Log.info(temp.toString());
 		}
 		return dorderslist2;
 
 	}
 
 	@Override
-	public Integer getTotalNum(DeliveryOrder deorder) {
+	public Integer getQueryNum(DeliveryOrder deorder) {
 		IpoDeliveryorder order = new IpoDeliveryorder();
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, order);
 		}
-		return deliveryordermapper.getTotalNum(order);
+		return deliveryordermapper.getQueryNum(order);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			DeliveryOrder temp = new DeliveryOrder();
 			BeanUtils.copyProperties(dorderslist.get(i), temp);
 			dorderslist2.add(temp);
+			Log.info(temp.toString());
 		}
 		return dorderslist2;
 	}
@@ -94,8 +96,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	public DeliveryOrder getDeliveryOrderByDeliOrderID(String deliOrderID) {
 		Log.info("根据提货单号查询提货单");
-		IpoDeliveryorder deorder = deliveryordermapper.selectByPrimaryKey(Long
-				.parseLong(deliOrderID));
+		IpoDeliveryorder deorder = deliveryordermapper
+				.selectByPrimaryKey(deliOrderID);
 		if (deorder != null) {
 			DeliveryOrder order = new DeliveryOrder();
 			BeanUtils.copyProperties(deorder, order);
@@ -136,6 +138,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			DeliveryOrder temp = new DeliveryOrder();
 			BeanUtils.copyProperties(dorderslist.get(i), temp);
 			dorderslist2.add(temp);
+			Log.info(temp.toString());
 		}
 		return dorderslist2;
 	}
