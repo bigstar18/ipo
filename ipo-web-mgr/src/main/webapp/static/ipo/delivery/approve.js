@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-         title:'所有提货单列表',  
+         title:'待审核提货单',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -8,7 +8,7 @@ $(document).ready(function() {
          pageList:[5,10,15],  
          singleSelect:true,
          toolbar:"#tb",  
-         url:  getRootPath () + "/DeliveryController/findAllDeliveryOrders" ,  
+         url:  getRootPath () + "/DeliveryController/approveDeliveryOrders" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [ {
@@ -76,14 +76,10 @@ $(document).ready(function() {
              field : 'approvalStatus',  
              width : 200,  
              align: "center",
-             title : '状态' ,
-             formatter:function(value){
-            	 if(value=='1') return "未审核";
-            	 if(value=='2') return "通过";
-            	 if(value=='3') return "驳回";
-            	 if(value=='4') return "已收货";
-            	 if(value=='5') return "废除";
-           }
+             title : '操作' ,
+             formatter:function(value,row){
+         	    return "<input type=\"button\" onclick=\"approve("+row.deliveryorderId+")\" value=\"审核\"/>";
+         }
           }
          ]],  
          pagination : true 
@@ -106,6 +102,12 @@ $(document).ready(function() {
 		            });
 });
 
+function approve(id){
+	document.location.href =  getRootPath () + "/IpoController/approveDelivery?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
+}
+
+
+
 function doSearch(){
 	
     /* var options = $('#dg').datagrid('getPager').data("pagination").options;  
@@ -123,7 +125,7 @@ function doSearch(){
             });*/
             
   $('#dg').datagrid({  
-         title:'所有提货单列表',  
+         title:'待审核提货单',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -205,14 +207,10 @@ function doSearch(){
              field : 'approvalStatus',  
              width : 200,  
              align: "center",
-             title : '状态' ,
-             formatter:function(value){
-            	 if(value=='1') return "未审核";
-            	 if(value=='2') return "通过";
-            	 if(value=='3') return "驳回";
-            	 if(value=='4') return "已收货";
-            	 if(value=='5') return "废除";
-           }
+             title : '操作' ,
+             formatter:function(value,row){
+         	   return "<input type=\"button\" onclick=\"getCommBelonged("+row.deliveryorderId+")\" value=\"审核\"/>";
+         }
           }
          ]],  
          pagination : true 
@@ -238,7 +236,6 @@ function doSearch(){
 function clearInfo(){
 	$("#deliveryorderId").val("");
 	$("#applyDate").datebox('setValue',"")
-	$("#approvalStatus").val("");
 	$("#dealerId").val("");
 }
 
