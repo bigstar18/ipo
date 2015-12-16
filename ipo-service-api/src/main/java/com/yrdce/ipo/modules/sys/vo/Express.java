@@ -18,7 +18,7 @@ public class Express extends DeliveryOrder {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long expressId;
+	private String expressId;
 
 	private String address;
 
@@ -30,11 +30,11 @@ public class Express extends DeliveryOrder {
 
 	private String tel;
 
-	public Long getExpressId() {
+	public String getExpressId() {
 		return expressId;
 	}
 
-	public void setExpressId(Long expressId) {
+	public void setExpressId(String expressId) {
 		this.expressId = expressId;
 	}
 

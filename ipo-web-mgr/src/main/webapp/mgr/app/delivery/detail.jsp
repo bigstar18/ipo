@@ -205,6 +205,7 @@ function onlyNumberInput(){
 		          						</td>
 										<td align="right" width="90"></td>     
             							<td> 
+            							<input id="pickupId" type="hidden" name="pickupId" value="${detail.pickupId }" >
 										</td>
 										<td align="right" width="90"></td>     
             							<td> 
@@ -239,6 +240,7 @@ function onlyNumberInput(){
 										</td>
 										<td align="right" width="90"></td>     
             							<td> 
+            							<input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
 										</td>
 							        </tr> 
 							        </c:if>

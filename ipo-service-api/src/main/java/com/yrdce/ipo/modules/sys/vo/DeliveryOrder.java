@@ -37,7 +37,7 @@ public class DeliveryOrder implements Serializable {
 
 	public String deliveryMethod;
 
-	public Long methodId;
+	public String methodId;
 
 	public String unit;
 
@@ -142,11 +142,11 @@ public class DeliveryOrder implements Serializable {
 				.trim();
 	}
 
-	public Long getMethodId() {
+	public String getMethodId() {
 		return methodId;
 	}
 
-	public void setMethodId(Long methodId) {
+	public void setMethodId(String methodId) {
 		this.methodId = methodId;
 	}
 

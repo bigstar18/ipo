@@ -103,7 +103,7 @@ $(document).ready(function() {
 });
 
 function approve(id){
-	document.location.href =  getRootPath () + "/DeliveryController/approveDeliveryOrders?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
+	document.location.href =  getRootPath () + "/IpoController/approveDelivery?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
 }
 
 

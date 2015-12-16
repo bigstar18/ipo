@@ -17,16 +17,27 @@ public class Pickup extends DeliveryOrder {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String pickupId;
+
 	private String pickupPassword;
 
 	private String idcardNum;
+
+	public String getPickupId() {
+		return pickupId;
+	}
+
+	public void setPickupId(String pickupId) {
+		this.pickupId = pickupId;
+	}
 
 	public String getPickupPassword() {
 		return pickupPassword;
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword
+				.trim();
 	}
 
 	public String getIdcardNum() {
