@@ -11,6 +11,9 @@ import com.yrdce.ipo.modules.sys.dao.IpoSpecialPoundageMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialPoundage;
 import com.yrdce.ipo.modules.sys.vo.SpecialPoundage;
 
+/*
+ * 特殊手续费
+ * 李伟东*/
 @Service("specialPoundageService")
 public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 	@Autowired
@@ -22,6 +25,8 @@ public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 	public void setIpoSpecialPoundageMapper(IpoSpecialPoundageMapper ipoSpecialPoundageMapper){
 		this.ipoSpecialPoundageMapper = ipoSpecialPoundageMapper;
 	}
+	
+	//查询
 	@Override
 	public List<SpecialPoundage> GetAllInfo() {
 		// TODO Auto-generated method stub
@@ -35,7 +40,7 @@ public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 			return tempList;
 	
 	}
-
+	//插入
 	@Override
 	public int InsertPoundage(SpecialPoundage specialPoundage) {
 		// TODO Auto-generated method stub
@@ -44,7 +49,7 @@ public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 		int temp = ipoSpecialPoundageMapper.insert(ipoSpecialPoundage);
 		return temp;
 	}
-
+	//删除
 	@Override
 	public int DeleteById(String poundId) {
 		// TODO Auto-generated method stub
@@ -53,6 +58,19 @@ public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 			ipoSpecialPoundageMapper.deleteByPrimaryKey(tempPoundId);
 		}
 		return 1;
+	}
+	//特殊手续费修改
+	@Override
+	public int UpDateInfoById(SpecialPoundage poundage) {
+		// TODO Auto-generated method stub
+		IpoSpecialPoundage ipoSpecialPoundage = new IpoSpecialPoundage();
+		BeanUtils.copyProperties(poundage, ipoSpecialPoundage);
+		int result = ipoSpecialPoundageMapper.updateByPrimaryKey(ipoSpecialPoundage);
+		if (result>0) {
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 	
 }

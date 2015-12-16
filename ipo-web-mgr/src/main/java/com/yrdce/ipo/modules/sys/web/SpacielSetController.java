@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
@@ -47,11 +48,11 @@ public class SpacielSetController {
 		}
 	}
 	
-	@RequestMapping(value = "/addPoundage", method = RequestMethod.GET)
+	@RequestMapping(value = "/addPoundageForward", method = RequestMethod.GET)
 	public String addPoundage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 		try {
-			logger.info("跳转至新增页面");
+			logger.info("跳转至添加");
 			return "app/specialset/addPoundage";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,15 +60,17 @@ public class SpacielSetController {
 		}
 	}
 	
-	@RequestMapping(value = "/back", method = RequestMethod.GET)
-	public String back(HttpServletRequest request,
+	@RequestMapping(value = "/goBackPage", method = RequestMethod.GET)
+	public String goBackPage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 		try {
+			logger.info("返回手续费设置");
 			return "app/specialset/specialPoundage";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+			
 	}
 	
 	@RequestMapping(value = "/addPoundage", method = RequestMethod.POST)
@@ -91,6 +94,27 @@ public class SpacielSetController {
 		try {
 			specialPoundageService.DeleteById(ids);
 			return "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/updatePoundForward", method = RequestMethod.GET)
+	public String updatePoundForward(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("poundageId") String poundageid) throws IOException {
+		try {
+			request.setAttribute("crud", "update");
+//			log.info("跳转至修改页面");
+//			VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long
+//					.parseLong(breedid));
+//			log.info(vbreed.toString());
+//			Mlist = mBreedservice.findAll();
+//			request.setAttribute("Mlist", Mlist);
+//			request.setAttribute("entity", vbreed);
+//			request.setAttribute("breedlist", JSON.json(Mlist));
+			return "app/specialset/addPoundage";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

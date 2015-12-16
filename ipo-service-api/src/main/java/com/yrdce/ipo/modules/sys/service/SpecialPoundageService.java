@@ -12,4 +12,5 @@ public interface SpecialPoundageService {
 	//public int DeleteByPrimaryKey(Long poundageId);
 	public int InsertPoundage(SpecialPoundage specialPoundage);
 	public int DeleteById(String poundId);
+	public int UpDateInfoById(SpecialPoundage poundage);
 }
