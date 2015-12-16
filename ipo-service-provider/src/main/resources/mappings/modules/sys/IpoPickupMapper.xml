@@ -10,7 +10,10 @@
     delete from IPO_PICKUP
     where PICKUP_ID = #{pickupId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPickup" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="pickupId" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPickup" >
+  	<selectKey resultType="VARCHAR" order="BEFORE" keyProperty="pickupId">
+	SELECT SEQ_IPO_PICKUP.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_PICKUP (PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM
       )
     values (#{pickupId,jdbcType=VARCHAR}, #{pickupPassword,jdbcType=VARCHAR}, #{idcardNum,jdbcType=VARCHAR}
@@ -31,4 +34,5 @@
     select PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM
     from IPO_PICKUP
   </select>
+  
 </mapper>

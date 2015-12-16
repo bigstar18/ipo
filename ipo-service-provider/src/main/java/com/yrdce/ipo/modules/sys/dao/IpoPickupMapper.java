@@ -16,4 +16,5 @@ public interface IpoPickupMapper {
 	List<IpoPickup> selectAll();
 
 	int updateByPrimaryKey(IpoPickup record);
+
 }

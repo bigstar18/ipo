@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
+import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
 import com.yrdce.ipo.modules.sys.service.TCommodityService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
+import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
+import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
+import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
@@ -55,6 +59,18 @@ public class IpoController extends BaseController {
 
 	@Autowired
 	private BrBrokerService brBrokerService;
+
+	@Autowired
+	private DeliveryOrderService deliveryorderservice;
+
+	public DeliveryOrderService getDeliveryorderservice() {
+		return deliveryorderservice;
+	}
+
+	public void setDeliveryorderservice(
+			DeliveryOrderService deliveryorderservice) {
+		this.deliveryorderservice = deliveryorderservice;
+	}
 
 	List<MBreed> Mlist; // 品种列表
 
@@ -301,4 +317,37 @@ public class IpoController extends BaseController {
 			return "error";
 		}
 	}
+
+	/*
+	 * 审核提货单视图
+	 */
+	@RequestMapping(value = "/approveDelivery", method = RequestMethod.GET)
+	public String approveDelivery(HttpServletRequest request,
+			HttpServletResponse response, Model model,
+			@RequestParam("deliveryorderId") String deliveryorderId)
+			throws IOException {
+		DeliveryOrder deorder = deliveryorderservice
+				.getDeliveryOrderByDeliOrderID(deliveryorderId);
+		if (deorder != null) {
+			String deliveryDate = formatDate(deorder.getDeliveryDate());
+			String applyDate = formatDate(deorder.getApplyDate());
+			request.setAttribute("deliveryDate", deliveryDate);
+			request.setAttribute("applyDate", applyDate);
+			request.setAttribute("entity", deorder);
+			String methodId = deorder.getMethodId() + "";
+			if (deorder.getDeliveryMethod().equals("1")) {
+				Pickup pickup = deliveryorderservice.getPickUpDetail(methodId);
+				request.setAttribute("detail", pickup);
+				request.setAttribute("flag", "pickup");
+			}
+			if (deorder.getDeliveryMethod().equals("2")) {
+				Express express = deliveryorderservice
+						.getExpressDetail(methodId);
+				request.setAttribute("detail", express);
+				request.setAttribute("flag", "express");
+			}
+		}
+		return "app/delivery/detail";
+	}
+
 }

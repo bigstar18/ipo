@@ -3,55 +3,54 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.util.Date;
 
 public class IpoDeliveryorder {
-	private String deliveryorderId;
+	public String deliveryorderId;
 
-	private String commodityId;
+	public String commodityId;
 
-	private String commodityName;
+	public String commodityName;
 
-	private String dealerId;
+	public String dealerId;
 
-	private String dealerName;
+	public String dealerName;
 
-	private String warehouseId;
+	public String warehouseId;
 
-	private String warehouseName;
+	public String warehouseName;
 
-	private Long deliveryQuatity;
+	public Long deliveryQuatity;
 
-	private Long deliveryCounts;
+	public Long deliveryCounts;
 
-	private String deliveryMethod;
+	public String deliveryMethod;
 
-	private String methodId;
+	public String methodId;
 
-	private String unit;
+	public String unit;
 
-	private Date deliveryDate;
+	public Date deliveryDate;
 
-	private Date applyDate;
+	public Date applyDate;
 
-	private Integer approvalStatus;
+	public Integer approvalStatus;
 
-	private String approvers;
+	public String approvers;
 
-	private Date approveDate;
+	public Date approveDate;
 
-	private String canceler;
+	public String canceler;
 
-	private Date cancelDate;
+	public Date cancelDate;
 
-	private Long position;
+	public Long position;
 
-	private String remarks;
+	public String remarks;
 
 	public String getDeliveryorderId() {
 		return deliveryorderId;
 	}
 
 	public void setDeliveryorderId(String deliveryorderId) {
-		this.deliveryorderId = deliveryorderId == null ? null : deliveryorderId
-				.trim();
+		this.deliveryorderId = deliveryorderId == null ? null : deliveryorderId.trim();
 	}
 
 	public String getCommodityId() {
@@ -67,8 +66,7 @@ public class IpoDeliveryorder {
 	}
 
 	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName == null ? null : commodityName
-				.trim();
+		this.commodityName = commodityName == null ? null : commodityName.trim();
 	}
 
 	public String getDealerId() {
@@ -100,8 +98,7 @@ public class IpoDeliveryorder {
 	}
 
 	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName == null ? null : warehouseName
-				.trim();
+		this.warehouseName = warehouseName == null ? null : warehouseName.trim();
 	}
 
 	public Long getDeliveryQuatity() {
@@ -125,8 +122,7 @@ public class IpoDeliveryorder {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
-				.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
 	}
 
 	public String getMethodId() {
@@ -219,19 +215,12 @@ public class IpoDeliveryorder {
 
 	@Override
 	public String toString() {
-		return "IpoDeliveryorder [deliveryorderId=" + deliveryorderId
-				+ ", commodityId=" + commodityId + ", commodityName="
-				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
-				+ dealerName + ", warehouseId=" + warehouseId
-				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
-				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
-				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
-				+ methodId + ", unit=" + unit + ", deliveryDate="
-				+ deliveryDate + ", applyDate=" + applyDate
-				+ ", approvalStatus=" + approvalStatus + ", approvers="
-				+ approvers + ", approveDate=" + approveDate + ", canceler="
-				+ canceler + ", cancelDate=" + cancelDate + ", position="
-				+ position + ", remarks=" + remarks + "]";
+		return "IpoDeliveryorder [deliveryorderId=" + deliveryorderId + ", commodityId=" + commodityId + ", commodityName=" + commodityName
+				+ ", dealerId=" + dealerId + ", dealerName=" + dealerName + ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName
+				+ ", deliveryQuatity=" + deliveryQuatity + ", deliveryCounts=" + deliveryCounts + ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate=" + deliveryDate + ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus
+				+ ", approvers=" + approvers + ", approveDate=" + approveDate + ", canceler=" + canceler + ", cancelDate=" + cancelDate
+				+ ", position=" + position + ", remarks=" + remarks + "]";
 	}
 
 }

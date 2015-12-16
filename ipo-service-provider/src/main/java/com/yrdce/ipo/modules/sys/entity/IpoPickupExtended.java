@@ -1,22 +1,6 @@
-package com.yrdce.ipo.modules.sys.vo;
+package com.yrdce.ipo.modules.sys.entity;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-/**
- * 
- * @author Bob
- *
- */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup extends DeliveryOrder {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class IpoPickupExtended extends IpoDeliveryorder {
 	private String pickupId;
 
 	private String pickupPassword;
@@ -28,7 +12,7 @@ public class Pickup extends DeliveryOrder {
 	}
 
 	public void setPickupId(String pickupId) {
-		this.pickupId = pickupId;
+		this.pickupId = pickupId == null ? null : pickupId.trim();
 	}
 
 	public String getPickupPassword() {
@@ -36,8 +20,7 @@ public class Pickup extends DeliveryOrder {
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword
-				.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
 	}
 
 	public String getIdcardNum() {

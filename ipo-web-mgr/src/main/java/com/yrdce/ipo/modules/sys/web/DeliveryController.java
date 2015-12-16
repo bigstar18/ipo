@@ -16,6 +16,8 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.web.BaseController;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
+import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
 /**
@@ -113,6 +115,75 @@ public class DeliveryController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+
+	/**
+	 * 分页展示待审核提货单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/approveDeliveryOrders", method = RequestMethod.POST)
+	@ResponseBody
+	public String approveDeliveryOrders(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
+		log.info("分页查询待审核提货单");
+		try {
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.approveDeliOrdersByPage(page, rows);
+			int totalnums = deliveryorderservice.getApproveNum();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(tlist);
+			log.info(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 审核提货单(自提)
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkPorders(DeliveryOrder deorder, Pickup detail)
+			throws IOException {
+		log.info("进行自提方式提货单审核");
+		try {
+			deliveryorderservice.updateDeliveryOrder(deorder, detail);
+			return "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 审核提货单(配送)
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkEorders(DeliveryOrder deorder, Express detail)
+			throws IOException {
+		log.info("进行在线配送方式提货单审核");
+		try {
+			deliveryorderservice.updateDeliveryOrder(deorder, detail);
+			return "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 

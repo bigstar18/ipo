@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoOrderMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
-    <id column="ORDERID" property="orderid" jdbcType="INTEGER" />
+    <id column="ORDERID" property="orderid" jdbcType="VARCHAR" />
     <result column="USERID" property="userid" jdbcType="VARCHAR" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
@@ -92,11 +92,11 @@
     select 
     <include refid="Base_Column_List" />
     from IPO_ORDER
-    where ORDERID = #{orderid,jdbcType=INTEGER}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from IPO_ORDER
-    where ORDERID = #{orderid,jdbcType=INTEGER}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrderExample" >
     delete from IPO_ORDER
@@ -104,16 +104,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="orderid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
-    <selectKey resultType="INTEGER" order="BEFORE" keyProperty="orderid">
-
-	SELECT SEQ_IPO_ORDER.NEXTVAL FROM dual
-
-	</selectKey>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
     insert into IPO_ORDER (ORDERID, USERID, USERNAME, 
       COMMODITYID, COMMODITYNAME, COUNTS, 
       CREATETIME, FROZENFUNDS,FROZENST,COMMODITY_ID)
-    values (#{orderid,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+    values (#{orderid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{counts,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{frozenfunds,jdbcType=DECIMAL},#{frozenst,jdbcType=INTEGER},
       #{commodity_id,jdbcType=INTEGER})
@@ -159,7 +154,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderid != null" >
-        #{orderid,jdbcType=INTEGER},
+        #{orderid,jdbcType=VARCHAR},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=VARCHAR},
@@ -197,7 +192,7 @@
     update IPO_ORDER
     <set >
       <if test="record.orderid != null" >
-        ORDERID = #{record.orderid,jdbcType=INTEGER},
+        ORDERID = #{record.orderid,jdbcType=VARCHAR},
       </if>
       <if test="record.userid != null" >
         USERID = #{record.userid,jdbcType=VARCHAR},
@@ -233,7 +228,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_ORDER
-    set ORDERID = #{record.orderid,jdbcType=INTEGER},
+    set ORDERID = #{record.orderid,jdbcType=VARCHAR},
       USERID = #{record.userid,jdbcType=VARCHAR},
       USERNAME = #{record.username,jdbcType=VARCHAR},
       COMMODITYID = #{record.commodityid,jdbcType=VARCHAR},
@@ -278,7 +273,7 @@
       	COMMODITY_ID = #{commodity_id,jdbcType=INTEGER},
       </if>
     </set>
-    where ORDERID = #{orderid,jdbcType=INTEGER}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
     update IPO_ORDER
@@ -291,7 +286,7 @@
       FROZENFUNDS = #{frozenfunds,jdbcType=DECIMAL},
       FROZENST = #{frozenst,jdbcType=INTEGER},
       COMMODITY_ID = #{commodity_id.jdbcType=INTEGER}
-    where ORDERID = #{orderid,jdbcType=INTEGER}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
   </update>
   
   <select id="bycommodityid" parameterType="java.lang.String" resultType="java.lang.Integer" >
@@ -346,5 +341,8 @@
    	select <include refid="Base_Column_List" /> from IPO_ORDER where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
    </select>
    
+   <select id="sequence" resultType="java.lang.Long">
+	SELECT SEQ_IPO_ORDER.NEXTVAL FROM dual
+   </select>
 
 </mapper>

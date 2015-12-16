@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class IpoOrder {
-	private int orderid;// 订单
+	private String orderid;// 订单
 
 	private String userid;// 交易商id
 
@@ -40,11 +40,11 @@ public class IpoOrder {
 		this.frozenst = frozenst;
 	}
 
-	public int getOrderid() {
+	public String getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(int orderid) {
+	public void setOrderid(String orderid) {
 		this.orderid = orderid;
 	}
 

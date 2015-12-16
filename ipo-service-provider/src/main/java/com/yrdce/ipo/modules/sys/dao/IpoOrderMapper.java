@@ -47,7 +47,7 @@ public interface IpoOrderMapper {
 
 	int selectbysid(String commodityid);
 
-	IpoOrder selectByPrimaryKey(@Param("orderid") int orderid);
+	IpoOrder selectByPrimaryKey(@Param("orderid") String orderid);
 
 	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
 
@@ -58,4 +58,6 @@ public interface IpoOrderMapper {
 	List<IpoOrder> selectByCid(String commodityid);
 
 	int ipoCommSum(Map<String, String> map);
+
+	long sequence();
 }
