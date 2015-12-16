@@ -10,5 +10,7 @@ import com.yrdce.ipo.modules.sys.vo.SpecialPoundage;
 public interface SpecialPoundageService {
 	public List<SpecialPoundage> GetAllInfo();
 	//public int DeleteByPrimaryKey(Long poundageId);
-	
+	public int InsertPoundage(SpecialPoundage specialPoundage);
+	public int DeleteById(String poundId);
+	public int UpDateInfoById(SpecialPoundage poundage);
 }

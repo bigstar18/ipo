@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class SpecialPoundage {
-    private Long poundageId;
+    private String poundageId;
 
     private String dealerId;
 
@@ -18,12 +18,12 @@ public class SpecialPoundage {
 
     private String poundageType;
 
-    public Long getPoundageId() {
+    public String getPoundageId() {
         return poundageId;
     }
 
-    public void setPoundageId(Long poundageId) {
-        this.poundageId = poundageId;
+    public void setPoundageId(String poundageId) {
+        this.poundageId = poundageId == null ? null : poundageId.trim();
     }
 
     public String getDealerId() {

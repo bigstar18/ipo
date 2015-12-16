@@ -128,26 +128,28 @@ function doSearch(){
 </head>
 <body>
 <div id="main_body">
-			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td>
-						<br />
-	<div class="div_list">
-	<table id="depositInfo"></table>
-		<div id="tb" style="padding:5px;height:auto">
-		
-		<div>
-		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
-		商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="getAllInfo()">重置</a>					
-		</form> 
-		</div>
-	</div>
-	</div>
-	</td>
+<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>		
+		<br />
+			<div class="div_list">
+				<table id="depositInfo">
+				</table>
+				<div id="tb" style="padding:5px;height:auto">
+					<div>
+					<form name="frm" action="" >
+					商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="getAllInfo()">重置</a>					
+					</form> 
+					</div>
+				</div>
+				
+			</div>
+		</td>
 	</tr>
-    </table>
+</table>
+   
 </div>
 		
 </body>                

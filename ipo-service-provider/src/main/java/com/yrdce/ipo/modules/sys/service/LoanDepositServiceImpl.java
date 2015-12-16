@@ -49,6 +49,18 @@ public class LoanDepositServiceImpl implements LoanDepositService  {
 		}
 		return tempList;
 	}
+	@Override
+	public List<Firmcurfunds> GetInfoByType(int memberType) {
+		// TODO Auto-generated method stub
+		List<VFFirmcurfunds> firmcurfounds =   firmcurfundsMapper.getInfoByType(memberType);		
+		List<Firmcurfunds> tempList = new ArrayList<Firmcurfunds>();
+		for(VFFirmcurfunds tempFinds:firmcurfounds){
+			Firmcurfunds funds = new Firmcurfunds();
+			BeanUtils.copyProperties(tempFinds, funds);
+			tempList.add(funds);
+		}
+		return tempList;
+	}
 	
 
 }
