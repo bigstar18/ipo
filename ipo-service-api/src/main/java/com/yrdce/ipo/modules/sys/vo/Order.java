@@ -22,7 +22,7 @@ public class Order implements Serializable {
 
 	@JsonProperty("orderid")
 	@XmlElement(name = "orderid")
-	private int orderid;// 订单
+	private String orderid;// 订单
 
 	// 交易商id
 	@JsonProperty("userid")
@@ -59,11 +59,11 @@ public class Order implements Serializable {
 	@XmlElement(name = "commodity_id")
 	private Integer commodity_id;// 发售表主键ID
 
-	public int getOrderid() {
+	public String getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(int orderid) {
+	public void setOrderid(String orderid) {
 		this.orderid = orderid;
 	}
 

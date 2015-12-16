@@ -9,7 +9,7 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.common.utils.Selection;
@@ -33,7 +33,7 @@ import com.yrdce.ipo.modules.sys.service.Distribution;
  * @author Bob
  * 
  */
-@Component
+
 public class Taskmanage extends TimerTask {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -58,6 +58,7 @@ public class Taskmanage extends TimerTask {
 	private IpoCommodityConfMapper commodityConfMapper;
 
 	@Override
+	@Transactional
 	public void run() {
 		try {
 			List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
