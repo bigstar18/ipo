@@ -15,7 +15,7 @@
 $(document).ready(function(){
 	$('#tt').datagrid({
       iconCls:'icon-ok',
-       method:"post",
+       method:"get",
        height:400,
       pageSize:10,
       pageList:[5,10,15],
@@ -32,6 +32,11 @@ $(document).ready(function(){
       columns : [ [ {
      	 fiele : 'checked',
      	 checkbox:true
+      },{
+          field : 'poundageid',
+          width : 200,
+          align: "center",
+          title : '手续费id',
       },{
           field : 'dealerId',
           width : 200,
@@ -153,16 +158,16 @@ $(document).ready(function(){
 // });
 
 
-// //添加信息跳转
-// function addForward(){
-// 	alert("小哥");
-// 	//获取配置权限的 URL
-<%-- 	var addUrl="<%=request.getContextPath()%>/TradetimeController/addTradetimeforward"; --%>
-// 	 if(showDialog(addUrl, "", 800, 550)){
+//添加信息跳转
+function addForward(){
+	//获取配置权限的 URL
+<%-- 	var addUrl="<%=request.getContextPath()%>/SpacialSetController/addPoundage"; --%>
+	document.location.href = "<%=request.getContextPath()%>/SpacialSetController/addPoundage?randnum="+Math.floor(Math.random()*1000000);
+// 	 if(showDialog(addUrl, "", 1000, 550)){
 // 		//如果添加成功，则刷新列表
 // 		$('#tt').datagrid('reload');
 // 	} 
-// }
+}
 // //修改信息跳转
 // function updateForward(index,id) {
 // 	$('#tt').datagrid('selectRow',index);
@@ -175,31 +180,31 @@ $(document).ready(function(){
 // 			}
 // }
 
-// //删除
-// function deleteList(){
-// 	var checkedItems = $('#tt').datagrid('getChecked');
-// 	var ids = [];
-// 	$.each(checkedItems,function(index,item){
-// 		ids.push(item.sectionid);
-// 	});
-// 	var id = ids.join(",");
-// 	if(id.length != 0){
-// 		if(confirm("确定删除该交易节吗？")){
-// 			  var row = $("#tt").datagrid("getSelected"); 
-<%-- 			  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){ --%>
-// 				  if(data=='success'){
-// 					  alert("删除成功！")
-// 					  $('#tt').datagrid('reload');
-// 				  }
-// 				  if(data=='error'){
-// 					  alert("该交易节与商品有关联，不可删除")
-// 				  }
-// 					  });
-// 			  }
-// 	}else{
-// 		alert("请选择要删除的交易节");
-// 	}
-// }
+//删除
+function deleteList(){
+	var checkedItems = $('#tt').datagrid('getChecked');
+	var ids = [];
+	$.each(checkedItems,function(index,item){
+		ids.push(item.sectionid);
+	});
+	var id = ids.join(",");
+	if(id.length != 0){
+		if(confirm("确定删除该交易节吗？")){
+			  var row = $("#tt").datagrid("getSelected"); 
+			  $.post("<%=request.getContextPath()%>/TradetimeController/deleteTradetime",{"ids":id},function(data,status){
+				  if(data=='success'){
+					  alert("删除成功！")
+					  $('#tt').datagrid('reload');
+				  }
+				  if(data=='error'){
+					  alert("该交易节与商品有关联，不可删除")
+				  }
+					  });
+			  }
+	}else{
+		alert("请选择要删除的交易节");
+	}
+}
 </script>
 </head>
 <body>

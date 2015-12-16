@@ -35,5 +35,24 @@ public class SpecialPoundageServiceImpl implements SpecialPoundageService {
 			return tempList;
 	
 	}
+
+	@Override
+	public int InsertPoundage(SpecialPoundage specialPoundage) {
+		// TODO Auto-generated method stub
+		IpoSpecialPoundage ipoSpecialPoundage = new IpoSpecialPoundage();
+		BeanUtils.copyProperties(specialPoundage, ipoSpecialPoundage);
+		int temp = ipoSpecialPoundageMapper.insert(ipoSpecialPoundage);
+		return temp;
+	}
+
+	@Override
+	public int DeleteById(String poundId) {
+		// TODO Auto-generated method stub
+		String[] tempId = poundId.split(",");
+		for(String tempPoundId:tempId){
+			ipoSpecialPoundageMapper.deleteByPrimaryKey(tempPoundId);
+		}
+		return 1;
+	}
 	
 }
