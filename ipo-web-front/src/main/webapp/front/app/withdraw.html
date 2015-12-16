@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <style type="text/css">
+      .hide{
+        display:none;
+      }
+      td b{color: red;}
+      legend b{color: blue}
+      body{background-color: #E0EEEE}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/default/easyui.css">
+    <script type="text/javascript" src="../../static/jquery/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../../static/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./withdraw.js"></script>
+  </head>
+
+  <body>
+    <table border="0" height="400" width="700" align="center" style="margin-top: 40px;">
+      <tbody>
+        <tr>
+          <td>
+            <form>
+              <fieldset style="border-width: 1px; border-color: #008000;">
+                <legend>
+                  <b>
+                    注册提货单
+                  </b>
+                </legend>
+                <table width="65%" border="0" cellspacing="0" cellpadding="0" align="center">
+                  <tbody>
+                    <tr>
+                      <td height="15" colspan="2">
+                        &nbsp;
+                      </td>
+                    </tr>
+                    <tr>
+                      <td height="3" colspan="2">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;藏品代码：
+                        </span>
+                      </td>
+                      <td>
+                      	<select name="" style="width: 150px">
+                          <option>
+                          </option>
+                        </select><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;藏品名称：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;交货仓库：
+                        </span>
+                      </td>
+                      <td>
+                      	<select name="" style="width: 150px">
+                          <option value="">
+                          </option>
+                        </select><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;持仓数量：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;交割数量：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;提货日期：
+                        </span>
+                      </td>
+                      <td>
+                      	<input class="easyui-datebox" type="datetime" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;提货方式：
+                        </span>
+                      </td>
+                      <td>
+                      	<select class="pickup" name="" style="width: 150px">
+                          <option value="customer">
+                            自提
+                          </option>
+                          <option value="dispatching">
+                            配送
+                          </option>
+                        </select><b>*</b>
+                      </td>
+                    </tr>
+                    <tr class="dispatching hide">
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;电话：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr class="dispatching hide">
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;收货人：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr class="dispatching hide">
+                      <td align="center" height="35">
+                        <span>
+                          &nbsp;&nbsp;地址：
+                        </span>
+                      </td>
+                      <td>
+                      	<input type="text" name="" value="" style="100%"><b>*</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="center" height="35">
+                        <input type="button" onclick="" value="提交">
+                      </td>
+                      <td align="center" height="35">
+                        <input type="reset" name="button" value="重置" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table border="0" width="700" align="center">
+      <tbody>
+        <tr>
+          <td align="center" style="color: red">提示：提货单注册后过了提货日期则不能提货，需要注销提货单后重新注册</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

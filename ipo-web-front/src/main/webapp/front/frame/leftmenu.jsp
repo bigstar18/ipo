@@ -1,6 +1,6 @@
 <%@ page trimDirectiveWhitespaces="true" contentType="text/html;charset=GBK"%>
 <%@ include file="/front/public/includefiles/taglib.jsp" %>
-<%@ include file="/front/public/includefiles/path.jsp" %> 
+<%@ include file="/front/public/includefiles/path.jsp" %>
 <script>
 	var jastOpenMenu="";<%/* 记录最后一次点击左菜单的ID号 */%>
 	function selectMenu(menuID){
@@ -53,7 +53,7 @@
 	</c:if>
 	</div> -->
 	<!--  <div class="main"></div> -->
-	<div class="clear"></div> 
+	<div class="clear"></div>
 	<%/* 我的菜单信息展示 */%>
 	<%-- <c:if test="${not empty mymenu}">
 	<div class="menu_1" id="mymenu">我的菜单</div>
@@ -67,10 +67,18 @@
 	<%/* 遍历循环菜单展示 */%>
 	<div class="menu_1" id="4001001000">商品发售</div>
 	<div id="4001001000Div" style="display: none">
-		<div class="menu_3" id="4001001010" action="<%=request.getContextPath()%>/CommodityController/ipoapply">商品申购</div> 
+		<div class="menu_3" id="4001001010" action="<%=request.getContextPath()%>/CommodityController/ipoapply">商品申购</div>
 		<div class="menu_3" id="4001001020" action="<%=request.getContextPath()%>/CommodityController/OrderQuery">申购记录</div>
 		<div class="menu_3" id="4001001030" action="<%=request.getContextPath()%>/CommodityController/DistribQuery">配号记录</div>
 		<div class="menu_3" id="4001001040" action="<%=request.getContextPath()%>/CommodityController/SelectedQuery">中签记录</div>
+	</div>
+	<div class="menu_1" id="3001001000">交收提货</div>
+	<div id="3001001000Div" style="display: none;">
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/withdraw.html">提货申请</div>
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/customer.html">自提打印</div>
+		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/front/app/cancel.html">撤销提货</div>
+		<div class="menu_3" id="3001001030" action="<%=request.getContextPath()%>/front/app/deliver.html">提货查询</div>
+		<div class="menu_3" id="3001001040" action="<%=request.getContextPath()%>/front/app/cost.html">费用查询</div>
 	</div>
 	<%-- <a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a> --%>
 </div>
