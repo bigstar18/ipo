@@ -108,23 +108,22 @@ public class PurchaseImpl implements Purchase {
 					// 申购消费总额
 					BigDecimal allMonery = bigDecimal.multiply(price);
 
-					// 总数除以发售单位得到共买几个单位
-					// int u = counts / units;
-					// BigDecimal counts1 = new BigDecimal(u);
-					// 一单位
-					// BigDecimal Unitprice = new BigDecimal(units);
-					// 1单位价格
-					// BigDecimal total = price.multiply(Unitprice);
-					// 申购消费总额
-					// BigDecimal allMonery = counts1.multiply(total);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断
 						if (monery.compareTo(allMonery) != -1) {
 							logger.info("进入资金判断");
+							// 查询主键值
+							long sequence = order.sequence();
+
 							// 当前时间
 							Timestamp date = new Timestamp(System.currentTimeMillis());
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+							String sequence1 = String.format("%04d", sequence);
+							String time = sdf.format(date);
+							String primaryKey = time + sequence1;
 							IpoOrder d = new IpoOrder();
+							d.setOrderid(primaryKey);
 							d.setUserid(userId);
 							d.setCommodityid(sId);
 							d.setCommodityname(name);

@@ -32,9 +32,9 @@ public class SecurityFilter implements Filter {
 			request.setCharacterEncoding("GBK");
 		}
 
-		// String contextPath = request.getContextPath();
+		String contextPath = request.getContextPath();
 		String url = request.getServletPath();
-		String loginURL = "/WEB-INF/views/error/403.jsp";
+		String loginURL = contextPath + "/WEB-INF/views/error/403.jsp";
 
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
@@ -68,8 +68,7 @@ public class SecurityFilter implements Filter {
 		if (user != null) {
 			chain.doFilter(req, res);
 		} else
-			response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
-
+			request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
