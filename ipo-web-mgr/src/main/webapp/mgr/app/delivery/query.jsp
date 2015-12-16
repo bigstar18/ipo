@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>提货单查询</title>
-<script src="<%=request.getContextPath()%>/mgr/app/delivery/query.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/delivery/query.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main_body">

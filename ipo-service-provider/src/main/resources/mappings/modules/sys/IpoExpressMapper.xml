@@ -13,7 +13,10 @@
     delete from IPO_EXPRESS
     where EXPRESS_ID = #{expressId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="pickupId" parameterType="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
+  	<selectKey resultType="VARCHAR" order="BEFORE" keyProperty="pickupId">
+	SELECT SEQ_IPO_EXPRESS.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_EXPRESS (EXPRESS_ID, ADDRESS, COST, 
       EXPRESS_DATE, RECEIVER, TEL
       )

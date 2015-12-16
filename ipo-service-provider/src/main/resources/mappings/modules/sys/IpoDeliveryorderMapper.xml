@@ -130,7 +130,7 @@
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
       </if>
-       <if test="record.approvalStatus != 0" >
+       <if test="record.approvalStatus != null" >
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
       <if test="record.dealerId != null" >
@@ -140,12 +140,41 @@
   
   <select id="approveDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
     select <include refid="Base_Column_List" />
-    from (select t.*,rownum TNO from IPO_DELIVERYORDER t order by t.DELIVERYORDER_ID where t.APPROVAL_STATUS = 0) a where a.TNO between  #{beginnum} and  #{endnum}
+    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS = 1 order by t.DELIVERYORDER_ID ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getApproveNum" resultType="java.lang.Integer" >
-  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS = 0
+  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS = 1
   </select>
 
+   <select id="sequence" resultType="java.lang.Integer">
+	SELECT SEQ_IPO_DELIVERYORDER.NEXTVAL FROM dual
+   </select>
+   
+  <select id="selectByPickup" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickupExtended">
+  	select * from 
+	(select t.*,rownum TNO from
+ 		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where d.dealer_id = #{dealerId,jdbcType=VARCHAR}) t
+ 	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
+  </select>
   
+  <select id="selectByExpress" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoExpressExtended">
+  	select * from 
+	(select t.*,rownum TNO from
+ 		(select p.*,d.* from IPO_EXPRESS p left join IPO_DELIVERYORDER d on p.express_id = d.method_id where d.dealer_id = #{dealerId,jdbcType=VARCHAR}) t
+ 	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
+  </select>
   
+  <update id="updateByStatus" parameterType="map">
+  	update IPO_DELIVERYORDER
+    set APPROVAL_STATUS = #{approvalStatus,jdbcType=DECIMAL}
+    where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByUserid" resultMap="BaseResultMap" parameterType="map">
+  select * from 
+	(select t.*,rownum TNO from
+ 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.DEALER_ID = #{dealerId,jdbcType=VARCHAR}) t
+ 	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
+  	
+  </select>
 </mapper>
