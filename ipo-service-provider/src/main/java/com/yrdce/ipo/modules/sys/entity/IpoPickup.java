@@ -7,10 +7,6 @@ public class IpoPickup {
 
 	private String idcardNum;
 
-	private IpoDeliveryorder ipoDeliveryorder;
-
-	private IpoDeliveryCost ipoDeliveryCost;
-
 	public String getPickupId() {
 		return pickupId;
 	}
@@ -24,7 +20,8 @@ public class IpoPickup {
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword
+				.trim();
 	}
 
 	public String getIdcardNum() {
@@ -33,22 +30,6 @@ public class IpoPickup {
 
 	public void setIdcardNum(String idcardNum) {
 		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
-	}
-
-	public IpoDeliveryorder getIpoDeliveryorder() {
-		return ipoDeliveryorder;
-	}
-
-	public void setIpoDeliveryorder(IpoDeliveryorder ipoDeliveryorder) {
-		this.ipoDeliveryorder = ipoDeliveryorder;
-	}
-
-	public IpoDeliveryCost getIpoDeliveryCost() {
-		return ipoDeliveryCost;
-	}
-
-	public void setIpoDeliveryCost(IpoDeliveryCost ipoDeliveryCost) {
-		this.ipoDeliveryCost = ipoDeliveryCost;
 	}
 
 }
