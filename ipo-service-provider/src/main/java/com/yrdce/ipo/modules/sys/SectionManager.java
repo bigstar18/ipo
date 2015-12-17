@@ -85,10 +85,11 @@ public class SectionManager {
 	 * @return
 	 */
 	public boolean isOpenMarketTime(Date date) {
-		if (isTradeTime(date))
-			return true;
+		if (!isTradeDay(date))
+			return false;
 
-		if (isTimeIn5mBeforeSection(date))
+		long in = date.getTime();
+		if (getTimeBeforSection5m(date).getTimeInMillis() <= in && isTimeBeforeLastSection(date))
 			return true;
 		else
 			return false;
@@ -248,6 +249,19 @@ public class SectionManager {
 				if (input >= Integer.parseInt(start) && input < Integer.parseInt(end))
 					return true;
 			}
+		}
+
+		return false;
+	}
+
+	// 是否在最后一个交易节结束前
+	private boolean isTimeBeforeLastSection(Date date) {
+		if (tradetimes != null && tradetimes.size() > 0) {
+			Calendar end = getEndTime(getLastSection(), date);
+
+			long in = date.getTime();
+			if (in < end.getTimeInMillis())
+				return true;
 		}
 
 		return false;
