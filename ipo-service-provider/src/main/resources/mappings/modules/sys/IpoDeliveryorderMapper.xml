@@ -79,6 +79,10 @@
       REMARKS = #{remarks,jdbcType=VARCHAR}
     where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=VARCHAR}
   </update>
+   <update id="cancelDeorder" parameterType="map" >
+    update IPO_DELIVERYORDER  set APPROVAL_STATUS = 6,CANCELER= #{canceller,jdbcType=VARCHAR},CANCEL_DATE=trunc(sysdate)  where DELIVERYORDER_ID = #{deorderId,jdbcType=VARCHAR}
+  </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
     WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
@@ -138,12 +142,50 @@
       </if>
   </select>
   
+  
+   <select id="queryCancelDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
+      <if test="record.deliveryorderId != null" >
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+      </if>
+       <if test="record.applyDate != null" >
+       and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
+      </if>
+      <if test="record.dealerId != null" >
+       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+      </if>
+    order by t.DELIVERYORDER_ID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="getQueryCancelNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
+   	 select count(*) from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
+   	    <if test="record.deliveryorderId != null" >
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+      </if>
+       <if test="record.applyDate != null" >
+       and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
+      </if>
+      <if test="record.dealerId != null" >
+       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  
+  
   <select id="approveDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
     select <include refid="Base_Column_List" />
     from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS = 1 order by t.DELIVERYORDER_ID ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getApproveNum" resultType="java.lang.Integer" >
   	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS = 1
+  </select>
+  
+   <select id="cancelDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in (1,2,3) order by t.DELIVERYORDER_ID ) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="getCancelNum" resultType="java.lang.Integer" >
+  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS in (1,2,3)
   </select>
 
    <select id="sequence" resultType="java.lang.Integer">

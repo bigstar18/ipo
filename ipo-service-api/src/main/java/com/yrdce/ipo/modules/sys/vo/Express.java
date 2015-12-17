@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,8 +22,6 @@ public class Express extends DeliveryOrder {
 	private String address;
 
 	private BigDecimal cost;
-
-	private Date expressDate;
 
 	private String receiver;
 
@@ -52,14 +49,6 @@ public class Express extends DeliveryOrder {
 
 	public void setCost(BigDecimal cost) {
 		this.cost = cost;
-	}
-
-	public Date getExpressDate() {
-		return expressDate;
-	}
-
-	public void setExpressDate(Date expressDate) {
-		this.expressDate = expressDate;
 	}
 
 	public String getReceiver() {

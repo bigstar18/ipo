@@ -10,18 +10,35 @@ import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 
 @MyBatisDao
 public interface IpoDeliveryorderMapper {
-	List<IpoDeliveryorder> findAllDeliOrdersByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoDeliveryorder> findAllDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int getTotalNum();
 
-	List<IpoDeliveryorder> queryAllDeliOrdersByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+	List<IpoDeliveryorder> queryAllDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("record") IpoDeliveryorder record);
 
 	int getQueryNum(@Param("record") IpoDeliveryorder record);
 
-	List<IpoDeliveryorder> approveDeliOrdersByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoDeliveryorder> queryCancelDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("record") IpoDeliveryorder record);
+
+	int getQueryCancelNum(@Param("record") IpoDeliveryorder record);
+
+	List<IpoDeliveryorder> approveDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int getApproveNum();
+
+	List<IpoDeliveryorder> cancelDeliOrdersByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+
+	int getCancelNum();
+
+	void cancelDeorder(@Param("deorderId") String deorderId,
+			@Param("canceller") String cancelId);
 
 	int deleteByPrimaryKey(String deliveryorderId);
 
@@ -37,14 +54,18 @@ public interface IpoDeliveryorderMapper {
 	int sequence();
 
 	// 自提打印列表
-	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
+	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("dealerId") String dealerId);
 
 	// 在线配送列表
-	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
+	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("dealerId") String dealerId);
 
 	// 更新申请单状态
-	int updateByStatus(@Param("deliveryorderId") String deliveryorderId, @Param("status") int status);
+	int updateByStatus(@Param("deliveryorderId") String deliveryorderId,
+			@Param("status") int status);
 
 	// 根据用户ID查询申请主表（提货插叙）
-	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
+	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("userid") String userid);
 }

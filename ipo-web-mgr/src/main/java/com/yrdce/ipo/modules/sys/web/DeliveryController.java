@@ -121,6 +121,50 @@ public class DeliveryController extends BaseController {
 	}
 
 	/**
+	 * 分页返回可撤销提货单列表（模糊查询）
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/QueryCancelByConditions", method = RequestMethod.POST)
+	@ResponseBody
+	public String QueryCancelByConditions(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("applyDate") String applyDate,
+			@RequestParam("dealerId") String dealerId) throws IOException {
+		log.info("模糊查询提货单");
+		try {
+			DeliveryOrder record = new DeliveryOrder();
+			if (!deliveryorderId.equals("")) {
+				record.setDeliveryorderId(deliveryorderId + "%");
+			}
+			if (!applyDate.equals("")) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = sdf.parse(applyDate);
+				record.setApplyDate(date);
+			}
+			if (!dealerId.equals("")) {
+				record.setDealerId(dealerId + "%");
+			}
+			List<DeliveryOrder> dlist = deliveryorderservice
+					.queryCancelDeliOrdersByPage(page, rows, record);
+
+			int totalnums = deliveryorderservice.getQueryCancelNum(record)
+					.intValue();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(dlist);
+			System.out.println(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	/**
 	 * 分页展示待审核提货单
 	 * 
 	 * @param
@@ -136,6 +180,33 @@ public class DeliveryController extends BaseController {
 			List<DeliveryOrder> tlist = deliveryorderservice
 					.approveDeliOrdersByPage(page, rows);
 			int totalnums = deliveryorderservice.getApproveNum();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(tlist);
+			log.info(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 分页展示可撤销提货单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/cancelDeliveryOrders", method = RequestMethod.POST)
+	@ResponseBody
+	public String cancelDeliveryOrders(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
+		log.info("分页查询可撤销提货单");
+		try {
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.cancelDeliOrdersByPage(page, rows);
+			int totalnums = deliveryorderservice.getCancelNum();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
@@ -193,6 +264,31 @@ public class DeliveryController extends BaseController {
 			String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 撤销审核单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/cancelOrders", method = RequestMethod.POST)
+	@ResponseBody
+	public String cancelOrders(@RequestParam("deorderId") String deorderId)
+			throws IOException {
+		log.info("撤销审核单");
+		try {
+			/*
+			 * String userId = ((UserManageVO)
+			 * session.getAttribute("CurrentUser")) .getUserID();
+			 */
+			String userId = "111";
+			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

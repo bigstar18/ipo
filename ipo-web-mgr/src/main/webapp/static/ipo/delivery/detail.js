@@ -36,7 +36,7 @@
 		         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 		       }
 			 });
-		     $("#expressDate").datebox({
+		   /*  $("#expressDate").datebox({
 		    	 editable: false,
 		         required: true,
 		         missingMessage: "必填项，(驳回可不填)",
@@ -55,7 +55,7 @@
 		               $('#expressDate').datebox('setValue', '').datebox('showPanel');
 		           } 
 		       }
-		      });
+		      });*/
 		        $("#deliveryDate").datebox("setValue",$("#picktime").val());
 				$("#applyDate").datebox("setValue",$("#applytime").val());
 		});

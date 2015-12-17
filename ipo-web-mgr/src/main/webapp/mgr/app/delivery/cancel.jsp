@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>提货单注销</title>
-<script src="<%=request.getContextPath()%>/static/ipo/delivery/approve.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/delivery/cancel.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main_body">

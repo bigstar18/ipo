@@ -5,7 +5,6 @@
     <id column="EXPRESS_ID" property="expressId" jdbcType="VARCHAR" />
     <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
     <result column="COST" property="cost" jdbcType="DECIMAL" />
-    <result column="EXPRESS_DATE" property="expressDate" jdbcType="DATE" />
     <result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
     <result column="TEL" property="tel" jdbcType="VARCHAR" />
   </resultMap>
@@ -18,28 +17,27 @@
 	SELECT SEQ_IPO_EXPRESS.NEXTVAL FROM dual
 	</selectKey>
     insert into IPO_EXPRESS (EXPRESS_ID, ADDRESS, COST, 
-      EXPRESS_DATE, RECEIVER, TEL
+       RECEIVER, TEL
       )
     values (#{expressId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{cost,jdbcType=DECIMAL}, 
-      #{expressDate,jdbcType=DATE}, #{receiver,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}
+      #{receiver,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoExpress" >
     update IPO_EXPRESS
     set ADDRESS = #{address,jdbcType=VARCHAR},
       COST = #{cost,jdbcType=DECIMAL},
-      EXPRESS_DATE = #{expressDate,jdbcType=DATE},
       RECEIVER = #{receiver,jdbcType=VARCHAR},
       TEL = #{tel,jdbcType=VARCHAR}
     where EXPRESS_ID = #{expressId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select EXPRESS_ID, ADDRESS, COST, EXPRESS_DATE, RECEIVER, TEL
+    select EXPRESS_ID, ADDRESS, COST, RECEIVER, TEL
     from IPO_EXPRESS
     where EXPRESS_ID = #{expressId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select EXPRESS_ID, ADDRESS, COST, EXPRESS_DATE, RECEIVER, TEL
+    select EXPRESS_ID, ADDRESS, COST, RECEIVER, TEL
     from IPO_EXPRESS
   </select>
 </mapper>

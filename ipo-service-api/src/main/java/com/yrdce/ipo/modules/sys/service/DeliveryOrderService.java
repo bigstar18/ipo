@@ -48,6 +48,25 @@ public interface DeliveryOrderService {
 	public Integer getQueryNum(DeliveryOrder deorder);
 
 	/**
+	 * 分页查询可取消提货单(模糊查询)
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param deorder
+	 * @return
+	 */
+	public List<DeliveryOrder> queryCancelDeliOrdersByPage(String page,
+			String rows, DeliveryOrder deorder);
+
+	/**
+	 * 查询可取消提货单总数(模糊查询)
+	 * 
+	 * @param deorder
+	 * @return
+	 */
+	public Integer getQueryCancelNum(DeliveryOrder deorder);
+
+	/**
 	 * 分页查询待审核提货单
 	 * 
 	 * @param page
@@ -62,6 +81,22 @@ public interface DeliveryOrderService {
 	 * @return
 	 */
 	public Integer getApproveNum();
+
+	/**
+	 * 分页查询可撤销提货单
+	 * 
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public List<DeliveryOrder> cancelDeliOrdersByPage(String page, String rows);
+
+	/**
+	 * 查询可撤销提货单总数
+	 * 
+	 * @return
+	 */
+	public Integer getCancelNum();
 
 	/**
 	 * 根据提货单号查询提货单
@@ -107,4 +142,12 @@ public interface DeliveryOrderService {
 	 */
 	public Express getExpressDetail(String expressId);
 
+	/**
+	 * 撤销提货单
+	 * 
+	 * @param order
+	 * @param express
+	 * @return
+	 */
+	public String cancelDeorder(String deOrderId, String cancellerId);
 }

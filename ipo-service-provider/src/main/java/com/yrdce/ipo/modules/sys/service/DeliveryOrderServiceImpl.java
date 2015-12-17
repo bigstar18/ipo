@@ -236,6 +236,79 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		return null;
 	}
 
+	@Override
+	public List<DeliveryOrder> cancelDeliOrdersByPage(String page, String rows) {
+		Log.info("分页查询可撤销提货单服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<IpoDeliveryorder> dorderslist = deliveryordermapper
+				.cancelDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
+						* pagesize);
+		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
+		for (int i = 0; i < dorderslist.size(); i++) {
+			DeliveryOrder temp = new DeliveryOrder();
+			BeanUtils.copyProperties(dorderslist.get(i), temp);
+			dorderslist2.add(temp);
+			Log.info(temp.toString());
+		}
+		return dorderslist2;
+	}
+
+	@Override
+	public Integer getCancelNum() {
+		return deliveryordermapper.getCancelNum();
+	}
+
+	@Override
+	public String cancelDeorder(String deOrderId, String cancellId) {
+		deliveryordermapper.cancelDeorder(deOrderId, cancellId);
+		IpoDeliveryorder deorder = deliveryordermapper
+				.selectByPrimaryKey(deOrderId);
+		if (deorder != null) {
+			Integer status = deorder.getApprovalStatus();
+			if (status == 6) {
+				return "撤销成功";
+			}
+		}
+		return "撤销失败";
+	}
+
+	@Override
+	public List<DeliveryOrder> queryCancelDeliOrdersByPage(String page,
+			String rows, DeliveryOrder deorder) {
+		Log.info("分页模糊查询提货单服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		IpoDeliveryorder record = new IpoDeliveryorder();
+		if (deorder != null) {
+			BeanUtils.copyProperties(deorder, record);
+		}
+		List<IpoDeliveryorder> dorderslist = deliveryordermapper
+				.queryCancelDeliOrdersByPage((curpage - 1) * pagesize + 1,
+						curpage * pagesize, record);
+		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
+		for (int i = 0; i < dorderslist.size(); i++) {
+			DeliveryOrder temp = new DeliveryOrder();
+			BeanUtils.copyProperties(dorderslist.get(i), temp);
+			dorderslist2.add(temp);
+			Log.info(temp.toString());
+		}
+		return dorderslist2;
+	}
+
+	@Override
+	public Integer getQueryCancelNum(DeliveryOrder deorder) {
+		IpoDeliveryorder order = new IpoDeliveryorder();
+		if (deorder != null) {
+			BeanUtils.copyProperties(deorder, order);
+		}
+		return deliveryordermapper.getQueryCancelNum(order);
+	}
+
 	public String genRandomNum() {
 		final int maxNum = 36;
 		int i;
