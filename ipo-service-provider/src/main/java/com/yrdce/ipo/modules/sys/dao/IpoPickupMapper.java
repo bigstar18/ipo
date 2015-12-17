@@ -17,4 +17,6 @@ public interface IpoPickupMapper {
 
 	int updateByPrimaryKey(IpoPickup record);
 
+	IpoPickup selectPickuoAndCost(String methodid, String deliveryorderid);
+
 }

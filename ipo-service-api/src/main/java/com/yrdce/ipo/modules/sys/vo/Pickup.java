@@ -11,12 +11,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup extends DeliveryCost {
+public class Pickup {
 	private String pickupId;
 
 	private String pickupPassword;
 
 	private String idcardNum;
+
+	private DeliveryCost deliveryCost;
+
+	private DeliveryOrder deliveryOrder;
 
 	public String getPickupId() {
 		return pickupId;
@@ -41,4 +45,21 @@ public class Pickup extends DeliveryCost {
 	public void setIdcardNum(String idcardNum) {
 		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
 	}
+
+	public DeliveryCost getDeliveryCost() {
+		return deliveryCost;
+	}
+
+	public void setDeliveryCost(DeliveryCost deliveryCost) {
+		this.deliveryCost = deliveryCost;
+	}
+
+	public DeliveryOrder getDeliveryOrder() {
+		return deliveryOrder;
+	}
+
+	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
+		this.deliveryOrder = deliveryOrder;
+	}
+
 }

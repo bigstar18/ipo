@@ -15,19 +15,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DeliveryCost {
-	public String deliveryId;
+	private String deliveryId;
 
-	public String deliveryMethod;
+	private String deliveryMethod;
 
-	public Date applyDate;
+	private Date applyDate;
 
-	public BigDecimal insurance;
+	private BigDecimal insurance;
 
-	public BigDecimal trusteeFee;
+	private BigDecimal trusteeFee;
 
-	public BigDecimal warehousingFee;
+	private BigDecimal warehousingFee;
 
-	public BigDecimal deliveryFee;
+	private BigDecimal deliveryFee;
 
 	public String getDeliveryId() {
 		return deliveryId;

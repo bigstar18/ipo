@@ -22,7 +22,7 @@ public interface SettlementDeliveryService {
 	// 自提打印
 	public List<DeliveryOrder> getApplication(String page, String rows, String userid) throws Exception;
 
-	public Pickup getDetail(String deliveryorderid) throws Exception;
+	public Pickup getDetail(String methodid, String deliveryorderid) throws Exception;
 
 	// 撤销提货
 	public String getRevocation(String deliveryorderid) throws Exception;
@@ -30,7 +30,7 @@ public interface SettlementDeliveryService {
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception;
 
-	public String confirm();
+	public Express confirm(String methodid, String deliveryorderid) throws Exception;
 
 	// 提货查询
 	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception;

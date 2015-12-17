@@ -18,7 +18,7 @@ public class IpoExpress {
 	}
 
 	public void setExpressId(String expressId) {
-		this.expressId = expressId == null ? null : expressId.trim();
+		this.expressId = expressId;
 	}
 
 	public String getAddress() {
@@ -26,7 +26,7 @@ public class IpoExpress {
 	}
 
 	public void setAddress(String address) {
-		this.address = address == null ? null : address.trim();
+		this.address = address;
 	}
 
 	public BigDecimal getCost() {
@@ -42,7 +42,7 @@ public class IpoExpress {
 	}
 
 	public void setReceiver(String receiver) {
-		this.receiver = receiver == null ? null : receiver.trim();
+		this.receiver = receiver;
 	}
 
 	public String getTel() {
@@ -50,6 +50,7 @@ public class IpoExpress {
 	}
 
 	public void setTel(String tel) {
-		this.tel = tel == null ? null : tel.trim();
+		this.tel = tel;
 	}
+
 }

@@ -1,33 +1,54 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 public class IpoPickup {
-    private String pickupId;
+	private String pickupId;
 
-    private String pickupPassword;
+	private String pickupPassword;
 
-    private String idcardNum;
+	private String idcardNum;
 
-    public String getPickupId() {
-        return pickupId;
-    }
+	private IpoDeliveryorder ipoDeliveryorder;
 
-    public void setPickupId(String pickupId) {
-        this.pickupId = pickupId == null ? null : pickupId.trim();
-    }
+	private IpoDeliveryCost ipoDeliveryCost;
 
-    public String getPickupPassword() {
-        return pickupPassword;
-    }
+	public String getPickupId() {
+		return pickupId;
+	}
 
-    public void setPickupPassword(String pickupPassword) {
-        this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
-    }
+	public void setPickupId(String pickupId) {
+		this.pickupId = pickupId == null ? null : pickupId.trim();
+	}
 
-    public String getIdcardNum() {
-        return idcardNum;
-    }
+	public String getPickupPassword() {
+		return pickupPassword;
+	}
 
-    public void setIdcardNum(String idcardNum) {
-        this.idcardNum = idcardNum == null ? null : idcardNum.trim();
-    }
+	public void setPickupPassword(String pickupPassword) {
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
+	}
+
+	public String getIdcardNum() {
+		return idcardNum;
+	}
+
+	public void setIdcardNum(String idcardNum) {
+		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
+	}
+
+	public IpoDeliveryorder getIpoDeliveryorder() {
+		return ipoDeliveryorder;
+	}
+
+	public void setIpoDeliveryorder(IpoDeliveryorder ipoDeliveryorder) {
+		this.ipoDeliveryorder = ipoDeliveryorder;
+	}
+
+	public IpoDeliveryCost getIpoDeliveryCost() {
+		return ipoDeliveryCost;
+	}
+
+	public void setIpoDeliveryCost(IpoDeliveryCost ipoDeliveryCost) {
+		this.ipoDeliveryCost = ipoDeliveryCost;
+	}
+
 }

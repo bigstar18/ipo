@@ -2,7 +2,8 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 
-public class IpoExpressExtended extends IpoDeliveryCost  {
+public class IpoExpressExtended extends IpoDeliveryCost {
+
 	private String expressId;
 
 	private String address;
@@ -18,7 +19,7 @@ public class IpoExpressExtended extends IpoDeliveryCost  {
 	}
 
 	public void setExpressId(String expressId) {
-		this.expressId = expressId == null ? null : expressId.trim();
+		this.expressId = expressId;
 	}
 
 	public String getAddress() {
@@ -26,7 +27,7 @@ public class IpoExpressExtended extends IpoDeliveryCost  {
 	}
 
 	public void setAddress(String address) {
-		this.address = address == null ? null : address.trim();
+		this.address = address;
 	}
 
 	public BigDecimal getCost() {
@@ -42,7 +43,7 @@ public class IpoExpressExtended extends IpoDeliveryCost  {
 	}
 
 	public void setReceiver(String receiver) {
-		this.receiver = receiver == null ? null : receiver.trim();
+		this.receiver = receiver;
 	}
 
 	public String getTel() {
@@ -50,6 +51,7 @@ public class IpoExpressExtended extends IpoDeliveryCost  {
 	}
 
 	public void setTel(String tel) {
-		this.tel = tel == null ? null : tel.trim();
+		this.tel = tel;
 	}
+
 }
