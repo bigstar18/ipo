@@ -15,25 +15,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DeliveryCost {
-	private Long deliveryId;
+	public String deliveryId;
 
-	private String deliveryMethod;
+	public String deliveryMethod;
 
-	private Date applyDate;
+	public Date applyDate;
 
-	private BigDecimal insurance;
+	public BigDecimal insurance;
 
-	private BigDecimal trusteeFee;
+	public BigDecimal trusteeFee;
 
-	private BigDecimal warehousingFee;
+	public BigDecimal warehousingFee;
 
-	private BigDecimal deliveryFee;
+	public BigDecimal deliveryFee;
 
-	public Long getDeliveryId() {
+	public String getDeliveryId() {
 		return deliveryId;
 	}
 
-	public void setDeliveryId(Long deliveryId) {
+	public void setDeliveryId(String deliveryId) {
 		this.deliveryId = deliveryId;
 	}
 

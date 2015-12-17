@@ -20,12 +20,12 @@ public interface SettlementDeliveryService {
 	public String applicationByexpress(Express express) throws Exception;
 
 	// 自提打印
-	public List<Pickup> getApplication(String page, String rows, String userid) throws Exception;
+	public List<DeliveryOrder> getApplication(String page, String rows, String userid) throws Exception;
 
-	public Pickup getDetail() throws Exception;
+	public Pickup getDetail(String deliveryorderid) throws Exception;
 
 	// 撤销提货
-	public String getRevocation(String DELIVERYORDER_ID) throws Exception;
+	public String getRevocation(String deliveryorderid) throws Exception;
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception;
@@ -35,9 +35,9 @@ public interface SettlementDeliveryService {
 	// 提货查询
 	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception;
 
-	public Pickup getDetailByPickup(long methodid) throws Exception;
+	public Pickup getDetailByPickup(String methodid) throws Exception;
 
-	public Express getDetailByExpress(long methodid) throws Exception;
+	public Express getDetailByExpress(String methodid) throws Exception;
 
 	// 费用查询
 	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception;

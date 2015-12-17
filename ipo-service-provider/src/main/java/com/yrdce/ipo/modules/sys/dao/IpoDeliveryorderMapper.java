@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
-import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 
 @MyBatisDao
 public interface IpoDeliveryorderMapper {
@@ -38,7 +37,7 @@ public interface IpoDeliveryorderMapper {
 	int sequence();
 
 	// 自提打印列表
-	List<IpoPickupExtended> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
+	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
 
 	// 在线配送列表
 	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);

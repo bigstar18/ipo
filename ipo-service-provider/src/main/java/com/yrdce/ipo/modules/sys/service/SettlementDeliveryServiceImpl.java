@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
@@ -19,7 +20,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
-import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
@@ -42,6 +42,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
 	@Autowired
 	private IpoExpressMapper ipoExpressMapper;
+	@Autowired
+	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
 
 	// 自提申请
 	@Override
@@ -95,19 +97,19 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提打印
 	@Override
-	public List<Pickup> getApplication(String page, String rows, String userid) throws Exception {
+	public List<DeliveryOrder> getApplication(String page, String rows, String userid) throws Exception {
 		logger.info("自提打印");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoPickupExtended> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
-		List<Pickup> list2 = new ArrayList<Pickup>();
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
+		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		if (list1.size() != 0) {
-			for (IpoPickupExtended ipoPickupExtended : list1) {
-				Pickup pickup = new Pickup();
-				BeanUtils.copyProperties(ipoPickupExtended, pickup);
-				list2.add(pickup);
+			for (IpoDeliveryorder ipoDeliveryorder : list1) {
+				DeliveryOrder deliveryOrder = new DeliveryOrder();
+				BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+				list2.add(deliveryOrder);
 			}
 			return list2;
 		}
@@ -116,7 +118,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提信息信息
 	@Override
-	public Pickup getDetail() throws Exception {
+	public Pickup getDetail(String deliveryorderid) throws Exception {
 		logger.info("自提信息信息");
 
 		return null;
@@ -124,9 +126,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 撤销申请
 	@Override
-	public String getRevocation(String deliveryorderId) throws Exception {
+	public String getRevocation(String deliveryorderid) throws Exception {
 		logger.info("撤销申请");
-		ipoDeliveryorderMapper.updateByStatus(deliveryorderId, 5);
+		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, 5);
 		return "success";
 	}
 
@@ -181,22 +183,29 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 提货查询(自提)详细信息
 	@Override
-	public Pickup getDetailByPickup(long methodid) throws Exception {
+	public Pickup getDetailByPickup(String methodid) throws Exception {
 		logger.info("提货查询(自提)详细信息");
-		return null;
+		IpoPickup ipoPickup = ipoPickupMapper.selectByPrimaryKey(methodid);
+		Pickup pickup = new Pickup();
+		BeanUtils.copyProperties(ipoPickup, pickup);
+		return pickup;
 	}
 
 	// 提货查询(在线配送)详细信息
 	@Override
-	public Express getDetailByExpress(long methodid) throws Exception {
+	public Express getDetailByExpress(String methodid) throws Exception {
 		logger.info("提货查询(在线配送)详细信息");
-		return null;
+		IpoExpress ipoExpress = ipoExpressMapper.selectByPrimaryKey(methodid);
+		Express express = new Express();
+		BeanUtils.copyProperties(ipoExpress, express);
+		return express;
 	}
 
 	// 费用查询
 	@Override
 	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception {
 		logger.info("费用查询");
+
 		return null;
 	}
 

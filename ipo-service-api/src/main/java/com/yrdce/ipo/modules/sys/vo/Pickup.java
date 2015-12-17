@@ -11,12 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup extends DeliveryOrder {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class Pickup extends DeliveryCost {
 	private String pickupId;
 
 	private String pickupPassword;
@@ -36,8 +31,7 @@ public class Pickup extends DeliveryOrder {
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword
-				.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
 	}
 
 	public String getIdcardNum() {

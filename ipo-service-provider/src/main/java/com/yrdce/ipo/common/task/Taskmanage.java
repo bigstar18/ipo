@@ -108,51 +108,53 @@ public class Taskmanage extends TimerTask {
 					int commCounts = ipoComm.getCounts();// 改商品的发行数量
 					System.out.println("开始获取申购总量" + commId);
 					int saleCounts = order.bycommodityid(commId);// 根据发售id获取申购总量
-					System.out.println("成功获取申购总量" + saleCounts);
-					// 摇号开始
-					System.out.println(ipoComm.getCommodityid() + "订单摇号开始");
-					List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
-					System.out.println(ipoComm.getCommodityid() + "订单摇号结束");
-					// 查找所有此商品的申购记录
-					System.out.println("申购记录查询开始");
-					List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
-					System.out.println("申购记录查询成功");
-					int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
-					// 号码匹配
-					System.out.println("中签号匹配开始");
-					for (IpoDistribution ipoDis : ipoDidList) {
-						int userGetNum = 0;
-						System.out.println(ipoDis.getUserid() + "尾号个数" + endNumList.size());
-						System.out.println(ipoDis.getUserid() + "起始号码" + ipoDis.getStartnumber());
-						System.out.println(ipoDis.getUserid() + "匹配个数" + ipoDis.getPcounts());
+					if (saleCounts != 0) {
+						System.out.println("成功获取申购总量" + saleCounts);
+						// 摇号开始
+						System.out.println(ipoComm.getCommodityid() + "订单摇号开始");
+						List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
+						System.out.println(ipoComm.getCommodityid() + "订单摇号结束");
+						// 查找所有此商品的申购记录
+						System.out.println("申购记录查询开始");
+						List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
+						System.out.println("申购记录查询成功");
+						int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
+						// 号码匹配
+						System.out.println("中签号匹配开始");
+						for (IpoDistribution ipoDis : ipoDidList) {
+							int userGetNum = 0;
+							System.out.println(ipoDis.getUserid() + "尾号个数" + endNumList.size());
+							System.out.println(ipoDis.getUserid() + "起始号码" + ipoDis.getStartnumber());
+							System.out.println(ipoDis.getUserid() + "匹配个数" + ipoDis.getPcounts());
+							for (String endNum : endNumList) {
+
+								userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+							}
+							System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
+							ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
+							ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
+							commodity.updateByStatus(2, commId);
+						}
+						System.out.println("中签号匹配完成");
+						System.out.println(commId + "尾号记录开始");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Date dt = sdf.parse(DateUtil.getTime(0));
+						// 将尾号记录到数据库
 						for (String endNum : endNumList) {
 
-							userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+							ipoBallotNoInfo.setBallotno(endNum);
+							ipoBallotNoInfo.setBallotnoendlen(Integer.valueOf(numLength).shortValue());
+							ipoBallotNoInfo.setBallotnostartlen(Integer.valueOf(numLength - endNum.length()).shortValue());
+							ipoBallotNoInfo.setCommodityid(commId);
+							ipoBallotNoInfo.setCreatetime(dt);
+							ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
+
 						}
-						System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
-						ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
-						ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
-						commodity.updateByStatus(2, commId);
+						System.out.println(commId + "尾号记录成功");
 					}
-					System.out.println("中签号匹配完成");
-					System.out.println(commId + "尾号记录开始");
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					Date dt = sdf.parse(DateUtil.getTime(0));
-					// 将尾号记录到数据库
-					for (String endNum : endNumList) {
-
-						ipoBallotNoInfo.setBallotno(endNum);
-						ipoBallotNoInfo.setBallotnoendlen(Integer.valueOf(numLength).shortValue());
-						ipoBallotNoInfo.setBallotnostartlen(Integer.valueOf(numLength - endNum.length()).shortValue());
-						ipoBallotNoInfo.setCommodityid(commId);
-						ipoBallotNoInfo.setCreatetime(dt);
-						ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
-
-					}
-					System.out.println(commId + "尾号记录成功");
 				}
-
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

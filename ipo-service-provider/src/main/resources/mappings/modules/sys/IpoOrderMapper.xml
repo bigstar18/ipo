@@ -290,7 +290,7 @@
   </update>
   
   <select id="bycommodityid" parameterType="java.lang.String" resultType="java.lang.Integer" >
-  	select sum(counts) from ipo_order where commodityid = #{commodityid,jdbcType=VARCHAR}
+  	select nvl(sum(counts),0) from ipo_order where commodityid = #{commodityid,jdbcType=VARCHAR}
   </select>
   
   <select id="selectByid" resultMap="BaseResultMap" parameterType="map" >
