@@ -65,7 +65,9 @@
             							<c:if test="${entity.deliveryMethod == '在线配送'}">
             								 <input id="deliveryMethod" type="text" name="deliveryMethod" value="在线配送" readonly="readonly"/>
             							</c:if>
-            							<input id="methodId" type="hidden" name="methodId" value="${entity.methodId }" readonly="readonly"/>
+            							<input id="methodId" type="hidden" name="methodId" value="${entity.methodId }"/>
+            							<input id="deliveryCounts" type="hidden" name="deliveryCounts" value="${entity.deliveryCounts }"/>
+            							<input id="position" type="hidden" name="position" value="${entity.position }"/>
 										</td>
 							        </tr> 
 							         <tr>
@@ -87,14 +89,15 @@
 	      								<td>
 	      								    <input id="unit" type="text" name="unit" value="${entity.unit }" readonly="readonly"/>
 		          						</td>
+		          						<td align="right" width="90">申请日期：</td>     
+            							<td><input type="hidden" value="${applyDate }" id="applytime"/>
+            								 <input id="applyDate" type="text" name="applyDate" value="" disabled="disabled"/>
+										</td>
 										<td align="right" width="110">提货日期：</td>     
             							<td> <input type="hidden" value="${deliveryDate }" id="picktime"/>
-            								 <input id="deliveryDate" type="text" name="deliveryDate" value="" readonly="readonly"/>
+            								 <input id="deliveryDate" type="text" name="deliveryDate" value="" disabled="disabled"/>
 										</td>
-										<td align="right" width="90">申请日期：</td>     
-            							<td><input type="hidden" value="${applyDate }" id="applytime"/>
-            								 <input id="applyDate" type="text" name="applyDate" value="" readonly="readonly"/>
-										</td>
+										
 							        </tr> 
 							        <c:if test="${flag == 'pickup'}"> 
 							        <tr>
@@ -108,7 +111,7 @@
 										</td>
 										<td align="right" width="90">审核意见：</td>
 	      								<td>
-	      								 <select id="approvalStatus" name="approvalStatus" style="width:142">
+	      								 <select id="approvalStatus" name="approvalStatus" style="width:128px">
 												<option value=""></option>
 											    <option value="2">通过</option>
 												<option value="3">驳回</option>
@@ -132,24 +135,23 @@
 										</td>
 							        </tr> 
 							         <tr>
-        			 					<td align="right" width="108">配送费：</td>
-	      								<td>
-	      								    <input id="cost" type="text" name="cost"
-	      								    class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"/>
-		          						    <span class="required">*</span>
-		          						</td>
-										<td align="right" width="110">配送日期：</td>     
-            							<td> 
-            								 <input id="expressDate" type="text" name="expressDate" />
-            								  <input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
-										</td>
-										<td align="right" width="90">审核意见：</td>
+							            <td align="right" width="108">审核意见：</td>
 	      								<td>
 	      								 <select id="approvalStatus" name="approvalStatus" style="width:142">
 												<option value=""></option>
 											    <option value="2">通过</option>
 												<option value="3">驳回</option>
 										   </select> <span class="required">*</span> 
+										</td>
+        			 					<td align="right" width="110">配送费：</td>
+	      								<td>
+	      								    <input id="cost" type="text" name="cost"
+	      								    class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'精度为2的正数(驳回可不填)'"/>
+		          						</td>
+										<td align="right" width="90">配送日期：</td>     
+            							<td> 
+            								 <input id="expressDate" type="text" name="expressDate" />
+            								  <input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
 										</td>
 							        </tr> 
 							        </c:if>

@@ -78,7 +78,8 @@ public interface DeliveryOrderService {
 	 * @param pickup
 	 * @return
 	 */
-	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup);
+	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup,
+			String managerId);
 
 	/**
 	 * 审核配送提货单
@@ -87,7 +88,8 @@ public interface DeliveryOrderService {
 	 * @param express
 	 * @return
 	 */
-	public String updateDeliveryOrder(DeliveryOrder order, Express express);
+	public String updateDeliveryOrder(DeliveryOrder order, Express express,
+			String managerId);
 
 	/**
 	 * 查询自提详细信息

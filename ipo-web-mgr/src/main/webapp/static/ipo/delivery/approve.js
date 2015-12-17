@@ -209,7 +209,7 @@ function doSearch(){
              align: "center",
              title : '操作' ,
              formatter:function(value,row){
-         	   return "<input type=\"button\" onclick=\"getCommBelonged("+row.deliveryorderId+")\" value=\"审核\"/>";
+         	   return "<input type=\"button\" onclick=\"approve("+row.deliveryorderId+")\" value=\"审核\"/>";
          }
           }
          ]],  

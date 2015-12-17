@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -154,11 +156,16 @@ public class DeliveryController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkPorders(DeliveryOrder deorder, Pickup detail)
-			throws IOException {
+	public String checkPorders(DeliveryOrder deorder, Pickup detail,
+			HttpSession session) throws IOException {
 		log.info("进行自提方式提货单审核");
 		try {
-			deliveryorderservice.updateDeliveryOrder(deorder, detail);
+			/*
+			 * String userId = ((UserManageVO)
+			 * session.getAttribute("CurrentUser")) .getUserID();
+			 */
+			String userId = "111";
+			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,11 +182,16 @@ public class DeliveryController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkEorders(DeliveryOrder deorder, Express detail)
-			throws IOException {
+	public String checkEorders(DeliveryOrder deorder, Express detail,
+			HttpSession session) throws IOException {
 		log.info("进行在线配送方式提货单审核");
 		try {
-			deliveryorderservice.updateDeliveryOrder(deorder, detail);
+			/*
+			 * String userId = ((UserManageVO)
+			 * session.getAttribute("CurrentUser")) .getUserID();
+			 */
+			String userId = "111";
+			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();

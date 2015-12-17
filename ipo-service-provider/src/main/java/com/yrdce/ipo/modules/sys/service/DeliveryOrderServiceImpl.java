@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -138,7 +139,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup) {
+	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup,
+			String managerId) {
 		Log.info("审核自提提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		IpoPickup ipopickup = new IpoPickup();
@@ -146,10 +148,14 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			if (pickup != null) {
 				BeanUtils.copyProperties(order, deorder);
 				BeanUtils.copyProperties(pickup, ipopickup);
-				ipopickup.setPickupPassword(genRandomNum());
+				deorder.setApproveDate(new Date());
+				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
-				int pnum = ipopickupmapper.updateByPrimaryKey(ipopickup);
-				if (onum != 0 && pnum != 0) {
+				if (order.getApprovalStatus() == 2) {
+					ipopickup.setPickupPassword(genRandomNum());
+					ipopickupmapper.updateByPrimaryKey(ipopickup);
+				}
+				if (onum != 0) {
 					return "已审核";
 				}
 			}
@@ -159,7 +165,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Express express) {
+	public String updateDeliveryOrder(DeliveryOrder order, Express express,
+			String managerId) {
 		Log.info("审核配送提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		IpoExpress ipoexpress = new IpoExpress();
@@ -167,9 +174,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			if (express != null) {
 				BeanUtils.copyProperties(order, deorder);
 				BeanUtils.copyProperties(express, ipoexpress);
+				deorder.setApproveDate(new Date());
+				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
-				int exnum = ipoexpressmapper.updateByPrimaryKey(ipoexpress);
-				if (onum != 0 && exnum != 0) {
+				if (order.getApprovalStatus() == 2) {
+					ipoexpressmapper.updateByPrimaryKey(ipoexpress);
+				}
+				if (onum != 0) {
 					return "已审核";
 				}
 			}

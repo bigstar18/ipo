@@ -39,7 +39,7 @@
 		     $("#expressDate").datebox({
 		    	 editable: false,
 		         required: true,
-		         missingMessage: "必填项",
+		         missingMessage: "必填项，(驳回可不填)",
 		         formatter: function (date) {
 		         var y = date.getFullYear();
 		         var m = date.getMonth() + 1;
@@ -58,8 +58,6 @@
 		      });
 		        $("#deliveryDate").datebox("setValue",$("#picktime").val());
 				$("#applyDate").datebox("setValue",$("#applytime").val());
-				$("#applyDate").attr("readonly","readonly");
-				$("#deliveryDate").attr("readonly","readonly");
 		});
 		
 function parseISO8601(dateStringInRange) {
@@ -98,16 +96,15 @@ function updatePickup(){
                                            alert("系统异常，请联系管理员!");  
                                        }  
                                    }); 
-            }
-			else{
-					alert("所有参数必填！");
+            }else{
+			 alert("请填入必填参数!");  
 		}
 }
 
 function updateExpress(){
 	var approvalStatus=$("#approvalStatus").val();
 	var flag= $('#frm').form('validate');
-	if(approvalStatus!= ''&&flag==true){
+	if(approvalStatus== '2'&&flag==true){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
@@ -125,9 +122,27 @@ function updateExpress(){
                                            alert("系统异常，请联系管理员!");  
                                        }  
                                    }); 
-            }
+            }else if(approvalStatus== '3'){
+		                    $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: getRootPath () +"/DeliveryController/checkPorders",       
+                                       data: $("#frm").serialize(),      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("审核完成！"); 
+                                           returntoList();
+                                    	   }else{
+                                    		   alert("系统异常，请联系管理员");  
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("系统异常，请联系管理员!");  
+                                       }  
+                                   }); 
+		}
 			else{
-					alert("所有参数必填！");
+					alert("请填入必填参数!");
 		}
 }
 function returntoList(){
