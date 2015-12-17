@@ -66,7 +66,6 @@ create table IPO_EXPRESS
    EXPRESS_ID           VARCHAR2(32)         not null,
    ADDRESS              VARCHAR2(200),
    COST                 NUMBER(32,2),
-   EXPRESS_DATE         DATE,
    RECEIVER             VARCHAR2(32),
    TEL                  VARCHAR2(32),
    constraint PK_IPO_EXPRESS primary key (EXPRESS_ID)
