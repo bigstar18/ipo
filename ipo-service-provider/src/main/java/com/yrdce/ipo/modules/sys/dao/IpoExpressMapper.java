@@ -16,4 +16,6 @@ public interface IpoExpressMapper {
 	List<IpoExpress> selectAll();
 
 	int updateByPrimaryKey(IpoExpress record);
+
+	IpoExpress selectExpressAndCost(String methodid, String deliveryorderid);
 }

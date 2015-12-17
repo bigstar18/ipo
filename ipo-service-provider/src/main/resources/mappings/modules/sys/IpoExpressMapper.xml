@@ -42,4 +42,10 @@
     select EXPRESS_ID, ADDRESS, COST, EXPRESS_DATE, RECEIVER, TEL
     from IPO_EXPRESS
   </select>
+  <select id="selectExpressAndCost" parameterType="java.lang.String" resultType="com.yrdce.ipo.modules.sys.entity.IpoExpress">
+  	select p.*,t.* from ipo_deliveryorder d left join ipo_delivery_cost p on d.DELIVERYORDER_ID = p.delivery_id 
+	left join IPO_EXPRESS t on t.EXPRESS_ID = d.method_id where d.deliveryorderId = #{deliveryorderId,jdbcType=VARCHAR} 
+	and d.method_id = #{methodid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

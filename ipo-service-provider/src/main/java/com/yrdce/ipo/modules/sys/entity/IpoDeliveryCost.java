@@ -4,73 +4,73 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoDeliveryCost {
-    private String deliveryId;
+	public String deliveryId;
 
-    private String deliveryMethod;
+	public String deliveryMethod;
 
-    private Date applyDate;
+	public Date applyDate;
 
-    private BigDecimal insurance;
+	public BigDecimal insurance;
 
-    private BigDecimal trusteeFee;
+	public BigDecimal trusteeFee;
 
-    private BigDecimal warehousingFee;
+	public BigDecimal warehousingFee;
 
-    private BigDecimal deliveryFee;
+	public BigDecimal deliveryFee;
 
-    public String getDeliveryId() {
-        return deliveryId;
-    }
+	public String getDeliveryId() {
+		return deliveryId;
+	}
 
-    public void setDeliveryId(String deliveryId) {
-        this.deliveryId = deliveryId == null ? null : deliveryId.trim();
-    }
+	public void setDeliveryId(String deliveryId) {
+		this.deliveryId = deliveryId == null ? null : deliveryId.trim();
+	}
 
-    public String getDeliveryMethod() {
-        return deliveryMethod;
-    }
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
 
-    public void setDeliveryMethod(String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
-    }
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
+	}
 
-    public Date getApplyDate() {
-        return applyDate;
-    }
+	public Date getApplyDate() {
+		return applyDate;
+	}
 
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
-    }
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
+	}
 
-    public BigDecimal getInsurance() {
-        return insurance;
-    }
+	public BigDecimal getInsurance() {
+		return insurance;
+	}
 
-    public void setInsurance(BigDecimal insurance) {
-        this.insurance = insurance;
-    }
+	public void setInsurance(BigDecimal insurance) {
+		this.insurance = insurance;
+	}
 
-    public BigDecimal getTrusteeFee() {
-        return trusteeFee;
-    }
+	public BigDecimal getTrusteeFee() {
+		return trusteeFee;
+	}
 
-    public void setTrusteeFee(BigDecimal trusteeFee) {
-        this.trusteeFee = trusteeFee;
-    }
+	public void setTrusteeFee(BigDecimal trusteeFee) {
+		this.trusteeFee = trusteeFee;
+	}
 
-    public BigDecimal getWarehousingFee() {
-        return warehousingFee;
-    }
+	public BigDecimal getWarehousingFee() {
+		return warehousingFee;
+	}
 
-    public void setWarehousingFee(BigDecimal warehousingFee) {
-        this.warehousingFee = warehousingFee;
-    }
+	public void setWarehousingFee(BigDecimal warehousingFee) {
+		this.warehousingFee = warehousingFee;
+	}
 
-    public BigDecimal getDeliveryFee() {
-        return deliveryFee;
-    }
+	public BigDecimal getDeliveryFee() {
+		return deliveryFee;
+	}
 
-    public void setDeliveryFee(BigDecimal deliveryFee) {
-        this.deliveryFee = deliveryFee;
-    }
+	public void setDeliveryFee(BigDecimal deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
 }

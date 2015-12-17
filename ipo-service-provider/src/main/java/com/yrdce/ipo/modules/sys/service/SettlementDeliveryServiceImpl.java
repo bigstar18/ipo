@@ -31,7 +31,7 @@ import com.yrdce.ipo.modules.sys.vo.Pickup;
  * @author Bob
  *
  */
-@Service()
+@Service
 public class SettlementDeliveryServiceImpl implements SettlementDeliveryService {
 
 	static Logger logger = LoggerFactory.getLogger(SettlementDeliveryServiceImpl.class);
@@ -116,16 +116,19 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return null;
 	}
 
-	// 自提信息信息
+	// 自提详细信息
 	@Override
-	public Pickup getDetail(String deliveryorderid) throws Exception {
+	public Pickup getDetail(String methodid, String deliveryorderid) throws Exception {
 		logger.info("自提信息信息");
-
-		return null;
+		IpoPickup ipoPickup = ipoPickupMapper.selectPickuoAndCost(methodid, deliveryorderid);
+		Pickup pickup = new Pickup();
+		BeanUtils.copyProperties(ipoPickup, pickup);
+		return pickup;
 	}
 
 	// 撤销申请
 	@Override
+	@Transactional
 	public String getRevocation(String deliveryorderid) throws Exception {
 		logger.info("撤销申请");
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, 5);
@@ -155,9 +158,12 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 在线配送详细信息
 	@Override
-	public String confirm() {
+	public Express confirm(String methodid, String deliveryorderid) throws Exception {
 		logger.info("在线配送详细信息");
-		return "success";
+		IpoExpress ipoExpress = ipoExpressMapper.selectExpressAndCost(methodid, deliveryorderid);
+		Express express = new Express();
+		BeanUtils.copyProperties(ipoExpress, express);
+		return express;
 	}
 
 	// 提货查询
@@ -181,7 +187,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return null;
 	}
 
-	// 提货查询(自提)详细信息
+	// 提货查询(自提)详细信息<暂不用>
 	@Override
 	public Pickup getDetailByPickup(String methodid) throws Exception {
 		logger.info("提货查询(自提)详细信息");
@@ -191,7 +197,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return pickup;
 	}
 
-	// 提货查询(在线配送)详细信息
+	// 提货查询(在线配送)详细信息<暂不用>
 	@Override
 	public Express getDetailByExpress(String methodid) throws Exception {
 		logger.info("提货查询(在线配送)详细信息");
