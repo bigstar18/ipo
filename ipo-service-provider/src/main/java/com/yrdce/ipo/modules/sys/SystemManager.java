@@ -139,6 +139,7 @@ public class SystemManager {
 				listener.interrupt();
 				return this.status;
 			}
+			lockStatus.compareAndSet(true, false);
 		}
 		return null;
 	}
@@ -162,6 +163,7 @@ public class SystemManager {
 				listener.interrupt();
 				return this.status;
 			}
+			lockStatus.compareAndSet(true, false);
 		}
 		return null;
 	}
@@ -203,6 +205,7 @@ public class SystemManager {
 				listener.interrupt();
 				return this.status;
 			}
+			lockStatus.compareAndSet(true, false);
 		}
 		return null;
 	}
