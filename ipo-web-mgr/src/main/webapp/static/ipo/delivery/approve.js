@@ -7,7 +7,8 @@ $(document).ready(function() {
          pageSize:10,  
          pageList:[5,10,15],  
          singleSelect:true,
-         toolbar:"#tb",  
+         toolbar:"#tb", 
+         nowrap:true,
          url:  getRootPath () + "/DeliveryController/approveDeliveryOrders" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   

@@ -25,10 +25,6 @@ public class Express {
 
 	private String tel;
 
-	private DeliveryCost deliveryCost;
-
-	private DeliveryOrder deliveryOrder;
-
 	public String getExpressId() {
 		return expressId;
 	}
@@ -67,22 +63,6 @@ public class Express {
 
 	public void setTel(String tel) {
 		this.tel = tel == null ? null : tel.trim();
-	}
-
-	public DeliveryCost getDeliveryCost() {
-		return deliveryCost;
-	}
-
-	public void setDeliveryCost(DeliveryCost deliveryCost) {
-		this.deliveryCost = deliveryCost;
-	}
-
-	public DeliveryOrder getDeliveryOrder() {
-		return deliveryOrder;
-	}
-
-	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
-		this.deliveryOrder = deliveryOrder;
 	}
 
 }

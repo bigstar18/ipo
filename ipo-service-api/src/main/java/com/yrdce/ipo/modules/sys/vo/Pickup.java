@@ -18,10 +18,6 @@ public class Pickup {
 
 	private String idcardNum;
 
-	private DeliveryCost deliveryCost;
-
-	private DeliveryOrder deliveryOrder;
-
 	public String getPickupId() {
 		return pickupId;
 	}
@@ -35,7 +31,8 @@ public class Pickup {
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword
+				.trim();
 	}
 
 	public String getIdcardNum() {
@@ -44,22 +41,6 @@ public class Pickup {
 
 	public void setIdcardNum(String idcardNum) {
 		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
-	}
-
-	public DeliveryCost getDeliveryCost() {
-		return deliveryCost;
-	}
-
-	public void setDeliveryCost(DeliveryCost deliveryCost) {
-		this.deliveryCost = deliveryCost;
-	}
-
-	public DeliveryOrder getDeliveryOrder() {
-		return deliveryOrder;
-	}
-
-	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
-		this.deliveryOrder = deliveryOrder;
 	}
 
 }

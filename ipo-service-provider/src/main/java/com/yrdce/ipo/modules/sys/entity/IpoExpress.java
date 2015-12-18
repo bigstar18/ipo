@@ -53,4 +53,11 @@ public class IpoExpress {
 		this.tel = tel;
 	}
 
+	@Override
+	public String toString() {
+		return "IpoExpress [expressId=" + expressId + ", address=" + address
+				+ ", cost=" + cost + ", receiver=" + receiver + ", tel=" + tel
+				+ "]";
+	}
+
 }
