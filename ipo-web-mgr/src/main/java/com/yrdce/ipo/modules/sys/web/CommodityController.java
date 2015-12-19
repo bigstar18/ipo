@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.yrdce.ipo.common.web.BaseController;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.DisplayService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
@@ -30,7 +29,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
  */
 @Controller
 @RequestMapping("CommodityController")
-public class CommodityController extends BaseController {
+public class CommodityController {
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CommodityController.class);
 
@@ -77,7 +76,6 @@ public class CommodityController extends BaseController {
 	public void setDistributionService(DistributionService distributionService) {
 		this.distributionService = distributionService;
 	}
-	
 
 	/**
 	 * 数据查询（商品查询）
@@ -103,7 +101,7 @@ public class CommodityController extends BaseController {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * 发售商品查询（模糊查询）
 	 * 
@@ -113,29 +111,29 @@ public class CommodityController extends BaseController {
 	 */
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows,@RequestParam("status") String status,
-			@RequestParam("commodityname") String commodityname,@RequestParam("commodityid") String commodityid,
-			@RequestParam("starttime") String starttime,@RequestParam("endtime") String endtime) throws IOException {
+	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("status") String status,
+			@RequestParam("commodityname") String commodityname, @RequestParam("commodityid") String commodityid,
+			@RequestParam("starttime") String starttime, @RequestParam("endtime") String endtime) throws IOException {
 		log.info("条件查询发售商品信息");
 		try {
-			Commodity comm=new Commodity();
-			if(!commodityid.equals("")){
+			Commodity comm = new Commodity();
+			if (!commodityid.equals("")) {
 				comm.setCommodityid(commodityid);
 			}
-			if(!commodityname.equals("")){
-				comm.setCommodityname("%"+commodityname+"%");
+			if (!commodityname.equals("")) {
+				comm.setCommodityname("%" + commodityname + "%");
 			}
-			if(!status.equals("")){
+			if (!status.equals("")) {
 				comm.setStatus(Integer.parseInt(status));
 			}
-			if(!starttime.equals("")){
+			if (!starttime.equals("")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date=sdf.parse(starttime);
+				Date date = sdf.parse(starttime);
 				comm.setStarttime(date);
 			}
-			if(!endtime.equals("")){
+			if (!endtime.equals("")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date=sdf.parse(endtime);
+				Date date = sdf.parse(endtime);
 				comm.setEndtime(date);
 			}
 			List<Commodity> clist = commodityService.queryByConditions(page, rows, comm);
@@ -164,7 +162,7 @@ public class CommodityController extends BaseController {
 			throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			List<Distribution> dlist  = distributionService.getDistriList(page, rows, userid);
+			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid);
 			// int totalnums = distributionService.getAllDistris();
 			ResponseResult result = new ResponseResult();
 			// result.setTotal(totalnums);
