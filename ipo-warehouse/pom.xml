@@ -175,7 +175,7 @@
 		<!-- CACHE end -->
 		
 		<!-- SECURITY begin -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
 		</dependency>
@@ -200,7 +200,7 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- SECURITY end -->	
 		
 		<!-- connection pool -->	
@@ -231,7 +231,7 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
@@ -252,7 +252,7 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> -->
 		
 		<!-- google java lib -->
 		<dependency>
@@ -269,17 +269,17 @@
 		<!-- freemarker engine -->
 		
 		<!-- email -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- poi office -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 		</dependency>
@@ -290,47 +290,47 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml-schemas</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- image util -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.drewnoakes</groupId>
 			<artifactId>metadata-extractor</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- 条形码、二维码生成  -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- 中文分词 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.wltea</groupId>
 			<artifactId>analyzer</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- GENERAL UTILS end -->
 		
 		<!-- CKFinder begin -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>apache-ant-zip</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- CKFinder end -->
 		
 		<!-- User Agent -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>eu.bitwalker</groupId>
 			<artifactId>UserAgentUtils</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- TEST begin -->
 		<dependency>
