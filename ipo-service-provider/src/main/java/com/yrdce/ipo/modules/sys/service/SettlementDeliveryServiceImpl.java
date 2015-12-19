@@ -116,6 +116,12 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return null;
 	}
 
+	// 自提打印总页数
+	@Override
+	public int counts(String userid, String deliveryMethod) throws Exception {
+		return ipoDeliveryorderMapper.selectByCounts(userid, deliveryMethod);
+	}
+
 	// 自提详细信息
 	@Override
 	public Pickup getDetail(String methodid) throws Exception {
@@ -129,9 +135,10 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 撤销申请
 	@Override
 	@Transactional
-	public String getRevocation(String deliveryorderid, int status) throws Exception {
+	public String getRevocation(String deliveryorderid, String status) throws Exception {
+		int status1 = Integer.parseInt(status);
 		logger.info("撤销申请");
-		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status);
+		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
 		return "success";
 	}
 
@@ -175,6 +182,12 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			return list2;
 		}
 		return null;
+	}
+
+	// 提货查询总页数
+	@Override
+	public int countsByAll(String userid) throws Exception {
+		return ipoDeliveryorderMapper.allCounts(userid);
 	}
 
 	// 提货查询(自提)详细信息
