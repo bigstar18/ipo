@@ -34,7 +34,8 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 @RequestMapping("BreedController")
 public class BreedController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BreedController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(BreedController.class);
 
 	@Autowired
 	private VIpoABreedService vIpoABreedService;
@@ -78,10 +79,12 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findIpoABreeds", method = RequestMethod.POST)
 	@ResponseBody
-	public String findIpoABreeds(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String findIpoABreeds(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询品种列表");
 		try {
-			List<VIpoABreed> tlist = vIpoABreedService.findIpoABreedsByPage(page, rows);
+			List<VIpoABreed> tlist = vIpoABreedService.findIpoABreedsByPage(
+					page, rows);
 			int totalnums = vIpoABreedService.getTotalIpoABreeds();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -125,14 +128,19 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findBreedByName", method = RequestMethod.POST)
 	@ResponseBody
-	public String findBreedByName(HttpServletRequest request, HttpServletResponse response, @RequestParam("breedname") String name,
-			@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String findBreedByName(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam("breedname") String name,
+			@RequestParam("page") String page, @RequestParam("rows") String rows)
+			throws IOException {
 		log.info("根据品名模糊查询");
 		try {
 			String breedName = java.net.URLDecoder.decode(name, "UTF-8");
 			List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
-			blist = vIpoABreedService.findIpoABreedsByName(breedName, page, rows);
-			int totalnums = vIpoABreedService.getTotalIpoABreedsByName(breedName);
+			blist = vIpoABreedService.findIpoABreedsByName(breedName, page,
+					rows);
+			int totalnums = vIpoABreedService
+					.getTotalIpoABreedsByName(breedName);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(blist);
@@ -197,11 +205,13 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/deleteBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteBreed(@RequestParam("breedid") String breedid) throws IOException {
+	public String deleteBreed(@RequestParam("breedid") String breedid)
+			throws IOException {
 		log.info("删除品种");
 		try {
 
-			int totalnum = ipoCommConfService.getTotalIpoCommsByBreedid(Long.parseLong(breedid));
+			int totalnum = ipoCommConfService.getTotalIpoCommsByBreedid(Long
+					.parseLong(breedid));
 			if (totalnum == 0) {
 
 				vIpoABreedService.deleteBreed(Long.parseLong(breedid));
@@ -223,7 +233,8 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findExsitIds", method = RequestMethod.GET)
 	@ResponseBody
-	public String findExsitIds(@RequestParam("breedid") String breedid) throws IOException {
+	public String findExsitIds(@RequestParam("breedid") String breedid)
+			throws IOException {
 		log.info("查询已配置IPO信息的品种ID");
 		try {
 			Long bid = Long.parseLong(breedid);
@@ -249,7 +260,8 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findExsitCommIds", method = RequestMethod.GET)
 	@ResponseBody
-	public String findExsitCommIds(@RequestParam("commodityid") String commid) throws IOException {
+	public String findExsitCommIds(@RequestParam("commodityid") String commid)
+			throws IOException {
 		log.info("查询已存在的商品ID");
 		try {
 
@@ -275,13 +287,16 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findCommsByBreedId", method = RequestMethod.POST)
 	@ResponseBody
-	public String findCommsByBreedId(@RequestParam("breedid") String breedid, @RequestParam("page") String page, @RequestParam("rows") String rows)
+	public String findCommsByBreedId(@RequestParam("breedid") String breedid,
+			@RequestParam("page") String page, @RequestParam("rows") String rows)
 			throws IOException {
 		log.info("查询对应商品列表");
 		try {
 			Long Breedid = Long.parseLong(breedid);
-			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfByBreedid(Breedid, page, rows);
-			int totalnum = ipoCommConfService.getTotalIpoCommsByBreedid(Breedid);
+			List<VIpoCommConf> comlist = ipoCommConfService
+					.findIpoCommConfByBreedid(Breedid, page, rows);
+			int totalnum = ipoCommConfService
+					.getTotalIpoCommsByBreedid(Breedid);
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
@@ -302,10 +317,12 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/findAllComms", method = RequestMethod.GET)
 	@ResponseBody
-	public String findAllComms(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String findAllComms(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("查询所有商品列表");
 		try {
-			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfsByPage(page, rows);
+			List<VIpoCommConf> comlist = ipoCommConfService
+					.findIpoCommConfsByPage(page, rows);
 			int totalnum = ipoCommConfService.getAllComms();
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);

@@ -125,8 +125,8 @@ function updateComm(){
 	if(curstatus!=''&&publishalgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
 		 $.ajax({ 
              type: "post",  
-             url: "<%=request.getContextPath()%>/BreedController/updateCommodity",       
-             data: $("#frm").serialize(),      
+             url: "<%=request.getContextPath()%>/BreedController/updateCommodity",   
+             data:$("#frm").serialize(),  
              success: function(data) { 
           	   if(data=='success'){
                  alert("修改成功！"); 
