@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @author chenjing 发售商品（设置）
  */
-public class IpoCommodityConf {
+public class VIpoCommConf {
 	private String commodityid;
 
 	private String commodityname;
