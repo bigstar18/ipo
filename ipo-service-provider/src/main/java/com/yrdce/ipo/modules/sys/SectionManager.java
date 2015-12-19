@@ -123,7 +123,7 @@ public class SectionManager {
 	 */
 	public long getFirstTradeTimeFromNow(Date date) {
 		long in = date.getTime();
-		long start = getFirstSectionTimeByDate(date).getTimeInMillis();
+		long start = getFirstSectionStartTimeByDate(date).getTimeInMillis();
 		long result = start - in;
 		return result > 0 ? result : 0;
 	}
@@ -197,11 +197,29 @@ public class SectionManager {
 	 * @return
 	 */
 	public int getCurrentSectionId(Date date) {
-		IpoTradetime ipoTradetime = getSectionByTime(date);
+		if (tradetimes != null && tradetimes.size() > 0) {
+			// 在第一个交易节前
+			Calendar calendar = getFirstSectionStartTimeByDate(date);
+			if (date.getTime() < calendar.getTimeInMillis() || date.getTime() > getEndTime(getLastSection(), date).getTimeInMillis()) // 在最后一个节后时间
+				return getLastSection().getSectionid();
 
-		if (ipoTradetime != null) {
-			return ipoTradetime.getSectionid();
+			int input = date.getHours() * 10000 + date.getMinutes() * 100 + date.getSeconds();
+			int preEnd = 0;
+			Short preSectionId = -1;
+			for (IpoTradetime ipoTradetime : tradetimes) {
+				int start = Integer.parseInt(ipoTradetime.getStarttime().replaceAll(":", ""));
+				int end = Integer.parseInt(ipoTradetime.getEndtime().replace(":", ""));
+				if (input >= start && input < end)
+					return ipoTradetime.getSectionid();
 
+				if (preEnd != 0) {// 不是第一条
+					if (input >= preEnd && input < start) // 节间
+						return preSectionId;
+				}
+
+				preEnd = end;
+				preSectionId = ipoTradetime.getSectionid();
+			}
 		}
 
 		return -1;
@@ -270,7 +288,7 @@ public class SectionManager {
 	// 是否在第一个交易节前5分钟内
 	private boolean isTimeIn5mBeforeSection(Date date) {
 		if (tradetimes != null && tradetimes.size() > 0) {
-			Calendar end = getFirstSectionTimeByDate(date);
+			Calendar end = getFirstSectionStartTimeByDate(date);
 			Calendar start = getTimeBeforSection5m(date);
 
 			long in = date.getTime();
@@ -283,7 +301,7 @@ public class SectionManager {
 
 	// 第一个交易节的起始时间前5分钟
 	private Calendar getTimeBeforSection5m(Date date) {
-		Calendar start = getFirstSectionTimeByDate(date);
+		Calendar start = getFirstSectionStartTimeByDate(date);
 		if (start != null) {
 			start.add(Calendar.MINUTE, -5);
 
@@ -293,7 +311,7 @@ public class SectionManager {
 	}
 
 	// 获取第一个交易节的起始时间
-	private Calendar getFirstSectionTimeByDate(Date date) {
+	private Calendar getFirstSectionStartTimeByDate(Date date) {
 		if (tradetimes != null && tradetimes.size() > 0) {
 			return getStartTime(tradetimes.get(0), date);
 		}
