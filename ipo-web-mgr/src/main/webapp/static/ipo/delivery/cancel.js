@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-         title:'待审核提货单',  
+         title:'可注销提货单',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -157,18 +157,20 @@ function doSearch(){
                       $("#dg").datagrid("reload",result); 
                   }
             });*/
-            
-  $('#dg').datagrid({  
-         title:'待审核提货单',  
+   $('#dg').datagrid({  
+         title:'可注销提货单',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
          pageSize:10,  
          pageList:[5,10,15],  
          singleSelect:true,
-         toolbar:"#tb",  
-         url:  getRootPath () + "/DeliveryController/QueryCancelByConditions" ,  
-         queryParams:{
+         toolbar:"#tb",
+         nowrap:true,  
+         striped:true,  
+         collapsible:false,  
+         url:  getRootPath () +"/DeliveryController/QueryCancelByConditions",  
+          queryParams:{
 		          deliveryorderId: $("#deliveryorderId").val(),
 		          applyDate: $("#applyDate").datebox('getValue'),
 		          dealerId: $("#dealerId").val()
@@ -247,17 +249,17 @@ function doSearch(){
          	   if(value==3) return "驳回";
          }
          },{  
-             field : 'approvalStatus',  
+             field : 'methodId',  
              width : 200,  
              align: "center",
              title : '操作' ,
              formatter:function(value,row){
-         	   return "<input type=\"button\" onclick=\"cancel("+row.deliveryorderId+")\" value=\"审核\"/>";
+         	    return "<input type=\"button\" onclick=\"cancel("+row.deliveryorderId+")\" value=\"撤销\"/>";
          }
           }
          ]],  
          pagination : true 
-     });  
+     });            
 	 var p = $('#dg').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        beforePageText: '第',
