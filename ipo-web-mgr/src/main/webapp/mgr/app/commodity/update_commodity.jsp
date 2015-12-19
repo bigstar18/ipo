@@ -177,7 +177,7 @@ function on_change(){
 	<table border="0" width="100%">
 		<tr>
 			<td valign="top">
-				<form id="frm" name="frm" action="" method="POST" enctype="mutipart/form-data">
+				<form id="frm" name="frm" action="" method="POST">
 				<fieldset>
 				<legend class="common"><b>设置商品信息</b></legend>
 				<span id="baseinfo9">
