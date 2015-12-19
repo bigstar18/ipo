@@ -2,7 +2,7 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 
-public class IpoExpressExtended extends IpoDeliveryCost {
+public class IpoExpressExtended extends IpoDeliveryorder {
 
 	private String expressId;
 

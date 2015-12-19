@@ -77,13 +77,11 @@ public class Taskmanage extends TimerTask {
 					List<IpoOrder> orderList = order.selectByCid(commodityid);
 					if (orderList.size() != 0) {
 						frecord = new IpoNumberofrecords();
-						// String sid = list.get(i);
 						Date date = new Date();
 						frecord.setCommodityid(commodityid);
 						frecord.setCounts(BigDecimal.valueOf(0));
 						frecord.setNowtime(date);
 						unmberofrecord.insert(frecord);
-						// }
 
 						logger.info("调用配号任务");
 						distribution.start(orderList);
@@ -95,7 +93,7 @@ public class Taskmanage extends TimerTask {
 			System.out.println("摇号开始");
 			// 摇号获取系统当前时间的前2天。
 			IpoBallotNoInfo ipoBallotNoInfo = new IpoBallotNoInfo();
-			String ballotNowtime = DateUtil.getTime(2);
+			String ballotNowtime = DateUtil.getTime(0);
 			// // 查询前一天交易订单
 			System.out.println("等待摇号订单查询开始");
 			List<IpoCommodity> ipoCommList = commodity.selectByEnd(ballotNowtime);

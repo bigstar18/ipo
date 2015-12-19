@@ -19,18 +19,21 @@ public interface SettlementDeliveryService {
 
 	public String applicationByexpress(Express express) throws Exception;
 
-	// 自提打印
-	public List<DeliveryOrder> getApplication(String page, String rows, String userid) throws Exception;
+	// 提货确认
+	public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception;
 
-	public Pickup getDetail(String methodid, String deliveryorderid) throws Exception;
+	// 自提打印
+	public List<DeliveryOrder> getPrint(String page, String rows, String userid) throws Exception;
+
+	public Pickup getDetail(String methodid) throws Exception;
 
 	// 撤销提货
-	public String getRevocation(String deliveryorderid) throws Exception;
+	public String getRevocation(String deliveryorderid, int status) throws Exception;
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception;
 
-	public Express confirm(String methodid, String deliveryorderid) throws Exception;
+	// public Express confirm(String methodid, String deliveryorderid) throws Exception;
 
 	// 提货查询
 	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception;

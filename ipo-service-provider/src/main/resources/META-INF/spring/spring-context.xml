@@ -61,7 +61,7 @@
     <bean id="taskTest" class="com.yrdce.ipo.common.task.Taskmanage"></bean>  
     
     <task:scheduled-tasks>  
-    <!--   这里表示的是从第五秒开始 ，每三秒执行一次 （而不是 三分之五 秒执行一次哦~~）-->  
+    <!--   这里表示的是0点10分开始-->  
     <task:scheduled ref="taskTest" method="run" cron="0 10 0 * * ?" />  
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->

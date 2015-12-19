@@ -195,7 +195,7 @@
   <select id="selectByPickup" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickupExtended">
   	select * from 
 	(select t.*,rownum TNO from
- 		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where d.dealer_id = #{dealerId,jdbcType=VARCHAR}) t
+ 		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where d.dealer_id = #{dealerId,jdbcType=VARCHAR} and = DELIVERY_METHOD = '在线配送') t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   

@@ -2,13 +2,13 @@ package com.yrdce.ipo.modules.sys.entity;
 
 public class IpoDistributionExtended extends IpoDistribution {
 
-	private int orderid;// 订单
+	private String orderid;// 订单
 
-	public int getOrderid() {
+	public String getOrderid() {
 		return orderid;
 	}
 
-	public void setOrderid(int orderid) {
+	public void setOrderid(String orderid) {
 		this.orderid = orderid;
 	}
 }

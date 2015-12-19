@@ -25,6 +25,8 @@ public class Express {
 
 	private String tel;
 
+	private DeliveryOrder deliveryOrder;
+
 	public String getExpressId() {
 		return expressId;
 	}
@@ -63,6 +65,14 @@ public class Express {
 
 	public void setTel(String tel) {
 		this.tel = tel == null ? null : tel.trim();
+	}
+
+	public DeliveryOrder getDeliveryOrder() {
+		return deliveryOrder;
+	}
+
+	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
+		this.deliveryOrder = deliveryOrder;
 	}
 
 }

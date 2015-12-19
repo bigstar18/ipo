@@ -97,7 +97,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提打印
 	@Override
-	public List<DeliveryOrder> getApplication(String page, String rows, String userid) throws Exception {
+	public List<DeliveryOrder> getPrint(String page, String rows, String userid) throws Exception {
 		logger.info("自提打印");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -118,9 +118,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提详细信息
 	@Override
-	public Pickup getDetail(String methodid, String deliveryorderid) throws Exception {
+	public Pickup getDetail(String methodid) throws Exception {
 		logger.info("自提信息信息");
-		IpoPickup ipoPickup = ipoPickupMapper.selectPickuoAndCost(methodid, deliveryorderid);
+		IpoPickup ipoPickup = ipoPickupMapper.selectByPrimaryKey(methodid);
 		Pickup pickup = new Pickup();
 		BeanUtils.copyProperties(ipoPickup, pickup);
 		return pickup;
@@ -129,9 +129,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 撤销申请
 	@Override
 	@Transactional
-	public String getRevocation(String deliveryorderid) throws Exception {
+	public String getRevocation(String deliveryorderid, int status) throws Exception {
 		logger.info("撤销申请");
-		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, 5);
+		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status);
 		return "success";
 	}
 
@@ -156,16 +156,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return null;
 	}
 
-	// 在线配送详细信息
-	@Override
-	public Express confirm(String methodid, String deliveryorderid) throws Exception {
-		logger.info("在线配送详细信息");
-		IpoExpress ipoExpress = ipoExpressMapper.selectExpressAndCost(methodid, deliveryorderid);
-		Express express = new Express();
-		BeanUtils.copyProperties(ipoExpress, express);
-		return express;
-	}
-
 	// 提货查询
 	@Override
 	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception {
@@ -187,7 +177,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return null;
 	}
 
-	// 提货查询(自提)详细信息<暂不用>
+	// 提货查询(自提)详细信息
 	@Override
 	public Pickup getDetailByPickup(String methodid) throws Exception {
 		logger.info("提货查询(自提)详细信息");
@@ -197,7 +187,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return pickup;
 	}
 
-	// 提货查询(在线配送)详细信息<暂不用>
+	// 提货查询(在线配送)详细信息
 	@Override
 	public Express getDetailByExpress(String methodid) throws Exception {
 		logger.info("提货查询(在线配送)详细信息");
@@ -211,6 +201,13 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Override
 	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception {
 		logger.info("费用查询");
+
+		return null;
+	}
+
+	// 自提确认
+	@Override
+	public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception {
 
 		return null;
 	}

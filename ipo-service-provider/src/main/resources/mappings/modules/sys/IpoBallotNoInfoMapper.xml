@@ -24,7 +24,10 @@
     delete from IPO_BALLOTNO_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo" >
+    <selectKey resultType="INTEGER" order="BEFORE" keyProperty="id">
+	SELECT SEQ_IPO_BALLOTNO_INFO.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_BALLOTNO_INFO (ID, COMMODITYID, BALLOTNOSTARTLEN, 
       BALLOTNOENDLEN, BALLOTNO, CREATETIME
       )

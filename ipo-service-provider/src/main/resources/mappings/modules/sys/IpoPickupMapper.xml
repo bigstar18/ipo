@@ -34,12 +34,4 @@
     select PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM
     from IPO_PICKUP
   </select>
-  <select id="selectPickuoAndCost" parameterType="java.lang.String" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickup">
-  	select p.*,t.* from ipo_deliveryorder d left join ipo_delivery_cost p on d.DELIVERYORDER_ID = p.delivery_id 
-	left join ipo_pickup t on t.pickup_id = d.method_id where d.deliveryorderId = #{deliveryorderId,jdbcType=VARCHAR} 
-	and d.method_id = #{methodid,jdbcType=VARCHAR}
-  </select>
-  
-  
-  
 </mapper>
