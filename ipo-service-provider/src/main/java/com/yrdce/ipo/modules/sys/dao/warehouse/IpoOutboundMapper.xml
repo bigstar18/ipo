@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.warehouse.IpoOutboundMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+    <id column="OUTBOUNDORDERID" property="outboundorderid" jdbcType="VARCHAR" />
+    <result column="DELIVERYORDERID" property="deliveryorderid" jdbcType="VARCHAR" />
+    <result column="OUTBOUNDSTATE" property="outboundstate" jdbcType="DECIMAL" />
+    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="DATE" />
+    <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
+    <result column="AUDITORID" property="auditorid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="DELIVERYPERSON" property="deliveryperson" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from IPO_OUTBOUND
+    where OUTBOUNDORDERID = #{outboundorderid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+    insert into IPO_OUTBOUND (OUTBOUNDORDERID, DELIVERYORDERID, 
+      OUTBOUNDSTATE, OUTBOUNDDATE, OPERATORID, 
+      AUDITORID, WAREHOUSEID, DELIVERYPERSON, 
+      SEX, IDTYPE, IDNUM)
+    values (#{outboundorderid,jdbcType=VARCHAR}, #{deliveryorderid,jdbcType=VARCHAR}, 
+      #{outboundstate,jdbcType=DECIMAL}, #{outbounddate,jdbcType=DATE}, #{operatorid,jdbcType=VARCHAR}, 
+      #{auditorid,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{deliveryperson,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{idtype,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+    update IPO_OUTBOUND
+    set DELIVERYORDERID = #{deliveryorderid,jdbcType=VARCHAR},
+      OUTBOUNDSTATE = #{outboundstate,jdbcType=DECIMAL},
+      OUTBOUNDDATE = #{outbounddate,jdbcType=DATE},
+      OPERATORID = #{operatorid,jdbcType=VARCHAR},
+      AUDITORID = #{auditorid,jdbcType=VARCHAR},
+      WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR},
+      DELIVERYPERSON = #{deliveryperson,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      IDTYPE = #{idtype,jdbcType=VARCHAR},
+      IDNUM = #{idnum,jdbcType=VARCHAR}
+    where OUTBOUNDORDERID = #{outboundorderid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select OUTBOUNDORDERID, DELIVERYORDERID, OUTBOUNDSTATE, OUTBOUNDDATE, OPERATORID, 
+    AUDITORID, WAREHOUSEID, DELIVERYPERSON, SEX, IDTYPE, IDNUM
+    from IPO_OUTBOUND
+    where OUTBOUNDORDERID = #{outboundorderid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select OUTBOUNDORDERID, DELIVERYORDERID, OUTBOUNDSTATE, OUTBOUNDDATE, OPERATORID, 
+    AUDITORID, WAREHOUSEID, DELIVERYPERSON, SEX, IDTYPE, IDNUM
+    from IPO_OUTBOUND
+  </select>
+</mapper>

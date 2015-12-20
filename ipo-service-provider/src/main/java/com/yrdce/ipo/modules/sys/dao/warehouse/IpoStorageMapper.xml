@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.warehouse.IpoStorageMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+    <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="STORAGENUM" property="storagenum" jdbcType="DECIMAL" />
+    <result column="STARTNUM" property="startnum" jdbcType="VARCHAR" />
+    <result column="ENDNUM" property="endnum" jdbcType="VARCHAR" />
+    <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEAUDITORID" property="warehouseauditorid" jdbcType="VARCHAR" />
+    <result column="MARKETAUDITORID" property="marketauditorid" jdbcType="VARCHAR" />
+    <result column="STORAGESTATE" property="storagestate" jdbcType="DECIMAL" />
+    <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from IPO_STORAGE
+    where STORAGEID = #{storageid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+    insert into IPO_STORAGE (STORAGEID, COMMODITYID, STORAGENUM, 
+      STARTNUM, ENDNUM, OPERATORID, 
+      WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
+      STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+      )
+    values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
+      #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
+      #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+    update IPO_STORAGE
+    set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      STORAGENUM = #{storagenum,jdbcType=DECIMAL},
+      STARTNUM = #{startnum,jdbcType=VARCHAR},
+      ENDNUM = #{endnum,jdbcType=VARCHAR},
+      OPERATORID = #{operatorid,jdbcType=VARCHAR},
+      WAREHOUSEAUDITORID = #{warehouseauditorid,jdbcType=VARCHAR},
+      MARKETAUDITORID = #{marketauditorid,jdbcType=VARCHAR},
+      STORAGESTATE = #{storagestate,jdbcType=DECIMAL},
+      STORAGEDATE = #{storagedate,jdbcType=DATE},
+      WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR},
+      MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR}
+    where STORAGEID = #{storageid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    from IPO_STORAGE
+    where STORAGEID = #{storageid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    from IPO_STORAGE
+  </select>
+</mapper>
