@@ -31,6 +31,7 @@
       #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
       )
   </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
     update IPO_STORAGE
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
@@ -46,12 +47,35 @@
       MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR}
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
     MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
     from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </select>
+  
+   <select id="selectByStorageDate" resultMap="BaseResultMap" parameterType="java.util.Date" >
+    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    from IPO_STORAGE
+    where STORAGEDATE = #{storagedate,jdbcType=DATE}
+  </select>
+  
+   <select id="selectByCommodityId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    from IPO_STORAGE
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByStorageState" resultMap="BaseResultMap" parameterType="int" >
+    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    from IPO_STORAGE
+    where STORAGESTATE = #{storagestate,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectAll" resultMap="BaseResultMap" >
     select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
     MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
