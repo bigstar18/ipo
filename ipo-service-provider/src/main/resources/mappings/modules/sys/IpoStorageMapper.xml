@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yrdce.ipo.modules.sys.dao.warehouse.IpoStorageMapper" >
-  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoStorageMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
     <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="STORAGENUM" property="storagenum" jdbcType="DECIMAL" />
@@ -19,7 +19,7 @@
     delete from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
     insert into IPO_STORAGE (STORAGEID, COMMODITYID, STORAGENUM, 
       STARTNUM, ENDNUM, OPERATORID, 
       WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
@@ -31,7 +31,7 @@
       #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoStorage" >
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
     update IPO_STORAGE
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       STORAGENUM = #{storagenum,jdbcType=DECIMAL},

@@ -9,11 +9,6 @@ import java.util.Date;
  */
 public class VIpoCommConf implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private String commodityid;
 
 	private String commodityname;

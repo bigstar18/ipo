@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yrdce.ipo.modules.sys.dao.warehouse.IpoOutboundMapper" >
-  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoOutbound" >
     <id column="OUTBOUNDORDERID" property="outboundorderid" jdbcType="VARCHAR" />
     <result column="DELIVERYORDERID" property="deliveryorderid" jdbcType="VARCHAR" />
     <result column="OUTBOUNDSTATE" property="outboundstate" jdbcType="DECIMAL" />
@@ -18,7 +18,7 @@
     delete from IPO_OUTBOUND
     where OUTBOUNDORDERID = #{outboundorderid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOutbound" >
     insert into IPO_OUTBOUND (OUTBOUNDORDERID, DELIVERYORDERID, 
       OUTBOUNDSTATE, OUTBOUNDDATE, OPERATORID, 
       AUDITORID, WAREHOUSEID, DELIVERYPERSON, 
@@ -28,7 +28,7 @@
       #{auditorid,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{deliveryperson,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{idtype,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.warehouse.IpoOutbound" >
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOutbound" >
     update IPO_OUTBOUND
     set DELIVERYORDERID = #{deliveryorderid,jdbcType=VARCHAR},
       OUTBOUNDSTATE = #{outboundstate,jdbcType=DECIMAL},
