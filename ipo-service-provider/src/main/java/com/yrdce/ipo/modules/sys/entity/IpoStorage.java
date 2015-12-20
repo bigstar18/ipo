@@ -1,4 +1,4 @@
-package com.yrdce.ipo.modules.sys.entity.warehouse;
+package com.yrdce.ipo.modules.sys.entity;
 
 import java.util.Date;
 
