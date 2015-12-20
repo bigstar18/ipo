@@ -25,10 +25,13 @@ public interface SettlementDeliveryService {
 	// 自提打印
 	public List<DeliveryOrder> getPrint(String page, String rows, String userid) throws Exception;
 
+	// 总页数
+	public int counts(String userid, String deliveryMethod) throws Exception;
+
 	public Pickup getDetail(String methodid) throws Exception;
 
 	// 撤销提货
-	public String getRevocation(String deliveryorderid, int status) throws Exception;
+	public String getRevocation(String deliveryorderid, String status) throws Exception;
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception;
@@ -37,6 +40,8 @@ public interface SettlementDeliveryService {
 
 	// 提货查询
 	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception;
+
+	public int countsByAll(String userid) throws Exception;
 
 	public Pickup getDetailByPickup(String methodid) throws Exception;
 

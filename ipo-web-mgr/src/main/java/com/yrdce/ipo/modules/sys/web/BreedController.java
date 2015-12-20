@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.yrdce.ipo.common.web.BaseController;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
@@ -33,7 +32,7 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
  */
 @Controller
 @RequestMapping("BreedController")
-public class BreedController extends BaseController {
+public class BreedController {
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(BreedController.class);

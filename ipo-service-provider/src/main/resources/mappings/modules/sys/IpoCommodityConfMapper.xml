@@ -28,78 +28,44 @@
     <result column="LISTINGDATE" property="listingdate" jdbcType="DATE" />
     <result column="LASTTRADATE" property="lasttradate" jdbcType="DATE" />
     <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
+    <result column="MAPPERID" property="mapperid" jdbcType="VARCHAR" />
     <result column="MINPRICEMOVE" property="minpricemove" jdbcType="DECIMAL" />
-    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
     <result column="SPREADALGR" property="spreadalgr" jdbcType="DECIMAL" />
     <result column="SPREADUPLMT" property="spreaduplmt" jdbcType="DECIMAL" />
     <result column="SPREADDOWNLMT" property="spreaddownlmt" jdbcType="DECIMAL" />
-    <result column="CONTRACTFACTORNAME" property="contractfactorname" jdbcType="VARCHAR" />
-    <result column="MAPPERID" property="mapperid" jdbcType="VARCHAR" />
+    <result column="MINQUANTITYMOVE" property="minquantitymove" jdbcType="DECIMAL" />
+    <result column="TRADEALGR" property="tradealgr" jdbcType="DECIMAL" />
+    <result column="BUY" property="buy" jdbcType="DECIMAL" />
+    <result column="SELL" property="sell" jdbcType="DECIMAL" />
+    <result column="MKTBUYFEERADIO" property="mktbuyfeeradio" jdbcType="DECIMAL" />
+    <result column="MKTSELLFEERADIO" property="mktsellfeeradio" jdbcType="DECIMAL" />
+    <result column="WAREHOUSEDAILYRENT" property="warehousedailyrent" jdbcType="DECIMAL" />
+    <result column="WAREHOUSESTARTDAY" property="warehousestartday" jdbcType="DATE" />
+    <result column="TRUSTEEDAILYRENT" property="trusteedailyrent" jdbcType="DECIMAL" />
+    <result column="INSURANCEDAILYRENT" property="insurancedailyrent" jdbcType="DECIMAL" />
+    <result column="INSURANCESTARTDAY" property="insurancestartday" jdbcType="DATE" />
+    <result column="FREETRUSTEEDAYS" property="freetrusteedays" jdbcType="DECIMAL" />
+    <result column="DELIVERYUNIT" property="deliveryunit" jdbcType="VARCHAR" />
+    <result column="DELIUNITTOCONTRACT" property="deliunittocontract" jdbcType="DECIMAL" />
+    <result column="DELIVERYSTARTDAY" property="deliverystartday" jdbcType="DATE" />
+    <result column="REGISTFEERADIO" property="registfeeradio" jdbcType="DECIMAL" />
+    <result column="MKTREGISTFEERADIO" property="mktregistfeeradio" jdbcType="DECIMAL" />
+    <result column="CANCELFEERADIO" property="cancelfeeradio" jdbcType="DECIMAL" />
+    <result column="MKTCANCELFEERADIO" property="mktcancelfeeradio" jdbcType="DECIMAL" />
+    <result column="DELIVERYCOSTBEFORE" property="deliverycostbefore" jdbcType="DECIMAL" />
+    <result column="DETAILS" property="details" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
    COMMODITYID, COMMODITYNAME, PRICE, UNITS, COUNTS, STARTTIME, ENDTIME, MAXAPPLYNUM, 
     STATUS, BREEDID, TRADEDAYS, CODEDELIVERY, NONISSUEREG, PUBMEMBERID, MINAPPLYNUM, 
     MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
     MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, 
-    MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT,CONTRACTFACTORNAME,MAPPERID
+    MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT,CONTRACTFACTORNAME,MAPPERID,
+    TRADEALGR, BUY, SELL, MKTBUYFEERADIO, MKTSELLFEERADIO, WAREHOUSEDAILYRENT, 
+    WAREHOUSESTARTDAY, TRUSTEEDAILYRENT, INSURANCEDAILYRENT, INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
+    DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
+    DELIVERYCOSTBEFORE, DETAILS
   </sql>
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -124,32 +90,46 @@
    <select id="findAllCommIds"  resultType="String"   >
     select COMMODITYID  from  IPO_COMMODITY_CONF order by COMMODITYID
   </select> 
-   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
-    insert into IPO_COMMODITY_CONF ( COMMODITYID, COMMODITYNAME, 
-      PRICE, UNITS, COUNTS, 
-      STARTTIME, ENDTIME, MAXAPPLYNUM, 
-      STATUS, BREEDID, TRADEDAYS, 
-      CODEDELIVERY, NONISSUEREG, PUBMEMBERID, 
-      MINAPPLYNUM, MINAPPLYQUAMOVE, PUBLISHALGR, 
-      DEALERPUBCHARATIO, MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, 
-      MKTPUBCHARATIO, CURRSTATUS, SUPERVISEDPRICE, 
-      LISTINGDATE, LASTTRADATE, CONTRACTFACTOR, MINPRICEMOVE, MINQUANTITYMOVE, SPREADALGR, SPREADUPLMT, SPREADDOWNLMT,
-      CONTRACTFACTORNAME,MAPPERID)
-    values ( #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
-      #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, 
-      #{status,jdbcType=DECIMAL}, #{breedid,jdbcType=DECIMAL}, #{tradedays,jdbcType=DECIMAL}, 
-      #{codedelivery,jdbcType=DECIMAL}, #{nonissuereg,jdbcType=DECIMAL}, #{pubmemberid,jdbcType=VARCHAR}, 
-      #{minapplynum,jdbcType=DECIMAL}, #{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, 
-      #{dealerpubcharatio,jdbcType=DECIMAL}, #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, 
-      #{mktpubcharatio,jdbcType=DECIMAL}, #{currstatus,jdbcType=DECIMAL}, #{supervisedprice,jdbcType=DECIMAL}, 
-      #{listingdate,jdbcType=DATE}, #{lasttradate,jdbcType=DATE}, #{contractfactor,jdbcType=DECIMAL}, 
-      #{minpricemove,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
-      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL},#{contractfactorname,jdbcType=VARCHAR},#{mapperid,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+    insert into IPO_COMMODITY_CONF (COMMODITYID, COMMODITYNAME, PRICE, 
+      UNITS, COUNTS, STARTTIME, 
+      ENDTIME, MAXAPPLYNUM, STATUS, 
+      BREEDID, TRADEDAYS, CODEDELIVERY, 
+      NONISSUEREG, PUBMEMBERID, MINAPPLYNUM, 
+      MINAPPLYQUAMOVE, PUBLISHALGR, DEALERPUBCHARATIO, 
+      MKTDEAPUBCHARATIO, PUBLISHERCHARATIO, MKTPUBCHARATIO, 
+      CURRSTATUS, SUPERVISEDPRICE, LISTINGDATE, 
+      LASTTRADATE, CONTRACTFACTOR, CONTRACTFACTORNAME, 
+      MAPPERID, MINPRICEMOVE, SPREADALGR, 
+      SPREADUPLMT, SPREADDOWNLMT, MINQUANTITYMOVE, 
+      TRADEALGR, BUY, SELL, 
+      MKTBUYFEERADIO, MKTSELLFEERADIO, WAREHOUSEDAILYRENT, 
+      WAREHOUSESTARTDAY, TRUSTEEDAILYRENT, INSURANCEDAILYRENT, 
+      INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
+      DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, 
+      MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
+      DELIVERYCOSTBEFORE, DETAILS)
+    values (#{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, #{starttime,jdbcType=DATE}, 
+      #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{breedid,jdbcType=DECIMAL}, #{tradedays,jdbcType=DECIMAL}, #{codedelivery,jdbcType=DECIMAL}, 
+      #{nonissuereg,jdbcType=DECIMAL}, #{pubmemberid,jdbcType=VARCHAR}, #{minapplynum,jdbcType=DECIMAL}, 
+      #{minapplyquamove,jdbcType=DECIMAL}, #{publishalgr,jdbcType=DECIMAL}, #{dealerpubcharatio,jdbcType=DECIMAL}, 
+      #{mktdeapubcharatio,jdbcType=DECIMAL}, #{publishercharatio,jdbcType=DECIMAL}, #{mktpubcharatio,jdbcType=DECIMAL}, 
+      #{currstatus,jdbcType=DECIMAL}, #{supervisedprice,jdbcType=DECIMAL}, #{listingdate,jdbcType=DATE}, 
+      #{lasttradate,jdbcType=DATE}, #{contractfactor,jdbcType=DECIMAL}, #{contractfactorname,jdbcType=VARCHAR}, 
+      #{mapperid,jdbcType=VARCHAR}, #{minpricemove,jdbcType=DECIMAL}, #{spreadalgr,jdbcType=DECIMAL}, 
+      #{spreaduplmt,jdbcType=DECIMAL}, #{spreaddownlmt,jdbcType=DECIMAL}, #{minquantitymove,jdbcType=DECIMAL}, 
+      #{tradealgr,jdbcType=DECIMAL}, #{buy,jdbcType=DECIMAL}, #{sell,jdbcType=DECIMAL}, 
+      #{mktbuyfeeradio,jdbcType=DECIMAL}, #{mktsellfeeradio,jdbcType=DECIMAL}, #{warehousedailyrent,jdbcType=DECIMAL}, 
+      #{warehousestartday,jdbcType=DATE}, #{trusteedailyrent,jdbcType=DECIMAL}, #{insurancedailyrent,jdbcType=DECIMAL}, 
+      #{insurancestartday,jdbcType=DATE}, #{freetrusteedays,jdbcType=DECIMAL}, #{deliveryunit,jdbcType=VARCHAR}, 
+      #{deliunittocontract,jdbcType=DECIMAL}, #{deliverystartday,jdbcType=DATE}, #{registfeeradio,jdbcType=DECIMAL}, 
+      #{mktregistfeeradio,jdbcType=DECIMAL}, #{cancelfeeradio,jdbcType=DECIMAL}, #{mktcancelfeeradio,jdbcType=DECIMAL}, 
+      #{deliverycostbefore,jdbcType=DECIMAL}, #{details,jdbcType=VARCHAR})
   </insert>
-   <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
-   update IPO_COMMODITY_CONF
+  <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+    update IPO_COMMODITY_CONF
     set COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=DECIMAL},
       UNITS = #{units,jdbcType=DECIMAL},
@@ -175,16 +155,36 @@
       LISTINGDATE = #{listingdate,jdbcType=DATE},
       LASTTRADATE = #{lasttradate,jdbcType=DATE},
       CONTRACTFACTOR = #{contractfactor,jdbcType=DECIMAL},
+      CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
+      MAPPERID = #{mapperid,jdbcType=VARCHAR},
       MINPRICEMOVE = #{minpricemove,jdbcType=DECIMAL},
-      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
       SPREADALGR = #{spreadalgr,jdbcType=DECIMAL},
       SPREADUPLMT = #{spreaduplmt,jdbcType=DECIMAL},
       SPREADDOWNLMT = #{spreaddownlmt,jdbcType=DECIMAL},
-      CONTRACTFACTORNAME = #{contractfactorname,jdbcType=VARCHAR},
-      MAPPERID = #{mapperid,jdbcType=VARCHAR}
-      where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      MINQUANTITYMOVE = #{minquantitymove,jdbcType=DECIMAL},
+      TRADEALGR = #{tradealgr,jdbcType=DECIMAL},
+      BUY = #{buy,jdbcType=DECIMAL},
+      SELL = #{sell,jdbcType=DECIMAL},
+      MKTBUYFEERADIO = #{mktbuyfeeradio,jdbcType=DECIMAL},
+      MKTSELLFEERADIO = #{mktsellfeeradio,jdbcType=DECIMAL},
+      WAREHOUSEDAILYRENT = #{warehousedailyrent,jdbcType=DECIMAL},
+      WAREHOUSESTARTDAY = #{warehousestartday,jdbcType=DATE},
+      TRUSTEEDAILYRENT = #{trusteedailyrent,jdbcType=DECIMAL},
+      INSURANCEDAILYRENT = #{insurancedailyrent,jdbcType=DECIMAL},
+      INSURANCESTARTDAY = #{insurancestartday,jdbcType=DATE},
+      FREETRUSTEEDAYS = #{freetrusteedays,jdbcType=DECIMAL},
+      DELIVERYUNIT = #{deliveryunit,jdbcType=VARCHAR},
+      DELIUNITTOCONTRACT = #{deliunittocontract,jdbcType=DECIMAL},
+      DELIVERYSTARTDAY = #{deliverystartday,jdbcType=DATE},
+      REGISTFEERADIO = #{registfeeradio,jdbcType=DECIMAL},
+      MKTREGISTFEERADIO = #{mktregistfeeradio,jdbcType=DECIMAL},
+      CANCELFEERADIO = #{cancelfeeradio,jdbcType=DECIMAL},
+      MKTCANCELFEERADIO = #{mktcancelfeeradio,jdbcType=DECIMAL},
+      DELIVERYCOSTBEFORE = #{deliverycostbefore,jdbcType=DECIMAL},
+      DETAILS = #{details,jdbcType=VARCHAR}
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
-  <delete id="deleteByCommid" parameterType="String" >
+   <delete id="deleteByCommid" parameterType="String" >
     delete from IPO_COMMODITY_CONF  where COMMODITYID = #{commid} 
   </delete>
   <delete id="deleteByBreedid" parameterType="Long" >

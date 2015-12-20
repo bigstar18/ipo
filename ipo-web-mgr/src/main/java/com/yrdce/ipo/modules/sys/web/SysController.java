@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.yrdce.ipo.common.utils.DateUtils;
 import com.yrdce.ipo.common.vo.ResultMsg;
 import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
@@ -86,7 +86,7 @@ public class SysController {
 			Short status = value.getStatus();
 			if (status != null && statusMap.containsKey(String.valueOf(status)))
 				value.setStatusStr((String) statusMap.get(String.valueOf(status)));
-			value.setSysTime(DateUtils.formatDateTime(systemService.getDBTime()));
+			value.setSysTime(DateFormatUtils.format(systemService.getDBTime(), "yyyy-MM-dd HH:mm:ss"));
 			return JSON.json(value);
 		} catch (Exception e) {
 			log.error("error:", e);

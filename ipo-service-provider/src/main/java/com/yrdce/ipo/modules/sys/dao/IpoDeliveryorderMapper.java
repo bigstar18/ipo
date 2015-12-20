@@ -50,6 +50,12 @@ public interface IpoDeliveryorderMapper {
 	// 自提打印列表
 	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
 
+	// 总页数
+	int selectByCounts(String dealerId, String deliveryMethod);
+
+	// 订单总页数
+	int allCounts(String deliveryMethod);
+
 	// 在线配送列表
 	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
 
