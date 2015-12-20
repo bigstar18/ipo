@@ -124,7 +124,8 @@ function updateComm(){
 	var flag= $('#frm').form('validate');
 	if(curstatus!=''&&publishalgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
 		 $.ajax({ 
-             type: "post",  
+			 cache:false,
+             type: "POST",  
              url: "<%=request.getContextPath()%>/BreedController/updateCommodity",   
              data:$("#frm").serialize(),  
              success: function(data) { 

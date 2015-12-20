@@ -74,29 +74,31 @@ public class IpoABreedServiceImpl implements VIpoABreedService {
 
 	@Override
 	@Transactional
-	public int updateBreed(VIpoABreed breed) {
+	public Integer updateBreed(VIpoABreed breed) {
 		IpoBreed ipoabreed = new IpoBreed();
 		if (breed != null) {
 			BeanUtils.copyProperties(breed, ipoabreed);
+			int num = ipoBreedMapper.update(ipoabreed);
+			return num;
 		}
-		int num = ipoBreedMapper.update(ipoabreed);
-		return num;
+		return 0;
 	}
 
 	@Override
 	@Transactional
-	public void deleteBreed(Long breedid) {
-		ipoBreedMapper.deleteByBreedid(breedid);
+	public Integer deleteBreed(Long breedid) {
+		return ipoBreedMapper.deleteByBreedid(breedid);
 	}
 
 	@Override
 	@Transactional
-	public void addBreed(VIpoABreed breed) {
+	public Integer addBreed(VIpoABreed breed) {
 		IpoBreed ipoabreed = new IpoBreed();
 		if (breed != null) {
 			BeanUtils.copyProperties(breed, ipoabreed);
+			return ipoBreedMapper.insert(ipoabreed);
 		}
-		ipoBreedMapper.insert(ipoabreed);
+		return 0;
 	}
 
 	@Override

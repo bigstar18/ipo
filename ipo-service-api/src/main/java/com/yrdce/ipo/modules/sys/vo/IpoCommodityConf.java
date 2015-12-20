@@ -1,9 +1,10 @@
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class IpoCommodityConf {
+public class IpoCommodityConf implements Serializable {
 	private String commodityid;
 
 	private String commodityname;
@@ -534,6 +535,46 @@ public class IpoCommodityConf {
 
 	public void setCommdetails(String commdetails) {
 		this.commdetails = commdetails;
+	}
+
+	@Override
+	public String toString() {
+		return "IpoCommodityConf [commodityid=" + commodityid
+				+ ", commodityname=" + commodityname + ", price=" + price
+				+ ", units=" + units + ", counts=" + counts + ", starttime="
+				+ starttime + ", endtime=" + endtime + ", maxapplynum="
+				+ maxapplynum + ", status=" + status + ", breedid=" + breedid
+				+ ", tradedays=" + tradedays + ", codedelivery=" + codedelivery
+				+ ", nonissuereg=" + nonissuereg + ", pubmemberid="
+				+ pubmemberid + ", minapplynum=" + minapplynum
+				+ ", minapplyquamove=" + minapplyquamove + ", publishalgr="
+				+ publishalgr + ", dealerpubcharatio=" + dealerpubcharatio
+				+ ", mktdeapubcharatio=" + mktdeapubcharatio
+				+ ", publishercharatio=" + publishercharatio
+				+ ", mktpubcharatio=" + mktpubcharatio + ", currstatus="
+				+ currstatus + ", supervisedprice=" + supervisedprice
+				+ ", listingdate=" + listingdate + ", lasttradate="
+				+ lasttradate + ", contractfactor=" + contractfactor
+				+ ", contractfactorname=" + contractfactorname + ", mapperid="
+				+ mapperid + ", minpricemove=" + minpricemove + ", spreadalgr="
+				+ spreadalgr + ", spreaduplmt=" + spreaduplmt
+				+ ", spreaddownlmt=" + spreaddownlmt + ", minquantitymove="
+				+ minquantitymove + ", tradealgr=" + tradealgr + ", buy=" + buy
+				+ ", sell=" + sell + ", mktbuyfeeradio=" + mktbuyfeeradio
+				+ ", mktsellfeeradio=" + mktsellfeeradio
+				+ ", warehousedailyrent=" + warehousedailyrent
+				+ ", warehousestartday=" + warehousestartday
+				+ ", trusteedailyrent=" + trusteedailyrent
+				+ ", insurancedailyrent=" + insurancedailyrent
+				+ ", insurancestartday=" + insurancestartday
+				+ ", freetrusteedays=" + freetrusteedays + ", deliveryunit="
+				+ deliveryunit + ", deliunittocontract=" + deliunittocontract
+				+ ", deliverystartday=" + deliverystartday
+				+ ", registfeeradio=" + registfeeradio + ", mktregistfeeradio="
+				+ mktregistfeeradio + ", cancelfeeradio=" + cancelfeeradio
+				+ ", mktcancelfeeradio=" + mktcancelfeeradio
+				+ ", deliverycostbefore=" + deliverycostbefore
+				+ ", commdetails=" + commdetails + "]";
 	}
 
 }

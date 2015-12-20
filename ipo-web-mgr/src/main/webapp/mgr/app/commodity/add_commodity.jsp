@@ -128,7 +128,8 @@ function addComm(){
 			           }
                        if(data=='1'){
                     	   $.ajax({ 
-                               type: "post",  
+                    		   cache:false,
+                               type: "POST",  
                                url: "<%=request.getContextPath()%>/BreedController/addCommodity",       
                                data: $("#frm").serialize(),      
                                success: function(data) { 

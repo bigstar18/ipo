@@ -85,7 +85,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 
 	@Override
 	@Transactional
-	public void addCommodity(VIpoCommConf comm) {
+	public String addCommodity(VIpoCommConf comm) {
 		IpoCommodityConf ipocommconf = new IpoCommodityConf();
 		IpoCommodity ipocomm = new IpoCommodity();
 		if (comm != null) {
@@ -94,14 +94,19 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
 			ipocomm.setUnits(comm.getUnits().intValue());
 			ipocomm.setCounts(comm.getCounts().intValue());
+			int inum = ipoCommodityConfmapper.insert(ipocommconf);
+			int cnum = commoditymapper.insert(ipocomm);
+			if (inum != 0 && cnum != 0) {
+				return "success";
+			}
+			return "false";
 		}
-		ipoCommodityConfmapper.insert(ipocommconf);
-		commoditymapper.insert(ipocomm);
+		return "false";
 	}
 
 	@Override
 	@Transactional
-	public void updateCommodity(VIpoCommConf comm) {
+	public String updateCommodity(VIpoCommConf comm) {
 		IpoCommodityConf ipocommconf = new IpoCommodityConf();
 		IpoCommodity ipocomm = new IpoCommodity();
 		if (comm != null) {
@@ -110,9 +115,14 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
 			ipocomm.setUnits(comm.getUnits().intValue());
 			ipocomm.setCounts(comm.getCounts().intValue());
+			int inum = ipoCommodityConfmapper.update(ipocommconf);
+			int cnum = commoditymapper.update(ipocomm);
+			if (cnum != 0 && inum != 0) {
+				return "success";
+			}
+			return "false";
 		}
-		ipoCommodityConfmapper.update(ipocommconf);
-		commoditymapper.update(ipocomm);
+		return "false";
 	}
 
 	@Override

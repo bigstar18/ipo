@@ -7,7 +7,8 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 public interface IpoCommConfService {
 
 	// 通过品种ID分页获取商品列表
-	public List<VIpoCommConf> findIpoCommConfByBreedid(Long Breedid, String page, String rows);
+	public List<VIpoCommConf> findIpoCommConfByBreedid(Long Breedid,
+			String page, String rows);
 
 	// 通过所有商品ID
 	public List<String> findIpoCommConfIds();
@@ -19,10 +20,10 @@ public interface IpoCommConfService {
 	public VIpoCommConf getVIpoCommConfByCommid(String commid);
 
 	// 增加商品
-	public void addCommodity(VIpoCommConf comm);
+	public String addCommodity(VIpoCommConf comm);
 
 	// 修改商品
-	public void updateCommodity(VIpoCommConf comm);
+	public String updateCommodity(VIpoCommConf comm);
 
 	// 根据商品ID删除商品
 	public void deleteCommodityByCommid(String commid);

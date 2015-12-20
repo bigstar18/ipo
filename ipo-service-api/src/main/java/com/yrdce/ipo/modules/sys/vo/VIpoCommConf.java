@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @author chenjing 发售商品（设置）
  */
@@ -19,8 +21,9 @@ public class VIpoCommConf implements Serializable {
 
 	private BigDecimal counts;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date starttime;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endtime;
 
 	private BigDecimal maxapplynum;
@@ -54,16 +57,18 @@ public class VIpoCommConf implements Serializable {
 	private Short currstatus;
 
 	private BigDecimal supervisedprice;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date listingdate;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lasttradate;
 
 	private BigDecimal contractfactor;
 
-	private BigDecimal minpricemove;
+	private String contractfactorname;
 
-	private Integer minquantitymove;
+	private String mapperid;
+
+	private BigDecimal minpricemove;
 
 	private Short spreadalgr;
 
@@ -71,17 +76,47 @@ public class VIpoCommConf implements Serializable {
 
 	private BigDecimal spreaddownlmt;
 
-	private String contractfactorname;
+	private Integer minquantitymove;
 
-	private String mapperid;
+	private Short tradealgr;
 
-	public String getMapperid() {
-		return mapperid;
-	}
+	private BigDecimal buy;
 
-	public void setMapperid(String mapperid) {
-		this.mapperid = mapperid;
-	}
+	private BigDecimal sell;
+
+	private BigDecimal mktbuyfeeradio;
+
+	private BigDecimal mktsellfeeradio;
+
+	private BigDecimal warehousedailyrent;
+
+	private Date warehousestartday;
+
+	private BigDecimal trusteedailyrent;
+
+	private BigDecimal insurancedailyrent;
+
+	private Date insurancestartday;
+
+	private Integer freetrusteedays;
+
+	private String deliveryunit;
+
+	private BigDecimal deliunittocontract;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deliverystartday;
+
+	private BigDecimal registfeeradio;
+
+	private BigDecimal mktregistfeeradio;
+
+	private BigDecimal cancelfeeradio;
+
+	private BigDecimal mktcancelfeeradio;
+
+	private Integer deliverycostbefore;
+
+	private String commdetails;
 
 	public String getCommodityid() {
 		return commodityid;
@@ -292,20 +327,29 @@ public class VIpoCommConf implements Serializable {
 		this.contractfactor = contractfactor;
 	}
 
+	public String getContractfactorname() {
+		return contractfactorname;
+	}
+
+	public void setContractfactorname(String contractfactorname) {
+		this.contractfactorname = contractfactorname == null ? null
+				: contractfactorname.trim();
+	}
+
+	public String getMapperid() {
+		return mapperid;
+	}
+
+	public void setMapperid(String mapperid) {
+		this.mapperid = mapperid == null ? null : mapperid.trim();
+	}
+
 	public BigDecimal getMinpricemove() {
 		return minpricemove;
 	}
 
 	public void setMinpricemove(BigDecimal minpricemove) {
 		this.minpricemove = minpricemove;
-	}
-
-	public Integer getMinquantitymove() {
-		return minquantitymove;
-	}
-
-	public void setMinquantitymove(Integer minquantitymove) {
-		this.minquantitymove = minquantitymove;
 	}
 
 	public Short getSpreadalgr() {
@@ -332,22 +376,181 @@ public class VIpoCommConf implements Serializable {
 		this.spreaddownlmt = spreaddownlmt;
 	}
 
-	public String getContractfactorname() {
-		return contractfactorname;
+	public Integer getMinquantitymove() {
+		return minquantitymove;
 	}
 
-	public void setContractfactorname(String contractfactorname) {
-		this.contractfactorname = contractfactorname == null ? null
-				: contractfactorname.trim();
+	public void setMinquantitymove(Integer minquantitymove) {
+		this.minquantitymove = minquantitymove;
+	}
+
+	public Short getTradealgr() {
+		return tradealgr;
+	}
+
+	public void setTradealgr(Short tradealgr) {
+		this.tradealgr = tradealgr;
+	}
+
+	public BigDecimal getBuy() {
+		return buy;
+	}
+
+	public void setBuy(BigDecimal buy) {
+		this.buy = buy;
+	}
+
+	public BigDecimal getSell() {
+		return sell;
+	}
+
+	public void setSell(BigDecimal sell) {
+		this.sell = sell;
+	}
+
+	public BigDecimal getMktbuyfeeradio() {
+		return mktbuyfeeradio;
+	}
+
+	public void setMktbuyfeeradio(BigDecimal mktbuyfeeradio) {
+		this.mktbuyfeeradio = mktbuyfeeradio;
+	}
+
+	public BigDecimal getMktsellfeeradio() {
+		return mktsellfeeradio;
+	}
+
+	public void setMktsellfeeradio(BigDecimal mktsellfeeradio) {
+		this.mktsellfeeradio = mktsellfeeradio;
+	}
+
+	public BigDecimal getWarehousedailyrent() {
+		return warehousedailyrent;
+	}
+
+	public void setWarehousedailyrent(BigDecimal warehousedailyrent) {
+		this.warehousedailyrent = warehousedailyrent;
+	}
+
+	public Date getWarehousestartday() {
+		return warehousestartday;
+	}
+
+	public void setWarehousestartday(Date warehousestartday) {
+		this.warehousestartday = warehousestartday;
+	}
+
+	public BigDecimal getTrusteedailyrent() {
+		return trusteedailyrent;
+	}
+
+	public void setTrusteedailyrent(BigDecimal trusteedailyrent) {
+		this.trusteedailyrent = trusteedailyrent;
+	}
+
+	public BigDecimal getInsurancedailyrent() {
+		return insurancedailyrent;
+	}
+
+	public void setInsurancedailyrent(BigDecimal insurancedailyrent) {
+		this.insurancedailyrent = insurancedailyrent;
+	}
+
+	public Date getInsurancestartday() {
+		return insurancestartday;
+	}
+
+	public void setInsurancestartday(Date insurancestartday) {
+		this.insurancestartday = insurancestartday;
+	}
+
+	public Integer getFreetrusteedays() {
+		return freetrusteedays;
+	}
+
+	public void setFreetrusteedays(Integer freetrusteedays) {
+		this.freetrusteedays = freetrusteedays;
+	}
+
+	public String getDeliveryunit() {
+		return deliveryunit;
+	}
+
+	public void setDeliveryunit(String deliveryunit) {
+		this.deliveryunit = deliveryunit == null ? null : deliveryunit.trim();
+	}
+
+	public BigDecimal getDeliunittocontract() {
+		return deliunittocontract;
+	}
+
+	public void setDeliunittocontract(BigDecimal deliunittocontract) {
+		this.deliunittocontract = deliunittocontract;
+	}
+
+	public Date getDeliverystartday() {
+		return deliverystartday;
+	}
+
+	public void setDeliverystartday(Date deliverystartday) {
+		this.deliverystartday = deliverystartday;
+	}
+
+	public BigDecimal getRegistfeeradio() {
+		return registfeeradio;
+	}
+
+	public void setRegistfeeradio(BigDecimal registfeeradio) {
+		this.registfeeradio = registfeeradio;
+	}
+
+	public BigDecimal getMktregistfeeradio() {
+		return mktregistfeeradio;
+	}
+
+	public void setMktregistfeeradio(BigDecimal mktregistfeeradio) {
+		this.mktregistfeeradio = mktregistfeeradio;
+	}
+
+	public BigDecimal getCancelfeeradio() {
+		return cancelfeeradio;
+	}
+
+	public void setCancelfeeradio(BigDecimal cancelfeeradio) {
+		this.cancelfeeradio = cancelfeeradio;
+	}
+
+	public BigDecimal getMktcancelfeeradio() {
+		return mktcancelfeeradio;
+	}
+
+	public void setMktcancelfeeradio(BigDecimal mktcancelfeeradio) {
+		this.mktcancelfeeradio = mktcancelfeeradio;
+	}
+
+	public Integer getDeliverycostbefore() {
+		return deliverycostbefore;
+	}
+
+	public void setDeliverycostbefore(Integer deliverycostbefore) {
+		this.deliverycostbefore = deliverycostbefore;
+	}
+
+	public String getCommdetails() {
+		return commdetails;
+	}
+
+	public void setCommdetails(String commdetails) {
+		this.commdetails = commdetails;
 	}
 
 	@Override
 	public String toString() {
-		return "VIpoCommConf [commodityid=" + commodityid + ", commodityname="
-				+ commodityname + ", price=" + price + ", units=" + units
-				+ ", counts=" + counts + ", starttime=" + starttime
-				+ ", endtime=" + endtime + ", maxapplynum=" + maxapplynum
-				+ ", status=" + status + ", breedid=" + breedid
+		return "IpoCommodityConf [commodityid=" + commodityid
+				+ ", commodityname=" + commodityname + ", price=" + price
+				+ ", units=" + units + ", counts=" + counts + ", starttime="
+				+ starttime + ", endtime=" + endtime + ", maxapplynum="
+				+ maxapplynum + ", status=" + status + ", breedid=" + breedid
 				+ ", tradedays=" + tradedays + ", codedelivery=" + codedelivery
 				+ ", nonissuereg=" + nonissuereg + ", pubmemberid="
 				+ pubmemberid + ", minapplynum=" + minapplynum
@@ -359,11 +562,26 @@ public class VIpoCommConf implements Serializable {
 				+ currstatus + ", supervisedprice=" + supervisedprice
 				+ ", listingdate=" + listingdate + ", lasttradate="
 				+ lasttradate + ", contractfactor=" + contractfactor
-				+ ", minpricemove=" + minpricemove + ", minquantitymove="
-				+ minquantitymove + ", spreadalgr=" + spreadalgr
-				+ ", spreaduplmt=" + spreaduplmt + ", spreaddownlmt="
-				+ spreaddownlmt + ", contractfactorname=" + contractfactorname
-				+ ", mapperid=" + mapperid + "]";
+				+ ", contractfactorname=" + contractfactorname + ", mapperid="
+				+ mapperid + ", minpricemove=" + minpricemove + ", spreadalgr="
+				+ spreadalgr + ", spreaduplmt=" + spreaduplmt
+				+ ", spreaddownlmt=" + spreaddownlmt + ", minquantitymove="
+				+ minquantitymove + ", tradealgr=" + tradealgr + ", buy=" + buy
+				+ ", sell=" + sell + ", mktbuyfeeradio=" + mktbuyfeeradio
+				+ ", mktsellfeeradio=" + mktsellfeeradio
+				+ ", warehousedailyrent=" + warehousedailyrent
+				+ ", warehousestartday=" + warehousestartday
+				+ ", trusteedailyrent=" + trusteedailyrent
+				+ ", insurancedailyrent=" + insurancedailyrent
+				+ ", insurancestartday=" + insurancestartday
+				+ ", freetrusteedays=" + freetrusteedays + ", deliveryunit="
+				+ deliveryunit + ", deliunittocontract=" + deliunittocontract
+				+ ", deliverystartday=" + deliverystartday
+				+ ", registfeeradio=" + registfeeradio + ", mktregistfeeradio="
+				+ mktregistfeeradio + ", cancelfeeradio=" + cancelfeeradio
+				+ ", mktcancelfeeradio=" + mktcancelfeeradio
+				+ ", deliverycostbefore=" + deliverycostbefore
+				+ ", commdetails=" + commdetails + "]";
 	}
 
 }

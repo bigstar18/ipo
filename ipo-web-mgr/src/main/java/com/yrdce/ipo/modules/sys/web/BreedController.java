@@ -164,8 +164,12 @@ public class BreedController {
 		log.info("增加一个品种");
 		log.info(vipoabreed.toString());
 		try {
-			vIpoABreedService.addBreed(vipoabreed);
-			return "true";
+			int num = vIpoABreedService.addBreed(vipoabreed);
+			if (num != 0) {
+				return "true";
+			} else {
+				return "false";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -213,9 +217,13 @@ public class BreedController {
 			int totalnum = ipoCommConfService.getTotalIpoCommsByBreedid(Long
 					.parseLong(breedid));
 			if (totalnum == 0) {
-
-				vIpoABreedService.deleteBreed(Long.parseLong(breedid));
-				return "true";
+				int num = vIpoABreedService
+						.deleteBreed(Long.parseLong(breedid));
+				if (num != 0) {
+					return "true";
+				} else {
+					return "false";
+				}
 			}
 			return "false";
 		} catch (Exception e) {
@@ -352,9 +360,9 @@ public class BreedController {
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				ipocomm.setNonissuereg(new BigDecimal(1));
 				log.info(ipocomm.toString());
+				return ipoCommConfService.addCommodity(ipocomm);
 			}
-			ipoCommConfService.addCommodity(ipocomm);
-			return "success";
+			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -378,9 +386,9 @@ public class BreedController {
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				ipocomm.setNonissuereg(new BigDecimal(1));
 				log.info(ipocomm.toString());
+				return ipoCommConfService.updateCommodity(ipocomm);
 			}
-			ipoCommConfService.updateCommodity(ipocomm);
-			return "success";
+			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
