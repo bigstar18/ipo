@@ -14,12 +14,12 @@ public interface IpoStorageMapper {
 
 	IpoStorage selectByPrimaryKey(String storageid);
 
-    IpoStorage selectByCommodityId(String commodityid);
-    
-    IpoStorage selectByStorageDate(Date storagedate);
-    
-    IpoStorage selectByStorageState(int storagestate);
-	
+	IpoStorage selectByCommodityId(String commodityid);
+
+	IpoStorage selectByStorageDate(Date storagedate);
+
+	IpoStorage selectByStorageState(int storagestate);
+
 	List<IpoStorage> selectAll();
 
 	int updateByPrimaryKey(IpoStorage record);
