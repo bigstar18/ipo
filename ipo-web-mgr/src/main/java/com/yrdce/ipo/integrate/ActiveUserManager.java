@@ -1,21 +1,25 @@
 package com.yrdce.ipo.integrate;
 
-import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
-import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
-
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
+import gnnt.MEBS.logonServerUtil.au.LogonActualize;
 import gnnt.MEBS.logonService.dao.LogonManagerDAO;
 import gnnt.MEBS.logonService.kernel.ILogonService;
 import gnnt.MEBS.logonService.po.LogonConfigPO;
 import gnnt.MEBS.logonService.vo.CheckUserResultVO;
 import gnnt.MEBS.logonService.vo.CheckUserVO;
+import gnnt.MEBS.logonService.vo.LogoffVO;
 import gnnt.MEBS.logonService.vo.RemoteLogonServerVO;
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+
+import org.slf4j.LoggerFactory;
+import org.springframework.web.context.WebApplicationContext;
 
 public class ActiveUserManager {
 	private static final transient org.slf4j.Logger logger = LoggerFactory.getLogger(ActiveUserManager.class);
@@ -85,6 +89,25 @@ public class ActiveUserManager {
 		return result;
 	}
 
+	
+	 public static void logoff(HttpServletRequest request)throws Exception{
+		    
+		 UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+	     request.getSession().invalidate();
+	     if (user != null) {
+		      LogoffVO logoffVO = new LogoffVO();
+		      logoffVO.setSessionID(user.getSessionID());
+		      logoffVO.setUserID(user.getUserID());
+		      logoffVO.setLogonType(user.getLogonType());
+		      logoffVO.setModuleID(user.getModuleIDList().get(0));
+		      LogonActualize actualize=LogonActualize.getInstance();
+		      if(actualize!=null){
+		    	  actualize.logoff(logoffVO);
+		      }
+	      }
+	}
+	 
+	 
 	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
 	public static WebApplicationContext wac;
 
