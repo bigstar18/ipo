@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
 <%@page import="java.lang.String"%> 
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%>
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String userId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 

@@ -375,7 +375,6 @@
     from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR}
   </select>
   
-  
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 

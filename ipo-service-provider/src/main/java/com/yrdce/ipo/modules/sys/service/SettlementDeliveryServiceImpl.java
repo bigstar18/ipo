@@ -23,6 +23,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 
 /**
@@ -97,35 +98,33 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提打印
 	@Override
-	public List<DeliveryOrder> getPrint(String page, String rows, String userid) throws Exception {
-		logger.info("自提打印");
+	public List<DeliveryOrder> getPrint(String page, String rows, Paging paging) throws Exception {
+		logger.info("自提打印:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
-		if (list1.size() != 0) {
-			for (IpoDeliveryorder ipoDeliveryorder : list1) {
-				DeliveryOrder deliveryOrder = new DeliveryOrder();
-				BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
-				list2.add(deliveryOrder);
-			}
-			return list2;
+		for (IpoDeliveryorder ipoDeliveryorder : list1) {
+			DeliveryOrder deliveryOrder = new DeliveryOrder();
+			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+			list2.add(deliveryOrder);
 		}
-		return null;
+		return list2;
 	}
 
 	// 自提打印总页数
 	@Override
-	public int counts(String userid, String deliveryMethod) throws Exception {
-		return ipoDeliveryorderMapper.selectByCounts(userid, deliveryMethod);
+	public int counts(Paging paging, String deliveryMethod) throws Exception {
+		logger.info("自提打印总页数" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		return ipoDeliveryorderMapper.selectByCounts(paging, deliveryMethod);
 	}
 
 	// 自提详细信息
 	@Override
 	public Pickup getDetail(String methodid) throws Exception {
-		logger.info("自提信息信息");
+		logger.info("自提信息信息" + "methodid:" + methodid);
 		IpoPickup ipoPickup = ipoPickupMapper.selectByPrimaryKey(methodid);
 		Pickup pickup = new Pickup();
 		BeanUtils.copyProperties(ipoPickup, pickup);
@@ -137,63 +136,58 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Transactional
 	public String getRevocation(String deliveryorderid, String status) throws Exception {
 		int status1 = Integer.parseInt(status);
-		logger.info("撤销申请");
+		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
 		return "success";
 	}
 
 	// 在线配送
 	@Override
-	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception {
-		logger.info("在线配送");
+	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception {
+		logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper.selectByExpress((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
+		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper.selectByExpress((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<Express> list2 = new ArrayList<Express>();
-		if (list1.size() != 0) {
-			for (IpoExpressExtended ipoExpressExtended : list1) {
-				Express express = new Express();
-				BeanUtils.copyProperties(ipoExpressExtended, express);
-				list2.add(express);
-			}
-			return list2;
+		for (IpoExpressExtended ipoExpressExtended : list1) {
+			Express express = new Express();
+			BeanUtils.copyProperties(ipoExpressExtended, express);
+			list2.add(express);
 		}
-		return null;
+		return list2;
 	}
 
 	// 提货查询
 	@Override
-	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception {
-		logger.info("提货查询");
+	public List<DeliveryOrder> getListByOrder(String page, String rows, Paging paging) throws Exception {
+		logger.info("提货查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, userid);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
-		if (list1.size() != 0) {
-			for (IpoDeliveryorder ipoDeliveryorder : list1) {
-				DeliveryOrder deliveryOrder = new DeliveryOrder();
-				BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
-				list2.add(deliveryOrder);
-			}
-			return list2;
+		for (IpoDeliveryorder ipoDeliveryorder : list1) {
+			DeliveryOrder deliveryOrder = new DeliveryOrder();
+			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+			list2.add(deliveryOrder);
 		}
-		return null;
+		return list2;
 	}
 
 	// 提货查询总页数
 	@Override
-	public int countsByAll(String userid) throws Exception {
-		return ipoDeliveryorderMapper.allCounts(userid);
+	public int countsByAll(Paging paging) throws Exception {
+		logger.info("提货查询总页数" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		return ipoDeliveryorderMapper.allCounts(paging);
 	}
 
 	// 提货查询(自提)详细信息
 	@Override
 	public Pickup getDetailByPickup(String methodid) throws Exception {
-		logger.info("提货查询(自提)详细信息");
+		logger.info("提货查询(自提)详细信息" + "methodid:" + methodid);
 		IpoPickup ipoPickup = ipoPickupMapper.selectByPrimaryKey(methodid);
 		Pickup pickup = new Pickup();
 		BeanUtils.copyProperties(ipoPickup, pickup);
@@ -203,7 +197,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 提货查询(在线配送)详细信息
 	@Override
 	public Express getDetailByExpress(String methodid) throws Exception {
-		logger.info("提货查询(在线配送)详细信息");
+		logger.info("提货查询(在线配送)详细信息" + "methodid:" + methodid);
 		IpoExpress ipoExpress = ipoExpressMapper.selectByPrimaryKey(methodid);
 		Express express = new Express();
 		BeanUtils.copyProperties(ipoExpress, express);
@@ -213,14 +207,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 费用查询
 	@Override
 	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception {
-		logger.info("费用查询");
-
-		return null;
-	}
-
-	// 自提确认
-	@Override
-	public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception {
+		logger.info("费用查询" + "userid:" + userid);
 
 		return null;
 	}
