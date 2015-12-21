@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>打印单号</title>
+</head>
+
+<body>
+  <input type="button" value="打印页面" onclick="printpage()" />
+  <form id="form_table" method="post">
+    <table width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
+      <tbody>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货单号：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品代码：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品名称：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交收仓库代码：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交收仓库名称：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          持仓数量：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交割数量：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          单位：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          注册日期：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货日期：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          状态：
+	        </span>
+          </td>
+          <td align="center">
+            haha
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <script type="text/javascript">
+  function printpage() {
+    var newWin = window.open('提货信息', '', '');
+    var titleHTML = document.getElementById("form_table").innerHTML;
+    newWin.document.write(titleHTML);
+    newWin.document.location.reload();
+    newWin.print();
+  }
+  </script>
+</body>
+
+</html>
