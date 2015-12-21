@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 
 @MyBatisDao
 public interface IpoDeliveryorderMapper {
@@ -48,20 +49,20 @@ public interface IpoDeliveryorderMapper {
 	int sequence();
 
 	// 自提打印列表
-	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
+	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
 	// 总页数
-	int selectByCounts(String dealerId, String deliveryMethod);
+	int selectByCounts(@Param("paging") Paging paging, @Param("deliveryMethod") String deliveryMethod);
 
 	// 订单总页数
-	int allCounts(String deliveryMethod);
+	int allCounts(@Param("paging") Paging paging);
 
 	// 在线配送列表
-	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("dealerId") String dealerId);
+	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
 	// 更新申请单状态
 	int updateByStatus(@Param("deliveryorderId") String deliveryorderId, @Param("status") int status);
 
 	// 根据用户ID查询申请主表（提货插叙）
-	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
+	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 }

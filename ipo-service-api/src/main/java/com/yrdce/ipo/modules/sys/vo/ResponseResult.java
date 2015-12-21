@@ -32,4 +32,9 @@ public class ResponseResult implements Serializable {
 		this.rows = rows;
 	}
 
+	@Override
+	public String toString() {
+		return "ResponseResult [total=" + total + ", rows=" + rows + "]";
+	}
+
 }

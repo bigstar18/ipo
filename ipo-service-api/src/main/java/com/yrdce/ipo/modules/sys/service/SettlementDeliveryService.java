@@ -5,6 +5,7 @@ import java.util.List;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 
 /**
@@ -20,13 +21,13 @@ public interface SettlementDeliveryService {
 	public String applicationByexpress(Express express) throws Exception;
 
 	// 提货确认
-	public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception;
+	// public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception;
 
 	// 自提打印
-	public List<DeliveryOrder> getPrint(String page, String rows, String userid) throws Exception;
+	public List<DeliveryOrder> getPrint(String page, String rows, Paging paging) throws Exception;
 
 	// 总页数
-	public int counts(String userid, String deliveryMethod) throws Exception;
+	public int counts(Paging paging, String deliveryMethod) throws Exception;
 
 	public Pickup getDetail(String methodid) throws Exception;
 
@@ -34,14 +35,14 @@ public interface SettlementDeliveryService {
 	public String getRevocation(String deliveryorderid, String status) throws Exception;
 
 	// 在线配送
-	public List<Express> getListByExpress(String page, String rows, String userid) throws Exception;
+	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception;
 
 	// public Express confirm(String methodid, String deliveryorderid) throws Exception;
 
 	// 提货查询
-	public List<DeliveryOrder> getListByOrder(String page, String rows, String userid) throws Exception;
+	public List<DeliveryOrder> getListByOrder(String page, String rows, Paging paging) throws Exception;
 
-	public int countsByAll(String userid) throws Exception;
+	public int countsByAll(Paging paging) throws Exception;
 
 	public Pickup getDetailByPickup(String methodid) throws Exception;
 

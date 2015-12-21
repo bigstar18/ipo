@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup {
+public class Pickup implements Serializable {
 	private String pickupId;
 
 	private String pickupPassword;
