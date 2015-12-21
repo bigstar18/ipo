@@ -292,11 +292,7 @@ var promptTime = 60;
 									
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("出库单权限查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/OutboundQuery");
-									M01.add(M0101);</SCRIPT>
-									
-						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("查询入库单,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryApprove");
-									M01.add(M0101);</SCRIPT>
+									M01.add(M0101);</SCRIPT>	
 									
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("提货单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryApprove");

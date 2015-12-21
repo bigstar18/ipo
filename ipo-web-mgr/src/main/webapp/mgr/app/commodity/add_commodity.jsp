@@ -105,7 +105,8 @@ $(function () {
 	   		               $('#endtime').datebox('setValue', '').datebox('showPanel');
 	   		           } 	
 	   	     	}
-	            });  
+	            });
+	            	            
 	        });	
 		 
 function addComm(){

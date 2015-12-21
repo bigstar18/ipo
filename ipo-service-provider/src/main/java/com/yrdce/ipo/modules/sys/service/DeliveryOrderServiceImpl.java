@@ -73,18 +73,19 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		IpoDeliveryorder record = new IpoDeliveryorder();
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, record);
+			List<IpoDeliveryorder> dorderslist = deliveryordermapper
+					.queryAllDeliOrdersByPage((curpage - 1) * pagesize + 1,
+							curpage * pagesize, record);
+			List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
+			for (int i = 0; i < dorderslist.size(); i++) {
+				DeliveryOrder temp = new DeliveryOrder();
+				BeanUtils.copyProperties(dorderslist.get(i), temp);
+				dorderslist2.add(temp);
+				Log.info(temp.toString());
+			}
+			return dorderslist2;
 		}
-		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.queryAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
-						* pagesize, record);
-		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
-		for (int i = 0; i < dorderslist.size(); i++) {
-			DeliveryOrder temp = new DeliveryOrder();
-			BeanUtils.copyProperties(dorderslist.get(i), temp);
-			dorderslist2.add(temp);
-			Log.info(temp.toString());
-		}
-		return dorderslist2;
+		return null;
 
 	}
 
@@ -93,8 +94,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		IpoDeliveryorder order = new IpoDeliveryorder();
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, order);
+			return deliveryordermapper.getQueryNum(order);
 		}
-		return deliveryordermapper.getQueryNum(order);
+		return 0;
 	}
 
 	@Override
@@ -286,18 +288,19 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		IpoDeliveryorder record = new IpoDeliveryorder();
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, record);
+			List<IpoDeliveryorder> dorderslist = deliveryordermapper
+					.queryCancelDeliOrdersByPage((curpage - 1) * pagesize + 1,
+							curpage * pagesize, record);
+			List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
+			for (int i = 0; i < dorderslist.size(); i++) {
+				DeliveryOrder temp = new DeliveryOrder();
+				BeanUtils.copyProperties(dorderslist.get(i), temp);
+				dorderslist2.add(temp);
+				Log.info(temp.toString());
+			}
+			return dorderslist2;
 		}
-		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.queryCancelDeliOrdersByPage((curpage - 1) * pagesize + 1,
-						curpage * pagesize, record);
-		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
-		for (int i = 0; i < dorderslist.size(); i++) {
-			DeliveryOrder temp = new DeliveryOrder();
-			BeanUtils.copyProperties(dorderslist.get(i), temp);
-			dorderslist2.add(temp);
-			Log.info(temp.toString());
-		}
-		return dorderslist2;
+		return null;
 	}
 
 	@Override
@@ -305,8 +308,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		IpoDeliveryorder order = new IpoDeliveryorder();
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, order);
+			return deliveryordermapper.getQueryCancelNum(order);
 		}
-		return deliveryordermapper.getQueryCancelNum(order);
+		return null;
 	}
 
 	public String genRandomNum() {
