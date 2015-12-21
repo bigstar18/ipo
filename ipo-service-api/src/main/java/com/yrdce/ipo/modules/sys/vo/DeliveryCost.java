@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DeliveryCost {
+public class DeliveryCost implements Serializable {
 	private String deliveryId;
 
 	private String deliveryMethod;

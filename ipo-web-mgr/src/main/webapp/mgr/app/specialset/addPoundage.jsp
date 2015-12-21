@@ -33,8 +33,6 @@ function addPoundage(){
          error: function(data) {  
              alert("系统异常，请联系管理员");  
          } 
-	 
-	
 	})
 }
 
@@ -116,15 +114,12 @@ function updatePoundage(){
 													<td>
 														<select id="status" name="status" style="width:120">
 															  <option value="">请选择</option>
-									                          <option value="0">无效</option>
-										                      <option value="1" selected="selected">正常</option>
+									                          <c:forEach var="commId" items="${commIds}">
+                                                      		  	<option value="${commId}">${commId}</option>
+                                                  			  </c:forEach>
 														</select>
 													</td>
 												</tr>
-												
-												
-												
-									
 											</table>
 										</div>
 									</td>
@@ -155,8 +150,8 @@ function updatePoundage(){
 													<td>
 														<select id="status" name="status" style="width:120">
 															  <option value="">请选择</option>
-									                          <option value="0">1</option>
-										                      <option value="1" selected="selected">0</option>
+									                          <option value="0">按百分比</option>
+										                      <option value="1" selected="selected">按绝对值</option>
 														</select>
 													</td>
 													<td align="center">

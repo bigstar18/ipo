@@ -356,7 +356,7 @@ public class BreedController {
 		log.info("新增商品");
 		try {
 			if (ipocomm != null) {
-				ipocomm.setStatus(new BigDecimal(0));
+				ipocomm.setStatus(new BigDecimal(1));
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				ipocomm.setNonissuereg(new BigDecimal(1));
 				log.info(ipocomm.toString());
@@ -382,9 +382,6 @@ public class BreedController {
 		log.info("修改商品");
 		try {
 			if (ipocomm != null) {
-				ipocomm.setStatus(new BigDecimal(0));
-				ipocomm.setCodedelivery(new BigDecimal(1));
-				ipocomm.setNonissuereg(new BigDecimal(1));
 				log.info(ipocomm.toString());
 				return ipoCommConfService.updateCommodity(ipocomm);
 			}

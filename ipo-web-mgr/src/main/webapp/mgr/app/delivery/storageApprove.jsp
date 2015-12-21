@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>提货单审核</title>
-<script src="<%=request.getContextPath()%>/static/ipo/delivery/approve.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/delivery/storageApprove.js" type="text/javascript"></script>
 
 </head>
 <body>

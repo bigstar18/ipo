@@ -43,4 +43,7 @@
     DELIVERY_FEE
     from IPO_DELIVERY_COST
   </select>
+  <select id="selectByUserid" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select b.* from ipo_deliveryorder a left join ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{dealerId,jdbcType=VARCHAR}
+  </select>
 </mapper>

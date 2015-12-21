@@ -79,8 +79,9 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		if (comm != null) {
 			log.info(comm.toString());
 			BeanUtils.copyProperties(comm, ipocommconf);
+			return ipocommconf;
 		}
-		return ipocommconf;
+		return null;
 	}
 
 	@Override

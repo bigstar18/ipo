@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.SettlementDeliveryService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
@@ -28,6 +31,8 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @Controller
 @RequestMapping("SettlementDeliveryController")
 public class SettlementDeliveryController {
+
+	static Logger logger = LoggerFactory.getLogger(SettlementDeliveryController.class);
 	@Autowired
 	private SettlementDeliveryService settlementDeliveryService;
 
@@ -71,6 +76,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/deliveryBypickup", method = RequestMethod.GET)
 	@ResponseBody
 	public String deliveryBypickup(Pickup pickup) {
+		logger.info("提货申请(自提打印)");
 		try {
 			settlementDeliveryService.applicationByPickup(pickup);
 			return "success";
@@ -84,6 +90,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/deliveryByexpress", method = RequestMethod.GET)
 	@ResponseBody
 	public String deliveryByexpress(Express express) {
+		logger.info("提货申请(在线配送)");
 		try {
 			settlementDeliveryService.applicationByexpress(express);
 			return "success";
@@ -96,14 +103,15 @@ public class SettlementDeliveryController {
 	// 自提打印
 	@RequestMapping(value = "/print", method = RequestMethod.GET)
 	@ResponseBody
-	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid,
-			@RequestParam("mothod") String mothod) {
+	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging) {
+		logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		try {
-			List<DeliveryOrder> clist = settlementDeliveryService.getPrint(page, rows, userid);
-			int totalnums = settlementDeliveryService.counts(userid, mothod);
+			List<DeliveryOrder> clist = settlementDeliveryService.getPrint(page, rows, paging);
+			int totalnums = settlementDeliveryService.counts(paging, "自提");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
+			logger.info("" + result);
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,6 +123,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/getDetail", method = RequestMethod.GET)
 	@ResponseBody
 	public String getDetail(@RequestParam("methodid") String methodid) {
+		logger.info("自提打印(操作后弹出的数据)" + "methodid:" + methodid);
 		try {
 			Pickup pickup = settlementDeliveryService.getDetail(methodid);
 			return JSON.json(pickup);
@@ -128,6 +137,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/updateByStatus", method = RequestMethod.GET)
 	@ResponseBody
 	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
+		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
 			settlementDeliveryService.getRevocation(deliveryorderid, status);
 			return "success";
@@ -141,11 +151,11 @@ public class SettlementDeliveryController {
 	// 在线配送
 	@RequestMapping(value = "/getDispatching", method = RequestMethod.GET)
 	@ResponseBody
-	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid,
-			@RequestParam("mothod") String mothod) {
+	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging) {
+		logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		try {
-			List<Express> clist = settlementDeliveryService.getListByExpress(page, rows, userid);
-			int totalnums = settlementDeliveryService.counts(userid, mothod);
+			List<Express> clist = settlementDeliveryService.getListByExpress(page, rows, paging);
+			int totalnums = settlementDeliveryService.counts(paging, "在线配送");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
@@ -160,10 +170,11 @@ public class SettlementDeliveryController {
 	// 提货查询
 	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
 	@ResponseBody
-	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid) {
+	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging) {
+		logger.info("提货查询" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		try {
-			List<DeliveryOrder> clist = settlementDeliveryService.getListByOrder(page, rows, userid);
-			int totalnums = settlementDeliveryService.countsByAll(userid);
+			List<DeliveryOrder> clist = settlementDeliveryService.getListByOrder(page, rows, paging);
+			int totalnums = settlementDeliveryService.countsByAll(paging);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
@@ -179,6 +190,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/pickupDetail", method = RequestMethod.GET)
 	@ResponseBody
 	public String pickupDetail(@RequestParam("methodid") String methodid) {
+		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
 			Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
 			return JSON.json(pickup);
@@ -193,6 +205,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/expressDetail", method = RequestMethod.GET)
 	@ResponseBody
 	public String expressDetail(@RequestParam("methodid") String methodid) {
+		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
 			Express express = settlementDeliveryService.getDetailByExpress(methodid);
 			return JSON.json(express);
@@ -207,6 +220,7 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/costQuery", method = RequestMethod.GET)
 	@ResponseBody
 	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid) {
+		logger.info("费用查询" + "userid:" + userid);
 		return "";
 	}
 }

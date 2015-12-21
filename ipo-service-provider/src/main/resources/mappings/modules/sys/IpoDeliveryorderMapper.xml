@@ -113,7 +113,7 @@
     select <include refid="Base_Column_List" />
     from (select t.*,rownum TNO from IPO_DELIVERYORDER t where 1=1
       <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -129,7 +129,7 @@
    <select id="getQueryNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
    	 select count(*) from IPO_DELIVERYORDER t where 1=1
    	    <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -147,7 +147,7 @@
     select <include refid="Base_Column_List" />
     from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
       <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -160,7 +160,7 @@
    <select id="getQueryCancelNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
    	 select count(*) from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
    	    <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=DECIMAL} 
+       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -195,14 +195,20 @@
   <select id="selectByPickup" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickupExtended">
   	select * from 
 	(select t.*,rownum TNO from
- 		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where d.dealer_id = #{dealerId,jdbcType=VARCHAR} and = DELIVERY_METHOD = '在线配送') t
+ 		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where 
+ 		d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
+ 		<if test="paging.deliveryorderId != null">
+       and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
+       </if>
+ 		and DELIVERY_METHOD = '自提') t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
   <select id="selectByExpress" parameterType="map" resultMap="BaseResultMap">
   	select * from 
 	(select t.*,rownum TNO from
- 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.dealer_id = #{dealerId,jdbcType=VARCHAR}) t
+ 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} 
+       and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
@@ -215,15 +221,16 @@
   <select id="selectByUserid" resultMap="BaseResultMap" parameterType="map">
   select * from 
 	(select t.*,rownum TNO from
- 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.DEALER_ID = #{dealerId,jdbcType=VARCHAR}) t
+ 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}) t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
-  <select id="selectByCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
-  	select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{dealerId,jdbcType=VARCHAR} and DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+  <select id="selectByCounts" parameterType="map" resultType="java.lang.Integer">
+  	select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} and DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+       and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
   
   <select id="allCounts" resultType="java.lang.Integer" parameterType="java.lang.String">
-  select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{dealerId,jdbcType=VARCHAR}
+  select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
 </mapper>

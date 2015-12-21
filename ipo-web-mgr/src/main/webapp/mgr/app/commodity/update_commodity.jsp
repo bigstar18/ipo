@@ -114,7 +114,7 @@
               $("#endtime").datebox("setValue",$("#etime").val());  
 		  });	
 		
-	
+		
 		
 function updateComm(){
 	var curstatus=$("#currstatus").val();
@@ -200,6 +200,9 @@ function on_change(){
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 								      <tr>
         								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>   
+        								<input type="hidden" id="status" name="status" value="${entity.status }"/>   
+        								<input type="hidden" id="codedelivery" name="codedelivery" value="${entity.codedelivery }"/>   
+        								<input type="hidden" id="nonissuereg" name="nonissuereg" value="${entity.nonissuereg }"/>   
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${breedname }"

@@ -335,7 +335,7 @@
   <select id="getAllByPage"  resultType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended"  parameterType="map" >
     select * from 
 	(select t.*,rownum TNO from
-	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid 
+	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid,d.zcounts
 	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityname=o.commodityname
 	where d.userid=#{userid,jdbcType=VARCHAR})t
 	) a where a.TNO between #{beginnum} and  #{endnum}
@@ -349,6 +349,12 @@
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 
    		<include refid="Base_Column_List" /> 
+   	from IPO_DISTRIBUTION where to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
+   </select>
+   
+   <select id="allByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+   	select 
+   		distinct(commodityid)
    	from IPO_DISTRIBUTION where to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
    </select>
    
