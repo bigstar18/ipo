@@ -307,7 +307,7 @@
       <if test="record.endtime != null" >
       and  t.ENDTIME = #{record.endtime,jdbcType=DATE}
       </if>
-      <if test="record.status != 4">
+      <if test="record.status != 0">
       and	t.STATUS = #{record.status,jdbcType=INTEGER}
       </if>
    	  order by t.ID) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -368,6 +368,13 @@
      <include refid="Base_Column_List" />
     from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} and ENDTIME >=trunc(sysdate)
   </select>
+  
+  <select id="getSelectByComid" resultMap="BaseResultMap"  parameterType="java.lang.String">
+   select 
+     <include refid="Base_Column_List" />
+    from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR}
+  </select>
+  
   
   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
    	select 

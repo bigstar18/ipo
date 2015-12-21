@@ -69,10 +69,10 @@ $(document).ready(function() {
              align: "center",
              title : '状态' ,
              formatter:function(value){
-            	 if(value=='0') return "未配号";
-            	 if(value=='1') return "已配号";
-            	 if(value=='2') return "已摇号";
-            	 if(value=='3') return "已结算";
+            	 if(value=='1') return "未配号";
+            	 if(value=='2') return "已配号";
+            	 if(value=='3') return "已摇号";
+            	 if(value=='4') return "已结算";
            }
           }, {  
               field : 'starttime',  
@@ -164,10 +164,10 @@ function doSearch(){
 			商品名称：<input type="text" id="commodityname" name="commodityname" />
 			状态: 	<select id="status" name="status" style="width:80">
 					<option value="">请选择</option>
-					<option value="0">未配号</option>
-					<option value="1">已配号</option>
-					<option value="2">已摇号</option>
-					<option value="3">已结算</option>
+					<option value="1">未配号</option>
+					<option value="2">已配号</option>
+					<option value="3">已摇号</option>
+					<option value="4">已结算</option>
 					</select>
 			发售日期：<input type="text" id="starttime" name="starttime"></input> 
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 
