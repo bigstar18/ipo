@@ -80,7 +80,7 @@
     where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=VARCHAR}
   </update>
    <update id="cancelDeorder" parameterType="map" >
-    update IPO_DELIVERYORDER  set APPROVAL_STATUS = 6,CANCELER= #{canceller,jdbcType=VARCHAR},CANCEL_DATE=trunc(sysdate)  where DELIVERYORDER_ID = #{deorderId,jdbcType=VARCHAR}
+    update IPO_DELIVERYORDER  set APPROVAL_STATUS = 7,CANCELER= #{canceller,jdbcType=VARCHAR},CANCEL_DATE=trunc(sysdate)  where DELIVERYORDER_ID = #{deorderId,jdbcType=VARCHAR}
   </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -145,7 +145,7 @@
   
    <select id="queryCancelDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
     select <include refid="Base_Column_List" />
-    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
+    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3,4,5)
       <if test="record.deliveryorderId != null" >
        and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
@@ -158,7 +158,7 @@
     order by t.DELIVERYORDER_ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getQueryCancelNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
-   	 select count(*) from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3)
+   	 select count(*) from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3,4,5)
    	    <if test="record.deliveryorderId != null" >
        and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
       </if>
@@ -185,7 +185,7 @@
     from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in (1,2,3) order by t.DELIVERYORDER_ID ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getCancelNum" resultType="java.lang.Integer" >
-  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS in (1,2,3)
+  	select count(*) from IPO_DELIVERYORDER where APPROVAL_STATUS in (1,2,3,4,5)
   </select>
 
    <select id="sequence" resultType="java.lang.Integer">
@@ -221,8 +221,7 @@
   <select id="selectByUserid" resultMap="BaseResultMap" parameterType="map">
   select * from 
 	(select t.*,rownum TNO from
- 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}
- 		and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
+ 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}) t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   

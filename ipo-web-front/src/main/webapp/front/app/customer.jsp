@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
 <%@page import="java.lang.String"%> 
-<%//String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 String dealerId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -131,7 +131,9 @@ String dealerId ="111";%>
     	$.ajax({  
 			 type: 'post',  
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",  
+		     contentType: "application/json; charset=utf-8", 
 		     data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
+			 dataType: 'json',  
 		     success : function(data, stats) { 
 			           if(data=='success'){
 			        	   alert("撤销成功");
