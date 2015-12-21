@@ -15,6 +15,12 @@ $(document).ready(function() {
 	getAllInfo();
 	  
 });
+//弹窗
+function openWindow(){
+	var url = "<%=request.getContextPath()%>/StorageController/AddStorageView?randnum="+Math.floor(Math.random()*1000000);
+	document.location.href=url;
+	//window.open(url,"入库单添加",height=600,width=300);
+}
 //加载所有信息
 function getAllInfo(){
 	$('#name').val("");
@@ -153,7 +159,7 @@ function getAllInfo(){
 							&nbsp
 							&nbsp
 							&nbsp
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="">添加</a>					
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="openWindow()">添加</a>					
 					</form> 
 					</div>
 				</div>

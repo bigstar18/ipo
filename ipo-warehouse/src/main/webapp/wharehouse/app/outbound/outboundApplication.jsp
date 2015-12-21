@@ -11,9 +11,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-
-	getAllInfo();
-	  
+	getAllInfo();	  
 });
 //加载所有信息
 function getAllInfo(){
@@ -29,16 +27,16 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/LoanDepositController/getAllInfo', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/OutBoundController/geOutBoundInfo', //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
-             field : 'test1',  
+             field : 'outboundorderid',  
              width : 200,  
              align: "center",
              title : '出库单号'  
          },{
-        	 field : 'test2',  
+        	 field : 'deliveryorderid',  
              width : 200,  
              align: "center",
              title : '提货单号'
@@ -93,22 +91,22 @@ function getAllInfo(){
              align: "center",
              title : '提货类型'
          }, {  
-             field : 'test12',  
+             field : 'outboundstate',  
              width : 200, 
              align: "center",
              title : '出库状态'
          }, {  
-             field : 'test13',  
+             field : 'outbounddate',  
              width : 200, 
              align: "center",
              title : '出库时间'
          }, {  
-             field : 'test14',  
+             field : 'operatorid',  
              width : 200, 
              align: "center",
              title : '录入员'
          }, {  
-             field : 'test15',  
+             field : 'auditorid',  
              width : 200, 
              align: "center",
              title : '审核员'
@@ -122,6 +120,12 @@ function getAllInfo(){
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
 	
+}
+
+function openWindow(){
+	var url = "<%=request.getContextPath()%>/OutBoundController/AddOutBoundView?randnum="+Math.floor(Math.random()*1000000);
+	document.location.href=url;
+	//window.open(url,"入库单添加",height=600,width=300);
 }
 
 </script>
@@ -161,7 +165,7 @@ function getAllInfo(){
 							&nbsp
 							&nbsp
 							&nbsp
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="">添加</a>					
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="openWindow()">添加</a>					
 					</form> 
 					</div>
 				</div>
