@@ -149,7 +149,7 @@
 	      								    class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'精度为2的正数(驳回可不填)'"/>
 		          						</td>
 										<td align="right" width="90"></td>     
-            							<td width="110"></td>
+            							<td width="110"><input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" ></td>
 							        </tr> 
 							        </c:if>
 							         <tr>

@@ -270,7 +270,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				.selectByPrimaryKey(deOrderId);
 		if (deorder != null) {
 			Integer status = deorder.getApprovalStatus();
-			if (status == 6) {
+			if (status == 7) {
 				return "撤销成功";
 			}
 		}

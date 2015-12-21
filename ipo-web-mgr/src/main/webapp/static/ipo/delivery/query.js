@@ -81,11 +81,16 @@ $(document).ready(function() {
              align: "center",
              title : '状态' ,
              formatter:function(value){
-            	 if(value=='1') return "未审核";
-            	 if(value=='2') return "通过";
-            	 if(value=='3') return "驳回";
-            	 if(value=='4') return "已收货";
-            	 if(value=='5') return "废除";
+            	 if(value=='1') return "申请";
+            	 if(value=='2') return "市场通过";
+            	 if(value=='3') return "市场驳回";
+            	 if(value=='4') return "仓库通过";
+            	 if(value=='5') return "仓库驳回";
+            	 if(value=='6') return "已确认";
+            	 if(value=='7') return "已废除";
+            	 if(value=='8') return "已设置配置费用";
+            	 if(value=='9') return "已出库";
+            	 if(value=='10') return "已收货";
            }
           }
          ]],  
@@ -210,11 +215,16 @@ function doSearch(){
              align: "center",
              title : '状态' ,
              formatter:function(value){
-            	 if(value=='1') return "未审核";
-            	 if(value=='2') return "通过";
-            	 if(value=='3') return "驳回";
-            	 if(value=='4') return "已收货";
-            	 if(value=='5') return "废除";
+            	 if(value=='1') return "申请";
+            	 if(value=='2') return "市场通过";
+            	 if(value=='3') return "市场驳回";
+            	 if(value=='4') return "仓库通过";
+            	 if(value=='5') return "仓库驳回";
+            	 if(value=='6') return "已确认";
+            	 if(value=='7') return "已废除";
+            	 if(value=='8') return "已设置配置费用";
+            	 if(value=='9') return "已出库";
+            	 if(value=='10') return "已收货";
            }
           }
          ]],  
