@@ -235,7 +235,7 @@ function deleteList(){
 				<table id="tt">
 				</table>
 				<div id="tb" style="padding:5px;height:auto">
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="updatePoundForward()">添加</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addForward()">添加</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a>					
 				</div>
 				

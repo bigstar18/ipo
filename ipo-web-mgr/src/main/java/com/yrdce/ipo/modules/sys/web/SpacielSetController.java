@@ -19,8 +19,8 @@ import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.SpecialPoundageService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpecialPoundage;
-import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
-import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
+
+
 
 /*
  * 成效会员管理
@@ -31,6 +31,20 @@ public class SpacielSetController {
 	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SpacielSetController.class);
 	@Autowired
 	private SpecialPoundageService specialPoundageService;
+	@Autowired
+	private IpoCommConfService ipoCommConf;
+	
+	private List<String> commIds;
+	
+	
+	public List<String> getCommIds() {
+		return commIds;
+	}
+
+	public void setCommIds(List<String> commIds) {
+		this.commIds = commIds;
+	}
+
 	@RequestMapping(value = "/getAllInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String getAllInfo() throws IOException{
@@ -53,6 +67,9 @@ public class SpacielSetController {
 			HttpServletResponse response, Model model) throws IOException {
 		try {
 			logger.info("跳转至添加");
+			logger.info("获取所有商品id");
+			commIds=ipoCommConf.findIpoCommConfIds();
+			request.setAttribute("commIds", commIds);
 			return "app/specialset/addPoundage";
 		} catch (Exception e) {
 			e.printStackTrace();
