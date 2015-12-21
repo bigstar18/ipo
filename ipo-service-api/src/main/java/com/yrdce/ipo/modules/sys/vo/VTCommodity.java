@@ -4,968 +4,970 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
- * @author chenjing
- * 现货系统商品
+ * @author chenjing 现货系统商品
  */
-public class VTCommodity implements Serializable{
-    private String commodityid;
+public class VTCommodity implements Serializable {
+	private String commodityid;
 
-    private String name;
+	private String name;
 
-    private Long sortid;
+	private Long sortid;
 
-    private Short status;
+	private Short status;
 
-    private BigDecimal contractfactor;
+	private BigDecimal contractfactor;
 
-    private BigDecimal minpricemove;
+	private BigDecimal minpricemove;
 
-    private Long breedid;
+	private Long breedid;
 
-    private Short spreadalgr;
+	private Short spreadalgr;
 
-    private BigDecimal spreaduplmt;
+	private BigDecimal spreaduplmt;
 
-    private BigDecimal spreaddownlmt;
+	private BigDecimal spreaddownlmt;
 
-    private Short feealgr;
+	private Short feealgr;
 
-    private BigDecimal feerateB;
+	private BigDecimal feerateB;
 
-    private BigDecimal feerateS;
+	private BigDecimal feerateS;
 
-    private Short marginalgr;
+	private Short marginalgr;
 
-    private BigDecimal marginrateB;
+	private BigDecimal marginrateB;
 
-    private BigDecimal marginrateS;
+	private BigDecimal marginrateS;
 
-    private Date marketdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date marketdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate1;
 
-    private Date settledate;
+	private BigDecimal marginitem1;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate2;
 
-    private Date settledate1;
+	private BigDecimal marginitem2;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate3;
 
-    private BigDecimal marginitem1;
+	private BigDecimal marginitem3;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate4;
 
-    private Date settledate2;
+	private BigDecimal marginitem4;
 
-    private BigDecimal marginitem2;
+	private BigDecimal lastprice;
 
-    private Date settledate3;
+	private BigDecimal marginitem1S;
 
-    private BigDecimal marginitem3;
+	private BigDecimal marginitem2S;
 
-    private Date settledate4;
+	private BigDecimal marginitem3S;
 
-    private BigDecimal marginitem4;
+	private BigDecimal marginitem4S;
 
-    private BigDecimal lastprice;
+	private BigDecimal marginassureB;
 
-    private BigDecimal marginitem1S;
+	private BigDecimal marginassureS;
 
-    private BigDecimal marginitem2S;
+	private BigDecimal marginitemassure1;
 
-    private BigDecimal marginitem3S;
+	private BigDecimal marginitemassure2;
 
-    private BigDecimal marginitem4S;
+	private BigDecimal marginitemassure3;
 
-    private BigDecimal marginassureB;
+	private BigDecimal marginitemassure4;
 
-    private BigDecimal marginassureS;
+	private BigDecimal marginitemassure1S;
 
-    private BigDecimal marginitemassure1;
+	private BigDecimal marginitemassure2S;
 
-    private BigDecimal marginitemassure2;
+	private BigDecimal marginitemassure3S;
 
-    private BigDecimal marginitemassure3;
+	private BigDecimal marginitemassure4S;
 
-    private BigDecimal marginitemassure4;
+	private BigDecimal todayclosefeerateB;
 
-    private BigDecimal marginitemassure1S;
+	private BigDecimal todayclosefeerateS;
 
-    private BigDecimal marginitemassure2S;
+	private BigDecimal historyclosefeerateB;
 
-    private BigDecimal marginitemassure3S;
+	private BigDecimal historyclosefeerateS;
 
-    private BigDecimal marginitemassure4S;
+	private Long limitcmdtyqty;
 
-    private BigDecimal todayclosefeerateB;
+	private Short settlefeealgr;
 
-    private BigDecimal todayclosefeerateS;
+	private BigDecimal settlefeerateB;
 
-    private BigDecimal historyclosefeerateB;
+	private BigDecimal settlefeerateS;
 
-    private BigDecimal historyclosefeerateS;
+	private Short forceclosefeealgr;
 
-    private Long limitcmdtyqty;
+	private BigDecimal forceclosefeerateB;
 
-    private Short settlefeealgr;
+	private BigDecimal forceclosefeerateS;
 
-    private BigDecimal settlefeerateB;
+	private Short settlemarginalgrB;
 
-    private BigDecimal settlefeerateS;
+	private BigDecimal settlemarginrateB;
 
-    private Short forceclosefeealgr;
+	private Short settlemarginalgrS;
 
-    private BigDecimal forceclosefeerateB;
+	private BigDecimal settlemarginrateS;
 
-    private BigDecimal forceclosefeerateS;
+	private Long reservecount;
 
-    private Short settlemarginalgrB;
+	private BigDecimal addedtax;
 
-    private BigDecimal settlemarginrateB;
+	private Short marginpricetype;
 
-    private Short settlemarginalgrS;
+	private BigDecimal lowestsettlefee;
 
-    private BigDecimal settlemarginrateS;
+	private Long firmcleanqty;
 
-    private Long reservecount;
+	private Long firmmaxholdqty;
 
-    private BigDecimal addedtax;
+	private Short payoutalgr;
 
-    private Short marginpricetype;
+	private BigDecimal payoutrate;
 
-    private BigDecimal lowestsettlefee;
+	private BigDecimal addedtaxfactor;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date settledate5;
 
-    private Long firmcleanqty;
+	private BigDecimal marginitem5;
 
-    private Long firmmaxholdqty;
+	private BigDecimal marginitem5S;
 
-    private Short payoutalgr;
+	private BigDecimal marginitemassure5;
 
-    private BigDecimal payoutrate;
+	private BigDecimal marginitemassure5S;
 
-    private BigDecimal addedtaxfactor;
+	private Short settlepricetype;
 
-    private Date settledate5;
+	private Short beforedays;
 
-    private BigDecimal marginitem5;
+	private BigDecimal specsettleprice;
 
-    private BigDecimal marginitem5S;
+	private Integer orderprivilegeB;
 
-    private BigDecimal marginitemassure5;
+	private Integer orderprivilegeS;
 
-    private BigDecimal marginitemassure5S;
+	private Short firmmaxholdqtyalgr;
 
-    private Short settlepricetype;
+	private Long startpercentqty;
 
-    private Short beforedays;
+	private BigDecimal maxpercentlimit;
 
-    private BigDecimal specsettleprice;
+	private Long onemaxholdqty;
 
-    private Integer orderprivilegeB;
+	private Short minquantitymove;
 
-    private Integer orderprivilegeS;
+	private BigDecimal delayrecouprate;
 
-    private Short firmmaxholdqtyalgr;
+	private Short settleway;
 
-    private Long startpercentqty;
+	private Short delayfeeway;
 
-    private BigDecimal maxpercentlimit;
+	private BigDecimal maxfeerate;
 
-    private Long onemaxholdqty;
+	private Integer minsettlemoveqty;
 
-    private Short minquantitymove;
+	private BigDecimal storerecouprate;
 
-    private BigDecimal delayrecouprate;
+	private Long minsettleqty;
 
-    private Short settleway;
+	private BigDecimal delayrecouprateS;
 
-    private Short delayfeeway;
+	private Short aheadsettlepricetype;
 
-    private BigDecimal maxfeerate;
+	private Short delaysettlepricetype;
 
-    private Integer minsettlemoveqty;
+	private Short settlemargintype;
 
-    private BigDecimal storerecouprate;
+	private Short beforedaysM;
 
-    private Long minsettleqty;
+	private Long sideholdlimitqty;
 
-    private BigDecimal delayrecouprateS;
+	private Short holddayslimit;
 
-    private Short aheadsettlepricetype;
+	private Long maxholdpositionday;
 
-    private Short delaysettlepricetype;
+	private Short taxinclusive;
 
-    private Short settlemargintype;
+	public String getCommodityid() {
+		return commodityid;
+	}
 
-    private Short beforedaysM;
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid == null ? null : commodityid.trim();
+	}
 
-    private Long sideholdlimitqty;
+	public String getName() {
+		return name;
+	}
 
-    private Short holddayslimit;
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    private Long maxholdpositionday;
+	public Long getSortid() {
+		return sortid;
+	}
 
-    private Short taxinclusive;
+	public void setSortid(Long sortid) {
+		this.sortid = sortid;
+	}
 
-    public String getCommodityid() {
-        return commodityid;
-    }
+	public Short getStatus() {
+		return status;
+	}
 
-    public void setCommodityid(String commodityid) {
-        this.commodityid = commodityid == null ? null : commodityid.trim();
-    }
+	public void setStatus(Short status) {
+		this.status = status;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public BigDecimal getContractfactor() {
+		return contractfactor;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public void setContractfactor(BigDecimal contractfactor) {
+		this.contractfactor = contractfactor;
+	}
 
-    public Long getSortid() {
-        return sortid;
-    }
+	public BigDecimal getMinpricemove() {
+		return minpricemove;
+	}
 
-    public void setSortid(Long sortid) {
-        this.sortid = sortid;
-    }
+	public void setMinpricemove(BigDecimal minpricemove) {
+		this.minpricemove = minpricemove;
+	}
 
-    public Short getStatus() {
-        return status;
-    }
+	public Long getBreedid() {
+		return breedid;
+	}
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
+	public void setBreedid(Long breedid) {
+		this.breedid = breedid;
+	}
 
-    public BigDecimal getContractfactor() {
-        return contractfactor;
-    }
+	public Short getSpreadalgr() {
+		return spreadalgr;
+	}
 
-    public void setContractfactor(BigDecimal contractfactor) {
-        this.contractfactor = contractfactor;
-    }
+	public void setSpreadalgr(Short spreadalgr) {
+		this.spreadalgr = spreadalgr;
+	}
 
-    public BigDecimal getMinpricemove() {
-        return minpricemove;
-    }
+	public BigDecimal getSpreaduplmt() {
+		return spreaduplmt;
+	}
 
-    public void setMinpricemove(BigDecimal minpricemove) {
-        this.minpricemove = minpricemove;
-    }
+	public void setSpreaduplmt(BigDecimal spreaduplmt) {
+		this.spreaduplmt = spreaduplmt;
+	}
 
-    public Long getBreedid() {
-        return breedid;
-    }
+	public BigDecimal getSpreaddownlmt() {
+		return spreaddownlmt;
+	}
 
-    public void setBreedid(Long breedid) {
-        this.breedid = breedid;
-    }
+	public void setSpreaddownlmt(BigDecimal spreaddownlmt) {
+		this.spreaddownlmt = spreaddownlmt;
+	}
 
-    public Short getSpreadalgr() {
-        return spreadalgr;
-    }
+	public Short getFeealgr() {
+		return feealgr;
+	}
 
-    public void setSpreadalgr(Short spreadalgr) {
-        this.spreadalgr = spreadalgr;
-    }
+	public void setFeealgr(Short feealgr) {
+		this.feealgr = feealgr;
+	}
 
-    public BigDecimal getSpreaduplmt() {
-        return spreaduplmt;
-    }
+	public BigDecimal getFeerateB() {
+		return feerateB;
+	}
 
-    public void setSpreaduplmt(BigDecimal spreaduplmt) {
-        this.spreaduplmt = spreaduplmt;
-    }
+	public void setFeerateB(BigDecimal feerateB) {
+		this.feerateB = feerateB;
+	}
 
-    public BigDecimal getSpreaddownlmt() {
-        return spreaddownlmt;
-    }
+	public BigDecimal getFeerateS() {
+		return feerateS;
+	}
 
-    public void setSpreaddownlmt(BigDecimal spreaddownlmt) {
-        this.spreaddownlmt = spreaddownlmt;
-    }
+	public void setFeerateS(BigDecimal feerateS) {
+		this.feerateS = feerateS;
+	}
 
-    public Short getFeealgr() {
-        return feealgr;
-    }
+	public Short getMarginalgr() {
+		return marginalgr;
+	}
 
-    public void setFeealgr(Short feealgr) {
-        this.feealgr = feealgr;
-    }
+	public void setMarginalgr(Short marginalgr) {
+		this.marginalgr = marginalgr;
+	}
 
-    public BigDecimal getFeerateB() {
-        return feerateB;
-    }
+	public BigDecimal getMarginrateB() {
+		return marginrateB;
+	}
 
-    public void setFeerateB(BigDecimal feerateB) {
-        this.feerateB = feerateB;
-    }
+	public void setMarginrateB(BigDecimal marginrateB) {
+		this.marginrateB = marginrateB;
+	}
 
-    public BigDecimal getFeerateS() {
-        return feerateS;
-    }
+	public BigDecimal getMarginrateS() {
+		return marginrateS;
+	}
 
-    public void setFeerateS(BigDecimal feerateS) {
-        this.feerateS = feerateS;
-    }
+	public void setMarginrateS(BigDecimal marginrateS) {
+		this.marginrateS = marginrateS;
+	}
 
-    public Short getMarginalgr() {
-        return marginalgr;
-    }
+	public Date getMarketdate() {
+		return marketdate;
+	}
 
-    public void setMarginalgr(Short marginalgr) {
-        this.marginalgr = marginalgr;
-    }
+	public void setMarketdate(Date marketdate) {
+		this.marketdate = marketdate;
+	}
 
-    public BigDecimal getMarginrateB() {
-        return marginrateB;
-    }
+	public Date getSettledate() {
+		return settledate;
+	}
 
-    public void setMarginrateB(BigDecimal marginrateB) {
-        this.marginrateB = marginrateB;
-    }
+	public void setSettledate(Date settledate) {
+		this.settledate = settledate;
+	}
 
-    public BigDecimal getMarginrateS() {
-        return marginrateS;
-    }
+	public Date getSettledate1() {
+		return settledate1;
+	}
 
-    public void setMarginrateS(BigDecimal marginrateS) {
-        this.marginrateS = marginrateS;
-    }
+	public void setSettledate1(Date settledate1) {
+		this.settledate1 = settledate1;
+	}
 
-    public Date getMarketdate() {
-        return marketdate;
-    }
+	public BigDecimal getMarginitem1() {
+		return marginitem1;
+	}
 
-    public void setMarketdate(Date marketdate) {
-        this.marketdate = marketdate;
-    }
+	public void setMarginitem1(BigDecimal marginitem1) {
+		this.marginitem1 = marginitem1;
+	}
 
-    public Date getSettledate() {
-        return settledate;
-    }
+	public Date getSettledate2() {
+		return settledate2;
+	}
 
-    public void setSettledate(Date settledate) {
-        this.settledate = settledate;
-    }
+	public void setSettledate2(Date settledate2) {
+		this.settledate2 = settledate2;
+	}
 
-    public Date getSettledate1() {
-        return settledate1;
-    }
+	public BigDecimal getMarginitem2() {
+		return marginitem2;
+	}
 
-    public void setSettledate1(Date settledate1) {
-        this.settledate1 = settledate1;
-    }
+	public void setMarginitem2(BigDecimal marginitem2) {
+		this.marginitem2 = marginitem2;
+	}
 
-    public BigDecimal getMarginitem1() {
-        return marginitem1;
-    }
+	public Date getSettledate3() {
+		return settledate3;
+	}
 
-    public void setMarginitem1(BigDecimal marginitem1) {
-        this.marginitem1 = marginitem1;
-    }
+	public void setSettledate3(Date settledate3) {
+		this.settledate3 = settledate3;
+	}
 
-    public Date getSettledate2() {
-        return settledate2;
-    }
+	public BigDecimal getMarginitem3() {
+		return marginitem3;
+	}
 
-    public void setSettledate2(Date settledate2) {
-        this.settledate2 = settledate2;
-    }
+	public void setMarginitem3(BigDecimal marginitem3) {
+		this.marginitem3 = marginitem3;
+	}
 
-    public BigDecimal getMarginitem2() {
-        return marginitem2;
-    }
+	public Date getSettledate4() {
+		return settledate4;
+	}
 
-    public void setMarginitem2(BigDecimal marginitem2) {
-        this.marginitem2 = marginitem2;
-    }
+	public void setSettledate4(Date settledate4) {
+		this.settledate4 = settledate4;
+	}
 
-    public Date getSettledate3() {
-        return settledate3;
-    }
+	public BigDecimal getMarginitem4() {
+		return marginitem4;
+	}
 
-    public void setSettledate3(Date settledate3) {
-        this.settledate3 = settledate3;
-    }
+	public void setMarginitem4(BigDecimal marginitem4) {
+		this.marginitem4 = marginitem4;
+	}
 
-    public BigDecimal getMarginitem3() {
-        return marginitem3;
-    }
+	public BigDecimal getLastprice() {
+		return lastprice;
+	}
 
-    public void setMarginitem3(BigDecimal marginitem3) {
-        this.marginitem3 = marginitem3;
-    }
+	public void setLastprice(BigDecimal lastprice) {
+		this.lastprice = lastprice;
+	}
 
-    public Date getSettledate4() {
-        return settledate4;
-    }
+	public BigDecimal getMarginitem1S() {
+		return marginitem1S;
+	}
 
-    public void setSettledate4(Date settledate4) {
-        this.settledate4 = settledate4;
-    }
+	public void setMarginitem1S(BigDecimal marginitem1S) {
+		this.marginitem1S = marginitem1S;
+	}
 
-    public BigDecimal getMarginitem4() {
-        return marginitem4;
-    }
+	public BigDecimal getMarginitem2S() {
+		return marginitem2S;
+	}
 
-    public void setMarginitem4(BigDecimal marginitem4) {
-        this.marginitem4 = marginitem4;
-    }
+	public void setMarginitem2S(BigDecimal marginitem2S) {
+		this.marginitem2S = marginitem2S;
+	}
 
-    public BigDecimal getLastprice() {
-        return lastprice;
-    }
+	public BigDecimal getMarginitem3S() {
+		return marginitem3S;
+	}
 
-    public void setLastprice(BigDecimal lastprice) {
-        this.lastprice = lastprice;
-    }
+	public void setMarginitem3S(BigDecimal marginitem3S) {
+		this.marginitem3S = marginitem3S;
+	}
 
-    public BigDecimal getMarginitem1S() {
-        return marginitem1S;
-    }
+	public BigDecimal getMarginitem4S() {
+		return marginitem4S;
+	}
 
-    public void setMarginitem1S(BigDecimal marginitem1S) {
-        this.marginitem1S = marginitem1S;
-    }
+	public void setMarginitem4S(BigDecimal marginitem4S) {
+		this.marginitem4S = marginitem4S;
+	}
 
-    public BigDecimal getMarginitem2S() {
-        return marginitem2S;
-    }
+	public BigDecimal getMarginassureB() {
+		return marginassureB;
+	}
 
-    public void setMarginitem2S(BigDecimal marginitem2S) {
-        this.marginitem2S = marginitem2S;
-    }
+	public void setMarginassureB(BigDecimal marginassureB) {
+		this.marginassureB = marginassureB;
+	}
 
-    public BigDecimal getMarginitem3S() {
-        return marginitem3S;
-    }
+	public BigDecimal getMarginassureS() {
+		return marginassureS;
+	}
 
-    public void setMarginitem3S(BigDecimal marginitem3S) {
-        this.marginitem3S = marginitem3S;
-    }
+	public void setMarginassureS(BigDecimal marginassureS) {
+		this.marginassureS = marginassureS;
+	}
 
-    public BigDecimal getMarginitem4S() {
-        return marginitem4S;
-    }
+	public BigDecimal getMarginitemassure1() {
+		return marginitemassure1;
+	}
 
-    public void setMarginitem4S(BigDecimal marginitem4S) {
-        this.marginitem4S = marginitem4S;
-    }
+	public void setMarginitemassure1(BigDecimal marginitemassure1) {
+		this.marginitemassure1 = marginitemassure1;
+	}
 
-    public BigDecimal getMarginassureB() {
-        return marginassureB;
-    }
+	public BigDecimal getMarginitemassure2() {
+		return marginitemassure2;
+	}
 
-    public void setMarginassureB(BigDecimal marginassureB) {
-        this.marginassureB = marginassureB;
-    }
+	public void setMarginitemassure2(BigDecimal marginitemassure2) {
+		this.marginitemassure2 = marginitemassure2;
+	}
 
-    public BigDecimal getMarginassureS() {
-        return marginassureS;
-    }
+	public BigDecimal getMarginitemassure3() {
+		return marginitemassure3;
+	}
 
-    public void setMarginassureS(BigDecimal marginassureS) {
-        this.marginassureS = marginassureS;
-    }
+	public void setMarginitemassure3(BigDecimal marginitemassure3) {
+		this.marginitemassure3 = marginitemassure3;
+	}
 
-    public BigDecimal getMarginitemassure1() {
-        return marginitemassure1;
-    }
+	public BigDecimal getMarginitemassure4() {
+		return marginitemassure4;
+	}
 
-    public void setMarginitemassure1(BigDecimal marginitemassure1) {
-        this.marginitemassure1 = marginitemassure1;
-    }
+	public void setMarginitemassure4(BigDecimal marginitemassure4) {
+		this.marginitemassure4 = marginitemassure4;
+	}
 
-    public BigDecimal getMarginitemassure2() {
-        return marginitemassure2;
-    }
+	public BigDecimal getMarginitemassure1S() {
+		return marginitemassure1S;
+	}
 
-    public void setMarginitemassure2(BigDecimal marginitemassure2) {
-        this.marginitemassure2 = marginitemassure2;
-    }
+	public void setMarginitemassure1S(BigDecimal marginitemassure1S) {
+		this.marginitemassure1S = marginitemassure1S;
+	}
 
-    public BigDecimal getMarginitemassure3() {
-        return marginitemassure3;
-    }
+	public BigDecimal getMarginitemassure2S() {
+		return marginitemassure2S;
+	}
 
-    public void setMarginitemassure3(BigDecimal marginitemassure3) {
-        this.marginitemassure3 = marginitemassure3;
-    }
+	public void setMarginitemassure2S(BigDecimal marginitemassure2S) {
+		this.marginitemassure2S = marginitemassure2S;
+	}
 
-    public BigDecimal getMarginitemassure4() {
-        return marginitemassure4;
-    }
+	public BigDecimal getMarginitemassure3S() {
+		return marginitemassure3S;
+	}
 
-    public void setMarginitemassure4(BigDecimal marginitemassure4) {
-        this.marginitemassure4 = marginitemassure4;
-    }
+	public void setMarginitemassure3S(BigDecimal marginitemassure3S) {
+		this.marginitemassure3S = marginitemassure3S;
+	}
 
-    public BigDecimal getMarginitemassure1S() {
-        return marginitemassure1S;
-    }
+	public BigDecimal getMarginitemassure4S() {
+		return marginitemassure4S;
+	}
 
-    public void setMarginitemassure1S(BigDecimal marginitemassure1S) {
-        this.marginitemassure1S = marginitemassure1S;
-    }
+	public void setMarginitemassure4S(BigDecimal marginitemassure4S) {
+		this.marginitemassure4S = marginitemassure4S;
+	}
 
-    public BigDecimal getMarginitemassure2S() {
-        return marginitemassure2S;
-    }
+	public BigDecimal getTodayclosefeerateB() {
+		return todayclosefeerateB;
+	}
 
-    public void setMarginitemassure2S(BigDecimal marginitemassure2S) {
-        this.marginitemassure2S = marginitemassure2S;
-    }
+	public void setTodayclosefeerateB(BigDecimal todayclosefeerateB) {
+		this.todayclosefeerateB = todayclosefeerateB;
+	}
 
-    public BigDecimal getMarginitemassure3S() {
-        return marginitemassure3S;
-    }
+	public BigDecimal getTodayclosefeerateS() {
+		return todayclosefeerateS;
+	}
 
-    public void setMarginitemassure3S(BigDecimal marginitemassure3S) {
-        this.marginitemassure3S = marginitemassure3S;
-    }
+	public void setTodayclosefeerateS(BigDecimal todayclosefeerateS) {
+		this.todayclosefeerateS = todayclosefeerateS;
+	}
 
-    public BigDecimal getMarginitemassure4S() {
-        return marginitemassure4S;
-    }
+	public BigDecimal getHistoryclosefeerateB() {
+		return historyclosefeerateB;
+	}
 
-    public void setMarginitemassure4S(BigDecimal marginitemassure4S) {
-        this.marginitemassure4S = marginitemassure4S;
-    }
+	public void setHistoryclosefeerateB(BigDecimal historyclosefeerateB) {
+		this.historyclosefeerateB = historyclosefeerateB;
+	}
 
-    public BigDecimal getTodayclosefeerateB() {
-        return todayclosefeerateB;
-    }
+	public BigDecimal getHistoryclosefeerateS() {
+		return historyclosefeerateS;
+	}
 
-    public void setTodayclosefeerateB(BigDecimal todayclosefeerateB) {
-        this.todayclosefeerateB = todayclosefeerateB;
-    }
+	public void setHistoryclosefeerateS(BigDecimal historyclosefeerateS) {
+		this.historyclosefeerateS = historyclosefeerateS;
+	}
 
-    public BigDecimal getTodayclosefeerateS() {
-        return todayclosefeerateS;
-    }
+	public Long getLimitcmdtyqty() {
+		return limitcmdtyqty;
+	}
 
-    public void setTodayclosefeerateS(BigDecimal todayclosefeerateS) {
-        this.todayclosefeerateS = todayclosefeerateS;
-    }
+	public void setLimitcmdtyqty(Long limitcmdtyqty) {
+		this.limitcmdtyqty = limitcmdtyqty;
+	}
 
-    public BigDecimal getHistoryclosefeerateB() {
-        return historyclosefeerateB;
-    }
+	public Short getSettlefeealgr() {
+		return settlefeealgr;
+	}
 
-    public void setHistoryclosefeerateB(BigDecimal historyclosefeerateB) {
-        this.historyclosefeerateB = historyclosefeerateB;
-    }
+	public void setSettlefeealgr(Short settlefeealgr) {
+		this.settlefeealgr = settlefeealgr;
+	}
 
-    public BigDecimal getHistoryclosefeerateS() {
-        return historyclosefeerateS;
-    }
+	public BigDecimal getSettlefeerateB() {
+		return settlefeerateB;
+	}
 
-    public void setHistoryclosefeerateS(BigDecimal historyclosefeerateS) {
-        this.historyclosefeerateS = historyclosefeerateS;
-    }
+	public void setSettlefeerateB(BigDecimal settlefeerateB) {
+		this.settlefeerateB = settlefeerateB;
+	}
 
-    public Long getLimitcmdtyqty() {
-        return limitcmdtyqty;
-    }
+	public BigDecimal getSettlefeerateS() {
+		return settlefeerateS;
+	}
 
-    public void setLimitcmdtyqty(Long limitcmdtyqty) {
-        this.limitcmdtyqty = limitcmdtyqty;
-    }
+	public void setSettlefeerateS(BigDecimal settlefeerateS) {
+		this.settlefeerateS = settlefeerateS;
+	}
 
-    public Short getSettlefeealgr() {
-        return settlefeealgr;
-    }
+	public Short getForceclosefeealgr() {
+		return forceclosefeealgr;
+	}
 
-    public void setSettlefeealgr(Short settlefeealgr) {
-        this.settlefeealgr = settlefeealgr;
-    }
+	public void setForceclosefeealgr(Short forceclosefeealgr) {
+		this.forceclosefeealgr = forceclosefeealgr;
+	}
 
-    public BigDecimal getSettlefeerateB() {
-        return settlefeerateB;
-    }
+	public BigDecimal getForceclosefeerateB() {
+		return forceclosefeerateB;
+	}
 
-    public void setSettlefeerateB(BigDecimal settlefeerateB) {
-        this.settlefeerateB = settlefeerateB;
-    }
+	public void setForceclosefeerateB(BigDecimal forceclosefeerateB) {
+		this.forceclosefeerateB = forceclosefeerateB;
+	}
 
-    public BigDecimal getSettlefeerateS() {
-        return settlefeerateS;
-    }
+	public BigDecimal getForceclosefeerateS() {
+		return forceclosefeerateS;
+	}
 
-    public void setSettlefeerateS(BigDecimal settlefeerateS) {
-        this.settlefeerateS = settlefeerateS;
-    }
+	public void setForceclosefeerateS(BigDecimal forceclosefeerateS) {
+		this.forceclosefeerateS = forceclosefeerateS;
+	}
 
-    public Short getForceclosefeealgr() {
-        return forceclosefeealgr;
-    }
+	public Short getSettlemarginalgrB() {
+		return settlemarginalgrB;
+	}
 
-    public void setForceclosefeealgr(Short forceclosefeealgr) {
-        this.forceclosefeealgr = forceclosefeealgr;
-    }
+	public void setSettlemarginalgrB(Short settlemarginalgrB) {
+		this.settlemarginalgrB = settlemarginalgrB;
+	}
 
-    public BigDecimal getForceclosefeerateB() {
-        return forceclosefeerateB;
-    }
+	public BigDecimal getSettlemarginrateB() {
+		return settlemarginrateB;
+	}
 
-    public void setForceclosefeerateB(BigDecimal forceclosefeerateB) {
-        this.forceclosefeerateB = forceclosefeerateB;
-    }
+	public void setSettlemarginrateB(BigDecimal settlemarginrateB) {
+		this.settlemarginrateB = settlemarginrateB;
+	}
 
-    public BigDecimal getForceclosefeerateS() {
-        return forceclosefeerateS;
-    }
+	public Short getSettlemarginalgrS() {
+		return settlemarginalgrS;
+	}
 
-    public void setForceclosefeerateS(BigDecimal forceclosefeerateS) {
-        this.forceclosefeerateS = forceclosefeerateS;
-    }
+	public void setSettlemarginalgrS(Short settlemarginalgrS) {
+		this.settlemarginalgrS = settlemarginalgrS;
+	}
 
-    public Short getSettlemarginalgrB() {
-        return settlemarginalgrB;
-    }
+	public BigDecimal getSettlemarginrateS() {
+		return settlemarginrateS;
+	}
 
-    public void setSettlemarginalgrB(Short settlemarginalgrB) {
-        this.settlemarginalgrB = settlemarginalgrB;
-    }
+	public void setSettlemarginrateS(BigDecimal settlemarginrateS) {
+		this.settlemarginrateS = settlemarginrateS;
+	}
 
-    public BigDecimal getSettlemarginrateB() {
-        return settlemarginrateB;
-    }
+	public Long getReservecount() {
+		return reservecount;
+	}
 
-    public void setSettlemarginrateB(BigDecimal settlemarginrateB) {
-        this.settlemarginrateB = settlemarginrateB;
-    }
+	public void setReservecount(Long reservecount) {
+		this.reservecount = reservecount;
+	}
 
-    public Short getSettlemarginalgrS() {
-        return settlemarginalgrS;
-    }
+	public BigDecimal getAddedtax() {
+		return addedtax;
+	}
 
-    public void setSettlemarginalgrS(Short settlemarginalgrS) {
-        this.settlemarginalgrS = settlemarginalgrS;
-    }
+	public void setAddedtax(BigDecimal addedtax) {
+		this.addedtax = addedtax;
+	}
 
-    public BigDecimal getSettlemarginrateS() {
-        return settlemarginrateS;
-    }
+	public Short getMarginpricetype() {
+		return marginpricetype;
+	}
 
-    public void setSettlemarginrateS(BigDecimal settlemarginrateS) {
-        this.settlemarginrateS = settlemarginrateS;
-    }
+	public void setMarginpricetype(Short marginpricetype) {
+		this.marginpricetype = marginpricetype;
+	}
 
-    public Long getReservecount() {
-        return reservecount;
-    }
+	public BigDecimal getLowestsettlefee() {
+		return lowestsettlefee;
+	}
 
-    public void setReservecount(Long reservecount) {
-        this.reservecount = reservecount;
-    }
+	public void setLowestsettlefee(BigDecimal lowestsettlefee) {
+		this.lowestsettlefee = lowestsettlefee;
+	}
 
-    public BigDecimal getAddedtax() {
-        return addedtax;
-    }
+	public Long getFirmcleanqty() {
+		return firmcleanqty;
+	}
 
-    public void setAddedtax(BigDecimal addedtax) {
-        this.addedtax = addedtax;
-    }
+	public void setFirmcleanqty(Long firmcleanqty) {
+		this.firmcleanqty = firmcleanqty;
+	}
 
-    public Short getMarginpricetype() {
-        return marginpricetype;
-    }
+	public Long getFirmmaxholdqty() {
+		return firmmaxholdqty;
+	}
 
-    public void setMarginpricetype(Short marginpricetype) {
-        this.marginpricetype = marginpricetype;
-    }
+	public void setFirmmaxholdqty(Long firmmaxholdqty) {
+		this.firmmaxholdqty = firmmaxholdqty;
+	}
 
-    public BigDecimal getLowestsettlefee() {
-        return lowestsettlefee;
-    }
+	public Short getPayoutalgr() {
+		return payoutalgr;
+	}
 
-    public void setLowestsettlefee(BigDecimal lowestsettlefee) {
-        this.lowestsettlefee = lowestsettlefee;
-    }
+	public void setPayoutalgr(Short payoutalgr) {
+		this.payoutalgr = payoutalgr;
+	}
 
-    public Long getFirmcleanqty() {
-        return firmcleanqty;
-    }
+	public BigDecimal getPayoutrate() {
+		return payoutrate;
+	}
 
-    public void setFirmcleanqty(Long firmcleanqty) {
-        this.firmcleanqty = firmcleanqty;
-    }
+	public void setPayoutrate(BigDecimal payoutrate) {
+		this.payoutrate = payoutrate;
+	}
 
-    public Long getFirmmaxholdqty() {
-        return firmmaxholdqty;
-    }
+	public BigDecimal getAddedtaxfactor() {
+		return addedtaxfactor;
+	}
 
-    public void setFirmmaxholdqty(Long firmmaxholdqty) {
-        this.firmmaxholdqty = firmmaxholdqty;
-    }
+	public void setAddedtaxfactor(BigDecimal addedtaxfactor) {
+		this.addedtaxfactor = addedtaxfactor;
+	}
 
-    public Short getPayoutalgr() {
-        return payoutalgr;
-    }
+	public Date getSettledate5() {
+		return settledate5;
+	}
 
-    public void setPayoutalgr(Short payoutalgr) {
-        this.payoutalgr = payoutalgr;
-    }
+	public void setSettledate5(Date settledate5) {
+		this.settledate5 = settledate5;
+	}
 
-    public BigDecimal getPayoutrate() {
-        return payoutrate;
-    }
+	public BigDecimal getMarginitem5() {
+		return marginitem5;
+	}
 
-    public void setPayoutrate(BigDecimal payoutrate) {
-        this.payoutrate = payoutrate;
-    }
+	public void setMarginitem5(BigDecimal marginitem5) {
+		this.marginitem5 = marginitem5;
+	}
 
-    public BigDecimal getAddedtaxfactor() {
-        return addedtaxfactor;
-    }
+	public BigDecimal getMarginitem5S() {
+		return marginitem5S;
+	}
 
-    public void setAddedtaxfactor(BigDecimal addedtaxfactor) {
-        this.addedtaxfactor = addedtaxfactor;
-    }
+	public void setMarginitem5S(BigDecimal marginitem5S) {
+		this.marginitem5S = marginitem5S;
+	}
 
-    public Date getSettledate5() {
-        return settledate5;
-    }
+	public BigDecimal getMarginitemassure5() {
+		return marginitemassure5;
+	}
 
-    public void setSettledate5(Date settledate5) {
-        this.settledate5 = settledate5;
-    }
+	public void setMarginitemassure5(BigDecimal marginitemassure5) {
+		this.marginitemassure5 = marginitemassure5;
+	}
 
-    public BigDecimal getMarginitem5() {
-        return marginitem5;
-    }
+	public BigDecimal getMarginitemassure5S() {
+		return marginitemassure5S;
+	}
 
-    public void setMarginitem5(BigDecimal marginitem5) {
-        this.marginitem5 = marginitem5;
-    }
+	public void setMarginitemassure5S(BigDecimal marginitemassure5S) {
+		this.marginitemassure5S = marginitemassure5S;
+	}
 
-    public BigDecimal getMarginitem5S() {
-        return marginitem5S;
-    }
+	public Short getSettlepricetype() {
+		return settlepricetype;
+	}
 
-    public void setMarginitem5S(BigDecimal marginitem5S) {
-        this.marginitem5S = marginitem5S;
-    }
+	public void setSettlepricetype(Short settlepricetype) {
+		this.settlepricetype = settlepricetype;
+	}
 
-    public BigDecimal getMarginitemassure5() {
-        return marginitemassure5;
-    }
+	public Short getBeforedays() {
+		return beforedays;
+	}
 
-    public void setMarginitemassure5(BigDecimal marginitemassure5) {
-        this.marginitemassure5 = marginitemassure5;
-    }
+	public void setBeforedays(Short beforedays) {
+		this.beforedays = beforedays;
+	}
 
-    public BigDecimal getMarginitemassure5S() {
-        return marginitemassure5S;
-    }
+	public BigDecimal getSpecsettleprice() {
+		return specsettleprice;
+	}
 
-    public void setMarginitemassure5S(BigDecimal marginitemassure5S) {
-        this.marginitemassure5S = marginitemassure5S;
-    }
+	public void setSpecsettleprice(BigDecimal specsettleprice) {
+		this.specsettleprice = specsettleprice;
+	}
 
-    public Short getSettlepricetype() {
-        return settlepricetype;
-    }
+	public Integer getOrderprivilegeB() {
+		return orderprivilegeB;
+	}
 
-    public void setSettlepricetype(Short settlepricetype) {
-        this.settlepricetype = settlepricetype;
-    }
+	public void setOrderprivilegeB(Integer orderprivilegeB) {
+		this.orderprivilegeB = orderprivilegeB;
+	}
 
-    public Short getBeforedays() {
-        return beforedays;
-    }
+	public Integer getOrderprivilegeS() {
+		return orderprivilegeS;
+	}
 
-    public void setBeforedays(Short beforedays) {
-        this.beforedays = beforedays;
-    }
+	public void setOrderprivilegeS(Integer orderprivilegeS) {
+		this.orderprivilegeS = orderprivilegeS;
+	}
 
-    public BigDecimal getSpecsettleprice() {
-        return specsettleprice;
-    }
+	public Short getFirmmaxholdqtyalgr() {
+		return firmmaxholdqtyalgr;
+	}
 
-    public void setSpecsettleprice(BigDecimal specsettleprice) {
-        this.specsettleprice = specsettleprice;
-    }
+	public void setFirmmaxholdqtyalgr(Short firmmaxholdqtyalgr) {
+		this.firmmaxholdqtyalgr = firmmaxholdqtyalgr;
+	}
 
-    public Integer getOrderprivilegeB() {
-        return orderprivilegeB;
-    }
+	public Long getStartpercentqty() {
+		return startpercentqty;
+	}
 
-    public void setOrderprivilegeB(Integer orderprivilegeB) {
-        this.orderprivilegeB = orderprivilegeB;
-    }
+	public void setStartpercentqty(Long startpercentqty) {
+		this.startpercentqty = startpercentqty;
+	}
 
-    public Integer getOrderprivilegeS() {
-        return orderprivilegeS;
-    }
+	public BigDecimal getMaxpercentlimit() {
+		return maxpercentlimit;
+	}
 
-    public void setOrderprivilegeS(Integer orderprivilegeS) {
-        this.orderprivilegeS = orderprivilegeS;
-    }
+	public void setMaxpercentlimit(BigDecimal maxpercentlimit) {
+		this.maxpercentlimit = maxpercentlimit;
+	}
 
-    public Short getFirmmaxholdqtyalgr() {
-        return firmmaxholdqtyalgr;
-    }
+	public Long getOnemaxholdqty() {
+		return onemaxholdqty;
+	}
 
-    public void setFirmmaxholdqtyalgr(Short firmmaxholdqtyalgr) {
-        this.firmmaxholdqtyalgr = firmmaxholdqtyalgr;
-    }
+	public void setOnemaxholdqty(Long onemaxholdqty) {
+		this.onemaxholdqty = onemaxholdqty;
+	}
 
-    public Long getStartpercentqty() {
-        return startpercentqty;
-    }
+	public Short getMinquantitymove() {
+		return minquantitymove;
+	}
 
-    public void setStartpercentqty(Long startpercentqty) {
-        this.startpercentqty = startpercentqty;
-    }
+	public void setMinquantitymove(Short minquantitymove) {
+		this.minquantitymove = minquantitymove;
+	}
 
-    public BigDecimal getMaxpercentlimit() {
-        return maxpercentlimit;
-    }
+	public BigDecimal getDelayrecouprate() {
+		return delayrecouprate;
+	}
 
-    public void setMaxpercentlimit(BigDecimal maxpercentlimit) {
-        this.maxpercentlimit = maxpercentlimit;
-    }
+	public void setDelayrecouprate(BigDecimal delayrecouprate) {
+		this.delayrecouprate = delayrecouprate;
+	}
 
-    public Long getOnemaxholdqty() {
-        return onemaxholdqty;
-    }
+	public Short getSettleway() {
+		return settleway;
+	}
 
-    public void setOnemaxholdqty(Long onemaxholdqty) {
-        this.onemaxholdqty = onemaxholdqty;
-    }
+	public void setSettleway(Short settleway) {
+		this.settleway = settleway;
+	}
 
-    public Short getMinquantitymove() {
-        return minquantitymove;
-    }
+	public Short getDelayfeeway() {
+		return delayfeeway;
+	}
 
-    public void setMinquantitymove(Short minquantitymove) {
-        this.minquantitymove = minquantitymove;
-    }
+	public void setDelayfeeway(Short delayfeeway) {
+		this.delayfeeway = delayfeeway;
+	}
 
-    public BigDecimal getDelayrecouprate() {
-        return delayrecouprate;
-    }
+	public BigDecimal getMaxfeerate() {
+		return maxfeerate;
+	}
 
-    public void setDelayrecouprate(BigDecimal delayrecouprate) {
-        this.delayrecouprate = delayrecouprate;
-    }
+	public void setMaxfeerate(BigDecimal maxfeerate) {
+		this.maxfeerate = maxfeerate;
+	}
 
-    public Short getSettleway() {
-        return settleway;
-    }
+	public Integer getMinsettlemoveqty() {
+		return minsettlemoveqty;
+	}
 
-    public void setSettleway(Short settleway) {
-        this.settleway = settleway;
-    }
+	public void setMinsettlemoveqty(Integer minsettlemoveqty) {
+		this.minsettlemoveqty = minsettlemoveqty;
+	}
 
-    public Short getDelayfeeway() {
-        return delayfeeway;
-    }
+	public BigDecimal getStorerecouprate() {
+		return storerecouprate;
+	}
 
-    public void setDelayfeeway(Short delayfeeway) {
-        this.delayfeeway = delayfeeway;
-    }
+	public void setStorerecouprate(BigDecimal storerecouprate) {
+		this.storerecouprate = storerecouprate;
+	}
 
-    public BigDecimal getMaxfeerate() {
-        return maxfeerate;
-    }
+	public Long getMinsettleqty() {
+		return minsettleqty;
+	}
 
-    public void setMaxfeerate(BigDecimal maxfeerate) {
-        this.maxfeerate = maxfeerate;
-    }
+	public void setMinsettleqty(Long minsettleqty) {
+		this.minsettleqty = minsettleqty;
+	}
 
-    public Integer getMinsettlemoveqty() {
-        return minsettlemoveqty;
-    }
+	public BigDecimal getDelayrecouprateS() {
+		return delayrecouprateS;
+	}
 
-    public void setMinsettlemoveqty(Integer minsettlemoveqty) {
-        this.minsettlemoveqty = minsettlemoveqty;
-    }
+	public void setDelayrecouprateS(BigDecimal delayrecouprateS) {
+		this.delayrecouprateS = delayrecouprateS;
+	}
 
-    public BigDecimal getStorerecouprate() {
-        return storerecouprate;
-    }
+	public Short getAheadsettlepricetype() {
+		return aheadsettlepricetype;
+	}
 
-    public void setStorerecouprate(BigDecimal storerecouprate) {
-        this.storerecouprate = storerecouprate;
-    }
+	public void setAheadsettlepricetype(Short aheadsettlepricetype) {
+		this.aheadsettlepricetype = aheadsettlepricetype;
+	}
 
-    public Long getMinsettleqty() {
-        return minsettleqty;
-    }
+	public Short getDelaysettlepricetype() {
+		return delaysettlepricetype;
+	}
 
-    public void setMinsettleqty(Long minsettleqty) {
-        this.minsettleqty = minsettleqty;
-    }
+	public void setDelaysettlepricetype(Short delaysettlepricetype) {
+		this.delaysettlepricetype = delaysettlepricetype;
+	}
 
-    public BigDecimal getDelayrecouprateS() {
-        return delayrecouprateS;
-    }
+	public Short getSettlemargintype() {
+		return settlemargintype;
+	}
 
-    public void setDelayrecouprateS(BigDecimal delayrecouprateS) {
-        this.delayrecouprateS = delayrecouprateS;
-    }
+	public void setSettlemargintype(Short settlemargintype) {
+		this.settlemargintype = settlemargintype;
+	}
 
-    public Short getAheadsettlepricetype() {
-        return aheadsettlepricetype;
-    }
+	public Short getBeforedaysM() {
+		return beforedaysM;
+	}
 
-    public void setAheadsettlepricetype(Short aheadsettlepricetype) {
-        this.aheadsettlepricetype = aheadsettlepricetype;
-    }
+	public void setBeforedaysM(Short beforedaysM) {
+		this.beforedaysM = beforedaysM;
+	}
 
-    public Short getDelaysettlepricetype() {
-        return delaysettlepricetype;
-    }
+	public Long getSideholdlimitqty() {
+		return sideholdlimitqty;
+	}
 
-    public void setDelaysettlepricetype(Short delaysettlepricetype) {
-        this.delaysettlepricetype = delaysettlepricetype;
-    }
+	public void setSideholdlimitqty(Long sideholdlimitqty) {
+		this.sideholdlimitqty = sideholdlimitqty;
+	}
 
-    public Short getSettlemargintype() {
-        return settlemargintype;
-    }
+	public Short getHolddayslimit() {
+		return holddayslimit;
+	}
 
-    public void setSettlemargintype(Short settlemargintype) {
-        this.settlemargintype = settlemargintype;
-    }
+	public void setHolddayslimit(Short holddayslimit) {
+		this.holddayslimit = holddayslimit;
+	}
 
-    public Short getBeforedaysM() {
-        return beforedaysM;
-    }
+	public Long getMaxholdpositionday() {
+		return maxholdpositionday;
+	}
 
-    public void setBeforedaysM(Short beforedaysM) {
-        this.beforedaysM = beforedaysM;
-    }
+	public void setMaxholdpositionday(Long maxholdpositionday) {
+		this.maxholdpositionday = maxholdpositionday;
+	}
 
-    public Long getSideholdlimitqty() {
-        return sideholdlimitqty;
-    }
+	public Short getTaxinclusive() {
+		return taxinclusive;
+	}
 
-    public void setSideholdlimitqty(Long sideholdlimitqty) {
-        this.sideholdlimitqty = sideholdlimitqty;
-    }
-
-    public Short getHolddayslimit() {
-        return holddayslimit;
-    }
-
-    public void setHolddayslimit(Short holddayslimit) {
-        this.holddayslimit = holddayslimit;
-    }
-
-    public Long getMaxholdpositionday() {
-        return maxholdpositionday;
-    }
-
-    public void setMaxholdpositionday(Long maxholdpositionday) {
-        this.maxholdpositionday = maxholdpositionday;
-    }
-
-    public Short getTaxinclusive() {
-        return taxinclusive;
-    }
-
-    public void setTaxinclusive(Short taxinclusive) {
-        this.taxinclusive = taxinclusive;
-    }
+	public void setTaxinclusive(Short taxinclusive) {
+		this.taxinclusive = taxinclusive;
+	}
 }
