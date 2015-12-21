@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Express {
+public class Express implements Serializable {
 
 	private String expressId;
 

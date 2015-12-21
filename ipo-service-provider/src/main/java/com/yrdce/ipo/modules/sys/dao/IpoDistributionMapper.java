@@ -53,4 +53,6 @@ public interface IpoDistributionMapper {
 	int selectByCount();
 
 	List<IpoDistribution> selectByCommId(String commId);
+
+	List<IpoDistribution> allByTime(String date);
 }

@@ -108,7 +108,7 @@
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\">" + "详细信息" + "</a>";
+              return "<a href=\"#\" onclick=\"updateForward(" + index + "," + row.deliveryorder_id + ")\">" + "打印" + "</a>";
             }
           }]
         ]
@@ -120,6 +120,14 @@
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
+
+    function updateForward(index, id) {
+      var iWidth = 500; //弹出窗口的宽度;
+      var iHeight = 500; //弹出窗口的高度;
+      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
+      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
+      window.open("./customer_table.html?deliveryorder_id=" + id, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+    }
     </script>
     <div id="tb" style="padding:5px;height:auto">
       <div>
