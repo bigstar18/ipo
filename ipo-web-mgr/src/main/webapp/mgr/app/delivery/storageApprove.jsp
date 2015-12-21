@@ -15,14 +15,14 @@
 	<div class="div_list">
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
-		<div>
+		<!-- <div>
 			提货单号：<input type="text" id="deliveryorderId" name="deliveryorderId" />
 			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
 			<input type="hidden" id="approvalStatus" name="approvalStatus" value="1">
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
 			<input type="button" value="查询" onclick="doSearch()"/>		
 			<input type="button" value="重置" onclick="clearInfo()"/>			
-		</div> 
+		</div>  -->
 	</div>
 	</div>
 	</td>

@@ -23,67 +23,38 @@ $(document).ready(function() {
         	 field : 'storageid',  
              width : 200,  
              align: "center",
-             title : '商品代码'
+             title : '入库单号'
          },  {
         	 field : 'commodityid',  
              width : 200,  
              align: "center",
-             title : '商品名称'
+             title : '商品代码'
          }, {
         	 field : 'storagenum',  
              width : 200,  
              align: "center",
-             title : '交易商代码'
+             title : '入库件数'
          }, {
         	 field : 'warehouseauditorid',  
              width : 200,  
              align: "center",
-             title : '交易商名称'
+             title : '仓库审核员'
          }, {
         	 field : 'marketauditorid',  
              width : 200,  
              align: "center",
-             title : '仓库代码'
+             title : '市场审核员'
          }, {
         	 field : 'storagestate',  
              width : 200,  
              align: "center",
-             title : '仓库名称'
+             title : '入库状态'
          },{
         	 field : 'storagedate',  
              width : 200,  
              align: "center",
-             title : '交割数量'
-         },{
-        	 field : 'unit',  
-             width : 200,  
-             align: "center",
-             title : '单位'
-         },{
-        	 field : 'deliveryDate',  
-             width : 200,  
-             align: "center",
-             title : '提货日期',
-             formatter: function(value,row){
-                  return value.substr(0,10);
-          } 
-         },{
-        	 field : 'applyDate',  
-             width : 200,  
-             align: "center",
-             title : '申请日期',
-             formatter: function(value,row){
-                  return value.substr(0,10);
-          } 
-         },{  
-             field : 'approvalStatus',  
-             width : 200,  
-             align: "center",
-             title : '操作' ,
-             formatter:function(value,row){
-         	    return "<input type=\"button\" onclick=\"approve("+row.deliveryorderId+")\" value=\"审核\"/>";
+             title : '入库日期'
          }
-          }
          ]],  
          pagination : true 
      });  
