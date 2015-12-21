@@ -11,46 +11,46 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/DeliveryController/approveDeliveryOrders" ,  
+         url:  getRootPath () + "/DeliveryController/findAllStorages" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [ {
-        	 field : 'deliveryorderId',  
+        	 field : 'warehouseid',  
              width : 200, 
              align: "center",
-             title : '提货单号'
+             title : '仓库号'
          }, {
-        	 field : 'commodityId',  
+        	 field : 'storageid',  
              width : 200,  
              align: "center",
              title : '商品代码'
          },  {
-        	 field : 'commodityName',  
+        	 field : 'commodityid',  
              width : 200,  
              align: "center",
              title : '商品名称'
          }, {
-        	 field : 'dealerId',  
+        	 field : 'storagenum',  
              width : 200,  
              align: "center",
              title : '交易商代码'
          }, {
-        	 field : 'dealerName',  
+        	 field : 'warehouseauditorid',  
              width : 200,  
              align: "center",
              title : '交易商名称'
          }, {
-        	 field : 'warehouseId',  
+        	 field : 'marketauditorid',  
              width : 200,  
              align: "center",
              title : '仓库代码'
          }, {
-        	 field : 'warehouseName',  
+        	 field : 'storagestate',  
              width : 200,  
              align: "center",
              title : '仓库名称'
          },{
-        	 field : 'deliveryQuatity',  
+        	 field : 'storagedate',  
              width : 200,  
              align: "center",
              title : '交割数量'

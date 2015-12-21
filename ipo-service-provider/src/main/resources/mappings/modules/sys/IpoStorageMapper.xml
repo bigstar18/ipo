@@ -15,6 +15,12 @@
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
   </resultMap>
+   <sql id="Base_Column_List" >
+     STORAGEID, COMMODITYID, STORAGENUM, 
+      STARTNUM, ENDNUM, OPERATORID, 
+      WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
+      STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+  </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
@@ -56,5 +62,14 @@
     select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
     MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
     from IPO_STORAGE
+  </select>
+  
+   <select id="findAllStoragesByPage" resultMap="BaseResultMap" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from (select t.*,rownum TNO from IPO_STORAGE t 
+    order by t.STORAGEID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="getTotalNum" resultType="java.lang.Integer">
+   	 select count(*) from IPO_STORAGE 
   </select>
 </mapper>

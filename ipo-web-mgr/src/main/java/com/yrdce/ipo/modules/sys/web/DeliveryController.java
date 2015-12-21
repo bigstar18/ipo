@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
+import com.yrdce.ipo.modules.sys.service.warehouse.IpoStorageService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
 
 /**
  * 交收管理Controller
@@ -31,17 +33,30 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("DeliveryController")
 public class DeliveryController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DeliveryController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(DeliveryController.class);
 
 	@Autowired
 	private DeliveryOrderService deliveryorderservice;
+
+	@Autowired
+	private IpoStorageService ipoStorageService;
 
 	public DeliveryOrderService getDeliveryorderservice() {
 		return deliveryorderservice;
 	}
 
-	public void setDeliveryorderservice(DeliveryOrderService deliveryorderservice) {
+	public void setDeliveryorderservice(
+			DeliveryOrderService deliveryorderservice) {
 		this.deliveryorderservice = deliveryorderservice;
+	}
+
+	public IpoStorageService getIpoStorageService() {
+		return ipoStorageService;
+	}
+
+	public void setIpoStorageService(IpoStorageService ipoStorageService) {
+		this.ipoStorageService = ipoStorageService;
 	}
 
 	/**
@@ -53,10 +68,12 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/findAllDeliveryOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String findAllDeliveryOrders(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String findAllDeliveryOrders(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询所有提货单");
 		try {
-			List<DeliveryOrder> tlist = deliveryorderservice.findAllDeliOrdersByPage(page, rows);
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.findAllDeliOrdersByPage(page, rows);
 			int totalnums = deliveryorderservice.getTotalNum();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -78,9 +95,12 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId, @RequestParam("applyDate") String applyDate,
-			@RequestParam("approvalStatus") String approvalStatus, @RequestParam("dealerId") String dealerId) throws IOException {
+	public String QueryByConditions(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("applyDate") String applyDate,
+			@RequestParam("approvalStatus") String approvalStatus,
+			@RequestParam("dealerId") String dealerId) throws IOException {
 		log.info("模糊查询提货单");
 		try {
 			DeliveryOrder record = new DeliveryOrder();
@@ -98,7 +118,8 @@ public class DeliveryController {
 			if (!dealerId.equals("")) {
 				record.setDealerId(dealerId + "%");
 			}
-			List<DeliveryOrder> dlist = deliveryorderservice.queryAllDeliOrdersByPage(page, rows, record);
+			List<DeliveryOrder> dlist = deliveryorderservice
+					.queryAllDeliOrdersByPage(page, rows, record);
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -120,8 +141,10 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/QueryCancelByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryCancelByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId, @RequestParam("applyDate") String applyDate,
+	public String QueryCancelByConditions(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("applyDate") String applyDate,
 			@RequestParam("dealerId") String dealerId) throws IOException {
 		log.info("模糊查询提货单");
 		try {
@@ -137,9 +160,11 @@ public class DeliveryController {
 			if (!dealerId.equals("")) {
 				record.setDealerId(dealerId + "%");
 			}
-			List<DeliveryOrder> dlist = deliveryorderservice.queryCancelDeliOrdersByPage(page, rows, record);
+			List<DeliveryOrder> dlist = deliveryorderservice
+					.queryCancelDeliOrdersByPage(page, rows, record);
 
-			int totalnums = deliveryorderservice.getQueryCancelNum(record).intValue();
+			int totalnums = deliveryorderservice.getQueryCancelNum(record)
+					.intValue();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(dlist);
@@ -160,10 +185,12 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/approveDeliveryOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String approveDeliveryOrders(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String approveDeliveryOrders(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询待审核提货单");
 		try {
-			List<DeliveryOrder> tlist = deliveryorderservice.approveDeliOrdersByPage(page, rows);
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.approveDeliOrdersByPage(page, rows);
 			int totalnums = deliveryorderservice.getApproveNum();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -185,10 +212,12 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/cancelDeliveryOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String cancelDeliveryOrders(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String cancelDeliveryOrders(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询可撤销提货单");
 		try {
-			List<DeliveryOrder> tlist = deliveryorderservice.cancelDeliOrdersByPage(page, rows);
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.cancelDeliOrdersByPage(page, rows);
 			int totalnums = deliveryorderservice.getCancelNum();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -210,7 +239,8 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkPorders(DeliveryOrder deorder, Pickup detail, HttpSession session) throws IOException {
+	public String checkPorders(DeliveryOrder deorder, Pickup detail,
+			HttpSession session) throws IOException {
 		log.info("进行自提方式提货单审核");
 		try {
 			/*
@@ -235,7 +265,8 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkEorders(DeliveryOrder deorder, Express detail, HttpSession session) throws IOException {
+	public String checkEorders(DeliveryOrder deorder, Express detail,
+			HttpSession session) throws IOException {
 		log.info("进行在线配送方式提货单审核");
 		try {
 			/*
@@ -260,7 +291,8 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/cancelOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String cancelOrders(@RequestParam("deorderId") String deorderId) throws IOException {
+	public String cancelOrders(@RequestParam("deorderId") String deorderId)
+			throws IOException {
 		log.info("撤销审核单");
 		try {
 			/*
@@ -269,6 +301,33 @@ public class DeliveryController {
 			 */
 			String userId = "111";
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 分页返回入库单列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
+	@ResponseBody
+	public String findAllStorages(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
+		log.info("分页查询所有入库单");
+		try {
+			List<IpoStorageVo> tlist = ipoStorageService.selectAllByPage(page,
+					rows);
+			int totalnums = ipoStorageService.getTotalNum();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(tlist);
+			log.info(JSON.json(result));
+			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

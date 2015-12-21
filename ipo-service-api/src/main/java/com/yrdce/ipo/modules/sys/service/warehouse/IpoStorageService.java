@@ -6,28 +6,34 @@ import java.util.List;
 import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
 
 public interface IpoStorageService {
-	
-	//根据入库单号删除记录，并返回删除的记录条数
+
+	// 根据入库单号删除记录，并返回删除的记录条数
 	int deleteByPrimaryKey(String storageid);
 
-	//插入指定的对象
-    int insert(IpoStorageVo record);
+	// 插入指定的对象
+	int insert(IpoStorageVo record);
 
-    //根据入库单号查询对象，并返回这个对象
-    IpoStorageVo selectByPrimaryKey(String storageid);
+	// 根据入库单号查询对象，并返回这个对象
+	IpoStorageVo selectByPrimaryKey(String storageid);
 
-    //根据商品代码查询对象，并返回这个对象
-    IpoStorageVo selectByCommodityId(String commodityid);
-    
-    //根据入库时间查询对象，并返回这个对象
-    IpoStorageVo selectByStorageDate(Date storagedate);
-    
-    //根据入库状态查询对象，并返回这个对象
-    IpoStorageVo selectByStorageState(int storagestate);
-    
-    //查询所有的对象记录，并返回该对象的List集合
-    List<IpoStorageVo> selectAll();
+	// 根据商品代码查询对象，并返回这个对象
+	IpoStorageVo selectByCommodityId(String commodityid);
 
-    //更新指定的对象，并返回更新的记录数
-    int updateByPrimaryKey(IpoStorageVo record);
+	// 根据入库时间查询对象，并返回这个对象
+	IpoStorageVo selectByStorageDate(Date storagedate);
+
+	// 根据入库状态查询对象，并返回这个对象
+	IpoStorageVo selectByStorageState(int storagestate);
+
+	// 查询所有的对象记录，并返回该对象的List集合
+	List<IpoStorageVo> selectAll();
+
+	// 分页查询所有的对象记录
+	List<IpoStorageVo> selectAllByPage(String page, String rows);
+
+	// 获取总入库单数
+	Integer getTotalNum();
+
+	// 更新指定的对象，并返回更新的记录数
+	int updateByPrimaryKey(IpoStorageVo record);
 }
