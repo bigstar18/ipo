@@ -81,9 +81,11 @@ $(document).ready(function() {
              align: "center",
              title : '状态' ,
              formatter:function(value,row){
-         	   if(value==1) return "未审核";
-         	   if(value==2) return "通过";
-         	   if(value==3) return "驳回";
+         	   if(value=='1') return "申请";
+            	 if(value=='2') return "市场通过";
+            	 if(value=='3') return "市场驳回";
+            	 if(value=='4') return "仓库通过";
+            	 if(value=='5') return "仓库驳回";
          }
          },{  
              field : 'methodId',  
@@ -244,9 +246,11 @@ function doSearch(){
              align: "center",
              title : '状态' ,
              formatter:function(value,row){
-         	   if(value==1) return "未审核";
-         	   if(value==2) return "通过";
-         	   if(value==3) return "驳回";
+         	 if(value=='1') return "申请";
+            	 if(value=='2') return "市场通过";
+            	 if(value=='3') return "市场驳回";
+            	 if(value=='4') return "仓库通过";
+            	 if(value=='5') return "仓库驳回";
          }
          },{  
              field : 'methodId',  

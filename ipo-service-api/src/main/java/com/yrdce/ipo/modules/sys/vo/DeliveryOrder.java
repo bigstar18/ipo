@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @author chenjing
  *
@@ -41,18 +43,21 @@ public class DeliveryOrder implements Serializable {
 
 	private String unit;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryDate;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyDate;
 
 	private Integer approvalStatus;
 
 	private String approvers;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date approveDate;
 
 	private String canceler;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date cancelDate;
 
 	private Long position;

@@ -19,11 +19,16 @@
 			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
 			提货单状态: 	<select id="approvalStatus" name="approvalStatus" style="width:80">
 					<option value="">请选择</option>
-					<option value="1">未审核</option>
-					<option value="2">通过</option>
-					<option value="3">驳回</option>
-					<option value="4">已收货</option>
-					<option value="5">废除</option>
+					<option value="1">申请</option>
+					<option value="2">市场通过</option>
+					<option value="3">市场驳回</option>
+					<option value="4">仓库通过</option>
+					<option value="5">仓库驳回</option>
+					<option value="6">已确认</option>
+					<option value="7">已废除</option>
+					<option value="8">已设置配置费用</option>
+					<option value="9">已出库</option>
+					<option value="10">已收货</option>
 					</select>
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
 			<input type="button" value="查询" onclick="doSearch()"/>		

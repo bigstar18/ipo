@@ -43,7 +43,12 @@
     DELIVERY_FEE
     from IPO_DELIVERY_COST
   </select>
-  <select id="selectByUserid" resultMap="BaseResultMap" parameterType="java.lang.String">
-  select b.* from ipo_deliveryorder a left join ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{dealerId,jdbcType=VARCHAR}
+  <select id="selectByUserid" resultMap="BaseResultMap" parameterType="map">
+  select * from 
+  (select t.*,rownum TNO from
+     (select b.* from ipo_deliveryorder a left join 
+		ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{dealerId,jdbcType=VARCHAR}
+     and a.DELIVERYORDER_ID likeconcat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
+ 	) c where c.TNO between #{beginnum} and  #{endnum}
   </select>
 </mapper>

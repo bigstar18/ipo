@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
 <%@page import="java.lang.String"%> 
-<%//String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String userId ="111";%>
+<%//String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+String dealerId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -32,7 +32,7 @@ String userId ="111";%>
     $(document).ready(function() {
       $('#dg').datagrid({
     	method:"get",
-        url: '<%=request.getContextPath()%>/SettlementDeliveryController/print?userid='+<%=userId %>, //从远程站点请求数据的 URL。
+        url: '<%=request.getContextPath()%>/SettlementDeliveryController/print?dealerId='+<%=dealerId %>, //从远程站点请求数据的 URL。
         loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
         iconCls: 'icon-ok', //它将显示一个背景图片
         fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
@@ -96,7 +96,7 @@ String userId ="111";%>
               return value.substr(0, 10);
             }
           }, {
-            field: 'deliverDate',
+            field: 'deliveryDate',
             title: '提货日期',
             width: 100,
             align: 'center',
@@ -114,7 +114,12 @@ String userId ="111";%>
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"updateStatus("+row.deliveryorderId+")\">" + "注销" + "</a>";
+            	if(row.approvalStatus < 6){
+            		return "<a href=\"#\" onclick=\"updateStatus("+row.deliveryorderId+")\">" + "注销" + "</a>";
+            	}else{
+            		return "已确认";
+            	}
+              
             }
           }]
         ]
@@ -126,28 +131,36 @@ String userId ="111";%>
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
-    
+
     function updateStatus(deliveryorderid){
+    	if(confirm('确实要删除该内容吗?')){
     	$.ajax({  
 			 type: 'post',  
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",  
-		     contentType: "application/json; charset=utf-8", 
-		     data:{"deliveryorderid":deliveryorderid,"randnum":Math.floor(Math.random()*1000000),"status":6},
-			 dataType: 'json',  
-		     success : function(data, stats) { 
+		     data:{"deliveryorderid":deliveryorderid,"status":"7"},
+		     success : function(data) { 
 			           if(data=='success'){
 			        	   alert("撤销成功");
+			        	   $('#dg').datagrid('reload');
+			        	   
 			           }else{
 		          		   alert("系统异常，请联系管理员");  
 		          	   }
-			        }    
+			        }
 				});
+    }
+    }
+    
+    function doSearch(){
+    	$('#dg').datagrid('load',{
+    	deliveryorderId:$('#deliveryorderId').val()
+    	});
     }
     </script>
     <div id="tb" style="padding:5px;height:auto">
       <div>
         提货单号：
-        <input type="text" />
+        <input type="text" id="deliveryorderId" />
         <input type="button" value="查询" onclick="doSearch()" />
       </div>
     </div>

@@ -16,6 +16,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
@@ -136,7 +137,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Transactional
 	public String getRevocation(String deliveryorderid, String status) throws Exception {
 		int status1 = Integer.parseInt(status);
-		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status);
+		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
 		return "success";
 	}
@@ -206,9 +207,19 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 费用查询
 	@Override
-	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception {
-		logger.info("费用查询" + "userid:" + userid);
+	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging) throws Exception {
+		logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<IpoDeliveryCost> list1 = ipoDeliveryCostMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<DeliveryCost> list2 = new ArrayList<DeliveryCost>();
+		DeliveryCost deliveryCost = new DeliveryCost();
+		for (IpoDeliveryCost ipodeliveryCost : list1) {
+			BeanUtils.copyProperties(ipodeliveryCost, deliveryCost);
 
+		}
 		return null;
 	}
 

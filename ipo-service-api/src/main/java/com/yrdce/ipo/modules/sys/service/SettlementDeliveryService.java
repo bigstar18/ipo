@@ -49,6 +49,6 @@ public interface SettlementDeliveryService {
 	public Express getDetailByExpress(String methodid) throws Exception;
 
 	// 费用查询
-	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, String userid) throws Exception;
+	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging) throws Exception;
 
 }

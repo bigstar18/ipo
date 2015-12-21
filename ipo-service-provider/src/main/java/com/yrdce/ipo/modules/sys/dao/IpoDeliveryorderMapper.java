@@ -61,8 +61,8 @@ public interface IpoDeliveryorderMapper {
 	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
 	// 更新申请单状态
-	int updateByStatus(@Param("deliveryorderId") String deliveryorderId, @Param("status") int status);
+	int updateByStatus(@Param("deliveryorderId") String deliveryorderId, @Param("approvalStatus") int approvalStatus);
 
-	// 根据用户ID查询申请主表（提货插叙）
+	// 根据用户ID查询申请主表（提货查询）
 	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 }

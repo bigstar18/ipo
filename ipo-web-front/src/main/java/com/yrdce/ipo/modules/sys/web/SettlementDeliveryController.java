@@ -134,7 +134,7 @@ public class SettlementDeliveryController {
 	}
 
 	// 提货单状态修改(撤销提货、提货确认)
-	@RequestMapping(value = "/updateByStatus", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);

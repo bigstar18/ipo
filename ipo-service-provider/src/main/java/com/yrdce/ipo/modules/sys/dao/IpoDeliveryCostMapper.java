@@ -2,8 +2,11 @@ package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 
 @MyBatisDao
 public interface IpoDeliveryCostMapper {
@@ -16,4 +19,6 @@ public interface IpoDeliveryCostMapper {
 	List<IpoDeliveryCost> selectAll();
 
 	int updateByPrimaryKey(IpoDeliveryCost record);
+
+	List<IpoDeliveryCost> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 }
