@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.SettlementDeliveryService;
+import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Paging;
@@ -219,8 +220,18 @@ public class SettlementDeliveryController {
 	// 费用查询
 	@RequestMapping(value = "/costQuery", method = RequestMethod.GET)
 	@ResponseBody
-	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid) {
-		logger.info("费用查询" + "userid:" + userid);
-		return "";
+	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging) {
+		logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		try {
+			List<DeliveryCost> clist = settlementDeliveryService.getListByDeliveryCost(page, rows, paging);
+			int totalnums = settlementDeliveryService.countsByCost(paging);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(clist);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 }

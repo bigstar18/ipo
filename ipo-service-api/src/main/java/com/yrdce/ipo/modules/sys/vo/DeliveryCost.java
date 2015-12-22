@@ -30,6 +30,8 @@ public class DeliveryCost implements Serializable {
 
 	private BigDecimal deliveryFee;
 
+	private Date deliveryDate;
+
 	public String getDeliveryId() {
 		return deliveryId;
 	}
@@ -84,5 +86,13 @@ public class DeliveryCost implements Serializable {
 
 	public void setDeliveryFee(BigDecimal deliveryFee) {
 		this.deliveryFee = deliveryFee;
+	}
+
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 }

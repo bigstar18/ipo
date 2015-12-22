@@ -51,4 +51,7 @@ public interface SettlementDeliveryService {
 	// 费用查询
 	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging) throws Exception;
 
+	// 费用页数
+	public int countsByCost(Paging paging) throws Exception;
+
 }

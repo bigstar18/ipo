@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended;
 import com.yrdce.ipo.modules.sys.vo.Paging;
 
 @MyBatisDao
@@ -20,5 +21,7 @@ public interface IpoDeliveryCostMapper {
 
 	int updateByPrimaryKey(IpoDeliveryCost record);
 
-	List<IpoDeliveryCost> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoDeliveryCostExtended> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
+
+	int countsByCost(@Param("paging") Paging paging);
 }

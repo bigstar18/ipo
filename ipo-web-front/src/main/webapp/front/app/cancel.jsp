@@ -133,7 +133,7 @@ String dealerId ="111";%>
     })
 
     function updateStatus(deliveryorderid){
-    	if(confirm('确实要删除该内容吗?')){
+    	if(confirm('确实要撤销吗?')){
     	$.ajax({  
 			 type: 'post',  
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",  
