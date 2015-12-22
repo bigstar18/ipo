@@ -16,6 +16,13 @@
     <result column="RATION_TYPE" property="rationType" jdbcType="VARCHAR" />
     <result column="FIRM_ID" property="firmId" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="Base_Column_List" >
+      SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE,
+      RATION_COUNTS, RATION_REPAYMENT, 
+      RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, 
+      IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
+  </sql>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_SPO
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
@@ -59,4 +66,27 @@
     RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
     from IPO_SPO
   </select>
+  <select id="getInfoByPages" resultMap="BaseResultMap" parameterType="map">
+  	select <include refid="Base_Column_List" /> from
+  	 (select s.*,rownum TNO from IPO_SPO s
+  	 where 1=1
+  	 <if test="spo.communityId != null" >
+       and s.COMMUNITY_ID = #{spo.communityId,jdbcType=VARCHAR} 
+     </if>
+     order by s.SPO_ID)a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+  <select id="getInfoCounts" resultType="java.lang.Integer" parameterType="map">
+  	SELECT COUNT(*) FROM
+	 IPO_SPO S
+  	 WHERE 1=1
+  	 <if test="spo.communityId != null" >
+       AND S.COMMUNITY_ID = #{spo.communityId} 
+     </if>
+  </select>
+   <update id="updateRationType" parameterType="java.lang.String" >
+    update IPO_SPO
+    set 
+    RATION_SATE = 1
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -18,68 +18,86 @@ $(document).ready(function() {
 });
 //加载所有信息
 function getAllInfo(){
-	$('#name').val("");
+	 
 	 $('#depositInfo').datagrid({  
          title:'配售信息',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,
-         pageSize:10,  
+         pageSize:5,  
          pageList:[5,10,15],  
          nowrap:true,  
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>', //搜索前,触发此action请求所有用户信息  
+         url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo", //搜索前,触发此action请求所有用户信息  
+        queryParams:{
+        	communityId: $("#commId").val()
+        },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
-             field : 'test1',  
+             field : 'communityId',  
              width : 200,  
              align: "center",
              title : '商品代码'  
          },{
-        	 field : 'test2',  
+        	 field : 'spoId',  
+             width : 200,  
+             hidden:'true',
+             align: "center",
+             title : 'spoId'
+         },{
+        	 field : 'spoCounts',  
              width : 200,  
              align: "center",
              title : '增发数量'
          },{  
-             field : 'test3',  
+             field : 'spoPrice',  
              width : 200,  
              align: "center",
              title : '增发价格'  
-         }, {  
-             field : 'test5',  
+         },{  
+             field : 'rationCounts',  
              width : 200, 
              align: "center",
              title : '配售数量'
          }, {  
-             field : 'test7',  
+             field : 'rationRepayment',  
              width : 200, 
              align: "center",
              title : '配售还款'
-         }, {  
-             field : 'test9',  
+         },  {  
+             field : 'rationPoundage',  
              width : 200, 
              align: "center",
              title : '配售手续费'
          }, {  
-             field : 'test10',  
+             field : 'registerDate',  
              width : 200, 
              align: "center",
-             title : '登记日期'
+             title : '登记日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          }, {  
-             field : 'test11',  
+             field : 'spoDate', 
              width : 200, 
              align: "center",
-             title : '增发日期'
+             title : '增发日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          }, {  
-             field : 'test12',  
+             field : 'ipoDate',  
              width : 200, 
              align: "center",
-             title : '上市日期'
+             title : '上市日期',
+           	 formatter: function(value,row){
+                     return value.substr(0,10);
+           	 }
          }, {  
-             field : 'test13',  
+             field : 'rationSate',  
              width : 200, 
              align: "center",
              title : '配售状态'
@@ -93,6 +111,16 @@ function getAllInfo(){
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
 	
+}
+
+//查询
+function doSearch(){
+	getAllInfo();
+}
+function reSet(){
+	$("#commId").val("");
+	getAllInfo();
+	//alert('重置');
 }
 </script>
 </head>
@@ -108,13 +136,13 @@ function getAllInfo(){
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
-					商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
+					商品代码: <input id="commId" name="communityId" type="text" style="border:1px solid #ccc">
 								&nbsp
 								&nbsp
 					查询日期: <input id="startdate" name="startdate" class="easyui-datebox" style="border:1px solid #ccc" >
 					至 <input id="enddate" name="enddate" class="easyui-datebox" style="border:1px solid #ccc" >
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="getAllInfo()">重置</a>					
+						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>					
 					</form> 
 					</div>
 				</div>

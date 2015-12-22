@@ -9,85 +9,117 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-
+<script src="<%=request.getContextPath()%>/static/IPO/SPO/ration.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-
 	getAllInfo();
-	  
 });
 //加载所有信息
 function getAllInfo(){
-	$('#name').val("");
+	 
 	 $('#depositInfo').datagrid({  
          title:'配售信息',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,
-         pageSize:10,  
+         pageSize:5,  
          pageList:[5,10,15],  
          nowrap:true,  
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>', //搜索前,触发此action请求所有用户信息  
+         url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo", //搜索前,触发此action请求所有用户信息  
+        queryParams:{
+        	communityId: $("#commId").val()
+        },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
-             field : 'test1',  
+             field : 'communityId',  
              width : 200,  
              align: "center",
              title : '商品代码'  
          },{
-        	 field : 'test2',  
+        	 field : 'spoId',  
+             width : 200,  
+             hidden:'true',
+             align: "center",
+             title : 'spoId'
+         },{
+        	 field : 'spoCounts',  
              width : 200,  
              align: "center",
              title : '增发数量'
          },{  
-             field : 'test3',  
+             field : 'spoPrice',  
              width : 200,  
              align: "center",
              title : '增发价格'  
          },{  
-             field : 'test5',  
+             field : 'rationCounts',  
              width : 200, 
              align: "center",
              title : '配售数量'
          }, {  
-             field : 'test7',  
+             field : 'rationRepayment',  
              width : 200, 
              align: "center",
              title : '配售还款'
          },  {  
-             field : 'test9',  
+             field : 'rationPoundage',  
              width : 200, 
              align: "center",
              title : '配售手续费'
          }, {  
-             field : 'test10',  
+             field : 'registerDate',  
              width : 200, 
              align: "center",
-             title : '登记日期'
+             title : '登记日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          }, {  
-             field : 'test11',  
+             field : 'spoDate', 
              width : 200, 
              align: "center",
-             title : '增发日期'
+             title : '增发日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          }, {  
-             field : 'test12',  
+             field : 'ipoDate',  
              width : 200, 
              align: "center",
-             title : '上市日期'
+             title : '上市日期',
+           	 formatter: function(value,row){
+                     return value.substr(0,10);
+           	 }
          }, {  
-             field : 'test13',  
+             field : 'rationSate',  
              width : 200, 
              align: "center",
-             title : '配售状态'
+             title : '配售状态',
+             formatter:function(value,row){
+            	 switch(value)
+            	 {
+            	 case 1:
+            	  return "以配售"
+            	   break;
+            	 case 0:
+            	   	return "未配售"
+            	   break;
+            	 }
+                 }
          }, {  
-             field : 'test14',  
+             field : 'set',  
              width : 200, 
              align: "center",
-             title : '操作'
+             title : '操作',
+             formatter:function(value,row){
+            	 if(row.rationSate==0)
+            	 	return "<a href='#' onclick='rationConfirm("+row.spoId+")'>确认</a>";
+             }
+         	
          }]],  
          pagination : true
      });  
@@ -99,6 +131,46 @@ function getAllInfo(){
 	    });
 	
 }
+
+//查询
+function doSearch(){
+	getAllInfo();
+}
+function reSet(){
+	$("#commId").val("");
+	getAllInfo();
+	//alert('重置');
+}
+//确认配售
+function rationConfirm(spoId){
+	//var row = $("#depositInfo").datagrid('getSelected');
+	if(!sure())
+		return;
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/spoRationController/updateRationType",
+		data:{spoId:spoId},
+		success:function(data){
+        	if(data=="success")
+        	  $('#depositInfo').datagrid('reload');
+        	else if(data=="error")
+        		alert("操作失败，请稍后再试");s
+         } 
+	});
+	//alert(spoId);
+}
+//确认消息
+function sure(){
+	if(window.confirm('是否确认配售？')){
+        //alert("确定");
+        return true;
+     }else{
+        //alert("取消");
+        return false;
+}
+	
+}
+
 </script>
 </head>
 <body>
@@ -113,9 +185,10 @@ function getAllInfo(){
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
-					商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
+					
+					商品代码: <input id="commId" name="communityId" type="text" style="border:1px solid #ccc">
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="getAllInfo()">重置</a>					
+						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>					
 					</form> 
 					</div>
 				</div>
