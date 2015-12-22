@@ -72,6 +72,11 @@
 		<div class="menu_3" id="4001001030" action="<%=request.getContextPath()%>/CommodityController/DistribQuery">配号记录</div>
 		<div class="menu_3" id="4001001040" action="<%=request.getContextPath()%>/CommodityController/SelectedQuery">中签记录</div>
 	</div>
+	<div class="menu_1" id="2001001000">商品增发</div>
+	<div id="2001001000Div" style="display: none;">
+		<div class="menu_3" id="2001001010" action="<%=request.getContextPath()%>/front/app/SPO/rationInfo_determine.jsp">确认配售</div>
+		<div class="menu_3" id="2001001010" action="<%=request.getContextPath()%>/front/app/SPO/rationInfo.jsp">配售查询</div>
+	</div>
 	<div class="menu_1" id="3001001000">交收提货</div>
 	<div id="3001001000Div" style="display: none;">
 		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/withdraw.html">提货申请</div>
@@ -79,6 +84,11 @@
 		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/front/app/cancel.html">撤销提货</div>
 		<div class="menu_3" id="3001001030" action="<%=request.getContextPath()%>/front/app/deliver.html">提货查询</div>
 		<div class="menu_3" id="3001001040" action="<%=request.getContextPath()%>/front/app/cost.html">费用查询</div>
+	</div>
+	<div class="menu_1" id="5001001000">库转交易</div>
+	<div id="5001001000Div" style="display: none;">
+		<div class="menu_3" id="5001001010" action="<%=request.getContextPath()%>/front/app/trusteeship/apply.html">在线委托申请</div>
+		<div class="menu_3" id="5001001020" action="<%=request.getContextPath()%>/front/app/trusteeship/my_apply.html">托管申请查询</div>
 	</div>
 	<%-- <a href="mailto: <%=Global.getMarketInfoMap().get("marketEmail") %>"><div class="left_ad"></div></a> --%>
 </div>
