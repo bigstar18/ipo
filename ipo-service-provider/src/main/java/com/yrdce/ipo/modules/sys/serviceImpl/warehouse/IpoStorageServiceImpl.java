@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoStorageMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoStorage;
+import com.yrdce.ipo.modules.sys.entity.IpoStorageExtended;
 import com.yrdce.ipo.modules.sys.service.warehouse.IpoStorageService;
+import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
 
 @Service("ipoStorageService")
@@ -99,27 +101,39 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	}
 
 	@Override
-	public List<IpoStorageVo> selectAllByPage(String page, String rows) {
+	public List<VIpoStorageExtended> selectByPage(String page, String rows,
+			VIpoStorageExtended storage) {
 		Log.info("分页查询提货单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoStorage> storageslist = ipoStorageMapper.findAllStoragesByPage(
-				(curpage - 1) * pagesize + 1, curpage * pagesize);
-		List<IpoStorageVo> storageslist2 = new ArrayList<IpoStorageVo>();
-		for (int i = 0; i < storageslist.size(); i++) {
-			IpoStorageVo temp = new IpoStorageVo();
-			BeanUtils.copyProperties(storageslist.get(i), temp);
-			storageslist2.add(temp);
-			Log.info(temp.toString());
+		if (storage != null) {
+			IpoStorageExtended example = new IpoStorageExtended();
+			BeanUtils.copyProperties(storage, example);
+			List<IpoStorageExtended> storageslist = ipoStorageMapper
+					.findStoragesByPage((curpage - 1) * pagesize + 1, curpage
+							* pagesize, example);
+			List<VIpoStorageExtended> storageslist2 = new ArrayList<VIpoStorageExtended>();
+			for (int i = 0; i < storageslist.size(); i++) {
+				VIpoStorageExtended temp = new VIpoStorageExtended();
+				BeanUtils.copyProperties(storageslist.get(i), temp);
+				storageslist2.add(temp);
+				Log.info(temp.toString());
+			}
+			return storageslist2;
 		}
-		return storageslist2;
+		return null;
 	}
 
 	@Override
-	public Integer getTotalNum() {
-		return ipoStorageMapper.getTotalNum();
+	public Integer getTotalNum(VIpoStorageExtended storage) {
+		if (storage != null) {
+			IpoStorageExtended example = new IpoStorageExtended();
+			BeanUtils.copyProperties(storage, example);
+			return ipoStorageMapper.getTotalNum(example);
+		}
+		return 0;
 	}
 
 }
