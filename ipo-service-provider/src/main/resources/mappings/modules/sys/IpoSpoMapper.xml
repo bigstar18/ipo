@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpoMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
+    <id column="SPO_ID" property="spoId" jdbcType="VARCHAR" />
+    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="SPO_COUNTS" property="spoCounts" jdbcType="DECIMAL" />
+    <result column="SPO_PRICE" property="spoPrice" jdbcType="DECIMAL" />
+    <result column="RATION_COUNTS" property="rationCounts" jdbcType="DECIMAL" />
+    <result column="RATION_REPAYMENT" property="rationRepayment" jdbcType="DECIMAL" />
+    <result column="RATION_POUNDAGE" property="rationPoundage" jdbcType="DECIMAL" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
+    <result column="SPO_DATE" property="spoDate" jdbcType="DATE" />
+    <result column="IPO_DATE" property="ipoDate" jdbcType="DATE" />
+    <result column="RATION_SATE" property="rationSate" jdbcType="DECIMAL" />
+    <result column="RATION_TYPE" property="rationType" jdbcType="VARCHAR" />
+    <result column="FIRM_ID" property="firmId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from IPO_SPO
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
+    insert into IPO_SPO (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
+      SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
+      RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, 
+      IPO_DATE, RATION_SATE, RATION_TYPE, 
+      FIRM_ID)
+    values (#{spoId,jdbcType=VARCHAR}, #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
+      #{spoPrice,jdbcType=DECIMAL}, #{rationCounts,jdbcType=DECIMAL}, #{rationRepayment,jdbcType=DECIMAL}, 
+      #{rationPoundage,jdbcType=DECIMAL}, #{registerDate,jdbcType=DATE}, #{spoDate,jdbcType=DATE}, 
+      #{ipoDate,jdbcType=DATE}, #{rationSate,jdbcType=DECIMAL}, #{rationType,jdbcType=VARCHAR}, 
+      #{firmId,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
+    update IPO_SPO
+    set COMMUNITY_ID = #{communityId,jdbcType=VARCHAR},
+      SPO_COUNTS = #{spoCounts,jdbcType=DECIMAL},
+      SPO_PRICE = #{spoPrice,jdbcType=DECIMAL},
+      RATION_COUNTS = #{rationCounts,jdbcType=DECIMAL},
+      RATION_REPAYMENT = #{rationRepayment,jdbcType=DECIMAL},
+      RATION_POUNDAGE = #{rationPoundage,jdbcType=DECIMAL},
+      REGISTER_DATE = #{registerDate,jdbcType=DATE},
+      SPO_DATE = #{spoDate,jdbcType=DATE},
+      IPO_DATE = #{ipoDate,jdbcType=DATE},
+      RATION_SATE = #{rationSate,jdbcType=DECIMAL},
+      RATION_TYPE = #{rationType,jdbcType=VARCHAR},
+      FIRM_ID = #{firmId,jdbcType=VARCHAR}
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
+    RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
+    from IPO_SPO
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
+    RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
+    from IPO_SPO
+  </select>
+</mapper>
