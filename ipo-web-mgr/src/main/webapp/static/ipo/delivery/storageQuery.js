@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-         title:'入库单审核',  
+         title:'入库单查询',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -128,7 +128,7 @@ $(document).ready(function() {
 		storageid: $('#storageid').val(),
 		commodityid: $('#commodityid').val(),
 		storagestate: $('#storagestate').val(),
-		storagedate: $('#storagedate').datebox('getValue'),
+		storagedate: $('#storagedate').datebox('getValue')
 	});
 }
 

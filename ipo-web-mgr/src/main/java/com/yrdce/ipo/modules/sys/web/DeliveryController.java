@@ -335,4 +335,24 @@ public class DeliveryController {
 		}
 	}
 
+	/**
+	 * 审核入库单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
+	@ResponseBody
+	public String approveStorages(@RequestParam("storageId") String storageId)
+			throws IOException {
+		log.info("审核入库单");
+		try {
+			return "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
 }
