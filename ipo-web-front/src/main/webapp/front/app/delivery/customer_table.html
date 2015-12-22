@@ -45,27 +45,7 @@
         <tr>
           <td align="center" height="35">
             <span>
-	          交收仓库代码：
-	        </span>
-          </td>
-          <td align="center">
-
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
 	          交收仓库名称：
-	        </span>
-          </td>
-          <td align="center">
-
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          持仓数量：
 	        </span>
           </td>
           <td align="center">
@@ -85,6 +65,16 @@
         <tr>
           <td align="center" height="35">
             <span>
+            提货密码：
+          </span>
+          </td>
+          <td align="center">
+
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
 	          单位：
 	        </span>
           </td>
@@ -95,27 +85,7 @@
         <tr>
           <td align="center" height="35">
             <span>
-	          注册日期：
-	        </span>
-          </td>
-          <td align="center">
-
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
 	          提货日期：
-	        </span>
-          </td>
-          <td align="center">
-
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          状态：
 	        </span>
           </td>
           <td align="center">
@@ -143,7 +113,6 @@
     $.ajax({
       type: 'post',
       // url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",
-      contentType: "application/json; charset=utf-8",
       data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
       dataType: 'json',
       success : function(data, stats) {
