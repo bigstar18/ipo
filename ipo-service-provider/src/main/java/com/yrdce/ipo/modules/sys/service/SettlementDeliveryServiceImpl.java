@@ -17,6 +17,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
@@ -213,14 +214,19 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryCost> list1 = ipoDeliveryCostMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryCostExtended> list1 = ipoDeliveryCostMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryCost> list2 = new ArrayList<DeliveryCost>();
-		DeliveryCost deliveryCost = new DeliveryCost();
 		for (IpoDeliveryCost ipodeliveryCost : list1) {
+			DeliveryCost deliveryCost = new DeliveryCost();
 			BeanUtils.copyProperties(ipodeliveryCost, deliveryCost);
-
+			list2.add(deliveryCost);
 		}
-		return null;
+		return list2;
+	}
+
+	@Override
+	public int countsByCost(Paging paging) throws Exception {
+		return ipoDeliveryCostMapper.countsByCost(paging);
 	}
 
 }
