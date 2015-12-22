@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>打印单号</title>
+  <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
 </head>
 
 <body>
@@ -17,8 +18,8 @@
 	          提货单号：
 	        </span>
           </td>
-          <td align="center">
-            haha
+          <td align="center" id="deliveryorderId">
+
           </td>
         </tr>
         <tr>
@@ -27,8 +28,8 @@
 	          商品代码：
 	        </span>
           </td>
-          <td align="center">
-            haha
+          <td align="center" id="commodityId">
+
           </td>
         </tr>
         <tr>
@@ -38,7 +39,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -48,7 +49,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -58,7 +59,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -68,7 +69,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -78,7 +79,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -88,7 +89,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -98,7 +99,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -108,7 +109,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
         <tr>
@@ -118,7 +119,7 @@
 	        </span>
           </td>
           <td align="center">
-            haha
+
           </td>
         </tr>
       </tbody>
@@ -132,6 +133,28 @@
     newWin.document.location.reload();
     newWin.print();
   }
+  $(document).ready(function() {
+    var url = location.search;
+    if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("=");
+    }
+    var methodid = strs[1];//获取url参数
+    $.ajax({
+      type: 'post',
+      // url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",
+      contentType: "application/json; charset=utf-8",
+      data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
+      dataType: 'json',
+      success : function(data, stats) {
+        if(data=='success'){
+
+        }else{
+          alert("系统异常，请联系管理员");
+        }
+      }
+    });
+  });
   </script>
 </body>
 
