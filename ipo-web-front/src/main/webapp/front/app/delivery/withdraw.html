@@ -12,10 +12,7 @@
       legend b{color: blue}
       body{background-color: #E0EEEE}
     </style>
-    <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/default/easyui.css">
-    <script type="text/javascript" src="../../static/jquery/jquery-1.8.0.min.js"></script>
-    <script type="text/javascript" src="../../static/jquery-easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="./withdraw.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/jquery-easyui/themes/default/easyui.css">
   </head>
 
   <body>
@@ -44,12 +41,13 @@
                     <tr>
                       <td align="center" height="35">
                         <span>
-                          &nbsp;&nbsp;藏品代码：
+                          &nbsp;&nbsp;藏品名称：
                         </span>
                       </td>
                       <td>
-                      	<select name="" style="width: 154px;">
-                          <option>
+                      	<select name="" style="width: 154px;" v-model="selected" >
+                          <option v-for="option in options" v-bind:value="option.value">
+                            {{ option.text }}
                           </option>
                         </select><b>*</b>
                       </td>
@@ -57,11 +55,11 @@
                     <tr>
                       <td align="center" height="35">
                         <span>
-                          &nbsp;&nbsp;藏品名称：
+                          &nbsp;&nbsp;藏品代码：
                         </span>
                       </td>
                       <td>
-                      	<input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                      	<input id="vcode" type="text" name="" value="{{ selected }}" style="width: 150px;" disabled="disabled"><b>*</b>
                       </td>
                     </tr>
                     <tr>
@@ -84,7 +82,7 @@
                         </span>
                       </td>
                       <td>
-                      	<input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                      	<input  type="text" name="" value="{{ selected }}" style="width: 150px;" disabled="disabled"><b>*</b>
                       </td>
                     </tr>
                     <tr>
@@ -187,5 +185,9 @@
         </tr>
       </tbody>
     </table>
+    <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="dickytest/vue.js"></script>
+    <script type="text/javascript" src="./withdraw.js"></script>
   </body>
 </html>
