@@ -1,8 +1,10 @@
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
 import java.util.Date;
 
-public class IpoStorage {
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class VIpoStorageExtended {
 	private String storageid;
 
 	private String commodityid;
@@ -21,6 +23,7 @@ public class IpoStorage {
 
 	private Integer storagestate;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date storagedate;
 
 	private String warehouseid;
@@ -28,6 +31,36 @@ public class IpoStorage {
 	private String mapperbillid;
 
 	private Long storagecounts;
+
+	private String commodityname;
+
+	private String pubmemberid;
+
+	private String publishername;
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
+	}
+
+	public String getPubmemberid() {
+		return pubmemberid;
+	}
+
+	public void setPubmemberid(String pubmemberid) {
+		this.pubmemberid = pubmemberid;
+	}
+
+	public String getPublishername() {
+		return publishername;
+	}
+
+	public void setPublishername(String publishername) {
+		this.publishername = publishername;
+	}
 
 	public String getStorageid() {
 		return storageid;

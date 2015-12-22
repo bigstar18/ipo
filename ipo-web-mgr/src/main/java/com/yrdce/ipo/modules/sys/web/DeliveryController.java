@@ -21,7 +21,7 @@ import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
-import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
+import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 
 /**
  * 交收管理Controller
@@ -317,12 +317,13 @@ public class DeliveryController {
 	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
 	@ResponseBody
 	public String findAllStorages(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询所有入库单");
+			@RequestParam("rows") String rows, VIpoStorageExtended storage)
+			throws IOException {
+		log.info("分页查询入库单");
 		try {
-			List<IpoStorageVo> tlist = ipoStorageService.selectAllByPage(page,
-					rows);
-			int totalnums = ipoStorageService.getTotalNum();
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
+					page, rows, storage);
+			int totalnums = ipoStorageService.getTotalNum(storage);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
