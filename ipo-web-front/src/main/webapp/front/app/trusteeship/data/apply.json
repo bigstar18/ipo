@@ -1,0 +1,12 @@
+{"total":"10","rows":[
+{"code":"001","name":"邮票","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"002","name":"芝麻","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"003","name":"大豆","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"004","name":"木耳","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"005","name":"白银","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"006","name":"黄金","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"007","name":"铂金","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"008","name":"银耳","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"009","name":"青铜","start_end_date":"20150101-20150301","gpbl":"10","price":"100"},
+{"code":"010","name":"白瓷","start_end_date":"20150101-20150301","gpbl":"10","price":"100"}
+]}
