@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
 <%@page import="java.lang.String"%> 
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%//String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 String dealerId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,11 +11,11 @@ String dealerId ="111";%>
 <head>
   <meta charset="utf-8">
   <title>提货查询</title>
-  <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/default/easyui.css">
-  <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/icon.css">
-  <link href="../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="../../static/jquery/jquery-1.8.0.min.js"></script>
-  <script type="text/javascript" src="../../static/jquery-easyui/jquery.easyui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+  <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
+  <link href="../../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
 
 <body>
