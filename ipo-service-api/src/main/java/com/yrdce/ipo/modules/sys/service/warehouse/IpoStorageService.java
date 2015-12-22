@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.service.warehouse;
 import java.util.Date;
 import java.util.List;
 
+import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
 
 public interface IpoStorageService {
@@ -28,11 +29,12 @@ public interface IpoStorageService {
 	// 查询所有的对象记录，并返回该对象的List集合
 	List<IpoStorageVo> selectAll();
 
-	// 分页查询所有的对象记录
-	List<IpoStorageVo> selectAllByPage(String page, String rows);
+	// 分页查询入库单
+	List<VIpoStorageExtended> selectByPage(String page, String rows,
+			VIpoStorageExtended storage);
 
-	// 获取总入库单数
-	Integer getTotalNum();
+	// 获取查询的总入库单数
+	Integer getTotalNum(VIpoStorageExtended storage);
 
 	// 更新指定的对象，并返回更新的记录数
 	int updateByPrimaryKey(IpoStorageVo record);

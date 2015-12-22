@@ -14,12 +14,31 @@
     <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
+    <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="SResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStorageExtended" >
+    <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="STORAGENUM" property="storagenum" jdbcType="DECIMAL" />
+    <result column="STARTNUM" property="startnum" jdbcType="VARCHAR" />
+    <result column="ENDNUM" property="endnum" jdbcType="VARCHAR" />
+    <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEAUDITORID" property="warehouseauditorid" jdbcType="VARCHAR" />
+    <result column="MARKETAUDITORID" property="marketauditorid" jdbcType="VARCHAR" />
+    <result column="STORAGESTATE" property="storagestate" jdbcType="DECIMAL" />
+    <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
+    <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+    <result column="PUBLISHERNAME" property="publishername" jdbcType="VARCHAR" />
   </resultMap>
    <sql id="Base_Column_List" >
      STORAGEID, COMMODITYID, STORAGENUM, 
       STARTNUM, ENDNUM, OPERATORID, 
       WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
-      STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+      STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_STORAGE
@@ -29,12 +48,12 @@
     insert into IPO_STORAGE (STORAGEID, COMMODITYID, STORAGENUM, 
       STARTNUM, ENDNUM, OPERATORID, 
       WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
-      STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+      STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
       )
     values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
-      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}, #{storagecounts,jdbcType=DECIMAL}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
@@ -49,27 +68,54 @@
       STORAGESTATE = #{storagestate,jdbcType=DECIMAL},
       STORAGEDATE = #{storagedate,jdbcType=DATE},
       WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR},
-      MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR}
+      MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR},
+      STORAGECOUNTS = #{storagecounts,jdbcType=DECIMAL}
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
-    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
     from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
-    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
     from IPO_STORAGE
   </select>
   
-   <select id="findAllStoragesByPage" resultMap="BaseResultMap" parameterType="map">
-    select <include refid="Base_Column_List" />
-    from (select t.*,rownum TNO from IPO_STORAGE t 
-    order by t.STORAGEID) a where a.TNO between  #{beginnum} and  #{endnum}
+   <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
+   select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
+    from (select t.*, c.commodityname, c.pubmemberid from ipo_storage t  left join ipo_commodity_conf c
+    on t.commodityid = c.commodityid) a left join br_broker b
+    on a.pubmemberid = b.brokerid order by a.storageid) g where 1=1
+       <if test="record.storageid != null" >
+       and g.STORAGEID like concat (#{record.storageid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.commodityid != null" >
+       and g.COMMODITYID like concat (#{record.commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.storagedate != null" >
+       and g.STORAGEDATE = #{record.storagedate,jdbcType=DATE}
+      </if>
+      <if test="record.storagestate != null" >
+       and g.STORAGESTATE = #{record.storagestate,jdbcType=DECIMAL}
+      </if>
+    order by g.STORAGEID)  p where p.TNO between  #{beginnum} and #{endnum}
   </select>
-   <select id="getTotalNum" resultType="java.lang.Integer">
-   	 select count(*) from IPO_STORAGE 
+   <select id="getTotalNum" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorageExtended">
+   	 select count(*) from IPO_STORAGE where 1=1
+   	    <if test="storageid != null" >
+       and STORAGEID like  concat (#{storageid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="commodityid != null" >
+       and COMMODITYID like concat (#{commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="storagedate != null" >
+       and STORAGEDATE = #{storagedate,jdbcType=DATE}
+      </if>
+      <if test="storagestate != null" >
+       and STORAGESTATE = #{storagestate,jdbcType=DECIMAL}
+      </if>
   </select>
 </mapper>

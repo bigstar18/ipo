@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoStorage;
+import com.yrdce.ipo.modules.sys.entity.IpoStorageExtended;
 
 @MyBatisDao
 public interface IpoStorageMapper {
@@ -26,8 +27,9 @@ public interface IpoStorageMapper {
 
 	int updateByPrimaryKey(IpoStorage record);
 
-	List<IpoStorage> findAllStoragesByPage(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum);
+	List<IpoStorageExtended> findStoragesByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("record") IpoStorageExtended record);
 
-	int getTotalNum();
+	int getTotalNum(IpoStorageExtended record);
 }
