@@ -211,6 +211,12 @@
   	) t ) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
+  <select id="selectByPickUp" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickupExtended">
+  	select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id 
+	where d.method_id = #{methodId,jdbcType=VARCHAR} and DELIVERY_METHOD = '自提'
+  </select>
+  
+  
   <update id="updateByStatus" parameterType="map">
   	update IPO_DELIVERYORDER
     set APPROVAL_STATUS = #{approvalStatus,jdbcType=DECIMAL}

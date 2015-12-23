@@ -1,45 +1,18 @@
-<%
-response.setStatus(403);
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%-- <%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
+<%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
+<%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%> --%>
 
-//获取异常类
-Throwable ex = Exceptions.getThrowable(request);
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-// 如果是异步请求或是手机端，则直接返回信息
-if (Servlets.isAjaxRequest(request)) {
-	if (ex!=null && StringUtils.startsWith(ex.getMessage(), "msg:")){
-		out.print(StringUtils.replace(ex.getMessage(), "msg:", ""));
-	}else{
-		out.print("操作权限不足.");
-	}
-}
-
-//输出异常信息页面
-else {
-%>
-<%@page import="com.yrdce.ipo.common.web.Servlets"%>
-<%@page import="com.yrdce.ipo.common.utils.Exceptions"%>
-<%@page import="com.yrdce.ipo.common.utils.StringUtils"%>
-<%@page contentType="text/html;charset=UTF-8" isErrorPage="true"%>
-<%@include file="/WEB-INF/views/include/taglib.jsp"%>
-<!DOCTYPE html>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-	<title>403 - 操作权限不足</title>
-	<%@include file="/WEB-INF/views/include/head.jsp" %>
+	<title>403 - 用户权限不足</title>
 </head>
+
 <body>
-	<div class="container-fluid">
-		<div class="page-header"><h1>操作权限不足.</h1></div>
-		<%
-			if (ex!=null && StringUtils.startsWith(ex.getMessage(), "msg:")){
-				out.print("<div>"+StringUtils.replace(ex.getMessage(), "msg:", "")+" <br/> <br/></div>");
-			}
-		%>
-		<div><a href="javascript:" onclick="history.go(-1);" class="btn">返回上一页</a></div>
-		<script>try{top.$.jBox.closeTip();}catch(e){}</script>
-	</div>
+	<h2>403 - 用户权限不足.</h2>
+	<p><a href="<c:url value="/"/>">返回首页</a></p>
 </body>
 </html>
-<%
-} out = pageContext.pushBody();
-%>
