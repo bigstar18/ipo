@@ -96,11 +96,11 @@
 
   <script type="text/javascript">
   function printpage() {
-    var newWin = window.open('提货信息', '', '');
-    var titleHTML = document.getElementById("form_table").innerHTML;
-    newWin.document.write(titleHTML);
-    newWin.document.location.reload();
-    newWin.print();
+    // var newWin = window.open('提货信息', '', '');
+    // var titleHTML = document.getElementById("form_table").innerHTML;
+    // newWin.document.write(titleHTML);
+    // newWin.document.location.reload();
+    window.print();
   }
   $(document).ready(function() {
     var url = location.search;
