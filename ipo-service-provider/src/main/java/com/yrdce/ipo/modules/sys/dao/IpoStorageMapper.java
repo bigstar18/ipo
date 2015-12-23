@@ -32,4 +32,8 @@ public interface IpoStorageMapper {
 			@Param("record") IpoStorageExtended record);
 
 	int getTotalNum(IpoStorageExtended record);
+
+	int updateStorage(@Param("storageid") String storageid,
+			@Param("checker") String checker, @Param("state") String state);
+
 }

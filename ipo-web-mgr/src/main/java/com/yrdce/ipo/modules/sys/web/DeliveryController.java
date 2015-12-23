@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
@@ -343,16 +344,26 @@ public class DeliveryController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
-	@ResponseBody
-	public String approveStorages(@RequestParam("storageId") String storageId)
+	public ModelAndView approveStorages(
+			@RequestParam("storageId") String storageId,
+			@RequestParam("flag") String flag, HttpSession session)
 			throws IOException {
 		log.info("审核入库单");
 		try {
-			return "";
+			/*
+			 * String userId = ((UserManageVO)
+			 * session.getAttribute("CurrentUser")) .getUserID();
+			 */
+			String userId = "111";
+			int num = ipoStorageService.checkStorage(storageId, flag, userId);
+			if (num != 0) {
+				return new ModelAndView(
+						"redirect:/IpoController/StorageApprove");
+			}
+			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
-
 }

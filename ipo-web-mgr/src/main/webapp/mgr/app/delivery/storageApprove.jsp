@@ -3,6 +3,10 @@
 <html>
 <head>
 <title>入库单审核</title>
+
+<style type="text/css">
+a {color:#00f;}
+</style>
 <script src="<%=request.getContextPath()%>/static/ipo/delivery/storageApprove.js" type="text/javascript"></script>
 
 </head>

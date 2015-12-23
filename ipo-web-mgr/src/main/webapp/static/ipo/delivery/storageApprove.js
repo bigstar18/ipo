@@ -106,9 +106,11 @@ $(document).ready(function() {
              align: "center",
              title : '操作',
              formatter: function(value,row){
+             	if(row.storagestate==2||row.storagestate==3){
                   var hrefpath=getRootPath () + "/DeliveryController/approveStorages";
-                  return  "<a href=\""+hrefpath+"?storageId="+row.storageid+"\">通过</a>&nbsp; <a href=\"\">驳回</a>";
-          } 
+                  return  "<a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=true\"  onclick=\"confirmDialog(1);\">通过</a>&nbsp; <a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=false\"  onclick=\"confirmDialog(2);\">驳回</a>";
+             	}
+             	return "";} 
          }
          ]],  
          pagination : true 
@@ -120,17 +122,33 @@ $(document).ready(function() {
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    }); 
 		      
-		      $("#storagedate").datebox({
-		    	        editable: false,
-		                formatter: function (date) {
-		                    var y = date.getFullYear();
-		                    var m = date.getMonth() + 1;
-		                    var d = date.getDate();
-		                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
-		                }
-		            });
+	 $("#storagedate").datebox({
+		 editable: false,
+		 formatter: function (date) {
+		            var y = date.getFullYear();
+		            var m = date.getMonth() + 1;
+		            var d = date.getDate();
+		            return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		          }
+		 });
+		            
 });
 
+function confirmDialog(flag){
+	if(flag==1){
+    if(confirm('确定要审核通过吗？')){
+        return true;
+    }else{
+        return false;
+    }}
+    if(flag==2){
+    if(confirm('确定要审核驳回吗？')){
+        return true;
+    }else{
+        return false;
+    }}
+    return false;
+}
 
 	
  function doSearch(){
