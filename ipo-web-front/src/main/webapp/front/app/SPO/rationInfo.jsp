@@ -32,7 +32,9 @@ function getAllInfo(){
          toolbar:"#tb",  
          url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo", //搜索前,触发此action请求所有用户信息  
         queryParams:{
-        	communityId: $("#commId").val()
+        	communityId: $("#commId").val(),
+        	registerDateStart:$("#startdate").datebox('getValue'),
+        	registerDateEnd:$("#enddate").datebox('getValue')
         },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
@@ -119,6 +121,8 @@ function doSearch(){
 }
 function reSet(){
 	$("#commId").val("");
+	$("#startdate").datebox('setValue',""),
+	$("#enddate").datebox('setValue',"")
 	getAllInfo();
 	//alert('重置');
 }

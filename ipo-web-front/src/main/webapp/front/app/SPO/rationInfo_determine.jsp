@@ -30,7 +30,9 @@ function getAllInfo(){
          toolbar:"#tb",  
          url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo", //搜索前,触发此action请求所有用户信息  
         queryParams:{
-        	communityId: $("#commId").val()
+        	communityId: $("#commId").val(),
+        	registerDateStart:"",
+        	registerDateEnd:""
         },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
