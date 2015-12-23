@@ -17,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
+import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.service.warehouse.IpoStorageService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
@@ -42,6 +44,17 @@ public class DeliveryController {
 
 	@Autowired
 	private IpoStorageService ipoStorageService;
+
+	@Autowired
+	private OutboundService outboundService;
+
+	public OutboundService getOutboundService() {
+		return outboundService;
+	}
+
+	public void setOutboundService(OutboundService outboundService) {
+		this.outboundService = outboundService;
+	}
 
 	public DeliveryOrderService getDeliveryorderservice() {
 		return deliveryorderservice;
@@ -321,6 +334,7 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
 		log.info("分页查询入库单");
+		log.info(storage.toString());
 		try {
 			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
 					page, rows, storage);
@@ -366,4 +380,41 @@ public class DeliveryController {
 			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
+
+	/**
+	 * 分页返回出库单列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findAllOutBounds", method = RequestMethod.POST)
+	@ResponseBody
+	public String findAllOutBounds(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, OutboundExtended outbound)
+			throws IOException {
+		log.info("分页查询出库单");
+		log.info(outbound.toString());
+		try {
+			if (outbound != null) {
+				String deliveryMethod = outbound.getDeliveryMethod();
+				if (deliveryMethod.equals("")) {
+					outbound.setDeliveryMethod(null);
+				}
+			}
+			List<OutboundExtended> tlist = outboundService.getAllOutboundInfo(
+					page, rows, outbound);
+			int totalnums = outboundService.getTotalNum(outbound);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(tlist);
+			log.info(totalnums + "");
+			log.info(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
 }
