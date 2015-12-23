@@ -3,3 +3,4 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
