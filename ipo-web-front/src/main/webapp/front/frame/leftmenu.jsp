@@ -84,11 +84,12 @@
 	</div>
 	<div class="menu_1" id="3001001000">交收提货</div>
 	<div id="3001001000Div" style="display: none;">
-		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/withdraw.html">提货申请</div>
-		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/customer.html">自提打印</div>
-		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/front/app/cancel.html">撤销提货</div>
-		<div class="menu_3" id="3001001030" action="<%=request.getContextPath()%>/front/app/deliver.html">提货查询</div>
-		<div class="menu_3" id="3001001040" action="<%=request.getContextPath()%>/front/app/cost.html">费用查询</div>
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/delivery/withdraw.html">提货申请</div>
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/SettlementDeliveryController/printView">自提打印</div>
+		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/SettlementDeliveryController/revocationView">撤销提货</div>
+		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/SettlementDeliveryController/dispatchingView">在线配送</div>
+		<div class="menu_3" id="3001001030" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryQueryView">提货查询</div>
+		<div class="menu_3" id="3001001040" action="<%=request.getContextPath()%>/SettlementDeliveryController/costQueryView">费用查询</div>
 	</div>
 	<div class="menu_1" id="5001001000">库转交易</div>
 	<div id="5001001000Div" style="display: none;">
