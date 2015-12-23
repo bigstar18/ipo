@@ -34,7 +34,7 @@ public class SecurityFilter implements Filter {
 
 		String contextPath = request.getContextPath();
 		String url = request.getServletPath();
-		String loginURL = contextPath + "/WEB-INF/views/error/403.jsp";
+		String loginURL = contextPath + "/front/error/403.jsp";
 
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
@@ -69,7 +69,8 @@ public class SecurityFilter implements Filter {
 			chain.doFilter(req, res);
 		} else
 			// response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
-			request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+			// request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
