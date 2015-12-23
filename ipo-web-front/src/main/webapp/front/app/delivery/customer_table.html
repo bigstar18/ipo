@@ -112,7 +112,7 @@
     var methodid = strs[1];//获取url参数
     $.ajax({
       type: 'post',
-      // url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",
+      url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",
       data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
       dataType: 'json',
       success : function(data, stats) {

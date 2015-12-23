@@ -13,14 +13,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup implements Serializable {
+public class Pickup extends DeliveryOrder implements Serializable {
 	private String pickupId;
 
 	private String pickupPassword;
 
 	private String idcardNum;
 
-	private DeliveryOrder deliveryOrder;
+	// private DeliveryOrder deliveryOrder;
 
 	public String getPickupId() {
 		return pickupId;
@@ -46,11 +46,4 @@ public class Pickup implements Serializable {
 		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
 	}
 
-	public DeliveryOrder getDeliveryOrder() {
-		return deliveryOrder;
-	}
-
-	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
-		this.deliveryOrder = deliveryOrder;
-	}
 }

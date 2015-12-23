@@ -36,6 +36,9 @@ public interface IpoStorageService {
 	// 获取查询的总入库单数
 	Integer getTotalNum(VIpoStorageExtended storage);
 
+	// 审核入库单
+	Integer checkStorage(String storageId, String result, String checker);
+
 	// 更新指定的对象，并返回更新的记录数
 	int updateByPrimaryKey(IpoStorageVo record);
 }

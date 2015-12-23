@@ -197,19 +197,18 @@
 	(select t.*,rownum TNO from
  		(select p.*,d.* from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id where 
  		d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
- 		<if test="paging.deliveryorderId != null">
        and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
-       </if>
  		and DELIVERY_METHOD = '自提') t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
-  <select id="selectByExpress" parameterType="map" resultMap="BaseResultMap">
-  	select * from 
-	(select t.*,rownum TNO from
- 		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} 
-       and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
- 	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
+  <select id="selectByExpress" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoExpressExtended">
+  	select * from (
+	select t.*,rownum TNO from (
+ 	select d.*,e.* from IPO_DELIVERYORDER d left join ipo_express e on  d.method_id = e.express_id
+  	where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
+  	and d.DELIVERY_METHOD = '在线配送'
+  	) t ) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
   <update id="updateByStatus" parameterType="map">
