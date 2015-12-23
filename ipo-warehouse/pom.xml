@@ -20,6 +20,11 @@
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.yrdce</groupId>
+			<artifactId>ipo-web-integrate</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<exclusions>
