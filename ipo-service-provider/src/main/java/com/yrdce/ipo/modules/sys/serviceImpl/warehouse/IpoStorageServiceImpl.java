@@ -136,4 +136,17 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 		return 0;
 	}
 
+	@Override
+	public Integer checkStorage(String storageId, String flag, String checker) {
+		if (storageId != null && !storageId.equals("") && flag != null) {
+			if (flag.equals("true")) {
+				return ipoStorageMapper.updateStorage(storageId, checker, "4");
+			}
+			if (flag.equals("false")) {
+				return ipoStorageMapper.updateStorage(storageId, checker, "5");
+			}
+		}
+		return 0;
+	}
+
 }

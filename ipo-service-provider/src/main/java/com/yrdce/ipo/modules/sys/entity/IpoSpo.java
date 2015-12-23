@@ -29,6 +29,27 @@ public class IpoSpo {
     private String rationType;
 
     private String firmId;
+    
+    private String registerDateSart;
+
+	private String registerDateEnd;
+    
+    public String getRegisterDateSart() {
+		return registerDateSart;
+	}
+
+	public void setRegisterDateSart(String registerDateSart) {
+		this.registerDateSart = registerDateSart;
+	}
+
+	public String getRegisterDateEnd() {
+		return registerDateEnd;
+	}
+
+	public void setRegisterDateEnd(String registerDateEnd) {
+		this.registerDateEnd = registerDateEnd;
+	}
+
 
     public String getSpoId() {
         return spoId;

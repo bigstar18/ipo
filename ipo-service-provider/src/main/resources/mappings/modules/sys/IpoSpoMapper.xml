@@ -73,6 +73,9 @@
   	 <if test="spo.communityId != null" >
        and s.COMMUNITY_ID = #{spo.communityId,jdbcType=VARCHAR} 
      </if>
+     <if test="spo.registerDateSart !=null and spo.registerDateEnd!=null">
+     	and s.register_date between to_date(#{spo.registerDateSart},'yyyy-mm-dd') and to_date(#{spo.registerDateEnd},'yyyy-mm-dd')
+     </if>
      order by s.SPO_ID)a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   <select id="getInfoCounts" resultType="java.lang.Integer" parameterType="map">
@@ -81,6 +84,9 @@
   	 WHERE 1=1
   	 <if test="spo.communityId != null" >
        AND S.COMMUNITY_ID = #{spo.communityId} 
+     </if>
+     <if test="spo.registerDateSart !=null and spo.registerDateEnd!=null">
+     	and s.register_date between to_date(#{spo.registerDateSart},'yyyy-mm-dd') and to_date(#{spo.registerDateEnd},'yyyy-mm-dd')
      </if>
   </select>
    <update id="updateRationType" parameterType="java.lang.String" >

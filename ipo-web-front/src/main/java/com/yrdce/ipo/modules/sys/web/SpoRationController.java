@@ -28,13 +28,59 @@ public class SpoRationController {
 	@ResponseBody
 	public String SelectRationInfo(@RequestParam("page")String page,
 			@RequestParam("rows")String rows,
-			@RequestParam("communityId")String commId
+			@RequestParam("communityId")String commId,
+			@RequestParam("registerDateStart")String startdate,
+			@RequestParam("registerDateEnd")String enddate
+			){
+		logger.info("配售信息");
+		logger.info(commId);
+		logger.info(startdate);
+		logger.info(enddate);
+		try {
+			Spo spo = new Spo();
+			if (!commId.equals("")) {
+				spo.setCommunityId(commId);
+			}
+			if (!startdate.equals("")) {
+				String[] temp = startdate.split("/");
+				startdate = temp[2]+"-"+temp[0]+"-"+temp[1];
+				spo.setRegisterDateSart(startdate);
+			}
+			if (!enddate.equals("")) {
+				String[] temp = enddate.split("/");
+				enddate = temp[2]+"-"+temp[0]+"-"+temp[1];
+				spo.setRegisterDateEnd(enddate);
+			}
+			List<Spo> spoList = spoService.getInfoByPages(spo, page, rows);
+			int counts = spoService.getInfoCounts(spo);
+			ResponseResult responseResult = new ResponseResult();
+			responseResult.setRows(spoList);
+			responseResult.setTotal(counts);
+			String resultJson =JSON.json(responseResult);
+			System.out.println(resultJson);
+			return resultJson;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@ResponseBody
+	public String SelectRationInfo2(@RequestParam("page")String page,
+			@RequestParam("rows")String rows,
+			@RequestParam("communityId")String commId,
+			@RequestParam("registerDateStart")String startdate,
+			@RequestParam("registerDateEnd")String enddate
 			){
 		logger.info("配售信息");
 		try {
 			Spo spo = new Spo();
 			if (!commId.equals("")) {
 				spo.setCommunityId(commId);
+			}
+			if (!startdate.equals("")) {
+				
 			}
 			List<Spo> spoList = spoService.getInfoByPages(spo, page, rows);
 			int counts = spoService.getInfoCounts(spo);
