@@ -2,8 +2,8 @@
 <%@ include file="../ipoInclude.jsp"%>
 <html>
 <head>
-<title>提货单查询</title>
-<script src="<%=request.getContextPath()%>/static/ipo/delivery/query.js" type="text/javascript"></script>
+<title>出库单权限查询</title>
+<script src="<%=request.getContextPath()%>/static/ipo/delivery/outboundQuery.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main_body">
@@ -14,21 +14,24 @@
 	<div class="div_list">
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
-		<!-- <div>
-			提货单号：<input type="text" id="deliveryorderId" name="deliveryorderId" />
-			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
-			提货单状态: 	<select id="approvalStatus" name="approvalStatus" style="width:80">
+		 <div>
+			出库单号：<input type="text" id="outboundorderid" name="outboundorderid" />
+			出库日期：<input type="text" id="outbounddate" name="outbounddate"></input> 
+			出库状态: 	<select id="outboundstate" name="outboundstate" style="width:80">
 					<option value="">请选择</option>
-					<option value="1">未审核</option>
-					<option value="2">通过</option>
-					<option value="3">驳回</option>
-					<option value="4">已收货</option>
-					<option value="5">废除</option>
+					<option value="1">申请</option>
+					<option value="2">审核通过</option>
+					<option value="3">审核驳回</option>
 					</select>
-			交易商代码：<input type="text" id="dealerId" name="dealerId" />
+			提货单号：<input type="text" id="deliveryorderid" name="deliveryorderid" />
+			提货类型：<select id="deliveryMethod" name="deliveryMethod" style="width:80">
+					<option value="">请选择</option>
+					<option value="1">自提</option>
+					<option value="2">在线配送</option>
+					</select>
 			<input type="button" value="查询" onclick="doSearch()"/>		
 			<input type="button" value="重置" onclick="clearInfo()"/>			
-		</div>  -->
+		</div>  
 	</div>
 	</div>
 	</td>

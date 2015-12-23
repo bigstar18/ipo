@@ -103,7 +103,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	@Override
 	public List<VIpoStorageExtended> selectByPage(String page, String rows,
 			VIpoStorageExtended storage) {
-		Log.info("分页查询提货单服务");
+		Log.info("分页查询入库单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
@@ -128,6 +128,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public Integer getTotalNum(VIpoStorageExtended storage) {
+		Log.info("获取入库单记录数");
 		if (storage != null) {
 			IpoStorageExtended example = new IpoStorageExtended();
 			BeanUtils.copyProperties(storage, example);
@@ -138,6 +139,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public Integer checkStorage(String storageId, String flag, String checker) {
+		Log.info("审核入库单服务");
 		if (storageId != null && !storageId.equals("") && flag != null) {
 			if (flag.equals("true")) {
 				return ipoStorageMapper.updateStorage(storageId, checker, "4");

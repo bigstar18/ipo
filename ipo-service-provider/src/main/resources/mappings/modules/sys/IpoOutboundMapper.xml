@@ -14,6 +14,25 @@
     <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
     <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
   </resultMap>
+   <resultMap id="EResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended" >
+    <id column="OUTBOUNDORDERID" property="outboundorderid" jdbcType="VARCHAR" />
+    <result column="DELIVERYORDERID" property="deliveryorderid" jdbcType="VARCHAR" />
+    <result column="COMMODITY_ID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITY_NAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="DEALER_ID" property="dealerId" jdbcType="VARCHAR" />
+    <result column="DEALER_NAME" property="dealerName" jdbcType="VARCHAR" />
+    <result column="DELIVERY_QUATITY" property="deliveryQuatity" jdbcType="DECIMAL" />
+    <result column="DELIVERY_METHOD" property="deliveryMethod" jdbcType="VARCHAR" />
+    <result column="OUTBOUNDSTATE" property="outboundstate" jdbcType="DECIMAL" />
+    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="DATE" />
+    <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
+    <result column="AUDITORID" property="auditorid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="DELIVERYPERSON" property="deliveryperson" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+    <result column="IDNUM" property="idnum" jdbcType="VARCHAR" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_OUTBOUND
     where OUTBOUNDORDERID = #{outboundorderid,jdbcType=VARCHAR}
@@ -61,4 +80,43 @@
     from IPO_OUTBOUND
   </select>
   
+  <select id="findOutboundsByPage" resultMap="EResultMap" parameterType="map">
+  select a.*  from (select g.*, rownum TNO from (select t.*, d.commodity_id,d.commodity_name, d.dealer_id, d.dealer_name,d.delivery_quatity,d.delivery_method
+  from ipo_outbound t left join ipo_deliveryorder d on t.deliveryorderid = d.deliveryorder_id) g where 1=1
+       <if test="record.outboundorderid != null " >
+       and g.OUTBOUNDORDERID like concat (#{record.outboundorderid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.outbounddate != null" >
+       and g.OUTBOUNDDATE = #{record.outbounddate,jdbcType=DATE}
+      </if>
+        <if test="record.outboundstate != null" >
+       and g.OUTBOUNDSTATE = #{record.outboundstate,jdbcType=DECIMAL}
+      </if>
+       <if test="record.deliveryorderid != null" >
+       and g.DELIVERYORDERID like concat (#{record.deliveryorderid,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="record.deliveryMethod != null" >
+       and g.DELIVERY_METHOD = #{record.deliveryMethod,jdbcType=VARCHAR}
+      </if>
+    order by g.outboundorderid) a where a.TNO between  #{beginnum} and #{endnum}
+  </select>
+   <select id="getTotalNum" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended">
+    select count(*)  from (select t.*, d.commodity_id, d.commodity_name, d.dealer_id,d.dealer_name, d.delivery_quatity, d.delivery_method
+      from ipo_outbound t left join ipo_deliveryorder d on t.deliveryorderid = d.deliveryorder_id) t where 1=1 
+   	     <if test="outboundorderid != null" >
+       and t.OUTBOUNDORDERID like concat (#{outboundorderid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="outbounddate != null" >
+       and t.OUTBOUNDDATE = #{outbounddate,jdbcType=DATE}
+      </if>
+        <if test="outboundstate != null" >
+       and t.OUTBOUNDSTATE = #{outboundstate,jdbcType=DECIMAL}
+      </if>
+       <if test="deliveryorderid != null" >
+       and t.DELIVERYORDERID like concat (#{deliveryorderid,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="deliveryMethod != null" >
+       and t.DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+      </if>
+  </select>
 </mapper>
