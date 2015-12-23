@@ -7,25 +7,23 @@
 String dealerId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
   <meta charset="utf-8">
-  <title>提货查询</title>
+  <title>在线配送</title>
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
   <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
-
 <body>
   <div class="main">
     <div class="msg">
-      您当前的位置：<span>提货查询</span>
+      您当前的位置：<span>在线配送</span>
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">提货单查询及详细信息显示:
+      <div class="content">在线配送查看和操作:
       </div>
     </div>
     <table id="dg"></table>
@@ -33,7 +31,7 @@ String dealerId ="111";%>
     $(document).ready(function() {
       $('#dg').datagrid({
     	  method:"get",
-        url: '<%=request.getContextPath()%>/SettlementDeliveryController/delivery?dealerId='+<%=dealerId %>, //从远程站点请求数据的 URL。
+        url: '<%=request.getContextPath()%>/SettlementDeliveryController/getDispatching?dealerId='+<%=dealerId %>, //从远程站点请求数据的 URL。
         loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
         iconCls: 'icon-ok', //它将显示一个背景图片
         fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
@@ -45,7 +43,7 @@ String dealerId ="111";%>
         pageSize: 10, //当设置了 pagination 属性时，初始化页面尺寸。
         pageList: [5, 10, 15, 20], //当设置了 pagination 属性时，初始化页面尺寸的选择列表。
         toolbar: "#tb", //数据网格（datagrid）面板的头部工具栏。
-        title: '提货信息', //列的标题文本。
+        //title: '提货信息', //列的标题文本。
         remoteSort: false, //定义是否从服务器排序数据。
         columns: [
           [{
@@ -65,7 +63,7 @@ String dealerId ="111";%>
             align: 'center'
           }, {
             field: 'warehouseName',
-            title: '交收仓库名称',
+            title: '仓库名称',
             width: 100,
             align: 'center'
           }, {
@@ -95,17 +93,27 @@ String dealerId ="111";%>
             width: 100,
             align: 'center'
           }, {
-            field: 'deliverQuatity',
-            title: '交割数量',
+            field: 'cost',
+            title: '配送费用',
+            width: 100,
+            align: 'center'
+          }, {
+        	field: 'deliveryQuatity',
+            title: '发货件数',
             width: 100,
             align: 'center'
           }, {
             field: 'test',
-            title: '查看',
+            title: '操作',
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"execution("+row.deliveryMethod+","+row.methodId+")\">" + "详细信息" + "</a>";
+            	if(row.approvalStatus == 8){
+            		return "<a href=\"#\" onclick=\"execution("+row.deliveryorderId+")\">" + "确认" + "</a>";
+            	}else {
+            		return "确认";
+            	}
+              
             }
           }]
         ]
@@ -118,7 +126,23 @@ String dealerId ="111";%>
       });
     })
     
-    function execution(deliveryMethod,methodId){
+    function execution(deliveryorderid){
+    	if(confirm('是否确定?')){
+        	$.ajax({  
+    			 type: 'post',  
+    		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",  
+    		     data:{"deliveryorderid":deliveryorderid,"status":"6"},
+    		     success : function(data) { 
+    			           if(data=='success'){
+    			        	   alert("确认成功");
+    			        	   $('#dg').datagrid('reload');
+    			        	   
+    			           }else{
+    		          		   alert("系统异常，请联系管理员");  
+    		          	   }
+    			        }
+    				});
+        }
     	
     }
     function doSearch(){
@@ -137,5 +161,4 @@ String dealerId ="111";%>
     </div>
   </div>
 </body>
-
 </html>

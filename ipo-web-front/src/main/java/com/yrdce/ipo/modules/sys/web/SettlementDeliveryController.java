@@ -40,37 +40,37 @@ public class SettlementDeliveryController {
 	// 提货申请视图(没有数据)
 	@RequestMapping(value = "/deliveryview", method = RequestMethod.POST)
 	public String deliveryView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/withdraw";
+		return "app/delivery/withdraw";
 	}
 
 	// 自提打印视图
 	@RequestMapping(value = "/printView", method = RequestMethod.POST)
 	public String printView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/customer";
+		return "app/delivery/customer";
 	}
 
 	// 撤销提货视图
 	@RequestMapping(value = "/revocationView", method = RequestMethod.POST)
 	public String revocationView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/cancel";
+		return "app/delivery/cancel";
 	}
 
-	// 在线配送视图(没有页面)
+	// 在线配送视图
 	@RequestMapping(value = "/dispatchingView", method = RequestMethod.POST)
 	public String dispatchingView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "null";
+		return "app/delivery/dispatching";
 	}
 
 	// 提货查询视图
 	@RequestMapping(value = "/deliveryQueryView", method = RequestMethod.POST)
 	public String deliveryQueryView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/deliver";
+		return "app/delivery/deliver";
 	}
 
 	// 费用查询视图
 	@RequestMapping(value = "/costQueryView", method = RequestMethod.POST)
 	public String costQueryView(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "app/cost";
+		return "app/delivery/cost";
 	}
 
 	// 提货申请(自提打印)
@@ -112,7 +112,6 @@ public class SettlementDeliveryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
-			logger.info("" + result);
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();

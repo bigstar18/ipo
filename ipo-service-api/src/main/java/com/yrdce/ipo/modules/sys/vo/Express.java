@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Express implements Serializable {
+public class Express extends DeliveryOrder implements Serializable {
 
 	private String expressId;
 
@@ -26,7 +26,7 @@ public class Express implements Serializable {
 
 	private String tel;
 
-	private DeliveryOrder deliveryOrder;
+	// private DeliveryOrder deliveryOrder;
 
 	public String getExpressId() {
 		return expressId;
@@ -68,12 +68,10 @@ public class Express implements Serializable {
 		this.tel = tel == null ? null : tel.trim();
 	}
 
-	public DeliveryOrder getDeliveryOrder() {
-		return deliveryOrder;
-	}
-
-	public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
-		this.deliveryOrder = deliveryOrder;
-	}
+	/*
+	 * public DeliveryOrder getDeliveryOrder() { return deliveryOrder; }
+	 * 
+	 * public void setDeliveryOrder(DeliveryOrder deliveryOrder) { this.deliveryOrder = deliveryOrder; }
+	 */
 
 }
