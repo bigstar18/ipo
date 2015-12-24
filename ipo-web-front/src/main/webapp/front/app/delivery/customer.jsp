@@ -115,7 +115,7 @@ String dealerId ="111";%>
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"updateForward(" + row.deliveryorderId + ")\">" + "打印自提" + "</a>";
+              return "<a href=\"#\" onclick=\"updateForward('" + row.deliveryorderId + "')\">" + "打印自提" + "</a>";
             }
           }]
         ]
