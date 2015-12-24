@@ -444,6 +444,120 @@ function on_change(){
 								</fieldset>
 						 	</td>
 						</tr>
+						
+						<tr class="common">
+							<td colspan="4">
+					      		<fieldset>
+					       		<legend>
+					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
+					           		<col width="55"></col><col></col><col width="6"></col>
+					         		<tr>
+					              		<td><b>交易参数</b></td>
+					                    <td><hr width="100%" class="pickList"/></td>
+					             	</tr>
+					         	</table>
+					       		</legend>
+								<span id="baseinfo2">
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								    <tr>
+        	  							<td align="right">交易手续费算法：</td>
+            							<td>
+            							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
+												<option value=""></option>
+											    <option value="1" <c:if test="${entity.tradealgr==1 }">selected</c:if>>按百分比</option>
+												<option value="2" <c:if test="${entity.tradealgr==2 }">selected</c:if>>按绝对值</option>
+										   </select> <span class="required">*</span>  
+            							</td>
+            							<td align="right" >买入：</td> 
+            							<td> 
+			  								<input id="buy" name="buy"  value="${entity.buy }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正整数',min:0"/>
+            							<span id="buyPercent">%</span> <span class="required">*</span> 
+            							</td>    
+        								<td align="right" >卖出：</td> 
+            							<td> 
+			  								<input type="text" id="sell" name="sell" value="${entity.sell }" style="width: 100"></input> 
+			  							<span id="sellPercent">%</span> <span class="required">*</span> 
+			  							</td>
+            							
+        							</tr>
+									<tr>
+        	  							<td align="right">最小申购数量：</td>
+            							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
+            								 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:9999999999"  style="width: 100"/>          
+            							 <span class="required">*</span> 
+            							</td>    
+        								<td align="right">最小申购变动量：</td>
+										<td>
+										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+										 <span class="required">*</span> 
+										</td>
+            							<td align="right">发行结束日期：</td>
+										<td>
+											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input> 
+										 <span class="required">*</span> 
+										</td>
+        							</tr>
+							        <tr>
+							            <td align="right" >发行手续费算法：</td>
+							            <td >
+											<select id="publishalgr" name="publishalgr" style="width:100" onchange="on_change()">
+												<option value=""></option>
+											    <option value="1" <c:if test="${entity.publishalgr==1 }">selected</c:if>>按百分比</option>
+												<option value="2" <c:if test="${entity.publishalgr==2 }">selected</c:if>>按绝对值</option>
+										   </select> <span class="required">*</span>            
+							            </td>        
+							            <td align="right">交易商发行手续费比例：</td>
+							            <td>
+			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
+			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  								<span id="dealerpubcharatioPercent">%</span> <span class="required">*</span>          
+            							</td>
+            							<td align="right">交易商发行手续费市场留存比例：</td>
+            							<td>
+											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
+												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+											<span id="mktdeapubcharatioPercent">%</span> <span class="required">*</span>           
+								      	</td>
+								      	<td>&nbsp;</td>
+								      	<script type="text/javascript">
+							            	if ("${entity.publishalgr}" == "1"){$("#dealerpubcharatioPercent").show();$("#mktdeapubcharatioPercent").show();} else {$("#dealerpubcharatioPercent").hide();$("#mktdeapubcharatioPercent").hide();}
+							            </script>
+        							</tr> 
+									<tr>
+										<td align="right">发行数量：</td>
+            							<td>
+            							<input type="text" id="counts" name="counts"  value=""
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正整数',min:0"/>          
+            							 <span class="required">*</span> 
+            							</td>
+            							<td align="right">发行商发行手续费比例：</td>
+            							<td>
+			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />  
+			  								<span id="publishercharatioPercent">%</span> <span class="required">*</span>         
+            							</td>
+            							<td align="right">发行商发行手续费市场留存比例：</td>
+										<td>
+										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />          
+										<span id="mktpubcharatioPercent">%</span> <span class="required">*</span> 
+										</td>
+										<td>&nbsp;</td>
+								      	<script type="text/javascript">
+							            	if ("${entity.publishalgr}" == "1"){$("#publishercharatioPercent").show();$("#mktpubcharatioPercent").show();} else {$("#publishercharatioPercent").hide();$("#mktpubcharatioPercent").hide();}
+							            </script>
+         							</tr>
+	 							</table >
+								</span>
+								</fieldset>
+						 	</td>
+						</tr>
+						
+						
+						
+						
  
 						<tr>
 							<td colspan="4" height="3">	
