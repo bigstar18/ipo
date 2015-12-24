@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>打印单号</title>
   <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="dickytest/vue.js"></script>
 </head>
-
 <body>
   <input type="button" value="打印页面" onclick="printpage()" />
 
@@ -140,24 +138,18 @@
 
     }
   });
-
-
-
-
-
-
-    // $.ajax({
-    //   type: 'post',
-    //   url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",
-    //   data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
-    //   dataType: 'json',
-    //   success : function(response) {
-    //     data = response;
-    //   },
-    //   error: function(response) {
-    //     alert("系统异常，请联系管理员");
-    //   }
-    // });
+    $.ajax({
+      type: 'post',
+      url: "SettlementDeliveryController/getDetail",
+      data:{"methodid":methodid},
+      success : function(response) {
+        data = response;
+      },
+      error: function(response) {
+        //alert(response);
+        console.log(response);
+      }
+    });
 
     // $('#deliveryDate').val().substr(0, 10);
     var cdata = $('#deliveryDate').text().substr(10, 10)
@@ -166,5 +158,4 @@
   });
   </script>
 </body>
-
 </html>

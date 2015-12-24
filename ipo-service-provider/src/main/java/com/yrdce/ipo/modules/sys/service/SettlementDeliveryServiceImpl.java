@@ -22,6 +22,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
+import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
@@ -127,7 +128,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Override
 	public Pickup getDetail(String methodid) throws Exception {
 		logger.info("自提信息信息" + "methodid:" + methodid);
-		IpoPickup ipoPickup = ipoPickupMapper.selectByPrimaryKey(methodid);
+		IpoPickupExtended ipoPickup = ipoDeliveryorderMapper.selectByPickUp(methodid);
 		Pickup pickup = new Pickup();
 		BeanUtils.copyProperties(ipoPickup, pickup);
 		return pickup;

@@ -1303,5 +1303,6 @@
 		<module>ipo-web-front</module>
 		<module>ipo-web-mgr</module>
 		<module>ipo-warehouse</module>
+		<module>ipo-web-integrate</module>
 	</modules>
 </project>

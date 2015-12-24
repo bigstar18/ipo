@@ -120,7 +120,7 @@ public class SettlementDeliveryController {
 	}
 
 	// 自提打印(操作后弹出的数据)
-	@RequestMapping(value = "/getDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "/getDetail", method = RequestMethod.POST)
 	@ResponseBody
 	public String getDetail(@RequestParam("methodid") String methodid) {
 		logger.info("自提打印(操作后弹出的数据)" + "methodid:" + methodid);

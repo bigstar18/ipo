@@ -1,10 +1,11 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class VIpoStorageExtended {
+public class VIpoStorageExtended implements Serializable {
 	private String storageid;
 
 	private String commodityid;
@@ -166,6 +167,20 @@ public class VIpoStorageExtended {
 
 	public void setStoragecounts(Long storagecounts) {
 		this.storagecounts = storagecounts;
+	}
+
+	@Override
+	public String toString() {
+		return "VIpoStorageExtended [storageid=" + storageid + ", commodityid="
+				+ commodityid + ", storagenum=" + storagenum + ", startnum="
+				+ startnum + ", endnum=" + endnum + ", operatorid="
+				+ operatorid + ", warehouseauditorid=" + warehouseauditorid
+				+ ", marketauditorid=" + marketauditorid + ", storagestate="
+				+ storagestate + ", storagedate=" + storagedate
+				+ ", warehouseid=" + warehouseid + ", mapperbillid="
+				+ mapperbillid + ", storagecounts=" + storagecounts
+				+ ", commodityname=" + commodityname + ", pubmemberid="
+				+ pubmemberid + ", publishername=" + publishername + "]";
 	}
 
 }

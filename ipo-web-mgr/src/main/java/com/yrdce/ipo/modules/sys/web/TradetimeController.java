@@ -79,7 +79,7 @@ public class TradetimeController {
 				return "app/tradetime/close";
 			}
 		} catch (Exception e) {
-			return "public/error/500";
+			return "error/500";
 		}
 
 	}
@@ -103,7 +103,7 @@ public class TradetimeController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "public/error/500";
+			return "error/500";
 		}
 
 	}
@@ -158,7 +158,7 @@ public class TradetimeController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "public/error/500";
+			return "error/500";
 		}
 	}
 
@@ -203,7 +203,7 @@ public class TradetimeController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "public/error/500";
+			return "error/500";
 		}
 	}
 

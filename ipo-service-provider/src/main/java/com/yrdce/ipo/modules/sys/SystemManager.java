@@ -220,7 +220,19 @@ public class SystemManager {
 		// FN_T_TradeFlow
 		// FN_F_UpdateFundsFull
 
-		// 计算手续费、插入资金流水 货款 增值税 冻结资金 收延期费
+		// 计算手续费、插入资金流水f_fundflow 货款 增值税 冻结资金 收延期费 资金f_firmfunds // 付会员佣金 计算付会员佣金尾款日期
+
+		// 交易商T_Firm T_H_Firm
+		// 委托表 T_H_Orders T_Orders;
+		// 成交表 T_H_Trade T_Trade;
+		// T_H_Market 历史市场参数
+		// T_H_Quotation 历史行情
+		// T_H_Commodity 历史商品
+		// T_H_HoldPosition 史持仓明细表
+		// T_H_CustomerHoldSum 历史交易客户持仓合计表
+		// T_H_FirmHoldSum 历史交易商持仓合计表
+		// T_H_FirmMargin 历史交易商特殊保证金表
+		// T_H_FirmFee 历史交易商特殊手续费表
 
 		if (!STATUS_MARKET_CLOSE.equals(status))
 			throw new Exception("交易服务器没有闭市操作，不能结算！");

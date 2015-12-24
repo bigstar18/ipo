@@ -115,7 +115,7 @@ String dealerId ="111";%>
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"execute("+row.methodId+")\">" + "打印自提" + "</a>";
+              return "<a href=\"#\" onclick=\"updateForward(" + row.deliveryorderId + ")\">" + "打印自提" + "</a>";
             }
           }]
         ]
@@ -128,21 +128,12 @@ String dealerId ="111";%>
       });
     })
     
-    function execute(methodid){
-    	$.ajax({  
-			 type: 'post',  
-		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/getDetail",  
-		     contentType: "application/json; charset=utf-8", 
-		     data:{"methodid":methodid,"randnum":Math.floor(Math.random()*1000000)},
-			 dataType: 'json',  
-		     success : function(data, stats) { 
-			           if(data=='success'){
-			        	   alert("撤销成功");
-			           }else{
-		          		   alert("系统异常，请联系管理员");  
-		          	   }
-			        }    
-				});
+    function updateForward(id) {
+      var iWidth = 500; //弹出窗口的宽度;
+      var iHeight = 500; //弹出窗口的高度;
+      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
+      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
+      window.open("./customer_table.jsp?deliveryorder_id=" + id, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
     }
     
     function doSearch(){

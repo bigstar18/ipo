@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
+import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 import com.yrdce.ipo.modules.sys.vo.Paging;
 
 @MyBatisDao
@@ -50,6 +51,9 @@ public interface IpoDeliveryorderMapper {
 
 	// 自提打印列表
 	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
+
+	// 自提打印详细
+	IpoPickupExtended selectByPickUp(String methodid);
 
 	// 总页数
 	int selectByCounts(@Param("paging") Paging paging, @Param("deliveryMethod") String deliveryMethod);
