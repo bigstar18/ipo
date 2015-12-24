@@ -396,12 +396,6 @@ public class DeliveryController {
 		log.info("分页查询出库单");
 		log.info(outbound.toString());
 		try {
-			if (outbound != null) {
-				String deliveryMethod = outbound.getDeliveryMethod();
-				if (deliveryMethod.equals("")) {
-					outbound.setDeliveryMethod(null);
-				}
-			}
 			List<OutboundExtended> tlist = outboundService.getAllOutboundInfo(
 					page, rows, outbound);
 			int totalnums = outboundService.getTotalNum(outbound);

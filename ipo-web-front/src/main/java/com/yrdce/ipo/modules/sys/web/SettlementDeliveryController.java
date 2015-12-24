@@ -186,14 +186,20 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货查询(自提详细)
-	@RequestMapping(value = "/pickupDetail", method = RequestMethod.GET)
+	// 提货查询详细
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	@ResponseBody
-	public String pickupDetail(@RequestParam("methodid") String methodid) {
+	public String detail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
-			Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
-			return JSON.json(pickup);
+			if (deliveryMethod == "自提") {
+				Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
+				return JSON.json(pickup);
+			} else if (deliveryMethod == "在线配送") {
+				Express express = settlementDeliveryService.getDetailByExpress(methodid);
+				return JSON.json(express);
+			}
+			return "";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -201,12 +207,13 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货查询(自提详细)
+	// 提货查询(自提详细)<暂不用>
 	@RequestMapping(value = "/expressDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public String expressDetail(@RequestParam("methodid") String methodid) {
+	public String expressDetail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
+
 			Express express = settlementDeliveryService.getDetailByExpress(methodid);
 			return JSON.json(express);
 		} catch (Exception e) {

@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
- <%@page import="gnnt.MEBS.common.mgr.statictools.Tools"%>
-<%@page import="gnnt.MEBS.common.mgr.statictools.Serialize"%>
+ <%-- <%@page import="gnnt.MEBS.common.mgr.statictools.Tools"%>
+<%@page import="gnnt.MEBS.common.mgr.statictools.Serialize"%> --%>
 <%//标签类库引用 %>
 <%@include file="taglib.jsp"%>
 <%//包含需要的资源文件供页面使用 %>
@@ -16,8 +16,8 @@
 <%//包含公用的js文件%>
 <%@include file="jsinclude.jsp" %>
 <%//包含ecside的js文件和css文件%>
- <%@include file="ecsideLoad.jsp" %>
- 
+<%--   <%@include file="ecsideLoad.jsp" %> 
+ --%> 
 <%//过滤特殊字符%>
 <%@include file="specialcharfilter.jsp" %>
 <%//操作成功提示%>

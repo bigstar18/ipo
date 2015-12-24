@@ -20,7 +20,77 @@
 	        </span>
           </td>
           <td align="center">
-          {{ctables.deliveryorderId}}
+          {{deliveryorderId}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品代码：
+	        </span>
+          </td>
+          <td align="center">
+          {{commodityId}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品名称：
+	        </span>
+          </td>
+          <td align="center">
+          {{commodityName}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交收仓库名称：
+	        </span>
+          </td>
+          <td align="center">
+          {{warehouseName}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交割数量：
+	        </span>
+          </td>
+          <td align="center">
+          {{deliveryQuatity}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            提货密码：
+          </span>
+          </td>
+          <td align="center">
+          {{pickupPassword}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          单位：
+	        </span>
+          </td>
+          <td align="center">
+          {{unit}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货日期：
+	        </span>
+          </td>
+          <td align="center" id="deliveryDate">
+          {{deliveryDate}}
           </td>
         </tr>
       </tbody>
@@ -28,11 +98,7 @@
 
   <script type="text/javascript">
   function printpage() {
-    var newWin = window.open('提货信息', '', '');
-    var titleHTML = document.getElementById("form_table").innerHTML;
-    newWin.document.write(titleHTML);
-    newWin.document.location.reload();
-    newWin.print();
+	  window.print();
   }
   $(document).ready(function() {
     var url = location.search;
@@ -45,41 +111,31 @@
     var ctable = new Vue({
       el: '#ctable',
       data: {
-		"ctables":
-	 		{
-	          "position": 321,
-	          "approvers": "3214",
-	          "dealerId": "4",
-	          "deliveryMethod": "自提",
-	          "remarks": null,
-	          "dealerName": "654",
-	          "warehouseId": "534",
-	          "commodityName": "7657",
-	          "applyDate": "2015-12-14 00:00:00",
-	          "deliveryorderId": "544",
-	          "unit": "11",
-	          "warehouseName": "321412",
-	          "cancelDate": null,
-	          "approvalStatus": 7,
-	          "approveDate": "2015-12-21 00:00:00",
-	          "deliveryQuatity": 111,
-	          "deliveryDate": "2015-12-30 00:00:00",
-	          "canceler": null,
-	          "commodityId": "145151",
-	          "deliveryCounts": null,
-	          "methodId": "99"
-			}
+	          "deliveryorderId": 321,
+	          "commodityId": "3214",
+	          "commodityName": "4",
+	          "warehouseName": "自提",
+	          "deliveryQuatity": "111",
+	          "pickupPassword": "654",
+	          "unit": "534",
+	          "deliveryDate": "7657"
  		
     }
   });
-    $.ajax({
+   	$.ajax({
       type: 'post',
       url: "../../../SettlementDeliveryController/getDetail",
       data:{"methodid":methodid},
       success : function(response) {
-   	  	//console.log(data);
-   	 	//ctable.ctables = response;
-        console.log(ctable.ctables);
+   	  	var responseStr = $.parseJSON(response);
+   	 	ctable.deliveryorderId = responseStr.deliveryorderId;
+   	 	ctable.commodityId = responseStr.commodityId;
+   	 	ctable.commodityName = responseStr.commodityName;
+	   	ctable.warehouseName = responseStr.warehouseName;
+	   	ctable.deliveryQuatity = responseStr.deliveryQuatity;
+	   	ctable.pickupPassword = responseStr.pickupPassword;
+	   	ctable.unit = responseStr.unit;
+	   	ctable.deliveryDate = responseStr.deliveryDate;
       },
       error: function(response) {
         alert(response);

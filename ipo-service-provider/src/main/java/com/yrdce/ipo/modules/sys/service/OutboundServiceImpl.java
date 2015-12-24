@@ -33,6 +33,12 @@ public class OutboundServiceImpl implements OutboundService {
 		if (record != null) {
 			IpoOutboundExtended example = new IpoOutboundExtended();
 			BeanUtils.copyProperties(record, example);
+			String delimethod = record.getDeliveryMethod();
+			if (delimethod != null) {
+				if (delimethod.equals("")) {
+					example.setDeliveryMethod(null);
+				}
+			}
 			Log.info("调用后台服务" + example.toString());
 			List<IpoOutboundExtended> storageslist = ipoOutboundMapper
 					.findOutboundsByPage((curpage - 1) * pagesize + 1, curpage
@@ -55,6 +61,12 @@ public class OutboundServiceImpl implements OutboundService {
 		if (record != null) {
 			IpoOutboundExtended example = new IpoOutboundExtended();
 			BeanUtils.copyProperties(record, example);
+			String delimethod = record.getDeliveryMethod();
+			if (delimethod != null) {
+				if (delimethod.equals("")) {
+					example.setDeliveryMethod(null);
+				}
+			}
 			return ipoOutboundMapper.getTotalNum(example);
 		}
 		return 0;
