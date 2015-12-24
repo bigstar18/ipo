@@ -6,10 +6,14 @@
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
         <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+		<link rel="stylesheet" href="${skinPath }/ecside/css/ecside_style.css" type="text/css" />
 		<style type="text/css">input {line-height: 14px;}    td {padding-bottom: 3px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		<title>品种</title>
+		<style type="text/css">
+			legend{font-weight:bold;}
+		</style>
 		<script type="text/javascript"> 
 
 function addBreed(){
@@ -157,26 +161,27 @@ function setSortName(value) {
 		<div class="title font_orange_14b">温馨提示 : 品种<c:if test="${crud == 'create'}">添加 </c:if><c:if test="${crud == 'update'}">修改 </c:if> </div>
 		<div class="content" style="color: red">手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费  </div>
 	</div>
-	<table border="0"  width="100%"  >
+	<table  style="border:0;width:100%" >
 		<tr>
 			<td valign="top">
 				<form id="frm" name="frm" action="" method="POST">
 				<fieldset>
 				<legend class="common"><b>设置品种信息</b></legend>
 				<span id="baseinfo9">
-				<table width="850" border="0" align="center"  class="common" cellpadding="0" cellspacing="2">
+				<table style="border:0;width:850px" align="center"  class="common" cellpadding="0" cellspacing="2">
 					<!-- 基本信息 -->
         				<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
 					          	<legend>
-					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					            	<col width="55"></col><col></col><col width="6"></col>
-					               	<tr>
-					                 	<td><b>基本信息</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					            	</tr>
-					         	</table>
+					          	基本信息
+<!-- 					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					            	<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					               	<tr> -->
+<!-- 					                 	<td><b>基本信息</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					            	</tr> -->
+<!-- 					         	</table> -->
 					         	</legend>
 								<span id="baseinfo">
 								<table cellSpacing="0" cellPadding="0" width="800" border="0" align="left" class="common">
@@ -222,13 +227,14 @@ function setSortName(value) {
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>基本参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>基本参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
+									基本参数
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -266,14 +272,15 @@ function setSortName(value) {
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>发行参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					                    <td ></td>
-					             	</tr>
-					         	</table>
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>发行参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					                    <td ></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
+									发行参数
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -353,13 +360,14 @@ function setSortName(value) {
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>交易参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>交易参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
+									交易参数
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -450,13 +458,14 @@ function setSortName(value) {
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>交收参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>交收参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
+								交收参数
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -488,13 +497,14 @@ function setSortName(value) {
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>仓库参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>仓库参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
+								仓库参数
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -552,13 +562,13 @@ function setSortName(value) {
 							<td colspan="4" align="center">
 								<div class="div_gn">
 								    <c:if test="${crud == 'create'}">
-								    	<input type="button" value="添加" onclick="addBreed()" className="anniu_btn"  id="add"/>
+								    	<input type="button" value="添加" onclick="addBreed()" class="anniu_btn"  id="add"/>
 								    </c:if>
 								    <c:if test="${crud == 'update'}">
-								    	<input type="button" value="提交" onclick="updateBreed()" className="anniu_btn"  id="update"/>
+								    	<input type="button" value="提交" onclick="updateBreed()" class="anniu_btn"  id="update"/>
 								    </c:if>
 									&nbsp;&nbsp;
-									<input type="button" value="返回" onclick="returntoList()" className="anniu_btn"  id="back"/>
+									<input type="button" value="返回" onclick="returntoList()" class="anniu_btn"  id="back"/>
 								</div>
 							</td>
 						</tr>

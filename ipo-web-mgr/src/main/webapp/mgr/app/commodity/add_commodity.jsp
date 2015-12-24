@@ -6,10 +6,14 @@
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
         <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
+		<link rel="stylesheet" href="${skinPath }/ecside/css/ecside_style.css" type="text/css" />
 		<style type="text/css">input {line-height: 14px;}   td {padding-bottom: 3px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		<title>商品新增</title>
+		<style type="text/css">
+			legend{font-weight:bold;}
+		</style>
 		<script type="text/javascript"> 
 		function parseISO8601(dateStringInRange) {
  	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
@@ -253,14 +257,14 @@ function on_tchange(){
         				<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					          	<legend>
-					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					            	<col width="55"></col><col></col><col width="6"></col>
-					               	<tr>
-					                 	<td><b>基本信息</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					            	</tr>
-					         	</table>
+					          	<legend>基本信息
+<!-- 					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					            	<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					               	<tr> -->
+<!-- 					                 	<td><b>基本信息</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					            	</tr> -->
+<!-- 					         	</table> -->
 					         	</legend>
 								<span id="baseinfo">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -353,13 +357,14 @@ function on_tchange(){
 							<td colspan="4">
 					      		<fieldset>
 					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>基本参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		基本参数
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>基本参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -391,14 +396,14 @@ function on_tchange(){
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>发行参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		<legend>发行参数
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>发行参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -503,14 +508,14 @@ function on_tchange(){
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>交易参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		<legend>交易参数
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>交易参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -605,14 +610,14 @@ function on_tchange(){
 							<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>交收参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		<legend>交收参数
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>交收参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -644,14 +649,14 @@ function on_tchange(){
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>仓库参数</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		<legend>仓库参数
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>仓库参数</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
@@ -703,14 +708,14 @@ function on_tchange(){
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>
-					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
-					           		<col width="55"></col><col></col><col width="6"></col>
-					         		<tr>
-					              		<td><b>详细描述</b></td>
-					                    <td><hr width="100%" class="pickList"/></td>
-					             	</tr>
-					         	</table>
+					       		<legend>详细描述
+<!-- 					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common"> -->
+<!-- 					           		<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					         		<tr> -->
+<!-- 					              		<td><b>详细描述</b></td> -->
+<!-- 					                    <td><hr width="100%" class="pickList"/></td> -->
+<!-- 					             	</tr> -->
+<!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
