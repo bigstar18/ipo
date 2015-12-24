@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@page import="gnnt.MEBS.common.mgr.model.User"%>
+<%-- <%@page import="gnnt.MEBS.common.mgr.model.User"%>
 <%@page import="gnnt.MEBS.common.mgr.common.Global"%>
-<%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%>
+<%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%> --%>
 <%
 	//记录的样式名称
 	String skinName = "default";

@@ -93,7 +93,7 @@
 	</div>
 	<div class="menu_1" id="5001001000">库转交易</div>
 	<div id="5001001000Div" style="display: none;">
-		<div class="menu_3" id="5001001010" action="<%=request.getContextPath()%>/front/app/trusteeship/apply.html">在线委托申请</div>
+		<div class="menu_3" id="5001001010" action="<%=request.getContextPath()%>/front/app/trusteeship/apply.jsp">在线委托申请</div>
 		<div class="menu_3" id="5001001020" action="<%=request.getContextPath()%>/front/app/trusteeship/my_apply.html">托管申请查询</div>
 	</div>
 </div>
