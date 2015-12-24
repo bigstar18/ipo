@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8">
     <title>提货查询</title>
-    <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/icon.css">
-    <link href="../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="../../static/jquery/jquery-1.8.0.min.js"></script>
-    <script type="text/javascript" src="../../static/jquery-easyui/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/jquery-easyui/themes/icon.css">
+    <link href="../../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../../../static/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
         <script type="text/javascript">
         $(document).ready(function() {
             $('#dg').datagrid({
-                // url: 'hehe.json', //从远程站点请求数据的 URL。
+                url: 'dickytest/dick.json', //从远程站点请求数据的 URL。
                 loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
                 iconCls: 'icon-ok', //它将显示一个背景图片
                 fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
@@ -42,22 +42,22 @@
                 remoteSort: false, //定义是否从服务器排序数据。
                 columns: [
                     [{
-                        field: 'deliveryorder_id',
+                        field: 'deliveryorderId',
                         title: '提货单号',
                         width: 100,
                         align: 'center'
                     }, {
-                        field: 'commodity_id',
+                        field: 'commodityId',
                         title: '商品代码',
                         width: 100,
                         align: 'center'
                     }, {
-                        field: 'commodity_name',
+                        field: 'commodityName',
                         title: '商品名称',
                         width: 100,
                         align: 'center'
                     }, {
-                        field: 'warehouse_name',
+                        field: 'warehouseName',
                         title: '交收仓库名称',
                         width: 100,
                         align: 'center'
@@ -67,7 +67,7 @@
                         width: 100,
                         align: 'center'
                     }, {
-                        field: 'deliver_date',
+                        field: 'deliverDate',
                         title: '提货日期',
                         width: 100,
                         align: 'center',
@@ -75,7 +75,7 @@
                             return value.substr(0, 10);
                         }
                     }, {
-                        field: 'apply_date',
+                        field: 'applyDate',
                         title: '注册日期',
                         width: 100,
                         align: 'center',
@@ -83,12 +83,24 @@
                             return value.substr(0, 10);
                         }
                     }, {
-                        field: 'approval_status',
+                        field: 'approvalStatus',
                         title: '提货单状态',
                         width: 100,
                         align: 'center'
                     }, {
-                        field: 'deliver_quatity',
+                        field: 'deliveryMethod',
+                        title: '提货方式',
+                        width: 100,
+                        align: 'center',
+                        hidden: true
+                    }, {
+                        field: 'methodId',
+                        title: '提货单ID',
+                        width: 100,
+                        align: 'center',
+                        hidden: true
+                    }, {
+                        field: 'deliverQuatity',
                         title: '交割数量',
                         width: 100,
                         align: 'center'
@@ -98,7 +110,7 @@
                         width: 100,
                         align: 'center',
                         formatter: function(value, row, index) {
-                            return "<a href=\"#\" onclick=\"updateForward(" + index + "," + row.deliveryorder_id + ")\">" + "详细信息" + "</a>";
+                            return "<a href=\"#\" onclick=\"execution('"+row.deliveryMethod+"','"+row.methodId+"')\">" + "详细信息" + "</a>";
                         }
                     }]
                 ]
@@ -111,12 +123,13 @@
             });
         })
 
-        function updateForward(index, id) {
+        function execution(deliveryMethod,methodId){
             var iWidth = 500; //弹出窗口的宽度;
             var iHeight = 500; //弹出窗口的高度;
             var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
             var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-            window.open("./deliver_table.html?deliveryorder_id=" + id, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+            window.open("./deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+
         }
         function doSearch(){
           $('#dg').datagrid('load',{
