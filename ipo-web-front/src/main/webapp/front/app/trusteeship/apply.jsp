@@ -15,9 +15,9 @@
  <body>
 <div class="main">
 
-<div class="msg">
-      您当前的位置：<span>在线委托申请</span>
-    </div>
+	<div class="msg">
+	      您当前的位置：<span>在线委托申请</span>
+	</div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
       <div class="content"> 
@@ -47,6 +47,10 @@
       remoteSort: false, //定义是否从服务器排序数据。
       columns: [
         [{
+          field: 'id',
+          title: 'id',
+          hidden:true
+         },{
           field: 'commodityId',
           title: '商品代码',
           width: '15%',
@@ -77,7 +81,7 @@
           width: '15%',
           align: 'center',
           formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"add("+row.deliveryorderId+")\">" + "申请" + "</a>";
+              return "<a href=\"#\" onclick=\"add("+row.id+","+row.commodityId+","+row.price+","+row.counts+")\">" + "申请" + "</a>";
             }
         }]
       ]
@@ -90,8 +94,9 @@
     });
   });
   
-  function add(){
-	  alert('申请');
+  function add(id,commodityId,price,counts){
+	  var url_='add_apply.jsp?id='+id+'&commodityId='+commodityId+'&price='+price+'&counts='+counts;
+	  openCenterWindow(url_,'add_win',650,350);
   }
   
   function doSearch(){
@@ -99,6 +104,22 @@
     		commodityId:$('#commodityId').val()
     	});
    }
+  
+  function openCenterWindow(url, name, width,height ) {
+		var str = "height=" + height + ",innerHeight=" + height;
+		str += "px,width=" + width + "px,innerWidth=" + width;
+		if (window.screen) {
+			var ah = screen.availHeight - 30;
+			var aw = screen.availWidth - 10;
+			var xc = (aw - width) / 2;
+			var yc = (ah - height) / 2;
+			xc = xc >= 0 ? xc : 0 ;
+			yc = yc >= 0 ? yc : 0 ;
+			str += ",left=" + xc + ",screenX=" + xc;
+			str += ",top=" + yc + ",screenY=" + yc;
+		}
+	    window.open(url, name, str);
+	}
   </script>
   <div id="tb" style="padding:5px;height:auto">
     <div>
