@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoTrusteeship;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipCommodity;
+import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 /**
  * 托管商品
@@ -32,8 +34,34 @@ public interface IpoTrusteeshipCommodityMapper {
 	  */
 	public long queryApplyForCount( @Param("commodity")TrusteeshipCommodity commodity);
 	
+	/**
+	 * 新增申请记录
+	 * @param trusteeship
+	 * @return
+	 */
+	public int insertApply(Trusteeship trusteeship);
 	
+	/**
+	 * 查询商户提交的申请
+	 * @param startIndex
+	 * @param endIndex
+	 * @param ship
+	 * @return
+	 */
+	public List<IpoTrusteeship> queryMyApplyForPage( @Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex, @Param("ship") Trusteeship ship);
 	
+	/**
+	 * 查询商户提交的申请数量
+	 * @param ship
+	 * @return
+	 */
+	public long queryMyApplyForCount( @Param("ship")Trusteeship ship);
 	
+	/**
+	 * 撤销我的申请
+	 * @param ship
+	 */
+	public void canelMyApply(@Param("ship")Trusteeship ship);
 	
 }
