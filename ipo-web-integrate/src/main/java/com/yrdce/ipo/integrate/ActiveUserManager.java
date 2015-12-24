@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.WebApplicationContext;
 
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
@@ -23,11 +22,15 @@ import gnnt.MEBS.logonService.vo.LogoffVO;
 import gnnt.MEBS.logonService.vo.RemoteLogonServerVO;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
-public class ActiveUserManager {
+public abstract class ActiveUserManager {
 	private static final transient Logger logger = LoggerFactory.getLogger(ActiveUserManager.class);
 
-	@Value("#{APP_PROP['ipo.configId']}")
-	static String configId = "223001";
+	static int configId = 223001;
+
+	// @Value("#{APP_PROP['ipo.configId']}")
+	// public void setPrivateName(String privateName) {
+	// configId = privateName;
+	// }
 
 	public static CheckUserResultVO checkUser(String userID, long sessionID, int fromModuleID, String selfLogonType, String fromLogonType,
 			int selfModuleID) {
@@ -69,6 +72,8 @@ public class ActiveUserManager {
 		try {
 			logonService = remoteLogonServerVO.getRmiService();
 			result = logonService.checkUser(checkUserVO, fromModuleID, fromLogonType);
+			logger.info("userId={}, fromModuleID={}, configId={}, fromLogonType={},logonService.checkUser result is: {}", checkUserVO.getUserID(),
+					fromModuleID, configId, fromLogonType, result.getMessage());
 		} catch (RemoteException e) {
 			int times = remoteLogonServerVO.clearRMI();
 			try {

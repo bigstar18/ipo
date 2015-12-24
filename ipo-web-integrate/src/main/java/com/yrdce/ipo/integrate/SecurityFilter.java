@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import gnnt.MEBS.checkLogon.util.Tool;
@@ -18,6 +19,7 @@ import gnnt.MEBS.logonService.vo.CheckUserResultVO;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 public class SecurityFilter implements Filter {
+	Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	private static Object syncObject = new Object();
 
 	public void destroy() {
@@ -32,9 +34,15 @@ public class SecurityFilter implements Filter {
 			request.setCharacterEncoding("GBK");
 		}
 
-		String contextPath = request.getContextPath();
 		String url = request.getServletPath();
-		String loginURL = contextPath + "/front/error/403.jsp";
+		// 不需要验证
+		if (url.indexOf("403.jsp") > -1 || url.indexOf("404.jsp") > -1 || url.indexOf("500.jsp") > -1) {
+			logger.info("current url : {}", url);
+			chain.doFilter(req, res);
+			return;
+		}
+
+		String loginURL = "/front/error/403.jsp";
 
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
@@ -54,10 +62,14 @@ public class SecurityFilter implements Filter {
 					}
 					int selfModuleID = Tool.strToInt(request.getParameter("ModuleID"), 40);// TODO
 
+					String contextPath = request.getContextPath();
+					if (contextPath.indexOf("front") < 0) // 非前台
+						ActiveUserManager.configId = 199001;
 					ActiveUserManager.wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 					user = au.getUserManageVO();
-					request.getSession().setAttribute("CurrentUser", user);
+					if (user != null)
+						request.getSession().setAttribute("CurrentUser", user);
 				}
 			}
 		}
@@ -67,10 +79,12 @@ public class SecurityFilter implements Filter {
 
 		if (user != null) {
 			chain.doFilter(req, res);
-		} else
+		} else {
 			// response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
 			// request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+			logger.info("user is null, forward to : {}", loginURL);
 			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+		}
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {

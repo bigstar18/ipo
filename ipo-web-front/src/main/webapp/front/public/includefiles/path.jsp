@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=GBK"%>
-<%@page import="gnnt.MEBS.common.front.model.integrated.User"%>
+<%-- <%@page import="gnnt.MEBS.common.front.model.integrated.User"%>
 <%@page import="gnnt.MEBS.common.front.common.Global"%>
 <%@page import="gnnt.MEBS.common.front.statictools.ActionUtil"%>
 <%@page import="gnnt.MEBS.common.front.statictools.Tools" %>
-<%@page import="gnnt.MEBS.common.front.statictools.ApplicationContextInit" %>
+<%@page import="gnnt.MEBS.common.front.statictools.ApplicationContextInit" %> --%>
 <%
 /*skinstyle*/
 /* String skinName = null;
@@ -60,7 +60,7 @@ session.setAttribute("framePath",framePath);//框架路径
 session.setAttribute("menuPicPath",menuPicPath);//除css以外的页面使用的一些图片等的存放位置
 session.setAttribute("today",Tools.fmtDate(new java.util.Date()));
 %>
-<c:set var="GNNT_" value='<%=ActionUtil.PARAMETERPREFIX%>' />
+<%-- <c:set var="GNNT_" value='<%=ActionUtil.PARAMETERPREFIX%>' /> --%>
 <script>
 	//js用到的样式路径
 	var jsSkinPath="<%=skinPath%>/";
