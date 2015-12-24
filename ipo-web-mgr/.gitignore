@@ -1,9 +1,11 @@
 hs_err_pid*
 .DS_Store
 .DS_Store?
+.tern-project
 .idea
 *.iml
 .classpath
+.project
 
 .externalToolBuilders
 .mymetadata

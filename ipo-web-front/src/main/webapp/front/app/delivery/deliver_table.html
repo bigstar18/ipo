@@ -4,15 +4,14 @@
 <head>
   <meta charset="utf-8">
   <title>提货信息</title>
-  <link rel="stylesheet" type="text/css" href="../../static/jquery-easyui/themes/default/easyui.css">
-  <script type="text/javascript" src="../../static/jquery/jquery-1.8.0.min.js"></script>
-  <script type="text/javascript" src="../../static/jquery-easyui/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="dickytest/vue.js"></script>
 </head>
 
 <body>
   <input type="button" value="打印页面" onclick="printpage()" />
-  <form id="form_table" method="post">
-    <table width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
+
+    <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
         <tr>
           <td align="center" height="35">
@@ -20,8 +19,8 @@
 	          提货单号：
 	        </span>
           </td>
-          <td align="center" name="deliveryorder_id">
-            haha
+          <td align="center">
+            {{deliveryorderId}}
           </td>
         </tr>
         <tr>
@@ -30,8 +29,8 @@
 	          商品代码：
 	        </span>
           </td>
-          <td align="center" name="commodity_id">
-            haha
+          <td align="center">
+          {{commodityId}}
           </td>
         </tr>
         <tr>
@@ -40,8 +39,8 @@
 	          商品名称：
 	        </span>
           </td>
-          <td align="center" name="commodity_name">
-            haha
+          <td align="center">
+          {{commodityName}}
           </td>
         </tr>
         <tr>
@@ -50,8 +49,8 @@
 	          交收仓库名称：
 	        </span>
           </td>
-          <td align="center" name="warehouse_name">
-            haha
+          <td align="center">
+          {{warehouseName}}
           </td>
         </tr>
         <tr>
@@ -60,8 +59,8 @@
 	          持仓数量：
 	        </span>
           </td>
-          <td align="center" name="ccounts">
-            haha
+          <td align="center">
+          {{ccounts}}
           </td>
         </tr>
         <tr>
@@ -70,8 +69,8 @@
 	          提货日期：
 	        </span>
           </td>
-          <td align="center" name="deliver_date">
-            haha
+          <td align="center" id="deliveryDate">
+          {{deliverDate}}
           </td>
         </tr>
         <tr>
@@ -80,8 +79,8 @@
 	          注册日期：
 	        </span>
           </td>
-          <td align="center" name="apply_date">
-            haha
+          <td align="center" id="applyDate">
+          {{applyDate}}
           </td>
         </tr>
 
@@ -91,8 +90,8 @@
 	          提货单状态：
 	        </span>
           </td>
-          <td align="center" name="approval_status">
-            haha
+          <td align="center">
+          {{approvalStatus}}
           </td>
         </tr>
         <tr>
@@ -101,41 +100,171 @@
 	          交割数量：
 	        </span>
           </td>
-          <td align="center" name="deliver_quatity">
-            haha
+          <td align="center">
+          {{deliverQuatity}}
           </td>
         </tr>
-        <tr>
+
+
+
+
+        <tr class="deliver">
           <td align="center" height="35">
             <span>
-	          提货方式：
-	        </span>
+            身份证号：
+          </span>
           </td>
-          <td align="center" name="deliver_method">
-            haha
+          <td align="center">
+          {{idcardNum}}
           </td>
         </tr>
-        <tr>
+        <tr class="deliver">
           <td align="center" height="35">
             <span>
-	          提货关联ID：
-	        </span>
+            提货密码：
+          </span>
           </td>
-          <td align="center" name="method_id">
-            haha
+          <td align="center">
+          {{pickupPassword}}
+          </td>
+        </tr>
+
+
+
+
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            地址：
+          </span>
+          </td>
+          <td align="center">
+          {{address}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            费用：
+          </span>
+          </td>
+          <td align="center">
+          {{cost}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            配送时间：
+          </span>
+          </td>
+          <td align="center">
+          {{expressDate}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            收货人：
+          </span>
+          </td>
+          <td align="center">
+          {{receiver}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            电话：
+          </span>
+          </td>
+          <td align="center">
+          {{tel}}
           </td>
         </tr>
       </tbody>
     </table>
-  </form>
+
   <script type="text/javascript">
   function printpage() {
-    var newWin = window.open('提货信息', '', '');
-    var titleHTML = document.getElementById("form_table").innerHTML;
-    newWin.document.write(titleHTML);
-    newWin.document.location.reload();
-    newWin.print();
+    window.print();
   }
+    $(document).ready(function() {
+
+      //获取url参数
+      function GetQueryString(name)
+      {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+      }
+      var deliveryMethod = GetQueryString("deliveryMethod");
+      var methodId = GetQueryString("methodId");
+      // console.log(deliveryMethod);
+      // console.log(methodId);
+      if (deliveryMethod == '1') {
+        //若deliveryMethod为1，为自提，不显示配送
+        $('.express').hide();
+      }
+      if (deliveryMethod == '2') {
+        $('.deliver').hide();
+      }
+
+      var ctable = new Vue({
+        el: '#ctable',
+        data: {
+          "deliveryorderId": 132,
+          "commodityId": 1,
+          "commodityName": "hehe",
+          "warehouseName": "keke",
+          "ccounts": 2,
+          "deliverQuatity": 2,
+          "applyDate": "2015-12-16 00:00:00",
+          "deliverDate": "2015-12-16 00:00:00",
+          "approvalStatus": 0,
+          "deliveryMethod": 1,
+          "methodId": 2,
+
+          "idcardNum": "3212343248329843209804",
+          "pickupPassword": "adfa",
+          "address": "ffasfas",
+          "cost": "42432",
+          "expressDate": "2015-12-16 00:00:00",
+          "receiver": "梁非凡",
+          "tel": "21432423523"
+
+        }
+      });
+      // $.ajax({
+      //   type: 'post',
+      //   url: "../../../SettlementDeliveryController/getDetail",
+      //   data:{"methodid":methodid},
+      //   success : function(response) {
+      //     var responseStr = $.parseJSON(response);
+      //   ctable.deliveryorderId = responseStr.deliveryorderId;
+      //   ctable.commodityId = responseStr.commodityId;
+      //   ctable.commodityName = responseStr.commodityName;
+      //   ctable.warehouseName = responseStr.warehouseName;
+      //   ctable.deliveryQuatity = responseStr.deliveryQuatity;
+      //   ctable.pickupPassword = responseStr.pickupPassword;
+      //   ctable.unit = responseStr.unit;
+      //   ctable.deliveryDate = responseStr.deliveryDate;
+      //   },
+      //   error: function(response) {
+      //     alert(response);
+      //     //console.log(response);
+      //   }
+      // });
+
+      // $('#deliveryDate').val().substr(0, 10);
+      // var cdata = $('#deliveryDate').text().substr(10, 10)
+      // $('#deliveryDate').html(cdata);
+      // console.log($('#deliveryDate').text().substr(10, 10));
+      var ddata = $('#deliveryDate').text().substr(10, 10);
+      var adata = $('#applyDate').text().substr(10, 10);
+      $('#deliveryDate').html(ddata);
+      $('#applyDate').html(adata);
+    });
   </script>
 </body>
 
