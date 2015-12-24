@@ -26,8 +26,8 @@
 			提货单号：<input type="text" id="deliveryorderid" name="deliveryorderid" />
 			提货类型：<select id="deliveryMethod" name="deliveryMethod" style="width:80">
 					<option value="">请选择</option>
-					<option value="1">自提</option>
-					<option value="2">在线配送</option>
+					<option value="自提">自提</option>
+					<option value="在线配送">在线配送</option>
 					</select>
 			<input type="button" value="查询" onclick="doSearch()"/>		
 			<input type="button" value="重置" onclick="clearInfo()"/>			
