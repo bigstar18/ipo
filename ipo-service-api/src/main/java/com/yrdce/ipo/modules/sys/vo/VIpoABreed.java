@@ -4,157 +4,189 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @author chenjing
- *发售品种
+ * @author chenjing 发售品种
  */
-public class VIpoABreed implements Serializable{
-    private Long breedid;
+public class VIpoABreed implements Serializable {
+	private Long breedid;
 
-    private String breedname;
+	private String breedname;
 
-    private Long sortid;
+	private Long sortid;
 
-    private BigDecimal contractfactor;
-    
-    private BigDecimal minpricemove;
+	private BigDecimal contractfactor;
 
-    private Short spreadalgr;
+	private BigDecimal minpricemove;
 
-    private BigDecimal spreaduplmt;
+	private Short spreadalgr;
 
-    private BigDecimal spreaddownlmt;
+	private BigDecimal spreaduplmt;
 
-    private Short minquantitymove;
+	private BigDecimal spreaddownlmt;
 
-    private String contractfactorname;
+	private Short minquantitymove;
 
-    private Long minapplynum;
+	private String contractfactorname;
 
-    private BigDecimal maxapplynum;
+	private Long minapplynum;
 
-    private Integer minapplyquamove;
+	private BigDecimal maxapplynum;
 
-    private Short publishalgr;
+	private Integer minapplyquamove;
 
-    private BigDecimal dealerpubcharatio;
+	private Short publishalgr;
 
-    private BigDecimal mktdeapubcharatio;
+	private BigDecimal dealerpubcharatio;
 
-    private BigDecimal publishercharatio;
+	private BigDecimal mktdeapubcharatio;
 
-    private BigDecimal mktpubcharatio;
+	private BigDecimal publishercharatio;
 
-    private String contractcurrency;
+	private BigDecimal mktpubcharatio;
 
-    private Integer tradedays;
+	private String contractcurrency;
 
-    public Long getBreedid() {
-        return breedid;
-    }
+	private Integer tradedays;
 
-    public void setBreedid(Long breedid) {
-        this.breedid = breedid;
-    }
+	private Short tradealgr;
 
-    public String getBreedname() {
-        return breedname;
-    }
+	private BigDecimal buy;
 
-    public void setBreedname(String breedname) {
-        this.breedname = breedname == null ? null : breedname.trim();
-    }
+	private BigDecimal sell;
 
-    public Long getSortid() {
-        return sortid;
-    }
+	private BigDecimal mktbuyfeeradio;
 
-    public void setSortid(Long sortid) {
-        this.sortid = sortid;
-    }
+	private BigDecimal mktsellfeeradio;
 
-    public BigDecimal getContractfactor() {
-        return contractfactor;
-    }
+	private BigDecimal warehousedailyrent;
 
-    public void setContractfactor(BigDecimal contractfactor) {
-        this.contractfactor = contractfactor;
-    }
+	private BigDecimal trusteedailyrent;
 
+	private BigDecimal insurancedailyrent;
 
-    public String getContractfactorname() {
-        return contractfactorname;
-    }
+	private Integer freetrusteedays;
 
-    public void setContractfactorname(String contractfactorname) {
-        this.contractfactorname = contractfactorname == null ? null : contractfactorname.trim();
-    }
+	private String deliveryunit;
 
-    public Long getMinapplynum() {
-        return minapplynum;
-    }
+	private BigDecimal deliunittocontract;
 
-    public void setMinapplynum(Long minapplynum) {
-        this.minapplynum = minapplynum;
-    }
+	private BigDecimal registfeeradio;
 
-    public BigDecimal getMaxapplynum() {
-        return maxapplynum;
-    }
+	private BigDecimal mktregistfeeradio;
 
-    public void setMaxapplynum(BigDecimal maxapplynum) {
-        this.maxapplynum = maxapplynum;
-    }
+	private BigDecimal cancelfeeradio;
 
-    public Integer getMinapplyquamove() {
-        return minapplyquamove;
-    }
+	private BigDecimal mktcancelfeeradio;
 
-    public void setMinapplyquamove(Integer minapplyquamove) {
-        this.minapplyquamove = minapplyquamove;
-    }
+	private Integer deliverycostbefore;
 
-    public Short getPublishalgr() {
-        return publishalgr;
-    }
+	private BigDecimal transferfeeradio;
 
-    public void setPublishalgr(Short publishalgr) {
-        this.publishalgr = publishalgr;
-    }
+	public Long getBreedid() {
+		return breedid;
+	}
 
-    public BigDecimal getDealerpubcharatio() {
-        return dealerpubcharatio;
-    }
+	public void setBreedid(Long breedid) {
+		this.breedid = breedid;
+	}
 
-    public void setDealerpubcharatio(BigDecimal dealerpubcharatio) {
-        this.dealerpubcharatio = dealerpubcharatio;
-    }
+	public String getBreedname() {
+		return breedname;
+	}
 
-    public BigDecimal getMktdeapubcharatio() {
-        return mktdeapubcharatio;
-    }
+	public void setBreedname(String breedname) {
+		this.breedname = breedname == null ? null : breedname.trim();
+	}
 
-    public void setMktdeapubcharatio(BigDecimal mktdeapubcharatio) {
-        this.mktdeapubcharatio = mktdeapubcharatio;
-    }
+	public Long getSortid() {
+		return sortid;
+	}
 
-    public BigDecimal getPublishercharatio() {
-        return publishercharatio;
-    }
+	public void setSortid(Long sortid) {
+		this.sortid = sortid;
+	}
 
-    public void setPublishercharatio(BigDecimal publishercharatio) {
-        this.publishercharatio = publishercharatio;
-    }
+	public BigDecimal getContractfactor() {
+		return contractfactor;
+	}
 
-    public BigDecimal getMktpubcharatio() {
-        return mktpubcharatio;
-    }
+	public void setContractfactor(BigDecimal contractfactor) {
+		this.contractfactor = contractfactor;
+	}
 
-    public void setMktpubcharatio(BigDecimal mktpubcharatio) {
-        this.mktpubcharatio = mktpubcharatio;
-    }
+	public String getContractfactorname() {
+		return contractfactorname;
+	}
 
-  
-    public String getContractcurrency() {
+	public void setContractfactorname(String contractfactorname) {
+		this.contractfactorname = contractfactorname == null ? null
+				: contractfactorname.trim();
+	}
+
+	public Long getMinapplynum() {
+		return minapplynum;
+	}
+
+	public void setMinapplynum(Long minapplynum) {
+		this.minapplynum = minapplynum;
+	}
+
+	public BigDecimal getMaxapplynum() {
+		return maxapplynum;
+	}
+
+	public void setMaxapplynum(BigDecimal maxapplynum) {
+		this.maxapplynum = maxapplynum;
+	}
+
+	public Integer getMinapplyquamove() {
+		return minapplyquamove;
+	}
+
+	public void setMinapplyquamove(Integer minapplyquamove) {
+		this.minapplyquamove = minapplyquamove;
+	}
+
+	public Short getPublishalgr() {
+		return publishalgr;
+	}
+
+	public void setPublishalgr(Short publishalgr) {
+		this.publishalgr = publishalgr;
+	}
+
+	public BigDecimal getDealerpubcharatio() {
+		return dealerpubcharatio;
+	}
+
+	public void setDealerpubcharatio(BigDecimal dealerpubcharatio) {
+		this.dealerpubcharatio = dealerpubcharatio;
+	}
+
+	public BigDecimal getMktdeapubcharatio() {
+		return mktdeapubcharatio;
+	}
+
+	public void setMktdeapubcharatio(BigDecimal mktdeapubcharatio) {
+		this.mktdeapubcharatio = mktdeapubcharatio;
+	}
+
+	public BigDecimal getPublishercharatio() {
+		return publishercharatio;
+	}
+
+	public void setPublishercharatio(BigDecimal publishercharatio) {
+		this.publishercharatio = publishercharatio;
+	}
+
+	public BigDecimal getMktpubcharatio() {
+		return mktpubcharatio;
+	}
+
+	public void setMktpubcharatio(BigDecimal mktpubcharatio) {
+		this.mktpubcharatio = mktpubcharatio;
+	}
+
+	public String getContractcurrency() {
 		return contractcurrency;
 	}
 
@@ -163,13 +195,13 @@ public class VIpoABreed implements Serializable{
 	}
 
 	public Integer getTradedays() {
-        return tradedays;
-    }
+		return tradedays;
+	}
 
-    public void setTradedays(Integer tradedays) {
-        this.tradedays = tradedays;
-    }
-    
+	public void setTradedays(Integer tradedays) {
+		this.tradedays = tradedays;
+	}
+
 	public BigDecimal getMinpricemove() {
 		return minpricemove;
 	}
@@ -210,6 +242,142 @@ public class VIpoABreed implements Serializable{
 		this.minquantitymove = minquantitymove;
 	}
 
+	public Short getTradealgr() {
+		return tradealgr;
+	}
+
+	public void setTradealgr(Short tradealgr) {
+		this.tradealgr = tradealgr;
+	}
+
+	public BigDecimal getBuy() {
+		return buy;
+	}
+
+	public void setBuy(BigDecimal buy) {
+		this.buy = buy;
+	}
+
+	public BigDecimal getSell() {
+		return sell;
+	}
+
+	public void setSell(BigDecimal sell) {
+		this.sell = sell;
+	}
+
+	public BigDecimal getMktbuyfeeradio() {
+		return mktbuyfeeradio;
+	}
+
+	public void setMktbuyfeeradio(BigDecimal mktbuyfeeradio) {
+		this.mktbuyfeeradio = mktbuyfeeradio;
+	}
+
+	public BigDecimal getMktsellfeeradio() {
+		return mktsellfeeradio;
+	}
+
+	public void setMktsellfeeradio(BigDecimal mktsellfeeradio) {
+		this.mktsellfeeradio = mktsellfeeradio;
+	}
+
+	public BigDecimal getWarehousedailyrent() {
+		return warehousedailyrent;
+	}
+
+	public void setWarehousedailyrent(BigDecimal warehousedailyrent) {
+		this.warehousedailyrent = warehousedailyrent;
+	}
+
+	public BigDecimal getTrusteedailyrent() {
+		return trusteedailyrent;
+	}
+
+	public void setTrusteedailyrent(BigDecimal trusteedailyrent) {
+		this.trusteedailyrent = trusteedailyrent;
+	}
+
+	public BigDecimal getInsurancedailyrent() {
+		return insurancedailyrent;
+	}
+
+	public void setInsurancedailyrent(BigDecimal insurancedailyrent) {
+		this.insurancedailyrent = insurancedailyrent;
+	}
+
+	public Integer getFreetrusteedays() {
+		return freetrusteedays;
+	}
+
+	public void setFreetrusteedays(Integer freetrusteedays) {
+		this.freetrusteedays = freetrusteedays;
+	}
+
+	public String getDeliveryunit() {
+		return deliveryunit;
+	}
+
+	public void setDeliveryunit(String deliveryunit) {
+		this.deliveryunit = deliveryunit;
+	}
+
+	public BigDecimal getDeliunittocontract() {
+		return deliunittocontract;
+	}
+
+	public void setDeliunittocontract(BigDecimal deliunittocontract) {
+		this.deliunittocontract = deliunittocontract;
+	}
+
+	public BigDecimal getRegistfeeradio() {
+		return registfeeradio;
+	}
+
+	public void setRegistfeeradio(BigDecimal registfeeradio) {
+		this.registfeeradio = registfeeradio;
+	}
+
+	public BigDecimal getMktregistfeeradio() {
+		return mktregistfeeradio;
+	}
+
+	public void setMktregistfeeradio(BigDecimal mktregistfeeradio) {
+		this.mktregistfeeradio = mktregistfeeradio;
+	}
+
+	public BigDecimal getCancelfeeradio() {
+		return cancelfeeradio;
+	}
+
+	public void setCancelfeeradio(BigDecimal cancelfeeradio) {
+		this.cancelfeeradio = cancelfeeradio;
+	}
+
+	public BigDecimal getMktcancelfeeradio() {
+		return mktcancelfeeradio;
+	}
+
+	public void setMktcancelfeeradio(BigDecimal mktcancelfeeradio) {
+		this.mktcancelfeeradio = mktcancelfeeradio;
+	}
+
+	public Integer getDeliverycostbefore() {
+		return deliverycostbefore;
+	}
+
+	public void setDeliverycostbefore(Integer deliverycostbefore) {
+		this.deliverycostbefore = deliverycostbefore;
+	}
+
+	public BigDecimal getTransferfeeradio() {
+		return transferfeeradio;
+	}
+
+	public void setTransferfeeradio(BigDecimal transferfeeradio) {
+		this.transferfeeradio = transferfeeradio;
+	}
+
 	@Override
 	public String toString() {
 		return "VIpoABreed [breedid=" + breedid + ", breedname=" + breedname
@@ -225,8 +393,20 @@ public class VIpoABreed implements Serializable{
 				+ ", mktdeapubcharatio=" + mktdeapubcharatio
 				+ ", publishercharatio=" + publishercharatio
 				+ ", mktpubcharatio=" + mktpubcharatio + ", contractcurrency="
-				+ contractcurrency + ", tradedays=" + tradedays + "]";
+				+ contractcurrency + ", tradedays=" + tradedays
+				+ ", tradealgr=" + tradealgr + ", buy=" + buy + ", sell="
+				+ sell + ", mktbuyfeeradio=" + mktbuyfeeradio
+				+ ", mktsellfeeradio=" + mktsellfeeradio
+				+ ", warehousedailyrent=" + warehousedailyrent
+				+ ", trusteedailyrent=" + trusteedailyrent
+				+ ", insurancedailyrent=" + insurancedailyrent
+				+ ", freetrusteedays=" + freetrusteedays + ", deliveryunit="
+				+ deliveryunit + ", deliunittocontract=" + deliunittocontract
+				+ ", registfeeradio=" + registfeeradio + ", mktregistfeeradio="
+				+ mktregistfeeradio + ", cancelfeeradio=" + cancelfeeradio
+				+ ", mktcancelfeeradio=" + mktcancelfeeradio
+				+ ", deliverycostbefore=" + deliverycostbefore
+				+ ", transferfeeradio=" + transferfeeradio + "]";
 	}
 
-	
 }

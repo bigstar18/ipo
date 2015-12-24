@@ -54,6 +54,7 @@
     <result column="CANCELFEERADIO" property="cancelfeeradio" jdbcType="DECIMAL" />
     <result column="MKTCANCELFEERADIO" property="mktcancelfeeradio" jdbcType="DECIMAL" />
     <result column="DELIVERYCOSTBEFORE" property="deliverycostbefore" jdbcType="DECIMAL" />
+    <result column="TRANSFERFEERADIO" property="transferfeeradio" jdbcType="DECIMAL" />
     <result column="COMMDETAILS" property="commdetails" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -65,7 +66,7 @@
     TRADEALGR, BUY, SELL, MKTBUYFEERADIO, MKTSELLFEERADIO, WAREHOUSEDAILYRENT, 
     WAREHOUSESTARTDAY, TRUSTEEDAILYRENT, INSURANCEDAILYRENT, INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
     DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
-    DELIVERYCOSTBEFORE, COMMDETAILS
+    DELIVERYCOSTBEFORE,TRANSFERFEERADIO ,COMMDETAILS
   </sql>
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -108,7 +109,7 @@
       INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
       DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, 
       MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
-      DELIVERYCOSTBEFORE, COMMDETAILS)
+      DELIVERYCOSTBEFORE, TRANSFERFEERADIO,COMMDETAILS)
     values (#{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, #{starttime,jdbcType=DATE}, 
       #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
@@ -126,7 +127,7 @@
       #{insurancestartday,jdbcType=DATE}, #{freetrusteedays,jdbcType=DECIMAL}, #{deliveryunit,jdbcType=VARCHAR}, 
       #{deliunittocontract,jdbcType=DECIMAL}, #{deliverystartday,jdbcType=DATE}, #{registfeeradio,jdbcType=DECIMAL}, 
       #{mktregistfeeradio,jdbcType=DECIMAL}, #{cancelfeeradio,jdbcType=DECIMAL}, #{mktcancelfeeradio,jdbcType=DECIMAL}, 
-      #{deliverycostbefore,jdbcType=DECIMAL}, #{commdetails,jdbcType=VARCHAR})
+      #{deliverycostbefore,jdbcType=DECIMAL}, #{transferfeeradio,jdbcType=DECIMAL}, #{commdetails,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
     update IPO_COMMODITY_CONF
@@ -181,6 +182,7 @@
       CANCELFEERADIO = #{cancelfeeradio,jdbcType=DECIMAL},
       MKTCANCELFEERADIO = #{mktcancelfeeradio,jdbcType=DECIMAL},
       DELIVERYCOSTBEFORE = #{deliverycostbefore,jdbcType=DECIMAL},
+        TRANSFERFEERADIO = #{transferfeeradio,jdbcType=DECIMAL},
       COMMDETAILS = #{commdetails,jdbcType=VARCHAR}
     where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>

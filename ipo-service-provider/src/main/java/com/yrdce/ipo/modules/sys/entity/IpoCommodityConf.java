@@ -108,6 +108,8 @@ public class IpoCommodityConf {
 
 	private Integer deliverycostbefore;
 
+	private BigDecimal transferfeeradio;
+
 	private String commdetails;
 
 	public String getCommodityid() {
@@ -149,6 +151,14 @@ public class IpoCommodityConf {
 
 	public void setCounts(BigDecimal counts) {
 		this.counts = counts;
+	}
+
+	public BigDecimal getTransferfeeradio() {
+		return transferfeeradio;
+	}
+
+	public void setTransferfeeradio(BigDecimal transferfeeradio) {
+		this.transferfeeradio = transferfeeradio;
 	}
 
 	public Date getStarttime() {

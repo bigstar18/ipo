@@ -17,8 +17,9 @@ function addBreed(){
 	var bname=$("#bname").val();
 	var concurrency=$("#contractcurrency").val();
     var publishalgr=$("#publishalgr").val();
+    var tradealgr=$("#tradealgr").val();
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&&publishalgr!= ''&&flag==true){
+	if(bname!=''&&concurrency!= ''&&publishalgr!= ''&&tradealgr!= ''&&flag==true){
             	 $.ajax({  
         			 type: 'GET',  //
         		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
@@ -63,9 +64,10 @@ function updateBreed(){
 	
 	var bname=$("#bname").val();
 	var concurrency=$("#contractcurrency").val();
+	 var tradealgr=$("#tradealgr").val();
 	var publishalgr=$("#publishalgr").val();
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&flag==true){
+	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&tradealgr!= ''&&flag==true){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
@@ -100,6 +102,10 @@ function onlyNumberInput(){
 	 }
 }
 
+function changeTail(){
+	$("#tail").html($("#deliveryunit").val());
+}
+
 function on_change(){
 	if (document.getElementById("publishalgr").value == "1") {
 		$("#dealerpubcharatioPercent").show();
@@ -113,6 +119,21 @@ function on_change(){
 		$("#mktpubcharatioPercent").hide();
 	}
 }
+
+function on_tchange(){
+	if (document.getElementById("tradealgr").value == "1") {
+		$("#buyPercent").show();
+		$("#sellPercent").show();
+		$("#mktbuyPercent").show();
+		$("#mktsellPercent").show();
+	}else {
+		$("#buyPercent").hide();
+		$("#sellPercent").hide();
+		$("#mktbuyPercent").hide();
+		$("#mktsellPercent").hide();
+	}
+}
+
 
 
 function setSortName(value) {
@@ -160,7 +181,7 @@ function setSortName(value) {
 								<span id="baseinfo">
 								<table cellSpacing="0" cellPadding="0" width="800" border="0" align="left" class="common">
         							<tr>
-        			 					<td align="right" width="98"><span class="required">品种名称</span>：</td>
+        			 					<td align="right" width="98"><span class="required">品种名称：</span></td>
 	      								<td style="white-space:nowrap;">
 	      								   <c:if test="${crud == 'create'}">
 		      									<select id="bname" name="breedname" style="width:100" class="validate[required]" onchange="setSortName(this.value)">
@@ -174,9 +195,13 @@ function setSortName(value) {
 								            	<input id="breedname" name="breedname" value="${entity.breedname }" style="width: 100;background-color: #C0C0C0" class="input_text" size="10" readonly="readonly"/>
 								            </c:if>
 							            	<input id="sortid" type="hidden" name="sortid" value="${entity.sortid }" />
-							            	<input id="breedid" type="hidden" name="breedid" value="${entity.breedid }" />
 		          							<span class="required">*</span>
 		          						</td>
+		          						<td align="right" width="90"><span class="required">品种代码：</span></td>     
+            							<td> 
+            							<input id="breedid" type="text" name="breedid" value="${entity.breedid }" style="width: 100;background-color: #C0C0C0;" readonly="readonly"/>
+										   <span class="required">*</span>   
+										</td>
 										<td align="right" width="90">报价货币：</td>     
             							<td> 
             							<select id="contractcurrency" name="contractcurrency" style="width:100">
@@ -217,7 +242,7 @@ function setSortName(value) {
         								<td align="right" >交易单位：</td> 
             							<td> 
 			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入精度为2的正数',min:0,precision:2"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正数',min:0,precision:2"/>
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
@@ -318,6 +343,201 @@ function setSortName(value) {
 							            	if ("${entity.publishalgr}" == "1"){$("#publishercharatioPercent").show();$("#mktpubcharatioPercent").show();} else {$("#publishercharatioPercent").hide();$("#mktpubcharatioPercent").hide();}
 							            </script>
          							</tr>
+	 							</table >
+								</span>
+								</fieldset>
+						 	</td>
+						</tr>
+						
+						<tr class="common">
+							<td colspan="4">
+					      		<fieldset>
+					       		<legend>
+					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
+					           		<col width="55"></col><col></col><col width="6"></col>
+					         		<tr>
+					              		<td><b>交易参数</b></td>
+					                    <td><hr width="100%" class="pickList"/></td>
+					             	</tr>
+					         	</table>
+					       		</legend>
+								<span id="baseinfo2">
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								    <tr>
+        	  							<td align="right">交易手续费算法：</td>
+            							<td>
+            							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
+												<option value=""></option>
+											    <option value="1" <c:if test="${entity.tradealgr==1 }">selected</c:if>>按百分比</option>
+												<option value="2" <c:if test="${entity.tradealgr==2 }">selected</c:if>>按绝对值</option>
+										   </select><span class="required">*</span>  
+            							</td>
+            							<td align="right" >买入：</td> 
+            							<td> 
+			  								<input id="buy" name="buy"  value="${entity.buy }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+            							<span id="buyPercent">%</span> <span class="required">*</span> 
+            							</td>    
+        								<td align="right" >卖出：</td> 
+            							<td> 
+			  								<input id="sell" name="sell" value="${entity.sell }" 
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/> 
+			  							<span id="sellPercent">%</span> <span class="required">*</span> 
+			  							</td>
+            							
+        							</tr>
+									<tr>
+        	  							<td align="right"></td>
+            							<td>
+            							</td>    
+        								<td align="right">买方手续费市场留存比例：</td>
+										<td>
+										<input id="mktbuyfeeradio" name="mktbuyfeeradio"  value="${entity.mktbuyfeeradio }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+										<span id="mktbuyPercent">%</span><span class="required">*</span> 
+										</td>
+            							<td align="right">卖方手续费市场留存比例：</td>
+										<td>
+											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+										<span id="mktsellPercent">%</span><span class="required">*</span> 
+										</td>
+        							</tr>
+							        <tr>
+							            <td align="right" >仓储日租金标准：</td>
+							            <td >
+											<input id="warehousedailyrent" name="warehousedailyrent" value="${entity.warehousedailyrent }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+										    <span class="required">*</span>         
+							            </td>        
+            							<td align="right">日托管费标准：</td>
+            							<td>
+											<input id="trusteedailyrent" name="trusteedailyrent" value="${entity.trusteedailyrent }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+										    <span class="required">*</span>       
+								      	</td>
+								      	<td align="right"></td>
+							            <td>
+            							</td>
+        							</tr> 
+									<tr>
+										<td align="right">日保险费标准：</td>
+            							<td>
+            							<input id="insurancedailyrent" name="insurancedailyrent" value="${entity.insurancedailyrent }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+										    <span class="required">*</span>
+            							</td>
+            							<td align="right">免托管天数：</td>
+										<td>
+										<input type="text" id="freetrusteedays" name="freetrusteedays" value="${entity.freetrusteedays }" 
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'必填项',min:0,precision:0"   />          
+										<span class="required">*</span> 
+										</td>
+										<td align="right"></td>
+            							<td>
+            							</td>
+								      	<script type="text/javascript">
+							            	if ("${entity.tradealgr}" == "1"){$("#buyPercent").show();$("#sellPercent").show();$("#mktbuyPercent").show();$("#mktsellPercent").show();} else {$("#sellPercent").hide();$("#buyPercent").hide();$("#mktbuyPercent").hide();$("#mktsellPercent").hide();}
+							            </script>
+         							</tr>
+	 							</table >
+								</span>
+								</fieldset>
+						 	</td>
+						</tr>
+						
+							<tr class="common">
+							<td colspan="4">
+					      		<fieldset>
+					       		<legend>
+					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
+					           		<col width="55"></col><col></col><col width="6"></col>
+					         		<tr>
+					              		<td><b>交收参数</b></td>
+					                    <td><hr width="100%" class="pickList"/></td>
+					             	</tr>
+					         	</table>
+					       		</legend>
+								<span id="baseinfo2">
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								    <tr>
+        	  							<td align="right">交割单位：</td>
+            							<td>
+            							<input id="deliveryunit" name="deliveryunit"  value="${entity.deliveryunit }"
+			  									style="width: 100" class="easyui-validatebox" data-options="required:true,missingMessage:'必填'" onblur="changeTail()"/>
+											 <span class="required">如箱、吨等*</span>  
+            							</td>
+            							<td align="right" >交割与交易单位换算：</td> 
+            							<td> 
+			  								<input id="deliunittocontract" name="deliunittocontract"  value="${entity.deliunittocontract }"
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:0"/>
+            							<span class="required"><c:if test="${crud == 'update'}">批/<span id="tail"><c:out value="${entity.deliveryunit }"></c:out></span></c:if><c:if test="${crud == 'create'}">批/<span id="tail"></span></c:if>*</span> 
+            							</td>    
+        								<td align="right"></td> 
+            							<td> 
+			  							</td>
+        							</tr>									
+	 							</table >
+								</span>
+								</fieldset>
+						 	</td>
+						</tr>
+						
+						
+						<tr class="common">
+							<td colspan="4">
+					      		<fieldset>
+					       		<legend>
+					        	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common">
+					           		<col width="55"></col><col></col><col width="6"></col>
+					         		<tr>
+					              		<td><b>仓库参数</b></td>
+					                    <td><hr width="100%" class="pickList"/></td>
+					             	</tr>
+					         	</table>
+					       		</legend>
+								<span id="baseinfo2">
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								    <tr>
+        	  							<td align="right">注册费用比例：</td>
+            							<td>
+            							<input id="registfeeradio" name="registfeeradio" value="${entity.registfeeradio }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+									    %<span class="required">*</span>  
+            							</td>
+            							<td align="right" >注销费用比例：</td> 
+            							<td> 
+			  							<input id="cancelfeeradio" name="cancelfeeradio"  value="${entity.cancelfeeradio }"
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+            							%<span class="required">*</span> 
+            							</td>    
+        								<td align="right" >过户费用比例：</td> 
+            							<td> 
+            							<input id="transferfeeradio" name="transferfeeradio"  value="${entity.transferfeeradio }"
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+			  							%<span class="required">*</span> 
+			  							</td>
+        							</tr>
+        							 <tr>
+        	  							<td align="right">注册费市场留存比例：</td>
+            							<td>
+										<input id="mktregistfeeradio" name="mktregistfeeradio" value="${entity.mktregistfeeradio }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+									    %<span class="required">*</span>   
+            							</td>
+            							<td align="right" >注销费市场留存比例：</td> 
+            							<td> 
+            							<input id="mktcancelfeeradio" name="mktcancelfeeradio" value="${entity.mktcancelfeeradio }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+									    %<span class="required">*</span>
+            							</td>    
+        								<td align="right" >提货单费用价格提前天数：</td> 
+            							<td> 
+            							 <input id="deliverycostbefore" name="deliverycostbefore" value="${entity.deliverycostbefore }" 
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:0"/>
+			  								 <span class="required">*</span> 
+			  							</td>
+        							</tr>										
 	 							</table >
 								</span>
 								</fieldset>

@@ -89,13 +89,13 @@ public class VIpoCommConf implements Serializable {
 	private BigDecimal mktsellfeeradio;
 
 	private BigDecimal warehousedailyrent;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date warehousestartday;
 
 	private BigDecimal trusteedailyrent;
 
 	private BigDecimal insurancedailyrent;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date insurancestartday;
 
 	private Integer freetrusteedays;
@@ -116,7 +116,17 @@ public class VIpoCommConf implements Serializable {
 
 	private Integer deliverycostbefore;
 
+	private BigDecimal transferfeeradio;
+
 	private String commdetails;
+
+	public BigDecimal getTransferfeeradio() {
+		return transferfeeradio;
+	}
+
+	public void setTransferfeeradio(BigDecimal transferfeeradio) {
+		this.transferfeeradio = transferfeeradio;
+	}
 
 	public String getCommodityid() {
 		return commodityid;
@@ -546,11 +556,11 @@ public class VIpoCommConf implements Serializable {
 
 	@Override
 	public String toString() {
-		return "IpoCommodityConf [commodityid=" + commodityid
-				+ ", commodityname=" + commodityname + ", price=" + price
-				+ ", units=" + units + ", counts=" + counts + ", starttime="
-				+ starttime + ", endtime=" + endtime + ", maxapplynum="
-				+ maxapplynum + ", status=" + status + ", breedid=" + breedid
+		return "VIpoCommConf [commodityid=" + commodityid + ", commodityname="
+				+ commodityname + ", price=" + price + ", units=" + units
+				+ ", counts=" + counts + ", starttime=" + starttime
+				+ ", endtime=" + endtime + ", maxapplynum=" + maxapplynum
+				+ ", status=" + status + ", breedid=" + breedid
 				+ ", tradedays=" + tradedays + ", codedelivery=" + codedelivery
 				+ ", nonissuereg=" + nonissuereg + ", pubmemberid="
 				+ pubmemberid + ", minapplynum=" + minapplynum
@@ -581,7 +591,8 @@ public class VIpoCommConf implements Serializable {
 				+ mktregistfeeradio + ", cancelfeeradio=" + cancelfeeradio
 				+ ", mktcancelfeeradio=" + mktcancelfeeradio
 				+ ", deliverycostbefore=" + deliverycostbefore
-				+ ", commdetails=" + commdetails + "]";
+				+ ", transferfeeradio=" + transferfeeradio + ", commdetails="
+				+ commdetails + "]";
 	}
 
 }

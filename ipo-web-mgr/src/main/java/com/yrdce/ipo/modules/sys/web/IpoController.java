@@ -322,10 +322,18 @@ public class IpoController {
 				String end = formatDate(ipocomm.getEndtime());
 				String listing = formatDate(ipocomm.getListingdate());
 				String lasttrade = formatDate(ipocomm.getLasttradate());
+				String deliverystart = formatDate(ipocomm.getDeliverystartday());// 非空判断补
+				String insurancestart = formatDate(ipocomm
+						.getInsurancestartday());
+				String warehousestart = formatDate(ipocomm
+						.getWarehousestartday());
 				request.setAttribute("start", start);
 				request.setAttribute("end", end);
 				request.setAttribute("listing", listing);
 				request.setAttribute("lasttrade", lasttrade);
+				request.setAttribute("deliverystart", deliverystart);
+				request.setAttribute("insurancestart", insurancestart);
+				request.setAttribute("warehousestart", warehousestart);
 				Blist = brBrokerService.findAllPublisher();
 				Tlist = tCommodityService.findAllTCommodity();
 				MBreed breed = mBreedservice.getMBreed(Long.parseLong(breedid));
