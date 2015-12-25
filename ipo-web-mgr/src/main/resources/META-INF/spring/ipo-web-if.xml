@@ -43,6 +43,8 @@
 	<dubbo:reference id="ipoStorageService" interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" />
 	<dubbo:reference id="outboundService" interface="com.yrdce.ipo.modules.sys.service.OutboundService" />
     <dubbo:reference id="trusteeshipCommodityService" interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" />
+    <dubbo:reference id="spoService" interface="com.yrdce.ipo.modules.sys.service.SPOService" />
+    
    
     
     
