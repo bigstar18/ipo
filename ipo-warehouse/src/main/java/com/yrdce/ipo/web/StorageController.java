@@ -23,8 +23,9 @@ public class StorageController {
 			.getLogger(StorageController.class);
 	//入库单添加视图
 	@RequestMapping(value = "/AddStorageView", method = RequestMethod.GET)
+	@ResponseBody
 	public String AddStorageView(HttpServletRequest request, HttpServletResponse response, Model model){
 		log.info("入库单添加");
-		return "app/storage/addstorageaudit";
+		return "../addstorageaudit.jsp";
 	}
 }

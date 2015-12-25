@@ -4,8 +4,8 @@
 <%@page import="java.lang.String"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<% String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";
+<% //String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+String userId ="888";
 %><html>
 <head>
 <title>投资者申购页面</title>

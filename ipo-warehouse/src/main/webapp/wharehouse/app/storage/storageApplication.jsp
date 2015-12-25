@@ -11,16 +11,26 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-
 	getAllInfo();
-	  
 });
 //弹窗
 function openWindow(){
-	var url = "<%=request.getContextPath()%>/StorageController/AddStorageView?randnum="+Math.floor(Math.random()*1000000);
-	document.location.href=url;
-	//window.open(url,"入库单添加",height=600,width=300);
+
+		 var windowStatus = "dialogWidth:600px;dialogHeight:380px;center:1;status:0;";  
+		  //在模式窗口中打开的页面  
+		  var url = "../storage/addstorageaudit.jsp";  
+		  //将模式窗口返回的值临时保存  
+		  var temp = showModalDialog(url,"入库单添加",windowStatus);  
+		  //将刚才保存的值赋给文本输入框returnValue  
+		  document.all.returnValue.value = temp; 
+// 			window.open('../storage/addstorageaudit.jsp','入库单添加','height=600, width=600,top=50%,left=50%, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+<%-- 			window.open(<%=request.getContextPath()%>+'/'+data,"入库单添加",height=600,width=300); --%>
+
 }
+<%-- 	var url = "<%=request.getContextPath()%>/StorageController/AddStorageView?randnum="+Math.floor(Math.random()*1000000); --%>
+// 	document.location.href=url;
+	//window.open(url,"入库单添加",height=600,width=300);
+
 //加载所有信息
 function getAllInfo(){
 	$('#name').val("");
