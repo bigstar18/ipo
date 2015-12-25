@@ -23,7 +23,7 @@ public interface SPOService {
 	public int updateRationType(String rationType);
 
 	// 条件查询(mgr)
-	public List<Spo> getSPOList(String page, String rows, Spo spo) throws Exception;
+	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 发售商品查询(添加增发)(mgr)
 	public Map<String, String> getCommodityidByAll() throws Exception;
@@ -32,13 +32,13 @@ public interface SPOService {
 	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom) throws Exception;
 
 	// 增发商品修改(mgr)
-	public int updateSPOInfo(Spo spo) throws Exception;
+	public int updateSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 增发商品删除(mgr)
 	public int deleteSPOInfo(String spoid) throws Exception;
 
 	// 承销商配售信息(mgr)
-	public List<IpoSpoRation> getRationInfo(Spo spo) throws Exception;
+	public List<IpoSpoRation> getRationInfo(SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 承销商配售信息修改(mgr)
 	public int updateByRation(String spoid) throws Exception;
@@ -47,7 +47,7 @@ public interface SPOService {
 	public int insertByRation(IpoSpoRation ipoSpoRation) throws Exception;
 
 	// 定向配售查询(mgr)
-	public List<IpoSpoRation> getRationInfo(String page, String rows, Spo spo) throws Exception;
+	public List<IpoSpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 删除定向配售信息(mgr)
 	public int deleteByRation(String rationid) throws Exception;

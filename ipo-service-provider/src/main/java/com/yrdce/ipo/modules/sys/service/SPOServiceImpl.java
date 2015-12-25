@@ -79,9 +79,14 @@ public class SPOServiceImpl implements SPOService {
 
 	// 分页获得增发列表
 	@Override
-	public List<Spo> getSPOList(String page, String rows, Spo spo) throws Exception {
+	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("分页获得增发列表");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+
 		return null;
 	}
 
@@ -105,7 +110,7 @@ public class SPOServiceImpl implements SPOService {
 	// 修改增发信息
 	@Override
 	@Transactional
-	public int updateSPOInfo(Spo spo) throws Exception {
+	public int updateSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("修改增发信息");
 		return 0;
@@ -122,7 +127,7 @@ public class SPOServiceImpl implements SPOService {
 
 	// 承销商配售比例信息
 	@Override
-	public List<IpoSpoRation> getRationInfo(Spo spo) throws Exception {
+	public List<IpoSpoRation> getRationInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("承销商配售比例信息");
 		return null;
@@ -148,7 +153,7 @@ public class SPOServiceImpl implements SPOService {
 
 	// 分页获取配售信息
 	@Override
-	public List<IpoSpoRation> getRationInfo(String page, String rows, Spo spo) throws Exception {
+	public List<IpoSpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("分页获取配售信息");
 		return null;
