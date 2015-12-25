@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@page import="gnnt.MEBS.common.mgr.model.User"%>
+<%-- <%@page import="gnnt.MEBS.common.mgr.model.User"%>
 <%@page import="gnnt.MEBS.common.mgr.common.Global"%>
-<%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%>
+<%@page import="gnnt.MEBS.common.mgr.statictools.ApplicationContextInit"%> --%>
 <%
 	//记录的样式名称
 	String skinName = "default";
@@ -19,24 +19,24 @@
 	//web url：http://127.0.0.1:8080/common_mgr
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
 	//mgr 路径：http://127.0.0.1:8080/common_mgr/mgr
-	String wharehousePath=basePath+"/wharehouse";
+	String mgrPath=basePath+"/mgr";
 	//public 路径：http://127.0.0.1:8080/common_mgr/mgr/public
-	String publicPath = wharehousePath + "/public";
+	String publicPath = mgrPath + "/public";
 	//公共加载页面路径：http://127.0.0.1:8080/common_mgr/mgr/public/includefiles
 	String includePath = publicPath + "/includefiles";
 	//当前样式路径：http://127.0.0.1:8080/common_mgr/mgr/skinstyle/default
-	String skinPath = wharehousePath + "/skinstyle/" + skinName;
+	String skinPath = mgrPath + "/skinstyle/" + skinName;
 	//ecside 样式路径：http://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/ecside
 	String escideskinPath =skinPath+ "/ecside";
 	//框架路径：http://127.0.0.1:8080/common_mgr/mgr/frame
-	String framePath = basePath + "/wharehouse/frame";
+	String framePath = basePath + "/mgr/frame";
 	//按钮图片路径：http://127.0.0.1:8080/common_mgr/mgr/skinstyle/default/image/frame/menu/
 	String menuPicPath = skinPath + "/image/app"+path+"/menu/";
 	/*用于 申请审核 包含页面include动态路径无法引用外页面的路径 */
 	session.setAttribute("skinPath",skinPath);
 %>
 <c:set var="basePath" value="<%=basePath %>" />
-<c:set var="mgrPath" value="<%=wharehousePath %>" />
+<c:set var="mgrPath" value="<%=mgrPath %>" />
 <c:set var="publicPath" value="<%=publicPath %>" />
 <c:set var="includePath" value="<%=includePath %>" />
 <c:set var="skinPath" value="<%=skinPath %>" />
