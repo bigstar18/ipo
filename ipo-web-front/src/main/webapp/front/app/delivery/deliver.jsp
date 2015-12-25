@@ -105,7 +105,7 @@ String dealerId ="111";%>
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"execution('"+row.deliveryMethod+"','"+row.methodId+"')\">" + "详细信息" + "</a>";
+                return "<a href=\"#\" onclick=\"execution('"+row.deliveryMethod+"','"+row.methodId+"')\">" + "详细信息" + "</a>";
             }
           }]
         ]
@@ -119,11 +119,16 @@ String dealerId ="111";%>
     })
     
     function execution(deliveryMethod,methodId){
-    	var iWidth = 500; //弹出窗口的宽度;
-        var iHeight = 500; //弹出窗口的高度;
+    	if(deliveryMethod === "自提"){
+    		deliveryMethod = "1";
+    	}if(deliveryMethod === "在线配送"){
+    		deliveryMethod = "2";
+    	}
+    	var iWidth = 800; //弹出窗口的宽度;
+        var iHeight = 700; //弹出窗口的高度;
         var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
         var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-       	window.open("./deliver_table.html?deliveryMethod='" + deliveryMethod+"'&&methodId="+methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+        window.open("./deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
     	
     }
     function doSearch(){
