@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>提货信息</title>
+  <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="dickytest/vue.js"></script>
+</head>
+
+<body>
+  <input type="button" value="打印页面" onclick="printpage()" />
+
+    <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
+      <tbody>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货单号：
+	        </span>
+          </td>
+          <td align="center">
+            {{deliveryorderId}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品代码：
+	        </span>
+          </td>
+          <td align="center">
+          {{commodityId}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          商品名称：
+	        </span>
+          </td>
+          <td align="center">
+          {{commodityName}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交收仓库名称：
+	        </span>
+          </td>
+          <td align="center">
+          {{warehouseName}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          持仓数量：
+	        </span>
+          </td>
+          <td align="center">
+          {{ccounts}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货日期：
+	        </span>
+          </td>
+          <td align="center" id="deliveryDate">
+          {{deliverDate}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          注册日期：
+	        </span>
+          </td>
+          <td align="center" id="applyDate">
+          {{applyDate}}
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          提货单状态：
+	        </span>
+          </td>
+          <td align="center">
+          {{approvalStatus}}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+	          交割数量：
+	        </span>
+          </td>
+          <td align="center">
+          {{deliverQuatity}}
+          </td>
+        </tr>
+
+
+
+
+        <tr class="deliver">
+          <td align="center" height="35">
+            <span>
+            身份证号：
+          </span>
+          </td>
+          <td align="center">
+          {{idcardNum}}
+          </td>
+        </tr>
+        <tr class="deliver">
+          <td align="center" height="35">
+            <span>
+            提货密码：
+          </span>
+          </td>
+          <td align="center">
+          {{pickupPassword}}
+          </td>
+        </tr>
+
+
+
+
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            地址：
+          </span>
+          </td>
+          <td align="center">
+          {{address}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            费用：
+          </span>
+          </td>
+          <td align="center">
+          {{cost}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            配送时间：
+          </span>
+          </td>
+          <td align="center">
+          {{expressDate}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            收货人：
+          </span>
+          </td>
+          <td align="center">
+          {{receiver}}
+          </td>
+        </tr>
+        <tr class="express">
+          <td align="center" height="35">
+            <span>
+            电话：
+          </span>
+          </td>
+          <td align="center">
+          {{tel}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  <script type="text/javascript">
+  function printpage() {
+    window.print();
+  }
+    $(document).ready(function() {
+
+      //获取url参数
+      function GetQueryString(name)
+      {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+      }
+      var deliveryMethod = GetQueryString("deliveryMethod");
+      var methodId = GetQueryString("methodId");
+      // console.log(deliveryMethod);
+      // console.log(methodId);
+      if (deliveryMethod == '1') {
+        //若deliveryMethod为1，为自提，不显示配送
+        $('.express').hide();
+      }
+      if (deliveryMethod == '2') {
+        $('.deliver').hide();
+      }
+
+      var ctable = new Vue({
+        el: '#ctable',
+        data: {
+          "deliveryorderId": 132,
+          "commodityId": 1,
+          "commodityName": "hehe",
+          "warehouseName": "keke",
+          "ccounts": 2,
+          "deliverQuatity": 2,
+          "applyDate": "2015-12-16 00:00:00",
+          "deliverDate": "2015-12-16 00:00:00",
+          "approvalStatus": 0,
+          "deliveryMethod": 1,
+          "methodId": 2,
+
+          "idcardNum": "3212343248329843209804",
+          "pickupPassword": "adfa",
+          "address": "ffasfas",
+          "cost": "42432",
+          "expressDate": "2015-12-16 00:00:00",
+          "receiver": "梁非凡",
+          "tel": "21432423523"
+
+        }
+      });
+      // $.ajax({
+      //   type: 'post',
+      //   url: "../../../SettlementDeliveryController/getDetail",
+      //   data:{"methodid":methodid},
+      //   success : function(response) {
+      //     var responseStr = $.parseJSON(response);
+      //   ctable.deliveryorderId = responseStr.deliveryorderId;
+      //   ctable.commodityId = responseStr.commodityId;
+      //   ctable.commodityName = responseStr.commodityName;
+      //   ctable.warehouseName = responseStr.warehouseName;
+      //   ctable.deliveryQuatity = responseStr.deliveryQuatity;
+      //   ctable.pickupPassword = responseStr.pickupPassword;
+      //   ctable.unit = responseStr.unit;
+      //   ctable.deliveryDate = responseStr.deliveryDate;
+      //   },
+      //   error: function(response) {
+      //     alert(response);
+      //     //console.log(response);
+      //   }
+      // });
+
+      // $('#deliveryDate').val().substr(0, 10);
+      // var cdata = $('#deliveryDate').text().substr(10, 10)
+      // $('#deliveryDate').html(cdata);
+      // console.log($('#deliveryDate').text().substr(10, 10));
+      var ddata = $('#deliveryDate').text().substr(10, 10);
+      var adata = $('#applyDate').text().substr(10, 10);
+      $('#deliveryDate').html(ddata);
+      $('#applyDate').html(adata);
+    });
+  </script>
+</body>
+
+</html>
