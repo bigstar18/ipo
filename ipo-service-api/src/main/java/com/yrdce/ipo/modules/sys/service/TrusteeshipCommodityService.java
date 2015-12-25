@@ -58,7 +58,7 @@ public interface TrusteeshipCommodityService {
 	 * 撤销我的申请
 	 * @param ship
 	 */
-	public void cancelMyApply(Trusteeship ship);
+	public void cancelMyApply(Trusteeship ship)throws Exception;
 	
 	
     

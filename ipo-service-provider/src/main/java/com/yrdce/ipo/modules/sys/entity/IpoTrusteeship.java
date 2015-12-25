@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 托管商品
  * 
@@ -68,6 +70,7 @@ public class IpoTrusteeship implements Serializable {
 	/**
 	 * 审核时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date auditingDate;
 	/**
 	 * 创建人
@@ -80,6 +83,7 @@ public class IpoTrusteeship implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createDate;
 	/**
 	 * 修改人
@@ -92,6 +96,7 @@ public class IpoTrusteeship implements Serializable {
 	/**
 	 * 修改时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateDate;
 	/**
 	 * 删除标记 0:有效 1:无效
