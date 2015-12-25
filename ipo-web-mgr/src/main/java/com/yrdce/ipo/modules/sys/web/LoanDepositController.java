@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.LoanDepositService;
-import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Firmcurfunds;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
-
 
 /*
  * 成效会员管理
@@ -27,14 +25,15 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @Controller
 @RequestMapping("LoanDepositController")
 public class LoanDepositController {
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(LoanDepositController.class);
-	
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
+			.getLogger(LoanDepositController.class);
+
 	@Autowired
 	private LoanDepositService loanDepositService;
-	
+
 	@RequestMapping(value = "/getAllInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getAllInfo() throws IOException{
+	public String getAllInfo() throws IOException {
 		try {
 			List<Firmcurfunds> clist = loanDepositService.GetAllInfo();
 			ResponseResult result = new ResponseResult();
@@ -45,9 +44,9 @@ public class LoanDepositController {
 			e.printStackTrace();
 			return "";
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/addSubCommonityForward", method = RequestMethod.GET)
 	public String addSubCommonityForward(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
@@ -59,7 +58,7 @@ public class LoanDepositController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value = "/goBackPage", method = RequestMethod.GET)
 	public String goBackPage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
@@ -70,15 +69,17 @@ public class LoanDepositController {
 			e.printStackTrace();
 			return "error";
 		}
-			
+
 	}
+
 	/**
 	 * 根据id查询商品信息
 	 */
 	@RequestMapping(value = "/getInfoByName", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getInfoByName( @RequestParam(value = "name", required = false) String name) {
-		
+	public String getInfoByName(
+			@RequestParam(value = "name", required = false) String name) {
+
 		try {
 			if (name == null) {
 				name = "";

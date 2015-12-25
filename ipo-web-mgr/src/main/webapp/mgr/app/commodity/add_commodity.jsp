@@ -722,7 +722,7 @@ function on_tchange(){
 								    <tr>
         	  							<td align="right">商品详细描述：</td>
             							<td colspan="5">
-            							<textarea rows="3" cols="70" name="commdetails"></textarea>
+            							<textarea rows="3" cols="110" name="commdetails"></textarea>
 			  							</td>
         							</tr>
 	 							</table >

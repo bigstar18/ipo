@@ -15,35 +15,34 @@ import com.yrdce.ipo.integrate.ActiveUserManager;
 
 /**
  * 用户
+ * 
  * @author wq
  *
  */
 @Controller
-public class UserController   {
+public class UserController {
 
-	private  Logger logger =  LoggerFactory.getLogger(getClass());
- 
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	/**
 	 * 登出
+	 * 
 	 * @param request
 	 * @param response
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/ajaxcheck/communications/logout.action", method = RequestMethod.GET)
-	public @ResponseBody boolean logout(HttpServletRequest request,HttpServletResponse response, Model model) {
+	public @ResponseBody boolean logout(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		try {
-		   ActiveUserManager.logoff(request);
-		   logger.info("ipo mgr logout success !");
+			ActiveUserManager.logoff(request);
+			logger.info("ipo mgr logout success !");
 		} catch (Exception e) {
-		   logger.error("ipo mgr logout error !");
+			logger.error("ipo mgr logout error !");
 			return false;
 		}
 		return true;
 	}
-	
-	
-	
-	
-	
+
 }

@@ -20,6 +20,12 @@
     <result column="PRE_PLACEMENT" property="prePlacement" jdbcType="DECIMAL" />
     <result column="POSITIONS_PRICE" property="positionsPrice" jdbcType="DECIMAL" />
   </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE,RATION_TYPE,NOT_RATION_COUNTS,
+    SUCCESS_RATION_COUNTS,MIN_RATION_COUNTS,MIN_RATION_PROPORTION,REBATE,BE_LISTED,PRE_PLACEMENT,POSITIONS_PRICE
+  </sql>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_SPO_COMMODITYMANMAAGEMENT
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
@@ -59,16 +65,17 @@
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, 
-    RATION_SATE, RATION_TYPE, NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
-    MIN_RATION_PROPORTION, REBATE, BE_LISTED, PRE_PLACEMENT, POSITIONS_PRICE
+    select <include refid="Base_Column_List" />   
     from IPO_SPO_COMMODITYMANMAAGEMENT
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, 
-    RATION_SATE, RATION_TYPE, NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
-    MIN_RATION_PROPORTION, REBATE, BE_LISTED, PRE_PLACEMENT, POSITIONS_PRICE
-    from IPO_SPO_COMMODITYMANMAAGEMENT
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map">
+  select * from (
+    select <include refid="Base_Column_List" />,rownum TNO from IPO_SPO_COMMODITYMANMAAGEMENT
+    where 1=1
+    <if test="">
+    
+    </if>
+    ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
   </select>
 </mapper>

@@ -20,23 +20,21 @@ import com.yrdce.ipo.modules.sys.service.SpecialPoundageService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpecialPoundage;
 
-
-
 /*
  * 成效会员管理
  * 李伟东*/
 @Controller
 @RequestMapping("SpacialSetController")
 public class SpacielSetController {
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SpacielSetController.class);
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
+			.getLogger(SpacielSetController.class);
 	@Autowired
 	private SpecialPoundageService specialPoundageService;
 	@Autowired
 	private IpoCommConfService ipoCommConf;
-	
+
 	private List<String> commIds;
-	
-	
+
 	public List<String> getCommIds() {
 		return commIds;
 	}
@@ -47,7 +45,7 @@ public class SpacielSetController {
 
 	@RequestMapping(value = "/getAllInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getAllInfo() throws IOException{
+	public String getAllInfo() throws IOException {
 		try {
 			System.out.println("start");
 			List<SpecialPoundage> slist = specialPoundageService.GetAllInfo();
@@ -61,14 +59,14 @@ public class SpacielSetController {
 			return "";
 		}
 	}
-	
+
 	@RequestMapping(value = "/addPoundageForward", method = RequestMethod.GET)
 	public String addPoundage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 		try {
 			logger.info("跳转至添加");
 			logger.info("获取所有商品id");
-			commIds=ipoCommConf.findIpoCommConfIds();
+			commIds = ipoCommConf.findIpoCommConfIds();
 			request.setAttribute("commIds", commIds);
 			return "app/specialset/addPoundage";
 		} catch (Exception e) {
@@ -76,7 +74,7 @@ public class SpacielSetController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value = "/goBackPage", method = RequestMethod.GET)
 	public String goBackPage(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
@@ -87,12 +85,13 @@ public class SpacielSetController {
 			e.printStackTrace();
 			return "error";
 		}
-			
+
 	}
-	
+
 	@RequestMapping(value = "/addPoundage", method = RequestMethod.POST)
 	@ResponseBody
-	public String addPoundage(SpecialPoundage specialPoundage) throws IOException {
+	public String addPoundage(SpecialPoundage specialPoundage)
+			throws IOException {
 		logger.info("增加一个品种");
 		logger.info(specialPoundage.toString());
 		try {
@@ -103,7 +102,7 @@ public class SpacielSetController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value = "/deleteById", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteById(String ids) throws IOException {
@@ -116,21 +115,21 @@ public class SpacielSetController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value = "/updatePoundForward", method = RequestMethod.GET)
 	public String updatePoundForward(HttpServletRequest request,
 			HttpServletResponse response, Model model,
 			@RequestParam("poundageId") String poundageid) throws IOException {
 		try {
 			request.setAttribute("crud", "update");
-//			log.info("跳转至修改页面");
-//			VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long
-//					.parseLong(breedid));
-//			log.info(vbreed.toString());
-//			Mlist = mBreedservice.findAll();
-//			request.setAttribute("Mlist", Mlist);
-//			request.setAttribute("entity", vbreed);
-//			request.setAttribute("breedlist", JSON.json(Mlist));
+			// log.info("跳转至修改页面");
+			// VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long
+			// .parseLong(breedid));
+			// log.info(vbreed.toString());
+			// Mlist = mBreedservice.findAll();
+			// request.setAttribute("Mlist", Mlist);
+			// request.setAttribute("entity", vbreed);
+			// request.setAttribute("breedlist", JSON.json(Mlist));
 			return "app/specialset/addPoundage";
 		} catch (Exception e) {
 			e.printStackTrace();

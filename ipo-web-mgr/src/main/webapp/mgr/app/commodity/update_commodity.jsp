@@ -152,9 +152,9 @@
               $("#lasttradate").datebox("setValue",$("#lasttime").val());
               $("#starttime").datebox("setValue",$("#stime").val());
               $("#endtime").datebox("setValue",$("#etime").val()); 
-              $("#deliverystartday").datebox("setValue",$("#lasttime").val());
-              $("#insurancestartday").datebox("setValue",$("#stime").val());
-              $("#warehousestartday").datebox("setValue",$("#etime").val()); 
+              $("#deliverystartday").datebox("setValue",$("#deliverystart").val());
+              $("#insurancestartday").datebox("setValue",$("#insurancestart").val());
+              $("#warehousestartday").datebox("setValue",$("#warehousestart").val()); 
 		  });	
 		
 		
@@ -562,6 +562,7 @@ function on_tchange(){
 							            </td>        
 							            <td align="right">仓储日租金收取起始日期：</td>
 							            <td>
+							              <input type="hidden" id="warehousestart" value="${warehousestart }">
 			   				                 <input type="text" id="warehousestartday" name="warehousestartday" style="width: 100"></input> 
 			  								 <span class="required">*</span>          
             							</td>
@@ -581,6 +582,7 @@ function on_tchange(){
             							</td>
             							<td align="right">日保险费收取起始日期：</td>
             							<td>
+            							<input type="hidden" id="insurancestart" value="${insurancestart }">
 			  								 <input type="text" id="insurancestartday" name="insurancestartday" style="width: 100"></input> 
 			  								 <span class="required">*</span>           
             							</td>
@@ -629,6 +631,7 @@ function on_tchange(){
             							</td>    
         								<td align="right" >交货开始日期：</td> 
             							<td> 
+            							<input type="hidden" id="deliverystart" value="${deliverystart }">
             							 <input type="text" id="deliverystartday" name="deliverystartday" style="width: 100"></input> 
 			  								 <span class="required">*</span> 
 			  							</td>
@@ -716,7 +719,7 @@ function on_tchange(){
 								    <tr>
         	  							<td align="right">商品详细描述：</td>
             							<td colspan="5">
-            							<textarea rows="3" cols="70" name="commdetails"></textarea>
+            							<textarea rows="3" cols="110" name="commdetails"><c:out value="${entity.commdetails}"></c:out></textarea>
 			  							</td>
         							</tr>
 	 							</table >

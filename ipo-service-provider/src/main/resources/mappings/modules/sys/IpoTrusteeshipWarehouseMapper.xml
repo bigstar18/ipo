@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipWarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="WAREHOUSE_ID" property="warehouseId" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="WareResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoTrusteeWarehouse" >
+    <id column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_TRUSTEESHIP_WAREHOUSE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
+    insert into IPO_TRUSTEESHIP_WAREHOUSE (ID, COMMODITY_ID, COMMODITYNAME,WAREHOUSE_ID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{commodityId,jdbcType=VARCHAR},#{commodityName,jdbcType=VARCHAR}, #{warehouseId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
+    update IPO_TRUSTEESHIP_WAREHOUSE
+    set COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
+     COMMODITYNAME = #{commodityName,jdbcType=VARCHAR},
+      WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select ID, COMMODITY_ID,COMMODITYNAME, WAREHOUSE_ID
+    from IPO_TRUSTEESHIP_WAREHOUSE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, COMMODITY_ID, COMMODITYNAME,WAREHOUSE_ID
+    from IPO_TRUSTEESHIP_WAREHOUSE
+  </select>
+  
+    <select id="selectByCommodity" resultMap="WareResultMap"  parameterType="map">
+     SELECT G.COMMODITY_ID, G.COMMODITYNAME FROM (SELECT T.COMMODITY_ID,T.COMMODITYNAME, ROWNUM TNO
+     FROM (SELECT DISTINCT W.COMMODITY_ID, C.COMMODITYNAME FROM IPO_TRUSTEESHIP_WAREHOUSE W
+     LEFT JOIN IPO_COMMODITY_CONF C  ON W.COMMODITY_ID = C.COMMODITYID) T where 1=1
+       <if test="record.commodityId != null" >
+       and T.COMMODITY_ID like concat (#{record.commodityId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="record.commodityName != null" >
+       and T.COMMODITYNAME like concat (#{record.commodityName,jdbcType=VARCHAR},'%')
+      </if>
+     ) G WHERE G.TNO BETWEEN  #{beginnum} AND #{endnum}
+    </select>
+  
+  <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeWarehouse">
+    SELECT COUNT(*)  FROM (SELECT DISTINCT W.COMMODITY_ID, C.COMMODITYNAME
+    FROM IPO_TRUSTEESHIP_WAREHOUSE W  LEFT JOIN IPO_COMMODITY_CONF C ON W.COMMODITY_ID = C.COMMODITYID) T WHERE 1=1
+       <if test="commodityId != null" >
+       and T.COMMODITY_ID like concat (#{commodityId,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="commodityName != null" >
+       and T.COMMODITYNAME like concat (#{commodityName,jdbcType=VARCHAR},'%')
+      </if>
+    </select>
+  
+</mapper>

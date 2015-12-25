@@ -31,7 +31,8 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("CommodityController")
 public class CommodityController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CommodityController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(CommodityController.class);
 
 	@Autowired
 	private CommodityService commodityService;
@@ -86,7 +87,8 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/findComms", method = RequestMethod.POST)
 	@ResponseBody
-	public String findCommsx(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String findCommsx(@RequestParam("page") String page,
+			@RequestParam("rows") String rows) throws IOException {
 		log.info("分页查询发售商品信息");
 		try {
 			List<Commodity> clist = commodityService.findCommList(page, rows);
@@ -111,9 +113,13 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("status") String status,
-			@RequestParam("commodityname") String commodityname, @RequestParam("commodityid") String commodityid,
-			@RequestParam("starttime") String starttime, @RequestParam("endtime") String endtime) throws IOException {
+	public String QueryByConditions(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("status") String status,
+			@RequestParam("commodityname") String commodityname,
+			@RequestParam("commodityid") String commodityid,
+			@RequestParam("starttime") String starttime,
+			@RequestParam("endtime") String endtime) throws IOException {
 		log.info("条件查询发售商品信息");
 		try {
 			Commodity comm = new Commodity();
@@ -136,7 +142,8 @@ public class CommodityController {
 				Date date = sdf.parse(endtime);
 				comm.setEndtime(date);
 			}
-			List<Commodity> clist = commodityService.queryByConditions(page, rows, comm);
+			List<Commodity> clist = commodityService.queryByConditions(page,
+					rows, comm);
 			int totalnums = commodityService.countByConditions(comm).intValue();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -158,11 +165,13 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/findApplyNums", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
-			throws IOException {
+	public String findApplyNums(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("userid") String userid) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid);
+			List<Distribution> dlist = distributionService.getDistriList(page,
+					rows, userid);
 			// int totalnums = distributionService.getAllDistris();
 			ResponseResult result = new ResponseResult();
 			// result.setTotal(totalnums);

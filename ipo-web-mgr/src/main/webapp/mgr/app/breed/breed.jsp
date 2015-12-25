@@ -315,13 +315,13 @@ function setSortName(value) {
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
-			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 			  								<span id="dealerpubcharatioPercent">%</span><span class="required">*</span>         
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
-												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+												style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 											<span id="mktdeapubcharatioPercent">%</span><span class="required">*</span>          
 								      	</td>
 								      	<td>&nbsp;</td>
@@ -336,13 +336,13 @@ function setSortName(value) {
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
 			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />  
+			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"  style="ime-mode:disabled; width: 100" />  
 			  								<span id="publishercharatioPercent">%</span><span class="required">*</span>       
             							</td>
             							<td align="right">发行商发行手续费市场留存比例：</td>
 										<td>
 										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />          
+			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"  style="ime-mode:disabled; width: 100" />          
 										<span id="mktpubcharatioPercent">%</span><span class="required">*</span>   
 										</td>
 										<td>&nbsp;</td>

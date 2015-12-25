@@ -80,7 +80,7 @@ function updatePoundage(){
 		<div class="required" style="color: red">提货类型为自提时需要提货单密码，在线配送是不需要提货单密码！  </div>
 	</div>
 	</div>
-		<from>
+		<form>
 		<table border="0" width="95%" height="100" align="center">
 								<tr>
 									<td>
@@ -122,7 +122,7 @@ function updatePoundage(){
 									</td>
 								</tr>
 							</table>
-		</from>
+		</form>
 				
 	</body>
 </html>
