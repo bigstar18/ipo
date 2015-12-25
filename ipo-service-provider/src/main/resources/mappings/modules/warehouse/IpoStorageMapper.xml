@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoStorageMapper" >
-  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
+<mapper namespace="com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
     <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="STORAGENUM" property="storagenum" jdbcType="DECIMAL" />
@@ -14,7 +14,6 @@
     <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
-    <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="SResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStorageExtended" >
     <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
@@ -34,29 +33,34 @@
     <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
     <result column="PUBLISHERNAME" property="publishername" jdbcType="VARCHAR" />
   </resultMap>
-   <sql id="Base_Column_List" >
+  
+  <sql id="Base_Column_My" >
+    STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
+    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID
+  </sql>
+  
+  <sql id="Base_Column_List" >
      STORAGEID, COMMODITYID, STORAGENUM, 
       STARTNUM, ENDNUM, OPERATORID, 
       WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
       STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
   </sql>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
-    insert into IPO_STORAGE (STORAGEID, COMMODITYID, STORAGENUM, 
-      STARTNUM, ENDNUM, OPERATORID, 
-      WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
-      STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
+    insert into IPO_STORAGE (
+    <include refid="Base_Column_My" />
       )
     values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
-      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}, #{storagecounts,jdbcType=DECIMAL}
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStorage" >
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
     update IPO_STORAGE
     set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       STORAGENUM = #{storagenum,jdbcType=DECIMAL},
@@ -68,29 +72,89 @@
       STORAGESTATE = #{storagestate,jdbcType=DECIMAL},
       STORAGEDATE = #{storagedate,jdbcType=DATE},
       WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR},
-      MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR},
-      STORAGECOUNTS = #{storagecounts,jdbcType=DECIMAL}
+      MAPPERBILLID = #{mapperbillid,jdbcType=VARCHAR}
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </update>
-   <update id="updateStorage" parameterType="map">
+  
+  <update id="updateStorage" parameterType="map">
     update IPO_STORAGE
     set MARKETAUDITORID = #{checker,jdbcType=VARCHAR},
       STORAGESTATE = #{state,jdbcType=DECIMAL}
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </update>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
-    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
+    select
+    <include refid="Base_Column_My" />
     from IPO_STORAGE
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </select>
+  
+   <select id="selectByCommodityId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_My" />
+    from IPO_STORAGE
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByStorageDate" resultMap="BaseResultMap" parameterType="java.util.Date" >
+    select
+    <include refid="Base_Column_My" />
+    from IPO_STORAGE
+    where STORAGEDATE = #{storagedate,jdbcType=DATE}
+  </select>
+  
+   <select id="selectByStorageState" resultMap="BaseResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_My" />
+    from IPO_STORAGE
+    where STORAGESTATE = #{storagestate,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectAll" resultMap="BaseResultMap" >
-    select STORAGEID, COMMODITYID, STORAGENUM, STARTNUM, ENDNUM, OPERATORID, WAREHOUSEAUDITORID, 
-    MARKETAUDITORID, STORAGESTATE, STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
+    select 
+    <include refid="Base_Column_My" />
     from IPO_STORAGE
   </select>
   
-   <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
+  
+  <select id="queryUnionByPage" resultType="com.yrdce.ipo.modules.warehouse.entity.StorageUnion" parameterType="map">
+  
+  SELECT D.STORAGEID, D.COMMODITYID, D.COMMODITYNAME,D.BROKERID,D.NAME,D.STORAGENUM,D.OPERATORID,D.WAREHOUSEAUDITORID,
+  D.MARKETAUDITORID,D.STORAGESTATE,D.STORAGEDATE FROM (
+  SELECT A.STORAGEID, A.COMMODITYID, A.COMMODITYNAME,A.BROKERID,A.NAME,A.STORAGENUM,A.OPERATORID,A.WAREHOUSEAUDITORID,
+  A.MARKETAUDITORID,A.STORAGESTATE,A.STORAGEDATE, ROWNUM RN FROM(
+  SELECT s.STORAGEID, s.COMMODITYID, c.COMMODITYNAME,b.BROKERID,b.NAME,s.STORAGENUM,s.OPERATORID,s.WAREHOUSEAUDITORID,
+  s.MARKETAUDITORID,s.STORAGESTATE,s.STORAGEDATE FROM IPO_STORAGE s, BR_BROKER b,IPO_COMMODITY_CONF c
+  WHERE s.COMMODITYID = c.COMMODITYID and c.PUBMEMBERID = b.brokerid
+  <if test="storageUnion.storageid != null" >
+       and s.STORAGEID like #{storageUnion.storageid,jdbcType=VARCHAR} 
+  </if>
+  <if test="storageUnion.commodityid != null" >
+       and s.COMMODITYID like #{storageUnion.commodityid,jdbcType=VARCHAR} 
+  </if>
+  <if test="storageUnion.storagedate != null" >
+       and s.STORAGEDATE = #{storageUnion.storagedate,jdbcType=DATE} 
+  </if>
+  <if test="storageUnion.storagestate != null" >
+       and s.STORAGESTATE = #{storageUnion.storagestate,jdbcType=INTEGER} 
+  </if>
+  )A
+  )D
+  WHERE RN BETWEEN #{beginnum,jdbcType=INTEGER} and  #{endnum,jdbcType=INTEGER}
+
+  </select>
+  
+  <select id="countStorage" resultType="int">
+  SELECT COUNT(*) FROM (
+  SELECT s.STORAGEID, s.COMMODITYID, c.COMMODITYNAME,b.BROKERID,b.NAME,s.STORAGENUM,s.OPERATORID,s.WAREHOUSEAUDITORID,
+  s.MARKETAUDITORID,s.STORAGESTATE,s.STORAGEDATE FROM IPO_STORAGE s, BR_BROKER b,IPO_COMMODITY_CONF c
+  WHERE s.COMMODITYID = c.COMMODITYID and c.PUBMEMBERID = b.brokerid
+  )
+  </select>
+  
+  <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
    select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
     from (select t.*, c.commodityname, c.pubmemberid from ipo_storage t  left join ipo_commodity_conf c
     on t.commodityid = c.commodityid) a left join br_broker b
@@ -124,4 +188,5 @@
        and STORAGESTATE = #{storagestate,jdbcType=DECIMAL}
       </if>
   </select>
+  
 </mapper>

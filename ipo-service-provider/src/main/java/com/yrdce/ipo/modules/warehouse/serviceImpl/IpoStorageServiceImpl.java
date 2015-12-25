@@ -1,4 +1,4 @@
-package com.yrdce.ipo.modules.sys.serviceImpl.warehouse;
+package com.yrdce.ipo.modules.warehouse.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,24 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.esotericsoftware.minlog.Log;
-import com.yrdce.ipo.modules.sys.dao.IpoStorageMapper;
-import com.yrdce.ipo.modules.sys.entity.IpoStorage;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoStorageExtended;
-import com.yrdce.ipo.modules.sys.service.warehouse.IpoStorageService;
 import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
-import com.yrdce.ipo.modules.sys.vo.warehouse.IpoStorageVo;
+import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
+import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
+import com.yrdce.ipo.modules.warehouse.entity.StorageUnion;
+import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
+import com.yrdce.ipo.modules.warehouse.vo.StorageUnionVo;
 
 @Service("ipoStorageService")
-public class IpoStorageServiceImpl implements IpoStorageService {
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(IpoStorageServiceImpl.class);
+public class IpoStorageServiceImpl implements IpoStorageService{
 
 	@Autowired
 	private IpoStorageMapper ipoStorageMapper;
-
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfMapper;
+	
 	@Override
 	public int deleteByPrimaryKey(String storageid) {
-		if (storageid != null && storageid != "") {
+		if(storageid != null && storageid != ""){
 			return ipoStorageMapper.deleteByPrimaryKey(storageid);
 		}
 		return 0;
@@ -35,7 +39,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	@Override
 	public int insert(IpoStorageVo record) {
 		IpoStorage ipoStorage = new IpoStorage();
-		if (record != null) {
+		if(record != null){
 			BeanUtils.copyProperties(ipoStorage, record);
 			return ipoStorageMapper.insert(ipoStorage);
 		}
@@ -44,10 +48,9 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public IpoStorageVo selectByPrimaryKey(String storageid) {
-		if (storageid != null && storageid != "") {
+		if(storageid != null && storageid != ""){
 			IpoStorageVo ipoStorageVo = new IpoStorageVo();
-			BeanUtils.copyProperties(ipoStorageVo,
-					ipoStorageMapper.selectByPrimaryKey(storageid));
+			BeanUtils.copyProperties(ipoStorageMapper.selectByPrimaryKey(storageid),ipoStorageVo);
 			return ipoStorageVo;
 		}
 		return null;
@@ -56,15 +59,15 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	@Override
 	public List<IpoStorageVo> selectAll() {
 		List<IpoStorageVo> IpoSVos = new ArrayList<IpoStorageVo>();
-		BeanUtils.copyProperties("IpoSVos", ipoStorageMapper.selectAll());
+		BeanUtils.copyProperties(ipoStorageMapper.selectAll(),"IpoSVos");
 		return IpoSVos;
 	}
 
 	@Override
 	public int updateByPrimaryKey(IpoStorageVo record) {
-		if (record != null) {
+		if(record != null){
 			IpoStorage ipoStorage = new IpoStorage();
-			BeanUtils.copyProperties(ipoStorage, record);
+			BeanUtils.copyProperties(ipoStorage,record);
 			return ipoStorageMapper.updateByPrimaryKey(ipoStorage);
 		}
 		return 0;
@@ -72,10 +75,9 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public IpoStorageVo selectByCommodityId(String commodityid) {
-		if (commodityid != null) {
+		if(commodityid != null){
 			IpoStorageVo IpoStorageVo = new IpoStorageVo();
-			BeanUtils.copyProperties(IpoStorageVo,
-					ipoStorageMapper.selectByCommodityId(commodityid));
+			BeanUtils.copyProperties(ipoStorageMapper.selectByCommodityId(commodityid),IpoStorageVo);
 			return IpoStorageVo;
 		}
 		return null;
@@ -83,10 +85,9 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public IpoStorageVo selectByStorageDate(Date storagedate) {
-		if (storagedate != null) {
+		if(storagedate != null){
 			IpoStorageVo IpoStorageVo = new IpoStorageVo();
-			BeanUtils.copyProperties(IpoStorageVo,
-					ipoStorageMapper.selectByStorageDate(storagedate));
+			BeanUtils.copyProperties(ipoStorageMapper.selectByStorageDate(storagedate),IpoStorageVo);
 			return IpoStorageVo;
 		}
 		return null;
@@ -94,10 +95,46 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	public IpoStorageVo selectByStorageState(int storagestate) {
-		IpoStorageVo IpoStorageVo = new IpoStorageVo();
-		BeanUtils.copyProperties(IpoStorageVo,
-				ipoStorageMapper.selectByStorageState(storagestate));
-		return IpoStorageVo;
+			IpoStorageVo IpoStorageVo = new IpoStorageVo();
+			BeanUtils.copyProperties(IpoStorageVo, ipoStorageMapper.selectByStorageState(storagestate));
+			return IpoStorageVo;
+	}
+
+	public List<StorageUnion> queryUnionByPage(Integer beginnum, Integer endnum, StorageUnionVo storageUnionVo) {
+		StorageUnion storageUnion = new StorageUnion();
+		if(storageUnionVo != null){
+			BeanUtils.copyProperties(storageUnion,storageUnionVo);
+			return ipoStorageMapper.queryUnionByPage(beginnum, endnum, storageUnion);
+		}
+		return null;
+	}
+	
+	
+	
+	public List<StorageUnionVo> queryVos(Integer beginnum, Integer endnum, StorageUnionVo storageUnionVo){
+		List<StorageUnion> resultlist = new ArrayList<StorageUnion>();
+		List<StorageUnionVo> volist = new ArrayList<StorageUnionVo>();
+		resultlist = queryUnionByPage(beginnum,endnum,storageUnionVo);
+		if(resultlist != null && resultlist.size() >0){
+			for(StorageUnion storageUnion:resultlist){
+				StorageUnionVo storageUnionVo2 = new StorageUnionVo();
+				if(storageUnion != null){
+					BeanUtils.copyProperties(storageUnion,storageUnionVo2);
+					IpoCommodityConf ipoCommodityConf = ipoCommodityConfMapper.findIpoCommConfByCommid(storageUnion.getCommodityid());
+					if(ipoCommodityConf != null && ipoCommodityConf.getDeliunittocontract()!= null){
+						storageUnionVo2.setInstoragenum((storageUnion.getStoragenum()*ipoCommodityConf.getDeliunittocontract().longValue()));	
+					}
+				}
+				volist.add(storageUnionVo2);
+			}
+		}
+		return volist;
+		
+	}
+
+	@Override
+	public int countStorage() {
+		return ipoStorageMapper.countStorage();
 	}
 
 	@Override
@@ -150,5 +187,4 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 		}
 		return 0;
 	}
-
 }
