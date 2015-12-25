@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
 
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
 import gnnt.MEBS.logonServerUtil.au.LogonActualize;
@@ -25,12 +24,9 @@ import gnnt.MEBS.logonService.vo.UserManageVO;
 public abstract class ActiveUserManager {
 	private static final transient Logger logger = LoggerFactory.getLogger(ActiveUserManager.class);
 
+	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
+	public static DataSource ds;
 	static int configId = 223001;
-
-	// @Value("#{APP_PROP['ipo.configId']}")
-	// public void setPrivateName(String privateName) {
-	// configId = privateName;
-	// }
 
 	public static CheckUserResultVO checkUser(String userID, long sessionID, int fromModuleID, String selfLogonType, String fromLogonType,
 			int selfModuleID) {
@@ -100,6 +96,27 @@ public abstract class ActiveUserManager {
 		return result;
 	}
 
+	/**
+	 * 没啥用
+	 * 
+	 * @param traderID
+	 * @param request
+	 * @param sessionID
+	 * @param logonType
+	 * @param selfModuleID
+	 * @return
+	 */
+	public static boolean logon(String traderID, HttpServletRequest request, long sessionID, String logonType, int selfModuleID) {
+		boolean result = true;
+
+		// request.getSession().setAttribute("IsSuperAdmin", Boolean.valueOf(isSuperAdminRole));
+		request.getSession().setAttribute("sessionID", Long.valueOf(sessionID));
+		request.getSession().setAttribute("LogonType", logonType);
+		request.getSession().setMaxInactiveInterval(120 * 60);
+
+		return result;
+	}
+
 	public static void logoff(HttpServletRequest request) throws Exception {
 
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
@@ -117,9 +134,6 @@ public abstract class ActiveUserManager {
 		}
 	}
 
-	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
-	public static WebApplicationContext wac;
-
 	/**
 	 * 
 	 * 获取对应 AU 连接信息
@@ -134,7 +148,7 @@ public abstract class ActiveUserManager {
 		if (logonManagerMap.get(configID) == null) {
 			synchronized (ActiveUserManager.class) {
 				LogonManagerDAO logonManagerDAO = new LogonManagerDAO();
-				logonManagerDAO.setDataSource((DataSource) wac.getBean("dataSourceForQuery"));
+				logonManagerDAO.setDataSource(ds);
 				LogonConfigPO logonConfigPO = logonManagerDAO.getLogonConfigByID(configID);
 				if (logonConfigPO != null) {
 					RemoteLogonServerVO logonManager = new RemoteLogonServerVO();
