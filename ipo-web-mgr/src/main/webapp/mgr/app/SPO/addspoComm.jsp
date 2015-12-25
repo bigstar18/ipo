@@ -32,6 +32,47 @@ function rationTypeChange(type){
 	}
 }
 
+function test(){
+	parent.$('#dd').window('close');
+	parent.$('depositInfo').datagrid("reload");
+}
+
+function addSPOInfo(){
+	var commonityId = $("#commId").val();
+	var registerDate = $("#registerDate").val();
+	var spoDate = $("#spoDate").val();
+	var ipoDate = $("#ipoDate").val();
+	var rationType = $("#rationType").val();
+	var rationCounts = $("#rationCounts").val();
+	var spoPrice = $("#spoPrice").val();
+	var positionsPrice = $("#positionsPrice").val();
+	var minRationCounts = $("#minRationCounts").val();
+	var minRationProportion = $("#minRationProportion").val();
+	
+	
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/SPOController/insertSPOInfo",
+		data:{commonityId:commonityId,
+			registerDate:registerDate,
+			spoDate:spoDate,
+			ipoDate:ipoDate,
+			rationType:rationType,
+			rationCounts:rationCounts,
+			spoPrice:spoPrice,
+			positionsPrice:positionsPrice,
+			minRationCounts:minRationCounts,
+			minRationProportion:minRationProportion
+		},
+		success:function(data){
+        	if(data=="success")
+        	  $('#depositInfo').datagrid('reload');
+        	else if(data=="error")
+        		alert("操作失败，请稍后再试");
+         } 
+	});
+}
+
 </script>
 </head>
 <body>
@@ -57,7 +98,7 @@ function rationTypeChange(type){
 				<td>
 				<span>商品代码：</span>
 				<span>
-					<select style="width:150px">
+					<select id="commId" style="width:150px">
 						<option>请选择</option>
 					</select>
 				</span>
@@ -67,7 +108,7 @@ function rationTypeChange(type){
 				<td>
 				<span>登记日期：</span>
 				<span>
-					<input class="easyui-datebox" style="width:150px">
+					<input id="registerDate" class="easyui-datebox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -75,7 +116,7 @@ function rationTypeChange(type){
 				<td>
 				<span>增发日期：</span>
 				<span>
-					<input class="easyui-datebox" style="width:150px">
+					<input id="spoDate" class="easyui-datebox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -83,7 +124,7 @@ function rationTypeChange(type){
 				<td>
 				<span>上市日期：</span>
 				<span>
-					<input class="easyui-datebox" style="width:150px">
+					<input id="ipoDate" class="easyui-datebox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -103,7 +144,7 @@ function rationTypeChange(type){
 				<td>
 				<span>配售数量：</span>
 				<span>
-					<input class="easyui-textbox" style="width:150px">
+					<input id="rationCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>	
@@ -111,7 +152,7 @@ function rationTypeChange(type){
 				<td>
 				<span>增发价格：</span>
 				<span>
-					<input class="easyui-textbox" style="width:150px">
+					<input id="spoPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -119,7 +160,7 @@ function rationTypeChange(type){
 				<td>
 				<span>持仓价格：</span>
 				<span>
-					<input class="easyui-textbox" style="width:150px">
+					<input id="positionsPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -127,7 +168,7 @@ function rationTypeChange(type){
 				<td>
 				<span>最小配售数量：</span>
 				<span style="margin-right:25px">
-					<input class="easyui-textbox" style="width:150px">
+					<input id="minRationCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -135,7 +176,7 @@ function rationTypeChange(type){
 				<td>
 				<span >最小配售比例：</span>
 				<span style="margin-right:18px">
-					<input class="easyui-textbox" style="width:150px">%
+					<input id="minRationProportion" class="easyui-textbox" style="width:150px">%
 				</span>	
 				</td>
 			</tr>
@@ -143,8 +184,8 @@ function rationTypeChange(type){
 		<table width="100%" style="margin-top:15px">
 			<tr >
 				<td align="center">
-					<button class="btn_sec" id="add" onclick="">添加</button>
-					<button class="btn_sec" onclick="">关闭</button>
+					<button class="btn_sec" id="add" onclick="addSPOInfo()">添加</button>
+					<button class="btn_sec" onclick="test()">关闭</button>
 				</td>
 			</tr>
 		</table>
