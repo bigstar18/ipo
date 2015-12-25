@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+    <id column="SPO_ID" property="spoId" jdbcType="VARCHAR" />
+    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="SPO_COUNTS" property="spoCounts" jdbcType="DECIMAL" />
+    <result column="SPO_PRICE" property="spoPrice" jdbcType="DECIMAL" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
+    <result column="SPO_DATE" property="spoDate" jdbcType="DATE" />
+    <result column="IPO_DATE" property="ipoDate" jdbcType="DATE" />
+    <result column="RATION_SATE" property="rationSate" jdbcType="DECIMAL" />
+    <result column="RATION_TYPE" property="rationType" jdbcType="VARCHAR" />
+    <result column="NOT_RATION_COUNTS" property="notRationCounts" jdbcType="DECIMAL" />
+    <result column="SUCCESS_RATION_COUNTS" property="successRationCounts" jdbcType="DECIMAL" />
+    <result column="MIN_RATION_COUNTS" property="minRationCounts" jdbcType="DECIMAL" />
+    <result column="MIN_RATION_PROPORTION" property="minRationProportion" jdbcType="DECIMAL" />
+    <result column="REBATE" property="rebate" jdbcType="DECIMAL" />
+    <result column="BE_LISTED" property="beListed" jdbcType="DECIMAL" />
+    <result column="PRE_PLACEMENT" property="prePlacement" jdbcType="DECIMAL" />
+    <result column="POSITIONS_PRICE" property="positionsPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from IPO_SPO_COMMODITYMANMAAGEMENT
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+    insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
+      SPO_PRICE, REGISTER_DATE, SPO_DATE, 
+      IPO_DATE, RATION_SATE, RATION_TYPE, 
+      NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
+      MIN_RATION_PROPORTION, REBATE, BE_LISTED, 
+      PRE_PLACEMENT, POSITIONS_PRICE)
+    values (#{spoId,jdbcType=VARCHAR}, #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
+      #{spoPrice,jdbcType=DECIMAL}, #{registerDate,jdbcType=DATE}, #{spoDate,jdbcType=DATE}, 
+      #{ipoDate,jdbcType=DATE}, #{rationSate,jdbcType=DECIMAL}, #{rationType,jdbcType=VARCHAR}, 
+      #{notRationCounts,jdbcType=DECIMAL}, #{successRationCounts,jdbcType=DECIMAL}, #{minRationCounts,jdbcType=DECIMAL}, 
+      #{minRationProportion,jdbcType=DECIMAL}, #{rebate,jdbcType=DECIMAL}, #{beListed,jdbcType=DECIMAL}, 
+      #{prePlacement,jdbcType=DECIMAL}, #{positionsPrice,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+    update IPO_SPO_COMMODITYMANMAAGEMENT
+    set COMMUNITY_ID = #{communityId,jdbcType=VARCHAR},
+      SPO_COUNTS = #{spoCounts,jdbcType=DECIMAL},
+      SPO_PRICE = #{spoPrice,jdbcType=DECIMAL},
+      REGISTER_DATE = #{registerDate,jdbcType=DATE},
+      SPO_DATE = #{spoDate,jdbcType=DATE},
+      IPO_DATE = #{ipoDate,jdbcType=DATE},
+      RATION_SATE = #{rationSate,jdbcType=DECIMAL},
+      RATION_TYPE = #{rationType,jdbcType=VARCHAR},
+      NOT_RATION_COUNTS = #{notRationCounts,jdbcType=DECIMAL},
+      SUCCESS_RATION_COUNTS = #{successRationCounts,jdbcType=DECIMAL},
+      MIN_RATION_COUNTS = #{minRationCounts,jdbcType=DECIMAL},
+      MIN_RATION_PROPORTION = #{minRationProportion,jdbcType=DECIMAL},
+      REBATE = #{rebate,jdbcType=DECIMAL},
+      BE_LISTED = #{beListed,jdbcType=DECIMAL},
+      PRE_PLACEMENT = #{prePlacement,jdbcType=DECIMAL},
+      POSITIONS_PRICE = #{positionsPrice,jdbcType=DECIMAL}
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, 
+    RATION_SATE, RATION_TYPE, NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
+    MIN_RATION_PROPORTION, REBATE, BE_LISTED, PRE_PLACEMENT, POSITIONS_PRICE
+    from IPO_SPO_COMMODITYMANMAAGEMENT
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, 
+    RATION_SATE, RATION_TYPE, NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
+    MIN_RATION_PROPORTION, REBATE, BE_LISTED, PRE_PLACEMENT, POSITIONS_PRICE
+    from IPO_SPO_COMMODITYMANMAAGEMENT
+  </select>
+</mapper>
