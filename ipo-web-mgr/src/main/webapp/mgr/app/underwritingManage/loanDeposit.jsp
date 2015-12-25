@@ -22,7 +22,7 @@ $(document).ready(function() {
 });
 //加载所有信息
 function getAllInfo(){
-	$('#name').val("");
+	 $('#name').val("");
 	 $('#depositInfo').datagrid({  
          title:'承销贷款押金',  
          iconCls:'icon-ok', 
@@ -138,7 +138,7 @@ function doSearch(){
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
-					商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
+					商品代码: <input id="name" name="userid" class="easyui-textbox" style="border:1px solid #ccc" value="22">
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="getAllInfo()">重置</a>					
 					</form> 

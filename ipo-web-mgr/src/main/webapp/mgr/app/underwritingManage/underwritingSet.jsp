@@ -21,6 +21,7 @@ $(document).ready(function(){
  
  function getAllInfo(){
 	 $('#tt').datagrid({
+		 title:'承销信息',
 	      iconCls:'icon-ok',
 	       method:"get",
 	       height:400,
@@ -30,8 +31,11 @@ $(document).ready(function(){
 	      striped:true,
 	      singleSelect:true,
 	      collapsible:false,
-		  toolbar:"#tb",
-	      url:'<%=request.getContextPath()%>/SpacialSetController/getAllInfo', //搜索前,触发此action请求所有用户信息 
+		  toolbar:[{text: '添加', iconCls: 'icon-add'},'-',
+		           {text: '删除', iconCls: 'icon-remove'},'-',
+		           {text:'<input id="name" name="commodityid" class="easyui-textbox" style="border:0px solid #ccc;width:180px;height:18px">'}
+		           ],
+	      //url:'<%=request.getContextPath()%>/SpacialSetController/getAllInfo', //搜索前,触发此action请求所有用户信息 
 	      fitColumns:true,//允许表格自动缩放,以适应父容器
 	      loadMsg:'数据加载中......', 
 	      sortName:'sectionid',
@@ -114,9 +118,18 @@ function deleteList(){
 		alert("请选择要删除的手续费");
 	}
 }
+
+
+function OpenFrame() {
+	$('#dd').empty();
+    $('#dd').append("<iframe style='width:100%;height:100%' src='../underwritingManage/addSubCommonity.jsp'></iframe>");
+    $('#dd').window('open');
+}
 </script>
 </head>
 <body>
+<div id="dd" title="承销商认购设置"  class="easyui-window"  closed="true" style="width:800px;height:600px;padding:5px;">
+</div>
 <div id="main_body">
 
 	<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
@@ -136,7 +149,7 @@ function deleteList(){
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="">重置</a>					
 					</form> 
 					</div >
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addForward()">添加</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="">删除</a>					
 					</div>
 				

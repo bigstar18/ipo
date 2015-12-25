@@ -4,17 +4,13 @@
 <html>
 	<head>
 	    <base target="_self" />
-		<title>添加特殊手续费</title>
+		<title>承销商认购设置</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		
 <script type="text/javascript"> 
-
-function goBackPage(){
-	document.location.href = "<%=request.getContextPath()%>/LoanDepositController/goBackPage?randnum="+Math.floor(Math.random()*1000000);
-}
 
 function addPoundage(){
 	 $.ajax({ 
@@ -45,9 +41,15 @@ function addPoundage(){
 	</head>
 
 	<body>
+	<div class="warning">
+		<div class="content" >
+			<span>温馨提示 :</span>
+			<span>认购商品添加</span>
+		</div>
+	</div>
 		<form id="frm" name="frm">
 			<div class="div_cx" >
-				<table border="0" width="60%"align="center">
+				<table border="0" width="100%"align="center">
 					<tr>
 						<td>
 							<table border="0" width="95%" height="100" align="center">
@@ -119,8 +121,6 @@ function addPoundage(){
 							<td colspan="4" align="center">
 								<div class="div_gn">
 								    	<input type="button" value="添加" onclick="addPoundage()" class="anniu_btn"  id="add"/>
-										&nbsp;&nbsp;
-										<input type="button" value="返回" onclick="goBackPage()" class="anniu_btn"  id="back"/>
 								</div>
 							</td>
 					</tr>
