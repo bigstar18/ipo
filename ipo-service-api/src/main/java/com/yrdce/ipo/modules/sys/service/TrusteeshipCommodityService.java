@@ -27,7 +27,28 @@ public interface TrusteeshipCommodityService {
 	 * @return
 	 */
 	public long queryApplyForCount(TrusteeshipCommodity commodity);
+	/**
+	 * 删除托管计划
+	 * @param commodity
+	 */
 	
+	public void deletePlan(TrusteeshipCommodity commodity);
+	
+	/**
+	 * 添加托管计划
+	 * @param commodity
+	 */
+	public void savePlan(TrusteeshipCommodity commodity);
+	/**
+	 * 更新托管计划
+	 * @param commodity
+	 */
+	public void updatePlan(TrusteeshipCommodity commodity);
+	/**
+	 * 查找托管计划
+	 * @return
+	 */
+	public TrusteeshipCommodity findPlanById(Long id);
 	
 	/**
 	 * 新增商户申购的托管商品
@@ -59,6 +80,9 @@ public interface TrusteeshipCommodityService {
 	 * @param ship
 	 */
 	public void cancelMyApply(Trusteeship ship)throws Exception;
+	
+	
+	
 	
 	
     

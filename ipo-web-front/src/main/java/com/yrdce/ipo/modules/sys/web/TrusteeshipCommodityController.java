@@ -49,6 +49,7 @@ public class TrusteeshipCommodityController {
 			throws Exception {
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setCommodityId(request.getParameter("commodityId"));
+		commodity.setCommodityName(request.getParameter("commodityName"));
 		long count=trusteeshipCommodityService.queryApplyForCount(commodity);
 		List<TrusteeshipCommodity> dataList=null;
 		if(count>0){

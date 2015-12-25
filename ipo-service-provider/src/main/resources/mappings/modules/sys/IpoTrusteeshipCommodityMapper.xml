@@ -9,17 +9,27 @@
     <result column="commodityname" property="commodityName"  />
     <result column="price" property="price"  />
     <result column="counts" property="counts"  />
+    <result column="purchase_rate" property="purchaseRate"  />
+    <result column="remark" property="remark"  />
+    <result column="delete_flag" property="deleteFlag"  />
+    <result column="create_user" property="createUser"  />
+    <result column="create_date" property="createDate"  />
+    <result column="update_user" property="updateUser"  />
+    <result column="update_date" property="updateDate"  />
   </resultMap>
- 
+    
     
   <select id="queryApplyForPage" resultMap="IpoTrusteeshipCommodityResultMap"  parameterType="map" >
        select * from (
 	        select tc.id,tc.plan,tc.commodity_id,conf.commodityname,conf.price,conf.counts,rownum as row_num  
-			from IPO_TRUSTEESHIP_COMMODITY tc
-			left join ipo_commodity_conf conf on (tc.commodity_id=conf.commodityid)
+			from ipo_trusteeship_commodity tc
+			left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 			where tc.delete_flag=0 
 			<if test="commodity.commodityId!=null and commodity.commodityId!='' ">
 				and tc.commodity_id=#{commodity.commodityId} 
+			</if>
+			<if test="commodity.commodityName!=null and commodity.commodityName!='' ">
+				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
 			</if>
 			and #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
@@ -29,12 +39,46 @@
   <select id="queryApplyForCount" resultType="java.lang.Long"    parameterType="map" >
       select count(tc.id) as count_ 
 	  from ipo_trusteeship_commodity tc
-	  left join ipo_commodity_conf conf on (tc.commodity_id=conf.commodityid)
+	  left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 	  where tc.delete_flag=0
 	  <if test="commodity.commodityId!=null and commodity.commodityId!='' ">
 			and tc.commodity_id=#{commodity.commodityId} 
 	  </if>
+	  <if test="commodity.commodityName!=null and commodity.commodityName!='' ">
+				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
+	  </if>
   </select>
+  
+  <update id="deleteById" parameterType="map">
+      update ipo_trusteeship_commodity t set t.delete_flag=1,t.update_user=#{commodity.updateUser},
+       t.update_date=#{commodity.updateDate} 
+      where t.id=#{commodity.id} 
+  </update>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity" >
+	    <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+		select seq_ipo_trusteeship_commodity.nextval from dual
+		</selectKey>
+	       insert into ipo_trusteeship_commodity(
+	 			id, commodity_id, plan, purchase_rate, remark,create_user,create_date 
+	 		)values(
+	           #{id,jdbcType=INTEGER},#{commodity.commodityId},#{commodity.plan},#{commodity.purchaseRate},
+	           #{commodity.remark},#{commodity.createUser},#{commodity.createDate,jdbcType=TIMESTAMP} 
+	       ) 
+   </insert>
+  
+   <select id="findById" resultMap="IpoTrusteeshipCommodityResultMap"  parameterType="java.lang.Long" >
+       select id, commodity_id, plan, purchase_rate, remark, delete_flag, create_user, 
+              create_date, update_user, update_date 
+	   from ipo_trusteeship_commodity where id=#{id}
+  </select>
+  
+  <update id="update" parameterType="map">
+      update ipo_trusteeship_commodity t set t.commodity_id=#{commodity.commodityId},t.plan=#{commodity.plan},
+			t.purchase_rate=#{commodity.purchaseRate},t.remark=#{commodity.remark},
+			t.update_user=#{commodity.updateUser}, t.update_date=#{commodity.updateDate,jdbcType=TIMESTAMP} 
+      where t.id=#{commodity.id}
+  </update>
   
   
   

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -73,6 +74,50 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		 return count;
 	}
 
+	/**
+	 * 删除托管计划
+	 * @param id
+	 */
+	@Transactional
+	public void deletePlan(TrusteeshipCommodity commodity){
+		commodity.setUpdateDate(new Date());
+		shipCommodityMapper.deleteById(commodity);
+	}
+	
+	
+	/**
+	 * 添加托管计划
+	 * @param commodity
+	 */
+	@Transactional
+	public void savePlan(TrusteeshipCommodity commodity){
+		commodity.setCreateDate(new Date());
+		shipCommodityMapper.insert(commodity);
+	}
+	
+	/**
+	 * 更新托管计划
+	 */
+	@Transactional
+	public void updatePlan(TrusteeshipCommodity commodity){
+		commodity.setUpdateDate(new Date());
+		shipCommodityMapper.update(commodity);
+	}
+	
+	
+	/**
+	 * 查找托管计划
+	 * @return
+	 */
+	public TrusteeshipCommodity findPlanById(Long id){
+		
+		IpoTrusteeshipCommodity dbShipCommodity=shipCommodityMapper.findById(id);
+		TrusteeshipCommodity  entity=new TrusteeshipCommodity();
+		BeanUtils.copyProperties(dbShipCommodity, entity);
+		return entity;
+	}
+	
+	
 	
 	
 	/**
