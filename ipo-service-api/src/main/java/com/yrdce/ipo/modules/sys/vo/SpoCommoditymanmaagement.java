@@ -3,7 +3,7 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class IpoSpoCommoditymanmaagement {
+public class SpoCommoditymanmaagement {
     private String spoId;
 
     private String communityId;

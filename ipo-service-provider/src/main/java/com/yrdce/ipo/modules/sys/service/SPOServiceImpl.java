@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.modules.sys.dao.IpoSpoMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoSpo;
-import com.yrdce.ipo.modules.sys.vo.IpoSpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.Spo;
 
@@ -81,7 +81,7 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
-	public int insertSPOInfo(IpoSpoCommoditymanmaagement ipoSpoCom) {
+	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

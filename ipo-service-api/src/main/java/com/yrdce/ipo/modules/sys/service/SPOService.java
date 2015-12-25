@@ -3,7 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import com.yrdce.ipo.modules.sys.vo.IpoSpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.Spo;
 
@@ -29,7 +29,7 @@ public interface SPOService {
 	public Map<String, String> getCommodityidByAll();
 
 	// 添加增发(mgr)
-	public int insertSPOInfo(IpoSpoCommoditymanmaagement ipoSpoCom);
+	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom);
 
 	// 增发商品修改(mgr)
 	public int updateSPOInfo(Spo spo);
