@@ -315,15 +315,15 @@ var promptTime = 60;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 申请托管管理","");</SCRIPT>
                         <SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("托管计划管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/StorageApprove");
+									M0101 = new WebFXTreeItem("托管计划管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trusteeship/plan.jsp");
 									M01.add(M0101);</SCRIPT>
 									
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管仓库管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trusteeship/trustWarehouse.jsp");
 									M01.add(M0101);</SCRIPT>
-									
+									 
 						 <SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("托管申请管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/OutboundQuery");
+									M0101 = new WebFXTreeItem("托管申请管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/apply");
 									M01.add(M0101);</SCRIPT>	
 									
 						

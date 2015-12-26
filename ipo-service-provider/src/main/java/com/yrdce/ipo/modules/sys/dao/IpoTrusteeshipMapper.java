@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -31,7 +30,7 @@ public interface IpoTrusteeshipMapper {
 	 * @param ship
 	 * @return
 	 */
-	public List<IpoTrusteeship> queryMyApplyForPage( @Param("startIndex") int startIndex,
+	public List<IpoTrusteeship> queryApplyForPage( @Param("startIndex") int startIndex,
 			@Param("endIndex") int endIndex, @Param("ship") Trusteeship ship);
 	
 	/**
@@ -39,13 +38,13 @@ public interface IpoTrusteeshipMapper {
 	 * @param ship
 	 * @return
 	 */
-	public long queryMyApplyForCount( @Param("ship")Trusteeship ship);
+	public long queryApplyForCount( @Param("ship")Trusteeship ship);
 	
 	/**
 	 * 撤销我的申请
 	 * @param ship
 	 */
-	public void canelMyApply(@Param("ship")Trusteeship ship);
+	public void canelApply(@Param("ship")Trusteeship ship);
 	
 	/**
 	 * 查找

@@ -30,6 +30,10 @@ public class Trusteeship implements Serializable {
 	 */
 	private BigDecimal price;
 	/**
+	 * 发行手续费
+	 */
+	private BigDecimal publishCharge;
+	/**
 	 * 申请的状态1:申请,2:撤销,3:仓库初审通过,4:仓库初审驳回, 5:仓库终审通过,6:仓库终审驳回,7:已增持加仓,8:已设置预减持
 	 */
 	private int state;
@@ -63,6 +67,10 @@ public class Trusteeship implements Serializable {
 	 */
 	private String createUserName;
 	/**
+	 * 创建人手机
+	 */
+	private Integer createUserMobile;
+	/**
 	 * 创建时间
 	 */
 	private Date createDate;
@@ -78,6 +86,14 @@ public class Trusteeship implements Serializable {
 	 * 入库数量
 	 */
 	private Long instorageAmount;
+	/**
+	 * 供申购数量
+	 */
+	private Long effectiveAmount;
+	/**
+	 * 持仓数量
+	 */
+	private Long positionAmount;
 	/**
 	 * 托管计划
 	 */
@@ -289,26 +305,39 @@ public class Trusteeship implements Serializable {
 		this.updateDate = updateDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Trusteeship [id=" + id + ", commodityId=" + commodityId
-				+ ", commodityName=" + commodityName + ", price=" + price
-				+ ", state=" + state + ", stateName=" + stateName
-				+ ", warehouseId=" + warehouseId + ", warehouseName="
-				+ warehouseName + ", applyAmount=" + applyAmount
-				+ ", trusteeshipCommodityId=" + trusteeshipCommodityId
-				+ ", createUser=" + createUser + ", createUserName="
-				+ createUserName + ", createDate=" + createDate
-				+ ", updateUser=" + updateUser + ", updateDate=" + updateDate
-				+ ", instorageAmount=" + instorageAmount + ", plan=" + plan
-				+ ", delayCharge=" + delayCharge + ", auditingDate="
-				+ auditingDate + ", beginCreateDate=" + beginCreateDate
-				+ ", endCreateDate=" + endCreateDate + ", beginAuditingDate="
-				+ beginAuditingDate + ", endAuditingDate=" + endAuditingDate
-				+ "]";
+	public Long getEffectiveAmount() {
+		return effectiveAmount;
 	}
-    
-	
+
+	public void setEffectiveAmount(Long effectiveAmount) {
+		this.effectiveAmount = effectiveAmount;
+	}
+
+	public Long getPositionAmount() {
+		return positionAmount;
+	}
+
+	public void setPositionAmount(Long positionAmount) {
+		this.positionAmount = positionAmount;
+	}
+
+	public BigDecimal getPublishCharge() {
+		return publishCharge;
+	}
+
+	public void setPublishCharge(BigDecimal publishCharge) {
+		this.publishCharge = publishCharge;
+	}
+
+	public Integer getCreateUserMobile() {
+		return createUserMobile;
+	}
+
+	public void setCreateUserMobile(Integer createUserMobile) {
+		this.createUserMobile = createUserMobile;
+	}
+
+	 
 	
 	
 }

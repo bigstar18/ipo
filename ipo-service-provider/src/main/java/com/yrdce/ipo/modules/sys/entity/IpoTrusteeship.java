@@ -55,6 +55,7 @@ public class IpoTrusteeship implements Serializable {
 	 * 发行价
 	 */
 	private BigDecimal price;
+	
 	/**
 	 * 发行手续费
 	 */
@@ -80,6 +81,10 @@ public class IpoTrusteeship implements Serializable {
 	 * 创建人名称
 	 */
 	private String createUserName;
+	/**
+	 * 创建人手机
+	 */
+	private Integer createUserMobile;
 	/**
 	 * 创建时间
 	 */
@@ -298,5 +303,14 @@ public class IpoTrusteeship implements Serializable {
 	public void setDelayCharge(BigDecimal delayCharge) {
 		this.delayCharge = delayCharge;
 	}
+
+	public Integer getCreateUserMobile() {
+		return createUserMobile;
+	}
+
+	public void setCreateUserMobile(Integer createUserMobile) {
+		this.createUserMobile = createUserMobile;
+	}
+	
     
 }
