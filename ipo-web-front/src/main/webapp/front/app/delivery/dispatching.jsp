@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String dealerId ="111";%>
@@ -43,7 +43,7 @@
         pageSize: 10, //当设置了 pagination 属性时，初始化页面尺寸。
         pageList: [5, 10, 15, 20], //当设置了 pagination 属性时，初始化页面尺寸的选择列表。
         toolbar: "#tb", //数据网格（datagrid）面板的头部工具栏。
-        //title: '提货信息', //列的标题文本。
+        title: '配送信息', //列的标题文本。
         remoteSort: false, //定义是否从服务器排序数据。
         columns: [
           [{
@@ -113,7 +113,7 @@
             	}else {
             		return "确认";
             	}
-              
+
             }
           }]
         ]
@@ -125,32 +125,32 @@
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
-    
+
     function execution(deliveryorderid){
     	if(confirm('是否确定?')){
-        	$.ajax({  
-    			 type: 'post',  
-    		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",  
+        	$.ajax({
+    			 type: 'post',
+    		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
     		     data:{"deliveryorderid":deliveryorderid,"status":"6"},
-    		     success : function(data) { 
+    		     success : function(data) {
     			           if(data=='success'){
     			        	   alert("确认成功");
     			        	   $('#dg').datagrid('reload');
-    			        	   
+
     			           }else{
-    		          		   alert("系统异常，请联系管理员");  
+    		          		   alert("系统异常，请联系管理员");
     		          	   }
     			        }
     				});
         }
-    	
+
     }
     function doSearch(){
     	$('#dg').datagrid('load',{
     	deliveryorderId:$('#deliveryorderId').val()
     	});
     }
-    
+
     </script>
     <div id="tb" style="padding:5px;height:auto">
       <div>
