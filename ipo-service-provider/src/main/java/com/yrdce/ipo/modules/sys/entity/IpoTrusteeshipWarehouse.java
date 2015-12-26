@@ -1,30 +1,18 @@
 package com.yrdce.ipo.modules.sys.entity;
 
-import java.math.BigDecimal;
-
 public class IpoTrusteeshipWarehouse {
-	private BigDecimal id;
+	private Integer id;
 
 	private String commodityId;
 
-	private String commodityName;
+	private Long warehouseId;
 
-	private BigDecimal warehouseId;
-
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getCommodityName() {
-		return commodityName;
-	}
-
-	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName;
 	}
 
 	public String getCommodityId() {
@@ -35,19 +23,18 @@ public class IpoTrusteeshipWarehouse {
 		this.commodityId = commodityId == null ? null : commodityId.trim();
 	}
 
-	public BigDecimal getWarehouseId() {
+	public Long getWarehouseId() {
 		return warehouseId;
 	}
 
-	public void setWarehouseId(BigDecimal warehouseId) {
+	public void setWarehouseId(Long warehouseId) {
 		this.warehouseId = warehouseId;
 	}
 
 	@Override
 	public String toString() {
 		return "IpoTrusteeshipWarehouse [id=" + id + ", commodityId="
-				+ commodityId + ", commodityName=" + commodityName
-				+ ", warehouseId=" + warehouseId + "]";
+				+ commodityId + ", warehouseId=" + warehouseId + "]";
 	}
 
 }

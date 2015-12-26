@@ -46,7 +46,7 @@ public interface TrusteeWarehouseService {
 	 * @param trusteeshipWarehouse
 	 * @return
 	 */
-	public Integer addTrusteeWare(TrusteeshipWarehouse trusteeshipWarehouse);
+	public String addTrusteeWare(String commId, String warehouse);
 
 	/**
 	 * 修改托管某商品的仓库
@@ -54,7 +54,7 @@ public interface TrusteeWarehouseService {
 	 * @param trusteeshipWarehouse
 	 * @return
 	 */
-	public Integer updateTrusteeWare(TrusteeshipWarehouse trusteeshipWarehouse);
+	public String updateTrusteeWare(String commId, String warehouse);
 
 	/**
 	 * 删除托管某商品的仓库
@@ -62,6 +62,13 @@ public interface TrusteeWarehouseService {
 	 * @param commId
 	 * @return
 	 */
-	public Integer deleteTrusteeWare(String commId);
+	public String deleteTrusteeWare(String commId);
 
+	/**
+	 * 获取已配置托管仓库的商品Id
+	 * 
+	 * @param commId
+	 * @return
+	 */
+	public List<String> findExsitIds();
 }

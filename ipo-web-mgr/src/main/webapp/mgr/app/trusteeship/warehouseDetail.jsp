@@ -17,38 +17,57 @@
 		<script type="text/javascript"> 
 		
 		$(function(){
-			$('#commodityName').combobox({
-				onSelect: function(){
-					$("#commodityId").val($('#commodityName').combobox("getValue"));
+			$('#commodityname').combobox({
+				 url:'<%=request.getContextPath()  %>/trusteeshipWarehouseController/trusteeCommodity',    
+				 valueField:'commodityid',    
+				 textField:'commodityname',
+				 required:true,
+				 missingMessage:'必填',
+				 onSelect: function(){
+					$("#commodityId").val($('#commodityname').combobox("getValue"));
 				}
 			});
 
+			    	var warehousesList =<%=request.getAttribute("warehouseList") %>;
+			    	var cks = $(":checkbox");
+			    	for (j = 0; j < warehousesList.length; j++) {
+			    		for (i = 0; i < cks.length; i++) {
+			    			if (warehousesList[j] == cks[i].value) {
+			    				cks[i].checked = true;
+			    			}
+			    		}
+			    	}
+			   	
 		})
 		
 
 function add(){
-	var breedid=$("#breedid").val();
-	var bname=$("#bname").val();
-	var concurrency=$("#contractcurrency").val();
-    var publishalgr=$("#publishalgr").val();
-    var tradealgr=$("#tradealgr").val();
+	var commId=$("#commodityId").val();
+    var warehouseIds = "";
+      $('input:checkbox[name=warehouse]:checked').each(function(i){
+       if(0==i){
+    	   warehouseIds = $(this).val();
+       }else{
+    	   warehouseIds += (","+$(this).val());
+       }
+      });
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&&publishalgr!= ''&&tradealgr!= ''&&flag==true){
+	if(flag==true&&warehouseIds!=''){
             	 $.ajax({  
         			 type: 'GET',  //
-        		      url: "<%=request.getContextPath()%>/BreedController/findExsitIds",  
+        		      url: "<%=request.getContextPath()%>/trusteeshipWarehouseController/findExsitIds",  
         		     contentType: "application/json; charset=utf-8", 
-        		     data:{"breedid":breedid,"randnum":Math.floor(Math.random()*1000000)},  
+        		     data:{"commId":commId,"randnum":Math.floor(Math.random()*1000000)},  
         			 dataType: 'json',  
         		     success : function(data, stats) { 
         			           if(data=='0'){
-        			        	   alert("该品种已配置，请选择其他品种！")
+        			        	   alert("该商品已配置仓库，请到列表页面进行修改！")
         			           }
                                if(data=='1'){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
-                                       url: "<%=request.getContextPath()%>/BreedController/addBreed",       
+                                       url: "<%=request.getContextPath()%>/trusteeshipWarehouseController/addTrusteeWarehouse",       
                                        data: $("#frm").serialize(),      
                                        success: function(data) { 
                                     	   if(data=='true'){
@@ -70,22 +89,27 @@ function add(){
         				});
             }
 			else{
-					alert("所有参数必填！");
+					alert("商品必选，仓库至少选中一个！");
 		}
 }
 		
 function update(){
 	
-	var bname=$("#bname").val();
-	var concurrency=$("#contractcurrency").val();
-	 var tradealgr=$("#tradealgr").val();
-	var publishalgr=$("#publishalgr").val();
+	var commId=$("#commodityId").val();
+    var warehouseIds = "";
+      $('input:checkbox[name=warehouse]:checked').each(function(i){
+       if(0==i){
+    	   warehouseIds = $(this).val();
+       }else{
+    	   warehouseIds += (","+$(this).val());
+       }
+      });
 	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&tradealgr!= ''&&flag==true){
+	if(flag==true&&warehouseIds!=''){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
-                                       url: "<%=request.getContextPath()%>/BreedController/updateBreed",       
+                                       url: "<%=request.getContextPath()%>/trusteeshipWarehouseController/updateTrusteeWarehouse",       
                                        data: $("#frm").serialize(),      
                                        success: function(data) { 
                                     	   if(data=='true'){
@@ -101,7 +125,7 @@ function update(){
                                    }); 
             }
 			else{
-					alert("所有参数必填！");
+					alert("商品必选，仓库至少选中一个！");
 		}
 }
 
@@ -109,6 +133,8 @@ function returntoList(){
 	var backUrl="<%=request.getContextPath()%>/mgr/app/trusteeship/trustWarehouse.jsp";
 	document.location.href = backUrl;
 }
+
+
 			
 </script>
 </head>
@@ -127,7 +153,7 @@ function returntoList(){
 	        	<td align="right" width="40%">托管商品：</td>
 	            <td align="left" width="60%">
 	                    <c:if test="${crud == 'create'}">
-	                   <input id="commodityName" class="easyui-combobox" name="commodityName" data-options="required:true,missingMessage:'必选',valueField:'id',textField:'text',url:'get_data.php'" />
+	                   <input id="commodityname" name="commodityName"/>
 	                   <span class="required">*</span>  
 	                    </c:if>
 	            		<c:if test="${crud == 'update'}">

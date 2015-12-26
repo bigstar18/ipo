@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipWarehouseMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeWarehouse;
+import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
 
 /**
@@ -77,9 +78,20 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	 * @return
 	 */
 	@Transactional
-	public Integer addTrusteeWare(TrusteeshipWarehouse trusteeshipWarehouse) {
-		return null;
-
+	public String addTrusteeWare(String commId, String warehouse) {
+		String[] wareIds = warehouse.split(",");
+		IpoTrusteeshipWarehouse temp = new IpoTrusteeshipWarehouse();
+		temp.setCommodityId(commId);
+		int mark = 0;
+		for (int i = 0; i < wareIds.length; i++) {
+			temp.setWarehouseId(Long.parseLong(wareIds[i]));
+			trustWarehouseMapper.insert(temp);
+			mark++;
+		}
+		if (mark != 0) {
+			return "true";
+		}
+		return "false";
 	}
 
 	/**
@@ -89,9 +101,13 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	 * @return
 	 */
 	@Transactional
-	public Integer updateTrusteeWare(TrusteeshipWarehouse trusteeshipWarehouse) {
-		return null;
-
+	public String updateTrusteeWare(String commId, String warehouse) {
+		String result1 = this.deleteTrusteeWare(commId);
+		String result2 = this.addTrusteeWare(commId, warehouse);
+		if (result1.equals("true") && result2.equals("true")) {
+			return "true";
+		}
+		return "false";
 	}
 
 	/**
@@ -101,14 +117,24 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	 * @return
 	 */
 	@Transactional
-	public Integer deleteTrusteeWare(String commId) {
-		return null;
+	public String deleteTrusteeWare(String commId) {
+		int num = trustWarehouseMapper.deleteByCommId(commId);
+		if (num != 0) {
+			return "true";
+		} else {
+			return "false";
+		}
 
 	}
 
 	@Override
 	public List<Long> getTrusteeshipWarehouseByCommId(String commId) {
 		return trustWarehouseMapper.selectWareIdsByCommId(commId);
+	}
+
+	@Override
+	public List<String> findExsitIds() {
+		return trustWarehouseMapper.selectCommIDs();
 	}
 
 }
