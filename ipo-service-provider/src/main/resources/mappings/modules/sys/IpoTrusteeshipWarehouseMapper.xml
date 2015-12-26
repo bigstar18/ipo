@@ -47,7 +47,7 @@
        and T.COMMODITY_ID like concat (#{record.commodityId,jdbcType=VARCHAR},'%')
       </if>
       <if test="record.commodityName != null" >
-       and T.COMMODITYNAME like concat (#{record.commodityName,jdbcType=VARCHAR},'%')
+       and T.COMMODITYNAME like concat(concat('%',#{record.commodityName ,jdbcType=VARCHAR}),'%')
       </if>
      ) G WHERE G.TNO BETWEEN  #{beginnum} AND #{endnum}
     </select>
@@ -59,8 +59,12 @@
        and T.COMMODITY_ID like concat (#{commodityId,jdbcType=VARCHAR},'%')
       </if>
       <if test="commodityName != null" >
-       and T.COMMODITYNAME like concat (#{commodityName,jdbcType=VARCHAR},'%')
+       and T.COMMODITYNAME like concat(concat('%',#{commodityName ,jdbcType=VARCHAR}),'%')
       </if>
+    </select>
+    
+     <select id="selectWareIdsByCommId" resultType="Integer"  parameterType="String">
+      SELECT T.WAREHOUSE_ID FROM IPO_TRUSTEESHIP_WAREHOUSE T WHERE T.COMMODITY_ID= #{commId}
     </select>
   
 </mapper>

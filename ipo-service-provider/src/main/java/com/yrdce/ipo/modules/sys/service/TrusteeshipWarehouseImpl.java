@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.utils.PageUtil;
+import com.yrdce.ipo.modules.sys.dao.BiWarehouseMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipWarehouseMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeWarehouse;
+import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
 
 /**
@@ -27,6 +29,9 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IpoTrusteeshipWarehouseMapper trustWarehouseMapper;
+
+	@Autowired
+	private BiWarehouseMapper biWarehouseMapper;
 
 	/**
 	 * 根据商品分页查询托管仓库列表
@@ -100,9 +105,33 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	 * @param commId
 	 * @return
 	 */
+	@Transactional
 	public Integer deleteTrusteeWare(String commId) {
 		return null;
 
+	}
+
+	@Override
+	public List<Integer> getTrusteeshipWarehouseByCommId(String commId) {
+		return trustWarehouseMapper.selectWareIdsByCommId(commId);
+	}
+
+	/**
+	 * 获取所有仓库列表
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<BiWarehouse> selectAllWarehouses() {
+		List<com.yrdce.ipo.modules.sys.entity.BiWarehouse> dbList = biWarehouseMapper
+				.selectAll();
+		List<BiWarehouse> dataList = new ArrayList<BiWarehouse>();
+		for (com.yrdce.ipo.modules.sys.entity.BiWarehouse item : dbList) {
+			BiWarehouse entity = new BiWarehouse();
+			BeanUtils.copyProperties(item, entity);
+			dataList.add(entity);
+		}
+		return dataList;
 	}
 
 }

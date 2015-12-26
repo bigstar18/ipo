@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService;
+import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
 
@@ -40,14 +42,25 @@ public class TrusteeshipWarehouseController {
 	@RequestMapping(value = "/updateTrusteeWarehouse", method = RequestMethod.GET)
 	public String CommodityManage(HttpServletRequest request,
 			HttpServletResponse response, Model model,
-			@RequestParam("commId") String commId) {
-		return "app/breed/breed_list";
+			@RequestParam("commId") String commId,
+			@RequestParam("commName") String commName) {
+		List<Integer> warehouseIds = trusteeshipWarehouseService
+				.getTrusteeshipWarehouseByCommId(commId);
+		List<BiWarehouse> allWarehouse = trusteeshipWarehouseService
+				.selectAllWarehouses();
+		request.setAttribute("allWarehouse", allWarehouse);
+		request.setAttribute("commId", commId);
+		request.setAttribute("commName", commName);
+		request.setAttribute("warehouseList", warehouseIds);
+		request.setAttribute("crud", "update");
+		return "app/trusteeship/warehouseDetail";
 	}
 
 	/*
 	 * 托管仓库列表
 	 */
 	@RequestMapping(value = "/trusteeWarehouseManage", method = RequestMethod.POST)
+	@ResponseBody
 	public String trusteeWarehouseManage(@RequestParam("page") String page,
 			@RequestParam("rows") String rows, TrusteeshipWarehouse example)
 			throws IOException {
