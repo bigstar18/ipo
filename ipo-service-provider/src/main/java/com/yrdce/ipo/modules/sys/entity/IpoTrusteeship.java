@@ -84,7 +84,7 @@ public class IpoTrusteeship implements Serializable {
 	/**
 	 * 创建人手机
 	 */
-	private Integer createUserMobile;
+	private String createUserMobile;
 	/**
 	 * 创建时间
 	 */
@@ -304,11 +304,11 @@ public class IpoTrusteeship implements Serializable {
 		this.delayCharge = delayCharge;
 	}
 
-	public Integer getCreateUserMobile() {
+	public String getCreateUserMobile() {
 		return createUserMobile;
 	}
 
-	public void setCreateUserMobile(Integer createUserMobile) {
+	public void setCreateUserMobile(String createUserMobile) {
 		this.createUserMobile = createUserMobile;
 	}
 	

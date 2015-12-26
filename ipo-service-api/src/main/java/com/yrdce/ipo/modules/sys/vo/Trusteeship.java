@@ -69,7 +69,7 @@ public class Trusteeship implements Serializable {
 	/**
 	 * 创建人手机
 	 */
-	private Integer createUserMobile;
+	private String createUserMobile;
 	/**
 	 * 创建时间
 	 */
@@ -329,11 +329,11 @@ public class Trusteeship implements Serializable {
 		this.publishCharge = publishCharge;
 	}
 
-	public Integer getCreateUserMobile() {
+	public String getCreateUserMobile() {
 		return createUserMobile;
 	}
 
-	public void setCreateUserMobile(Integer createUserMobile) {
+	public void setCreateUserMobile(String createUserMobile) {
 		this.createUserMobile = createUserMobile;
 	}
 

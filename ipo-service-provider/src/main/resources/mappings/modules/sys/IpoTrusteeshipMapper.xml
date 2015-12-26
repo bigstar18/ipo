@@ -48,7 +48,7 @@
    <select id="queryApplyForPage" resultMap="IpoTrusteeshipResultMap"  parameterType="map" >
        select * from (
 	        select ship.id,ship.commodity_id,comm.commodityname,ship.create_user,firm.name as create_user_name,
-	               firm.mobile as create_user_mobile,
+	               to_char(firm.mobile) as create_user_mobile,
 	               ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
 				   trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,biware.warehousename,
 				   rownum as row_num
