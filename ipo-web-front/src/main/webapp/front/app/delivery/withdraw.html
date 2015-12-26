@@ -10,13 +10,23 @@
       }
       td b{color: red;}
       legend b{color: blue}
-      body{background-color: #E0EEEE}
+      /*body{background-color: #E0EEEE}*/
     </style>
+      <link href="../../../front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" type="text/css" href="../../../static/jquery-easyui/themes/default/easyui.css">
   </head>
 
   <body>
-    <table border="0" height="400" width="700" align="center" style="margin-top: 40px;">
+    <div class="main">
+  <div class="msg">
+      您当前的位置：<span>提货申请</span>
+    </div>
+    <div class="warning">
+      <div class="title font_orange_14b">温馨提示 :</div>
+      <div class="content">在此页面上提交提货单
+      </div>
+    </div>
       <tbody>
         <tr>
           <td>
@@ -27,7 +37,7 @@
                     注册提货单
                   </b>
                 </legend>
-                <table width="65%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <table border="0" cellspacing="0" cellpadding="0" align="center">
                   <tbody>
                     <tr>
                       <td height="15" colspan="2">
@@ -178,11 +188,11 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </div>
     <table border="0" width="700" align="center">
       <tbody>
         <tr>
-          <td align="center" style="color: red">提示：提货单注册后过了提货日期则不能提货，需要注销提货单后重新注册</td>
+          <td align="center" style="color: red">提示：提货单注册后过了提货日期则不能提货，需注销提货单后重新注册</td>
         </tr>
       </tbody>
     </table>
