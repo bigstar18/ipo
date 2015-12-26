@@ -128,14 +128,11 @@
   SELECT s.STORAGEID, s.COMMODITYID, c.COMMODITYNAME,b.BROKERID,b.NAME,s.STORAGENUM,s.OPERATORID,s.WAREHOUSEAUDITORID,
   s.MARKETAUDITORID,s.STORAGESTATE,s.STORAGEDATE FROM IPO_STORAGE s, BR_BROKER b,IPO_COMMODITY_CONF c
   WHERE s.COMMODITYID = c.COMMODITYID and c.PUBMEMBERID = b.brokerid
-  <if test="storageUnion.storageid != null" >
-       and s.STORAGEID like #{storageUnion.storageid,jdbcType=VARCHAR} 
+  <if test="storageUnion.storageid != null and storageUnion.storageid !='' ">
+       and s.STORAGEID like concat (#{storageUnion.storageid,jdbcType=VARCHAR},'%')
   </if>
-  <if test="storageUnion.commodityid != null" >
-       and s.COMMODITYID like #{storageUnion.commodityid,jdbcType=VARCHAR} 
-  </if>
-  <if test="storageUnion.storagedate != null" >
-       and s.STORAGEDATE = #{storageUnion.storagedate,jdbcType=DATE} 
+  <if test="storageUnion.commodityid != null and storageUnion.commodityid !='' " >
+       and s.COMMODITYID like concat (#{storageUnion.commodityid,jdbcType=VARCHAR},'%')
   </if>
   <if test="storageUnion.storagestate != null" >
        and s.STORAGESTATE = #{storageUnion.storagestate,jdbcType=INTEGER} 
