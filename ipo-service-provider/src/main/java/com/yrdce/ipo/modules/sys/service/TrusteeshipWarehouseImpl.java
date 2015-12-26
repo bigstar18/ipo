@@ -100,9 +100,15 @@ public class TrusteeshipWarehouseImpl implements TrusteeWarehouseService {
 	 * @param commId
 	 * @return
 	 */
+	@Transactional
 	public Integer deleteTrusteeWare(String commId) {
 		return null;
 
+	}
+
+	@Override
+	public List<Long> getTrusteeshipWarehouseByCommId(String commId) {
+		return trustWarehouseMapper.selectWareIdsByCommId(commId);
 	}
 
 }

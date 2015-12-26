@@ -26,4 +26,6 @@ public interface IpoTrusteeshipWarehouseMapper {
 			@Param("record") IpoTrusteeWarehouse record);
 
 	int getQueryNum(IpoTrusteeWarehouse record);
+
+	List<Long> selectWareIdsByCommId(@Param("commId") String commId);
 }

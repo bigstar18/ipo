@@ -20,7 +20,9 @@ $(document).ready(function() {
              align: "center",
              title : '商品代码',
              formatter:function(value,row){
-         	    return "<a href=\"#\" onclick=\"updateTrusteeWareHouse('"+value+"')\">"+value+"</a>";
+         	    return "<a href=\"#\" onclick=\"updateTrusteeWareHouse('"+value+"','"+row.commodityName+"')\">"+value+"</a>";
+         	    
+         	    
          }
          }, {
         	 field : 'commodityName',  
@@ -55,6 +57,6 @@ function clearInfo(){
 }
 
 
-function updateTrusteeWareHouse(commId){
-	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+Math.floor(Math.random()*1000000);
+function updateTrusteeWareHouse(commId,commName){
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+commName+Math.floor(Math.random()*1000000);
 }

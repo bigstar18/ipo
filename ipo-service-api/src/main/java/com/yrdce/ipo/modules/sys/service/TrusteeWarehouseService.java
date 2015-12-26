@@ -33,6 +33,14 @@ public interface TrusteeWarehouseService {
 			TrusteeshipWarehouse trusteeshipWarehouse);
 
 	/**
+	 * 根据商品查询托管该商品的仓库
+	 * 
+	 * @param trusteeshipWarehouse
+	 * @return
+	 */
+	public List<Long> getTrusteeshipWarehouseByCommId(String commId);
+
+	/**
 	 * 新增托管某商品的仓库
 	 * 
 	 * @param trusteeshipWarehouse
