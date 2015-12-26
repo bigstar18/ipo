@@ -215,8 +215,19 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int deleteByRation(Long rationid) throws Exception {
 		logger.info("删除配售信息" + "配售id:" + rationid);
-
 		return ipoSpoRationMapper.deleteByPrimaryKey(rationid);
+	}
+
+	// 增发查询总页数
+	@Override
+	public int spoCounts() {
+		return ipoSPOComm.counts();
+	}
+
+	// 配售查询总页数
+	@Override
+	public int rationCounts() {
+		return ipoSpoRationMapper.counts();
 	}
 
 }

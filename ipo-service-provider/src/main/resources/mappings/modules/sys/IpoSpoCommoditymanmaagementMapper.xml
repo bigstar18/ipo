@@ -96,4 +96,8 @@
     </if>
     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
   </select>
+  
+  <select id="counts" resultType="java.lang.Integer">
+  select count(0) from IPO_SPO_COMMODITYMANMAAGEMENT
+  </select>
 </mapper>

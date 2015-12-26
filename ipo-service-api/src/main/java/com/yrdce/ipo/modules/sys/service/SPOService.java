@@ -46,9 +46,15 @@ public interface SPOService {
 	// 承销商配售信息插入(mgr)
 	public int insertByRation(List<SpoRation> spoRationList) throws Exception;
 
+	// 增发查询总页数
+	public int spoCounts();
+
 	// 定向配售查询(mgr)
 	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 删除定向配售信息(mgr)
 	public int deleteByRation(Long rationid) throws Exception;
+
+	// 配售查询总页数
+	public int rationCounts();
 }

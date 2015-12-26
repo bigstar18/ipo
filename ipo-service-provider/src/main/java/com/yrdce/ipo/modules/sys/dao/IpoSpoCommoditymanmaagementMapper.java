@@ -18,4 +18,6 @@ public interface IpoSpoCommoditymanmaagementMapper {
 	List<IpoSpoCommoditymanmaagement> selectAll(int beginnum, int endnum, @Param("Spo") IpoSpoCommoditymanmaagement spoComm);
 
 	int updateByPrimaryKey(IpoSpoCommoditymanmaagement record);
+
+	int counts();
 }
