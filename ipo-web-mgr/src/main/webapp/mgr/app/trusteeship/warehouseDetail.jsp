@@ -139,11 +139,11 @@ function returntoList(){
 	        <tr>
 	        	<td align="right">仓库：</td>
 	        	<td>
-	        	<c:forEach var="comm" items="${commlist}" varStatus="status">
+	        	<c:forEach var="warehouse" items="${allWarehouse }" varStatus="status">
                      <div style="width: 100px; float: left;">
-						<input type="checkbox" name="comms" class="NormalInput" value="${comm.commodityid }"/>
+						<input type="checkbox" name="warehouse" class="NormalInput" value="${warehouse.id }"/>
 						<label class="hand">
-						<c:out value="${comm.commodityname}"/>
+						<c:out value="${warehouse.warehousename }"/>
 						 </label>
 					</div>
 			    </c:forEach> 
@@ -152,11 +152,11 @@ function returntoList(){
 	        	
 					<!-- 仓单系统和投资系统共有的仓库集合 -->
 	    			
-						<input type="checkbox" name="cangku" value="114" checked="checked" />杨羊仓库
+					<!-- 	<input type="checkbox" name="cangku" value="114" checked="checked" />杨羊仓库 -->
 					
 	        		<!-- 仓单系统中存在，投资系统的仓库中不存在的仓库 -->
 	    			
-						<input type="checkbox" name="cangku" value="1001" />天津九星港
+						<!-- <input type="checkbox" name="cangku" value="1001" />天津九星港
 					
 						<input type="checkbox" name="cangku" value="111" />四川联合仓库
 					
@@ -170,7 +170,7 @@ function returntoList(){
 					
 						<input type="checkbox" name="cangku" value="011" />jiangmx
 					
-						<input type="checkbox" name="cangku" value="8" />张丽仓库
+						<input type="checkbox" name="cangku" value="8" />张丽仓库 -->
 					
 	        	</td>
 	        </tr>  
