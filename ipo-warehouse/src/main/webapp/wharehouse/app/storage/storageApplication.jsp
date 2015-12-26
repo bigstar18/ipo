@@ -10,6 +10,16 @@
 <title>入库申请</title>
 
 <script type="text/javascript">
+
+function doSearch(){
+	$('#storageInfo').datagrid('load',{
+		'storageid': $('#storageid').val(),
+		'commodityid': $('#commodityid').val(),
+		'storagestate': $('#storagestate').val()
+	} );
+}
+
+
 $(document).ready(function() {
 	getAllInfo();
 });
@@ -44,7 +54,7 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/StorageController/ListStorage', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/StorageController/ListStorage?t='+Math.random(), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
@@ -126,6 +136,9 @@ function getAllInfo(){
 	
 }
 
+
+
+
 </script>
 </head>
 <body>
@@ -139,19 +152,16 @@ function getAllInfo(){
 				</table>
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
-					<form name="frm" action="" >
-					入库单号: <input id="storageid" name="storageid" class="easyui-textbox" style="border:1px solid #ccc;height:18px;width:160px;" onkeydown='if(event.keyCode==13) return false;'>
+					<form name="frm"  >
+					入库单号: <input id="storageid" name="storageid" class="easyui-textbox" style="border:1px solid #ccc;height:18px;width:160px;" onblur="this.value=this.value.trim()" onkeydown='if(event.keyCode==13) return false;'>
 					&nbsp
 					&nbsp
-					商品代码: <input id="commodityid" name="commodityid" class="easyui-textbox" style="border:1px solid #ccc;height:18px;width:160px;" onkeydown='if(event.keyCode==13) return false;'>
-					&nbsp
-					&nbsp
-					入库时间: <input id="storagedate" name="storagedate" class="easyui-datebox" style="border:1px solid #ccc;height:18px;width:160px;" onkeydown='if(event.keyCode==13) return false;'>
+					商品代码: <input id="commodityid" name="commodityid" class="easyui-textbox" style="border:1px solid #ccc;height:18px;width:160px;" onblur="this.value=this.value.trim()" onkeydown='if(event.keyCode==13) return false;'>
 					&nbsp
 					&nbsp
 					入库状态:<select id="storagestate" name="storagestate" style="width:160px">
-								<option value="all">全部</option>
-								<option value="1">申请</option>
+								<option value="">全部</option>
+								<option value="1"  <c:if test="${storagestate == 1}">selected</c:if>   >申请</option>
 								<option value="2">仓库通过</option>
 								<option value="3">仓库驳回</option>
 								<option value="4">市场通过</option>
@@ -160,13 +170,13 @@ function getAllInfo(){
 							&nbsp
 							&nbsp
 							&nbsp
-						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="">查询</a>
-						<input class="easyui-linkbutton" type="reset" value="重置" >
+						<input type="button" value="查询" onclick="doSearch()"/>	
+						<input type="reset" value="重置" >
 							&nbsp
 							&nbsp
 							&nbsp
-						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="openWindow()">添加</a>					
-					</form> 
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="openWindow()">添加</a>	
+						</form>				
 					</div>
 					
 				</div>
