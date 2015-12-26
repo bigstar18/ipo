@@ -15,7 +15,7 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	IpoSpoCommoditymanmaagement selectByPrimaryKey(String spoId);
 
-	List<IpoSpoCommoditymanmaagement> selectAll(int beginnum, int endnum, @Param("Spo") IpoSpoCommoditymanmaagement spoComm);
+	List<IpoSpoCommoditymanmaagement> selectAll(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("Spo") IpoSpoCommoditymanmaagement spoComm);
 
 	int updateByPrimaryKey(IpoSpoCommoditymanmaagement record);
 

@@ -77,22 +77,22 @@
     select <include refid="Base_Column_List" />,rownum TNO from IPO_SPO_COMMODITYMANMAAGEMENT
     where 1=1
     <if test="Spo.communityId != null">
-	and COMMUNITY_ID = #{communityId,jdbcType=VARCHAR}  
+	and COMMUNITY_ID = #{Spo.communityId,jdbcType=VARCHAR}  
     </if>
     <if test="Spo.rationType != null">
-    and RATION_TYPE = #{rationType,jdbcType=VARCHAR}
+    and RATION_TYPE = #{Spo.rationType,jdbcType=VARCHAR}
     </if>
     <if test="Spo.rationSate != null">
-    and RATION_SATE = #{rationSate,jdbcType=DECIMAL}
+    and RATION_SATE = #{Spo.rationSate,jdbcType=DECIMAL}
     </if>
     <if test="Spo.registerDate != null">
-    and REGISTER_DATE = #{registerDate,jdbcType=DATE}
+    and REGISTER_DATE = #{Spo.registerDate,jdbcType=DATE}
     </if>
     <if test="Spo.spoDate != null">
-    and SPO_DATE = #{spoDate,jdbcType=DATE}
+    and SPO_DATE = #{Spo.spoDate,jdbcType=DATE}
     </if>
     <if test="Spo.ipoDate != null">
-    and IPO_DATE = #{ipoDate,jdbcType=DATE}
+    and IPO_DATE = #{Spo.ipoDate,jdbcType=DATE}
     </if>
     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
   </select>

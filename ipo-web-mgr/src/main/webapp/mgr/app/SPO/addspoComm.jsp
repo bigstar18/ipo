@@ -12,14 +12,18 @@
 <link rel="stylesheet" href="../../skinstyle/default/css/common.css" type="text/css" />
 <style type="text/css">
 	.content span{display:block}
+	.radio{display:none}
+	.all{display:none}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".radio").hide();
-	$(".all").hide();
-	
+	getIPOCommInfo();
 });
 function rationTypeChange(type){
+	$("span input").val("");
+	$("#spoDate").datebox("setValue","");
+	$("#ipoDate").datebox("setValue","");
+	$("#registerDate").datebox("setValue","");
 	if(type.value=="比例配售"){
 		$(".radio").show();
 		$(".all").show();
@@ -32,37 +36,124 @@ function rationTypeChange(type){
 	}
 }
 
-function test(){
-	parent.$('#dd').window('close');
-	parent.$('depositInfo').datagrid("reload");
+//获取商品信息
+function getIPOCommInfo(){
+	$.ajax({
+		type:"GET",
+		url:"<%=request.getContextPath()%>/SPOController/getIPOCommonity",
+		success:function(data){
+        	if(data!="error"&&data!=""){
+        		var temp = data.split("|");
+        		for(var ele in temp){
+        			if(temp[ele] !="")
+        				$("#commId").append("<option>"+temp[ele]+"</option>");
+        		}
+        	}
+        	else if(data=="error")
+        		alert("初始化失败，请稍后再试");
+        	
+         } 
+	});
 }
 
+//添加增发信息
 function addSPOInfo(){
-	var commonityId = $("#commId").val();
-	var registerDate = $("#registerDate").val();
-	var spoDate = $("#spoDate").val();
-	var ipoDate = $("#ipoDate").val();
+	var reg =  /.*\((.*)\)/;//正则表达式获取括号内容
+	var registerDate = $("#registerDate").datebox("getValue");
+	var spoDate = $("#spoDate").datebox("getValue");
+	var ipoDate = $("#ipoDate").datebox("getValue");
 	var rationType = $("#rationType").val();
-	var rationCounts = $("#rationCounts").val();
+	var spoCounts = $("#spoCounts").val();
 	var spoPrice = $("#spoPrice").val();
 	var positionsPrice = $("#positionsPrice").val();
 	var minRationCounts = $("#minRationCounts").val();
 	var minRationProportion = $("#minRationProportion").val();
+	var dateRe=null;
+	var dateSPO=null;
+	var dateIPO=null;
+	//验证
+	if($("#commId").val() == "请选择"){
+		alert("请选择具体商品！");
+		return;
+	}
+	var commonityId = $("#commId").val().match(reg)[1];
+	if(!myDateValidate(ipoDate,registerDate)){
+		alert("上市日期不能小于登记日期！")
+		return;
+	}
+	if(!myDateValidate(ipoDate,spoDate)){
+		alert("上市日期不能小于增发日期！")
+		return;
+	}
+	if(!myDateValidate(spoDate,registerDate)){
+		alert("增发日期不能小于登记日期！")
+		return;
+	}
+	if(parseInt(spoCounts) < parseInt(minRationCounts)){
+		alert("增发数量不能小于最小配售数量！")
+		return;
+	}
+	if(registerDate ==""){
+		alert("请选择登记日期！");
+		return;
+	}
+	if(ipoDate==""){
+		alert("请选择上市日期！");
+		return;
+	}
+	if(rationType=="比例配售"){
+		if(spoDate==""){
+			alert("请选择增发日期！");
+			return;
+		}
+		if(minRationCounts==""){
+			alert("请输入最小配售数量！");
+			return;
+		}
+		if(minRationProportion==""){
+			alert("请输入最小配售比例！");
+			return;
+		}
+	}
+	if(spoCounts==""){
+		alert("输入增发数量！");
+		return;
+	}
+	if(spoPrice==""){
+		alert("请输入增发价格！")
+		return;
+	}
+	//转换数据格式
+	if(rationType=="比例配售"){
+		rationType=1;
+	}else if(rationType=="定向配售"){
+		rationType=2;
+	}
 	
-	
+ 	registerDate = registerDate.replace(/-/g,"/");
+	dateRe = new Date(registerDate );
+	if(spoDate==""||spoDate==bull){
+		dateSPO = new Date(null);
+	}else{
+		spoDate = spoDate.replace(/-/g,"/");
+		dateSPO = new Date(spoDate);
+	}
+
+     ipoDate = ipoDate.replace(/-/g,"/");
+     dateIPO = new Date(ipoDate );
+
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/SPOController/insertSPOInfo",
-		data:{commonityId:commonityId,
-			registerDate:registerDate,
-			spoDate:spoDate,
-			ipoDate:ipoDate,
-			rationType:rationType,
-			rationCounts:rationCounts,
+		data:{communityId:commonityId,
+			spoCounts:spoCounts,
 			spoPrice:spoPrice,
-			positionsPrice:positionsPrice,
+			registerDate:dateRe,
+			spoDate:dateSPO,
+			ipoDate:dateIPO,
+			rationType:rationType,
 			minRationCounts:minRationCounts,
-			minRationProportion:minRationProportion
+			positionsPrice:positionsPrice
 		},
 		success:function(data){
         	if(data=="success")
@@ -72,6 +163,112 @@ function addSPOInfo(){
          } 
 	});
 }
+
+//修改日期格式
+function myformatter(date){
+		 var y = date.getFullYear();
+		 var m = date.getMonth()+1;
+		 var d = date.getDate();
+		 return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+	}
+function myparser(s){
+		 if (!s) return new Date();
+		 var ss = (s.split('-'));
+		 var y = parseInt(ss[0],10);
+		 var m = parseInt(ss[1],10);
+		 var d = parseInt(ss[2],10);
+		 if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+		 return new Date(y,m-1,d);
+	}else{
+		return new Date();
+	}
+ }
+
+
+//验证
+var nonnegative = /^\d+(\.{1}\d+)?$/;//正则表达式 数字
+var pintegral =  /^[0-9]*[1-9][0-9]*$/;//正则表达式，正整数！
+var zeroToHundred = /^(\d{1,2}(\.{1}\d+)?|100)$/;//正则表达式，0~100的数；
+
+function validate3(obj){
+	 if($(obj).val()=="")
+		 return;
+	 if(!pintegral.test($(obj).val())){
+		 alert("请输入正整数！");
+		 $(obj).val("");
+	 }
+}
+
+//验证是否为数字
+function validate1(obj){
+	if($(obj).val()=="")
+		return;
+	 if(!nonnegative.test($(obj).val())){
+		 alert("请输入非负数！");
+		 $(obj).val("");
+	 }
+}
+//验证是否是0~一百的数
+function validate2(obj){
+	if($(obj).val()=="")
+		return;
+	 if(!zeroToHundred.test($(obj).val())){
+		 alert("请输入小于100的非负数！");
+		 $(obj).val("");
+	 }
+}
+//获取当前日期
+function getDateNow(){
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+    return currentdate;
+}  
+//日期验证
+function onSelect(){
+	var tempDate = $("#spoDate").datebox("getValue");
+	var nowDate=getDateNow(); 
+	var bool = myDateValidate(tempDate,nowDate);  
+    if(!bool)  
+	 {  
+	  alert("不能选择过去的日期！");  
+	  $("#spoDate").datebox("setValue","");
+	  return;
+	 }
+}
+function onSelect2(){
+	var tempDate = $("#ipoDate").datebox("getValue");
+	var nowDate=getDateNow(); 
+	var bool = myDateValidate(tempDate,nowDate);
+    if(!bool)  
+	 {  
+	  alert("不能选择过去的日期！");  
+	  $("#ipoDate").datebox("setValue","");
+	  return;
+	 }
+}
+
+function myDateValidate(tempDate,nowDate){
+	var d1 = new Date(tempDate.replace(/\-/g, "\/"));  
+	var d2 = new Date(nowDate.replace(/\-/g, "\/"));
+	if(nowDate!=""&&tempDate!=""&&d1<d2)  
+	 {  
+	  return false;
+	 }
+	else{
+		return true;
+	}
+}
+
 
 </script>
 </head>
@@ -108,7 +305,7 @@ function addSPOInfo(){
 				<td>
 				<span>登记日期：</span>
 				<span>
-					<input id="registerDate" class="easyui-datebox" style="width:150px">
+					<input id="registerDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 				</span>	
 				</td>
 			</tr>
@@ -116,7 +313,7 @@ function addSPOInfo(){
 				<td>
 				<span>增发日期：</span>
 				<span>
-					<input id="spoDate" class="easyui-datebox" style="width:150px">
+					<input id="spoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect">
 				</span>	
 				</td>
 			</tr>
@@ -124,10 +321,10 @@ function addSPOInfo(){
 				<td>
 				<span>上市日期：</span>
 				<span>
-					<input id="ipoDate" class="easyui-datebox" style="width:150px">
+					<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect2">
 				</span>	
 				</td>
-			</tr>
+			</tr>	
 			<tr align="center">
 				<td>
 				<span>配售类型：</span>
@@ -142,9 +339,9 @@ function addSPOInfo(){
 			</tr>
 			<tr class="all" align="center">
 				<td>
-				<span>配售数量：</span>
+				<span>增发数量：</span>
 				<span>
-					<input id="rationCounts" class="easyui-textbox" style="width:150px">
+					<input onblur="validate3(this);" id="spoCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>	
@@ -152,7 +349,7 @@ function addSPOInfo(){
 				<td>
 				<span>增发价格：</span>
 				<span>
-					<input id="spoPrice" class="easyui-textbox" style="width:150px">
+					<input onblur="validate1(this);" id="spoPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -160,7 +357,7 @@ function addSPOInfo(){
 				<td>
 				<span>持仓价格：</span>
 				<span>
-					<input id="positionsPrice" class="easyui-textbox" style="width:150px">
+					<input onblur="validate1(this);" id="positionsPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -168,7 +365,7 @@ function addSPOInfo(){
 				<td>
 				<span>最小配售数量：</span>
 				<span style="margin-right:25px">
-					<input id="minRationCounts" class="easyui-textbox" style="width:150px">
+					<input onblur="validate3(this);" id="minRationCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -176,7 +373,7 @@ function addSPOInfo(){
 				<td>
 				<span >最小配售比例：</span>
 				<span style="margin-right:18px">
-					<input id="minRationProportion" class="easyui-textbox" style="width:150px">%
+					<input onblur="validate2(this);" id="minRationProportion" class="easyui-textbox" style="width:150px">%
 				</span>	
 				</td>
 			</tr>
@@ -184,8 +381,8 @@ function addSPOInfo(){
 		<table width="100%" style="margin-top:15px">
 			<tr >
 				<td align="center">
-					<button class="btn_sec" id="add" onclick="addSPOInfo()">添加</button>
-					<button class="btn_sec" onclick="test()">关闭</button>
+					<input type="button" class="btn_sec" id="add" onclick="addSPOInfo()" value="添加">
+					<button  onclick="test()">关闭</button>
 				</td>
 			</tr>
 		</table>
