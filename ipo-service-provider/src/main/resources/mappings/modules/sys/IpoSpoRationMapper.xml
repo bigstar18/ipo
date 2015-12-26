@@ -3,7 +3,7 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
     <id column="RATIONID" property="rationid" jdbcType="DECIMAL" />
-    <result column="SPOID" property="spoid" jdbcType="DECIMAL" />
+    <result column="SPOID" property="spoid" jdbcType="VARCHAR" />
     <result column="RATIONCOUNTS" property="rationcounts" jdbcType="DECIMAL" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="OPERATIONDATE" property="operationdate" jdbcType="DATE" />
@@ -14,6 +14,12 @@
     <result column="FIRMNAME" property="firmname" jdbcType="VARCHAR" />
     <result column="SALESID" property="salesid" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <sql id="Base_Column_List" >
+    RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
+    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
+  </sql>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from IPO_SPO_RATION
     where RATIONID = #{rationid,jdbcType=DECIMAL}
@@ -23,14 +29,14 @@
       FIRMID, OPERATIONDATE, RATIONLOAN, 
       SERVICEFEE, SALES_ALLOCATIONRATIO, SALES_REBATERATIO, 
       FIRMNAME, SALESID)
-    values (#{rationid,jdbcType=DECIMAL}, #{spoid,jdbcType=DECIMAL}, #{rationcounts,jdbcType=DECIMAL}, 
+    values (#{rationid,jdbcType=DECIMAL}, #{spoid,jdbcType=VARCHAR}, #{rationcounts,jdbcType=DECIMAL}, 
       #{firmid,jdbcType=VARCHAR}, #{operationdate,jdbcType=DATE}, #{rationloan,jdbcType=DECIMAL}, 
       #{servicefee,jdbcType=DECIMAL}, #{salesAllocationratio,jdbcType=DECIMAL}, #{salesRebateratio,jdbcType=DECIMAL}, 
       #{firmname,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
     update IPO_SPO_RATION
-    set SPOID = #{spoid,jdbcType=DECIMAL},
+    set SPOID = #{spoid,jdbcType=VARCHAR},
       RATIONCOUNTS = #{rationcounts,jdbcType=DECIMAL},
       FIRMID = #{firmid,jdbcType=VARCHAR},
       OPERATIONDATE = #{operationdate,jdbcType=DATE},
@@ -49,8 +55,16 @@
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
-    from IPO_SPO_RATION
+  select * from (
+    select <include refid="Base_Column_List" /> from IPO_SPO_RATION
+    where 1=1
+    <if test="SpoComm"></if>
+     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
   </select>
+  <select id="selectBySPOid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
+    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
+    from IPO_SPO_RATION WHERE SPOID = #{spoid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

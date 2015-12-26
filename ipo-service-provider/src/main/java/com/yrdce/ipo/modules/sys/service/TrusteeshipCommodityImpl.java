@@ -3,9 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -42,13 +40,13 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	
 	
 	/**
-	 * 分页查询可申购的托管商品
+	 * 分页查询查询托管商品计划
 	 * @param pageNo
 	 * @param pageSize
 	 * @param commodity
 	 * @return
 	 */
-	public List<TrusteeshipCommodity> queryApplyForPage(String pageNoStr,
+	public List<TrusteeshipCommodity> queryPlanForPage(String pageNoStr,
 			String pageSizeStr, TrusteeshipCommodity commodity) {
 		
 		int startIndex=PageUtil.getStartIndex(pageNoStr, pageSizeStr); 
@@ -65,11 +63,11 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 
 	
 	/**
-	 * 查询可申购的托管商品数量
+	 * 查询可申购的托管计划数量
 	 * @param commodity
 	 * @return
 	 */
-	public long queryApplyForCount(TrusteeshipCommodity commodity) {
+	public long queryPlanForCount(TrusteeshipCommodity commodity) {
 		 long count=shipCommodityMapper.queryApplyForCount(commodity);
 		 return count;
 	}
@@ -136,11 +134,11 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	/**
 	 * 查询商户提交的申请 
 	 */
-	public List<Trusteeship> queryMyApplyForPage(String pageNoStr,
+	public List<Trusteeship> queryApplyForPage(String pageNoStr,
 			String pageSizeStr, Trusteeship ship) {
 		int startIndex=PageUtil.getStartIndex(pageNoStr, pageSizeStr); 
 		int endIndex=PageUtil.getEndIndex(pageNoStr, pageSizeStr);
-		List<IpoTrusteeship> dbList= shipMapper.queryMyApplyForPage(startIndex, endIndex, ship);
+		List<IpoTrusteeship> dbList= shipMapper.queryApplyForPage(startIndex, endIndex, ship);
 		List<Trusteeship> dataList=new ArrayList<Trusteeship>();
 		for(IpoTrusteeship item :dbList){
 			Trusteeship entity=new Trusteeship();
@@ -155,8 +153,8 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	/**
 	 * 查询商户提交的申请数量 
 	 */
-	public long queryMyApplyForCount(Trusteeship ship) {
-		long count=shipMapper.queryMyApplyForCount(ship);
+	public long queryApplyForCount(Trusteeship ship) {
+		long count=shipMapper.queryApplyForCount(ship);
 		return count;
 	}
 	
@@ -165,11 +163,11 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 * 撤销我的申请
 	 */
 	@Transactional
-	public void cancelMyApply(Trusteeship ship) throws Exception{
+	public void cancelApply(Trusteeship ship) throws Exception{
 		saveHis(ship.getId(),ship.getUpdateUser());
 		ship.setState(TrusteeshipConstant.State.CANCEL.getCode());
 		ship.setUpdateDate(new Date());
-		shipMapper.canelMyApply(ship);
+		shipMapper.canelApply(ship);
 	}
 	
 	

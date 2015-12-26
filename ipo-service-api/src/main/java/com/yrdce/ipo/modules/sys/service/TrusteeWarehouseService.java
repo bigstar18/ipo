@@ -2,7 +2,6 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.util.List;
 
-import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
 
 /**
@@ -39,7 +38,7 @@ public interface TrusteeWarehouseService {
 	 * @param trusteeshipWarehouse
 	 * @return
 	 */
-	public List<Integer> getTrusteeshipWarehouseByCommId(String commId);
+	public List<Long> getTrusteeshipWarehouseByCommId(String commId);
 
 	/**
 	 * 新增托管某商品的仓库
@@ -64,12 +63,5 @@ public interface TrusteeWarehouseService {
 	 * @return
 	 */
 	public Integer deleteTrusteeWare(String commId);
-
-	/**
-	 * 获取所有仓库列表
-	 * 
-	 * @return
-	 */
-	public List<BiWarehouse> selectAllWarehouses();
 
 }

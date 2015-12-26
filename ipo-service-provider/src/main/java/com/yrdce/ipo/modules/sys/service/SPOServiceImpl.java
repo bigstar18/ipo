@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoSpo;
-import com.yrdce.ipo.modules.sys.vo.IpoSpoRation;
+import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
 /**
  * 
@@ -32,6 +38,10 @@ public class SPOServiceImpl implements SPOService {
 	private IpoSpoMapper ipoSpoMapper;
 	@Autowired
 	private IpoSpoCommoditymanmaagementMapper ipoSPOComm;
+	@Autowired
+	private IpoCommodityMapper ipoCommodityMapper;
+	@Autowired
+	private IpoSpoRationMapper ipoSpoRationMapper;
 
 	@Override
 	public List<Spo> getInfoByPages(Spo spo, String page, String rows) {
@@ -86,51 +96,66 @@ public class SPOServiceImpl implements SPOService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-
-		return null;
+		List<SpoCommoditymanmaagement> list1 = new ArrayList<SpoCommoditymanmaagement>();
+		List<IpoSpoCommoditymanmaagement> list2 = ipoSPOComm.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, spoComm);
+		for (IpoSpoCommoditymanmaagement ipoSPOCommoditymanmaagement : list2) {
+			SpoCommoditymanmaagement spoCommoditymanmaagement = new SpoCommoditymanmaagement();
+			BeanUtils.copyProperties(ipoSPOCommoditymanmaagement, spoCommoditymanmaagement);
+			list1.add(spoCommoditymanmaagement);
+		}
+		return list1;
 	}
 
 	// 获得商品名称以及商品代码
 	@Override
 	public Map<String, String> getCommodityidByAll() throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("获得商品名称以及商品代码");
-		return null;
+		List<IpoCommodity> list1 = ipoCommodityMapper.selectAll();
+		Map<String, String> map = new HashMap<String, String>();
+		for (IpoCommodity ipoCommodity : list1) {
+			String id = ipoCommodity.getCommodityid();
+			String name = ipoCommodity.getCommodityname();
+			map.put(id, name);
+		}
+		return map;
 	}
 
 	// 添加增发信息
 	@Override
 	@Transactional
 	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom) throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("添加增发信息");
-		return 0;
+		return ipoSPOComm.insert(ipoSpoCom);
 	}
 
 	// 修改增发信息
 	@Override
 	@Transactional
 	public int updateSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("修改增发信息");
-		return 0;
+		return ipoSPOComm.updateByPrimaryKey(spoComm);
 	}
 
 	// 删除增发信息
 	@Override
 	@Transactional
 	public int deleteSPOInfo(String spoid) throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("删除增发信息" + "增发id:" + spoid);
-		return 0;
+		return ipoSPOComm.deleteByPrimaryKey(spoid);
 	}
 
 	// 承销商配售比例信息
 	@Override
-	public List<IpoSpoRation> getRationInfo(SpoCommoditymanmaagement spoComm) throws Exception {
-		// TODO Auto-generated method stub
+	public List<SpoRation> getRationInfo(String spoid) throws Exception {
 		logger.info("承销商配售比例信息");
-		return null;
+		List<IpoSpoRation> list1 = ipoSpoRationMapper.selectBySPOid(spoid);
+		List<SpoRation> list2 = new ArrayList<SpoRation>();
+		for (IpoSpoRation ipoSpoRation : list1) {
+			SpoRation spoRation = new SpoRation();
+			BeanUtils.copyProperties(ipoSpoRation, spoRation);
+			list2.add(spoRation);
+		}
+		return list2;
 	}
 
 	// 更新承销商配售比例
@@ -145,7 +170,7 @@ public class SPOServiceImpl implements SPOService {
 	// 分配承销商配售比例
 	@Override
 	@Transactional
-	public int insertByRation(IpoSpoRation ipoSpoRation) throws Exception {
+	public int insertByRation(SpoRation SpoRation) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("分配承销商配售比例");
 		return 0;
@@ -153,9 +178,14 @@ public class SPOServiceImpl implements SPOService {
 
 	// 分页获取配售信息
 	@Override
-	public List<IpoSpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception {
-		// TODO Auto-generated method stub
+	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("分页获取配售信息");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<SpoRation> list1 = new ArrayList<SpoRation>();
+		// List<IpoSpoCommoditymanmaagement> list2 = ipoSpoRationMapper.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, spoComm);
 		return null;
 	}
 
@@ -167,4 +197,5 @@ public class SPOServiceImpl implements SPOService {
 		logger.info("删除配售信息" + "配售id:" + rationid);
 		return 0;
 	}
+
 }

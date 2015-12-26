@@ -3,8 +3,8 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
 <%@page import="java.lang.String"%> 
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%//String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String dealerId ="111";%>
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String dealerId ="111";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -33,7 +33,7 @@ String dealerId ="111";%>
     $(document).ready(function() {
       $('#dg').datagrid({
     	method:"get",
-        url: '<%=request.getContextPath()%>/SettlementDeliveryController/print?dealerId='+<%=dealerId %>, //从远程站点请求数据的 URL。
+        url: '<%=request.getContextPath()%>/SettlementDeliveryController/print?dealerId='+'<%=dealerId %>', //从远程站点请求数据的 URL。
         loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
         iconCls: 'icon-ok', //它将显示一个背景图片
         fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。

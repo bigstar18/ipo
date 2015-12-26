@@ -1,6 +1,9 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.TrusteeshipConstant;
+import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 
 /**
@@ -31,14 +37,15 @@ import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 public class TrusteeshipCommodityController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
-	
 	@Autowired
 	private TrusteeshipCommodityService trusteeshipCommodityService;
 	@Autowired
 	private CommodityService commodityService;
+	@Autowired
+	private BiWarehouseService biWarehouseService;
 	
 	/**
-	 * 查询可申购的托管商品
+	 * 查询可申购的托管计划
 	 * @param pageNo
 	 * @param pageSize
 	 * @return
@@ -52,10 +59,10 @@ public class TrusteeshipCommodityController {
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setCommodityName(request.getParameter("commodityName"));
-		long count=trusteeshipCommodityService.queryApplyForCount(commodity);
+		long count=trusteeshipCommodityService.queryPlanForCount(commodity);
 		List<TrusteeshipCommodity> dataList=null;
 		if(count>0){
-			dataList=trusteeshipCommodityService.queryApplyForPage(pageNo, pageSize, commodity);
+			dataList=trusteeshipCommodityService.queryPlanForPage(pageNo, pageSize, commodity);
 		}
 		ResponseResult result = new ResponseResult();
 		result.setTotal( new Long(count).intValue());
@@ -75,7 +82,7 @@ public class TrusteeshipCommodityController {
 			
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setId(Long.valueOf(request.getParameter("id")));
-		commodity.setUpdateUser("999");
+		commodity.setUpdateUser(getloginUserId(request));
 		try {
 			trusteeshipCommodityService.deletePlan(commodity);
 		} catch (Exception e) {
@@ -115,7 +122,7 @@ public class TrusteeshipCommodityController {
 		commodity.setPlan(request.getParameter("plan"));
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
 		commodity.setRemark(request.getParameter("remark"));
-		commodity.setCreateUser("999");
+		commodity.setCreateUser(getloginUserId(request));
 		try {
 			trusteeshipCommodityService.savePlan(commodity);
 		} catch (Exception e) {
@@ -162,7 +169,7 @@ public class TrusteeshipCommodityController {
 		commodity.setPlan(request.getParameter("plan"));
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
 		commodity.setRemark(request.getParameter("remark"));
-		commodity.setUpdateUser("999");
+		commodity.setUpdateUser(getloginUserId(request));
 		try {
 			trusteeshipCommodityService.updatePlan(commodity);
 		} catch (Exception e) {
@@ -172,6 +179,68 @@ public class TrusteeshipCommodityController {
 		return true;
 	}
 	
+	
+	/**
+	 * 跳转到申请管理界面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/apply")
+	public String apply(HttpServletRequest request,Model model){
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		model.addAttribute("stateList", TrusteeshipConstant.State.values());
+		return "app/trusteeship/apply";
+	}
+	
+	
+	/**
+	 * 查询商户的申请记录 
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryApply")
+	@ResponseBody
+	public String queryApply(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
+			HttpServletRequest request) 
+			throws Exception {
+		Trusteeship ship = new Trusteeship();
+		ship.setCommodityId(request.getParameter("commodityId"));
+		ship.setCommodityName(request.getParameter("commodityName"));
+		if(request.getParameter("state")!=null){
+			ship.setState(Integer.parseInt(request.getParameter("state")));
+		}
+		if(request.getParameter("warehouseId")!=null){
+			ship.setWarehouseId(Long.parseLong(request.getParameter("warehouseId")));
+		}
+		ship.setBeginCreateDate(request.getParameter("beginCreateDate"));
+		ship.setEndCreateDate(request.getParameter("endCreateDate"));
+		ship.setBeginAuditingDate(request.getParameter("beginAuditingDate"));
+		ship.setEndAuditingDate(request.getParameter("endAuditingDate"));
+		ship.setCreateUser(request.getParameter("createUser"));
+		long count=trusteeshipCommodityService.queryApplyForCount(ship);
+		List<Trusteeship> dataList=new ArrayList<Trusteeship>();
+		if(count>0){
+			dataList=trusteeshipCommodityService.queryApplyForPage(pageNo, pageSize, ship);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal( new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+	
+	
+	private String getloginUserId(HttpServletRequest request){
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+		if(user!=null){
+			return user.getUserID();
+		}
+		return "nologin";
+	}
 	
 	
 	

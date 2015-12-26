@@ -4,26 +4,25 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>在线委托申请</title>
+  <title>托管申请查询</title>
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
-  <link href="${root}/fronnt/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
+  <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
 
- <body>
+  <body>
 <div class="main">
 
-	<div class="msg">
-	      您当前的位置：<span>在线委托申请</span>
-	</div>
+<div class="msg">
+      您当前的位置：<span>托管申请查询</span>
+    </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
       <div class="content"> 
-            1.在此展示您的可在线托管申请信息。 
-			2.在进行托管的同时，请同意协议中的相关条款!!!。 
-			3.以下带*的为必填项。
+            1.在此展示您的所有托管申请信息。 
+			2.如果您要查看详情，可点击查看详情。
       </div>
     </div>
   <table id="dg"></table>
@@ -46,44 +45,27 @@
       title: '商品信息', //列的标题文本。
       remoteSort: false, //定义是否从服务器排序数据。
       columns: [
-        [{
-          field: 'id',
-          title: 'id',
-          hidden:true
-         },{
-          field: 'commodityId',
-          title: '商品代码',
-          width: '15%',
-          align: 'center'
-        }, {
-          field: 'commodityName',
-          title: '商品名称',
-          width: '20%',
-          align: 'center'
-        }, {
-          field: 'plan',
-          title: '托管计划',
-          width: '20%',
-          align: 'center' 
-        }, {
-          field: 'counts',
-          title: '发行数量',
-          width: '15%',
-          align: 'center' 
-        },{
-          field: 'price',
-          title: '上市指导价',
-          width: '15%',
-          align: 'center'
-        }, {
-          field: 'oper',
-          title: '操作',
-          width: '15%',
-          align: 'center',
-          formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"add("+row.id+","+row.commodityId+","+row.price+","+row.counts+")\">" + "申请" + "</a>";
-            }
-        }]
+        [
+		  {field: 'id',title: 'id',hidden:true},
+          {field: 'commodityId',title: '商品代码',width: '6%',align: 'center'},
+          {field: 'commodityName',title: '商品名称',width: '10%',align: 'center'},
+          {field: 'createUserName',title: '交易商名称',width: '8%',align: 'center'},
+          {field: 'applyAmount',title: '申请数量',width: '6%',align: 'center'},
+          {field: 'instorageAmount',title: '入库数量',width: '6%',align: 'center'},
+          {field: 'plan',title: '托管计划',width: '10%',align: 'center'},
+          {field: 'delayCharge',title: '滞纳金',width: '7%',align: 'center'},
+          {field: 'stateName',title: '状态',width: '10%',align: 'center'},
+          {field: 'warehouseName',title: '仓库',width: '10%',align: 'center'},
+          {field: 'createDate',title: '申请时间',width: '10%',align: 'center'},
+          {field: 'auditingDate',title: '审核时间',width: '10%',align: 'center'},
+      	  {field: 'oper',title: '操作',width: '8%',align: 'center',
+             formatter: function(value, row, index) {
+              return "<a href=\"#\" onclick=\"view("+row.id+")\">" + "查看" + "</a>&nbsp;&nbsp;"+
+                     "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
+                      
+             }
+          }
+       ]
       ]
     });
     var p = $('#dg').datagrid('getPager');
@@ -94,36 +76,63 @@
     });
   });
   
-  function add(id,commodityId,price,counts){
-	  var url_='add_apply.jsp?id='+id+'&commodityId='+commodityId+'&price='+price+'&counts='+counts;
-	  openCenterWindow(url_,'add_win',650,350);
+  function canel(id,state){
+	  if(state!=1){
+		  alert('请选择状态为申请的记录');
+		  return false;
+	  };
+	  $.ajax({  
+		    url: '${root}/trusteeshipCommodityController/cancelMyApply?t='+Math.random(),  
+		    data:{"id":id},  
+		    type: 'POST',dataType: 'json',  
+		    success : function(data, stats) {  
+	             if(data==true||data=="true"){
+	            	 alert('撤销成功');
+	            	 doSearch();
+	             }else{
+	            	 alert('撤销失败');
+	             }
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	              alert('系统异常!');
+	        }
+		});  
   }
-  
+  function view(){
+	  alert('查看');
+  }
   function doSearch(){
     	$('#dg').datagrid('load',{
-    		commodityId:$('#commodityId').val()
+    		'commodityId':$('#commodityId').val(),'commodityName':$('#commodityName').val(),
+    		'state':$('#state').val(),'warehouseId':$('#warehouseId').val(),
+    		'beginCreateDate':$('#beginCreateDate').datebox('getValue'),'endCreateDate':$('#endCreateDate').datebox('getValue'),
+    		'beginAuditingDate':$('#beginAuditingDate').datebox('getValue'),'endAuditingDate':$('#endAuditingDate').datebox('getValue')
     	});
    }
   
-  function openCenterWindow(url, name, width,height ) {
-		var str = "height=" + height + ",innerHeight=" + height;
-		str += "px,width=" + width + "px,innerWidth=" + width;
-		if (window.screen) {
-			var ah = screen.availHeight - 30;
-			var aw = screen.availWidth - 10;
-			var xc = (aw - width) / 2;
-			var yc = (ah - height) / 2;
-			xc = xc >= 0 ? xc : 0 ;
-			yc = yc >= 0 ? yc : 0 ;
-			str += ",left=" + xc + ",screenX=" + xc;
-			str += ",top=" + yc + ",screenY=" + yc;
-		}
-	    window.open(url, name, str);
-	}
+  
+  
+  
   </script>
   <div id="tb" style="padding:5px;height:auto">
     <div>
-      商品代码： <input type="text" id="commodityId"/>
+                 商品代码：<input type="text" id="commodityId" size="10"/> 商品名称：<input type="text" id="commodityName" size="20"/>
+                 状态： <select style="width:100px;"   id="state">
+            <option value="-1">------全部------</option>
+            <c:forEach items="${stateList }" var="item">
+             <option value="${item.code }">${item.name}</option>
+            </c:forEach>     
+          </select>
+                 仓库： <select style="width:140px;" id="warehouseId">
+            <option value="-1">-----------全部-----------</option>
+            <c:forEach items="${warehouseList }" var="item">
+		      <option value="${item.id }">${item.warehousename}</option>
+		    </c:forEach>
+          </select>
+                 申请日期:<input class="easyui-datebox" type="datetime" id="beginCreateDate"  style="width:100px;" >~
+            <input class="easyui-datebox" type="datetime" id="endCreateDate"  style="width:100px"  >   
+                 审核日期:<input class="easyui-datebox" type="datetime" id="beginAuditingDate"  style="width:100px"  >~
+            <input class="easyui-datebox" type="datetime" id="endAuditingDate"  style="width:100px"  >
       <a href="#" class="easyui-linkbutton" iconCls="icon-search"   onclick="doSearch()">查询</a>
     </div>
   </div>

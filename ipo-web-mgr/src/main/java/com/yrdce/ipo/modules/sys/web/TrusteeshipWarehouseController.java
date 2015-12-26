@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService;
 import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -36,6 +37,9 @@ public class TrusteeshipWarehouseController {
 	@Autowired
 	private TrusteeWarehouseService trusteeshipWarehouseService;
 
+	@Autowired
+	private BiWarehouseService biWarehouseService;
+
 	/*
 	 * 修改托管仓库视图
 	 */
@@ -44,10 +48,9 @@ public class TrusteeshipWarehouseController {
 			HttpServletResponse response, Model model,
 			@RequestParam("commId") String commId,
 			@RequestParam("commName") String commName) {
-		List<Integer> warehouseIds = trusteeshipWarehouseService
+		List<Long> warehouseIds = trusteeshipWarehouseService
 				.getTrusteeshipWarehouseByCommId(commId);
-		List<BiWarehouse> allWarehouse = trusteeshipWarehouseService
-				.selectAllWarehouses();
+		List<BiWarehouse> allWarehouse = biWarehouseService.findAllWarehuses();
 		request.setAttribute("allWarehouse", allWarehouse);
 		request.setAttribute("commId", commId);
 		request.setAttribute("commName", commName);

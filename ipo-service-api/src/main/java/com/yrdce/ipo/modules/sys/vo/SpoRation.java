@@ -1,9 +1,14 @@
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class IpoSpoRation {
+/**
+ * 
+ * @author Bob
+ *
+ */
+public class SpoRation {
 	private Long rationid;
 
 	private String spoid;

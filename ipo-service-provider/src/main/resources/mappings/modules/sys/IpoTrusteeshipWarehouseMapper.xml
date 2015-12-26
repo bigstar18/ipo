@@ -63,7 +63,7 @@
       </if>
     </select>
     
-     <select id="selectWareIdsByCommId" resultType="Integer"  parameterType="String">
+     <select id="selectWareIdsByCommId" resultType="Long"  parameterType="String">
       SELECT T.WAREHOUSE_ID FROM IPO_TRUSTEESHIP_WAREHOUSE T WHERE T.COMMODITY_ID= #{commId}
     </select>
   

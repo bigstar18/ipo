@@ -1,16 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String dealerId ="111";%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
   <meta charset="utf-8">
-  <title>费用查询</title>
+  <title>在线委托申请</title>
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
   <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
@@ -18,24 +12,26 @@
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
 
-<body>
+ <body>
 <div class="main">
 
-<div class="msg">
-      您当前的位置：<span>费用查询</span>
-    </div>
+	<div class="msg">
+	      您当前的位置：<span>在线委托申请</span>
+	</div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">提货单费用查询:
-
+      <div class="content"> 
+            1.在此展示您的可在线托管申请信息。 
+			2.在进行托管的同时，请同意协议中的相关条款!!!。 
+			3.以下带*的为必填项。
       </div>
     </div>
   <table id="dg"></table>
   <script type="text/javascript">
   $(document).ready(function() {
     $('#dg').datagrid({
-	  method:"get",
-      url: '<%=request.getContextPath()%>/SettlementDeliveryController/costQuery?dealerId='+'<%=dealerId %>', //从远程站点请求数据的 URL。
+      url: '${root}/trusteeshipCommodityController/queryPlan?t='+Math.random(), //从远程站点请求数据的 URL。
+      method:"post",
       loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
       iconCls: 'icon-ok', //它将显示一个背景图片
       fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
@@ -47,55 +43,46 @@
       pageSize: 10, //当设置了 pagination 属性时，初始化页面尺寸。
       pageList: [5, 10, 15, 20], //当设置了 pagination 属性时，初始化页面尺寸的选择列表。
       toolbar: "#tb", //数据网格（datagrid）面板的头部工具栏。
-      title: '费用信息查询', //列的标题文本。
+      title: '商品信息', //列的标题文本。
       remoteSort: false, //定义是否从服务器排序数据。
       columns: [
         [{
-          field: 'deliveryId',
-          title: '提货单号',
-          width: 130,
+          field: 'id',
+          title: 'id',
+          hidden:true
+         },{
+          field: 'commodityId',
+          title: '商品代码',
+          width: '15%',
           align: 'center'
         }, {
-          field: 'deliveryMethod',
-          title: '提货方式',
-          width: 130,
+          field: 'commodityName',
+          title: '商品名称',
+          width: '20%',
           align: 'center'
         }, {
-          field: 'applyDate',
-          title: '申请日期',
-          width: 130,
+          field: 'plan',
+          title: '托管计划',
+          width: '20%',
+          align: 'center' 
+        }, {
+          field: 'counts',
+          title: '发行数量',
+          width: '15%',
+          align: 'center' 
+        },{
+          field: 'price',
+          title: '上市指导价',
+          width: '15%',
+          align: 'center'
+        }, {
+          field: 'oper',
+          title: '操作',
+          width: '15%',
           align: 'center',
-          formatter: function(value, row) {
-            return value.substr(0, 10);
-          }
-        }, {
-          field: 'deliveryDate',
-          title: '提货日期',
-          width: 130,
-          align: 'center',
-          formatter: function(value, row) {
-            return value.substr(0, 10);
-          }
-        }, {
-          field: 'insurance',
-          title: '保险费',
-          width: 130,
-          align: 'center'
-        }, {
-          field: 'trusteeFee',
-          title: '托管费',
-          width: 130,
-          align: 'center'
-        }, {
-          field: 'warehousingFee',
-          title: '仓储费',
-          width: 130,
-          align: 'center'
-        }, {
-          field: 'deliverFee',
-          title: '提货单费用',
-          width: 130,
-          align: 'center'
+          formatter: function(value, row, index) {
+              return "<a href=\"#\" onclick=\"add("+row.id+","+row.commodityId+","+row.price+","+row.counts+")\">" + "申请" + "</a>";
+            }
         }]
       ]
     });
@@ -105,19 +92,39 @@
       afterPageText: '页    共 {pages} 页',
       displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
-  })
+  });
+  
+  function add(id,commodityId,price,counts){
+	  var url_='add_apply.jsp?id='+id+'&commodityId='+commodityId+'&price='+price+'&counts='+counts;
+	  openCenterWindow(url_,'add_win',650,350);
+  }
   
   function doSearch(){
     	$('#dg').datagrid('load',{
-    	deliveryorderId:$('#deliveryorderId').val()
+    		commodityId:$('#commodityId').val()
     	});
-    }
+   }
+  
+  function openCenterWindow(url, name, width,height ) {
+		var str = "height=" + height + ",innerHeight=" + height;
+		str += "px,width=" + width + "px,innerWidth=" + width;
+		if (window.screen) {
+			var ah = screen.availHeight - 30;
+			var aw = screen.availWidth - 10;
+			var xc = (aw - width) / 2;
+			var yc = (ah - height) / 2;
+			xc = xc >= 0 ? xc : 0 ;
+			yc = yc >= 0 ? yc : 0 ;
+			str += ",left=" + xc + ",screenX=" + xc;
+			str += ",top=" + yc + ",screenY=" + yc;
+		}
+	    window.open(url, name, str);
+	}
   </script>
   <div id="tb" style="padding:5px;height:auto">
     <div>
-      提货单号：
-      <input type="text" id="deliveryorderId"/>
-      <input type="button" value="查询" onclick="doSearch()" />
+      商品代码： <input type="text" id="commodityId"/>
+      <a href="#" class="easyui-linkbutton" iconCls="icon-search"   onclick="doSearch()">查询</a>
     </div>
   </div>
   </div>

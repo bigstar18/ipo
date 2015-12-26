@@ -13,20 +13,20 @@ import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 public interface TrusteeshipCommodityService {
 
 	/**
-	 * 分页查询可申购的托管商品
+	 * 分页查询查询托管商品计划
 	 * @param pageNo
 	 * @param pageSize
 	 * @param commodity
 	 * @return
 	 */
-	public List<TrusteeshipCommodity> queryApplyForPage(String pageNo,String pageSize,
+	public List<TrusteeshipCommodity> queryPlanForPage(String pageNo,String pageSize,
 			TrusteeshipCommodity commodity);
 	/**
-	 * 查询可申购的托管商品数量
+	 * 查询可申购的托管计划数量
 	 * @param commodity
 	 * @return
 	 */
-	public long queryApplyForCount(TrusteeshipCommodity commodity);
+	public long queryPlanForCount(TrusteeshipCommodity commodity);
 	/**
 	 * 删除托管计划
 	 * @param commodity
@@ -65,7 +65,7 @@ public interface TrusteeshipCommodityService {
      * @param ship
      * @return
      */
-	public List<Trusteeship> queryMyApplyForPage(String pageNo,String pageSize,
+	public List<Trusteeship> queryApplyForPage(String pageNo,String pageSize,
 			Trusteeship ship);
 	
 	/**
@@ -73,17 +73,17 @@ public interface TrusteeshipCommodityService {
 	 * @param ship
 	 * @return
 	 */
-	public long queryMyApplyForCount(Trusteeship ship);
+	public long queryApplyForCount(Trusteeship ship);
 	
 	/**
-	 * 撤销我的申请
+	 * 撤销申请
 	 * @param ship
 	 */
-	public void cancelMyApply(Trusteeship ship)throws Exception;
+	public void cancelApply(Trusteeship ship)throws Exception;
 	
 	
 	
-	
+	 
 	
     
 }

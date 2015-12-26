@@ -7,9 +7,14 @@
     <result column="id" property="id"  />
     <result column="commodity_id" property="commodityId"  />
     <result column="commodityname" property="commodityName"  />
+    <result column="create_user" property="createUser"  />
     <result column="create_user_name" property="createUserName"  />
+    <result column="create_user_mobile" property="createUserMobile"  />
     <result column="apply_amount" property="applyAmount"  />
     <result column="instorage_amount" property="instorageAmount"  />
+    <result column="effective_amount" property="effectiveAmount"  />
+    <result column="position_amount" property="positionAmount"  />
+    <result column="publish_charge" property="publishCharge"  />
     <result column="plan" property="plan"  />
     <result column="delay_charge" property="delayCharge"  />
     <result column="state" property="state"  />
@@ -40,16 +45,19 @@
   </insert>
    
    
-   <select id="queryMyApplyForPage" resultMap="IpoTrusteeshipResultMap"  parameterType="map" >
+   <select id="queryApplyForPage" resultMap="IpoTrusteeshipResultMap"  parameterType="map" >
        select * from (
-	        select ship.id,ship.commodity_id,comm.commodityname,cu.name as create_user_name,ship.apply_amount,ship.instorage_amount,
-				trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,biware.warehousename,rownum as row_num
+	        select ship.id,ship.commodity_id,comm.commodityname,ship.create_user,firm.name as create_user_name,
+	               firm.mobile as create_user_mobile,
+	               ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
+				   trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,biware.warehousename,
+				   rownum as row_num
 			from ipo_trusteeship ship 
 			left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
 			left join ipo_trusteeship_warehouse  truware on (ship.commodity_id=truware.commodity_id)
 			left join bi_warehouse biware on (truware.warehouse_id=biware.id)
-			left join C_USER cu on (ship.create_user=cu.id)
+			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 			<if test="ship.commodityId!=null and ship.commodityId!='' ">
 				 and ship.commodity_id=#{ship.commodityId} 
@@ -59,6 +67,9 @@
 			</if>
 			<if test="ship.state>0 ">
 				and  ship.state=#{ship.state} 
+			</if>
+			<if test="ship.createUser!=null and ship.createUser!=''">
+				and  ship.create_user=#{ship.createUser} 
 			</if>
 			<if test="ship.warehouseId>0 ">
 				and  truware.warehouse_id=#{ship.warehouseId} 
@@ -80,14 +91,14 @@
 		 
   </select>
    
-   <select id="queryMyApplyForCount" resultType="java.lang.Long"    parameterType="map" >
+   <select id="queryApplyForCount" resultType="java.lang.Long"    parameterType="map" >
        select count(ship.id ) as count_ 
 			from ipo_trusteeship ship 
 			left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
 			left join ipo_trusteeship_warehouse  truware on (ship.commodity_id=truware.commodity_id)
 			left join bi_warehouse biware on (truware.warehouse_id=biware.id)
-			left join C_USER cu on (ship.create_user=cu.id)
+			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 		<if test="ship.commodityId!=null and ship.commodityId!='' ">
 			 and ship.commodity_id=#{ship.commodityId} 
@@ -97,6 +108,9 @@
 		</if>
 		<if test="ship.state>0 ">
 			and  ship.state=#{ship.state} 
+		</if>
+		<if test="ship.createUser!=null and ship.createUser!=''">
+				and  ship.create_user=#{ship.createUser} 
 		</if>
 		<if test="ship.warehouseId>0 ">
 			and  truware.warehouse_id=#{ship.warehouseId} 
@@ -116,7 +130,7 @@
 		 
   </select>
    
-  <update id="canelMyApply" parameterType="map">
+  <update id="canelApply" parameterType="map">
      update ipo_trusteeship t set t.state=#{ship.state},t.update_user=#{ship.updateUser},
             t.update_date=#{ship.updateDate,jdbcType=TIMESTAMP}
      where t.id=#{ship.id} 
