@@ -13,100 +13,7 @@
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          提货单号：
-	        </span>
-          </td>
-          <td align="center">
-            {{deliveryorderId}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          商品代码：
-	        </span>
-          </td>
-          <td align="center">
-          {{commodityId}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          商品名称：
-	        </span>
-          </td>
-          <td align="center">
-          {{commodityName}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          交收仓库名称：
-	        </span>
-          </td>
-          <td align="center">
-          {{warehouseName}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          持仓数量：
-	        </span>
-          </td>
-          <td align="center">
-          {{ccounts}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          提货日期：
-	        </span>
-          </td>
-          <td align="center" id="deliveryDate">
-          {{deliverDate}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          注册日期：
-	        </span>
-          </td>
-          <td align="center" id="applyDate">
-          {{applyDate}}
-          </td>
-        </tr>
-
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          提货单状态：
-	        </span>
-          </td>
-          <td align="center">
-          {{approvalStatus}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          交割数量：
-	        </span>
-          </td>
-          <td align="center">
-          {{deliverQuatity}}
-          </td>
-        </tr>
-
-
-
+        
 
         <tr class="deliver">
           <td align="center" height="35">
@@ -213,17 +120,6 @@
       var ctable = new Vue({
         el: '#ctable',
         data: {
-          "deliveryorderId": 132,
-          "commodityId": 1,
-          "commodityName": "hehe",
-          "warehouseName": "keke",
-          "ccounts": 2,
-          "deliverQuatity": 2,
-          "applyDate": "2015-12-16 00:00:00",
-          "deliverDate": "2015-12-16 00:00:00",
-          "approvalStatus": 0,
-          "deliveryMethod": 1,
-          "methodId": 2,
 
           "idcardNum": "3212343248329843209804",
           "pickupPassword": "adfa",
@@ -235,26 +131,27 @@
 
         }
       });
-      // $.ajax({
-      //   type: 'post',
-      //   url: "../../../SettlementDeliveryController/getDetail",
-      //   data:{"methodid":methodid},
-      //   success : function(response) {
-      //     var responseStr = $.parseJSON(response);
-      //   ctable.deliveryorderId = responseStr.deliveryorderId;
-      //   ctable.commodityId = responseStr.commodityId;
-      //   ctable.commodityName = responseStr.commodityName;
-      //   ctable.warehouseName = responseStr.warehouseName;
-      //   ctable.deliveryQuatity = responseStr.deliveryQuatity;
-      //   ctable.pickupPassword = responseStr.pickupPassword;
-      //   ctable.unit = responseStr.unit;
-      //   ctable.deliveryDate = responseStr.deliveryDate;
-      //   },
-      //   error: function(response) {
-      //     alert(response);
-      //     //console.log(response);
-      //   }
-      // });
+      $.ajax({
+	      type: 'post',
+	      url: "../../../SettlementDeliveryController/detail",
+	      data:{"methodid":methodId,"deliveryMethod":deliveryMethod},
+	      success : function(response) {
+	    	  //console.log(response);
+	    	  var responseStr = $.parseJSON(response);
+	    	  //console.log($.parseJSON(response));
+		      ctable.idcardNum = responseStr.idcardNum;
+		      ctable.pickupPassword = responseStr.pickupPassword;
+		      ctable.address = responseStr.address;
+		      ctable.cost = responseStr.cost;
+		      ctable.expressDate = responseStr.expressDate;
+		      ctable.receiver = responseStr.receiver;
+		      ctable.tel = responseStr.tel;
+	      },
+	      error: function(response) {
+	        alert(response);
+	        //console.log(response);
+	      }
+      });
 
       // $('#deliveryDate').val().substr(0, 10);
       // var cdata = $('#deliveryDate').text().substr(10, 10)

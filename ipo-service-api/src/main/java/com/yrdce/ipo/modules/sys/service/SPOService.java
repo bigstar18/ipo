@@ -3,7 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import com.yrdce.ipo.modules.sys.vo.IpoSpoRation;
+import com.yrdce.ipo.modules.sys.vo.SpoRation;
 import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 
@@ -38,16 +38,16 @@ public interface SPOService {
 	public int deleteSPOInfo(String spoid) throws Exception;
 
 	// 承销商配售信息(mgr)
-	public List<IpoSpoRation> getRationInfo(SpoCommoditymanmaagement spoComm) throws Exception;
+	public List<SpoRation> getRationInfo(String spoid) throws Exception;
 
 	// 承销商配售信息修改(mgr)
 	public int updateByRation(String spoid) throws Exception;
 
 	// 承销商配售信息插入(mgr)
-	public int insertByRation(IpoSpoRation ipoSpoRation) throws Exception;
+	public int insertByRation(SpoRation spoRation) throws Exception;
 
 	// 定向配售查询(mgr)
-	public List<IpoSpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
+	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 删除定向配售信息(mgr)
 	public int deleteByRation(String rationid) throws Exception;

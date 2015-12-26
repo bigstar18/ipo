@@ -187,19 +187,18 @@ public class SettlementDeliveryController {
 	}
 
 	// 提货查询详细
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/detail", method = RequestMethod.POST)
 	@ResponseBody
 	public String detail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
-			if (deliveryMethod == "自提") {
+			if (deliveryMethod.equals("1")) {
 				Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
 				return JSON.json(pickup);
-			} else if (deliveryMethod == "在线配送") {
+			} else {
 				Express express = settlementDeliveryService.getDetailByExpress(methodid);
 				return JSON.json(express);
 			}
-			return "";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

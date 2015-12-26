@@ -47,12 +47,7 @@ public class OutBoundController {
 
 	// 入库单添加视图
 	@RequestMapping(value = "/AddOutBoundView", method = RequestMethod.GET)
-<<<<<<< HEAD
-	public String AddOutBoundView(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
-=======
 	public String AddOutBoundView(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
-
 		try {
 			log.info("入库单添加");
 			return "app/outbound/addoutboundaudit";
