@@ -13,6 +13,8 @@
     <result column="SALES_REBATERATIO" property="salesRebateratio" jdbcType="DECIMAL" />
     <result column="FIRMNAME" property="firmname" jdbcType="VARCHAR" />
     <result column="SALESID" property="salesid" jdbcType="VARCHAR" />
+    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -24,7 +26,10 @@
     delete from IPO_SPO_RATION
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="rationid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
+  	<selectKey resultType="INTEGER" order="BEFORE" keyProperty=""rationid"">
+	SELECT SEQ_IPO_SPO_RATION.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_SPO_RATION (RATIONID, SPOID, RATIONCOUNTS, 
       FIRMID, OPERATIONDATE, RATIONLOAN, 
       SERVICEFEE, SALES_ALLOCATIONRATIO, SALES_REBATERATIO, 
@@ -55,16 +60,27 @@
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-  select * from (
     select <include refid="Base_Column_List" /> from IPO_SPO_RATION
-    where 1=1
-    <if test="SpoComm"></if>
-     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
   </select>
   <select id="selectBySPOid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
   select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
     SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
     from IPO_SPO_RATION WHERE SPOID = #{spoid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectSPOAndRa" resultMap="BaseResultMap" parameterType="map">
+  select * from (
+    select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
+	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.community_id,c.register_date,
+	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
+	where 1=1
+    <if test="IpoSpoComm.communityId != null">
+    and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
+    </if>
+    <if test="IpoSpoComm.registerDate != null">
+    and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
+    </if>
+     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
   
 </mapper>

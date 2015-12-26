@@ -31,6 +31,10 @@ public class SpoRation {
 
 	private String salesid;
 
+	private String communityId;
+
+	private Date registerDate;
+
 	public Long getRationid() {
 		return rationid;
 	}
@@ -118,4 +122,21 @@ public class SpoRation {
 	public void setSalesid(String salesid) {
 		this.salesid = salesid == null ? null : salesid.trim();
 	}
+
+	public String getCommunityId() {
+		return communityId;
+	}
+
+	public void setCommunityId(String communityId) {
+		this.communityId = communityId;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+
 }

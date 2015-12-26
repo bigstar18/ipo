@@ -3,9 +3,9 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import com.yrdce.ipo.modules.sys.vo.SpoRation;
 import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
 /**
  * 
@@ -29,7 +29,7 @@ public interface SPOService {
 	public Map<String, String> getCommodityidByAll() throws Exception;
 
 	// 添加增发(mgr)
-	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom) throws Exception;
+	public int insertSPOInfo(SpoCommoditymanmaagement SpoCom) throws Exception;
 
 	// 增发商品修改(mgr)
 	public int updateSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception;
@@ -41,14 +41,14 @@ public interface SPOService {
 	public List<SpoRation> getRationInfo(String spoid) throws Exception;
 
 	// 承销商配售信息修改(mgr)
-	public int updateByRation(String spoid) throws Exception;
+	public int updateByRation(List<SpoRation> spoRationList) throws Exception;
 
 	// 承销商配售信息插入(mgr)
-	public int insertByRation(SpoRation spoRation) throws Exception;
+	public int insertByRation(List<SpoRation> spoRationList) throws Exception;
 
 	// 定向配售查询(mgr)
 	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 删除定向配售信息(mgr)
-	public int deleteByRation(String rationid) throws Exception;
+	public int deleteByRation(Long rationid) throws Exception;
 }

@@ -96,8 +96,10 @@ public class SPOServiceImpl implements SPOService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
 		List<SpoCommoditymanmaagement> list1 = new ArrayList<SpoCommoditymanmaagement>();
-		List<IpoSpoCommoditymanmaagement> list2 = ipoSPOComm.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, spoComm);
+		List<IpoSpoCommoditymanmaagement> list2 = ipoSPOComm.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, ipospoComm);
 		for (IpoSpoCommoditymanmaagement ipoSPOCommoditymanmaagement : list2) {
 			SpoCommoditymanmaagement spoCommoditymanmaagement = new SpoCommoditymanmaagement();
 			BeanUtils.copyProperties(ipoSPOCommoditymanmaagement, spoCommoditymanmaagement);
@@ -123,9 +125,11 @@ public class SPOServiceImpl implements SPOService {
 	// 添加增发信息
 	@Override
 	@Transactional
-	public int insertSPOInfo(SpoCommoditymanmaagement ipoSpoCom) throws Exception {
+	public int insertSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("添加增发信息");
-		return ipoSPOComm.insert(ipoSpoCom);
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSPOComm.insert(ipospoComm);
 	}
 
 	// 修改增发信息
@@ -133,7 +137,9 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int updateSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("修改增发信息");
-		return ipoSPOComm.updateByPrimaryKey(spoComm);
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSPOComm.updateByPrimaryKey(ipospoComm);
 	}
 
 	// 删除增发信息
@@ -161,18 +167,26 @@ public class SPOServiceImpl implements SPOService {
 	// 更新承销商配售比例
 	@Override
 	@Transactional
-	public int updateByRation(String spoid) throws Exception {
-		// TODO Auto-generated method stub
-		logger.info("更新承销商配售比例" + "增发id:" + spoid);
+	public int updateByRation(List<SpoRation> spoRationList) throws Exception {
+		logger.info("更新承销商配售比例");
+		for (SpoRation spoRation : spoRationList) {
+			IpoSpoRation ipoSpoRation = new IpoSpoRation();
+			BeanUtils.copyProperties(spoRation, ipoSpoRation);
+			return ipoSpoRationMapper.updateByPrimaryKey(ipoSpoRation);
+		}
 		return 0;
 	}
 
 	// 分配承销商配售比例
 	@Override
 	@Transactional
-	public int insertByRation(SpoRation SpoRation) throws Exception {
-		// TODO Auto-generated method stub
+	public int insertByRation(List<SpoRation> spoRationList) throws Exception {
 		logger.info("分配承销商配售比例");
+		for (SpoRation spoRation : spoRationList) {
+			IpoSpoRation ipoSpoRation = new IpoSpoRation();
+			BeanUtils.copyProperties(spoRation, ipoSpoRation);
+			return ipoSpoRationMapper.insert(ipoSpoRation);
+		}
 		return 0;
 	}
 
@@ -184,18 +198,25 @@ public class SPOServiceImpl implements SPOService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
 		List<SpoRation> list1 = new ArrayList<SpoRation>();
-		// List<IpoSpoCommoditymanmaagement> list2 = ipoSpoRationMapper.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, spoComm);
-		return null;
+		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectSPOAndRa((curpage - 1) * pagesize + 1, curpage * pagesize, ipospoComm);
+		for (IpoSpoRation ipospoRation : list2) {
+			SpoRation spoRation = new SpoRation();
+			BeanUtils.copyProperties(ipospoRation, spoRation);
+			list1.add(spoRation);
+		}
+		return list1;
 	}
 
 	// 删除配售信息
 	@Override
 	@Transactional
-	public int deleteByRation(String rationid) throws Exception {
-		// TODO Auto-generated method stub
+	public int deleteByRation(Long rationid) throws Exception {
 		logger.info("删除配售信息" + "配售id:" + rationid);
-		return 0;
+
+		return ipoSpoRationMapper.deleteByPrimaryKey(rationid);
 	}
 
 }

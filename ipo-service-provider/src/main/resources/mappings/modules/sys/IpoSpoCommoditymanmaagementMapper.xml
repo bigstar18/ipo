@@ -30,7 +30,10 @@
     delete from IPO_SPO_COMMODITYMANMAAGEMENT
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="spoId" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="spoId">
+	SELECT SEQ_IPO_SPO_COMM.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
       SPO_PRICE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, RATION_SATE, RATION_TYPE, 
