@@ -60,7 +60,7 @@
 			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 			<if test="ship.commodityId!=null and ship.commodityId!='' ">
-				 and ship.commodity_id=#{ship.commodityId} 
+				 and ship.commodity_id like '%'||#{ship.commodityId}||'%' 
 			</if>
 			<if test="ship.commodityName!=null and ship.commodityName!='' ">
 			 	and  comm.commodityname like '%'||#{ship.commodityName}||'%' 
@@ -101,7 +101,7 @@
 			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 		<if test="ship.commodityId!=null and ship.commodityId!='' ">
-			 and ship.commodity_id=#{ship.commodityId} 
+			 and ship.commodity_id like '%'||#{ship.commodityId}||'%' 
 		</if>
 		<if test="ship.commodityName!=null and ship.commodityName!='' ">
 			 and  comm.commodityname like '%'||#{ship.commodityName}||'%' 

@@ -60,7 +60,7 @@ public class TrusteeshipCommodityController {
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setCommodityName(request.getParameter("commodityName"));
 		long count=trusteeshipCommodityService.queryPlanForCount(commodity);
-		List<TrusteeshipCommodity> dataList=null;
+		List<TrusteeshipCommodity> dataList=new ArrayList<TrusteeshipCommodity>();
 		if(count>0){
 			dataList=trusteeshipCommodityService.queryPlanForPage(pageNo, pageSize, commodity);
 		}

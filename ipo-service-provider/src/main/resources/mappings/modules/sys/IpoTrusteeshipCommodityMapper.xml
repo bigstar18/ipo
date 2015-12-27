@@ -26,7 +26,7 @@
 			left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 			where tc.delete_flag=0 
 			<if test="commodity.commodityId!=null and commodity.commodityId!='' ">
-				and tc.commodity_id=#{commodity.commodityId} 
+				and tc.commodity_id like '%'||#{commodity.commodityId}||'%' 
 			</if>
 			<if test="commodity.commodityName!=null and commodity.commodityName!='' ">
 				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
@@ -42,7 +42,7 @@
 	  left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 	  where tc.delete_flag=0
 	  <if test="commodity.commodityId!=null and commodity.commodityId!='' ">
-			and tc.commodity_id=#{commodity.commodityId} 
+			and tc.commodity_id like '%'||#{commodity.commodityId}||'%' 
 	  </if>
 	  <if test="commodity.commodityName!=null and commodity.commodityName!='' ">
 				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
