@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -257,11 +259,10 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("进行自提方式提货单审核");
 		try {
-			/*
-			 * String userId = ((UserManageVO)
-			 * session.getAttribute("CurrentUser")) .getUserID();
-			 */
-			String userId = "111";
+
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
@@ -283,11 +284,9 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("进行在线配送方式提货单审核");
 		try {
-			/*
-			 * String userId = ((UserManageVO)
-			 * session.getAttribute("CurrentUser")) .getUserID();
-			 */
-			String userId = "111";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
@@ -309,11 +308,9 @@ public class DeliveryController {
 			throws IOException {
 		log.info("撤销审核单");
 		try {
-			/*
-			 * String userId = ((UserManageVO)
-			 * session.getAttribute("CurrentUser")) .getUserID();
-			 */
-			String userId = "111";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			// String userId = "111";
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -364,11 +361,11 @@ public class DeliveryController {
 			throws IOException {
 		log.info("审核入库单");
 		try {
-			/*
-			 * String userId = ((UserManageVO)
-			 * session.getAttribute("CurrentUser")) .getUserID();
-			 */
-			String userId = "111";
+
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+
+			// String userId = "111";
 			int num = ipoStorageService.checkStorage(storageId, flag, userId);
 			if (num != 0) {
 				return new ModelAndView(
