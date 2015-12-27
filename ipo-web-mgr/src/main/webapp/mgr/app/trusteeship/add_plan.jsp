@@ -27,6 +27,9 @@
 				 if(dataForm.purchaseRate.value==""){
 					alert('申购发行比例不能为空!');return ;
 				 };
+				 if(dataForm.remark.value.length>200){
+					 alert('备注不能超过200个字符');return ;
+				 };
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/savePlan",  
 		  		    data:$('#dataForm').serialize(),  
@@ -62,7 +65,7 @@
 									<tr style="height: 30px">
         	  							<td align="right" >托管商品:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="commodityId" style="width:150px;">
+            							    <select name="commodityId" style="width:180px;">
             							      <option value="">请选择商品</option>
             							      <c:forEach items="${commodityList }" var="item">
             							        <option value="${item.commodityid }">${item.commodityname}</option>
@@ -73,13 +76,13 @@
             						</tr>
             						<tr style="height: 30px">   
         								<td align="right" >托管计划:&nbsp;&nbsp;</td>
-            							<td> <input name="plan" type="text" size="23" style="height: 24px;"/>  
-			  								<font style="color:red">*</font>
+            							<td> <input name="plan" type="text" size="28" style="height: 24px;font-size:12px;" maxlength="25"/>  
+			  								<font style="color:red">*</font>例如:20100101-20101231
             							</td> 
         							</tr>
         							<tr style="height: 30px">   
         								<td align="right" >申购发行比例:&nbsp;&nbsp;</td>
-            							<td> <input name="purchaseRate" type="text" size="21" style="height: 24px;"
+            							<td> <input name="purchaseRate" type="text" size="28" style="height: 24px;" maxlength="5"
             							    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                        						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>％
 			  								<font style="color:red">*</font> 
@@ -87,7 +90,7 @@
         							</tr>
         							<tr style="height: 30px">   
         								<td align="right" >备注:&nbsp;&nbsp;</td>
-            							<td> <textarea name="remark" rows="5" cols="21"></textarea> 
+            							<td> <textarea name="remark" rows="5" cols="26" ></textarea> 
             							</td> 
         							</tr>
 	 							</table >

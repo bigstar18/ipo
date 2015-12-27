@@ -12,6 +12,13 @@
   <script type="text/javascript">
   
       function save(){
+    	   
+    	  if(dataForm.applyAmount.value==""){
+    		  alert('申购数量不能为空!');return false;
+    	  };
+    	  if(parseInt(dataForm.applyAmount.value)>parseInt(dataForm.counts.value)){
+    		  alert('申购数量不能大于发行数量!');return false;
+    	  };
     	  $.ajax({  
   		    url: "${root}/trusteeshipCommodityController/saveApply",  
   		    data:$('#dataForm').serialize(),  
@@ -53,9 +60,10 @@
 		           <td> 发行数量:</td>
 		           <td><input type="text" name="counts" value="${param.counts}" readonly="readonly"/></td>
 		           <td> 申购数量:</td>
-		           <td><input type="text" name="applyAmount"   
+		           <td><input type="text" name="applyAmount" length="10"  maxlength="14"
 		               onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                        onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                       <font style="color:red">*</font>
                    </td>   
 		        </tr>
 		        <tr >

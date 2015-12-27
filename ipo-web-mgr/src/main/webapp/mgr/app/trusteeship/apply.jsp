@@ -15,9 +15,10 @@
 	    $('#dg').datagrid({
 	      url: '<%=request.getContextPath()%>/trusteeshipCommodityController/queryApply?t='+Math.random(), //从远程站点请求数据的 URL。
 	      method:"post",
+	      height:430,
 	      loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
 	      iconCls: 'icon-ok', //它将显示一个背景图片
-	      fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+	      fitColumns: false, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
 	      nowrap: true, //设置为 true，则把数据显示在一行里。设置为 true 可提高加载性能。
 	      singleSelect: true, //设置为 true，则只允许选中一行。
 	      striped: true, //设置为 true，则把行条纹化。（即奇偶行使用不同背景色）
@@ -33,7 +34,7 @@
 			  {field: 'id',title: 'id',hidden:true},
 	          {field: 'commodityId',title: '商品代码',width: '80',align: 'center'},
 	          {field: 'commodityName',title: '商品名称',width: '100',align: 'center'},
-	          {field: 'createUser',title: '交易商代码',width: '90',align: 'center'},
+	          {field: 'createUser',title: '交易商代码',width: '80',align: 'center'},
 	          {field: 'createUserName',title: '交易商名称',width: '100',align: 'center'},
 	          {field: 'createUserMobile',title: '联系电话',width: '80',align: 'center'},
 	          {field: 'applyAmount',title: '申请数量',width: '80',align: 'center'},
@@ -44,8 +45,8 @@
 	          {field: 'stateName',title: '状态',width: '100',align: 'center'},
 	          {field: 'publishCharge',title: '发行手续费',width: '80',align: 'center'},
 	          {field: 'warehouseName',title: '仓库',width: '100',align: 'center'},
-	          {field: 'createDate',title: '申请时间',width: '90',align: 'center'},
-	          {field: 'auditingDate',title: '审核时间',align: 'center'}
+	          {field: 'createDate',title: '申请时间',width: '130',align: 'center'},
+	          {field: 'auditingDate',title: '审核时间',width: '130',align: 'center'}
 	       ]
 	      ]
 	    });
@@ -80,26 +81,28 @@
 	<table id="dg" width="100%"></table>
 		<div id="tb" style="padding:5px;height:auto">
 		<div>
-		<form name="frm"  >
-			      商品代码：<input type="text" id="commodityId" size="10"/> 
-			      商品名称：<input type="text" id="commodityName" size="15"/>
-			      交易商代码：<input type="text" id="createUser" size="10"/> 
-		                 状态： <select style="width:100px;"   id="state">
-		            <option value="-1">------全部------</option>
+		<form name="frm"   style="line-height: 10px;">
+			      商品代码：<input type="text" id="commodityId" size="20"/> &nbsp;&nbsp;&nbsp;
+			      商品名称：<input type="text" id="commodityName" size="20"/>&nbsp;&nbsp;&nbsp;
+			      交易商代码：<input type="text" id="createUser" size="20"/> &nbsp;&nbsp;&nbsp;
+		                 状态： <select style="width:150px;"   id="state">
+		            <option value="-1">------------全部------------</option>
 		            <c:forEach items="${stateList }" var="item">
 		             <option value="${item.code }">${item.name}</option>
 		            </c:forEach>     
 		          </select>
-		                 仓库： <select style="width:140px;" id="warehouseId">
-		            <option value="-1">-----------全部-----------</option>
+		      <br/>
+		        申请日期:&nbsp;<input class="easyui-datebox" type="datetime" id="beginCreateDate"  style="width:120px;" >~
+		            <input class="easyui-datebox" type="datetime" id="endCreateDate"  style="width:120px"  >&nbsp;&nbsp;&nbsp;   
+		                 审核日期:&nbsp;<input class="easyui-datebox" type="datetime" id="beginAuditingDate"  style="width:120px"  >~
+		            <input class="easyui-datebox" type="datetime" id="endAuditingDate"  style="width:120px"  >&nbsp;&nbsp;
+		                 &nbsp;仓库:&nbsp;&nbsp;<select style="width:150px;" id="warehouseId">
+		            <option value="-1">-------------全部-------------</option>
 		            <c:forEach items="${warehouseList }" var="item">
 		             <option value="${item.id }">${item.warehousename}</option>
 		            </c:forEach>   
 		          </select>
-		                 申请日期:<input class="easyui-datebox" type="datetime" id="beginCreateDate"  style="width:100px;" >~
-		            <input class="easyui-datebox" type="datetime" id="endCreateDate"  style="width:100px"  >   
-		                 审核日期:<input class="easyui-datebox" type="datetime" id="beginAuditingDate"  style="width:100px"  >~
-		            <input class="easyui-datebox" type="datetime" id="endAuditingDate"  style="width:100px"  >
+		               
 		      <a href="#" class="easyui-linkbutton" iconCls="icon-search"   onclick="doSearch()">查询</a>					
 		</form> 
 		</div>
