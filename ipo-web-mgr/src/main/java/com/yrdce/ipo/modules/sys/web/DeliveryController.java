@@ -304,8 +304,8 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/cancelOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String cancelOrders(@RequestParam("deorderId") String deorderId)
-			throws IOException {
+	public String cancelOrders(@RequestParam("deorderId") String deorderId,
+			HttpSession session) throws IOException {
 		log.info("撤销审核单");
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
