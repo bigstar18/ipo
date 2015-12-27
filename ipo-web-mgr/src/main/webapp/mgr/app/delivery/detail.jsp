@@ -3,10 +3,14 @@
 <html>
 	<head>
 		<title>提货单详情</title>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/static/ipo/delivery/detail.js"> 
-</script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/static/ipo/delivery/detail.js"> </script>
+		<style type="text/css">
+		td{font-size:12px;}
+		tr{margin-top:10px}
+		input{background-color:#ccc}
+		</style>
 </head>
-<body leftmargin="14" topmargin="0">
+<body  leftmargin="14" topmargin="0">
 <div class="warning">
 		<div class="title font_orange_14b">温馨提示 : 提货单审核 </div>
 		<div class="content" style="color: red">此页展示提货单的详细信息，后台管理人员根据详细信息进行审核。  </div>
@@ -23,14 +27,14 @@
         				<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					          	<legend>
-					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common" >
-					            	<col width="55"></col><col></col><col width="6"></col>
-					               	<tr>
-					                 	<td><b style="font-size: 11px;">基本信息</b></td>
-					                    <td><hr width="90%" class="pickList"/></td>
-					            	</tr>
-					         	</table>
+					          	<legend>基本信息
+<!-- 					           	<table cellspacing="0" cellpadding="0" border="0" width="800" class="common" > -->
+<!-- 					            	<col width="55"></col><col></col><col width="6"></col> -->
+<!-- 					               	<tr> -->
+<!-- 					                 	<td><b style="font-size: 11px;">基本信息</b></td> -->
+<!-- 					                    <td><hr width="90%" class="pickList"/></td> -->
+<!-- 					            	</tr> -->
+<!-- 					         	</table> -->
 					         	</legend>
 								<span id="baseinfo">
 								<table cellSpacing="0" cellPadding="0" width="800" border="0" align="left" class="common">
@@ -155,7 +159,8 @@
 							         <tr>
         			 					<td align="right" width="110">备注：</td>
 	      								<td colspan="5">
-	      								 <input id="remarks" type="text" name="remarks" style="width: 675px;">
+	      								<textarea id="remarks" name="remarks" style="width: 675px;" rows="5"></textarea>
+<!-- 	      								 <input  type="text"  style="width: 675px;"> -->
 										</td>
 							        </tr> 
 								</table >
@@ -168,13 +173,13 @@
 							<td colspan="4" align="center">
 								<div class="div_gn">
 								<c:if test="${flag == 'pickup'}"> 
-								    	<input type="button" value="提交" onclick="updatePickup()" className="anniu_btn"/>
+								    	<input type="button" value="提交" onclick="updatePickup()" class="anniu_btn"/>
 								    	</c:if>
 								  <c:if test="${flag == 'express'}"> 
-								    	<input type="button" value="提交" onclick="updateExpress()" className="anniu_btn"/>
+								    	<input type="button" value="提交" onclick="updateExpress()" class="anniu_btn"/>
 								    	</c:if>  	
 									&nbsp;&nbsp;
-									<input type="button" value="返回" onclick="returntoList()" className="anniu_btn"/>
+									<input type="button" value="返回" onclick="returntoList()" class="anniu_btn"/>
 								</div>
 							</td>
 						</tr>
