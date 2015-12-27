@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -177,4 +178,12 @@ public class TrusteeshipWarehouseController {
 		return trusteeshipWarehouseService.updateTrusteeWare(commId, warehouse);
 	}
 
+	public static void main(String[] args) {
+		String name = "";
+		try {
+			name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 }

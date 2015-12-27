@@ -57,11 +57,11 @@ function clearInfo(){
 }
 
 function addTrusteeWareHouse(){
-	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?flag=create";
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?flag=create";//encodeURI(encodeURI(commName))
 
 }
 function updateTrusteeWareHouse(commId,commName){
-	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+ encodeURI(encodeURI(commName))+"&&flag=update";
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+commName +"&&flag=update";
 }
 
 function deleteTrusteeWareHouse(){

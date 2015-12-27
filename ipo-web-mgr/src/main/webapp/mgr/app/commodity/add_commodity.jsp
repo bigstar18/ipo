@@ -479,7 +479,7 @@ function on_tchange(){
 										<td align="right">发行数量：</td>
             							<td>
             							<input type="text" id="counts" name="counts"  value=""
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正整数',min:0"/>          
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:999999999"/>          
             							 <span class="required">*</span> 
             							</td>
             							<td align="right">发行商发行手续费比例：</td>

@@ -1,5 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
+
+<%
+   String name=(String)request.getAttribute("commName");
+   if(name!=null){
+	   name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
+   }
+%>
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
@@ -157,7 +164,7 @@ function returntoList(){
 	                   <span class="required">*</span>  
 	                    </c:if>
 	            		<c:if test="${crud == 'update'}">
-	            		<input type="text" id="commodityName" name="commodityName" style="ime-mode:disabled; width: 130;background-color: C0C0C0" readonly="readonly" value="${commName }" />
+	            		<input type="text" id="commodityName" name="commodityName" style="ime-mode:disabled; width: 130;background-color: C0C0C0" readonly="readonly" value="<%=name %>" />
 	            		</c:if>
 	            		<input type="hidden" id="commodityId" name="commodityId"  value="${commId }" />
 	            </td>
