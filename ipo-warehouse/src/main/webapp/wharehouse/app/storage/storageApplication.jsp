@@ -153,7 +153,7 @@ function getAllInfo(){
 					&nbsp
 					入库状态:<select id="storagestate" name="storagestate" style="width:160px">
 								<option value="">全部</option>
-								<option value="1"  <c:if test="${storagestate == 1}">selected</c:if>   >申请</option>
+								<option value="1">申请</option>
 								<option value="2">仓库通过</option>
 								<option value="3">仓库驳回</option>
 								<option value="4">市场通过</option>

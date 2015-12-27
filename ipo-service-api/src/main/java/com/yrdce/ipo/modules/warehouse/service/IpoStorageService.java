@@ -48,4 +48,7 @@ public interface IpoStorageService {
 
  	// 审核入库单
  	Integer checkStorage(String storageId, String result, String checker);
+ 	
+ 	//根据入库单号查询对象
+ 	StorageUnionVo selectUnionById(String storageid);
 }

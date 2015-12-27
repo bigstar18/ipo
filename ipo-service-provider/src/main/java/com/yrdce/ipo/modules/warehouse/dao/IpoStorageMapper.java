@@ -43,5 +43,5 @@ public interface IpoStorageMapper {
 	int updateStorage(@Param("storageid") String storageid,
 			@Param("checker") String checker, @Param("state") String state);
 	
-	
+	StorageUnion selectUnionById(String storageid);
 }

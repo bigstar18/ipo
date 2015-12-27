@@ -67,7 +67,7 @@ public class IpoStorageServiceImpl implements IpoStorageService{
 	public int updateByPrimaryKey(IpoStorageVo record) {
 		if(record != null){
 			IpoStorage ipoStorage = new IpoStorage();
-			BeanUtils.copyProperties(ipoStorage,record);
+			BeanUtils.copyProperties(record,ipoStorage);
 			return ipoStorageMapper.updateByPrimaryKey(ipoStorage);
 		}
 		return 0;
@@ -186,5 +186,17 @@ public class IpoStorageServiceImpl implements IpoStorageService{
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public StorageUnionVo selectUnionById(String storageid) {
+		if(storageid != null && storageid != ""){
+			StorageUnionVo storageUnionVo = new StorageUnionVo();
+			if(ipoStorageMapper.selectUnionById(storageid) != null){
+				BeanUtils.copyProperties(ipoStorageMapper.selectUnionById(storageid),storageUnionVo);
+			}
+			return storageUnionVo;
+		}
+		return null;
 	}
 }

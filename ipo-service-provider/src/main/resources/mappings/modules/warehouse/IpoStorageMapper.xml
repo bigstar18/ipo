@@ -151,6 +151,13 @@
   )
   </select>
   
+   <select id="selectUnionById" parameterType="String"  resultType="com.yrdce.ipo.modules.warehouse.entity.StorageUnion">
+  SELECT s.STORAGEID, s.COMMODITYID, c.COMMODITYNAME,b.BROKERID,b.NAME,s.STORAGENUM,s.OPERATORID,s.WAREHOUSEAUDITORID,
+  s.MARKETAUDITORID,s.STORAGESTATE,s.STORAGEDATE FROM IPO_STORAGE s, BR_BROKER b,IPO_COMMODITY_CONF c
+  WHERE s.COMMODITYID = c.COMMODITYID and c.PUBMEMBERID = b.brokerid and s.STORAGEID = #{storageUnion.storageid,jdbcType=VARCHAR}
+  </select>
+  
+  
   <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
    select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
     from (select t.*, c.commodityname, c.pubmemberid from ipo_storage t  left join ipo_commodity_conf c

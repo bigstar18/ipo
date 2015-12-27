@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
 import com.yrdce.ipo.modules.warehouse.vo.StorageUnionVo;
 
 
@@ -48,6 +50,23 @@ public class StorageController {
 		return "app/storage/storageApplication";
 	}
 	
+	
+	//入库单列表审核视图
+		@RequestMapping(value = "/ToStorageAudit")
+		public String ToStorageAudit(HttpServletRequest request, HttpServletResponse response){
+			log.info("入库单列表页");
+			return "app/storage/storageaudit";
+		}
+	
+	//入库单审核页视图
+		@RequestMapping(value = "/ToAuditView")
+		public String ToAuditView(HttpServletRequest request, HttpServletResponse response,String storageid,Model model){
+			log.info("入库单审核页");
+			StorageUnionVo storageUnionVo = ipoStorageService.selectUnionById(storageid);
+			model.addAttribute("storageUnionVo", storageUnionVo);
+			return "app/storage/auditoperate";
+		}
+	
 	@RequestMapping(value = "/ListStorage")
 	@ResponseBody
 	public String ListStorage(@RequestParam("page") String page,@RequestParam("rows")  String rows, StorageUnionVo storageUnionVo){
@@ -70,5 +89,32 @@ public class StorageController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	
+	@RequestMapping(value = "/pass")
+	@ResponseBody
+	public String modifyUnion(String storageid){
+		IpoStorageVo ipoStorageVo = ipoStorageService.selectByPrimaryKey(storageid);
+		if(ipoStorageVo != null){
+			ipoStorageVo.setStoragestate(2);
+			ipoStorageService.updateByPrimaryKey(ipoStorageVo);
+		return "true";
+		}
+		return null;
+		
+	}
+	
+	@RequestMapping(value = "/back")
+	@ResponseBody
+	public String updateUnion(String storageid){
+		IpoStorageVo ipoStorageVo = ipoStorageService.selectByPrimaryKey(storageid);
+		if(ipoStorageVo != null){
+			ipoStorageVo.setStoragestate(3);
+			ipoStorageService.updateByPrimaryKey(ipoStorageVo);
+		return "true";
+		}
+		return null;
+		
 	}
 }
