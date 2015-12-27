@@ -16,7 +16,8 @@
 <script type="text/javascript"> 
 
 function goBackPage(){
-	document.location.href = "<%=request.getContextPath()%>/SpacialSetController/goBackPage?randnum="+Math.floor(Math.random()*1000000);
+	history.go(-1);
+	<%-- document.location.href = "<%=request.getContextPath()%>/SpacialSetController/goBackPage?randnum="+Math.floor(Math.random()*1000000); --%>
 }
 
 function addPoundage(){
@@ -75,9 +76,9 @@ function updatePoundage(){
 	<body>
 		<div class="warning">
 		<div class="content">
-		温馨提示 :出库添加
+		温馨提示 :入库单添加
 		<br>
-		<div class="required" style="color: red">提货类型为自提时需要提货单密码，在线配送是不需要提货单密码！  </div>
+		<div class="required" style="color: red">系统在此过滤了没有交收属性的商品 </div>
 	</div>
 	</div>
 		<form>
@@ -87,7 +88,7 @@ function updatePoundage(){
 										<div class="div_cxtj">
 											<div class="div_cxtjL"></div>
 											<div class="div_cxtjC">
-												基本信息
+												添加入库单
 											</div>
 											<div class="div_cxtjR"></div>
 										</div>
@@ -95,23 +96,38 @@ function updatePoundage(){
 												<div>
 											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
 												<tr>
-													
-													<td align="center">
-														<span class="required">*</span>
-														提货单号：
-													</td>
-													<td>
-													<input id="name" name="name" value="" 
+													<td >
+													入库单号：<U>114151226</U><input class="required" id="name" name="name" value="" 
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
 													</td>
-													<td align="center">
-														<span class="required">*</span>
-														提货单密码：
+													<td >
+														商品代码:<input class="required" id="name" name="name" value="" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
 													</td>
-													<td>
-														<input id="name" name="name" value="" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+													<td >
+													商品名称：<input id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+            									   </td>
+													<td > 
+													品种代码:<input id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
 													</td>
-													<td> 	
+													<td >
+													发行会员代码：<input id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+            									   </td>
+            									   <td >
+													发行会员名称：<input id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+            									   </td>
+            									   	<td >
+													入库件数：<input class="required" id="name" name="name" value="" 
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+            									   </td>
+            									   <td >
+													入库数量：<input id="name" name="name" value="" 
+            								   readonly="readonly"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+            									   </td>
+													<td> 
 													<input type="button" value="添加" onclick="addPoundage()" class="anniu_btn"  id="add"/>
 														&nbsp;&nbsp;
 													<input type="button" value="返回" onclick="goBackPage()" class="anniu_btn"  id="back"/>

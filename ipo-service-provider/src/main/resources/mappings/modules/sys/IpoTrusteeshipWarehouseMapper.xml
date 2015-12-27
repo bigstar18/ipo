@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
     <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
-    <result column="COMMODITYNAME" property="commodityName" jdbcType="VARCHAR" />
     <result column="WAREHOUSE_ID" property="warehouseId" jdbcType="DECIMAL" />
   </resultMap>
   
@@ -12,37 +11,51 @@
     <id column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityName" jdbcType="VARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <delete id="deleteByPrimaryKey" parameterType="Integer" >
     delete from IPO_TRUSTEESHIP_WAREHOUSE
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
+  
+  <delete id="deleteByCommId" parameterType="String" >
+    delete from IPO_TRUSTEESHIP_WAREHOUSE
+    where COMMODITY_ID = #{commId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
-    insert into IPO_TRUSTEESHIP_WAREHOUSE (ID, COMMODITY_ID, COMMODITYNAME,WAREHOUSE_ID
+  	 <selectKey resultType="Integer" order="BEFORE" keyProperty="id">
+
+	SELECT SEQ_IPO_TRUSTEESHIP_WAREHOUSE.NEXTVAL FROM dual
+
+	</selectKey>
+    insert into IPO_TRUSTEESHIP_WAREHOUSE (ID, COMMODITY_ID,WAREHOUSE_ID
       )
-    values (#{id,jdbcType=DECIMAL}, #{commodityId,jdbcType=VARCHAR},#{commodityName,jdbcType=VARCHAR}, #{warehouseId,jdbcType=DECIMAL}
+    values (#{id,jdbcType=DECIMAL}, #{commodityId,jdbcType=VARCHAR}, #{warehouseId,jdbcType=DECIMAL}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipWarehouse" >
     update IPO_TRUSTEESHIP_WAREHOUSE
     set COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
-     COMMODITYNAME = #{commodityName,jdbcType=VARCHAR},
       WAREHOUSE_ID = #{warehouseId,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select ID, COMMODITY_ID,COMMODITYNAME, WAREHOUSE_ID
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Integer" >
+    select ID, COMMODITY_ID, WAREHOUSE_ID
     from IPO_TRUSTEESHIP_WAREHOUSE
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, COMMODITY_ID, COMMODITYNAME,WAREHOUSE_ID
+    select ID, COMMODITY_ID,WAREHOUSE_ID
     from IPO_TRUSTEESHIP_WAREHOUSE
   </select>
+  
+    <select id="selectCommIDs" resultType="String" >
+   SELECT DISTINCT W.COMMODITY_ID FROM IPO_TRUSTEESHIP_WAREHOUSE W
+     LEFT JOIN IPO_COMMODITY_SALE C  ON W.COMMODITY_ID = C.COMMODITYID
+    </select>
   
     <select id="selectByCommodity" resultMap="WareResultMap"  parameterType="map">
      SELECT G.COMMODITY_ID, G.COMMODITYNAME FROM (SELECT T.COMMODITY_ID,T.COMMODITYNAME, ROWNUM TNO
      FROM (SELECT DISTINCT W.COMMODITY_ID, C.COMMODITYNAME FROM IPO_TRUSTEESHIP_WAREHOUSE W
-     LEFT JOIN IPO_COMMODITY_CONF C  ON W.COMMODITY_ID = C.COMMODITYID) T where 1=1
+     LEFT JOIN IPO_COMMODITY_SALE C  ON W.COMMODITY_ID = C.COMMODITYID) T where 1=1
        <if test="record.commodityId != null" >
        and T.COMMODITY_ID like concat (#{record.commodityId,jdbcType=VARCHAR},'%')
       </if>
@@ -54,7 +67,7 @@
   
   <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoTrusteeWarehouse">
     SELECT COUNT(*)  FROM (SELECT DISTINCT W.COMMODITY_ID, C.COMMODITYNAME
-    FROM IPO_TRUSTEESHIP_WAREHOUSE W  LEFT JOIN IPO_COMMODITY_CONF C ON W.COMMODITY_ID = C.COMMODITYID) T WHERE 1=1
+    FROM IPO_TRUSTEESHIP_WAREHOUSE W  LEFT JOIN IPO_COMMODITY_SALE C ON W.COMMODITY_ID = C.COMMODITYID) T WHERE 1=1
        <if test="commodityId != null" >
        and T.COMMODITY_ID like concat (#{commodityId,jdbcType=VARCHAR},'%')
       </if>

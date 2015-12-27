@@ -82,9 +82,8 @@ public class CommodityServiceImpl implements CommodityService {
 	@Transactional(readOnly = true)
 	public List<Commodity> findAll() {
 		logger.info("获取所有发售商品信息");
-		List<IpoCommodity> commlist = new ArrayList<IpoCommodity>();
 		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		commlist = ipoCommodityMapper.selectAll();
+		List<IpoCommodity> commlist = ipoCommodityMapper.selectAll();
 		for (int i = 0; i < commlist.size(); i++) {
 			Commodity commo = new Commodity();
 			BeanUtils.copyProperties(commlist.get(i), commo);

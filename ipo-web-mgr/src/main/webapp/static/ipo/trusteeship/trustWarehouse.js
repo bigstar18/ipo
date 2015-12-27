@@ -56,7 +56,30 @@ function clearInfo(){
 	$("#commodityName").val("");
 }
 
+function addTrusteeWareHouse(){
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?flag=create";
 
-function updateTrusteeWareHouse(commId,commName){
-	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+commName+Math.floor(Math.random()*1000000);
 }
+function updateTrusteeWareHouse(commId,commName){
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+ encodeURI(encodeURI(commName))+"&&flag=update";
+}
+
+function deleteTrusteeWareHouse(){
+	 var row = $("#dg").datagrid("getSelected"); 
+	  if(row){
+	if(confirm("确定删除该记录吗？")){
+		  $.post(getRootPath ()+"/trusteeshipWarehouseController/deleteTrusteeWarehouse",{"commId":row.commodityId},function(data,status){
+			  if(data=='true'){
+				  alert("删除成功！")
+				  $('#dg').datagrid('reload');
+			  }
+			  if(data=='false'){
+				  alert("删除失败！");
+			  }
+				  });}
+	}
+		  else{
+			  alert("请先选中一行再进行删除！");
+		  }
+}
+

@@ -103,7 +103,7 @@ public class IpoStorageServiceImpl implements IpoStorageService{
 	public List<StorageUnion> queryUnionByPage(Integer beginnum, Integer endnum, StorageUnionVo storageUnionVo) {
 		StorageUnion storageUnion = new StorageUnion();
 		if(storageUnionVo != null){
-			BeanUtils.copyProperties(storageUnion,storageUnionVo);
+			BeanUtils.copyProperties(storageUnionVo,storageUnion);
 			return ipoStorageMapper.queryUnionByPage(beginnum, endnum, storageUnion);
 		}
 		return null;

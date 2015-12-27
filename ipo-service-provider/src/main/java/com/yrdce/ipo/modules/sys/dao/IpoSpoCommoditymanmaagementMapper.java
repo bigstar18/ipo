@@ -6,17 +6,18 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
-import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 
 @MyBatisDao
 public interface IpoSpoCommoditymanmaagementMapper {
 	int deleteByPrimaryKey(String spoId);
 
-	int insert(SpoCommoditymanmaagement record);
+	int insert(IpoSpoCommoditymanmaagement record);
 
 	IpoSpoCommoditymanmaagement selectByPrimaryKey(String spoId);
 
-	List<IpoSpoCommoditymanmaagement> selectAll(int beginnum, int endnum, @Param("Spo") SpoCommoditymanmaagement spoComm);
+	List<IpoSpoCommoditymanmaagement> selectAll(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("Spo") IpoSpoCommoditymanmaagement spoComm);
 
-	int updateByPrimaryKey(SpoCommoditymanmaagement record);
+	int updateByPrimaryKey(IpoSpoCommoditymanmaagement record);
+
+	int counts();
 }

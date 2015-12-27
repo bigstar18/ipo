@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
+import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService;
 import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
+import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
 
@@ -40,23 +42,45 @@ public class TrusteeshipWarehouseController {
 	@Autowired
 	private BiWarehouseService biWarehouseService;
 
+	@Autowired
+	private CommodityService commodityService;
+
 	/*
-	 * 修改托管仓库视图
+	 * 修改或新增托管仓库视图
 	 */
 	@RequestMapping(value = "/updateTrusteeWarehouse", method = RequestMethod.GET)
-	public String CommodityManage(HttpServletRequest request,
-			HttpServletResponse response, Model model,
-			@RequestParam("commId") String commId,
-			@RequestParam("commName") String commName) {
-		List<Long> warehouseIds = trusteeshipWarehouseService
-				.getTrusteeshipWarehouseByCommId(commId);
+	public String CommodityManage(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model,
+			@RequestParam(value = "commId", required = false) String commId,
+			@RequestParam(value = "commName", required = false) String commName,
+			@RequestParam(value = "flag", required = true) String flag) {
+		if (flag.equals("create")) {
+			log.info("跳转至新增页面");
+		}
+		if (flag.equals("update")) {
+			log.info("跳转至修改页面");
+			List<Long> warehouseIds = trusteeshipWarehouseService
+					.getTrusteeshipWarehouseByCommId(commId);
+			request.setAttribute("commId", commId);
+			request.setAttribute("commName", commName);
+			request.setAttribute("warehouseList", warehouseIds);
+		}
 		List<BiWarehouse> allWarehouse = biWarehouseService.findAllWarehuses();
 		request.setAttribute("allWarehouse", allWarehouse);
-		request.setAttribute("commId", commId);
-		request.setAttribute("commName", commName);
-		request.setAttribute("warehouseList", warehouseIds);
-		request.setAttribute("crud", "update");
+		request.setAttribute("crud", flag);
 		return "app/trusteeship/warehouseDetail";
+	}
+
+	/*
+	 * 删除托管到仓库的商品
+	 */
+	@RequestMapping(value = "/deleteTrusteeWarehouse", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteTrusteeWarehouse(
+			@RequestParam(value = "commId") String commId) {
+		return trusteeshipWarehouseService.deleteTrusteeWare(commId);
 	}
 
 	/*
@@ -82,6 +106,75 @@ public class TrusteeshipWarehouseController {
 			return "error";
 		}
 
+	}
+
+	/*
+	 * 托管商品下拉框
+	 */
+	@RequestMapping(value = "/trusteeCommodity", method = RequestMethod.POST)
+	@ResponseBody
+	public String trusteeCommodity() throws IOException {
+		List<Commodity> commList = commodityService.findAll();
+		return JSON.json(commList);
+	}
+
+	/**
+	 * 查询已配置仓库的商品ID
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findExsitIds", method = RequestMethod.GET)
+	@ResponseBody
+	public String findExsitIds(@RequestParam("commId") String commId)
+			throws IOException {
+		log.info("查询已配置仓库的商品ID");
+		try {
+			List<String> ExsitIds = trusteeshipWarehouseService.findExsitIds();
+			for (int i = 0; i < ExsitIds.size(); i++) {
+				if (commId.equals(ExsitIds.get(i))) {
+					return "0";// 该商品ID已存在
+				}
+			}
+			return "1";// 新增的托管商品Id
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "2";
+		}
+	}
+
+	/**
+	 * 新增托管仓库的商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addTrusteeWarehouse", method = RequestMethod.POST)
+	@ResponseBody
+	public String addTrusteeWarehouse(
+			@RequestParam("commodityId") String commId,
+			@RequestParam("warehouse") String warehouse) throws IOException {
+		log.info("新增托管仓库的商品");
+		return trusteeshipWarehouseService.addTrusteeWare(commId, warehouse);
+
+	}
+
+	/**
+	 * 修改托管仓库的商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateTrusteeWarehouse", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateTrusteeWarehouse(
+			@RequestParam("commodityId") String commId,
+			@RequestParam("warehouse") String warehouse) throws IOException {
+		log.info("修改托管仓库的商品");
+		return trusteeshipWarehouseService.updateTrusteeWare(commId, warehouse);
 	}
 
 }
