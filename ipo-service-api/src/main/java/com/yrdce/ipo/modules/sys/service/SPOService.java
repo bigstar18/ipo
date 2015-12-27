@@ -57,4 +57,14 @@ public interface SPOService {
 
 	// 配售查询总页数
 	public int rationCounts();
+
+	// 根据增发id查增发信息
+	public SpoCommoditymanmaagement getListBySpocom(String spoid);
+
+	// 承销商列表信息
+	public List getList();
+
+	// 跟新状态
+	public int updateStatus(Integer rationSate, String spoid) throws Exception;
+
 }

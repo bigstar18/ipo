@@ -100,4 +100,10 @@
   <select id="counts" resultType="java.lang.Integer">
   select count(0) from IPO_SPO_COMMODITYMANMAAGEMENT
   </select>
+  
+  <update id="updateByStatus" parameterType="map">
+   update IPO_SPO_COMMODITYMANMAAGEMENT
+    set RATION_SATE = #{rationSate,jdbcType=DECIMAL},
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </update>
 </mapper>

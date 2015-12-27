@@ -221,13 +221,39 @@ public class SPOServiceImpl implements SPOService {
 	// 增发查询总页数
 	@Override
 	public int spoCounts() {
+		logger.info("增发查询总页数");
 		return ipoSPOComm.counts();
 	}
 
 	// 配售查询总页数
 	@Override
 	public int rationCounts() {
+		logger.info("配售查询总页数");
 		return ipoSpoRationMapper.counts();
+	}
+
+	// 根据增发id查增发信息
+	@Override
+	public SpoCommoditymanmaagement getListBySpocom(String spoid) {
+		logger.info("根据增发id查增发信息" + "SPOID:" + spoid);
+		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOComm.selectByPrimaryKey(spoid);
+		SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
+		BeanUtils.copyProperties(ipoSpoComm, spoComm);
+		return spoComm;
+	}
+
+	// 承销商列表信息
+	public List getList() {
+		logger.info("承销商列表信息");
+		return null;
+	}
+
+	// 跟新状态
+	@Override
+	@Transactional
+	public int updateStatus(Integer rationSate, String spoid) throws Exception {
+		logger.info("跟新状态" + "rationSate:" + rationSate + "SPOID:" + spoid);
+		return ipoSPOComm.updateByStatus(rationSate, spoid);
 	}
 
 }
