@@ -473,7 +473,7 @@ function on_tchange(){
 										<td align="right">发行数量：</td>
             							<td>
             							<input type="text" id="counts" name="counts"  value="${entity.counts }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正数',min:0"/>          
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正数',min:0,max:999999999"/>          
             							 <span class="required">*</span>  
             							</td>
             							<td align="right">发行商发行手续费比例：</td>
