@@ -461,13 +461,13 @@ function on_tchange(){
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
-			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"/>
 			  								<span id="dealerpubcharatioPercent">%</span> <span class="required">*</span>          
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
-												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"/>
+												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"/>
 											<span id="mktdeapubcharatioPercent">%</span> <span class="required">*</span>           
 								      	</td>
 								      	<td>&nbsp;</td>
@@ -485,13 +485,13 @@ function on_tchange(){
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
 			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />  
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />  
 			  								<span id="publishercharatioPercent">%</span> <span class="required">*</span>         
             							</td>
             							<td align="right">发行商发行手续费市场留存比例：</td>
 										<td>
 										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />          
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />          
 										<span id="mktpubcharatioPercent">%</span> <span class="required">*</span> 
 										</td>
 										<td>&nbsp;</td>
@@ -531,13 +531,13 @@ function on_tchange(){
             							<td align="right" >买入：</td> 
             							<td> 
 			  								<input id="buy" name="buy"  value="${entity.buy }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正数',min:0,precision:2"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span id="buyPercent">%</span> <span class="required">*</span> 
             							</td>    
         								<td align="right" >卖出：</td> 
             							<td> 
 			  								<input id="sell" name="sell" value="${entity.sell }" 
-			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正数',min:0,precision:2"/> 
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/> 
 			  							<span id="sellPercent">%</span> <span class="required">*</span> 
 			  							</td>
             							
@@ -549,13 +549,13 @@ function on_tchange(){
         								<td align="right">买方手续费市场留存比例：</td>
 										<td>
 										<input id="mktbuyfeeradio" name="mktbuyfeeradio"  value="${entity.mktbuyfeeradio }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										<span id="mktbuyPercent">%</span> <span class="required">*</span> 
 										</td>
             							<td align="right">卖方手续费市场留存比例：</td>
 										<td>
 											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }" 
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										<span id="mktsellPercent">%</span> <span class="required">*</span> 
 										</td>
         							</tr>
@@ -563,7 +563,7 @@ function on_tchange(){
 							            <td align="right" >仓储日租金标准：</td>
 							            <td >
 											<input id="warehousedailyrent" name="warehousedailyrent" value="${entity.warehousedailyrent }" 
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										    <span class="required">*</span>         
 							            </td>        
 							            <td align="right">仓储日租金收取起始日期：</td>
@@ -574,7 +574,7 @@ function on_tchange(){
             							<td align="right">日托管费标准：</td>
             							<td>
 											<input id="trusteedailyrent" name="trusteedailyrent" value="${entity.trusteedailyrent }" 
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										    <span class="required">*</span>       
 								      	</td>
         							</tr> 
@@ -582,7 +582,7 @@ function on_tchange(){
 										<td align="right">日保险费标准：</td>
             							<td>
             							<input id="insurancedailyrent" name="insurancedailyrent" value="${entity.insurancedailyrent }" 
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
+											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										    <span class="required">*</span>
             							</td>
             							<td align="right">日保险费收取起始日期：</td>
@@ -593,7 +593,7 @@ function on_tchange(){
             							<td align="right">免托管天数：</td>
 										<td>
 										<input type="text" id="freetrusteedays" name="freetrusteedays" value="${entity.freetrusteedays }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="ime-mode:disabled; width: 100" />          
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正整数'"  style="ime-mode:disabled; width: 100" />          
 										<span class="required">*</span> 
 										</td>
 										<td>&nbsp;</td>
@@ -630,7 +630,7 @@ function on_tchange(){
             							<td align="right" >交割与交易单位换算：</td> 
             							<td> 
 			  								<input id="deliunittocontract" name="deliunittocontract"  value="${entity.deliunittocontract }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正数',min:0,precision:2"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span class="required"><span id="tail">批/<c:out value="${entity.deliveryunit }"></c:out></span>*</span>  
             							</td>    
         								<td align="right" >交货开始日期：</td> 
@@ -663,32 +663,34 @@ function on_tchange(){
 								    <tr>
         	  							<td align="right">注册费用比例：</td>
             							<td>
-            							<input id="registfeeradio" name="registfeeradio" value="${entity.registfeeradio }"    style="width:100"/>
+            							<input id="registfeeradio" name="registfeeradio" value="${entity.registfeeradio }"    
+            							style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 											 <span class="required">%*</span>  
             							</td>
             							<td align="right" >注销费用比例：</td> 
             							<td> 
 			  								<input id="cancelfeeradio" name="cancelfeeradio"  value="${entity.cancelfeeradio }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正数',min:0,precision:2"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span class="required">%*</span> 
             							</td>    
         								<td align="right" >过户费用比例：</td> 
             							<td> 
             							 <input id="transferfeeradio" name="transferfeeradio"  value="${entity.transferfeeradio }"  
-            							 style="width: 100"></input> 
+            							 style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"></input> 
 			  								 <span class="required">%*</span> 
 			  							</td>
         							</tr>
         							 <tr>
         	  							<td align="right">注册费市场留存比例：</td>
             							<td>
-            							<input id="mktregistfeeradio" name="mktregistfeeradio" value="${entity.mktregistfeeradio }"    style="width:100"/>
+            							<input id="mktregistfeeradio" name="mktregistfeeradio" value="${entity.mktregistfeeradio }"    
+            							style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 											 <span class="required">%*</span>  
             							</td>
             							<td align="right" >注销费市场留存比例：</td> 
             							<td> 
 			  								<input id="mktcancelfeeradio" name="mktcancelfeeradio"  value="${entity.mktcancelfeeradio }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正数',min:0,precision:2"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span class="required">%*</span> 
             							</td>    
         								<td align="right" >提货单费用价格提前天数：</td> 

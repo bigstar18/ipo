@@ -61,7 +61,7 @@ function addTrusteeWareHouse(){
 
 }
 function updateTrusteeWareHouse(commId,commName){
-	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+commName+"&&flag=update";
+	document.location.href = getRootPath () + "/trusteeshipWarehouseController/updateTrusteeWarehouse?commId="+commId+"&&commName="+ encodeURI(encodeURI(commName))+"&&flag=update";
 }
 
 function deleteTrusteeWareHouse(){

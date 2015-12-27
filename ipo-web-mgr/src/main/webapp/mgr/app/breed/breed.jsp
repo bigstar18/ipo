@@ -479,7 +479,7 @@ function setSortName(value) {
             							<td align="right" >交割与交易单位换算：</td> 
             							<td> 
 			  								<input id="deliunittocontract" name="deliunittocontract"  value="${entity.deliunittocontract }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:0"/>
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span class="required"><c:if test="${crud == 'update'}">批/<span id="tail"><c:out value="${entity.deliveryunit }"></c:out></span></c:if><c:if test="${crud == 'create'}">批/<span id="tail"></span></c:if>*</span> 
             							</td>    
         								<td align="right"></td> 
