@@ -35,4 +35,5 @@ public interface IpoSpoRationMapper {
 			@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
 	int updateByStatus(int status, String spoid);
+
 }

@@ -133,9 +133,9 @@
     RATION_SATE = 1
     where RATIONID = #{rationId,jdbcType=DECIMAL}
   </update>
+
   <update id="updateByStatus" parameterType="map">
    update IPO_SPO_RATION
     set RATION_SATE = #{rationSate,jdbcType=DECIMAL} where SPOID = #{spoid,jdbcType=VARCHAR}
   </update>
-  
 </mapper>
