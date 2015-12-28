@@ -11,11 +11,7 @@ $(document).ready(function() {
          striped:true,  
          collapsible:false,  
          toolbar:"#tb",  
-         url: getRootPath () +'/CommodityController/QueryByConditions',  
-         queryParams:{
-     		commodityname: null,
-     		commodityid: null
-     		},
+         url: getRootPath () +'/DeliveryController/deliveryPropsList',  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
