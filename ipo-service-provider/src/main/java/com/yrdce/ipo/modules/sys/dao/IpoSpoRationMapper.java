@@ -28,12 +28,11 @@ public interface IpoSpoRationMapper {
 	int counts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
 	int getRationInfoCounts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
-	
+
 	int updateRationType(Long rationId);
 
 	List<IpoSpoRation> getMyRationInfo(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
 	int updateByStatus(int status, String spoid);
-
 }
