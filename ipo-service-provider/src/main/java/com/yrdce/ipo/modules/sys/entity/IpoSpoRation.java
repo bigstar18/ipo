@@ -30,6 +30,8 @@ public class IpoSpoRation {
 
 	private Date registerDate;
 
+	private Integer rationSatee;
+
 	public Long getRationid() {
 		return rationid;
 	}
@@ -132,6 +134,14 @@ public class IpoSpoRation {
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	public Integer getRationSatee() {
+		return rationSatee;
+	}
+
+	public void setRationSatee(Integer rationSatee) {
+		this.rationSatee = rationSatee;
 	}
 
 }

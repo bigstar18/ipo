@@ -13,13 +13,14 @@
     <result column="SALES_REBATERATIO" property="salesRebateratio" jdbcType="DECIMAL" />
     <result column="FIRMNAME" property="firmname" jdbcType="VARCHAR" />
     <result column="SALESID" property="salesid" jdbcType="VARCHAR" />
+    <result column="RATION_SATE" property="rationSate" jdbcType="DECIMAL" />
     <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
     <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
+    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -33,11 +34,11 @@
     insert into IPO_SPO_RATION (RATIONID, SPOID, RATIONCOUNTS, 
       FIRMID, OPERATIONDATE, RATIONLOAN, 
       SERVICEFEE, SALES_ALLOCATIONRATIO, SALES_REBATERATIO, 
-      FIRMNAME, SALESID)
+      FIRMNAME, SALESID,RATION_SATE)
     values (#{rationid,jdbcType=DECIMAL}, #{spoid,jdbcType=VARCHAR}, #{rationcounts,jdbcType=DECIMAL}, 
       #{firmid,jdbcType=VARCHAR}, #{operationdate,jdbcType=DATE}, #{rationloan,jdbcType=DECIMAL}, 
       #{servicefee,jdbcType=DECIMAL}, #{salesAllocationratio,jdbcType=DECIMAL}, #{salesRebateratio,jdbcType=DECIMAL}, 
-      #{firmname,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR})
+      #{firmname,jdbcType=VARCHAR}, #{salesid,jdbcType=VARCHAR},#{rationSate,jdbcType=DECIMAL})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
     update IPO_SPO_RATION
@@ -50,12 +51,13 @@
       SALES_ALLOCATIONRATIO = #{salesAllocationratio,jdbcType=DECIMAL},
       SALES_REBATERATIO = #{salesRebateratio,jdbcType=DECIMAL},
       FIRMNAME = #{firmname,jdbcType=VARCHAR},
-      SALESID = #{salesid,jdbcType=VARCHAR}
+      SALESID = #{salesid,jdbcType=VARCHAR},
+      RATION_SATE = #{rationSate,jdbcType=DECIMAL}
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
+    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE
     from IPO_SPO_RATION
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </select>
@@ -64,7 +66,7 @@
   </select>
   <select id="selectBySPOid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
   select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID
+    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE
     from IPO_SPO_RATION WHERE SPOID = #{spoid,jdbcType=VARCHAR}
   </select>
   
@@ -72,7 +74,7 @@
   select * from (
     select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
 	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.community_id,c.register_date,
-	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
+	r.RATION_SATE,rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
 	where 1=1
     <if test="IpoSpoComm.communityId != null">
     and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
@@ -83,7 +85,14 @@
      ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
   
-  <select id="counts" resultType="java.lang.Integer">
+  <select id="counts" resultType="java.lang.Integer" parameterType="map">
   	select count(0) from IPO_SPO_RATION
+  	where 1=1
+    <if test="IpoSpoComm.communityId != null">
+    and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
+    </if>
+    <if test="IpoSpoComm.registerDate != null">
+    and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
+    </if>
   </select>
 </mapper>

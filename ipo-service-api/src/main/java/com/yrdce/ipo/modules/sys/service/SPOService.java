@@ -47,7 +47,7 @@ public interface SPOService {
 	public int insertByRation(List<SpoRation> spoRationList) throws Exception;
 
 	// 增发查询总页数
-	public int spoCounts();
+	public int spoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 定向配售查询(mgr)
 	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
@@ -56,7 +56,7 @@ public interface SPOService {
 	public int deleteByRation(Long rationid) throws Exception;
 
 	// 配售查询总页数
-	public int rationCounts();
+	public int rationCounts(SpoCommoditymanmaagement spoComm);
 
 	// 根据增发id查增发信息
 	public SpoCommoditymanmaagement getListBySpocom(String spoid);

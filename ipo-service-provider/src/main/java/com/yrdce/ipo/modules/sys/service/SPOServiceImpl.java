@@ -130,7 +130,7 @@ public class SPOServiceImpl implements SPOService {
 		long counts = spoComm.getSpoCounts();
 		spoComm.setNotRationCounts(counts);
 		spoComm.setSuccessRationCounts((long) 0);
-		spoComm.setRationSate(4);
+		spoComm.setSpoSate(4);
 		spoComm.setRebate(2);
 		spoComm.setBeListed(2);
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
@@ -226,16 +226,20 @@ public class SPOServiceImpl implements SPOService {
 
 	// 增发查询总页数
 	@Override
-	public int spoCounts() {
+	public int spoCounts(SpoCommoditymanmaagement spoComm) {
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
 		logger.info("增发查询总页数");
-		return ipoSPOComm.counts();
+		return ipoSPOComm.counts(ipospoComm);
 	}
 
 	// 配售查询总页数
 	@Override
-	public int rationCounts() {
+	public int rationCounts(SpoCommoditymanmaagement spoComm) {
 		logger.info("配售查询总页数");
-		return ipoSpoRationMapper.counts();
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSpoRationMapper.counts(ipospoComm);
 	}
 
 	// 根据增发id查增发信息

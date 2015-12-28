@@ -22,7 +22,8 @@ public interface IpoSpoRationMapper {
 
 	List<IpoSpoRation> selectBySPOid(String spoid);
 
-	List<IpoSpoRation> selectSPOAndRa(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+	List<IpoSpoRation> selectSPOAndRa(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
-	int counts();
+	int counts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 }
