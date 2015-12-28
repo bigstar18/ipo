@@ -157,7 +157,7 @@ function rationConfirm(spoId){
         	if(data=="success")
         	  $('#depositInfo').datagrid('reload');
         	else if(data=="error")
-        		alert("操作失败，请稍后再试");s
+        		alert("操作失败，请稍后再试");
          }
 	});
 	//alert(spoId);

@@ -127,6 +127,12 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int insertSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("添加增发信息");
+		long counts = spoComm.getSpoCounts();
+		spoComm.setNotRationCounts(counts);
+		spoComm.setSuccessRationCounts((long) 0);
+		spoComm.setRationSate(4);
+		spoComm.setRebate(2);
+		spoComm.setBeListed(2);
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipospoComm);
 		return ipoSPOComm.insert(ipospoComm);

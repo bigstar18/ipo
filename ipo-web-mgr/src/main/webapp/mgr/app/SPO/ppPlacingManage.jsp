@@ -30,14 +30,24 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:"<%=request.getContextPath()%>", //搜索前,触发此action请求所有用户信息  
+         url:"<%=request.getContextPath()%>/SPOController/getRationInfopp", //搜索前,触发此action请求所有用户信息  
         queryParams:{
-    
+        	communityId:$("#commId").val(),
+        	registerDate:$("#registerDate").datebox("getValue")
         },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {
-        	 field : 'test2',  
+        	 field : 'rationid',  
+             width : 200,  
+             align: "center",
+             hidden:"true",
+             title : '配售ID',
+             formatter: function(value,row){
+                 return "<a herf='#'>"+value+"</a>";
+       	 	 }
+         },{
+        	 field : 'communityId',  
              width : 200,  
              align: "center",
              title : '商品代码',
@@ -45,17 +55,20 @@ function getAllInfo(){
                  return "<a herf='#'>"+value+"</a>";
        	 	 }
          },{  
-             field : 'test3',  
+             field : 'registerDate',  
              width : 200,  
              align: "center",
-             title : '登记日期'
+             title : '登记日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          },{  
-             field : 'test4',  
+             field : 'firmid',  
              width : 200, 
              align: "center",
              title : '交易商代码'
          },{  
-             field : 'test5',  
+             field : 'salesid',  
              width : 200, 
              align: "center",
              title : '承销商代码'
@@ -65,32 +78,35 @@ function getAllInfo(){
              align: "center",
              title : '买卖方向'
          },{  
-             field : 'test7',  
+             field : 'rationcounts',  
              width : 200, 
              align: "center",
              title : '配售数量'
          },{  
-             field : 'test8',  
+             field : 'rationloan',  
              width : 200, 
              align: "center",
              title : '配售货款'
          },{  
-             field : 'test9',  
+             field : 'servicefee',  
              width : 200, 
              align: "center",
              title : '服务费'
          },{  
-             field : 'test10',  
+             field : 'operationdate',  
              width : 200, 
              align: "center",
-             title : '操作日期'
+             title : '操作日期',
+             formatter: function(value,row){
+                 return value.substr(0,10);
+             }
          },{  
              field : 'test17',  
              width : 200, 
              align: "center",
              title : '操作',
              formatter: function(value,row){
-            	 return "<a herf='#'>删除</a>";
+            	 return "<a href='#' onclick='deleteRationInfo(\""+row.rationid+"\")'>删除</a>";
        	 }
          }]],  
          pagination : true
@@ -102,6 +118,66 @@ function getAllInfo(){
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
 	
+}
+
+function deleteRationInfo(rantionId){
+	if(!sure())
+		return;
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/SPOController/deleteRationInfo",
+		data:{rationid:rantionId},
+		success:function(data){
+        	if(data=="success"){
+        		alert("删除成功");
+        		$('#tt').datagrid('reload');
+        	}
+        	else if(data=="error")
+        		alert("初始化失败，请稍后再试");
+        	
+         } 
+	});
+}
+
+//确认消息
+function sure(){
+	if(window.confirm('是否确认删除配售信息？')){
+        //alert("确定");
+        return true;
+     }else{
+        //alert("取消");
+        return false;
+     }
+}
+
+//修改日期格式
+function myformatter(date){
+		 var y = date.getFullYear();
+		 var m = date.getMonth()+1;
+		 var d = date.getDate();
+		 return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+	}
+function myparser(s){
+		 if (!s) return new Date();
+		 var ss = (s.split('-'));
+		 var y = parseInt(ss[0],10);
+		 var m = parseInt(ss[1],10);
+		 var d = parseInt(ss[2],10);
+		 if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+		 return new Date(y,m-1,d);
+	}else{
+		return new Date();
+	}
+ }
+
+function doSearch(){
+	getAllInfo();
+}
+
+function reSet(){
+	$("#commId").val("");
+	$("#registerDate").datebox("setValue","");
+	getAllInfo();
 }
 </script>
 </head>
@@ -119,12 +195,12 @@ function getAllInfo(){
 				<tr>
 					<td>
 						商品代码：
-						<input class="easyui-textbox" style="width:150px">
+						<input id="commId" class="easyui-textbox" style="width:150px">
 					</td>
 					<td>&nbsp&nbsp</td>
 					<td>
 						登记日期：
-						<input class="easyui-datebox" style="width:150px">
+						<input id="registerDate" class="easyui-datebox" style="width:150px" data-options="formatter:myformatter,parser:myparser">
 					</td>
 					<td>&nbsp&nbsp&nbsp</td>
 					<td>

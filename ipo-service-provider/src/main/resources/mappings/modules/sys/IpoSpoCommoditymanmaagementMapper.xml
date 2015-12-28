@@ -30,17 +30,15 @@
     delete from IPO_SPO_COMMODITYMANMAAGEMENT
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="spoId" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
-  <selectKey resultType="INTEGER" order="BEFORE" keyProperty="spoId">
-	SELECT SEQ_IPO_SPO_COMM.NEXTVAL FROM dual
-	</selectKey>
+  <insert id="insert"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+
     insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
       SPO_PRICE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, RATION_SATE, RATION_TYPE, 
       NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
       MIN_RATION_PROPORTION, REBATE, BE_LISTED, 
       PRE_PLACEMENT, POSITIONS_PRICE)
-    values (#{spoId,jdbcType=VARCHAR}, #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
+    values (to_char(SEQ_IPO_SPO_COMM.NEXTVAL), #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
       #{spoPrice,jdbcType=DECIMAL}, #{registerDate,jdbcType=DATE}, #{spoDate,jdbcType=DATE}, 
       #{ipoDate,jdbcType=DATE}, #{rationSate,jdbcType=DECIMAL}, #{rationType,jdbcType=VARCHAR}, 
       #{notRationCounts,jdbcType=DECIMAL}, #{successRationCounts,jdbcType=DECIMAL}, #{minRationCounts,jdbcType=DECIMAL}, 
@@ -103,7 +101,7 @@
   
   <update id="updateByStatus" parameterType="map">
    update IPO_SPO_COMMODITYMANMAAGEMENT
-    set RATION_SATE = #{rationSate,jdbcType=DECIMAL},
-    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+    set RATION_SATE = #{rationSate,jdbcType=DECIMAL}
+    where SPO_ID = #{spoid,jdbcType=VARCHAR}
   </update>
 </mapper>

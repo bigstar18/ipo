@@ -49,6 +49,20 @@ function getAllInfo(){
              align: "center",
              title : 'spoId'
          },{
+        	 field : 'communityId',  
+             width : 200,  
+             align: "center",
+             title : '商品代码',
+             formatter: function(value,row){
+            	 switch(row.rationSate){
+            	 case 4:
+            		 return "<a href='#' onclick='OpenFrame(\""+row.spoId+"\")'>"+value+"</a>";
+            		 break;
+            	 default:
+            		 return value;
+            	 }
+       	 	 }
+         },{
            	 field : 'registerDate',  
              width : 200,  
              align: "center",
@@ -56,14 +70,6 @@ function getAllInfo(){
              formatter: function(value,row){
                  return value.substr(0,10);
              }
-         },{
-        	 field : 'communityId',  
-             width : 200,  
-             align: "center",
-             title : '商品代码',
-             formatter: function(value,row){
-                 return "<a herf='#'>"+value+"</a>";
-       	 	 }
          },{  
              field : 'spoDate',  
              width : 200,  
@@ -94,7 +100,17 @@ function getAllInfo(){
              field : 'rationType',  
              width : 200, 
              align: "center",
-             title : '配售类型'
+             title : '配售类型',
+             formatter:function(value,row){
+            	 switch(value){
+            	 case "1":
+            		 return "比例配售";
+            		 break;
+            	 case "2":
+            		 return "定向配售";
+            		 break;
+            	 }
+             }
          },{  
              field : 'notRationCounts',  
              width : 200, 
@@ -119,24 +135,59 @@ function getAllInfo(){
              field : 'rationSate',  
              width : 200, 
              align: "center",
-             title : '状态'
+             title : '状态',
+             formatter: function(value,row){
+            	 switch(value){
+            	 case 1:
+            		 return "未增发";
+            		 break;
+            	 case 2:
+            		 return "增发成功";
+            		 break;
+            	 case 3:
+            		 return "增发失败";
+            		 break;
+            	 case 4:
+            		 return "未增发"
+            	 }
+       	 	 }
          },{  
              field : 'rebate',  
              width : 200, 
              align: "center",
-             title : '是否返佣'
+             title : '是否返佣',
+             formatter: function(value,row){
+            	 switch(value){
+            	 case 1:
+            		 return "已返佣";
+            		 break;
+            	 case 2:
+            		 return "未返佣";
+            		 break;
+            	 }
+       	 	 }
          },{  
              field : 'beListed',  
              width : 200, 
              align: "center",
-             title : '是否上市'
+             title : '是否上市',
+             formatter: function(value,row){
+            	 switch(value){
+            	 case 1:
+            		 return "已上市";
+            		 break;
+            	 case 2:
+            		 return "未上市";
+            		 break;
+            	 }
+       	 	 }
          },{  
              field : 'test15',  
              width : 200, 
              align: "center",
              title : '分配承销商配售比例',
              formatter: function(value,row){
-                 return "<a href='#'>分配及查询</a>";
+                 return "<a href='#' onclick='ration(\""+row.spoId+"\")'>分配及查询</a>";
        	 	 }
          },{  
              field : 'prePlacement',  
@@ -152,7 +203,20 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter: function(value,row){
-            	 return "<a href='#'>增发成功</a>  <a href='#'>增发失败</a>";
+            	 switch(row.rationSate){
+            	 case 1:
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 break;
+            	 case 2:
+            		 return "----";
+            		 break;
+            	 case 3:
+            		 return "----";
+            		 break;
+            	 case 4:
+            		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>"
+            	 }
+            	
        	 	}
          }]],  
          pagination : true
@@ -165,6 +229,7 @@ function getAllInfo(){
 	    });
 	
 }
+
 //修改日期格式
 function myformatter(date){
 		 var y = date.getFullYear();
@@ -184,6 +249,27 @@ function myparser(s){
 		return new Date();
 	}
  }
+//修改增发状态
+function updateSPOSate(spoid,spoSate){
+	if(!sure("是否确认更改增发状态？"))
+		return;
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/SPOController/updateSPOSate",
+		data:{
+		  spoId:spoid,
+		  rationSate:spoSate
+		},
+		success:function(data){
+        	if(data=="success"){
+        		alert("修改成功！");
+        		$('#depositInfo').datagrid('reload');
+        	}
+        	else if(data=="error")
+        		alert("修改失败，请稍后再试");
+         } 
+	});
+}
 
 //查询
 function doSearch(){
@@ -197,19 +283,62 @@ function reSet(){
 }
 
 
-function OpenFrame() {
+function deleteSPOInfo(spoId){
+	if(!sure("是否确认删除增发商品信息？"))
+		return;
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/SPOController/deleteSPOInfo",
+		data:{spoId:spoId},
+		success:function(data){
+        	if(data=="success"){
+        		alert("删除成功");
+        		$('#depositInfo').datagrid('reload');
+        	}
+        	else if(data=="error")
+        		alert("删除失败，请稍后再试");
+        	
+         } 
+	});
+}
+//确认消息
+function sure(message){
+	if(window.confirm(message)){
+        //alert("确定");
+        return true;
+     }else{
+        //alert("取消");
+        return false;
+     }
+}
+
+
+//弹窗
+function OpenFrame(spoId) {
 	$('#dd').empty();
+	$("#hidSpoId").val("");
+	$("#hidSpoId").val(spoId);
     $('#dd').append("<iframe style='width:100%;height:100%' src='../SPO/addspoComm.jsp'></iframe>");
     $('#dd').window('open');
 }
 
+function ration(spoId) {
+	$("#hidSpoId").val("");
+	$("#hidSpoId").val(spoId);
+	$('#dd').empty();
+    $('#dd').append("<iframe style='width:100%;height:100%' src='../SPO/distributionAndSelect.jsp'></iframe>");
+    $('#dd').window('open');
+}
 
 </script>
 </head>
 <body>
- 
+ <input type="hidden" id="hidSpoId" value=""/>
 
 <div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800px;height:600px;padding:5px;">
+</div>
+
+<div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800px;height:600px;padding:5px;">
 </div> 
 
 <div id="main_body">
