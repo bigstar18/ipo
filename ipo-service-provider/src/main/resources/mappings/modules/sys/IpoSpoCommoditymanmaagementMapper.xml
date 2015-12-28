@@ -30,8 +30,13 @@
     delete from IPO_SPO_COMMODITYMANMAAGEMENT
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </delete>
+<<<<<<< HEAD
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
   
+=======
+  <insert id="insert"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
+
+>>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
     insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
       SPO_PRICE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, RATION_SATE, RATION_TYPE, 
@@ -101,6 +106,7 @@
   
   <update id="updateByStatus" parameterType="map">
    update IPO_SPO_COMMODITYMANMAAGEMENT
+<<<<<<< HEAD
     set RATION_SATE = #{rationSate,jdbcType=DECIMAL},
     where SPO_ID = #{spoid,jdbcType=VARCHAR}
   </update>
@@ -118,5 +124,9 @@
       MIN_RATION_PROPORTION = #{minRationProportion,jdbcType=DECIMAL},
       POSITIONS_PRICE = #{positionsPrice,jdbcType=DECIMAL}
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
+=======
+    set RATION_SATE = #{rationSate,jdbcType=DECIMAL}
+    where SPO_ID = #{spoid,jdbcType=VARCHAR}
+>>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
   </update>
 </mapper>
