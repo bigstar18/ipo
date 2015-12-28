@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.IpoSpo;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 
@@ -31,4 +30,5 @@ public interface IpoSpoRationMapper {
 	int getRationInfoCounts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 	
 	List<IpoSpoRation> getMyRationInfo(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+
 }

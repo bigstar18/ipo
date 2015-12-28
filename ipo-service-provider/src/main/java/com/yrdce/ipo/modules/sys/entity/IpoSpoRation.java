@@ -37,6 +37,8 @@ public class IpoSpoRation {
     private Long spoCounts;
 
     private BigDecimal spoPrice;
+    
+    private Integer rationSatee;
 
 
 	public Date getSpoDate() {
@@ -70,8 +72,6 @@ public class IpoSpoRation {
 	public void setSpoPrice(BigDecimal spoPrice) {
 		this.spoPrice = spoPrice;
 	}
-
-	private Integer rationSatee;
 
 	public Long getRationid() {
 		return rationid;
