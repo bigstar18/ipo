@@ -44,21 +44,21 @@ public class SPOServiceImpl implements SPOService {
 	private IpoSpoRationMapper ipoSpoRationMapper;
 
 	@Override
-	public List<Spo> getInfoByPages(Spo spo, String page, String rows) {
+	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
 		// TODO Auto-generated method stub
 
-		if (spo == null)
+		if (spoCommo == null)
 			return null;
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int beginNum = (Integer.parseInt(page) - 1) * Integer.parseInt(rows) + 1;
 		int endNum = Integer.parseInt(page) * Integer.parseInt(rows);
-		IpoSpo ipoSpo = new IpoSpo();
-		BeanUtils.copyProperties(spo, ipoSpo);
-		List<IpoSpo> ipoSpos = ipoSpoMapper.getInfoByPages(ipoSpo, beginNum, endNum);
-		List<Spo> spos = new ArrayList<Spo>();
-		for (IpoSpo ipoSpo2 : ipoSpos) {
-			Spo tempSpo = new Spo();
+		IpoSpoCommoditymanmaagement ipoSpoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoCommo, ipoSpoComm);
+		List<IpoSpoRation> ipoSpos = ipoSpoRationMapper.getMyRationInfo(beginNum, endNum, ipoSpoComm);
+		List<SpoRation> spos = new ArrayList<SpoRation>();
+		for (IpoSpoRation ipoSpo2 : ipoSpos) {
+			SpoRation tempSpo = new SpoRation();
 			BeanUtils.copyProperties(ipoSpo2, tempSpo);
 			spos.add(tempSpo);
 		}
@@ -66,13 +66,13 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
-	public int getInfoCounts(Spo spo) {
-		if (spo == null) {
+	public int getRationInfoCounts(SpoCommoditymanmaagement spoComm) {
+		if (spoComm == null) {
 			return 0;
 		}
-		IpoSpo ipoSpo = new IpoSpo();
-		BeanUtils.copyProperties(spo, ipoSpo);
-		int counts = ipoSpoMapper.getInfoCounts(ipoSpo);
+		IpoSpoCommoditymanmaagement ipoSpoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipoSpoComm);
+		int counts = ipoSpoRationMapper.getRationInfoCounts(ipoSpoComm);
 		return counts;
 	}
 
@@ -130,7 +130,7 @@ public class SPOServiceImpl implements SPOService {
 		long counts = spoComm.getSpoCounts();
 		spoComm.setNotRationCounts(counts);
 		spoComm.setSuccessRationCounts((long) 0);
-		spoComm.setRationSate(4);
+		spoComm.setSpoSate(4);
 		spoComm.setRebate(2);
 		spoComm.setBeListed(2);
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
@@ -226,16 +226,20 @@ public class SPOServiceImpl implements SPOService {
 
 	// 增发查询总页数
 	@Override
-	public int spoCounts() {
+	public int spoCounts(SpoCommoditymanmaagement spoComm) {
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
 		logger.info("增发查询总页数");
-		return ipoSPOComm.counts();
+		return ipoSPOComm.counts(ipospoComm);
 	}
 
 	// 配售查询总页数
 	@Override
-	public int rationCounts() {
+	public int rationCounts(SpoCommoditymanmaagement spoComm) {
 		logger.info("配售查询总页数");
-		return ipoSpoRationMapper.counts();
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSpoRationMapper.counts(ipospoComm);
 	}
 
 	// 根据增发id查增发信息
@@ -260,6 +264,16 @@ public class SPOServiceImpl implements SPOService {
 	public int updateStatus(Integer rationSate, String spoid) throws Exception {
 		logger.info("跟新状态" + "rationSate:" + rationSate + "SPOID:" + spoid);
 		return ipoSPOComm.updateByStatus(rationSate, spoid);
+	}
+
+	// 修改增发商品
+	@Override
+	@Transactional
+	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception {
+		logger.info("修改增发商品");
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSPOComm.updateByComm(ipospoComm);
 	}
 
 }

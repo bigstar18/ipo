@@ -14,10 +14,10 @@ import com.yrdce.ipo.modules.sys.vo.SpoRation;
  */
 public interface SPOService {
 	// 客户端分页查询(front)
-	public List<Spo> getInfoByPages(Spo spo, String page, String rows);
+	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoComm, String page, String rows);
 
 	// 获得总页数(front)
-	public int getInfoCounts(Spo spo);
+	public int getRationInfoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 更新状态(front)
 	public int updateRationType(String rationType);
@@ -47,7 +47,7 @@ public interface SPOService {
 	public int insertByRation(List<SpoRation> spoRationList) throws Exception;
 
 	// 增发查询总页数
-	public int spoCounts();
+	public int spoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 定向配售查询(mgr)
 	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
@@ -56,7 +56,7 @@ public interface SPOService {
 	public int deleteByRation(Long rationid) throws Exception;
 
 	// 配售查询总页数
-	public int rationCounts();
+	public int rationCounts(SpoCommoditymanmaagement spoComm);
 
 	// 根据增发id查增发信息
 	public SpoCommoditymanmaagement getListBySpocom(String spoid);
@@ -66,5 +66,8 @@ public interface SPOService {
 
 	// 跟新状态
 	public int updateStatus(Integer rationSate, String spoid) throws Exception;
+
+	// 修改增发商品
+	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
 
 }

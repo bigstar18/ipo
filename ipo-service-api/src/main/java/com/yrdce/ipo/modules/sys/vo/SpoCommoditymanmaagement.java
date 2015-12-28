@@ -37,8 +37,29 @@ public class SpoCommoditymanmaagement {
     private Long prePlacement;
 
     private BigDecimal positionsPrice;
+    
+    private String registerDateSart;
 
-    public String getSpoId() {
+	private String registerDateEnd;
+    
+    
+	public String getRegisterDateSart() {
+		return registerDateSart;
+	}
+
+	public void setRegisterDateSart(String registerDateSart) {
+		this.registerDateSart = registerDateSart;
+	}
+
+	public String getRegisterDateEnd() {
+		return registerDateEnd;
+	}
+
+	public void setRegisterDateEnd(String registerDateEnd) {
+		this.registerDateEnd = registerDateEnd;
+	}
+
+	public String getSpoId() {
         return spoId;
     }
 

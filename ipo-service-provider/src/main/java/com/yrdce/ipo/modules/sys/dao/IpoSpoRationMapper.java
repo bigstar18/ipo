@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoSpo;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 
@@ -22,7 +23,12 @@ public interface IpoSpoRationMapper {
 
 	List<IpoSpoRation> selectBySPOid(String spoid);
 
-	List<IpoSpoRation> selectSPOAndRa(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+	List<IpoSpoRation> selectSPOAndRa(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
-	int counts();
+	int counts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+	
+	int getRationInfoCounts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+	
+	List<IpoSpoRation> getMyRationInfo(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 }
