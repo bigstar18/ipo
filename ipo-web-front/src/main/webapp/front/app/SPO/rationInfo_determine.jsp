@@ -10,7 +10,6 @@
 <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/static/IPO/SPO/ration.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	getAllInfo();
@@ -43,11 +42,11 @@ function getAllInfo(){
              align: "center",
              title : '商品代码'
          },{
-        	 field : 'spoId',
+        	 field : 'rationid',
              width : 200,
              hidden:'true',
              align: "center",
-             title : 'spoId'
+             title : 'rationid'
          },{
         	 field : 'spoCounts',
              width : 200,
@@ -59,17 +58,17 @@ function getAllInfo(){
              align: "center",
              title : '增发价格'
          },{
-             field : 'rationCounts',
+             field : 'rationcounts',
              width : 200,
              align: "center",
              title : '配售数量'
          }, {
-             field : 'rationRepayment',
+             field : 'rationloan',
              width : 200,
              align: "center",
              title : '配售还款'
          },  {
-             field : 'rationPoundage',
+             field : 'servicefee',
              width : 200,
              align: "center",
              title : '配售手续费'
@@ -108,7 +107,7 @@ function getAllInfo(){
             	 case 1:
             	  return "以配售"
             	   break;
-            	 case 0:
+            	 case 2:
             	   	return "未配售"
             	   break;
             	 }
@@ -119,8 +118,8 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter:function(value,row){
-            	 if(row.rationSate==0)
-            	 	return "<a href='#' onclick='rationConfirm("+row.spoId+")'>确认</a>";
+            	 if(row.rationSate==2)
+            	 	return "<a href='#' onclick='rationConfirm("+row.rationid+")'>确认</a>";
              }
 
          }]],
@@ -145,17 +144,19 @@ function reSet(){
 	//alert('重置');
 }
 //确认配售
-function rationConfirm(spoId){
+function rationConfirm(rationid){
 	//var row = $("#depositInfo").datagrid('getSelected');
 	if(!sure())
 		return;
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/spoRationController/updateRationType",
-		data:{spoId:spoId},
+		data:{rationId:rationid},
 		success:function(data){
-        	if(data=="success")
+        	if(data=="success"){
+        	   alert("确认配售成功！");
         	  $('#depositInfo').datagrid('reload');
+        	}
         	else if(data=="error")
         		alert("操作失败，请稍后再试");
          }

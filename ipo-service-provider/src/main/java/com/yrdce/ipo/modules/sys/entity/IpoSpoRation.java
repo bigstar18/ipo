@@ -38,7 +38,7 @@ public class IpoSpoRation {
 
     private BigDecimal spoPrice;
     
-    private Integer rationSatee;
+    private Integer rationSate;
 
 
 	public Date getSpoDate() {
@@ -177,12 +177,12 @@ public class IpoSpoRation {
 		this.registerDate = registerDate;
 	}
 
-	public Integer getRationSatee() {
-		return rationSatee;
+	public Integer getRationSate() {
+		return rationSate;
 	}
 
 	public void setRationSatee(Integer rationSatee) {
-		this.rationSatee = rationSatee;
+		this.rationSate = rationSatee;
 	}
 
 }

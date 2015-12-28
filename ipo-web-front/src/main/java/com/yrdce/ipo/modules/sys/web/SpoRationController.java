@@ -62,44 +62,14 @@ public class SpoRationController {
 		}
 	}
 	
-//	@RequestMapping(value = "/test", method = RequestMethod.GET)
-//	@ResponseBody
-//	public String SelectRationInfo2(@RequestParam("page")String page,
-//			@RequestParam("rows")String rows,
-//			@RequestParam("communityId")String commId,
-//			@RequestParam("registerDateStart")String startdate,
-//			@RequestParam("registerDateEnd")String enddate
-//			){
-//		logger.info("配售信息");
-//		try {
-//			SpoCommoditymanmaagement spo = new SpoCommoditymanmaagement();
-//			if (!commId.equals("")) {
-//				spo.setCommunityId(commId);
-//			}
-//			if (!startdate.equals("")) {
-//				
-//			}
-//			List<Spo> spoList = spoService.getInfoByPages(spo, page, rows);
-//			int counts = spoService.getInfoCounts(spo);
-//			ResponseResult responseResult = new ResponseResult();
-//			responseResult.setRows(spoList);
-//			responseResult.setTotal(counts);
-//			String resultJson =JSON.json(responseResult);
-//			System.out.println(resultJson);
-//			return resultJson;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "error";
-//		}
-//	}
-//	
+
 	
 	@RequestMapping(value = "/updateRationType", method = RequestMethod.POST)
 	@ResponseBody
-	public String UpdateRationType(@RequestParam("spoId")String spoId){
+	public String UpdateRationType(@RequestParam("rationId")String rationId){
 		logger.info("确认配售");
 		try {
-			int result = spoService.updateRationType(spoId);
+			int result = spoService.updateRationType(Long.parseLong(rationId));
 			if (result==1) {
 				return "success";
 			}else{

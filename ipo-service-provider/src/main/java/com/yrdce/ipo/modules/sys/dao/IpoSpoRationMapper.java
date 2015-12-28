@@ -30,5 +30,7 @@ public interface IpoSpoRationMapper {
 	int getRationInfoCounts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 	
 	List<IpoSpoRation> getMyRationInfo(@Param("beginnum")int beginnum, @Param("endnum")int endnum, @Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+	
+	int updateRationType(Long rationId);
 
 }
