@@ -24,14 +24,16 @@ import com.yrdce.ipo.modules.sys.vo.SpoRation;
 @Controller
 @RequestMapping("SPOController")
 public class SPOController {
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SPOController.class);
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
+			.getLogger(SPOController.class);
 	@Autowired
 	private SPOService spoService;
 
 	// 添加增发商品信息
 	@RequestMapping(value = "/insertSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String InsertSPOInfo(SpoCommoditymanmaagement ipospo) throws IOException {
+	public String InsertSPOInfo(SpoCommoditymanmaagement ipospo)
+			throws IOException {
 		logger.info("添加商品增发信息");
 		try {
 			int temp = spoService.insertSPOInfo(ipospo);
@@ -55,7 +57,8 @@ public class SPOController {
 		logger.info("获取商品信息");
 		String result = "";
 		try {
-			Map<String, String> commonityInfo = spoService.getCommodityidByAll();
+			Map<String, String> commonityInfo = spoService
+					.getCommodityidByAll();
 			if (commonityInfo.size() != 0) {
 				for (Map.Entry<String, String> temp : commonityInfo.entrySet()) {
 					String tempStr = "";
@@ -79,9 +82,14 @@ public class SPOController {
 	// 查询增发商品信息
 	@RequestMapping(value = "/getAllSPOInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String GetAllSPOInfo(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("communityId") String communityId,
-			@RequestParam("registerDate") String registerDate, @RequestParam("spoDate") String spoDate, @RequestParam("ipoDate") String ipoDate,
-			@RequestParam("rationType") String rationType, @RequestParam("rationSate") String rationSate) throws IOException {
+	public String GetAllSPOInfo(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("communityId") String communityId,
+			@RequestParam("registerDate") String registerDate,
+			@RequestParam("spoDate") String spoDate,
+			@RequestParam("ipoDate") String ipoDate,
+			@RequestParam("rationType") String rationType,
+			@RequestParam("rationSate") String rationSate) throws IOException {
 		logger.info("获取商品增发信息");
 		try {
 			SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
@@ -121,7 +129,8 @@ public class SPOController {
 					spoComm.setSpoSate(2);
 			}
 			logger.info(spoComm.getRationType());
-			List<SpoCommoditymanmaagement> tempList = spoService.getSPOList(page, rows, spoComm);
+			List<SpoCommoditymanmaagement> tempList = spoService.getSPOList(
+					page, rows, spoComm);
 			int counts = spoService.spoCounts(spoComm);
 			ResponseResult responseResult = new ResponseResult();
 			responseResult.setRows(tempList);
@@ -139,8 +148,11 @@ public class SPOController {
 	// 获取配售信息
 	@RequestMapping(value = "/getRationInfopp", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String GetRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam("communityId") String communityId, @RequestParam("registerDate") String registerDate) throws IOException {
+	public String GetRationInfopp(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam("communityId") String communityId,
+			@RequestParam("registerDate") String registerDate)
+			throws IOException {
 		logger.info("获取定向配售信息");
 		try {
 			SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
@@ -152,7 +164,8 @@ public class SPOController {
 				Date date = sdf.parse(registerDate);
 				spoComm.setRegisterDate(date);
 			}
-			List<SpoRation> tempList = spoService.getRationInfo(page, rows, spoComm);
+			List<SpoRation> tempList = spoService.getRationInfo(page, rows,
+					spoComm);
 			int counts = spoService.rationCounts(spoComm);
 			ResponseResult responseResult = new ResponseResult();
 			responseResult.setRows(tempList);
@@ -170,7 +183,8 @@ public class SPOController {
 	// 删除配售信息
 	@RequestMapping(value = "/deleteRationInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String DeleteRationInfo(@RequestParam("rationid") String rationId) throws IOException {
+	public String DeleteRationInfo(@RequestParam("rationid") String rationId)
+			throws IOException {
 		logger.info("删除定向配售信息");
 		try {
 			int result = spoService.deleteByRation(Long.parseLong(rationId));
@@ -190,7 +204,8 @@ public class SPOController {
 	// 删除增发商品信息
 	@RequestMapping(value = "/deleteSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String DeleteSPOInfo(@RequestParam("spoId") String spoId) throws IOException {
+	public String DeleteSPOInfo(@RequestParam("spoId") String spoId)
+			throws IOException {
 		logger.info("删除增发商品信息");
 		try {
 			int result = spoService.deleteSPOInfo(spoId);
@@ -210,10 +225,12 @@ public class SPOController {
 	// 更改增发状态
 	@RequestMapping(value = "/updateSPOSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String UpdateSPOSate(@RequestParam("spoId") String spoId, @RequestParam("rationSate") String rationSate) {
+	public String UpdateSPOSate(@RequestParam("spoId") String spoId,
+			@RequestParam("rationSate") String rationSate) {
 		logger.info("删除增发商品信息");
 		try {
-			int result = spoService.updateStatus(Integer.parseInt(rationSate), spoId);
+			int result = spoService.updateStatus(Integer.parseInt(rationSate),
+					spoId);
 			if (result > 0) {
 				return "success";
 			} else {
@@ -228,10 +245,12 @@ public class SPOController {
 	// 获取增发信息by SPOId
 	@RequestMapping(value = "/getSPOInfoBySPOId", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getSPOInfoBySPOId(@RequestParam("spoId") String spoId, HttpServletRequest request) {
+	public String getSPOInfoBySPOId(@RequestParam("spoId") String spoId,
+			HttpServletRequest request) {
 		logger.info("根据增发id获取商品信息！");
 		try {
-			SpoCommoditymanmaagement spoManage = spoService.getListBySpocom(spoId);
+			SpoCommoditymanmaagement spoManage = spoService
+					.getListBySpocom(spoId);
 			String result = JSON.json(spoManage);
 			logger.info(result);
 			return result;
@@ -241,7 +260,8 @@ public class SPOController {
 		}
 	}
 	// //修改增发商品信息
-	// @RequestMapping(value = "/updateSPOInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	// @RequestMapping(value = "/updateSPOInfo", method = RequestMethod.GET,
+	// produces = "text/html;charset=UTF-8")
 	// @ResponseBody
 	// public String updateSPOInfo(){
 	// logger.info("根据增发id修改商品信息！");
