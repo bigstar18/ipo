@@ -41,8 +41,8 @@
 </head>
 <body>
 	<div class="left"><jsp:include page="/front/frame/leftmenu.jsp" /></div>
-	<div class="right">
-		<iframe frameborder="0" id="main" name="main" width="100%" scrolling="no" onLoad="iframe(this.id,0)" src="<%=request.getContextPath()%>/front/frame/homepage.jsp"></iframe>
+	<div class="right" style="height:100%; ">
+		<iframe frameborder="0" id="main" name="main" width="100%" height="100%" scrolling="no" onLoad="iframe(this.id,0)" src="<%=request.getContextPath()%>/front/frame/homepage.jsp"></iframe>
 	</div>
 </body>
 </html>

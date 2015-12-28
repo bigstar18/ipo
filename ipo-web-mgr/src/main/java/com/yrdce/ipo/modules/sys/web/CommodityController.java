@@ -113,13 +113,15 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page,
+	public String QueryByConditions(
+			@RequestParam("page") String page,
 			@RequestParam("rows") String rows,
-			@RequestParam("status") String status,
+			@RequestParam(value = "status", required = false) String status,
 			@RequestParam("commodityname") String commodityname,
 			@RequestParam("commodityid") String commodityid,
-			@RequestParam("starttime") String starttime,
-			@RequestParam("endtime") String endtime) throws IOException {
+			@RequestParam(value = "starttime", required = false) String starttime,
+			@RequestParam(value = "endtime", required = false) String endtime)
+			throws IOException {
 		log.info("条件查询发售商品信息");
 		try {
 			Commodity comm = new Commodity();
