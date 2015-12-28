@@ -115,7 +115,7 @@
   <select id="getMyRationInfo" resultMap="BaseResultMap" parameterType="map">
   select * from (
     select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
-	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.community_id,c.register_date,
+	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.community_id,c.register_date,
 	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
 	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
 	where 1=1
@@ -127,5 +127,15 @@
      </if>
      ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
+  <update id="updateRationType" parameterType="java.lang.Long" >
+    update IPO_SPO_RATION
+    set 
+    RATION_SATE = 1
+    where RATIONID = #{rationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByStatus" parameterType="map">
+   update IPO_SPO_RATION
+    set RATION_SATE = #{rationSate,jdbcType=DECIMAL} where SPOID = #{spoid,jdbcType=VARCHAR}
+  </update>
   
 </mapper>

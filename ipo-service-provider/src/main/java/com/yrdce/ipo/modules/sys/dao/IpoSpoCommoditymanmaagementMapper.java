@@ -25,4 +25,6 @@ public interface IpoSpoCommoditymanmaagementMapper {
 	int updateByStatus(@Param("rationSate") int rationSate, @Param("spoid") String spoid);
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
+
+	List<IpoSpoCommoditymanmaagement> selete();
 }

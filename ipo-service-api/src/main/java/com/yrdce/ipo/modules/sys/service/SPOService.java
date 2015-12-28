@@ -3,7 +3,6 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 import java.util.Map;
 
-import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
@@ -20,7 +19,7 @@ public interface SPOService {
 	public int getRationInfoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 更新状态(front)
-	public int updateRationType(String rationType);
+	public int updateRationType(Long rationId);
 
 	// 条件查询(mgr)
 	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;

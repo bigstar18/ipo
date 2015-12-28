@@ -47,7 +47,7 @@ function getAllInfo(){
          },{
         	 field : 'rationid',
              width : 200,
-             //hidden:'true',
+             hidden:'true',
              align: "center",
              title : 'rationid'
          },{
@@ -103,7 +103,18 @@ function getAllInfo(){
              field : 'rationSate',
              width : 200,
              align: "center",
-             title : '配售状态'
+             title : '配售状态',
+             formatter:function(value,row){
+            	 switch(value)
+            	 {
+            	 case 1:
+            	  return "以配售"
+            	   break;
+            	 case 2:
+            	   	return "未配售"
+            	   break;
+            	 }
+                 }
          }]],
          pagination : true
      });

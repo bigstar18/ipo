@@ -76,6 +76,37 @@ public class DeliveryController {
 	}
 
 	/**
+	 * 交收属性管理列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deliveryPropsList", method = RequestMethod.POST)
+	@ResponseBody
+	public String deliveryPropsList(
+			@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam(value = "commodityname", required = false) String commodityname,
+			@RequestParam(value = "commodityid", required = false) String commodityid)
+			throws IOException {
+		log.info("查询交收属性管理商品列表");
+		try {
+			List<DeliveryOrder> tlist = deliveryorderservice
+					.findAllDeliOrdersByPage(page, rows);
+			int totalnums = deliveryorderservice.getTotalNum();
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(tlist);
+			log.info(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
 	 * 分页返回提货单列表
 	 * 
 	 * @param

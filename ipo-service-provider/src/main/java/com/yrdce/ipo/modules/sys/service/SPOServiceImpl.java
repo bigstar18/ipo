@@ -14,13 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoSpoMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
-import com.yrdce.ipo.modules.sys.entity.IpoSpo;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
-import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
@@ -34,8 +31,6 @@ import com.yrdce.ipo.modules.sys.vo.SpoRation;
 public class SPOServiceImpl implements SPOService {
 
 	static Logger logger = LoggerFactory.getLogger(SPOServiceImpl.class);
-	@Autowired
-	private IpoSpoMapper ipoSpoMapper;
 	@Autowired
 	private IpoSpoCommoditymanmaagementMapper ipoSPOComm;
 	@Autowired
@@ -77,9 +72,9 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
-	public int updateRationType(String rationType) {
+	public int updateRationType(Long rationId) {
 		// TODO Auto-generated method stub
-		int result = ipoSpoMapper.updateRationType(rationType);
+		int result = ipoSpoRationMapper.updateRationType(rationId);
 		if (result > 0) {
 			return 1;
 		} else {

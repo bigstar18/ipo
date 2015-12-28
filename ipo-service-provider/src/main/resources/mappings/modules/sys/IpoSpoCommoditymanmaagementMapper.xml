@@ -137,6 +137,9 @@
       MIN_RATION_PROPORTION = #{minRationProportion,jdbcType=DECIMAL},
       POSITIONS_PRICE = #{positionsPrice,jdbcType=DECIMAL}
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
-
   </update>
+  
+  <select id="select" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" /> from IPO_SPO_COMMODITYMANMAAGEMENT
+  </select>
 </mapper>
