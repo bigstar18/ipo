@@ -67,4 +67,7 @@ public interface SPOService {
 	// 跟新状态
 	public int updateStatus(Integer rationSate, String spoid) throws Exception;
 
+	// 修改增发商品
+	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
+
 }

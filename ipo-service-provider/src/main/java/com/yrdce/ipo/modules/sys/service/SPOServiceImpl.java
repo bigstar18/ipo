@@ -127,6 +127,12 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int insertSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("添加增发信息");
+		long counts = spoComm.getSpoCounts();
+		spoComm.setNotRationCounts(counts);
+		spoComm.setSuccessRationCounts((long) 0);
+		spoComm.setRationSate(4);
+		spoComm.setRebate(2);
+		spoComm.setBeListed(2);
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipospoComm);
 		return ipoSPOComm.insert(ipospoComm);
@@ -254,6 +260,16 @@ public class SPOServiceImpl implements SPOService {
 	public int updateStatus(Integer rationSate, String spoid) throws Exception {
 		logger.info("跟新状态" + "rationSate:" + rationSate + "SPOID:" + spoid);
 		return ipoSPOComm.updateByStatus(rationSate, spoid);
+	}
+
+	// 修改增发商品
+	@Override
+	@Transactional
+	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception {
+		logger.info("修改增发商品");
+		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
+		BeanUtils.copyProperties(spoComm, ipospoComm);
+		return ipoSPOComm.updateByComm(ipospoComm);
 	}
 
 }
