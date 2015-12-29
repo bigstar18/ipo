@@ -29,6 +29,49 @@ public class IpoSpoRation {
 	private String communityId;
 
 	private Date registerDate;
+	
+	private Date spoDate;
+
+	private Date ipoDate;
+	
+    private Long spoCounts;
+
+    private BigDecimal spoPrice;
+    
+    private Integer rationSate;
+
+
+	public Date getSpoDate() {
+		return spoDate;
+	}
+
+	public void setSpoDate(Date spoDate) {
+		this.spoDate = spoDate;
+	}
+
+	public Date getIpoDate() {
+		return ipoDate;
+	}
+
+	public void setIpoDate(Date ipoDate) {
+		this.ipoDate = ipoDate;
+	}
+
+	public Long getSpoCounts() {
+		return spoCounts;
+	}
+
+	public void setSpoCounts(Long spoCounts) {
+		this.spoCounts = spoCounts;
+	}
+
+	public BigDecimal getSpoPrice() {
+		return spoPrice;
+	}
+
+	public void setSpoPrice(BigDecimal spoPrice) {
+		this.spoPrice = spoPrice;
+	}
 
 	public Long getRationid() {
 		return rationid;
@@ -132,6 +175,14 @@ public class IpoSpoRation {
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	public Integer getRationSate() {
+		return rationSate;
+	}
+
+	public void setRationSatee(Integer rationSatee) {
+		this.rationSate = rationSatee;
 	}
 
 }

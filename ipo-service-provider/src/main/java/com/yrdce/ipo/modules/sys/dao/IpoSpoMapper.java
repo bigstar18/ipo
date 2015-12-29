@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoSpo;
-import com.yrdce.ipo.modules.sys.vo.Spo;
 
 @MyBatisDao
 public interface IpoSpoMapper {

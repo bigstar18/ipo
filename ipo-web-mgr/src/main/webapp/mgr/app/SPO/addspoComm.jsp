@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page isELIgnored="false" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,23 +18,77 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+	var spoid=parent.$("#hidSpoId").val();
 	getIPOCommInfo();
-});
-function rationTypeChange(type){
-	$("span input").val("");
-	$("#spoDate").datebox("setValue","");
-	$("#ipoDate").datebox("setValue","");
-	$("#registerDate").datebox("setValue","");
-	if(type.value=="比例配售"){
+	if(spoid!=""){
+		$("#communityId").hide();
+		$("#commIdInput").show();
 		$(".radio").show();
 		$(".all").show();
-	}else if(type.value=="定向配售"){
-		$(".radio").hide();
-		$(".all").show();
-	}else{
-		$(".radio").hide();
-		$(".all").hide();
+	 	$("#add").val("修改");
+	 	$("#title").html("修改增发商品");
+		getSpoInfo(spoid);
 	}
+});
+
+//获取增发修改的基本信息
+function getSpoInfo(spoId){
+	var tempType;
+	$.ajax({
+		type:"GET",
+		url:"<%=request.getContextPath()%>/SPOController/getSPOInfoBySPOId",
+		data:{spoId:spoId},
+		dataType: "json", 
+		success:function(data){
+			if(data!="error"&&data!=""){
+				$("#spoCounts").val(data.spoCounts);
+				$("#commIdInput").val(data.communityId);
+				$("#registerDate").datebox("setValue",data.registerDate.substr(0,10));
+				$("#spoDate").datebox("setValue",data.spoDate.substr(0,10));
+				$("#ipoDate").datebox("setValue",data.ipoDate.substr(0,10));
+				$("#rationType ").get(0).selectedIndex=data.rationType;
+				$("#spoPrice").val(data.spoPrice);
+				$("#positionsPrice").val(data.positionsPrice);
+				$("#minRationCounts").val(data.minRationCounts);
+				$("#minRationProportion").val(data.minRationProportion);
+			}
+		}
+		
+	});
+}
+
+function rationTypeChange(type){
+	var spoid=parent.$("#hidSpoId").val();
+	if(spoid==""){
+		$("span input").val("");
+		$("#spoDate").datebox("setValue","");
+		$("#ipoDate").datebox("setValue","");
+		$("#registerDate").datebox("setValue","");
+		if(type.value=="比例配售"){
+			$(".radio").show();
+			$(".all").show();
+		}else if(type.value=="定向配售"){
+			$(".radio").hide();
+			$(".all").show();
+		}else{
+			$(".radio").hide();
+			$(".all").hide();
+		}
+	}else if(spoid!=""){
+		if(type.value=="比例配售"){
+			$(".radio").show();
+			$(".all").show();
+		}else if(type.value=="定向配售"){
+			$(".radio").hide();
+			$("#minRationCounts").val("");
+			$("#minRationProportion").val("");
+			$(".all").show();
+		}else{
+			$(".radio").hide();
+			$(".all").hide();
+		}
+	}
+	
 }
 
 //获取商品信息
@@ -42,22 +97,24 @@ function getIPOCommInfo(){
 		type:"GET",
 		url:"<%=request.getContextPath()%>/SPOController/getIPOCommonity",
 		success:function(data){
-        	if(data!="error"&&data!=""){
+        	if(data!="error"&&data!=""&&data!="null"){
         		var temp = data.split("|");
         		for(var ele in temp){
         			if(temp[ele] !="")
-        				$("#commId").append("<option>"+temp[ele]+"</option>");
+        				$("#communityId").append("<option>"+temp[ele]+"</option>");
         		}
+        	}else if(data=="null"){
+        		return;
         	}
         	else if(data=="error")
-        		alert("初始化失败，请稍后再试");
-        	
+        		alert("初始化，请稍后再试");
          } 
 	});
 }
 
 //添加增发信息
 function addSPOInfo(){
+	
 	var reg =  /.*\((.*)\)/;//正则表达式获取括号内容
 	var registerDate = $("#registerDate").datebox("getValue");
 	var spoDate = $("#spoDate").datebox("getValue");
@@ -72,11 +129,11 @@ function addSPOInfo(){
 	var dateSPO=null;
 	var dateIPO=null;
 	//验证
-	if($("#commId").val() == "请选择"){
+	if($("#communityId").val() == "请选择"){
 		alert("请选择具体商品！");
 		return;
 	}
-	var commonityId = $("#commId").val().match(reg)[1];
+	var commonityId = $("#communityId").val().match(reg)[1];
 	if(!myDateValidate(ipoDate,registerDate)){
 		alert("上市日期不能小于登记日期！")
 		return;
@@ -132,7 +189,7 @@ function addSPOInfo(){
 	
  	registerDate = registerDate.replace(/-/g,"/");
 	dateRe = new Date(registerDate );
-	if(spoDate==""||spoDate==bull){
+	if(spoDate==""||spoDate==null){
 		dateSPO = new Date(null);
 	}else{
 		spoDate = spoDate.replace(/-/g,"/");
@@ -156,10 +213,15 @@ function addSPOInfo(){
 			positionsPrice:positionsPrice
 		},
 		success:function(data){
-        	if(data=="success")
-        	  $('#depositInfo').datagrid('reload');
+        	if(data=="success"){
+        		alert("添加成功！")
+        		parent.$('#depositInfo').datagrid('reload');
+        		parent.$('#dd').window('close');
+        	 	return;
+        	}
         	else if(data=="error")
         		alert("操作失败，请稍后再试");
+        		return;
          } 
 	});
 }
@@ -282,10 +344,10 @@ function myDateValidate(tempDate,nowDate){
 		</div>
 	</div>
 
-	<form>
+	<form id="frm" method="POST">
 		<div class="div_cxtj">
 			<div class="div_cxtjL"></div>
-			<div class="div_cxtjC">
+			<div id="title" class="div_cxtjC">
 				添加增发商品
 			</div>
 			<div class="div_cxtjR"></div>
@@ -295,7 +357,8 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>商品代码：</span>
 				<span>
-					<select id="commId" style="width:150px">
+					<input type="text" id="commIdInput" readonly="readonly" style="width:150px;display:none;">
+					<select id="communityId" name="communityId" style="width:150px" >
 						<option>请选择</option>
 					</select>
 				</span>
@@ -305,7 +368,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>登记日期：</span>
 				<span>
-					<input id="registerDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
+					<input id="registerDate" name="registerDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 				</span>	
 				</td>
 			</tr>
@@ -313,7 +376,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>增发日期：</span>
 				<span>
-					<input id="spoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect">
+					<input id="spoDate" name="spoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect">
 				</span>	
 				</td>
 			</tr>
@@ -321,7 +384,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>上市日期：</span>
 				<span>
-					<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect2">
+					<input id="ipoDate" name="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser,onSelect:onSelect2">
 				</span>	
 				</td>
 			</tr>	
@@ -329,7 +392,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>配售类型：</span>
 				<span>
-					<select id="rationType" name="type" style="width:150px" onchange="rationTypeChange(this)">
+					<select id="rationType" name="rationType" style="width:150px" onchange="rationTypeChange(this)">
 						<option>请选择</option>
 						<option>比例配售</option>
 						<option>定向配售</option>
@@ -341,7 +404,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>增发数量：</span>
 				<span>
-					<input onblur="validate3(this);" id="spoCounts" class="easyui-textbox" style="width:150px">
+					<input  onblur="validate3(this);" id="spoCounts" name="spoCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>	
@@ -349,7 +412,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>增发价格：</span>
 				<span>
-					<input onblur="validate1(this);" id="spoPrice" class="easyui-textbox" style="width:150px">
+					<input onblur="validate1(this);" id="spoPrice" name="spoPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -357,7 +420,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>持仓价格：</span>
 				<span>
-					<input onblur="validate1(this);" id="positionsPrice" class="easyui-textbox" style="width:150px">
+					<input onblur="validate1(this);" id="positionsPrice" name="positionsPrice" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -365,7 +428,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>最小配售数量：</span>
 				<span style="margin-right:25px">
-					<input onblur="validate3(this);" id="minRationCounts" class="easyui-textbox" style="width:150px">
+					<input onblur="validate3(this);" id="minRationCounts" name="minRationCounts" class="easyui-textbox" style="width:150px">
 				</span>	
 				</td>
 			</tr>
@@ -373,7 +436,7 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span >最小配售比例：</span>
 				<span style="margin-right:18px">
-					<input onblur="validate2(this);" id="minRationProportion" class="easyui-textbox" style="width:150px">%
+					<input onblur="validate2(this);" id="minRationProportion" name="minRationProportion" class="easyui-textbox" style="width:150px">%
 				</span>	
 				</td>
 			</tr>
@@ -382,7 +445,7 @@ function myDateValidate(tempDate,nowDate){
 			<tr >
 				<td align="center">
 					<input type="button" class="btn_sec" id="add" onclick="addSPOInfo()" value="添加">
-					<button  onclick="test()">关闭</button>
+				    <input type="button" class="btn_sec" id="close" onclick="" value="关闭">
 				</td>
 			</tr>
 		</table>

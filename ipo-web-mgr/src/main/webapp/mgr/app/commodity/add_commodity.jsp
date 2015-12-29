@@ -381,7 +381,7 @@ function on_tchange(){
         								<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入1-9的整数',min:0,max:9"  style="ime-mode:disabled; width: 100" />          
+			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0,precision:0"  style="ime-mode:disabled; width: 100" />          
 										 <span class="required">*</span> 
 										</td>
             							<td align="right"></td>

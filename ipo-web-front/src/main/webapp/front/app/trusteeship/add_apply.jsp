@@ -49,7 +49,7 @@
 		 <form   name="dataForm" id="dataForm">
 		      <input type="hidden" name="trusteeshipCommodityId" value="${param.id}">
 		      <table>
-		         <tr align="center" ><td colspan="4" style="padding-bottom: 20px;">商   品   申   购</td></tr>
+		         <tr align="center" ><td colspan="4" style="padding-bottom: 20px;">托  管  申  请</td></tr>
 		        <tr>
 		           <td>商品编码:</td>
 		           <td><input type="text" name="commodityId" value="${param.commodityId}" readonly="readonly"></td>

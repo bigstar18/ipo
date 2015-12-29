@@ -45,11 +45,11 @@ function getAllInfo(){
              align: "center",
              title : '商品代码'
          },{
-        	 field : 'spoId',
+        	 field : 'rationid',
              width : 200,
              hidden:'true',
              align: "center",
-             title : 'spoId'
+             title : 'rationid'
          },{
         	 field : 'spoCounts',
              width : 200,
@@ -61,17 +61,17 @@ function getAllInfo(){
              align: "center",
              title : '增发价格'
          },{
-             field : 'rationCounts',
+             field : 'rationcounts',
              width : 200,
              align: "center",
              title : '配售数量'
          }, {
-             field : 'rationRepayment',
+             field : 'rationloan',
              width : 200,
              align: "center",
              title : '配售还款'
          },  {
-             field : 'rationPoundage',
+             field : 'servicefee',
              width : 200,
              align: "center",
              title : '配售手续费'
@@ -81,7 +81,7 @@ function getAllInfo(){
              align: "center",
              title : '登记日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+                return value.substr(0,10);
              }
          }, {
              field : 'spoDate',
@@ -89,7 +89,7 @@ function getAllInfo(){
              align: "center",
              title : '增发日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+                return value.substr(0,10);
              }
          }, {
              field : 'ipoDate',
@@ -103,7 +103,18 @@ function getAllInfo(){
              field : 'rationSate',
              width : 200,
              align: "center",
-             title : '配售状态'
+             title : '配售状态',
+             formatter:function(value,row){
+            	 switch(value)
+            	 {
+            	 case 1:
+            	  return "以配售"
+            	   break;
+            	 case 2:
+            	   	return "未配售"
+            	   break;
+            	 }
+                 }
          }]],
          pagination : true
      });
@@ -127,6 +138,27 @@ function reSet(){
 	getAllInfo();
 	//alert('重置');
 }
+
+
+//修改日期格式
+function myformatter(date){
+		 var y = date.getFullYear();
+		 var m = date.getMonth()+1;
+		 var d = date.getDate();
+		 return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+	}
+function myparser(s){
+		 if (!s) return new Date();
+		 var ss = (s.split('-'));
+		 var y = parseInt(ss[0],10);
+		 var m = parseInt(ss[1],10);
+		 var d = parseInt(ss[2],10);
+		 if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+		 return new Date(y,m-1,d);
+	}else{
+		return new Date();
+	}
+ }
 </script>
 </head>
 <body>
@@ -151,8 +183,8 @@ function reSet(){
 					商品代码: <input id="commId" name="communityId" type="text" style="border:1px solid #ccc">
 								&nbsp
 								&nbsp
-					查询日期: <input id="startdate" name="startdate" class="easyui-datebox" style="border:1px solid #ccc" >
-					至 <input id="enddate" name="enddate" class="easyui-datebox" style="border:1px solid #ccc" >
+					查询日期: <input id="startdate" name="startdate" class="easyui-datebox" style="border:1px solid #ccc"  data-options="formatter:myformatter,parser:myparser" >
+					至 <input id="enddate" name="enddate" class="easyui-datebox" style="border:1px solid #ccc" data-options="formatter:myformatter,parser:myparser">
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>
 					</form>

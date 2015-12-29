@@ -20,7 +20,11 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByPrimaryKey(IpoSpoCommoditymanmaagement record);
 
-	int counts();
+	int counts(@Param("Spo") IpoSpoCommoditymanmaagement spoComm);
 
-	int updateByStatus(int rationSate, String spoid);
+	int updateByStatus(@Param("rationSate") int rationSate, @Param("spoid") String spoid);
+
+	int updateByComm(IpoSpoCommoditymanmaagement record);
+
+	List<IpoSpoCommoditymanmaagement> selete();
 }
