@@ -120,6 +120,16 @@ public class VIpoCommConf implements Serializable {
 
 	private String commdetails;
 
+	private Short deliveryProp;
+
+	public Short getDeliveryProp() {
+		return deliveryProp;
+	}
+
+	public void setDeliveryProp(Short deliveryProp) {
+		this.deliveryProp = deliveryProp;
+	}
+
 	public BigDecimal getTransferfeeradio() {
 		return transferfeeradio;
 	}
@@ -592,7 +602,7 @@ public class VIpoCommConf implements Serializable {
 				+ ", mktcancelfeeradio=" + mktcancelfeeradio
 				+ ", deliverycostbefore=" + deliverycostbefore
 				+ ", transferfeeradio=" + transferfeeradio + ", commdetails="
-				+ commdetails + "]";
+				+ commdetails + ", deliveryProp=" + deliveryProp + "]";
 	}
 
 }

@@ -22,8 +22,8 @@
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
 		<div>
-			商品代码：<input type="text" id="commodityid" name="commodityid" />
-			商品名称：<input type="text" id="commodityname" name="commodityname" />
+			商品代码：<input type="text" id="commodityId" name="commodityId" />
+			商品名称：<input type="text" id="commodityName" name="commodityName" />
 		</div> 
 	</div>
 	</div>

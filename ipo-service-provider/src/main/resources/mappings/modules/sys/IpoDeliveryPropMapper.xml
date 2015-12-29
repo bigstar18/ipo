@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDeliveryPropMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDeliveryProp" >
+    <result column="DELIVERYPROPID" property="deliverypropid" jdbcType="DECIMAL" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="PROPERTYID" property="propertyid" jdbcType="DECIMAL" />
+    <result column="SORTNO" property="sortno" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryProp" >
+    insert into IPO_DELIVERY_PROP (DELIVERYPROPID, COMMODITYID, PROPERTYID, 
+      SORTNO)
+    values (#{deliverypropid,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{propertyid,jdbcType=DECIMAL}, 
+      #{sortno,jdbcType=DECIMAL})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select DELIVERYPROPID, COMMODITYID, PROPERTYID, SORTNO
+    from IPO_DELIVERY_PROP
+  </select>
+  <delete id="deleteByCommodityId" parameterType="java.lang.String" >
+    delete from IPO_DELIVERY_PROP
+    where COMMODITYID = #{commId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

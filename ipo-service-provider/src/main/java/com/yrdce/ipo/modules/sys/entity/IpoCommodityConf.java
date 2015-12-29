@@ -112,6 +112,8 @@ public class IpoCommodityConf {
 
 	private String commdetails;
 
+	private Short deliveryProp;
+
 	public String getCommodityid() {
 		return commodityid;
 	}
@@ -544,6 +546,14 @@ public class IpoCommodityConf {
 
 	public void setCommdetails(String commdetails) {
 		this.commdetails = commdetails;
+	}
+
+	public Short getDeliveryProp() {
+		return deliveryProp;
+	}
+
+	public void setDeliveryProp(Short deliveryProp) {
+		this.deliveryProp = deliveryProp;
 	}
 
 }

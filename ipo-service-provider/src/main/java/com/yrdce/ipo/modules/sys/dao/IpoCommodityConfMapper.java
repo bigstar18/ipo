@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 
 @MyBatisDao
@@ -34,5 +35,11 @@ public interface IpoCommodityConfMapper {
 	int countAll();// 获取商品总数
 
 	List<IpoCommodityConf> findAllIpoCommConfs();
+
+	List<DeliveryCommodity> findDeliveryCommoditys(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("record") DeliveryCommodity record);
+
+	int getDeliveryCommNum(@Param("record") DeliveryCommodity record);
 
 }

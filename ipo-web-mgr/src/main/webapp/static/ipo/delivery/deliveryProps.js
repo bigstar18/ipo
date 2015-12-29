@@ -16,43 +16,60 @@ $(document).ready(function() {
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          remoteSort:false,  
          columns : [ [ {
-        	 field : 'commodityid',  
+        	 field : 'commodityId',  
              width : 200, 
              align: "center",
-             title : '商品代码'
+             title : '商品代码' ,
+             formatter: function(value,row){
+                  	 return "<a>"+value+"</a>";
+             } 
          }, {
-        	 field : 'commodityname',  
+        	 field : 'commodityName',  
              width : 200,  
              align: "center",
              title : '商品名称'
-         }, {  
-             field : 'status',  
+         }, {
+        	 field : 'breedId',  
+             width : 200, 
+             align: "center",
+             title : '品种代码'
+         }, {
+        	 field : 'breedName',  
              width : 200,  
              align: "center",
-             title : '状态' ,
+             title : '品种名称'
+         }, {
+        	 field : 'categoryId',  
+             width : 200, 
+             align: "center",
+             title : '分类代码'
+         }, {
+        	 field : 'categoryName',  
+             width : 200,  
+             align: "center",
+             title : '分类名称'
+         },{  
+             field : 'deliveryProp',  
+             width : 200,  
+             align: "center",
+             title : '是否已设置' ,
              formatter:function(value){
-            	 if(value=='1') return "未配号";
-            	 if(value=='2') return "已配号";
-            	 if(value=='3') return "已摇号";
-            	 if(value=='4') return "已结算";
+            	 if(value=='1') return "是";
+            	 if(value=='2') return "否"
            }
           }, {  
-              field : 'starttime',  
+              field : '_operate',  
               width : 200,  
               align: "center",
-              title : '发售日期' ,
+              title : '删除操作' ,
               formatter: function(value,row){
-                  return value.substr(0,10);
+              	if(row.deliveryProp==1){
+                  return "<a>删除</a>";}
+                  if(row.deliveryProp==2){
+                  	 return "<button>未设置</button>";
+                  }
           } 
-           }, {  
-               field : 'endtime',  
-               width : 200,  
-               align: "center",
-               title : '截止日期' ,
-               formatter: function(value,row){
-                   return value.substr(0,10);
-           } 
-            }
+           }
          ]],  
          pagination : true 
      });  
@@ -66,7 +83,7 @@ $(document).ready(function() {
 
 function doSearch(){
 	$('#dg').datagrid('load',{
-		commodityname: $('#commodityname').val(),
-		commodityid: $('#commodityid').val()
+		commodityName: $('#commodityName').val(),
+		commodityId: $('#commodityId').val()
 	});
 }

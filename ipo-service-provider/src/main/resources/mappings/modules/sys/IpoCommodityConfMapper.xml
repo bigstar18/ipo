@@ -56,6 +56,16 @@
     <result column="DELIVERYCOSTBEFORE" property="deliverycostbefore" jdbcType="DECIMAL" />
     <result column="TRANSFERFEERADIO" property="transferfeeradio" jdbcType="DECIMAL" />
     <result column="COMMDETAILS" property="commdetails" jdbcType="VARCHAR" />
+    <result column="DELIVERYPROP" property="deliveryProp" jdbcType="DECIMAL" />
+  </resultMap>
+   <resultMap id="DCResultMap" type="com.yrdce.ipo.modules.sys.entity.DeliveryCommodity" >
+    <id column="COMMODITYID" property="commodityId" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityName" jdbcType="VARCHAR" />
+    <result column="BREEDID" property="breedId" jdbcType="DECIMAL" />
+    <result column="BREEDNAME" property="breedName" jdbcType="VARCHAR" />
+    <result column="SORTID" property="categoryId" jdbcType="DECIMAL" />
+    <result column="CATEGORYNAME" property="categoryName" jdbcType="VARCHAR" />
+    <result column="DELIVERYPROP" property="deliveryProp" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
    COMMODITYID, COMMODITYNAME, PRICE, UNITS, COUNTS, STARTTIME, ENDTIME, MAXAPPLYNUM, 
@@ -66,7 +76,7 @@
     TRADEALGR, BUY, SELL, MKTBUYFEERADIO, MKTSELLFEERADIO, WAREHOUSEDAILYRENT, 
     WAREHOUSESTARTDAY, TRUSTEEDAILYRENT, INSURANCEDAILYRENT, INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
     DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
-    DELIVERYCOSTBEFORE,TRANSFERFEERADIO ,COMMDETAILS
+    DELIVERYCOSTBEFORE,TRANSFERFEERADIO ,COMMDETAILS,DELIVERYPROP
   </sql>
   <select id="findIpoCommConfByBreedid"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between  #{beginnum} and  #{endnum}
@@ -109,7 +119,7 @@
       INSURANCESTARTDAY, FREETRUSTEEDAYS, DELIVERYUNIT, 
       DELIUNITTOCONTRACT, DELIVERYSTARTDAY, REGISTFEERADIO, 
       MKTREGISTFEERADIO, CANCELFEERADIO, MKTCANCELFEERADIO, 
-      DELIVERYCOSTBEFORE, TRANSFERFEERADIO,COMMDETAILS)
+      DELIVERYCOSTBEFORE, TRANSFERFEERADIO,COMMDETAILS,DELIVERYPROP)
     values (#{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{units,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, #{starttime,jdbcType=DATE}, 
       #{endtime,jdbcType=DATE}, #{maxapplynum,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
@@ -127,7 +137,7 @@
       #{insurancestartday,jdbcType=DATE}, #{freetrusteedays,jdbcType=DECIMAL}, #{deliveryunit,jdbcType=VARCHAR}, 
       #{deliunittocontract,jdbcType=DECIMAL}, #{deliverystartday,jdbcType=DATE}, #{registfeeradio,jdbcType=DECIMAL}, 
       #{mktregistfeeradio,jdbcType=DECIMAL}, #{cancelfeeradio,jdbcType=DECIMAL}, #{mktcancelfeeradio,jdbcType=DECIMAL}, 
-      #{deliverycostbefore,jdbcType=DECIMAL}, #{transferfeeradio,jdbcType=DECIMAL}, #{commdetails,jdbcType=VARCHAR})
+      #{deliverycostbefore,jdbcType=DECIMAL}, #{transferfeeradio,jdbcType=DECIMAL}, #{commdetails,jdbcType=VARCHAR},#{deliveryProp,jdbcType=DECIMAL})
   </insert>
   <update id="update" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
     update IPO_COMMODITY_CONF
@@ -183,7 +193,8 @@
       MKTCANCELFEERADIO = #{mktcancelfeeradio,jdbcType=DECIMAL},
       DELIVERYCOSTBEFORE = #{deliverycostbefore,jdbcType=DECIMAL},
         TRANSFERFEERADIO = #{transferfeeradio,jdbcType=DECIMAL},
-      COMMDETAILS = #{commdetails,jdbcType=VARCHAR}
+      COMMDETAILS = #{commdetails,jdbcType=VARCHAR},
+      DELIVERYPROP = #{deliveryProp,jdbcType=DECIMAL}
     where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
    <delete id="deleteByCommid" parameterType="String" >
@@ -192,4 +203,27 @@
   <delete id="deleteByBreedid" parameterType="Long" >
     delete from IPO_COMMODITY_CONF  where BREEDID = #{breedid} 
   </delete>
+   <select id="findDeliveryCommoditys" resultMap="DCResultMap" parameterType="map" > 
+  SELECT G.* FROM (SELECT A.*, C.CATEGORYNAME, ROWNUM TNO FROM (SELECT T.COMMODITYID,T.COMMODITYNAME, T.BREEDID,B.BREEDNAME, B.SORTID,T.DELIVERYPROP
+  FROM IPO_COMMODITY_CONF T  LEFT JOIN IPO_BREED B ON T.BREEDID = B.BREEDID) A LEFT JOIN M_CATEGORY C ON A.SORTID = C.CATEGORYID
+  WHERE 1=1 
+   <if test="record.commodityId != null" >
+    and  A.COMMODITYID like concat(#{record.commodityId,jdbcType=VARCHAR},'%')
+   </if>
+   <if test="record.commodityName != null" >
+    and A.COMMODITYNAME like   concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
+   </if>   
+  ) G WHERE G.TNO BETWEEN #{beginnum} and  #{endnum}
+   </select>
+ <select id="getDeliveryCommNum" parameterType="com.yrdce.ipo.modules.sys.entity.DeliveryCommodity" resultType="java.lang.Integer" >
+   SELECT COUNT(*) FROM (SELECT A.*, C.CATEGORYNAME FROM (SELECT T.COMMODITYID,T.COMMODITYNAME,T.BREEDID,B.BREEDNAME, B.SORTID, T.DELIVERYPROP
+   FROM IPO_COMMODITY_CONF T  LEFT JOIN IPO_BREED B ON T.BREEDID = B.BREEDID) A LEFT JOIN M_CATEGORY C ON A.SORTID = C.CATEGORYID
+     <if test="record.commodityId != null" >
+    and  A.COMMODITYID like concat(#{record.commodityId,jdbcType=VARCHAR},'%')
+   </if>
+   <if test="record.commodityName != null" >
+    and A.COMMODITYNAME like  concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
+   </if>    )
+  </select>
+  
 </mapper>

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
@@ -50,6 +52,9 @@ public class DeliveryController {
 	@Autowired
 	private OutboundService outboundService;
 
+	@Autowired
+	private DeliveryCommodityService deliveryCommService;
+
 	public OutboundService getOutboundService() {
 		return outboundService;
 	}
@@ -75,6 +80,15 @@ public class DeliveryController {
 		this.ipoStorageService = ipoStorageService;
 	}
 
+	public DeliveryCommodityService getDeliveryCommService() {
+		return deliveryCommService;
+	}
+
+	public void setDeliveryCommService(
+			DeliveryCommodityService deliveryCommService) {
+		this.deliveryCommService = deliveryCommService;
+	}
+
 	/**
 	 * 交收属性管理列表
 	 * 
@@ -87,14 +101,19 @@ public class DeliveryController {
 	public String deliveryPropsList(
 			@RequestParam("page") String page,
 			@RequestParam("rows") String rows,
-			@RequestParam(value = "commodityname", required = false) String commodityname,
-			@RequestParam(value = "commodityid", required = false) String commodityid)
+			@RequestParam(value = "commodityName", required = false) String commodityname,
+			@RequestParam(value = "commodityId", required = false) String commodityid)
 			throws IOException {
 		log.info("查询交收属性管理商品列表");
 		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.findAllDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getTotalNum();
+			DeliveryCommodity example = new DeliveryCommodity();
+			if (commodityname != null && commodityid != null) {
+				example.setCommodityId(commodityid);
+				example.setCommodityName(commodityname);
+			}
+			List<DeliveryCommodity> tlist = deliveryCommService
+					.findDeliveryCommoditys(page, rows, example);
+			int totalnums = deliveryCommService.getNums(example);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);

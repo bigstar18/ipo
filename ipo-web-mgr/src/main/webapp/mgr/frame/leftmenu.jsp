@@ -283,6 +283,10 @@ var promptTime = 60;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交收管理","");</SCRIPT>
                         <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("交收属性管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/delivery/deliveryProps.jsp");
+									M01.add(M0101);</SCRIPT>
+                       
+                        <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("入库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/StorageApprove");
 									M01.add(M0101);</SCRIPT>
 									

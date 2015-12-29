@@ -1,14 +1,12 @@
-package com.yrdce.ipo.modules.sys.vo;
-
-import java.io.Serializable;
+package com.yrdce.ipo.modules.sys.entity;
 
 /**
- * 交收属性管理列表Vo
+ * 交收属性设置商品
  * 
  * @author chenjing
  *
  */
-public class DeliveryCommodity implements Serializable {
+public class DeliveryCommodity {
 
 	private String commodityId; // 商品代码
 
