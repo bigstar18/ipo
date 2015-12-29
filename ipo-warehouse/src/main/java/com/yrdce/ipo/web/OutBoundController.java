@@ -46,7 +46,7 @@ public class OutBoundController {
 			System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("获取出库信息异常", e);
 			return "";
 		}
 	}
@@ -72,18 +72,16 @@ public class OutBoundController {
 				return "";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			log.error("获取提货单信息异常", e);
 			return "error";
 		}
 		
 	}
 	
-	@RequestMapping(value = "/getDeliveryInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/updateOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String updateOutBoundInfo(OutboundExtended extended){
 		return null;
-		
 	}
 	
 	
