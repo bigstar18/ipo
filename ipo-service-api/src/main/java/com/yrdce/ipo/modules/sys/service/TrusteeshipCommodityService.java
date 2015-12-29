@@ -80,10 +80,22 @@ public interface TrusteeshipCommodityService {
 	 * @param ship
 	 */
 	public void cancelApply(Trusteeship ship)throws Exception;
+	/**
+	 * 市场审核通过
+	 * @param ship
+	 * @throws Exception
+	 */
+	public void marketAuditPass(Trusteeship ship) throws Exception;
 	
-	
-	
-	 
+	/**
+	 * 市场审核驳回
+	 * @param ship
+	 * @throws Exception
+	 */
+	public void marketAuditNoPass(Trusteeship ship) throws Exception;
 	
     
+	
+	
+	
 }

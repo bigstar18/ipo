@@ -158,7 +158,6 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return count;
 	}
 	
-	
 	/**
 	 * 撤销我的申请
 	 */
@@ -167,7 +166,31 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		saveHis(ship.getId(),ship.getUpdateUser());
 		ship.setState(TrusteeshipConstant.State.CANCEL.getCode());
 		ship.setUpdateDate(new Date());
-		shipMapper.canelApply(ship);
+		shipMapper.updateApplyState(ship);
+	}
+	
+	/**
+	 * 市场审核通过
+	 */
+	@Transactional
+	public void marketAuditPass(Trusteeship ship) throws Exception{
+		saveHis(ship.getId(),ship.getUpdateUser());
+		ship.setState(TrusteeshipConstant.State.MARKET_PASS.getCode());
+		ship.setUpdateDate(new Date());
+		ship.setAuditingDate(new Date());
+		shipMapper.updateApplyState(ship);
+	}
+	
+	/**
+	 * 市场审核驳回
+	 */
+	@Transactional
+	public void marketAuditNoPass(Trusteeship ship) throws Exception{
+		saveHis(ship.getId(),ship.getUpdateUser());
+		ship.setState(TrusteeshipConstant.State.MARKET_NOTPASS.getCode());
+		ship.setUpdateDate(new Date());
+		ship.setAuditingDate(new Date());
+		shipMapper.updateApplyState(ship);
 	}
 	
 	
