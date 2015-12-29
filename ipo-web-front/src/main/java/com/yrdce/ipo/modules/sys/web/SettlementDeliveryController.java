@@ -76,9 +76,9 @@ public class SettlementDeliveryController {
 	}
 
 	// 提货申请
-	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
+	@RequestMapping(value = "/deliveryApply", method = RequestMethod.GET)
 	@ResponseBody
-	public String delivery(DeliveryOrder deliveryOrder) {
+	public String deliveryApply(DeliveryOrder deliveryOrder) {
 		String method = deliveryOrder.getDeliveryMethod();
 		return null;
 	}

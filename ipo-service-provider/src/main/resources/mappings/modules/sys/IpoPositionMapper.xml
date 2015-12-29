@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPosition" >
+    <id column="POSITIONID" property="positionid" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="DECIMAL" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="POSITION_PRICE" property="positionPrice" jdbcType="DECIMAL" />
+    <result column="POSITION_UNIT" property="positionUnit" jdbcType="VARCHAR" />
+    <result column="REDUCTION_NUM" property="reductionNum" jdbcType="DECIMAL" />
+    <result column="REDUCTION_DATE" property="reductionDate" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+  POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
+    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_POSITION
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPosition" >
+    insert into IPO_POSITION (POSITIONID, FIRMID, POSITION, 
+      COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
+      POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+      )
+    values (#{positionid,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{position,jdbcType=DECIMAL}, 
+      #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{positionPrice,jdbcType=DECIMAL}, 
+      #{positionUnit,jdbcType=VARCHAR}, #{reductionNum,jdbcType=DECIMAL}, #{reductionDate,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPosition" >
+    update IPO_POSITION
+    set FIRMID = #{firmid,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=DECIMAL},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      POSITION_PRICE = #{positionPrice,jdbcType=DECIMAL},
+      POSITION_UNIT = #{positionUnit,jdbcType=VARCHAR},
+      REDUCTION_NUM = #{reductionNum,jdbcType=DECIMAL},
+      REDUCTION_DATE = #{reductionDate,jdbcType=DATE}
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
+    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+    from IPO_POSITION
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
+    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+    from IPO_POSITION
+  </select>
+  
+  <select id="seelctByFirmid" resultType="com.yrdce.ipo.modules.sys.entity.IpoPosition" parameterType="java.lang.String">
+  select p.commodityid,p.commodityname,p.position,wm_concat(w.warehousename) as warehousename from ipo_position p 
+  left join ipo_trusteeship_warehouse t on p.commodityid = t.commodity_id
+  left join bi_warehouse w on w.warehouseid = t.warehouse_id
+  where FIRMID = #{firmid,jdbcType=VARCHAR} group by p.commodityid,p.commodityname,p.position
+  </select>
+</mapper>

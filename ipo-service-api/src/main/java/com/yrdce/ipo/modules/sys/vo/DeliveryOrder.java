@@ -64,18 +64,16 @@ public class DeliveryOrder implements Serializable {
 	private Long position;
 
 	private String remarks;
-	
+
 	private String pickupPassword;
-	
+
 	private String idcardNum;
-	
+
 	private String address;
 	private BigDecimal cost;
 	private String receiver;
 	private String tel;
-	
-	
-	
+
 	public String getAddress() {
 		return address;
 	}
@@ -122,86 +120,6 @@ public class DeliveryOrder implements Serializable {
 
 	public void setIdcardNum(String idcardNum) {
 		this.idcardNum = idcardNum;
-	}
-
-	private String expressId;
-
-	private String address;
-
-	private BigDecimal cost;
-
-	private String receiver;
-
-	private String tel;
-
-	private String pickupId;
-
-	private String pickupPassword;
-
-	private String idcardNum;
-
-	public String getPickupId() {
-		return pickupId;
-	}
-
-	public void setPickupId(String pickupId) {
-		this.pickupId = pickupId;
-	}
-
-	public String getPickupPassword() {
-		return pickupPassword;
-	}
-
-	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
-	}
-
-	public String getIdcardNum() {
-		return idcardNum;
-	}
-
-	public void setIdcardNum(String idcardNum) {
-		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
-	}
-
-	public String getExpressId() {
-		return expressId;
-	}
-
-	public void setExpressId(String expressId) {
-		this.expressId = expressId;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address == null ? null : address.trim();
-	}
-
-	public BigDecimal getCost() {
-		return cost;
-	}
-
-	public void setCost(BigDecimal cost) {
-		this.cost = cost;
-	}
-
-	public String getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(String receiver) {
-		this.receiver = receiver == null ? null : receiver.trim();
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel == null ? null : tel.trim();
 	}
 
 	public String getDeliveryorderId() {
