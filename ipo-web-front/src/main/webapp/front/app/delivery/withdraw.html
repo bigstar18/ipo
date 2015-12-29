@@ -68,10 +68,7 @@
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;" v-model="selected" id="nametext">
-                  <option v-for="option in options" v-bind:value="option.value">
-                    {{ option.text }}
-                  </option>
+                <select name="" style="width: 154px;" id="nametext">
                 </select><b>*</b>
               </td>
             </tr>
@@ -82,7 +79,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcode" type="text" name="" value="{{ selected }}" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcode" type="text" value="" name="" style="width: 150px;" disabled="disabled"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -92,10 +89,7 @@
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;">
-                  <option v-for="warehouseName in warehouseNames" value="">
-                    {{ warehouseName.warehouseName }}
-                  </option>
+                <select name="" style="width: 154px;" id="housetext">
                 </select><b>*</b>
               </td>
             </tr>
@@ -106,7 +100,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcount" type="text" name="" value="{{ selected }}" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcount" type="text" name="" style="width: 150px;" disabled="disabled"><b>*</b>
               </td>
             </tr>
             <tr>
