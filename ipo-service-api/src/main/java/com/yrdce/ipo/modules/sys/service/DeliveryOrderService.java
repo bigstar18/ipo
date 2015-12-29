@@ -150,4 +150,18 @@ public interface DeliveryOrderService {
 	 * @return
 	 */
 	public String cancelDeorder(String deOrderId, String cancellerId);
+	
+	/**
+	 *根据提货单号 密码 查自提 
+	 *li
+	 */
+	public DeliveryOrder getPickupDeliveryInfo(DeliveryOrder order);
+	
+	/**
+	 *根据提货单号差配送单信息
+	 *
+	 *li
+	 */
+	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order);
+	
 }

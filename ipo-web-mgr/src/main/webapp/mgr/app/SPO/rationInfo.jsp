@@ -54,7 +54,7 @@ function getAllInfo(){
              align: "center",
              title : '商品代码',
              formatter: function(value,row){
-            	 switch(row.rationSate){
+            	 switch(row.spoSate){
             	 case 4:
             		 return "<a href='#' onclick='OpenFrame(\""+row.spoId+"\")'>"+value+"</a>";
             		 break;
@@ -132,7 +132,7 @@ function getAllInfo(){
              align: "center",
              title : '最小配售比例'
          },{  
-             field : 'rationSate',  
+             field : 'spoSate',  
              width : 200, 
              align: "center",
              title : '状态',
@@ -203,7 +203,7 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter: function(value,row){
-            	 switch(row.rationSate){
+            	 switch(row.spoSate){
             	 case 1:
             		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
             		 break;
@@ -276,9 +276,12 @@ function doSearch(){
 	getAllInfo();
 }
 function reSet(){
-	$("#commId").val("");
-	$("#startdate").datebox('setValue',""),
-	$("#enddate").datebox('setValue',"")
+	$("#commIdp").val("");
+	$("#rationTypep ").get(0).selectedIndex=0;
+	$("#rationSatep ").get(0).selectedIndex=0;
+	$("#registerDatep").datebox('setValue',""),
+	$("#spoDatep").datebox('setValue',"")
+	$("#ipoDatep").datebox('setValue',"")
 	getAllInfo();
 }
 
@@ -297,7 +300,6 @@ function deleteSPOInfo(spoId){
         	}
         	else if(data=="error")
         		alert("删除失败，请稍后再试");
-        	
          } 
 	});
 }

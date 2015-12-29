@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -63,6 +64,65 @@ public class DeliveryOrder implements Serializable {
 	private Long position;
 
 	private String remarks;
+	
+	private String pickupPassword;
+	
+	private String idcardNum;
+	
+	private String address;
+	private BigDecimal cost;
+	private String receiver;
+	private String tel;
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public BigDecimal getCost() {
+		return cost;
+	}
+
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getPickupPassword() {
+		return pickupPassword;
+	}
+
+	public void setPickupPassword(String pickupPassword) {
+		this.pickupPassword = pickupPassword;
+	}
+
+	public String getIdcardNum() {
+		return idcardNum;
+	}
+
+	public void setIdcardNum(String idcardNum) {
+		this.idcardNum = idcardNum;
+	}
 
 	public String getDeliveryorderId() {
 		return deliveryorderId;

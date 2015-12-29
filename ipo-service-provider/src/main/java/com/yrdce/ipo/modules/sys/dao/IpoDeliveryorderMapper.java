@@ -69,4 +69,14 @@ public interface IpoDeliveryorderMapper {
 
 	// 根据用户ID查询申请主表（提货查询）
 	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
+	
+	// 根据提货单号 密码 查提货信息
+	IpoDeliveryorder getPickupDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
+	
+	//根据提货单号查 配送单信息
+	IpoDeliveryorder getExpressDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
+	
+	
+	
+	
 }

@@ -332,5 +332,34 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		}
 		return pwd.toString();
 	}
+	/**
+	 *li
+	 * 
+	 */	
+	@Override
+	public DeliveryOrder getPickupDeliveryInfo(DeliveryOrder order) {
+		IpoDeliveryorder delivery = new IpoDeliveryorder();
+		DeliveryOrder deliveryOrder =  new DeliveryOrder();
+		BeanUtils.copyProperties(order, delivery);
+		IpoDeliveryorder temporder = deliveryordermapper.getPickupDeliveryInfo(delivery);
+		if(temporder!=null){
+		BeanUtils.copyProperties(temporder, deliveryOrder);
+		}
+		return deliveryOrder;
+	}
+
+	@Override
+	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order) {
+		// TODO Auto-generated method stub
+		IpoDeliveryorder delivery = new IpoDeliveryorder();
+		DeliveryOrder deliveryOrder =  new DeliveryOrder();
+		
+		BeanUtils.copyProperties(order, delivery);
+		IpoDeliveryorder temporder = deliveryordermapper.getExpressDeliveryInfo(delivery);
+		if(temporder!=null){
+		BeanUtils.copyProperties(temporder, deliveryOrder);
+		}
+		return deliveryOrder;
+	}
 
 }

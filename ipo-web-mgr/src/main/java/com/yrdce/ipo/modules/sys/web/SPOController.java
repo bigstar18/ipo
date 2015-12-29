@@ -259,16 +259,25 @@ public class SPOController {
 			return "error";
 		}
 	}
-	// //修改增发商品信息
-	// @RequestMapping(value = "/updateSPOInfo", method = RequestMethod.GET,
-	// produces = "text/html;charset=UTF-8")
-	// @ResponseBody
-	// public String updateSPOInfo(){
-	// logger.info("根据增发id修改商品信息！");
-	// try {
-	// } catch (Exception e) {
-	// // TODO: handle exception
-	// }
-	// }
+	// 修改增发商品信息
+		@RequestMapping(value = "/updateSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+		@ResponseBody
+		public String updateSPOInfo(SpoCommoditymanmaagement ipospo)
+				throws IOException {
+			logger.info("添加商品增发信息");
+			try {
+				int temp = spoService.updateComm(ipospo);
+				if (temp == 1) {
+					return "success";
+				} else {
+					return "error";
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				return "error";
+			}
+
+		}
 
 }
