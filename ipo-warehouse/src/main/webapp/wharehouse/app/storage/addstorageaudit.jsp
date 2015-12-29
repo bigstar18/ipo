@@ -17,58 +17,50 @@
 
 function goBackPage(){
 	history.go(-1);
-	<%-- document.location.href = "<%=request.getContextPath()%>/SpacialSetController/goBackPage?randnum="+Math.floor(Math.random()*1000000); --%>
 }
+
+
+function add(){
+	var num = document.getElementById("my").innerHTML;
+	var stro = document.getElementById("mystorageid").value;
+	var both = num+stro;
+	document.getElementById("storageid").value = both;
+}
+
+
+function change(){
+	var id = document.getElementById("commodityid").value;
+	$.ajax({
+		type:"post",
+		url:"<%=request.getContextPath()%>/StorageController/auto?commodityid="+id,
+		dataType:"json",
+		success:function(data){
+			if(data != null){
+				document.getElementById("commodityname").value = data.commodityname;
+			}
+			
+		}
+	});
+	
+}
+
 
 function addPoundage(){
 	 $.ajax({ 
-		 cache:false,
          type: "post",  
-         url: "<%=request.getContextPath()%>/SpacialSetController/addPoundage",       
-         data: $("#frm").serialize(),      
+         url: "<%=request.getContextPath()%>/StorageController/add",       
+         data: $("#dataForm").serialize(),
          success: function(data) { 
-      	   if(data=='true'){
+      	   if(data=='true' || data == true){
              alert("添加成功！"); 
-             returntoList();
       	   }else{
-      		   alert("系统异常，请联系管理员");  
+      		   alert("添加失败");  
       	   }
-         },  
-         error: function(data) {  
-             alert("系统异常，请联系管理员");  
-         } 
+         }
 	})
 }
 
-function updatePoundage(){
-	var bname=$("#bname").val();
-	var concurrency=$("#contractcurrency").val();
-	var publishalgr=$("#publishalgr").val();
-	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&flag==true){
-                            	   $.ajax({ 
-                            		   cache:false,
-                                       type: "post",  
-                                       url: "<%=request.getContextPath()%>/BreedController/updateBreed",       
-                                       data: $("#frm").serialize(),      
-                                       success: function(data) { 
-                                    	   if(data=='true'){
-                                           alert("修改成功！"); 
-                                           returntoList();
-                                    	   }else{
-                                    		   alert("系统异常，请联系管理员");  
-                                    	   }
-                                       },  
-                                       error: function(data) {  
-                                           alert("系统异常，请联系管理员");  
-                                       }  
-                                   }); 
-            }
-			else{
-					alert("所有参数必填！");
-		}
-	
-}
+
 
 </script>
 	</head>
@@ -81,7 +73,7 @@ function updatePoundage(){
 		<div class="required" style="color: red">系统在此过滤了没有交收属性的商品 </div>
 	</div>
 	</div>
-		<form>
+	<form   name="dataForm" id="dataForm">
 		<table border="0" width="95%" height="100" align="center">
 								<tr>
 									<td>
@@ -94,51 +86,41 @@ function updatePoundage(){
 										</div>
 										<div style="clear: both;"></div>
 												<div>
+												 
 											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
 												<tr>
+												<td >
+												  <input type="hidden" id="storageid" name="storageid" value="${param.storageid}"/>
+												  </td>
 													<td >
-													入库单号：<U>114151226</U><input class="required" id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+													入库单号：<U><span id="my">114151226</span></U><input class="required"  id="mystorageid" name="mystorageid"   onblur="add()" /> 
 													</td>
 													<td >
-														商品代码:<input class="required" id="name" name="name" value="" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+													商品代码:<select id="commodityid" name="commodityid" value="${param.commodityid}"  onchange="change()"> 
+													<option value="" selected></option>
+													<c:forEach var="item" items="${namelist}" varStatus="s">
+													<option value="${item}">${item}</option>
+													</c:forEach>
+													</select>
 													</td>
 													<td >
-													商品名称：<input id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-            									   </td>
-													<td > 
-													品种代码:<input id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-													</td>
-													<td >
-													发行会员代码：<input id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-            									   </td>
-            									   <td >
-													发行会员名称：<input id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
+													商品名称：<input id="commodityname" name="commodityname"    readonly="readonly"/> 
             									   </td>
             									   	<td >
-													入库件数：<input class="required" id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-            									   </td>
-            									   <td >
-													入库数量：<input id="name" name="name" value="" 
-            								   readonly="readonly"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-            									   </td>
+													入库件数：<input id="storagenum" name="storagenum" value="${param.storagenum}"  /> 
+            									   </td> 
 													<td> 
-													<input type="button" value="添加" onclick="addPoundage()" class="anniu_btn"  id="add"/>
+													<input type="button" value="添加" onclick="addPoundage()" class="anniu_btn"  />
 														&nbsp;&nbsp;
-													<input type="button" value="返回" onclick="goBackPage()" class="anniu_btn"  id="back"/>
+													<input type="button" value="关闭" onclick="goBackPage()" class="anniu_btn"  />
 													</td>
 												</tr>
 											</table>
+											
 										</div>
 									</td>
 								</tr>
 							</table>
-		</form>
-				
+				</form>
 	</body>
 </html>

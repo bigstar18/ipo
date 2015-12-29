@@ -49,4 +49,16 @@ public class BrBrokerServiceImpl implements BrBrokerService {
 			return null;
 		}
 	}
+
+
+
+	@Override
+	public int insert(VBrBroker record) {
+		BrBroker brBroker = new BrBroker();
+		if(record != null){
+			BeanUtils.copyProperties(record ,brBroker);
+		    return brBrokerMapper.insert(brBroker);
+		}
+		return 0;
+	}
 }

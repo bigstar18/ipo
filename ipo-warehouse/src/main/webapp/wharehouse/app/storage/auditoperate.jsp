@@ -32,7 +32,7 @@ function changeState(){
       	   if(data=='true' || data == true || data eq 'true'){
              alert("添加成功！"); 
       	   }else{
-      		   alert("系统异常，请联系管理员");  
+      		   alert("添加失败");  
       	   }
          }
 	})
@@ -48,7 +48,7 @@ function modifyState(){
       	   if(data=='true' || data == true || data eq 'true'){
              alert("添加成功！"); 
       	   }else{
-      		   alert("系统异常，请联系管理员");  
+      		   alert("添加失败");  
       	   }
          } 
 	})

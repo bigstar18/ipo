@@ -1,6 +1,7 @@
 package com.yrdce.ipo.web;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
@@ -34,13 +37,35 @@ public class StorageController {
 			.getLogger(StorageController.class);
 	@Autowired
 	private IpoStorageService ipoStorageService;
+	@Autowired
+	private CommodityService commodityService;
 	
 	
 	//入库单添加视图
 	@RequestMapping(value = "/AddStorageView", method = RequestMethod.GET)
-	public String AddStorageView(HttpServletRequest request, HttpServletResponse response){
+	public String AddStorageView(HttpServletRequest request, HttpServletResponse response,Model model){
 		log.info("入库单添加页");
+		List<String> names = commodityService.queryNames();
+		model.addAttribute("namelist", names);
 		return "app/storage/addstorageaudit";
+	}
+	
+	@RequestMapping(value = "/Add")
+	public String Add(HttpServletRequest request, HttpServletResponse response){
+		log.info("入库单添加");
+		Date  date = new Date();
+		if(request.getParameter("commodityid") != null && request.getParameter("commodityid") != ""){
+		/*VIpoCommConf vIpoCommConf = ipoCommConfService.getVIpoCommConfByCommid(request.getParameter("commodityid"));*/
+		IpoStorageVo ipoStorageVo = new IpoStorageVo();
+		ipoStorageVo.setCommodityid(request.getParameter("commodityid"));
+		ipoStorageVo.setStorageid(request.getParameter("storageid"));
+		ipoStorageVo.setStoragenum(Long.parseLong(request.getParameter("storagenum")));
+		ipoStorageVo.setStoragestate(1);
+		ipoStorageVo.setStoragedate(date);
+		ipoStorageService.insert(ipoStorageVo);
+		return "true";
+		}
+		return "error";
 	}
 	
 	//入库单列表页视图
@@ -115,6 +140,36 @@ public class StorageController {
 		return "true";
 		}
 		return null;
+		
+	}
+	
+	
+	@RequestMapping(value = "/auto")
+	@ResponseBody
+	public String auto(String commodityid){
+		Commodity commodity = commodityService.queryByComid(commodityid);
+		if(commodity != null){
+		try {
+			return JSON.json(commodity);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
+		return null;
+	}
+	
+	@RequestMapping(value = "/add")
+	@ResponseBody
+	public String add( HttpServletRequest request,HttpServletResponse response){
+		IpoStorageVo ipoStorageVo = new IpoStorageVo();
+		Date date = new Date();
+		ipoStorageVo.setStorageid(request.getParameter("storageid"));
+		ipoStorageVo.setCommodityid(request.getParameter("commodityid"));
+		ipoStorageVo.setStoragenum(Long.parseLong(request.getParameter("storagenum")));
+		ipoStorageVo.setStoragestate(1);
+		ipoStorageVo.setStoragedate(date);
+		ipoStorageService.insert(ipoStorageVo);
+		return "true";
 		
 	}
 }

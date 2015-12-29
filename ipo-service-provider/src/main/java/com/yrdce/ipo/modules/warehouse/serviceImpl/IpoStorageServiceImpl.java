@@ -40,7 +40,7 @@ public class IpoStorageServiceImpl implements IpoStorageService{
 	public int insert(IpoStorageVo record) {
 		IpoStorage ipoStorage = new IpoStorage();
 		if(record != null){
-			BeanUtils.copyProperties(ipoStorage, record);
+			BeanUtils.copyProperties(record, ipoStorage);
 			return ipoStorageMapper.insert(ipoStorage);
 		}
 		return 0;

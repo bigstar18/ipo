@@ -60,10 +60,10 @@ public class CommodityServiceImpl implements CommodityService {
 		logger.info("根据商品ID查询信息");
 		IpoCommodity ipoCom = ipoCommodityMapper.selectByComid(commid
 				.toUpperCase());
-		logger.info("ipoCom:" + ipoCom.toString());
 		if (ipoCom == null) {
 			return null;
 		}
+		logger.info("ipoCom:" + ipoCom.toString());
 		Commodity commo = new Commodity();
 		BeanUtils.copyProperties(ipoCom, commo);
 		commo.setPrice(ipoCom.getPrice().doubleValue());

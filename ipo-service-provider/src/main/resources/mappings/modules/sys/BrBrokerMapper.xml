@@ -100,6 +100,7 @@
       order by ${orderByClause}
     </if>
   </select>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.BrBrokerExample" >
     select
     <if test="distinct" >

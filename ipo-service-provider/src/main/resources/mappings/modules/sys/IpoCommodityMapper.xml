@@ -94,6 +94,11 @@
     from IPO_COMMODITY_SALE
     where ID = #{id,jdbcType=INTEGER}
   </select>
+  
+   <select id="queryNames" resultType="java.lang.String" >
+    select COMMODITYID from IPO_COMMODITY_SALE
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from IPO_COMMODITY_SALE
     where ID = #{id,jdbcType=INTEGER}
@@ -368,6 +373,14 @@
      <include refid="Base_Column_List" />
     from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} and ENDTIME >=trunc(sysdate)
   </select>
+  
+  
+  <select id="queryByComid"  resultMap="BaseResultMap"  parameterType="String" >
+    select 
+     <include refid="Base_Column_List" />
+    from  IPO_COMMODITY_SALE  where COMMODITYID = #{comid,jdbcType=VARCHAR} 
+  </select>
+  
   
   <select id="getSelectByComid" resultMap="BaseResultMap"  parameterType="java.lang.String">
    select 

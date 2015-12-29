@@ -47,4 +47,10 @@ public interface CommodityService {
 
 	// 发售前台发售商品条件查询总数
 	public Integer countByConditionsfront(Commodity comm);
+	
+	//查询所有的商品代码
+	List<String>  queryNames();
+	
+	//根据id获取商品对象
+	Commodity queryByComid(String comid);
 }

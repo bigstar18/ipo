@@ -67,4 +67,8 @@ public interface IpoCommodityMapper {
 	int selectByCommodityid(String commodityid);
 
 	IpoCommodity getSelectByComid(String comid);
+	
+	IpoCommodity queryByComid(String comid);
+	
+	List<String>  queryNames();
 }
