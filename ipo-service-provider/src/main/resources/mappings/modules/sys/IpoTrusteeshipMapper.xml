@@ -130,9 +130,12 @@
 		 
   </select>
    
-  <update id="canelApply" parameterType="map">
+  <update id="updateApplyState" parameterType="map">
      update ipo_trusteeship t set t.state=#{ship.state},t.update_user=#{ship.updateUser},
             t.update_date=#{ship.updateDate,jdbcType=TIMESTAMP}
+        <if test="ship.auditingDate!=null and ship.auditingDate!='' ">
+			,t.auditing_date=#{ship.auditingDate,jdbcType=TIMESTAMP}
+		</if>
      where t.id=#{ship.id} 
   </update>
   

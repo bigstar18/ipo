@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
+import com.yrdce.ipo.modules.sys.vo.Position;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
 /**
@@ -37,7 +39,7 @@ public class SettlementDeliveryController {
 	@Autowired
 	private SettlementDeliveryService settlementDeliveryService;
 
-	// 提货申请视图(没有数据)
+	// 提货申请视图
 	@RequestMapping(value = "/deliveryview", method = RequestMethod.POST)
 	public String deliveryView(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/delivery/withdraw";
@@ -71,6 +73,28 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/costQueryView", method = RequestMethod.POST)
 	public String costQueryView(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/delivery/cost";
+	}
+
+	// 提货申请
+	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
+	@ResponseBody
+	public String delivery(DeliveryOrder deliveryOrder) {
+		String method = deliveryOrder.getDeliveryMethod();
+		return null;
+	}
+
+	// 提货申请(初始化数据)
+	@RequestMapping(value = "/deliveryInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public String deliveryInfo(@RequestParam("dealerId") String firmid) {
+		logger.info("提货申请(初始化数据)");
+		try {
+			List<Position> list = settlementDeliveryService.getListByPosition(firmid);
+			return JSON.json(list);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	// 提货申请(自提打印)

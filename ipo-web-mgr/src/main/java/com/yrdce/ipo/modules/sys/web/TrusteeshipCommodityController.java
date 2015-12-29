@@ -234,6 +234,53 @@ public class TrusteeshipCommodityController {
 	}
 	
 	
+	
+	/**
+	 * 市场审核通过
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/marketAuditPass")
+	@ResponseBody
+	public boolean marketAuditPass(HttpServletRequest request,HttpServletResponse response){
+		try {
+			Trusteeship ship = new Trusteeship();
+			ship.setId(Long.valueOf(request.getParameter("id")));
+			ship.setUpdateUser(getloginUserId(request));
+			trusteeshipCommodityService.marketAuditPass(ship);
+		} catch (Exception e) {
+			logger.error("marketAuditPass error:"+e);
+		   return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 市场审核不通过
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/marketAuditNoPass")
+	@ResponseBody
+	public boolean marketAuditNoPass(HttpServletRequest request,HttpServletResponse response){
+		try {
+			Trusteeship ship = new Trusteeship();
+			ship.setId(Long.valueOf(request.getParameter("id")));
+			ship.setUpdateUser(getloginUserId(request));
+			trusteeshipCommodityService.marketAuditNoPass(ship);
+		} catch (Exception e) {
+			logger.error("marketAuditNoPass error:"+e);
+		   return false;
+		}
+		return true;
+	}
+	
+	
+	
+	
+	
 	private String getloginUserId(HttpServletRequest request){
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if(user!=null){

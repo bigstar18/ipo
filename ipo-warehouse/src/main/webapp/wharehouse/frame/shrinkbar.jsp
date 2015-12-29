@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
 <html>
 <head>
 <title>框架</title>

@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -63,6 +64,145 @@ public class DeliveryOrder implements Serializable {
 	private Long position;
 
 	private String remarks;
+	
+	private String pickupPassword;
+	
+	private String idcardNum;
+	
+	private String address;
+	private BigDecimal cost;
+	private String receiver;
+	private String tel;
+	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public BigDecimal getCost() {
+		return cost;
+	}
+
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getPickupPassword() {
+		return pickupPassword;
+	}
+
+	public void setPickupPassword(String pickupPassword) {
+		this.pickupPassword = pickupPassword;
+	}
+
+	public String getIdcardNum() {
+		return idcardNum;
+	}
+
+	public void setIdcardNum(String idcardNum) {
+		this.idcardNum = idcardNum;
+	}
+
+	private String expressId;
+
+	private String address;
+
+	private BigDecimal cost;
+
+	private String receiver;
+
+	private String tel;
+
+	private String pickupId;
+
+	private String pickupPassword;
+
+	private String idcardNum;
+
+	public String getPickupId() {
+		return pickupId;
+	}
+
+	public void setPickupId(String pickupId) {
+		this.pickupId = pickupId;
+	}
+
+	public String getPickupPassword() {
+		return pickupPassword;
+	}
+
+	public void setPickupPassword(String pickupPassword) {
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
+	}
+
+	public String getIdcardNum() {
+		return idcardNum;
+	}
+
+	public void setIdcardNum(String idcardNum) {
+		this.idcardNum = idcardNum == null ? null : idcardNum.trim();
+	}
+
+	public String getExpressId() {
+		return expressId;
+	}
+
+	public void setExpressId(String expressId) {
+		this.expressId = expressId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address == null ? null : address.trim();
+	}
+
+	public BigDecimal getCost() {
+		return cost;
+	}
+
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver == null ? null : receiver.trim();
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel == null ? null : tel.trim();
+	}
 
 	public String getDeliveryorderId() {
 		return deliveryorderId;
@@ -85,8 +225,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName == null ? null : commodityName
-				.trim();
+		this.commodityName = commodityName == null ? null : commodityName.trim();
 	}
 
 	public String getDealerId() {
@@ -118,8 +257,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName == null ? null : warehouseName
-				.trim();
+		this.warehouseName = warehouseName == null ? null : warehouseName.trim();
 	}
 
 	public Long getDeliveryQuatity() {
@@ -143,8 +281,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
-				.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
 	}
 
 	public String getMethodId() {
@@ -237,19 +374,12 @@ public class DeliveryOrder implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DeliveryOrder [deliveryorderId=" + deliveryorderId
-				+ ", commodityId=" + commodityId + ", commodityName="
-				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
-				+ dealerName + ", warehouseId=" + warehouseId
-				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
-				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
-				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
-				+ methodId + ", unit=" + unit + ", deliveryDate="
-				+ deliveryDate + ", applyDate=" + applyDate
-				+ ", approvalStatus=" + approvalStatus + ", approvers="
-				+ approvers + ", approveDate=" + approveDate + ", canceler="
-				+ canceler + ", cancelDate=" + cancelDate + ", position="
-				+ position + ", remarks=" + remarks + "]";
+		return "DeliveryOrder [deliveryorderId=" + deliveryorderId + ", commodityId=" + commodityId + ", commodityName=" + commodityName
+				+ ", dealerId=" + dealerId + ", dealerName=" + dealerName + ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName
+				+ ", deliveryQuatity=" + deliveryQuatity + ", deliveryCounts=" + deliveryCounts + ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate=" + deliveryDate + ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus
+				+ ", approvers=" + approvers + ", approveDate=" + approveDate + ", canceler=" + canceler + ", cancelDate=" + cancelDate
+				+ ", position=" + position + ", remarks=" + remarks + "]";
 	}
 
 }

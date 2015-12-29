@@ -41,10 +41,10 @@ public interface IpoTrusteeshipMapper {
 	public long queryApplyForCount( @Param("ship")Trusteeship ship);
 	
 	/**
-	 * 撤销我的申请
+	 * 修改申请状态
 	 * @param ship
 	 */
-	public void canelApply(@Param("ship")Trusteeship ship);
+	public void updateApplyState(@Param("ship")Trusteeship ship);
 	
 	/**
 	 * 查找

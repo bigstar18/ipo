@@ -16,6 +16,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
@@ -23,11 +24,13 @@ import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
+import com.yrdce.ipo.modules.sys.vo.Position;
 
 /**
  * 交收提货
@@ -48,6 +51,26 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	private IpoExpressMapper ipoExpressMapper;
 	@Autowired
 	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
+	@Autowired
+	private IpoPositionMapper ipoPositionMapper;
+
+	@Override
+	// 获得交易商持仓信息
+	public List<Position> getListByPosition(String firmid) {
+		logger.info("获得交易商持仓信息");
+		List<IpoPosition> list1 = ipoPositionMapper.seelctByFirmid(firmid);
+		List<Position> list2 = new ArrayList<Position>();
+		for (IpoPosition ipoPosition : list1) {
+			Position position = new Position();
+			BeanUtils.copyProperties(ipoPosition, position);
+			String[] warehouse1 = ipoPosition.getWarehouseName().split(",");
+			String[] warehouse2 = position.getWarehouse();
+			warehouse2 = (String[]) warehouse1.clone();
+			position.setWarehouse(warehouse2);
+			list2.add(position);
+		}
+		return list2;
+	}
 
 	// 自提申请
 	@Override

@@ -6,12 +6,14 @@ public interface TrusteeshipConstant {
 	public static enum State{
 		APPLY(1,"申请"),
 		CANCEL(2,"撤销"),
-		FIRST_PASS(3,"初审通过"),
-		FIRST_NOTPASS(4,"初审不通过"),
-		FINAL_PASS (5,"终审通过"),
-		FINAL_NOTPASS(6,"终审不通过"),
-		INCREASE(7,"已增持加仓"),
-		REDUCTION(8,"已设置预减持");
+		FIRST_PASS(3,"仓库初审通过"),
+		FIRST_NOTPASS(4,"仓库初审驳回"),
+		FINAL_PASS (5,"仓库终审通过"),
+		FINAL_NOTPASS(6,"仓库终审驳回"),
+		MARKET_PASS (7,"市场审核通过"),
+		MARKET_NOTPASS(8,"市场审核驳回"),
+		INCREASE(9,"已增持加仓"),
+		REDUCTION(10,"已设置预减持");
 		
 		private int code;
 		private String name;

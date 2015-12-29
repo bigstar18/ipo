@@ -7,6 +7,7 @@ import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
+import com.yrdce.ipo.modules.sys.vo.Position;
 
 /**
  * 
@@ -14,6 +15,9 @@ import com.yrdce.ipo.modules.sys.vo.Pickup;
  *
  */
 public interface SettlementDeliveryService {
+
+	// 获得交易商持仓信息
+	public List<Position> getListByPosition(String firmid);
 
 	// 提货申请
 	public String applicationByPickup(Pickup pickup) throws Exception;

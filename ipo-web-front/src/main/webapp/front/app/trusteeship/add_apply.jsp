@@ -59,7 +59,7 @@
 		        <tr>
 		           <td> 发行数量:</td>
 		           <td><input type="text" name="counts" value="${param.counts}" readonly="readonly"/></td>
-		           <td> 申购数量:</td>
+		           <td> 托管数量:</td>
 		           <td><input type="text" name="applyAmount" length="10"  maxlength="14"
 		               onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                        onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>

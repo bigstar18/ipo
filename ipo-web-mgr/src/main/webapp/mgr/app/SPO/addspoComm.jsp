@@ -112,6 +112,16 @@ function getIPOCommInfo(){
 	});
 }
 
+
+function btnClick(){
+	if($("#add").val()=="添加"){
+		addSPOInfo();
+	}
+	if($("#add").val()=="修改"){
+		updateSPOInfo();
+	}
+}
+
 //添加增发信息
 function addSPOInfo(){
 	
@@ -210,11 +220,123 @@ function addSPOInfo(){
 			ipoDate:dateIPO,
 			rationType:rationType,
 			minRationCounts:minRationCounts,
+			minRationProportion:minRationProportion,
 			positionsPrice:positionsPrice
 		},
 		success:function(data){
         	if(data=="success"){
         		alert("添加成功！")
+        		parent.$('#depositInfo').datagrid('reload');
+        		parent.$('#dd').window('close');
+        	 	return;
+        	}
+        	else if(data=="error")
+        		alert("操作失败，请稍后再试");
+        		return;
+         } 
+	});
+}
+//修改增发信息
+function updateSPOInfo(){
+	var reg =  /.*\((.*)\)/;//正则表达式获取括号内容
+	var spoid=parent.$("#hidSpoId").val();
+	var registerDate = $("#registerDate").datebox("getValue");
+	var spoDate = $("#spoDate").datebox("getValue");
+	var ipoDate = $("#ipoDate").datebox("getValue");
+	var rationType = $("#rationType").val();
+	var spoCounts = $("#spoCounts").val();
+	var spoPrice = $("#spoPrice").val();
+	var positionsPrice = $("#positionsPrice").val();
+	var minRationCounts = $("#minRationCounts").val();
+	var minRationProportion = $("#minRationProportion").val();
+	var dateRe=null;
+	var dateSPO=null;
+	var dateIPO=null;
+	//验证
+	var commonityId = $("#commIdInput").val();
+	if(!myDateValidate(ipoDate,registerDate)){
+		alert("上市日期不能小于登记日期！")
+		return;
+	}
+	if(!myDateValidate(ipoDate,spoDate)){
+		alert("上市日期不能小于增发日期！")
+		return;
+	}
+	if(!myDateValidate(spoDate,registerDate)){
+		alert("增发日期不能小于登记日期！")
+		return;
+	}
+	if(parseInt(spoCounts) < parseInt(minRationCounts)){
+		alert("增发数量不能小于最小配售数量！")
+		return;
+	}
+	if(registerDate ==""){
+		alert("请选择登记日期！");
+		return;
+	}
+	if(ipoDate==""){
+		alert("请选择上市日期！");
+		return;
+	}
+	if(rationType=="比例配售"){
+		if(spoDate==""){
+			alert("请选择增发日期！");
+			return;
+		}
+		if(minRationCounts==""){
+			alert("请输入最小配售数量！");
+			return;
+		}
+		if(minRationProportion==""){
+			alert("请输入最小配售比例！");
+			return;
+		}
+	}
+	if(spoCounts==""){
+		alert("输入增发数量！");
+		return;
+	}
+	if(spoPrice==""){
+		alert("请输入增发价格！")
+		return;
+	}
+	//转换数据格式
+	if(rationType=="比例配售"){
+		rationType=1;
+	}else if(rationType=="定向配售"){
+		rationType=2;
+	}
+	
+ 	registerDate = registerDate.replace(/-/g,"/");
+	dateRe = new Date(registerDate );
+	if(spoDate==""||spoDate==null){
+		dateSPO = new Date(null);
+	}else{
+		spoDate = spoDate.replace(/-/g,"/");
+		dateSPO = new Date(spoDate);
+	}
+
+     ipoDate = ipoDate.replace(/-/g,"/");
+     dateIPO = new Date(ipoDate );
+
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/SPOController/updateSPOInfo",
+		data:{communityId:commonityId,
+			spoCounts:spoCounts,
+			spoPrice:spoPrice,
+			registerDate:dateRe,
+			spoDate:dateSPO,
+			ipoDate:dateIPO,
+			rationType:rationType,
+			minRationCounts:minRationCounts,
+			minRationProportion:minRationProportion,
+			positionsPrice:positionsPrice,
+			spoId:spoid
+		},
+		success:function(data){
+        	if(data=="success"){
+        		alert("修改成功！")
         		parent.$('#depositInfo').datagrid('reload');
         		parent.$('#dd').window('close');
         	 	return;
@@ -444,7 +566,7 @@ function myDateValidate(tempDate,nowDate){
 		<table width="100%" style="margin-top:15px">
 			<tr >
 				<td align="center">
-					<input type="button" class="btn_sec" id="add" onclick="addSPOInfo()" value="添加">
+					<input type="button" class="btn_sec" id="add" onclick="btnClick()" value="添加">
 				    <input type="button" class="btn_sec" id="close" onclick="" value="关闭">
 				</td>
 			</tr>

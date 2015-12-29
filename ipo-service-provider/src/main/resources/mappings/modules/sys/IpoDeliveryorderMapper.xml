@@ -23,6 +23,11 @@
     <result column="CANCEL_DATE" property="cancelDate" jdbcType="DATE" />
     <result column="POSITION" property="position" jdbcType="DECIMAL" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IDCARD_NUM" property="idcardNum" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="COST" property="cost" jdbcType="DECIMAL" />
+    <result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
   </resultMap>
    <sql id="Base_Column_List" >
       DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, 
@@ -238,4 +243,23 @@
   <select id="allCounts" resultType="java.lang.Integer" parameterType="java.lang.String">
   select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
+  
+  <select id="getPickupDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
+  	select d.*,p.IDCARD_NUM from IPO_DELIVERYORDER d 
+  	left join IPO_PICKUP p 
+  	on d.DELIVERYORDER_ID = p.PICKUP_ID  
+  	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
+  	and p.PICKUP_PASSWORD = #{delivery.pickupPassword,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getExpressDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
+  	select d.*,t.ADDRESS,t.COST,t.RECEIVER,t.TEL
+  	from IPO_DELIVERYORDER d 
+  	left join ipo_express t 
+  	on d.DELIVERYORDER_ID = t.EXPRESS_ID  
+  	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
 </mapper>

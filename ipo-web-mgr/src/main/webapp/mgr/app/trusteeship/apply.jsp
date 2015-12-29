@@ -46,7 +46,15 @@
 	          {field: 'publishCharge',title: '发行手续费',width: '80',align: 'center'},
 	          {field: 'warehouseName',title: '仓库',width: '100',align: 'center'},
 	          {field: 'createDate',title: '申请时间',width: '130',align: 'center'},
-	          {field: 'auditingDate',title: '审核时间',width: '130',align: 'center'}
+	          {field: 'auditingDate',title: '审核时间',width: '130',align: 'center'},
+	          {field: 'oper',title: '操作',width : 200, align: 'center',
+	              formatter: function(value, row, index) {
+	            	  if(row.state=="5"){
+	            		   return "<a href=\"#\" onclick=\"auditPass("+row.id+")\">" + "审核通过" + "</a>&nbsp;&nbsp;"+
+	                         "<a href=\"#\" onclick=\"auditNoPass("+row.id+")\">"+"审核驳回" + "</a>" ;
+	            	  }
+	               }
+	          }
 	       ]
 	      ]
 	    });
@@ -67,6 +75,45 @@
 	  		'beginAuditingDate':$('#beginAuditingDate').datebox('getValue'),'endAuditingDate':$('#endAuditingDate').datebox('getValue')
 	  	});
 	 };
+	 
+	 //审核通过
+	 function auditPass(id){
+		 $.ajax({  
+	  		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/marketAuditPass",  
+	  		    data:{"id":id},  
+	  		    type: 'POST',dataType: 'json',  
+	  		    success : function(data, stats) {  
+	  	             if(data==true||data=="true"){
+	  	            	 alert('审核成功');
+	  	            	 doSearch();
+	  	             }else{
+	  	            	 alert('审核失败');
+	  	             }
+	  	        },
+		  	    error: function (jqXHR, textStatus, errorThrown) {
+		              alert('系统异常!');
+		        }
+	  	 });  
+	 }
+	 //审核不通过
+     function auditNoPass(id){
+    	 $.ajax({  
+	  		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/marketAuditNoPass",  
+	  		    data:{"id":id},  
+	  		    type: 'POST',dataType: 'json',  
+	  		    success : function(data, stats) {  
+	  	             if(data==true||data=="true"){
+	  	            	 alert('审核成功');
+	  	            	 doSearch();
+	  	             }else{
+	  	            	 alert('审核失败');
+	  	             }
+	  	        },
+		  	    error: function (jqXHR, textStatus, errorThrown) {
+		              alert('系统异常!');
+		        }
+	  	 });  
+	 }
 	 
 	 
   </script>

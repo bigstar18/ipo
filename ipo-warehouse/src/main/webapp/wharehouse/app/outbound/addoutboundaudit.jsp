@@ -1,72 +1,87 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8"%>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
 
 <html>
 	<head>
-	    <base target="_self" />
-		<title>出库添加</title>
-		 <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
-		<link rel="stylesheet" href="${skinPath }/css/common.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="../../skinstyle/default/css/common.css"> 
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		
+		<title>出库添加</title>
+		<style type="text/css">
+			tr{font-size:12px}
+		</style>
 <script type="text/javascript"> 
 
-function goBackPage(){
-	document.location.href = "<%=request.getContextPath()%>/SpacialSetController/goBackPage?randnum="+Math.floor(Math.random()*1000000);
-}
-
-function addPoundage(){
-	 $.ajax({ 
-		 cache:false,
-         type: "post",  
-         url: "<%=request.getContextPath()%>/SpacialSetController/addPoundage",       
-         data: $("#frm").serialize(),      
-         success: function(data) { 
-      	   if(data=='true'){
-             alert("添加成功！"); 
-             returntoList();
-      	   }else{
-      		   alert("系统异常，请联系管理员");  
-      	   }
-         },  
-         error: function(data) {  
-             alert("系统异常，请联系管理员");  
-         } 
-	})
-}
-
-function updatePoundage(){
-	var bname=$("#bname").val();
-	var concurrency=$("#contractcurrency").val();
-	var publishalgr=$("#publishalgr").val();
-	var flag= $('#frm').form('validate');
-	if(bname!=''&&concurrency!= ''&& publishalgr!= ''&&flag==true){
-                            	   $.ajax({ 
-                            		   cache:false,
-                                       type: "post",  
-                                       url: "<%=request.getContextPath()%>/BreedController/updateBreed",       
-                                       data: $("#frm").serialize(),      
-                                       success: function(data) { 
-                                    	   if(data=='true'){
-                                           alert("修改成功！"); 
-                                           returntoList();
-                                    	   }else{
-                                    		   alert("系统异常，请联系管理员");  
-                                    	   }
-                                       },  
-                                       error: function(data) {  
-                                           alert("系统异常，请联系管理员");  
-                                       }  
-                                   }); 
-            }
-			else{
-					alert("所有参数必填！");
+function doSearch(){
+	var deliveryorderId = $("#deliveryorderId").val();
+	var pickupPassword = $("#pickupPassword").val();	
+	$.ajax({
+		type:"GET",
+		url:"<%=request.getContextPath()%>/OutBoundController/getDeliveryInfo",
+		data:{
+			
+			pickupPassword:pickupPassword,
+			deliveryorderId:deliveryorderId
+		},
+		dataType: "json", 
+		success:function(data){
+			if(data!="error"&&data.commodityId!=null){
+				$("#deliveryInfo").show();
+				$("#commodityid").val(data.commodityId);
+				$("#commodityname").val(data.commodityName);
+				$("#dealerName").val(data.dealerName);
+				$("#warehouseName").val(data.warehouseName);
+				$("#deliveryMethod").val(data.deliveryMethod);
+				$("#deliveryDate").val(data.deliveryDate);
+				$("#deliveryQuatity").val(data.deliveryQuatity);
+				switch(data.approvalStatus){
+				case 1:
+					$("#approvalStatus").val("申请");
+					break;
+				case 2:
+					$("#approvalStatus").val("市场通过");
+					$("#add").val("添加");
+					break;
+				case 3:
+					$("#approvalStatus").val("市场驳回");
+					break;
+				case 4:
+					$("#approvalStatus").val("仓库通过");
+					break;
+				case 5:
+					$("#approvalStatus").val("仓库驳回");
+					break;
+				case 6:
+					$("#approvalStatus").val("已确认");
+					break;
+				case 7:
+					$("#approvalStatus").val("已废除");
+					break;
+				case 8:
+					$("#approvalStatus").val("已设置配置费用");
+					break;
+				case 9:
+					$("#approvalStatus").val("已出库");
+					break;
+				case 10:
+					$("#approvalStatus").val("已收货");
+					break;
+				}
+				
+				$("#cost").val(data.cost);
+				$("#receiver").val(data.receiver);
+				$("#tel").val(data.tel);
+				$("#address").val(data.address);
+				
+				
+			}else if(data.commodityId==null){
+				$("#deliveryInfo").hide();
+				alert("提货单不存在！")
+			}
 		}
-	
+		
+	});
 }
 
 </script>
@@ -80,49 +95,107 @@ function updatePoundage(){
 		<div class="required" style="color: red">提货类型为自提时需要提货单密码，在线配送是不需要提货单密码！  </div>
 	</div>
 	</div>
-		<from>
-		<table border="0" width="95%" height="100" align="center">
+		<form>
+
+						<div class="div_cxtj">
+							<div class="div_cxtjL"></div>
+							<div class="div_cxtjC">
+								添加出库单
+							</div>
+							<div class="div_cxtjR"></div>
+						</div>
+						<div style="clear: both;"></div>
+
+							<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
 								<tr>
-									<td>
-										<div class="div_cxtj">
-											<div class="div_cxtjL"></div>
-											<div class="div_cxtjC">
-												添加出库单
-											</div>
-											<div class="div_cxtjR"></div>
-										</div>
-										<div style="clear: both;"></div>
-												<div>
-											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
-												<tr>
-													
-													<td align="center">
-														<span class="required">*</span>
-														提货单号：
-													</td>
-													<td>
-													<input id="name" name="name" value="" 
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'" validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-													</td>
-													<td align="center">
-														<span class="required">*</span>
-														提货单密码：
-													</td>
-													<td>
-														<input id="name" name="name" value="" class="easyui-validatebox textbox"  validtype="length[0,20]"  invalidMessage="最大长度20位"  style="width: 180px"/> 
-													</td>
-													<td> 	
-													<input type="button" value="添加" onclick="addPoundage()" class="anniu_btn"  id="add"/>
-														&nbsp;&nbsp;
-													<input type="button" value="返回" onclick="goBackPage()" class="anniu_btn"  id="back"/>
-													</td>
-												</tr>
-											</table>
-										</div>
+									<td align="center">
+										<span class="required">*</span>
+											提货单号：
+										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
+									</td>
+									<td align="center">
+										<span class="required">*</span>
+										提货单密码：
+										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
 									</td>
 								</tr>
 							</table>
-		</from>
+							<table id="deliveryInfo" class="table2_style" style="border-top:0;display:none" align="center">
+										<tr>
+											<td align="center">
+											商品代码：
+											<input readonly="readonly" id="commodityid" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											商品名称：
+											<input id="commodityname" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											交易商名称：
+											<input id="dealerName" class="easyui-text" style="width:160px;height:20px;margin-right:12px">
+											</td>
+											<td align="center">
+											仓库名称：
+											<input id="warehouseName" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											提货方式：
+											<input id="deliveryMethod" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											提货日期：
+											<input id="deliveryDate" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											交割数量：
+											<input id="deliveryQuatity" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											审批状态：
+											<input id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											快递费用：
+											<input id="cost" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											收 货 人：
+											<input id="receiver" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											电&nbsp&nbsp&nbsp话：
+											<input id="tel" class="easyui-text" style="width:300px;height:20px;">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+											地&nbsp&nbsp&nbsp址：
+											<input id="address" class="easyui-text" style="width:300px;height:20px;">
+											</td>
+										</tr>
+							</table>
+							<table class="table2_style" style="border-top:0" align="center">
+								<tr>
+									<td align="center">
+										<input type="button" class="btn_sec" id="add" onclick="doSearch()" value="查询">
+				   						 <input type="button" class="btn_sec" id="close" onclick="" value="关闭">
+									</td>
+								</tr>
+							</table>
+
 				
+						
+			
+		</form>	
 	</body>
 </html>
