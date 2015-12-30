@@ -11,9 +11,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 @MyBatisDao
 public interface IpoCommodityConfMapper {
 
-	List<IpoCommodityConf> findIpoCommConfByBreedid(
-			@Param("breedid") Long breedid, @Param("beginnum") int beginnum,
-			@Param("endnum") int endnum);// 分页获取对应商品
+	List<IpoCommodityConf> findIpoCommConfByBreedid(@Param("breedid") Long breedid, @Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取对应商品
 
 	int countByBreedid(@Param("breedid") Long breedid);// 获取品种对应商品总数
 
@@ -29,15 +27,13 @@ public interface IpoCommodityConfMapper {
 
 	List<String> findAllCommIds();
 
-	List<IpoCommodityConf> findAllIpoCommConfsByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoCommodityConf> findAllIpoCommConfsByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int countAll();// 获取商品总数
 
 	List<IpoCommodityConf> findAllIpoCommConfs();
 
-	List<DeliveryCommodity> findDeliveryCommoditys(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+	List<DeliveryCommodity> findDeliveryCommoditys(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("record") DeliveryCommodity record);
 
 	int getDeliveryCommNum(@Param("record") DeliveryCommodity record);
@@ -46,5 +42,6 @@ public interface IpoCommodityConfMapper {
 	
 	int updateDeliveryProps(@Param("commId") String commId,
 			@Param("option") Short option);// 设置交收属性
+
 
 }
