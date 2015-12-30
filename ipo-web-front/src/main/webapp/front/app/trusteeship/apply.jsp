@@ -82,7 +82,7 @@
 		  return false;
 	  };
 	  $.ajax({  
-		    url: '${root}/trusteeshipCommodityController/cancelMyApply?t='+Math.random(),  
+		    url: '${root}/trusteeshipCommodityController/cancelApply?t='+Math.random(),  
 		    data:{"id":id},  
 		    type: 'POST',dataType: 'json',  
 		    success : function(data, stats) {  
