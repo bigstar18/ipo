@@ -5,14 +5,14 @@ $(function() {
     if (value == 'customer') {
       $('.customer').removeClass('hide');
       $('.dispatching').addClass('hide');
-      $('.dispatching input').attr('required', '')
-      $('.customer input').attr('required', 'required')
+      $('.dispatching input').attr('required', false);
+      $('.customer input').attr("required",true);
     }
     if (value == 'dispatching') {
       $('.customer').addClass('hide');
       $('.dispatching').removeClass('hide');
-      $('.customer input').attr('required', '')
-      $('.dispatching input').attr('required', 'required')
+      $('.customer input').attr('required', false);
+      $('.dispatching input').attr("required",true);
     }
   });
 
