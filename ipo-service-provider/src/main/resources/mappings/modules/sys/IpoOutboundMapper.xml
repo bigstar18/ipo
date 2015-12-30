@@ -119,4 +119,12 @@
        and t.DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
       </if>
   </select>
+  
+  <update id="updateOutBoundInfo" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOutbound">
+  	update ipo_outbound t 
+  	set t.outboundstate = #{outboundstate,jdbcType=DECIMAL},
+  		t.auditorid =#{auditorid,jdbcType=VARCHAR} 
+  	where t.outboundorderid=#{outboundorderid,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>

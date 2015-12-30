@@ -7,7 +7,19 @@
     <result column="PROPERTYID" property="propertyid" jdbcType="DECIMAL" />
     <result column="SORTNO" property="sortno" jdbcType="DECIMAL" />
   </resultMap>
+  <resultMap id="MPResultMap" type="com.yrdce.ipo.modules.sys.entity.MProperty" >
+    <result column="PROPERTYID" property="propertyid" jdbcType="DECIMAL" />
+    <result column="CATEGORYID" property="categoryid" jdbcType="DECIMAL" />
+    <result column="PROPERTYNAME" property="propertyname" jdbcType="VARCHAR" />
+    <result column="PROPERTYVALUE" property="propertyvalue" jdbcType="VARCHAR" />
+    <result column="SORTNO" property="sortno" jdbcType="DECIMAL" />
+  </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryProp" >
+  	 <selectKey resultType="Long" order="BEFORE" keyProperty="deliverypropid">
+
+	SELECT SEQ_IPO_DELIVERT_PROP.NEXTVAL FROM dual
+
+	</selectKey>
     insert into IPO_DELIVERY_PROP (DELIVERYPROPID, COMMODITYID, PROPERTYID, 
       SORTNO)
     values (#{deliverypropid,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{propertyid,jdbcType=DECIMAL}, 
@@ -21,4 +33,14 @@
     delete from IPO_DELIVERY_PROP
     where COMMODITYID = #{commId,jdbcType=VARCHAR}
   </delete>
+  
+  <select id="selectCategoryProps" resultMap="MPResultMap" parameterType="Long">
+  SELECT P.PROPERTYID, P.PROPERTYNAME, P.CATEGORYID FROM M_PROPERTY P
+   WHERE P.CATEGORYID = #{categoryId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectPropValues" resultMap="MPResultMap" parameterType="map">
+  SELECT T.*, B.PROPERTYVALUE, B.SORTNO FROM (SELECT P.PROPERTYID, P.PROPERTYNAME, P.CATEGORYID FROM M_PROPERTY P  
+  WHERE P.CATEGORYID = #{categoryId,jdbcType=DECIMAL} ) T
+  LEFT JOIN M_BREEDPROPS B ON T.PROPERTYID = B.PROPERTYID WHERE B.BREEDID = #{breedId,jdbcType=DECIMAL} ORDER BY T.PROPERTYID
+  </select>
 </mapper>

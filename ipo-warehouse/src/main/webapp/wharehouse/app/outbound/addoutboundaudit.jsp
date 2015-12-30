@@ -20,7 +20,6 @@ function doSearch(){
 		type:"GET",
 		url:"<%=request.getContextPath()%>/OutBoundController/getDeliveryInfo",
 		data:{
-			
 			pickupPassword:pickupPassword,
 			deliveryorderId:deliveryorderId
 		},
@@ -33,7 +32,7 @@ function doSearch(){
 				$("#dealerName").val(data.dealerName);
 				$("#warehouseName").val(data.warehouseName);
 				$("#deliveryMethod").val(data.deliveryMethod);
-				$("#deliveryDate").val(data.deliveryDate);
+				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
 				switch(data.approvalStatus){
 				case 1:
@@ -83,6 +82,54 @@ function doSearch(){
 		
 	});
 }
+	
+function doAdd(){
+	var deliveryorderId = $("#deliveryorderId").val();
+	var outboundstate = 1;
+	var outbounddate = $("#deliveryDate").val();
+	var warehouseid = $("#warehouseName").val();
+	var deliveryperson = $("#receiver").val();
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/OutBoundController/addOutBoundOrder",
+		data:{
+			deliveryorderid:deliveryorderId,
+			outboundstate:outboundstate,
+			outbounddate:outbounddate,
+			operatorid:"56565",
+			warehouseid:warehouseid,
+			deliveryperson:deliveryperson
+		},
+		success:function(data){
+			if(data=="success"){
+				alert("添加成功！");
+				parent.$('#dd').window('close');
+				parent.$('#storageInfo').datagrid('reload');
+			}
+			if(data=="fail"){
+				alert("添加失败！");
+			}
+			if(data=="error"){
+				alert("系统异常!");
+			}
+		}
+		
+	});
+}
+
+function closeform(){
+	parent.$('#dd').window('close');
+}
+
+function doClick(){
+	var temp = $("#add").val();
+	if(temp=="查询"){
+		doSearch();
+	}else if(temp=="添加"){
+		doAdd();
+	}
+}
+
 
 </script>
 	</head>
@@ -187,8 +234,8 @@ function doSearch(){
 							<table class="table2_style" style="border-top:0" align="center">
 								<tr>
 									<td align="center">
-										<input type="button" class="btn_sec" id="add" onclick="doSearch()" value="查询">
-				   						 <input type="button" class="btn_sec" id="close" onclick="" value="关闭">
+										<input type="button" class="btn_sec" id="add" onclick="doClick()" value="查询">
+				   						 <input type="button" class="btn_sec" id="close" onclick="closeform()" value="关闭">
 									</td>
 								</tr>
 							</table>

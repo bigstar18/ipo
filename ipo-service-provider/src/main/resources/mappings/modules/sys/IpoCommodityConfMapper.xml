@@ -225,5 +225,12 @@
     and A.COMMODITYNAME like  concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
    </if>    )
   </select>
-  
+   <update id="updateDeliveryProps" parameterType="map" >
+    update IPO_COMMODITY_CONF
+    set DELIVERYPROP = #{option,jdbcType=DECIMAL}
+    where COMMODITYID = #{commId,jdbcType=VARCHAR}
+  </update>
+   <update id="updateByStatus" parameterType="map">
+   	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
 </mapper>

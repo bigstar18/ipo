@@ -42,4 +42,9 @@ public interface IpoCommodityConfMapper {
 
 	int getDeliveryCommNum(@Param("record") DeliveryCommodity record);
 
+	int updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
+	
+	int updateDeliveryProps(@Param("commId") String commId,
+			@Param("option") Short option);// 设置交收属性
+
 }

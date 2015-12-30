@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -123,6 +125,96 @@ public class DeliveryController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	/**
+	 * 设置交收属性视图
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/setDeliveryProps", method = RequestMethod.GET)
+	public String setDeliveryProps(
+			HttpServletRequest request,
+			@RequestParam(value = "commodityId", required = false) String commodityid,
+			@RequestParam(value = "categoryId", required = false) String categoryId,
+			@RequestParam(value = "commName", required = false) String commName,
+			@RequestParam(value = "breedId", required = false) String breedId)
+			throws IOException {
+		log.info("跳转至交收属性视图");
+		try {
+			request.setAttribute("commodityId", commodityid);
+			request.setAttribute("commodityName", commName);
+			List<MProperty> proplist = null;
+			List<MProperty> propvaluelist = null;
+			if (categoryId != null) {
+				proplist = deliveryCommService.getPropsByCategoryId(Long
+						.parseLong(categoryId));
+			}
+			if (breedId != null) {
+				propvaluelist = deliveryCommService.getPropertyValues(
+						Long.parseLong(categoryId), Long.parseLong(breedId));
+			}
+			request.setAttribute("proplist", proplist);
+			request.setAttribute("flag", proplist.size());
+			request.setAttribute("propvaluelist", propvaluelist);
+			return "app/delivery/propsManage";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 设置商品交收属性
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/setCommDeliveryProps", method = RequestMethod.POST)
+	@ResponseBody
+	public String setCommDeliveryProps(
+			@RequestParam(value = "commodityId") String commodityid,
+			@RequestParam(value = "propertys") String propertys)
+			throws IOException {
+		log.info("设置商品的交收属性");
+		try {
+			if (commodityid != null && propertys != null) {
+				return deliveryCommService.setDeliveryProps(commodityid,
+						propertys);
+			}
+			return "false";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 删除商品交收属性
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deleteCommDeliveryProps", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteCommDeliveryProps(
+			@RequestParam(value = "commodityId") String commodityid)
+			throws IOException {
+		log.info("删除商品的交收属性");
+		try {
+			if (commodityid != null) {
+				return deliveryCommService.deleteDeliveryProps(commodityid);
+			}
+			return "false";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+
 	}
 
 	/**

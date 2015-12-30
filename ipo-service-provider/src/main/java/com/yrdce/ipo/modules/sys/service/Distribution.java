@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
@@ -36,6 +37,8 @@ public class Distribution {
 	private IpoDistributionMapper distribution;
 	@Autowired
 	private IpoCommodityMapper commodity;
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfMapper;
 
 	private IpoDistribution ipodistribution = new IpoDistribution();
 
@@ -134,10 +137,11 @@ public class Distribution {
 
 				}
 				// 更新商品状态
-				// 1：配号成功
-				// 2：摇号成功
-				// 3：结算成功
-				commodity.updateByStatus(1, sId);
+				// 1：未配号
+				// 2：配号成功
+				// 3：摇号成功
+				// 4：结算成功
+				ipoCommodityConfMapper.updateByStatus(2, sId);
 				logger.info("配号成功");
 			}
 			// 插入历史

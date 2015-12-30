@@ -2,7 +2,6 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,9 +135,8 @@ public class BreedController {
 		log.info("根据品名模糊查询");
 		try {
 			String breedName = java.net.URLDecoder.decode(name, "UTF-8");
-			List<VIpoABreed> blist = new ArrayList<VIpoABreed>();
-			blist = vIpoABreedService.findIpoABreedsByName(breedName, page,
-					rows);
+			List<VIpoABreed> blist = vIpoABreedService.findIpoABreedsByName(
+					breedName, page, rows);
 			int totalnums = vIpoABreedService
 					.getTotalIpoABreedsByName(breedName);
 			ResponseResult result = new ResponseResult();

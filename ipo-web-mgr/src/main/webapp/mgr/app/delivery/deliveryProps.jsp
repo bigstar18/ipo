@@ -7,9 +7,6 @@
 <title>交收属性管理</title>
 <script src="<%=request.getContextPath()%>/static/ipo/delivery/deliveryProps.js" type="text/javascript"></script>
 <script type="text/javascript">
- 
-
-
 </script>
 </head>
 <body>
