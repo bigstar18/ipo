@@ -29,6 +29,9 @@
     border: 1px solid #95B8E7;
     background: #F4F4F4;
   }
+  input {
+    height: 20px;
+  }
   /*body{background-color: #E0EEEE}*/
   </style>
   <link href="../../../front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
@@ -64,22 +67,22 @@
             <tr>
               <td align="center" height="35" width="100">
                 <span>
-                          &nbsp;&nbsp;藏品名称：
+                          &nbsp;&nbsp;商品名称：
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;" id="nametext">
+                <select name="commodityname" style="width: 154px;" id="nametext">
                 </select><b>*</b>
               </td>
             </tr>
             <tr>
               <td align="center" height="35" width="100">
                 <span>
-                          &nbsp;&nbsp;藏品代码：
+                          &nbsp;&nbsp;商品代码：
                         </span>
               </td>
               <td>
-                <input id="vcode" type="text" value="" name="" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcode" type="text" value="" name="commodityid" style="width: 150px;" disabled="disabled"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -89,7 +92,7 @@
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;" id="housetext">
+                <select name="warehouse" style="width: 154px;" id="housetext">
                 </select><b>*</b>
               </td>
             </tr>
@@ -100,7 +103,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcount" type="text" name="" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcount" type="text" name="position" style="width: 150px;" disabled="disabled"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -110,7 +113,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="number" name="deliveryQuatity" value="" style="width: 150px;" required="required"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -120,7 +123,7 @@
                         </span>
               </td>
               <td>
-                <input class="easyui-datebox" type="datetime" name="" value="" style="150px"><b>*</b>
+                <input type="date" name="deliveryDate" value=""  style="width: 150px" required="required"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -130,7 +133,7 @@
                         </span>
               </td>
               <td>
-                <select class="pickup" name="" style="width: 154px;">
+                <select class="pickup" name="deliveryMethod" style="width: 154px;">
                   <option value="customer">
                     自提
                   </option>
@@ -147,7 +150,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="" value="" style="width: 150px;" required="required"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -182,7 +185,7 @@
             </tr>
             <tr>
               <td align="center" height="35" width="100">
-                <input type="submit" onclick="" value="提交">
+                <input type="submit" value="提交">
               </td>
               <td align="center" height="35" width="100">
                 <input type="reset" name="button" value="重置" />
