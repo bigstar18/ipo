@@ -52,7 +52,7 @@
       <div class="panel-title panel-with-icon">提货信息</div>
     </div>
     <div class="mbody">
-      <form id="withdraw">
+      <form id="withdraw" onsubmit="return checkSubmit();">
         <table border="0" width="300" cellspacing="0" cellpadding="0" align="center">
           <tbody>
             <tr>
@@ -82,7 +82,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcode" type="text" value="" name="commodityid" style="width: 150px;"><b>*</b>
+                <input id="vcode" type="text" value="" name="commodityid" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -92,7 +92,7 @@
                         </span>
               </td>
               <td>
-                <select name="warehouse" style="width: 154px;" id="housetext">
+                <select name="warehouse" value="" style="width: 154px;" id="housetext">
                 </select><b>*</b>
               </td>
             </tr>
@@ -103,7 +103,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcount" type="text" name="position" style="width: 150px;"><b>*</b>
+                <input id="vcount" type="text" name="position" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -113,7 +113,7 @@
                         </span>
               </td>
               <td>
-                <input type="number" name="deliveryQuatity" value="" style="width: 150px;" required="required"><b>*</b>
+                <input id="dcount" type="number" name="deliveryQuatity" value="" style="width: 150px;" required="required"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -185,7 +185,8 @@
             </tr>
             <tr>
               <td align="center" height="35" width="100">
-                <input type="submit" value="提交">
+                <input id="submit" type="submit" value="提交">
+                <!-- <button id="submit">提交</button> -->
               </td>
               <td align="center" height="35" width="100">
                 <input type="reset" name="button" value="重置" />
