@@ -226,4 +226,8 @@
    </if>    )
   </select>
   
+  <update id="updateByStatus" parameterType="map">
+   	update IPO_COMMODITY_SALE set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
+  
 </mapper>

@@ -44,7 +44,6 @@ public class Taskmanage extends TimerTask {
 	@Autowired
 	private Distribution distribution;
 
-	// private GetBallotNoUtils getBallotNoUtils;
 	private Selection selection;
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
@@ -84,7 +83,7 @@ public class Taskmanage extends TimerTask {
 						unmberofrecord.insert(frecord);
 
 						logger.info("调用配号任务");
-						// distribution.start(orderList);
+						distribution.start(orderList);
 					}
 				}
 
@@ -123,7 +122,7 @@ public class Taskmanage extends TimerTask {
 					System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 					ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
 					ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
-					commodity.updateByStatus(2, commId);
+					commodityConfMapper.updateByStatus(3, commId);
 
 					System.out.println("中签号匹配完成");
 

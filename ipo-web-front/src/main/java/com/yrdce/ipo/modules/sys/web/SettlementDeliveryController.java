@@ -80,7 +80,18 @@ public class SettlementDeliveryController {
 	@ResponseBody
 	public String deliveryApply(DeliveryOrder deliveryOrder) {
 		String method = deliveryOrder.getDeliveryMethod();
-		return null;
+		try {
+			if (method == "1") {
+				settlementDeliveryService.applicationByPickup(deliveryOrder);
+				return "success";
+			} else {
+				settlementDeliveryService.applicationByexpress(deliveryOrder);
+				return "success";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	// 提货申请(初始化数据)
@@ -97,7 +108,7 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货申请(自提打印)
+	// 提货申请(自提打印)(暂不用)
 	@RequestMapping(value = "/deliveryBypickup", method = RequestMethod.GET)
 	@ResponseBody
 	public String deliveryBypickup(Pickup pickup) {
@@ -111,7 +122,7 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货申请(在线配送)
+	// 提货申请(在线配送)(暂不用)
 	@RequestMapping(value = "/deliveryByexpress", method = RequestMethod.GET)
 	@ResponseBody
 	public String deliveryByexpress(Express express) {
