@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @author chenjing
  *
@@ -13,7 +15,8 @@ public class Outbound implements Serializable {
 	private String deliveryorderid;
 
 	private Integer outboundstate;
-
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date outbounddate;
 
 	private String operatorid;

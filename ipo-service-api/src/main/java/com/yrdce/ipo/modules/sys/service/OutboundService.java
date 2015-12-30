@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.util.List;
 
+import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 
 /**
@@ -28,5 +29,17 @@ public interface OutboundService {
 	 * @return
 	 */
 	public Integer getTotalNum(OutboundExtended record);
-
+	
+	/**
+	 *li
+	 *根据id修改出库单状态
+	 *
+	 **/
+	public Integer updateOutBoundInfo(Outbound outbound);
+	
+	/**
+	 *li
+	 *添加出库单
+	 * */
+	public Integer addOutBoundOrder(Outbound outbound);
 }
