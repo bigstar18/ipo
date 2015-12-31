@@ -47,8 +47,8 @@
 			<div class="title font_orange_14b">温馨提示 :</div>
 			<div class="content">在此展示投资者申购所需要的信息。</div>
 		</div>
-		<div class="col-xs-12">
-			<div style="height: 350px;">
+		<div>
+			<div>
 				<table id="mytb" class="easyui-datagrid" title="可申购商品列表"
 					style="width: 70%; height: 385px;"
 					data-options="singleSelect:true,autoRowHeight:false,toolbar:'#tb',nowrap:true,onClickRow:getDetail,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findComms',method:'get'">
@@ -70,8 +70,8 @@
 		          <div>
 		        	商品代码：<input type="text" id="commid" name="commodityid" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
 			              商品名称：<input type="text" id="commname" name="commodityname" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
-		          <input type="button" value="查询" onclick="doSearch()"/>				
-		          </div> 
+		          <input type="button" value="查询" onclick="doSearch()"/>
+		          </div>
 	             </div>
 				<div class="easyui-panel" title="详细信息"  style="width: 30%; height: 385px; padding: 10px; overflow: hidden;font-size: 16px;">
 					<div class="infos">
@@ -87,8 +87,8 @@
 					</div>
 					<form class="form-inline" id="fm2" style="margin-bottom: 12px" onsubmit="return false;">
 						<div class="form-group">
-							<label style="font-size: 16px;">购买量：</label> 
-							<input type="text"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+							<label style="font-size: 16px;">购买量：</label>
+							<input type="text"  id="quantity" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                     onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
 						</div>
 					<div>
@@ -102,44 +102,44 @@
 $(document).ready(function() {
 	$('#mytb').datagrid('hideColumn','id');
 	$('#mytb').datagrid('hideColumn','purchaseCredits');
-	 var p = $('#mytb').datagrid('getPager'); 
-	    $(p).pagination({ 
+	 var p = $('#mytb').datagrid('getPager');
+	    $(p).pagination({
 	        pageSize: 10,
 	        pageList: [5,10,15],
 	        beforePageText: '第',
-	        afterPageText: '页    共 {pages} 页', 
+	        afterPageText: '页    共 {pages} 页',
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-	    });  
-	    
-   //获取用户保证金	
-	  $.ajax({  
-		    type: 'GET',  
-		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",  
-		    contentType: "application/json; charset=utf-8", 
-		    data:{"userid":"<%=userId%>"},  
-		    dataType: 'json',  
-		    async: true,  
-		    success : function(data, stats) {  
+	    });
+
+   //获取用户保证金
+	  $.ajax({
+		    type: 'GET',
+		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",
+		    contentType: "application/json; charset=utf-8",
+		    data:{"userid":"<%=userId%>"},
+		    dataType: 'json',
+		    async: true,
+		    success : function(data, stats) {
 	            $("#money").text(data);
-	        }    
-		});  
+	        }
+		});
 });
 
 function doSearch(){
 	$("#mytb").datagrid({
 		method:'POST',
 		url:'<%=request.getContextPath()%>/CommodityController/QueryByConditionsFront',
-	    queryParams:{  
-	    	commodityid:$("#commid").val(),  
-	    	commodityname:$("#commname").val()  
-		    }  
+	    queryParams:{
+	    	commodityid:$("#commid").val(),
+	    	commodityname:$("#commname").val()
+		    }
 	});
-	 var p = $('#mytb').datagrid('getPager'); 
-	    $(p).pagination({ 
+	 var p = $('#mytb').datagrid('getPager');
+	    $(p).pagination({
 	        pageSize: 10,
 	        pageList: [5,10,15],
 	        beforePageText: '第',
-	        afterPageText: '页    共 {pages} 页', 
+	        afterPageText: '页    共 {pages} 页',
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
 }
@@ -169,38 +169,38 @@ function apply(){
 		alert("资金不足！");
 	}else{
 	var infos={ "id":$("#id").val(),"userid":"<%=userId%>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val(),"randnum":Math.floor(Math.random()*1000000) };
-	    $.ajax({  
-	    type: 'GET',  
-	    url: "<%=request.getContextPath()%>/CommodityController/purchApply",  
-	    contentType: "application/json; charset=utf-8", 
-	    data:infos,  
-	    dataType: 'json',  
-	    async: true,  
-	    success : function(data, stats) {  
-	        if (data == "0") {  
+	    $.ajax({
+	    type: 'GET',
+	    url: "<%=request.getContextPath()%>/CommodityController/purchApply",
+	    contentType: "application/json; charset=utf-8",
+	    data:infos,
+	    dataType: 'json',
+	    async: true,
+	    success : function(data, stats) {
+	        if (data == "0") {
 	        	alert("提交订单成功！");
-            }  
-            if (data == "1") {  
+            }
+            if (data == "1") {
             	alert("不在商品发售期！");
-            }  
-            if (data == "2") {  
+            }
+            if (data == "2") {
             	alert("资金不足！");
-            }  
-            if (data == "3") { 
+            }
+            if (data == "3") {
             	alert("您已提交订单，请勿重复操作！");
-            }  
-            if (data == "5") {  
+            }
+            if (data == "5") {
             	alert("超出商品申购额度！");
             }
             if(data == "6"){
             	alert("现在非申购时间！");
-            } 
-        },  
-        error : function(data) {  
+            }
+        },
+        error : function(data) {
         	alert("系统出现异常，请重新登陆！");
-        }  
-	});  
-	}     
+        }
+	});
+	}
 }
 
 //日期转换
