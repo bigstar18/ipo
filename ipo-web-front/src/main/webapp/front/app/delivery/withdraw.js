@@ -2,13 +2,13 @@ $(function() {
 
   $('.pickup').change(function() {
     var value = $(".pickup").find("option:selected").val();
-    if (value == 'customer') {
+    if (value == '1') {
       $('.customer').removeClass('hide');
       $('.dispatching').addClass('hide');
       $('.dispatching input').attr('required', false);
       $('.customer input').attr("required",true);
     }
-    if (value == 'dispatching') {
+    if (value == '2') {
       $('.customer').addClass('hide');
       $('.dispatching').removeClass('hide');
       $('.customer input').attr('required', false);

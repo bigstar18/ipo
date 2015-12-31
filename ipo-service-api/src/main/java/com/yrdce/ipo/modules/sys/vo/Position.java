@@ -24,6 +24,8 @@ public class Position {
 
 	private String[] warehouse;
 
+	private String[] warehouseid;
+
 	public BigDecimal getPositionid() {
 		return positionid;
 	}
@@ -104,4 +106,11 @@ public class Position {
 		this.warehouse = warehouse;
 	}
 
+	public String[] getWarehouseid() {
+		return warehouseid;
+	}
+
+	public void setWarehouseid(String[] warehouseid) {
+		this.warehouseid = warehouseid;
+	}
 }

@@ -24,6 +24,8 @@ public class IpoPosition {
 
 	private String warehouseName;
 
+	private String warehouseId;
+
 	public BigDecimal getPositionid() {
 		return positionid;
 	}
@@ -102,6 +104,14 @@ public class IpoPosition {
 
 	public void setWarehouseName(String warehouseName) {
 		this.warehouseName = warehouseName;
+	}
+
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 
 }

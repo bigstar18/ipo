@@ -45,18 +45,17 @@ public class IpoDeliveryorder {
 	public Long position;
 
 	public String remarks;
-	
+
 	public String pickupPassword;
-	
+
 	public String idcardNum;
-	
+
 	private String address;
 	private BigDecimal cost;
 	private String receiver;
 	private String tel;
-	
-	
-	
+
+	private String warehousename;
 
 	public String getAddress() {
 		return address;
@@ -272,6 +271,14 @@ public class IpoDeliveryorder {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks == null ? null : remarks.trim();
+	}
+
+	public String getWarehousename() {
+		return warehousename;
+	}
+
+	public void setWarehousename(String warehousename) {
+		this.warehousename = warehousename;
 	}
 
 	@Override

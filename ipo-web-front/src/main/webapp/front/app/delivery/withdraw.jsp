@@ -34,6 +34,9 @@
     border: 1px solid #95B8E7;
     background: #F4F4F4;
   }
+  input {
+    height: 20px;
+  }
   /*body{background-color: #E0EEEE}*/
   </style>
   <link href="../../../front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
@@ -56,7 +59,7 @@
       <div class="panel-title panel-with-icon">提货信息</div>
     </div>
     <div class="mbody">
-      <form id="withdraw">
+      <form id="withdraw" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply" method="POST" onsubmit="return checkSubmit();">
         <table border="0" width="300" cellspacing="0" cellpadding="0" align="center">
           <tbody>
             <tr>
@@ -71,22 +74,23 @@
             <tr>
               <td align="center" height="35" width="100">
                 <span>
-                          &nbsp;&nbsp;藏品名称：
+                          &nbsp;&nbsp;商品名称：
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;" id="nametext">
+                <select name="commodityName" style="width: 154px;" id="nametext">
                 </select><b>*</b>
               </td>
             </tr>
             <tr>
               <td align="center" height="35" width="100">
                 <span>
-                          &nbsp;&nbsp;藏品代码：
+                          &nbsp;&nbsp;商品代码：
                         </span>
               </td>
               <td>
-                <input id="vcode" type="text" value="" name="" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcode" type="text" value="" name="commodityId" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
+              	<input type="hidden" id="dealerId" name="dealerId" value="<%=dealerId %>">
               </td>
             </tr>
             <tr>
@@ -96,7 +100,7 @@
                         </span>
               </td>
               <td>
-                <select name="" style="width: 154px;" id="housetext">
+                <select name="warehouseId" value="" style="width: 154px;" id="housetext">
                 </select><b>*</b>
               </td>
             </tr>
@@ -107,7 +111,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcount" type="text" name="" style="width: 150px;" disabled="disabled"><b>*</b>
+                <input id="vcount" type="text" name="position" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -117,7 +121,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input id="dcount" type="number" name="deliveryQuatity" value="" style="width: 150px;" required="required"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -127,7 +131,7 @@
                         </span>
               </td>
               <td>
-                <input class="easyui-datebox" type="datetime" name="" value="" style="150px"><b>*</b>
+                <input type="date" name="deliveryDate" value=""  style="width: 150px" required="required"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -137,11 +141,11 @@
                         </span>
               </td>
               <td>
-                <select class="pickup" name="" style="width: 154px;">
-                  <option value="customer">
+                <select class="pickup" name="deliveryMethod" style="width: 154px;">
+                  <option value="1">
                     自提
                   </option>
-                  <option value="dispatching">
+                  <option value="2">
                     配送
                   </option>
                 </select><b>*</b>
@@ -154,7 +158,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="idcardNum" value="" style="width: 150px;" required="required"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -164,7 +168,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="tel" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -174,7 +178,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="receiver" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -184,15 +188,16 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="address" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
               <td align="center" height="35" width="100">
-                <input type="submit" id="subbtn" value="提交">
+                <input type="submit" value="提交">
+                <!-- <button id="submit">提交</button> -->
               </td>
               <td align="center" height="35" width="100">
-                <input type="reset" name="button" value="重置" />
+                <input type="reset" name="button" value="重置">
               </td>
             </tr>
           </tbody>
@@ -210,16 +215,18 @@
   <script type="text/javascript">
 $(function() {
 	  $('.pickup').change(function() {
-
 	    var value = $(".pickup").find("option:selected").val();
-
-	    if (value == 'customer') {
-	      $('.customer').removeClass('hide');
-	      $('.dispatching').addClass('hide');
+	    if (value == '1') {
+	    	$('.customer').removeClass('hide');
+	        $('.dispatching').addClass('hide');
+	        $('.dispatching input').attr('required', false);
+	        $('.customer input').attr("required",true);
 	    }
-	    if (value == 'dispatching') {
-	      $('.customer').addClass('hide');
-	      $('.dispatching').removeClass('hide');
+	    if (value == '2') {
+	    	$('.customer').addClass('hide');
+	        $('.dispatching').removeClass('hide');
+	        $('.customer input').attr('required', false);
+	        $('.dispatching input').attr("required",true);
 	    }
 
 	  });
@@ -238,53 +245,41 @@ $(function() {
 	  });
 
 	  //页面初始化
-	  initial ();
+	  initial();
 	  //加载藏品名称数据
-	  function initial () {
-
-	    var selname = $('#nametext');
-	    var selhouse = $('#housetext');
-	    for(var i = 0; i < commodities.length; i++){
-	      selname.append('<option logix =' + i + '>'+commodities[i].commodityname+'</option>');
-	    }
-	    $("#vcode").val(commodities[0].commodityid);
-	    $("#vcount").val(commodities[0].position);
-	    var warehouses = commodities[0].warehouse;
-	    for(var i = 0; i < warehouses.length; i++){
-	      selhouse.append('<option logix =' + i + '>'+warehouses[i]+'</option>');
-	    }
-	  }
-	  //选择其他商品名称是变化
-	  $('#nametext').change(function() {
-	    var logic = $("#nametext").find("option:selected").attr('logix');
-
-	    var selname = $('#nametext');
-	    var selhouse = $('#housetext');
-	    $("#vcode").val(commodities[logic].commodityid);
-	    $("#vcount").val(commodities[logic].position);
-	    var warehouses = commodities[logic].warehouse;
-	    selhouse.empty()
-	    for(var i = 0; i < warehouses.length; i++){
-	      selhouse.append('<option logix =' + i + '>'+warehouses[i]+'</option>');
-	    }
-	  });
-	  
-	  $('#subbtn').click(function () {
-		    $.ajax({
-		      cache: true,
-		      type: "POST",
-		      url:,
-		      data:$('#withdraw').serialize(),
-		      async: false,
-		      success: function(response) {
-		          alert("提交成功");
-		      },
-		      error: function(response) {
-		          alert("提交失败，请联系管理员");
-		      }
-		    });
+	  function initial() {
+		    var selname = $('#nametext');
+		    var selhouse = $('#housetext');
+		    for (var i = 0; i < commodities.length; i++) {
+		      selname.append('<option logix =' + i + '>' + commodities[i].commodityname + '</option>');
+		    }
+		    $("#vcode").val(commodities[0].commodityid);
+		    $("#vcount").val(commodities[0].position);
+		    var warehouses = commodities[0].warehouse;
+		    var warehouseId = commodities[0].warehouseid;
+		    for (var i = 0; i < warehouses.length; i++) {
+		      selhouse.append("<option value ='" + warehouseId[i] + "'>" + warehouses[i] + "</option>");
+		    }
+		    $('#dcount').attr('min', 1);
+		  	$('#dcount').attr('max', $('#vcount').val());
+		  }
+		  //选择其他商品名称是变化
+		  $('#nametext').change(function() {
+		    var logic = $("#nametext").find("option:selected").attr('logix');
+		    var selname = $('#nametext');
+		    var selhouse = $('#housetext');
+		    $("#vcode").val(commodities[logic].commodityid);
+		    $("#vcount").val(commodities[logic].position);
+		    var warehouses = commodities[logic].warehouse;
+		    var warehouseId = commodities[logic].warehouseid;
+		    selhouse.empty()
+		    for (var i = 0; i < warehouses.length; i++) {
+		      selhouse.append("<option value ='"+warehouseId[i]+"'> "+ warehouses[i] + "</option>");
+		    }
+		    $('#dcount').attr('min', 1);
+		  	$('#dcount').attr('max', $('#vcount').val());
 		  });
-	})
+});
 	
 </script>
 </body>
