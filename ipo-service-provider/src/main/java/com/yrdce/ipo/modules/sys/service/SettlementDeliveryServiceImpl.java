@@ -75,17 +75,17 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 自提申请
 	@Override
 	@Transactional
-	public String applicationByPickup(Pickup pickup) throws Exception {
+	public String applicationByPickup(DeliveryOrder deliveryOrder) throws Exception {
 		logger.info("自提申请");
 		// 自提表
 		IpoPickup ipoPickup = new IpoPickup();
-		BeanUtils.copyProperties(pickup, ipoPickup);
+		BeanUtils.copyProperties(deliveryOrder, ipoPickup);
 		ipoPickupMapper.insert(ipoPickup);
 		String pickupId = ipoPickup.getPickupId();
 
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
-		BeanUtils.copyProperties(pickup, ipoDeliveryorder);
+		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
 		ipoDeliveryorder.setApprovalStatus(1);
 		ipoDeliveryorder.setMethodId(pickupId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -100,17 +100,17 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 在线配送申请
 	@Override
 	@Transactional
-	public String applicationByexpress(Express express) throws Exception {
+	public String applicationByexpress(DeliveryOrder deliveryOrder) throws Exception {
 		logger.info("在线配送申请");
 		// 在线配送
 		IpoExpress ipoExpress = new IpoExpress();
-		BeanUtils.copyProperties(express, ipoExpress);
+		BeanUtils.copyProperties(deliveryOrder, ipoExpress);
 		ipoExpressMapper.insert(ipoExpress);
 		String expressId = ipoExpress.getExpressId();
 
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
-		BeanUtils.copyProperties(express, ipoDeliveryorder);
+		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
 		ipoDeliveryorder.setApprovalStatus(1);
 		ipoDeliveryorder.setMethodId(expressId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");

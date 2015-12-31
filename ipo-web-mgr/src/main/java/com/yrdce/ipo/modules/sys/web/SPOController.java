@@ -32,7 +32,7 @@ public class SPOController {
 	// 添加增发商品信息
 	@RequestMapping(value = "/insertSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String InsertSPOInfo(SpoCommoditymanmaagement ipospo)
+	public String insertSPOInfo(SpoCommoditymanmaagement ipospo)
 			throws IOException {
 		logger.info("添加商品增发信息");
 		try {
@@ -44,7 +44,7 @@ public class SPOController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			logger.error("添加商品增发信息", e);
 			return "error";
 		}
 
@@ -53,7 +53,7 @@ public class SPOController {
 	// 获取发售商品信息
 	@RequestMapping(value = "/getIPOCommonity", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String GetIPOCommonity() throws IOException {
+	public String getIPOCommonity() throws IOException {
 		logger.info("获取商品信息");
 		String result = "";
 		try {
@@ -82,7 +82,7 @@ public class SPOController {
 	// 查询增发商品信息
 	@RequestMapping(value = "/getAllSPOInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String GetAllSPOInfo(@RequestParam("page") String page,
+	public String getAllSPOInfo(@RequestParam("page") String page,
 			@RequestParam("rows") String rows,
 			@RequestParam("communityId") String communityId,
 			@RequestParam("registerDate") String registerDate,
@@ -140,7 +140,7 @@ public class SPOController {
 			return resultJson;
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			logger.error("获取商品增发信息", e);
 			return "error";
 		}
 	}
@@ -148,7 +148,7 @@ public class SPOController {
 	// 获取配售信息
 	@RequestMapping(value = "/getRationInfopp", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String GetRationInfopp(@RequestParam("page") String page,
+	public String getRationInfopp(@RequestParam("page") String page,
 			@RequestParam("rows") String rows,
 			@RequestParam("communityId") String communityId,
 			@RequestParam("registerDate") String registerDate)
@@ -175,7 +175,7 @@ public class SPOController {
 			return resultJson;
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			logger.error("获取定向配售信息", e);
 			return "error";
 		}
 	}
@@ -183,7 +183,7 @@ public class SPOController {
 	// 删除配售信息
 	@RequestMapping(value = "/deleteRationInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String DeleteRationInfo(@RequestParam("rationid") String rationId)
+	public String deleteRationInfo(@RequestParam("rationid") String rationId)
 			throws IOException {
 		logger.info("删除定向配售信息");
 		try {
@@ -196,6 +196,7 @@ public class SPOController {
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			logger.error("删除定向配售信息", e);
 			return "error";
 		}
 
@@ -204,7 +205,7 @@ public class SPOController {
 	// 删除增发商品信息
 	@RequestMapping(value = "/deleteSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String DeleteSPOInfo(@RequestParam("spoId") String spoId)
+	public String deleteSPOInfo(@RequestParam("spoId") String spoId)
 			throws IOException {
 		logger.info("删除增发商品信息");
 		try {
@@ -225,7 +226,7 @@ public class SPOController {
 	// 更改增发状态
 	@RequestMapping(value = "/updateSPOSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String UpdateSPOSate(@RequestParam("spoId") String spoId,
+	public String updateSPOSate(@RequestParam("spoId") String spoId,
 			@RequestParam("rationSate") String rationSate) {
 		logger.info("删除增发商品信息");
 		try {

@@ -10,14 +10,12 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-
 	getAllInfo();
-	  
 });
 //加载所有信息
 function getAllInfo(){
 	$('#name').val("");
-	 $('#storageInfo').datagrid({  
+	 $('#outboundinfo').datagrid({  
          title:'出库申请单',  
          iconCls:'icon-ok', 
          method:"get",
@@ -134,12 +132,12 @@ function getAllInfo(){
              title : '操作',
              formatter:function(value,row){
             	 if(row.outboundstate==1)
-     	      	   return "<a href=\"#\" onclick=\"updatePoundForward("+row.poundageId+")\">通过</a>  <a href=\"#\" onclick=\"updatePoundForward("+row.poundageId+")\">驳回</a>";
+     	      	   return "<a href=\"#\" onclick=\"audit("+row.outboundorderid+",2)\">通过</a>  <a href=\"#\" onclick=\"audit("+row.outboundorderid+",3)\">驳回</a>";
      	      } 
          }]],  
          pagination : true
      });  
-	 var p = $('#storageInfo').datagrid('getPager'); 
+	 var p = $('#outboundinfo').datagrid('getPager'); 
 	    $(p).pagination({ 
 	        beforePageText: '第',
 	        afterPageText: '页    共 {pages} 页', 
@@ -148,8 +146,39 @@ function getAllInfo(){
 	
 }
 
+
+//出库单审核
+function audit(outboundorderid,outboundstate){
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/OutBoundController/updateOutBoundInfo",
+		data:{
+			outboundstate:outboundstate,
+			outboundorderid:outboundorderid,
+			auditorid:"12345"
+		},
+		success:function(data){
+			switch(data){
+			case "success":
+				alert("审核成功！");
+				$('#outboundinfo').datagrid('reload');
+				break;
+			case "fail":
+				alert("审核失败，请稍后再试！");
+				break;
+			case "error":
+				alert("系统异常！");
+				break;
+			}
+		}
+		
+	});
+	
+}
+
+
 function doSearch(){
-	$('#storageInfo').datagrid('load',{
+	$('#outboundinfo').datagrid('load',{
 		outboundorderid: $('#outboundorderid').val(),
 		outbounddate: $('#outbounddate').datebox('getValue'),
 		outboundstate: $('#outboundstate').val(),
@@ -196,7 +225,7 @@ function myparser(s){
 		<td>		
 		<br />
 			<div class="div_list">
-				<table id="storageInfo" >
+				<table id="outboundinfo" >
 				</table>
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
@@ -236,7 +265,6 @@ function myparser(s){
 								&nbsp
 								<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 								<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
-								<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
 							</td>
 						</tr>
 					</table>

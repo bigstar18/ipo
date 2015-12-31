@@ -20,9 +20,9 @@ public interface SettlementDeliveryService {
 	public List<Position> getListByPosition(String firmid);
 
 	// 提货申请
-	public String applicationByPickup(Pickup pickup) throws Exception;
+	public String applicationByPickup(DeliveryOrder deliveryOrder) throws Exception;// Pickup pickup
 
-	public String applicationByexpress(Express express) throws Exception;
+	public String applicationByexpress(DeliveryOrder deliveryOrder) throws Exception;// Express express
 
 	// 提货确认
 	// public List<DeliveryOrder> Confirm(String page, String rows, String userid) throws Exception;

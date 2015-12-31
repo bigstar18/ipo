@@ -21,7 +21,7 @@ $(document).ready(function() {
              align: "center",
              title : '商品代码' ,
              formatter: function(value,row){
-                  	 return "<a>"+value+"</a>";
+                  	 return "<a href=\""+getRootPath () + "/DeliveryController/setDeliveryProps?commodityId="+value+"&&categoryId="+row.categoryId+"&&commName="+row.commodityName+"&&breedId="+row.breedId+"\">"+value+"</a>";
              } 
          }, {
         	 field : 'commodityName',  
@@ -64,9 +64,10 @@ $(document).ready(function() {
               title : '删除操作' ,
               formatter: function(value,row){
               	if(row.deliveryProp==1){
-                  return "<a>删除</a>";}
+                  return "<a  href=\"#\" onclick=\"deleteProps('"+row.commodityId+"')\">删除</a>";
+                  }
                   if(row.deliveryProp==2){
-                  	 return "<button>未设置</button>";
+                  	 return "<input type=\"button\" value=\"未设置\" disabled=\"disabled\" />";
                   }
           } 
            }
@@ -86,4 +87,29 @@ function doSearch(){
 		commodityName: $('#commodityName').val(),
 		commodityId: $('#commodityId').val()
 	});
+}
+
+function deleteProps(commId){
+	 $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: getRootPath () +"/DeliveryController/deleteCommDeliveryProps",       
+                                       data: {"commodityId":commId},      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("已删除交收属性！"); 
+                                           returntoList();
+                                    	   }else{
+                                    		   alert("系统异常，请联系管理员");  
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("系统异常，请联系管理员!");  
+                                       }  
+                                   }); 
+
+}
+
+function returntoList(){
+      document.location.href =   getRootPath () +"/mgr/app/delivery/deliveryProps.jsp" ;
 }

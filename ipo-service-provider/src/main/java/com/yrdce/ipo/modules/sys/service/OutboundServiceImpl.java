@@ -3,13 +3,18 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.client.protocol.RequestDefaultHeaders;
+import org.jboss.netty.util.EstimatableObjectWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoOutbound;
 import com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended;
+import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 
 /**
@@ -71,5 +76,43 @@ public class OutboundServiceImpl implements OutboundService {
 		}
 		return 0;
 	}
+	//修改出库单状态
+	@Override
+	public Integer updateOutBoundInfo(Outbound outbound) {
+		// TODO Auto-generated method stub
+		try {
+			Log.info("修改出库单状态");
+			if(outbound==null)
+				return 0;
+			IpoOutbound ipoOutbound = new IpoOutbound();
+			BeanUtils.copyProperties(outbound, ipoOutbound);
+			int result = ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
+			if(result>0){
+				return 1;
+			}else{
+				return 0;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.error("修改出库单状态",e);
+			return 0;
+		}
+	}
 
+	//添加出库单
+	@Override
+	public Integer addOutBoundOrder(Outbound outbound) {
+		// TODO Auto-generated method stub
+		if (outbound==null) {
+			return 0;
+		}
+		IpoOutbound ipoOutbound = new IpoOutbound();
+		BeanUtils.copyProperties(outbound, ipoOutbound);
+		ipoOutbound.setOutboundorderid(ipoOutbound.getDeliveryorderid());
+		int result = ipoOutboundMapper.insert(ipoOutbound);
+		return result;
+	}
+	
+	
 }

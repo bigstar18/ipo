@@ -1,8 +1,6 @@
 package com.yrdce.ipo.web;
 
-import java.io.IOException;import java.util.List;
-
-import org.jboss.netty.handler.timeout.ReadTimeoutException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +12,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
+import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
@@ -55,9 +54,7 @@ public class OutBoundController {
 	@ResponseBody
 	public String getDeliveryInfo(DeliveryOrder order){
 		try {
-			System.out.println("获取提货单信息");
-			System.out.println(order.getPickupPassword());
-			System.out.println(order.getDeliveryorderId());
+			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
 			if (!order.getPickupPassword().equals("")) {
 				deliveryOrder = deliveryOrderService.getPickupDeliveryInfo(order);
@@ -78,13 +75,42 @@ public class OutBoundController {
 		
 	}
 	
-	@RequestMapping(value = "/updateOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	//出库单审核
+	@RequestMapping(value = "/updateOutBoundInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateOutBoundInfo(OutboundExtended extended){
-		return null;
+	public String updateOutBoundInfo(Outbound outbound){
+		try {
+			log.info("出库单审核");
+			int result = outboundService.updateOutBoundInfo(outbound);
+			if (result>0) {
+				return "success";
+			} else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			log.error("出库单审核",e);
+			return "error";
+		}
 	}
 	
-	
+	//出库单添加
+	@RequestMapping(value = "/addOutBoundOrder", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String addOutBoundOrder(Outbound outBound){
+		try {
+			log.info("出库单添加");
+			int result = outboundService.addOutBoundOrder(outBound);
+			if (result==1) {
+				return "success";
+			} else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("出库单添加",e);
+			return "error";
+		}
+	}
 
 
 }
