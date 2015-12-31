@@ -142,6 +142,7 @@ public class Distribution {
 				// 3：摇号成功
 				// 4：结算成功
 				ipoCommodityConfMapper.updateByStatus(2, sId);
+				commodity.updateByStatus(2, sId);
 				logger.info("配号成功");
 			}
 			// 插入历史

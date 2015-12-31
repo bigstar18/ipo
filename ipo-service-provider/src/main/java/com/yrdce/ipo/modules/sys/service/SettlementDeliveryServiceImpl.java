@@ -63,10 +63,18 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		for (IpoPosition ipoPosition : list1) {
 			Position position = new Position();
 			BeanUtils.copyProperties(ipoPosition, position);
+
+			// 分割仓库名称
 			String[] warehouse1 = ipoPosition.getWarehouseName().split(",");
 			String[] warehouse2 = position.getWarehouse();
 			warehouse2 = (String[]) warehouse1.clone();
 			position.setWarehouse(warehouse2);
+
+			// 分割仓库id
+			String[] warehouseid1 = ipoPosition.getWarehouseId().split(",");
+			String[] warehouseid2 = position.getWarehouseid();
+			warehouseid2 = (String[]) warehouseid1.clone();
+			position.setWarehouseid(warehouseid2);
 			list2.add(position);
 		}
 		return list2;
@@ -92,7 +100,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String id1 = sdf.format(new Date());
 		String id2 = String.valueOf(ipoDeliveryorderMapper.sequence());
 		String primaryKey = id1 + id2;
-		ipoDeliveryorder.setDealerId(primaryKey);
+		ipoDeliveryorder.setDeliveryorderId(primaryKey);
+		ipoDeliveryorder.setApplyDate(new Date());
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}
@@ -117,7 +126,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String id1 = sdf.format(new Date());
 		String id2 = String.valueOf(ipoDeliveryorderMapper.sequence());
 		String primaryKey = id1 + id2;
-		ipoDeliveryorder.setDealerId(primaryKey);
+		ipoDeliveryorder.setDeliveryorderId(primaryKey);
+		ipoDeliveryorder.setApplyDate(new Date());
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}

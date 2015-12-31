@@ -123,6 +123,7 @@ public class Taskmanage extends TimerTask {
 					ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
 					ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
 					commodityConfMapper.updateByStatus(3, commId);
+					commodity.updateByStatus(3, commId);
 
 					System.out.println("中签号匹配完成");
 

@@ -76,15 +76,17 @@ public class SettlementDeliveryController {
 	}
 
 	// 提货申请
-	@RequestMapping(value = "/deliveryApply", method = RequestMethod.GET)
+	@RequestMapping(value = "/deliveryApply", method = RequestMethod.POST)
 	@ResponseBody
 	public String deliveryApply(DeliveryOrder deliveryOrder) {
 		String method = deliveryOrder.getDeliveryMethod();
 		try {
 			if (method == "1") {
+				deliveryOrder.setDeliveryMethod("自提");
 				settlementDeliveryService.applicationByPickup(deliveryOrder);
 				return "success";
 			} else {
+				deliveryOrder.setDeliveryMethod("在线配送");
 				settlementDeliveryService.applicationByexpress(deliveryOrder);
 				return "success";
 			}
