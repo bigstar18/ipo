@@ -2,10 +2,10 @@
 <%@ include file="../ipoInclude.jsp"%>
 
 <%
-   String name=(String)request.getAttribute("commodityName");
-   if(name!=null){
+String name=(String)request.getAttribute("commodityName");
+    if(name!=null){
 	   name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
-   }
+   } 
 %>
 
 <html>

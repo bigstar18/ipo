@@ -355,6 +355,7 @@ public class BreedController {
 		try {
 			if (ipocomm != null) {
 				ipocomm.setStatus(new BigDecimal(1));
+				ipocomm.setDeliveryProp((short) 2);// 表示未配置交收属性
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				ipocomm.setNonissuereg(new BigDecimal(1));
 				log.info(ipocomm.toString());

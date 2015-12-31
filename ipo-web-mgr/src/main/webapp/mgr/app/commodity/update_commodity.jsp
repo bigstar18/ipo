@@ -264,6 +264,7 @@ function on_tchange(){
         								<input type="hidden" id="status" name="status" value="${entity.status }"/>   
         								<input type="hidden" id="codedelivery" name="codedelivery" value="${entity.codedelivery }"/>   
         								<input type="hidden" id="nonissuereg" name="nonissuereg" value="${entity.nonissuereg }"/>   
+        								<input type="hidden" id="deliveryProp" name="deliveryProp" value="${entity.deliveryProp }"/>   
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${breedname }"
