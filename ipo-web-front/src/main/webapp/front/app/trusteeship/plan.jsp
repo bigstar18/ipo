@@ -81,7 +81,7 @@
           width: '15%',
           align: 'center',
           formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"add("+row.id+","+row.commodityId+","+row.price+","+row.counts+")\">" + "申请" + "</a>";
+              return "<a href=\"#\" onclick=\"add('"+row.id+"','"+row.commodityId+"','"+row.price+"','"+row.counts+"')\">" + "申请" + "</a>";
             }
         }]
       ]
