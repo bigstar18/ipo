@@ -22,7 +22,10 @@
     delete from IPO_POSITION
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPosition" >
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPosition" useGeneratedKeys="true" keyProperty="positionid">
+    <selectKey resultType="java.math.BigDecimal" order="BEFORE" keyProperty="positionid">
+	select seq_ipo_position.nextval from dual
+	</selectKey>
     insert into IPO_POSITION (POSITIONID, FIRMID, POSITION, 
       COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
       POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE

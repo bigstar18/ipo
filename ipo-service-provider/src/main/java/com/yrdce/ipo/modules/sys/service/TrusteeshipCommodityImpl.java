@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipHisMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeship;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipHis;
@@ -37,7 +42,10 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	private IpoTrusteeshipMapper shipMapper;
 	@Autowired
 	private IpoTrusteeshipHisMapper shipHisMapper;
-	
+	@Autowired
+	private IpoPositionMapper  positionMapper;
+	@Autowired
+	private IpoCommodityConfMapper commodityConfMapper;
 	
 	/**
 	 * 分页查询查询托管商品计划
@@ -125,8 +133,19 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 */
 	@Transactional
     public int saveApply(Trusteeship trusteeship){
+		Long planId=trusteeship.getTrusteeshipCommodityId();
+		IpoTrusteeshipCommodity shipCommodity=shipCommodityMapper.findById(planId);
+		BigDecimal purchaseRate=shipCommodity.getPurchaseRate();
+		Long applyAmount= trusteeship.getApplyAmount();
+		//约定入库数量等于申请数量，只能全部审核通过或全部审核不通过
+		Long instorageAmount=applyAmount;
+		trusteeship.setInstorageAmount(instorageAmount);
 		trusteeship.setCreateDate(new Date());
 		trusteeship.setState(TrusteeshipConstant.State.APPLY.getCode());
+		Long effectiveAmount=new BigDecimal(instorageAmount).multiply(purchaseRate).divide(new BigDecimal(100)).longValue();
+		trusteeship.setEffectiveAmount(effectiveAmount);
+		trusteeship.setPositionAmount(instorageAmount-effectiveAmount);
+		
     	return shipMapper.insertApply(trusteeship);
     }
 
@@ -193,6 +212,37 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		shipMapper.updateApplyState(ship);
 	}
 	
+	 
+	
+	
+	/**
+	 * 托管转持仓
+	 */
+	@Transactional
+	public void saveTurnToPosition(Trusteeship ship) throws Exception{
+		//保存操作前的状态
+		IpoTrusteeship dbShip=saveHis(ship.getId(),ship.getUpdateUser());
+		//商品信息
+		IpoCommodityConf  dbCommodityConf= commodityConfMapper.findIpoCommConfByCommid(dbShip.getCommodityId());
+		//更新状态
+		ship.setState(TrusteeshipConstant.State.INCREASE.getCode());
+		ship.setUpdateDate(new Date());
+		shipMapper.updateApplyState(ship);
+		//保存持仓信息
+		IpoPosition position=new IpoPosition();
+		position.setCommodityid(dbShip.getCommodityId());
+		position.setFirmid(dbShip.getCreateUser());
+		position.setPosition(dbShip.getPositionAmount());
+		position.setCommodityname(dbCommodityConf.getCommodityname());
+		position.setPositionUnit(dbCommodityConf.getContractfactorname());
+		if(dbShip.getPrice()!=null){
+			position.setPositionPrice(dbShip.getPrice().longValue());
+		}
+		positionMapper.insert(position);
+	}
+	
+	
+	
 	
 	/**
 	 * 保存上一次的操作记录
@@ -200,7 +250,7 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 * @param createUser
 	 * @throws Exception
 	 */
-	private void saveHis(Long id,String createUser) throws Exception{
+	private IpoTrusteeship saveHis(Long id,String createUser) throws Exception{
 		IpoTrusteeship dbShip= shipMapper.get(id);
 		String content=JSON.json(dbShip);
 		IpoTrusteeshipHis his = new IpoTrusteeshipHis();
@@ -210,6 +260,7 @@ public   class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		his.setCreateDate(new Date());
 		his.setState(dbShip.getState());
 		shipHisMapper.insert(his);
+		return dbShip;
 	}
 	
 	

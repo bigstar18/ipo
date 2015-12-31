@@ -93,6 +93,11 @@ public interface TrusteeshipCommodityService {
 	 * @throws Exception
 	 */
 	public void marketAuditNoPass(Trusteeship ship) throws Exception;
+	/**
+	 * 托管转持仓 
+	 * @param ship
+	 */
+	public void saveTurnToPosition(Trusteeship ship) throws Exception;
 	
     
 	

@@ -329,7 +329,9 @@ var promptTime = 60;
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管申请管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/apply");
 									M01.add(M0101);</SCRIPT>	
-									
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("托管转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/turnToPosition");
+									M01.add(M0101);</SCRIPT>			
 						
 
 						<SCRIPT type=text/javascript>

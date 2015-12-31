@@ -278,6 +278,42 @@ public class TrusteeshipCommodityController {
 	}
 	
 	
+	/**
+	 * 跳转到托管转持仓界面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/turnToPosition")
+	public String turnToPosition(HttpServletRequest request,Model model){
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		model.addAttribute("stateList", TrusteeshipConstant.State.values());
+		return "app/trusteeship/turn_to_position";
+	}
+	
+	/**
+	 * 托管转持仓 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/saveTurnToPosition")
+	@ResponseBody
+	public boolean saveTurnToPosition(HttpServletRequest request,HttpServletResponse response){
+		try {
+			Trusteeship ship = new Trusteeship();
+			ship.setId(Long.valueOf(request.getParameter("id")));
+			ship.setUpdateUser(getloginUserId(request));
+			trusteeshipCommodityService.saveTurnToPosition(ship);
+		} catch (Exception e) {
+			logger.error("saveTurnToPosition error:"+e);
+		   return false;
+		}
+		return true;
+	}
+	
+	
 	
 	
 	
