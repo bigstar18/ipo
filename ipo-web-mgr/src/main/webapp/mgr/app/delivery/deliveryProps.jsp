@@ -21,6 +21,8 @@
 		<div>
 			商品代码：<input type="text" id="commodityId" name="commodityId" />
 			商品名称：<input type="text" id="commodityName" name="commodityName" />
+			<input type="button" value="查询" onclick="doSearch()"/>		
+			<input type="button" value="重置" onclick="clearInfo()"/>	
 		</div> 
 	</div>
 	</div>

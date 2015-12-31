@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="../ipoInclude.jsp"%>
+
+<%
+   String name=(String)request.getAttribute("commodityName");
+   if(name!=null){
+	   name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
+   }
+%>
+
 <html>
 	<head>
 		<title>交收属性设置</title>
@@ -36,7 +44,7 @@
 										</td>
         			 					<td align="right" width="110">商品名称：</td>
 	      								<td width="110">
-	      								    <input id="commodityName" type="text" name="commodityName" value="${commodityName }" readonly="readonly"/>
+	      								    <input id="commodityName" type="text" name="commodityName" value="<%=name %>" readonly="readonly"/>
 		          						</td>
 										<td align="right" width="110"> </td>     
             							<td width="110"> 
@@ -52,7 +60,7 @@
 								            		<option value="">请选择<c:out value="${props.propertyname }"/></option>
                                                     <c:forEach var="propvalue" items="${propvaluelist}">
                                                       <c:if test="${propvalue.propertyid eq props.propertyid }">
-                                                      <option value="${propvalue.propertyid}:${propvalue.sortno}">${propvalue.propertyvalue}</option>
+                                                      <option value="${propvalue.propertyid}:${propvalue.sortno}" <c:forEach var="ipopropvalue" items="${ipoproplist}">  <c:if test="${propvalue.sortno eq ipopropvalue.sortno and propvalue.propertyid eq ipopropvalue.propertyid }">selected</c:if> </c:forEach>>${propvalue.propertyvalue}</option>
                                                       </c:if>
                                                     </c:forEach>
 								        </select>

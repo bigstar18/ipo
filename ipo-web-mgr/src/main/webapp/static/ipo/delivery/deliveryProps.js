@@ -88,7 +88,11 @@ function doSearch(){
 		commodityId: $('#commodityId').val()
 	});
 }
-
+function clearInfo(){
+	     $('#commodityName').val("");
+		 $('#commodityId').val("");
+	
+}
 function deleteProps(commId){
 	 $.ajax({ 
                             		   cache:false,

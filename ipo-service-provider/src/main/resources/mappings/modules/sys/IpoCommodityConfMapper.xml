@@ -213,7 +213,7 @@
    <if test="record.commodityName != null" >
     and A.COMMODITYNAME like   concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
    </if>   
-  ) G WHERE G.TNO BETWEEN #{beginnum} and  #{endnum}
+   ORDER BY A.COMMODITYID ) G WHERE G.TNO BETWEEN #{beginnum} and  #{endnum}
    </select>
  <select id="getDeliveryCommNum" parameterType="com.yrdce.ipo.modules.sys.entity.DeliveryCommodity" resultType="java.lang.Integer" >
    SELECT COUNT(*) FROM (SELECT A.*, C.CATEGORYNAME FROM (SELECT T.COMMODITYID,T.COMMODITYNAME,T.BREEDID,B.BREEDNAME, B.SORTID, T.DELIVERYPROP

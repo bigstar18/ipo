@@ -16,6 +16,8 @@ public interface IpoDeliveryPropMapper {
 
 	List<IpoDeliveryProp> selectAll();
 
+	List<IpoDeliveryProp> selectByCommodityId(String commodityId);
+
 	List<MProperty> selectCategoryProps(Long categoryId);// 查出商品有哪些属性
 
 	List<MProperty> selectPropValues(@Param("categoryId") Long categoryId,
