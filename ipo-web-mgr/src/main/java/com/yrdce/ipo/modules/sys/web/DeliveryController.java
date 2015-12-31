@@ -25,6 +25,7 @@ import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
+import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
@@ -148,6 +149,7 @@ public class DeliveryController {
 			request.setAttribute("commodityName", commName);
 			List<MProperty> proplist = null;
 			List<MProperty> propvaluelist = null;
+			List<IpoDeliveryProp> ipoproplist = null;
 			if (categoryId != null) {
 				proplist = deliveryCommService.getPropsByCategoryId(Long
 						.parseLong(categoryId));
@@ -156,6 +158,11 @@ public class DeliveryController {
 				propvaluelist = deliveryCommService.getPropertyValues(
 						Long.parseLong(categoryId), Long.parseLong(breedId));
 			}
+			if (commodityid != null) {
+				ipoproplist = deliveryCommService
+						.selectByCommodityId(commodityid);
+			}
+			request.setAttribute("ipoproplist", ipoproplist);
 			request.setAttribute("proplist", proplist);
 			request.setAttribute("flag", proplist.size());
 			request.setAttribute("propvaluelist", propvaluelist);

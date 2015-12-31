@@ -95,6 +95,7 @@ public class DeliveryCommodityServiceImpl implements DeliveryCommodityService {
 		if (propertys.equals("")) {
 			return "false";
 		}
+		deliverypropmapper.deleteByCommodityId(commId);
 		String[] props = propertys.split(",");
 		for (int i = 0; i < props.length; i++) {
 			String temp = props[i];
@@ -120,6 +121,20 @@ public class DeliveryCommodityServiceImpl implements DeliveryCommodityService {
 			}
 		}
 		return "false";
+	}
+
+	@Override
+	public List<com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp> selectByCommodityId(
+			String commId) {
+		List<IpoDeliveryProp> dlist = deliverypropmapper
+				.selectByCommodityId(commId);
+		List<com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp> dlist2 = new ArrayList<com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp>();
+		for (IpoDeliveryProp temp : dlist) {
+			com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp example = new com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp();
+			BeanUtils.copyProperties(temp, example);
+			dlist2.add(example);
+		}
+		return dlist2;
 	}
 
 }

@@ -29,6 +29,10 @@
     select DELIVERYPROPID, COMMODITYID, PROPERTYID, SORTNO
     from IPO_DELIVERY_PROP
   </select>
+   <select id="selectByCommodityId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select DELIVERYPROPID, COMMODITYID, PROPERTYID, SORTNO
+    from IPO_DELIVERY_PROP where  COMMODITYID = #{commodityId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByCommodityId" parameterType="java.lang.String" >
     delete from IPO_DELIVERY_PROP
     where COMMODITYID = #{commId,jdbcType=VARCHAR}
