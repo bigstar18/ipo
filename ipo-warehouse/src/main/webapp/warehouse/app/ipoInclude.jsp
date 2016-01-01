@@ -11,10 +11,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/mgr/skinstyle/default/css/common.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/warehouse/skinstyle/default/css/common.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
-<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/static/ipo/specialcharfilter.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" ></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js" ></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/ipo/specialcharfilter.js" ></script>
 

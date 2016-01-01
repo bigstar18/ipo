@@ -135,3 +135,7 @@ function clearInfo(){
 	$("#storagestate").val("");
 }
 
+function addStorage(){
+	document.location.href = getRootPath () +  "/warehouse/app/storage/addStorage.jsp";
+	
+}

@@ -14,6 +14,7 @@
     <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
+    <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="SResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStorageExtended" >
     <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
@@ -51,13 +52,11 @@
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
-    insert into IPO_STORAGE (
-    <include refid="Base_Column_My" />
-      )
+    insert into IPO_STORAGE (<include refid="Base_Column_List" />  )
     values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
-      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR}
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
@@ -192,5 +191,7 @@
        and STORAGESTATE = #{storagestate,jdbcType=DECIMAL}
       </if>
   </select>
-  
+   <select id="sequence" resultType="java.lang.Integer">
+	SELECT IPO_STORAGE.NEXTVAL FROM dual
+   </select>
 </mapper>

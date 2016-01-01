@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
@@ -30,6 +32,7 @@ import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 
@@ -45,6 +48,9 @@ public class DeliveryController {
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(DeliveryController.class);
+
+	@Autowired
+	private IpoCommConfService ipoCommConfService;
 
 	@Autowired
 	private DeliveryOrderService deliveryorderservice;
@@ -85,6 +91,14 @@ public class DeliveryController {
 
 	public DeliveryCommodityService getDeliveryCommService() {
 		return deliveryCommService;
+	}
+
+	public IpoCommConfService getIpoCommConfService() {
+		return ipoCommConfService;
+	}
+
+	public void setIpoCommConfService(IpoCommConfService ipoCommConfService) {
+		this.ipoCommConfService = ipoCommConfService;
 	}
 
 	public void setDeliveryCommService(
@@ -495,6 +509,42 @@ public class DeliveryController {
 			return "error";
 		}
 	}
+
+	/**
+	 * 获取具有交收属性的商品
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/getDeliveryCommodity", method = RequestMethod.POST)
+	@ResponseBody
+	public String getDeliveryCommodity(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		log.info("获取具有交收属性的商品");
+		VIpoCommConf example = new VIpoCommConf();
+		example.setDeliveryProp((short) 1);
+		List<VIpoCommConf> commlist = ipoCommConfService
+				.selectCommodityByExample(example);
+		return JSON.json(commlist);
+	}
+
+	/**
+	 * 新增入库单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	/*
+	 * @RequestMapping(value = "/saveStorage", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public String saveStorage(VIpoCommConf　example) throws
+	 * IOException { log.info("获取具有交收属性的商品"); VIpoCommConf example = new
+	 * VIpoCommConf(); example.setDeliveryProp((short) 1); List<VIpoCommConf>
+	 * commlist = ipoCommConfService .selectCommodityByExample(example); return
+	 * JSON.json(commlist); }
+	 */
 
 	/**
 	 * 审核入库单

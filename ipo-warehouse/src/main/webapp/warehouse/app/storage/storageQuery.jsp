@@ -7,10 +7,7 @@
 </head>
 <body>
 <div id="main_body">
-			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td>
-						<br />
+			
 	<div class="div_list">
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
@@ -26,15 +23,13 @@
 					<option value="4">市场通过</option>
 					<option value="5">市场驳回</option>
 					</select>
-			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clearInfo()"/><br/>
-			<input type="button" value="添加" onclick="addStorage()"/>		
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search"  onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload"  onclick="clearInfo()">重置</a><br/>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="addStorage()">添加</a>		
 		</div>  
 	</div>
 	</div>
-	</td>
-	</tr>
-    </table>
+	
 </div>
 </body>
 

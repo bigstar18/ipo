@@ -235,13 +235,13 @@
    </update>
 <select id="selectCommodityByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" resultMap="BaseResultMap" >
    SELECT <include refid="Base_Column_List" /> from IPO_COMMODITY_CONF where 1=1
-   <if test="record.commodityId != null" >
-    and  COMMODITYID like concat(#{record.commodityId,jdbcType=VARCHAR},'%')
+   <if test="record.commodityid != null" >
+    and  COMMODITYID like concat(#{record.commodityid,jdbcType=VARCHAR},'%')
    </if>
-   <if test="record.commodityName != null" >
-    and COMMODITYNAME like  concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
+   <if test="record.commodityname != null" >
+    and COMMODITYNAME like  concat ('%', concat(#{record.commodityname,jdbcType=VARCHAR},'%'))
    </if>  
-    <if test="record.deliveryProp != 0" >
+    <if test="record.deliveryProp != null" >
     and DELIVERYPROP =#{record.deliveryProp,jdbcType=DECIMAL}
    </if> 
   </select>

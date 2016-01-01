@@ -14,7 +14,7 @@ import com.yrdce.ipo.modules.warehouse.entity.StorageUnion;
 public interface IpoStorageMapper {
 	int deleteByPrimaryKey(String storageid);
 
-	//1.申请 2.仓库通过 3.仓库驳回 4.市场通过 5.市场驳回(storagedate对应数字)
+	// 1.申请 2.仓库通过 3.仓库驳回 4.市场通过 5.市场驳回(storagedate对应数字)
 	int insert(IpoStorage record);
 
 	IpoStorage selectByPrimaryKey(String storageid);
@@ -22,26 +22,31 @@ public interface IpoStorageMapper {
 	IpoStorage selectByCommodityId(String commodityid);
 
 	IpoStorage selectByStorageDate(Date storagedate);
-	
-	//1.申请 2.仓库通过 3.仓库驳回 4.市场通过 5.市场驳回(storagedate对应数字)
+
+	// 1.申请 2.仓库通过 3.仓库驳回 4.市场通过 5.市场驳回(storagedate对应数字)
 	IpoStorage selectByStorageState(int storagestate);
 
 	List<IpoStorage> selectAll();
 
 	int updateByPrimaryKey(IpoStorage record);
-	
-	List<StorageUnion> queryUnionByPage(@Param("beginnum") Integer beginnum,@Param("endnum") Integer endnum,@Param("storageUnion") StorageUnion storageUnion);
-	
+
+	List<StorageUnion> queryUnionByPage(@Param("beginnum") Integer beginnum,
+			@Param("endnum") Integer endnum,
+			@Param("storageUnion") StorageUnion storageUnion);
+
 	int countStorage();
-	
+
 	List<IpoStorageExtended> findStoragesByPage(
 			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("record") IpoStorageExtended record);
 
 	int getTotalNum(IpoStorageExtended record);
 
+	// sequence序列，拼接入库单号
+	int sequence();
+
 	int updateStorage(@Param("storageid") String storageid,
 			@Param("checker") String checker, @Param("state") String state);
-	
+
 	StorageUnion selectUnionById(String storageid);
 }
