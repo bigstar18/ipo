@@ -80,16 +80,19 @@ public class SettlementDeliveryController {
 	@ResponseBody
 	public String deliveryApply(DeliveryOrder deliveryOrder) {
 		String method = deliveryOrder.getDeliveryMethod();
+
 		try {
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
 				String name = new String(deliveryOrder.getCommodityName().getBytes("gbk"), "utf-8");
+				logger.info("------------------->name=" + name);
 				deliveryOrder.setCommodityName(name);
 				settlementDeliveryService.applicationByPickup(deliveryOrder);
 				return "success";
 			} else {
 				deliveryOrder.setDeliveryMethod("在线配送");
 				String name = new String(deliveryOrder.getCommodityName().getBytes("gbk"), "utf-8");
+				logger.info("------------------->name=" + name);
 				deliveryOrder.setCommodityName(name);
 				settlementDeliveryService.applicationByexpress(deliveryOrder);
 				return "success";
@@ -202,7 +205,6 @@ public class SettlementDeliveryController {
 			result.setRows(clist);
 			return JSON.json(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}

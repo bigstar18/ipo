@@ -18,5 +18,5 @@ public interface IpoPositionMapper {
 
 	int updateByPrimaryKey(IpoPosition record);
 
-	List<IpoPosition> seelctByFirmid(String firmid);
+	List<IpoPosition> selectByFirmid(String firmid);
 }

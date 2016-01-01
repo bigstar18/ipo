@@ -40,7 +40,7 @@ public class IpoSpoRation {
 
 	private Integer rationSate;
 
-	private String brokername;
+	private String name;
 
 	public Date getSpoDate() {
 		return spoDate;
@@ -186,12 +186,12 @@ public class IpoSpoRation {
 		this.rationSate = rationSate;
 	}
 
-	public String getBrokername() {
-		return brokername;
+	public String getName() {
+		return name;
 	}
 
-	public void setBrokername(String brokername) {
-		this.brokername = brokername;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

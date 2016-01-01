@@ -58,7 +58,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 获得交易商持仓信息
 	public List<Position> getListByPosition(String firmid) {
 		logger.info("获得交易商持仓信息");
-		List<IpoPosition> list1 = ipoPositionMapper.seelctByFirmid(firmid);
+		List<IpoPosition> list1 = ipoPositionMapper.selectByFirmid(firmid);
 		List<Position> list2 = new ArrayList<Position>();
 		for (IpoPosition ipoPosition : list1) {
 			Position position = new Position();
