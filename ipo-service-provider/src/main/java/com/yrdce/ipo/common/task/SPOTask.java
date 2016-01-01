@@ -29,7 +29,7 @@ public class SPOTask {
 		logger.info("增发状态定时任务启动");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String time = sdf.format(new Date());
-		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.selete();
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select();
 		// 遍历增发商品管理列表
 		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
 			String spoid = ipoSPOComm.getSpoId();
@@ -38,6 +38,7 @@ public class SPOTask {
 			// 时间判断，更新增发表状态
 			if (time == spotime) {
 				ipoSPOCommMapper.updateByStatus(4, spoid);
+				logger.info("增发状态更新成功");
 			}
 
 			Date ipoDate = ipoSPOComm.getIpoDate();
@@ -45,6 +46,7 @@ public class SPOTask {
 			// 时间判断，更新配售表状态
 			if (time == ipotime) {
 				ipoSpoRationMapper.updateByStatus(3, spoid);
+				logger.info("配售状态更新成功");
 			}
 		}
 

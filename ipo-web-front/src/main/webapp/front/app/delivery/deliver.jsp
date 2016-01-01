@@ -4,7 +4,7 @@
 <%@page import="java.lang.String"%> 
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String dealerId ="111";%>
+//String dealerId ="888";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -64,12 +64,12 @@
             width: 100,
             align: 'center'
           }, {
-            field: 'warehouseName',
+            field: 'warehousename',
             title: '交收仓库名称',
             width: 100,
             align: 'center'
           }, {
-            field: 'ccounts',
+            field: 'position',
             title: '持仓数量',
             width: 100,
             align: 'center'
@@ -128,7 +128,7 @@
         var iHeight = 700; //弹出窗口的高度;
         var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
         var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-        window.open("./deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+        window.open("${pageContext.request.contextPath}/front/app/delivery/deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
     	
     }
     function doSearch(){

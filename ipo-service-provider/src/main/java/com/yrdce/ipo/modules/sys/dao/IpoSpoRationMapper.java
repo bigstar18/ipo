@@ -36,4 +36,6 @@ public interface IpoSpoRationMapper {
 
 	int updateByStatus(int status, String spoid);
 
+	List<IpoSpoRation> selectBySales();
+
 }

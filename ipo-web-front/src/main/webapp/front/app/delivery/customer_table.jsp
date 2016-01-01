@@ -110,17 +110,15 @@
 
     var ctable = new Vue({
       el: '#ctable',
-      data: {
-	          "deliveryorderId": 321,
-	          "commodityId": "3214",
-	          "commodityName": "4",
-	          "warehouseName": "自提",
-	          "deliveryQuatity": "111",
-	          "pickupPassword": "654",
-	          "unit": "534",
-	          "deliveryDate": "7657"
- 		
-    }
+      data: {"deliveryorderId": "",
+          "commodityId": "",
+          "commodityName": "",
+          "warehouseName": "",
+          "deliveryQuatity": "",
+          "pickupPassword": "",
+          "unit": "",
+          "deliveryDate": ""
+          }
   });
    	$.ajax({
       type: 'post',
@@ -131,7 +129,7 @@
    	 	ctable.deliveryorderId = responseStr.deliveryorderId;
    	 	ctable.commodityId = responseStr.commodityId;
    	 	ctable.commodityName = responseStr.commodityName;
-	   	ctable.warehouseName = responseStr.warehouseName;
+	   	ctable.warehouseName = responseStr.warehousename;
 	   	ctable.deliveryQuatity = responseStr.deliveryQuatity;
 	   	ctable.pickupPassword = responseStr.pickupPassword;
 	   	ctable.unit = responseStr.unit;

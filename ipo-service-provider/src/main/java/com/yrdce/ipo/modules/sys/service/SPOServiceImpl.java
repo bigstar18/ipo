@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
@@ -37,6 +39,8 @@ public class SPOServiceImpl implements SPOService {
 	private IpoCommodityMapper ipoCommodityMapper;
 	@Autowired
 	private IpoSpoRationMapper ipoSpoRationMapper;
+	@Autowired
+	private FFirmfundsMapper fundsMapper;
 
 	@Override
 	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
@@ -72,14 +76,42 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
-	public int updateRationType(Long rationId,String dealerId) {
-		// TODO Auto-generated method stub
-		int result = ipoSpoRationMapper.updateRationType(rationId);
-		if (result > 0) {
-			return 1;
-		} else {
-			return 0;
+	public int updateRationType(Long rationId, String dealerId) {
+		// 获得可用资金
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", dealerId);
+		param.put("lock", 0);
+		fundsMapper.getMonery(param);
+		BigDecimal monery = (BigDecimal) param.get("monery");
+		IpoSpoRation ipoSpoRation = ipoSpoRationMapper.selectByPrimaryKey(rationId);
+		// 单价
+		BigDecimal price = ipoSpoRation.getSpoPrice();
+		// 数量
+		Long counts = ipoSpoRation.getRationcounts();
+		BigDecimal counts1 = new BigDecimal(counts);
+		// 服务费
+		BigDecimal fee = ipoSpoRation.getServicefee();
+		BigDecimal Monery = price.multiply(counts1);
+		// 总费用
+		BigDecimal allMonery = Monery.add(fee);
+		if (monery.compareTo(allMonery) != -1) {
+			int result = ipoSpoRationMapper.updateRationType(rationId);
+			// 资金冻结
+			float mony = allMonery.floatValue();
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("monery", "");
+			param1.put("userid", dealerId);
+			param1.put("amount", mony);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param1);
+			if (result > 0) {
+				return 1;
+			} else {
+				return 0;
+			}
 		}
+		return 0;
 	}
 
 	// 分页获得增发列表
@@ -248,9 +280,16 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	// 承销商列表信息
-	public List getList() {
+	public List<SpoRation> getList() {
 		logger.info("承销商列表信息");
-		return null;
+		List<IpoSpoRation> list1 = ipoSpoRationMapper.selectBySales();
+		List<SpoRation> list2 = new ArrayList<SpoRation>();
+		for (IpoSpoRation ipoSpoRation : list1) {
+			SpoRation spoRation = new SpoRation();
+			BeanUtils.copyProperties(ipoSpoRation, spoRation);
+			list2.add(spoRation);
+		}
+		return list2;
 	}
 
 	// 跟新状态

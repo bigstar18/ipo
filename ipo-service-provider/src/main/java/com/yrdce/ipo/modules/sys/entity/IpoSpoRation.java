@@ -29,17 +29,18 @@ public class IpoSpoRation {
 	private String communityId;
 
 	private Date registerDate;
-	
+
 	private Date spoDate;
 
 	private Date ipoDate;
-	
-    private Long spoCounts;
 
-    private BigDecimal spoPrice;
-    
-    private Integer rationSate;
+	private Long spoCounts;
 
+	private BigDecimal spoPrice;
+
+	private Integer rationSate;
+
+	private String brokername;
 
 	public Date getSpoDate() {
 		return spoDate;
@@ -181,8 +182,16 @@ public class IpoSpoRation {
 		return rationSate;
 	}
 
-	public void setRationSatee(Integer rationSatee) {
-		this.rationSate = rationSatee;
+	public void setRationSatee(Integer rationSate) {
+		this.rationSate = rationSate;
+	}
+
+	public String getBrokername() {
+		return brokername;
+	}
+
+	public void setBrokername(String brokername) {
+		this.brokername = brokername;
 	}
 
 }

@@ -74,6 +74,8 @@ public class DeliveryOrder implements Serializable {
 	private String receiver;
 	private String tel;
 
+	private String warehousename;
+
 	public String getAddress() {
 		return address;
 	}
@@ -288,6 +290,14 @@ public class DeliveryOrder implements Serializable {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks == null ? null : remarks.trim();
+	}
+
+	public String getWarehousename() {
+		return warehousename;
+	}
+
+	public void setWarehousename(String warehousename) {
+		this.warehousename = warehousename;
 	}
 
 	@Override

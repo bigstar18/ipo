@@ -19,7 +19,7 @@ public interface SPOService {
 	public int getRationInfoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 更新状态(front)
-	public int updateRationType(Long rationId,String dealerId);
+	public int updateRationType(Long rationId, String dealerId);
 
 	// 条件查询(mgr)
 	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
@@ -61,7 +61,7 @@ public interface SPOService {
 	public SpoCommoditymanmaagement getListBySpocom(String spoid);
 
 	// 承销商列表信息
-	public List getList();
+	public List<SpoRation> getList();
 
 	// 跟新状态
 	public int updateStatus(Integer rationSate, String spoid) throws Exception;

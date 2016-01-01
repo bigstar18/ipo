@@ -84,7 +84,7 @@
 	</div>
 	<div class="menu_1" id="3001001000">交收提货</div>
 	<div id="3001001000Div" style="display: none;">
-		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/front/app/delivery/withdraw.html">提货申请</div>
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryview">提货申请</div>
 		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/SettlementDeliveryController/printView">自提打印</div>
 		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/SettlementDeliveryController/revocationView">撤销提货</div>
 		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/SettlementDeliveryController/dispatchingView">在线配送</div>

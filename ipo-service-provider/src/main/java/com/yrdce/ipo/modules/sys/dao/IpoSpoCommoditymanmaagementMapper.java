@@ -26,5 +26,5 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
 
-	List<IpoSpoCommoditymanmaagement> selete();
+	List<IpoSpoCommoditymanmaagement> select();
 }
