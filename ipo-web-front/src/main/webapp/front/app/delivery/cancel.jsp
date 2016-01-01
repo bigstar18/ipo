@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String dealerId ="888";%>
@@ -116,11 +116,11 @@
             align: 'center',
             formatter: function(value, row, index) {
             	if(row.approvalStatus < 6){
-            		return "<a href=\"#\" onclick=\"updateStatus("+row.deliveryorderId+")\">" + "注销" + "</a>";
+            		return "<a href=\"#\" onclick=\"updateStatus("+row.deliveryorderId+")\">" + "撤销" + "</a>";
             	}else{
             		return "已确认";
             	}
-              
+
             }
           }]
         ]
@@ -135,23 +135,23 @@
 
     function updateStatus(deliveryorderid){
     	if(confirm('确实要撤销吗?')){
-    	$.ajax({  
-			 type: 'post',  
-		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",  
+    	$.ajax({
+			 type: 'post',
+		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
 		     data:{"deliveryorderid":deliveryorderid,"status":"7"},
-		     success : function(data) { 
+		     success : function(data) {
 			           if(data=='success'){
 			        	   alert("撤销成功");
 			        	   $('#dg').datagrid('reload');
-			        	   
+
 			           }else{
-		          		   alert("系统异常，请联系管理员");  
+		          		   alert("系统异常，请联系管理员");
 		          	   }
 			        }
 				});
     }
     }
-    
+
     function doSearch(){
     	$('#dg').datagrid('load',{
     	deliveryorderId:$('#deliveryorderId').val()
