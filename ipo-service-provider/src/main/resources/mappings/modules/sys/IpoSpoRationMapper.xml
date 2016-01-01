@@ -146,7 +146,7 @@
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </select>
   
-  <select id="selectBySales" resultMap="com.yrdce.ipo.modules.sys.entity.IpoSpoRation">
+  <select id="selectBySales" resultType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation">
   select * from br_broker b 
 	left join br_brokertype btype 
 	on b.membertype = btype.borkertype 
