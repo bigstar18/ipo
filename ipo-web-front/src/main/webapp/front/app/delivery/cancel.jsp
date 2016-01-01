@@ -28,7 +28,7 @@
       <div class="content">1.在此展示您的所有可注销的提货单信息。 2.如果您要注销提货单，请点击“注销”
       </div>
     </div>
-    <table id="dg"></table>
+    <table id="dg" style="height: 385px;"></table>
     <script type="text/javascript">
     $(document).ready(function() {
       $('#dg').datagrid({

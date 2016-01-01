@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String dealerId ="888";%>
@@ -28,7 +28,7 @@
       <div class="content">1.在此展示您的所有可打印自提的提货单信息。 2.如果您要打印自提，请点击“打印自提”
       </div>
     </div>
-    <table id="dg"></table>
+    <table id="dg" style="height: 385px;"></table>
     <script type="text/javascript">
     $(document).ready(function() {
       $('#dg').datagrid({
@@ -127,7 +127,7 @@
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
-    
+
     function updateForward(id) {
       var iWidth = 800; //弹出窗口的宽度;
       var iHeight = 700; //弹出窗口的高度;
@@ -135,7 +135,7 @@
       var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
       window.open("${pageContext.request.contextPath}/front/app/delivery/customer_table.jsp?methodId=" + id, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
     }
-    
+
     function doSearch(){
     	$('#dg').datagrid('load',{
     	deliveryorderId:$('#deliveryorderId').val()

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String dealerId ="888";%>
@@ -28,7 +28,7 @@
       <div class="content">提货单查询及详细信息显示:
       </div>
     </div>
-    <table id="dg"></table>
+    <table id="dg" style="height: 385px;"></table>
     <script type="text/javascript">
     $(document).ready(function() {
       $('#dg').datagrid({
@@ -117,7 +117,7 @@
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
-    
+
     function execution(deliveryMethod,methodId){
     	if(deliveryMethod === "自提"){
     		deliveryMethod = "1";
@@ -129,14 +129,14 @@
         var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
         var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
         window.open("${pageContext.request.contextPath}/front/app/delivery/deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
-    	
+
     }
     function doSearch(){
     	$('#dg').datagrid('load',{
     	deliveryorderId:$('#deliveryorderId').val()
     	});
     }
-    
+
     </script>
     <div id="tb" style="padding:5px;height:auto">
       <div>

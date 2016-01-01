@@ -26,7 +26,7 @@
       <div class="content">在线配送查看和操作:
       </div>
     </div>
-    <table id="dg"></table>
+    <table id="dg" style="height: 385px;"></table>
     <script type="text/javascript">
     $(document).ready(function() {
       $('#dg').datagrid({

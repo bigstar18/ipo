@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
+<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
 //String dealerId ="888";%>
@@ -30,7 +30,7 @@
 
       </div>
     </div>
-  <table id="dg"></table>
+  <table id="dg" style="height: 385px;"></table>
   <script type="text/javascript">
   $(document).ready(function() {
     $('#dg').datagrid({
@@ -106,7 +106,7 @@
       displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
   })
-  
+
   function doSearch(){
     	$('#dg').datagrid('load',{
     	deliveryorderId:$('#deliveryorderId').val()
