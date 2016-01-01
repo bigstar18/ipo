@@ -14,51 +14,46 @@
         <tr>
           <td align="center" height="35">
             <span>
-	          提货单号：
-	        </span>
+            提货单号：
+          </span>
           </td>
-          <td align="center">
-          {{deliveryorderId}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          商品代码：
-	        </span>
-          </td>
-          <td align="center">
-          {{commodityId}}
+          <td align="center" id="deliveryorderId">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          商品名称：
-	        </span>
+            商品代码：
+          </span>
           </td>
-          <td align="center">
-          {{commodityName}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          交收仓库名称：
-	        </span>
-          </td>
-          <td align="center">
-          {{warehouseName}}
+          <td align="center" id="commodityId">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          交割数量：
-	        </span>
+            商品名称：
+          </span>
           </td>
-          <td align="center">
-          {{deliverQuatity}}
+          <td align="center" id="commodityName">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            交收仓库名称：
+          </span>
+          </td>
+          <td align="center" id="warehouseName">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            交割数量：
+          </span>
+          </td>
+          <td align="center" id="deliveryQuatity">
           </td>
         </tr>
         <tr>
@@ -67,28 +62,25 @@
             提货密码：
           </span>
           </td>
-          <td align="center">
-          {{pickupPassword}}
+          <td align="center" id="pickupPassword">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          单位：
-	        </span>
+            单位：
+          </span>
           </td>
-          <td align="center">
-          {{unit}}
+          <td align="center" id="unit">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          提货日期：
-	        </span>
+            提货日期：
+          </span>
           </td>
           <td align="center" id="deliveryDate">
-          {{deliveryDate}}
           </td>
         </tr>
       </tbody>
@@ -110,49 +102,56 @@
     }
     var methodid = strs[1];//获取url参数
 
-    var ctable = new Vue({
-      el: '#ctable',
-      data: {
-
-          "position": 1566,
-          "approvers": "111",
-          "dealerId": "111",
-          "deliveryMethod": "自提",
-          "remarks": null,
-          "dealerName": "111",
-          "warehouseId": "111",
-          "commodityName": "111",
-          "applyDate": "2015-12-14 00:00:00",
-          "deliveryorderId": "111",
-          "unit": "111",
-          "warehouseName": "111",
-          "cancelDate": null,
-          "approvalStatus": 7,
-          "approveDate": "2015-12-21 00:00:00",
-          "deliveryQuatity": 111,
-          "deliveryDate": "2015-12-30 00:00:00",
-          "canceler": null,
-          "commodityId": "111",
-          "deliveryCounts": null,
-          "methodId": "111"
-
+    var ctable = {
+     "position": 1566,
+      "approvers": "111",
+      "dealerId": "111",
+      "deliveryMethod": "自提",
+      "remarks": null,
+      "dealerName": "111",
+      "warehouseId": "111",
+      "commodityName": "111",
+      "applyDate": "2015-12-14 00:00:00",
+      "deliveryorderId": "111",
+      "unit": "111",
+      "warehouseName": "111",
+      "cancelDate": null,
+      "approvalStatus": 7,
+      "approveDate": "2015-12-21 00:00:00",
+      "deliveryQuatity": 111,
+      "deliveryDate": "2015-12-30 00:00:00",
+      "canceler": null,
+      "commodityId": "111",
+      "deliveryCounts": null,
+      "methodId": "111"
     }
-  });
-    $.ajax({
-      type: 'post',
-      url: "SettlementDeliveryController/getDetail",
-      data:{"methodid":methodid},
-      success : function(response) {
-        data = response;
-      },
-      error: function(response) {
-        //alert(response);
-        console.log(response);
-      }
-    });
+    // $.ajax({
+    //   type: 'post',
+    //   url: "SettlementDeliveryController/getDetail",
+    //   data:{"methodid":methodid},
+    //   success : function(response) {
+    //     data = response;
+    //   },
+    //   error: function(response) {
+    //     //alert(response);
+    //     console.log(response);
+    //   }
+    // });
+
+
+    $('#deliveryorderId').html(ctable.deliveryorderId);
+    $('#commodityId').html(ctable.commodityId);
+    $('#commodityName').html(ctable.commodityName);
+    $('#warehouseName').html(ctable.warehouseName);
+    $('#deliveryQuatity').html(ctable.deliveryQuatity);
+    $('#pickupPassword').html(ctable.pickupPassword);
+    $('#unit').html(ctable.unit);
+    $('#deliveryDate').html(ctable.deliveryDate);
+
+
 
     // $('#deliveryDate').val().substr(0, 10);
-    var cdata = $('#deliveryDate').text().substr(10, 10)
+    var cdata = $('#deliveryDate').text().substr(0, 10)
     $('#deliveryDate').html(cdata);
     // console.log($('#deliveryDate').text().substr(10, 10));
   });

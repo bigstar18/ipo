@@ -12,55 +12,51 @@
   <input type="button" value="打印页面" onclick="printpage()" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
-      <tbody>
+      <tb
+ody>
         <tr>
           <td align="center" height="35">
             <span>
-	          提货单号：
-	        </span>
+            提货单号：
+          </span>
           </td>
-          <td align="center">
-          {{deliveryorderId}}
+          <td align="center" id="deliveryorderId">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          商品代码：
-	        </span>
+            商品代码：
+          </span>
           </td>
-          <td align="center">
-          {{commodityId}}
-          </td>
-        </tr>
-        <tr>
-          <td align="center" height="35">
-            <span>
-	          商品名称：
-	        </span>
-          </td>
-          <td align="center">
-          {{commodityName}}
+          <td align="center" id="commodityId">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          交收仓库名称：
-	        </span>
+            商品名称：
+          </span>
           </td>
-          <td align="center">
-          {{warehouseName}}
+          <td align="center" id="commodityName">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          交割数量：
-	        </span>
+            交收仓库名称：
+          </span>
           </td>
-          <td align="center">
-          {{deliveryQuatity}}
+          <td align="center" id="warehouseName">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            交割数量：
+          </span>
+          </td>
+          <td align="center" id="deliveryQuatity">
           </td>
         </tr>
         <tr>
@@ -69,28 +65,25 @@
             提货密码：
           </span>
           </td>
-          <td align="center">
-          {{pickupPassword}}
+          <td align="center" id="pickupPassword">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          单位：
-	        </span>
+            单位：
+          </span>
           </td>
-          <td align="center">
-          {{unit}}
+          <td align="center" id="unit">
           </td>
         </tr>
         <tr>
           <td align="center" height="35">
             <span>
-	          提货日期：
-	        </span>
+            提货日期：
+          </span>
           </td>
           <td align="center" id="deliveryDate">
-          {{deliveryDate}}
           </td>
         </tr>
       </tbody>
@@ -98,7 +91,7 @@
 
   <script type="text/javascript">
   function printpage() {
-	  window.print();
+    window.print();
   }
   $(document).ready(function() {
     var url = location.search;
@@ -108,32 +101,23 @@
     }
     var methodid = strs[1];//获取url参数
 
-    var ctable = new Vue({
-      el: '#ctable',
-      data: {"deliveryorderId": "",
-          "commodityId": "",
-          "commodityName": "",
-          "warehouseName": "",
-          "deliveryQuatity": "",
-          "pickupPassword": "",
-          "unit": "",
-          "deliveryDate": ""
-          }
-  });
-   	$.ajax({
+    var ctable = {}
+    $.ajax({
       type: 'post',
       url: "../../../SettlementDeliveryController/getDetail",
       data:{"methodid":methodid},
       success : function(response) {
-   	  	var responseStr = $.parseJSON(response);
-   	 	ctable.deliveryorderId = responseStr.deliveryorderId;
-   	 	ctable.commodityId = responseStr.commodityId;
-   	 	ctable.commodityName = responseStr.commodityName;
-	   	ctable.warehouseName = responseStr.warehousename;
-	   	ctable.deliveryQuatity = responseStr.deliveryQuatity;
-	   	ctable.pickupPassword = responseStr.pickupPassword;
-	   	ctable.unit = responseStr.unit;
-	   	ctable.deliveryDate = responseStr.deliveryDate;
+        var responseStr = $.parseJSON(response);
+        $('#deliveryorderId').html(responseStr.deliveryorderId);
+        $('#commodityId').html(responseStr.commodityId);
+        $('#commodityName').html(responseStr.commodityName);
+        $('#warehouseName').html(responseStr.warehousename);
+        $('#deliveryQuatity').html(responseStr.deliveryQuatity);
+        $('#pickupPassword').html(responseStr.pickupPassword);
+        $('#unit').html(responseStr.unit);
+        $('#deliveryDate').html(responseStr.deliveryDate);
+        var cdata = $('#deliveryDate').text().substr(0, 10)
+        $('#deliveryDate').html(cdata);
       },
       error: function(response) {
         alert(response);
@@ -142,8 +126,7 @@
     });
 
     // $('#deliveryDate').val().substr(0, 10);
-    var cdata = $('#deliveryDate').text().substr(10, 10)
-    $('#deliveryDate').html(cdata);
+
     // console.log($('#deliveryDate').text().substr(10, 10));
   });
   </script>

@@ -13,7 +13,7 @@
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
-        
+
 
         <tr class="deliver">
           <td align="center" height="35">
@@ -21,8 +21,7 @@
             身份证号：
           </span>
           </td>
-          <td align="center">
-          {{idcardNum}}
+          <td align="center" id="idcardNum">
           </td>
         </tr>
         <tr class="deliver">
@@ -31,8 +30,7 @@
             提货密码：
           </span>
           </td>
-          <td align="center">
-          {{pickupPassword}}
+          <td align="center" id="pickupPassword">
           </td>
         </tr>
 
@@ -45,8 +43,7 @@
             地址：
           </span>
           </td>
-          <td align="center">
-          {{address}}
+          <td align="center" id="address">
           </td>
         </tr>
         <tr class="express">
@@ -55,8 +52,7 @@
             费用：
           </span>
           </td>
-          <td align="center">
-          {{cost}}
+          <td align="center" id="cost">
           </td>
         </tr>
         <tr class="express">
@@ -65,8 +61,7 @@
             配送时间：
           </span>
           </td>
-          <td align="center">
-          {{expressDate}}
+          <td align="center" id="expressDate">
           </td>
         </tr>
         <tr class="express">
@@ -75,8 +70,7 @@
             收货人：
           </span>
           </td>
-          <td align="center">
-          {{receiver}}
+          <td align="center" id="receiver">
           </td>
         </tr>
         <tr class="express">
@@ -85,8 +79,7 @@
             电话：
           </span>
           </td>
-          <td align="center">
-          {{tel}}
+          <td align="center" id="tel">
           </td>
         </tr>
       </tbody>
@@ -117,37 +110,30 @@
         $('.deliver').hide();
       }
 
-      var ctable = new Vue({
-        el: '#ctable',
-        data: {"idcardNum": "3212343248329843209804",
-            "pickupPassword": "adfa",
-            "address": "ffasfas",
-            "cost": "42432",
-            "expressDate": "2015-12-16 00:00:00",
-            "receiver": "梁非凡",
-            "tel": "21432423523"
-            }
-      });
+      var ctable = {}
       $.ajax({
-	      type: 'post',
-	      url: "../../../SettlementDeliveryController/detail",
-	      data:{"methodid":methodId,"deliveryMethod":deliveryMethod},
-	      success : function(response) {
-	    	  //console.log(response);
-	    	  var responseStr = $.parseJSON(response);
-	    	  //console.log($.parseJSON(response));
-		      ctable.idcardNum = responseStr.idcardNum;
-		      ctable.pickupPassword = responseStr.pickupPassword;
-		      ctable.address = responseStr.address;
-		      ctable.cost = responseStr.cost;
-		      ctable.expressDate = responseStr.expressDate;
-		      ctable.receiver = responseStr.receiver;
-		      ctable.tel = responseStr.tel;
-	      },
-	      error: function(response) {
-	        alert(response);
-	        //console.log(response);
-	      }
+        type: 'post',
+        url: "../../../SettlementDeliveryController/detail",
+        data:{"methodid":methodId,"deliveryMethod":deliveryMethod},
+        success : function(response) {
+          //console.log(response);
+          var responseStr = $.parseJSON(response);
+          //console.log($.parseJSON(response));
+          $('#idcardNum').html(responseStr.idcardNum);
+          $('#pickupPassword').html(responseStr.pickupPassword);
+
+
+
+          $('#address').html(responseStr.address);
+          $('#cost').html(responseStr.cost);
+          $('#expressDate').html(responseStr.expressDate);
+          $('#receiver').html(responseStr.receiver);
+          $('#tel').html(responseStr.tel);
+        },
+        error: function(response) {
+          alert(response);
+          //console.log(response);
+        }
       });
 
       // $('#deliveryDate').val().substr(0, 10);
