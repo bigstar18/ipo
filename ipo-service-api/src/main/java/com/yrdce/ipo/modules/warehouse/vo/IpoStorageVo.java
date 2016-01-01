@@ -3,127 +3,161 @@ package com.yrdce.ipo.modules.warehouse.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class IpoStorageVo implements Serializable{
+import org.springframework.format.annotation.DateTimeFormat;
+
+/**
+ * 入库单
+ * 
+ * @author chenjing
+ *
+ */
+public class IpoStorageVo implements Serializable {
 
 	private static final long serialVersionUID = 1301515494305648687L;
 
 	private String storageid;
 
-    private String commodityid;
+	private String commodityid;
 
-    private Long storagenum;
+	private Long storagenum;
 
-    private String startnum;
+	private String startnum;
 
-    private String endnum;
+	private String endnum;
 
-    private String operatorid;
+	private String operatorid;
 
-    private String warehouseauditorid;
+	private String warehouseauditorid;
 
-    private String marketauditorid;
+	private String marketauditorid;
 
-    private Integer storagestate;
+	private Integer storagestate;
 
-    private Date storagedate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date storagedate;
 
-    private String warehouseid;
+	private String warehouseid;
 
-    private String mapperbillid;
+	private String mapperbillid;
 
-    public String getStorageid() {
-        return storageid;
-    }
+	private Long storagecounts;
 
-    public void setStorageid(String storageid) {
-        this.storageid = storageid == null ? null : storageid.trim();
-    }
+	public String getStorageid() {
+		return storageid;
+	}
 
-    public String getCommodityid() {
-        return commodityid;
-    }
+	public void setStorageid(String storageid) {
+		this.storageid = storageid == null ? null : storageid.trim();
+	}
 
-    public void setCommodityid(String commodityid) {
-        this.commodityid = commodityid == null ? null : commodityid.trim();
-    }
+	public String getCommodityid() {
+		return commodityid;
+	}
 
-    public Long getStoragenum() {
-        return storagenum;
-    }
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid == null ? null : commodityid.trim();
+	}
 
-    public void setStoragenum(Long storagenum) {
-        this.storagenum = storagenum;
-    }
+	public Long getStoragenum() {
+		return storagenum;
+	}
 
-    public String getStartnum() {
-        return startnum;
-    }
+	public void setStoragenum(Long storagenum) {
+		this.storagenum = storagenum;
+	}
 
-    public void setStartnum(String startnum) {
-        this.startnum = startnum == null ? null : startnum.trim();
-    }
+	public String getStartnum() {
+		return startnum;
+	}
 
-    public String getEndnum() {
-        return endnum;
-    }
+	public void setStartnum(String startnum) {
+		this.startnum = startnum == null ? null : startnum.trim();
+	}
 
-    public void setEndnum(String endnum) {
-        this.endnum = endnum == null ? null : endnum.trim();
-    }
+	public String getEndnum() {
+		return endnum;
+	}
 
-    public String getOperatorid() {
-        return operatorid;
-    }
+	public void setEndnum(String endnum) {
+		this.endnum = endnum == null ? null : endnum.trim();
+	}
 
-    public void setOperatorid(String operatorid) {
-        this.operatorid = operatorid == null ? null : operatorid.trim();
-    }
+	public String getOperatorid() {
+		return operatorid;
+	}
 
-    public String getWarehouseauditorid() {
-        return warehouseauditorid;
-    }
+	public void setOperatorid(String operatorid) {
+		this.operatorid = operatorid == null ? null : operatorid.trim();
+	}
 
-    public void setWarehouseauditorid(String warehouseauditorid) {
-        this.warehouseauditorid = warehouseauditorid == null ? null : warehouseauditorid.trim();
-    }
+	public String getWarehouseauditorid() {
+		return warehouseauditorid;
+	}
 
-    public String getMarketauditorid() {
-        return marketauditorid;
-    }
+	public void setWarehouseauditorid(String warehouseauditorid) {
+		this.warehouseauditorid = warehouseauditorid == null ? null
+				: warehouseauditorid.trim();
+	}
 
-    public void setMarketauditorid(String marketauditorid) {
-        this.marketauditorid = marketauditorid == null ? null : marketauditorid.trim();
-    }
+	public String getMarketauditorid() {
+		return marketauditorid;
+	}
 
-    public Integer getStoragestate() {
-        return storagestate;
-    }
+	public void setMarketauditorid(String marketauditorid) {
+		this.marketauditorid = marketauditorid == null ? null : marketauditorid
+				.trim();
+	}
 
-    public void setStoragestate(Integer storagestate) {
-        this.storagestate = storagestate;
-    }
+	public Integer getStoragestate() {
+		return storagestate;
+	}
 
-    public Date getStoragedate() {
-        return storagedate;
-    }
+	public void setStoragestate(Integer storagestate) {
+		this.storagestate = storagestate;
+	}
 
-    public void setStoragedate(Date storagedate) {
-        this.storagedate = storagedate;
-    }
+	public Date getStoragedate() {
+		return storagedate;
+	}
 
-    public String getWarehouseid() {
-        return warehouseid;
-    }
+	public void setStoragedate(Date storagedate) {
+		this.storagedate = storagedate;
+	}
 
-    public void setWarehouseid(String warehouseid) {
-        this.warehouseid = warehouseid == null ? null : warehouseid.trim();
-    }
+	public String getWarehouseid() {
+		return warehouseid;
+	}
 
-    public String getMapperbillid() {
-        return mapperbillid;
-    }
+	public void setWarehouseid(String warehouseid) {
+		this.warehouseid = warehouseid == null ? null : warehouseid.trim();
+	}
 
-    public void setMapperbillid(String mapperbillid) {
-        this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
-    }
+	public String getMapperbillid() {
+		return mapperbillid;
+	}
+
+	public void setMapperbillid(String mapperbillid) {
+		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
+	}
+
+	public Long getStoragecounts() {
+		return storagecounts;
+	}
+
+	public void setStoragecounts(Long storagecounts) {
+		this.storagecounts = storagecounts;
+	}
+
+	@Override
+	public String toString() {
+		return "IpoStorageVo [storageid=" + storageid + ", commodityid="
+				+ commodityid + ", storagenum=" + storagenum + ", startnum="
+				+ startnum + ", endnum=" + endnum + ", operatorid="
+				+ operatorid + ", warehouseauditorid=" + warehouseauditorid
+				+ ", marketauditorid=" + marketauditorid + ", storagestate="
+				+ storagestate + ", storagedate=" + storagedate
+				+ ", warehouseid=" + warehouseid + ", mapperbillid="
+				+ mapperbillid + ", storagecounts=" + storagecounts + "]";
+	}
+
 }

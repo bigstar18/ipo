@@ -139,7 +139,7 @@
     set RATION_SATE = #{rationSate,jdbcType=DECIMAL} where SPOID = #{spoid,jdbcType=VARCHAR}
   </update>
 
-  <select id="select" resultMap="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" parameterType="java.lang.Long" >
+  <select id="select" resultType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" parameterType="java.lang.Long" >
     select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
     SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE,c.spo_price
     from IPO_SPO_RATION s left join ipo_spo_commoditymanmaagement c on s.rationid = s.rationid
