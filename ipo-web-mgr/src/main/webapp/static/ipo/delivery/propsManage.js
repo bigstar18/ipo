@@ -3,6 +3,10 @@ function returntoList(){
 }
 
 function updateDeliveryProps(){
+	if($("#flag").val()=='0'){
+		alert("无法设置商品的交收属性，请先到综合系统配置所属分类和品名的属性！");
+		return false;
+	}
 	for(var i=1;i<=$("#flag").val();i++){
 		var id="sortno"+i;
 		var temp = document.getElementById(id).value;

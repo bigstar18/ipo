@@ -40,4 +40,7 @@ public interface IpoCommConfService {
 	// 获取所有商品数
 	public int getAllComms();
 
+	// 获取设置了交收属性的商品
+	public List<VIpoCommConf> selectCommodityByExample(VIpoCommConf example);
+
 }

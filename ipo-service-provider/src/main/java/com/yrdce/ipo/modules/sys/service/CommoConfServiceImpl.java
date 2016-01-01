@@ -181,4 +181,21 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		}
 		return ipocomcoflist2;
 	}
+
+	@Override
+	public List<VIpoCommConf> selectCommodityByExample(VIpoCommConf example) {
+		IpoCommodityConf record = new IpoCommodityConf();
+		if (example != null) {
+			BeanUtils.copyProperties(example, record);
+		}
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
+				.selectCommodityByExample(record);
+		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
+		for (int i = 0; i < ipocomcoflist.size(); i++) {
+			VIpoCommConf vipocomconf = new VIpoCommConf();
+			BeanUtils.copyProperties(ipocomcoflist.get(i), vipocomconf);
+			ipocomcoflist2.add(vipocomconf);
+		}
+		return ipocomcoflist2;
+	}
 }

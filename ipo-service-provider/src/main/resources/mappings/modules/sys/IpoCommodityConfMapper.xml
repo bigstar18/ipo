@@ -233,5 +233,16 @@
    <update id="updateByStatus" parameterType="map">
    	update IPO_COMMODITY_CONF set STATUS = #{status,jdbcType=INTEGER} where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
    </update>
-
+<select id="selectCommodityByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" resultMap="BaseResultMap" >
+   SELECT <include refid="Base_Column_List" /> from IPO_COMMODITY_CONF where 1=1
+   <if test="record.commodityId != null" >
+    and  COMMODITYID like concat(#{record.commodityId,jdbcType=VARCHAR},'%')
+   </if>
+   <if test="record.commodityName != null" >
+    and COMMODITYNAME like  concat ('%', concat(#{record.commodityName,jdbcType=VARCHAR},'%'))
+   </if>  
+    <if test="record.deliveryProp != 0" >
+    and DELIVERYPROP =#{record.deliveryProp,jdbcType=DECIMAL}
+   </if> 
+  </select>
 </mapper>
