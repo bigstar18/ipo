@@ -66,10 +66,11 @@ public class SpoRationController {
 	
 	@RequestMapping(value = "/updateRationType", method = RequestMethod.POST)
 	@ResponseBody
-	public String UpdateRationType(@RequestParam("rationId")String rationId){
+	public String UpdateRationType(@RequestParam("rationId")String rationId,
+			@RequestParam("dealerId") String dealerId){
 		logger.info("确认配售");
 		try {
-			int result = spoService.updateRationType(Long.parseLong(rationId));
+			int result = spoService.updateRationType(Long.parseLong(rationId),dealerId);
 			if (result==1) {
 				return "success";
 			}else{

@@ -72,7 +72,7 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
-	public int updateRationType(Long rationId) {
+	public int updateRationType(Long rationId,String dealerId) {
 		// TODO Auto-generated method stub
 		int result = ipoSpoRationMapper.updateRationType(rationId);
 		if (result > 0) {

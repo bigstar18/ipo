@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
+<%@page import="java.lang.String"%> 
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
 <html>
 <head>
 <meta charset="utf-8">
@@ -151,7 +154,8 @@ function rationConfirm(rationid){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/spoRationController/updateRationType",
-		data:{rationId:rationid},
+		data:{rationId:rationid,
+			dealerId:<%=dealerId%>},
 		success:function(data){
         	if(data=="success"){
         	   alert("确认配售成功！");
