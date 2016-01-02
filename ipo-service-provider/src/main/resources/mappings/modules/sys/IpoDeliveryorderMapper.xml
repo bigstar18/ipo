@@ -261,4 +261,8 @@
   	on d.DELIVERYORDER_ID = t.EXPRESS_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByFrim" resultType="java.lang.String" parameterType="java.lang.String">
+  	select name from m_firm where firmid =#{firmid,jdbcType=VARCHAR}
+  </select>
 </mapper>

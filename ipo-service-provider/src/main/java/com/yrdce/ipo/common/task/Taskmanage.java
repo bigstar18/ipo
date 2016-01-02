@@ -66,7 +66,7 @@ public class Taskmanage extends TimerTask {
 				int i = +1;
 				logger.info("遍历商品配置表:" + i);
 				int day = conf.getTradedays();
-				String oldtime = DateUtil.getTime(day);
+				String oldtime = DateUtil.getTime(0);// 做了修改，此处参数应为day
 				Date endtime = conf.getEndtime();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String endtime1 = sdf.format(endtime);
@@ -86,19 +86,24 @@ public class Taskmanage extends TimerTask {
 						distribution.start(orderList);
 					}
 				}
-
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void lottery() {
+		try {
 			// 查找所有此商品的申购记录
 			System.out.println("申购记录查询开始");
-			String ballotNowtime = DateUtil.getTime(2);
+			String ballotNowtime = DateUtil.getTime(0);
 			List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
 			// List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByTime(ballotNowtime);
 			logger.info(ipoDidList.size() + "");
 			for (IpoDistribution ipoDistribution1 : ipoDidList) {
 				String commId = ipoDistribution1.getCommodityid();
 				logger.info("commID:" + commId);
-				IpoCommodity ipoCommodity = commodity.getSelectByComid(commId);
+				IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
 				int commCounts = ipoCommodity.getCounts();
 				logger.info("commCounts:" + commCounts);
 				int saleCounts = order.bycommodityid(commId);
@@ -145,9 +150,8 @@ public class Taskmanage extends TimerTask {
 				}
 				System.out.println(commId + "尾号记录成功");
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			// TODO: handle exception
 		}
 	}
 }

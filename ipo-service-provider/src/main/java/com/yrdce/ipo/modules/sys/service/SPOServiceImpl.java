@@ -200,27 +200,21 @@ public class SPOServiceImpl implements SPOService {
 	// 更新承销商配售比例
 	@Override
 	@Transactional
-	public int updateByRation(List<SpoRation> spoRationList) throws Exception {
+	public int updateByRation(SpoRation spoRation) throws Exception {
 		logger.info("更新承销商配售比例");
-		for (SpoRation spoRation : spoRationList) {
-			IpoSpoRation ipoSpoRation = new IpoSpoRation();
-			BeanUtils.copyProperties(spoRation, ipoSpoRation);
-			return ipoSpoRationMapper.updateByPrimaryKey(ipoSpoRation);
-		}
-		return 0;
+		IpoSpoRation ipoSpoRation = new IpoSpoRation();
+		BeanUtils.copyProperties(spoRation, ipoSpoRation);
+		return ipoSpoRationMapper.updateByPrimaryKey(ipoSpoRation);
 	}
 
 	// 分配承销商配售比例
 	@Override
 	@Transactional
-	public int insertByRation(List<SpoRation> spoRationList) throws Exception {
+	public int insertByRation(SpoRation spoRation) throws Exception {
 		logger.info("分配承销商配售比例");
-		for (SpoRation spoRation : spoRationList) {
-			IpoSpoRation ipoSpoRation = new IpoSpoRation();
-			BeanUtils.copyProperties(spoRation, ipoSpoRation);
-			return ipoSpoRationMapper.insert(ipoSpoRation);
-		}
-		return 0;
+		IpoSpoRation ipoSpoRation = new IpoSpoRation();
+		BeanUtils.copyProperties(spoRation, ipoSpoRation);
+		return ipoSpoRationMapper.insert(ipoSpoRation);
 	}
 
 	// 分页获取配售信息

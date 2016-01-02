@@ -40,10 +40,10 @@ public interface SPOService {
 	public List<SpoRation> getRationInfo(String spoid) throws Exception;
 
 	// 承销商配售信息修改(mgr)
-	public int updateByRation(List<SpoRation> spoRationList) throws Exception;
+	public int updateByRation(SpoRation spoRation) throws Exception;
 
 	// 承销商配售信息插入(mgr)
-	public int insertByRation(List<SpoRation> spoRationList) throws Exception;
+	public int insertByRation(SpoRation spoRation) throws Exception;
 
 	// 增发查询总页数
 	public int spoCounts(SpoCommoditymanmaagement spoComm);

@@ -96,12 +96,18 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
 		ipoDeliveryorder.setApprovalStatus(1);
 		ipoDeliveryorder.setMethodId(pickupId);
+		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String id1 = sdf.format(new Date());
 		String id2 = String.valueOf(ipoDeliveryorderMapper.sequence());
 		String primaryKey = id1 + id2;
 		ipoDeliveryorder.setDeliveryorderId(primaryKey);
 		ipoDeliveryorder.setApplyDate(new Date());
+		// 查询用户名称并插入表中
+		String dealerId = ipoDeliveryorder.getDealerId();
+		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
+		ipoDeliveryorder.setDealerName(dealername);
+
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}
@@ -122,12 +128,17 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
 		ipoDeliveryorder.setApprovalStatus(1);
 		ipoDeliveryorder.setMethodId(expressId);
+		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String id1 = sdf.format(new Date());
 		String id2 = String.valueOf(ipoDeliveryorderMapper.sequence());
 		String primaryKey = id1 + id2;
 		ipoDeliveryorder.setDeliveryorderId(primaryKey);
 		ipoDeliveryorder.setApplyDate(new Date());
+		// 查询用户名称并插入表中
+		String dealerId = ipoDeliveryorder.getDealerId();
+		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
+		ipoDeliveryorder.setDealerName(dealername);
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}

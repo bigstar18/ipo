@@ -64,6 +64,7 @@
     <task:scheduled-tasks>  
     <!--   这里表示的是0点10分开始-->  
     <task:scheduled ref="IPOTask" method="run" cron="0 5 0 * * ?" />
+    <task:scheduled ref="IPOTask" method="lottery" cron="0 10 0 * * ?" />
     <task:scheduled ref="sPOTask" method="runSPO" cron="0 10 0 * * ?" /> 
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->
