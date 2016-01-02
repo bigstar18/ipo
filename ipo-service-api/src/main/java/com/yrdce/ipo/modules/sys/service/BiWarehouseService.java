@@ -17,4 +17,8 @@ public interface BiWarehouseService {
 	 */
 	public List<BiWarehouse> findAllWarehuses();
 
+	public Long getWarehousePrimary(String warehouseId);// 根据仓库ID获取仓库号
+
+	public String getWarehouseId(String userId);// 根据仓库管理员获取仓库ID
+
 }

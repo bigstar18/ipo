@@ -30,8 +30,8 @@ import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
-import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 
 /**
  * 交收管理Controller
@@ -515,6 +515,7 @@ public class DeliveryController {
 					.getUserID();
 
 			// String userId = "111";
+			flag = "mgr" + flag;
 			int num = ipoStorageService.checkStorage(storageId, flag, userId);
 			if (num != 0) {
 				return new ModelAndView(

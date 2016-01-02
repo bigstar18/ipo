@@ -39,4 +39,11 @@ public class BiWarehouseServiceImpl implements BiWarehouseService {
 		return dataList;
 	}
 
+	public Long getWarehousePrimary(String warehouseId) {
+		return biWarehouseMapper.getPrimaryKey(warehouseId);
+	}
+
+	public String getWarehouseId(String userId) {
+		return biWarehouseMapper.getWarehouseId(userId);
+	}
 }

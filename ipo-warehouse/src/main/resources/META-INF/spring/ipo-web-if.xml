@@ -43,6 +43,8 @@
 	<dubbo:reference id="outboundService" interface="com.yrdce.ipo.modules.sys.service.OutboundService" />
 	<dubbo:reference id="ipoStorageService" interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" />
     <dubbo:reference id="deliveryCommService" interface="com.yrdce.ipo.modules.sys.service.DeliveryCommodityService" />
+    <dubbo:reference id="biWarehouseService" interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" />
+    <dubbo:reference id="trusteeshipCommodityService" interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" />
 
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->

@@ -17,24 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
-import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
-import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
-import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
-import com.yrdce.ipo.modules.sys.vo.VIpoStorageExtended;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
+import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 
 /**
  * 交收管理Controller
@@ -107,30 +104,23 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 交收属性管理列表
+	 * 分页返回入库单列表
 	 * 
 	 * @param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/deliveryPropsList", method = RequestMethod.POST)
+	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
 	@ResponseBody
-	public String deliveryPropsList(
-			@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam(value = "commodityName", required = false) String commodityname,
-			@RequestParam(value = "commodityId", required = false) String commodityid)
+	public String findAllStorages(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
-		log.info("查询交收属性管理商品列表");
+		log.info("分页查询入库单");
+		log.info(storage.toString());
 		try {
-			DeliveryCommodity example = new DeliveryCommodity();
-			if (commodityname != null && commodityid != null) {
-				example.setCommodityId(commodityid);
-				example.setCommodityName(commodityname);
-			}
-			List<DeliveryCommodity> tlist = deliveryCommService
-					.findDeliveryCommoditys(page, rows, example);
-			int totalnums = deliveryCommService.getNums(example);
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
+					page, rows, storage);
+			int totalnums = ipoStorageService.getTotalNum(storage);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
@@ -143,98 +133,67 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 设置交收属性视图
+	 * 获取具有交收属性的商品
 	 * 
 	 * @param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/setDeliveryProps", method = RequestMethod.GET)
-	public String setDeliveryProps(
-			HttpServletRequest request,
-			@RequestParam(value = "commodityId", required = false) String commodityid,
-			@RequestParam(value = "categoryId", required = false) String categoryId,
-			@RequestParam(value = "commName", required = false) String commName,
-			@RequestParam(value = "breedId", required = false) String breedId)
-			throws IOException {
-		log.info("跳转至交收属性视图");
-		try {
-			request.setAttribute("commodityId", commodityid);
-			request.setAttribute("commodityName", commName);
-			List<MProperty> proplist = null;
-			List<MProperty> propvaluelist = null;
-			List<IpoDeliveryProp> ipoproplist = null;
-			if (categoryId != null) {
-				proplist = deliveryCommService.getPropsByCategoryId(Long
-						.parseLong(categoryId));
-			}
-			if (breedId != null) {
-				propvaluelist = deliveryCommService.getPropertyValues(
-						Long.parseLong(categoryId), Long.parseLong(breedId));
-			}
-			if (commodityid != null) {
-				ipoproplist = deliveryCommService
-						.selectByCommodityId(commodityid);
-			}
-			request.setAttribute("ipoproplist", ipoproplist);
-			request.setAttribute("proplist", proplist);
-			request.setAttribute("flag", proplist.size());
-			request.setAttribute("propvaluelist", propvaluelist);
-			return "app/delivery/propsManage";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
+	@RequestMapping(value = "/getDeliveryCommodity", method = RequestMethod.POST)
+	@ResponseBody
+	public String getDeliveryCommodity(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		log.info("获取具有交收属性的商品");
+		VIpoCommConf example = new VIpoCommConf();
+		example.setDeliveryProp((short) 1);
+		List<VIpoCommConf> commlist = ipoCommConfService
+				.selectCommodityByExample(example);
+		return JSON.json(commlist);
 	}
 
 	/**
-	 * 设置商品交收属性
+	 * 新增入库单
 	 * 
 	 * @param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/setCommDeliveryProps", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/saveStorage", method = RequestMethod.POST)
 	@ResponseBody
-	public String setCommDeliveryProps(
-			@RequestParam(value = "commodityId") String commodityid,
-			@RequestParam(value = "propertys") String propertys)
+	public String saveStorage(IpoStorageVo storage, HttpSession session)
 			throws IOException {
-		log.info("设置商品的交收属性");
-		try {
-			if (commodityid != null && propertys != null) {
-				return deliveryCommService.setDeliveryProps(commodityid,
-						propertys);
-			}
-			return "false";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
+		log.info("增加入库单");
+		// String inserter = ((UserManageVO)
+		// session.getAttribute("CurrentUser")).getUserID();
+		String userid = "cj";
+		storage.setOperatorid(userid);
+		storage.setWarehouseid(ipoStorageService.getWarehouseId(userid));
+		int num = ipoStorageService.insert(storage);
+		if (num != 0) {
+			return "true";
 		}
+		return "false";
 	}
 
 	/**
-	 * 删除商品交收属性
+	 * 审核入库单
 	 * 
 	 * @param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/deleteCommDeliveryProps", method = RequestMethod.POST)
-	@ResponseBody
-	public String deleteCommDeliveryProps(
-			@RequestParam(value = "commodityId") String commodityid)
+	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
+	public String approveStorages(@RequestParam("storageId") String storageId,
+			@RequestParam("flag") String flag, HttpSession session)
 			throws IOException {
-		log.info("删除商品的交收属性");
-		try {
-			if (commodityid != null) {
-				return deliveryCommService.deleteDeliveryProps(commodityid);
-			}
-			return "false";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
+		log.info("审核入库单");
+		// String userId = ((UserManageVO)
+		// session.getAttribute("CurrentUser")).getUserID();
+		String userId = "111";
+		flag = "warehouse" + flag;
+		ipoStorageService.checkStorage(storageId, flag, userId);
+		return "app/storage/storageApprove";
 
 	}
 
@@ -478,102 +437,6 @@ public class DeliveryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
-		}
-	}
-
-	/**
-	 * 分页返回入库单列表
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
-	@ResponseBody
-	public String findAllStorages(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, VIpoStorageExtended storage)
-			throws IOException {
-		log.info("分页查询入库单");
-		log.info(storage.toString());
-		try {
-			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
-					page, rows, storage);
-			int totalnums = ipoStorageService.getTotalNum(storage);
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 获取具有交收属性的商品
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/getDeliveryCommodity", method = RequestMethod.POST)
-	@ResponseBody
-	public String getDeliveryCommodity(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		log.info("获取具有交收属性的商品");
-		VIpoCommConf example = new VIpoCommConf();
-		example.setDeliveryProp((short) 1);
-		List<VIpoCommConf> commlist = ipoCommConfService
-				.selectCommodityByExample(example);
-		return JSON.json(commlist);
-	}
-
-	/**
-	 * 新增入库单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	/*
-	 * @RequestMapping(value = "/saveStorage", method = RequestMethod.POST)
-	 * 
-	 * @ResponseBody public String saveStorage(VIpoCommConf　example) throws
-	 * IOException { log.info("获取具有交收属性的商品"); VIpoCommConf example = new
-	 * VIpoCommConf(); example.setDeliveryProp((short) 1); List<VIpoCommConf>
-	 * commlist = ipoCommConfService .selectCommodityByExample(example); return
-	 * JSON.json(commlist); }
-	 */
-
-	/**
-	 * 审核入库单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
-	public ModelAndView approveStorages(
-			@RequestParam("storageId") String storageId,
-			@RequestParam("flag") String flag, HttpSession session)
-			throws IOException {
-		log.info("审核入库单");
-		try {
-
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-
-			// String userId = "111";
-			int num = ipoStorageService.checkStorage(storageId, flag, userId);
-			if (num != 0) {
-				return new ModelAndView(
-						"redirect:/IpoController/StorageApprove");
-			}
-			return new ModelAndView("redirect:/IpoController/StorageApprove");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
 

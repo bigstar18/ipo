@@ -3,7 +3,7 @@ $('#commodityid').combobox({
     url:getRootPath()+ "/DeliveryController/getDeliveryCommodity",    
     valueField:'commodityid',    
     textField:'commodityid' ,
-    editable:true,
+    editable:false,
     onSelect:function(param){
     $("#commodityname").val(param.commodityname);
 	$("#breedid").val(param.breedid);
@@ -11,6 +11,7 @@ $('#commodityid').combobox({
 	$("#listingdate").val(param.listingdate);
 	$("#deliverystartday").val(param.deliverystartday);
 	$("#deliunittocontract").val(param.deliunittocontract);
+	$("#storagenum").val("");
 	}
 });  
 });
@@ -23,8 +24,10 @@ function checkCommodity(){
 }
 
 function getStorageCounts(){
-	if($("#deliunittocontract").val()!=""&&$("#storagenum").val()!=""){
-		var counts=("#storagenum").val() * $("#deliunittocontract").val();
+	var multiple=$("#deliunittocontract").val();
+	var storagenum=$("#storagenum").val();
+	if(multiple!=""&&storagenum!=""){
+		var counts=multiple * storagenum;
 		$("#storagecounts").val(counts);
 	}
 }
@@ -41,7 +44,7 @@ function saveStorage(){
                               data: $("#frm").serialize(),      
                               success: function(data) { 
                            	   if(data=='true'){
-                                  alert("审核完成！"); 
+                                  alert("增加成功！"); 
                                   returntoList();
                            	   }else{
                            		   alert("系统异常，请联系管理员");  

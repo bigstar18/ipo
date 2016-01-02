@@ -16,7 +16,7 @@ $(document).ready(function() {
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [  {
         	 field : 'storageid',  
-             width : 200,  
+             width : 300,  
              align: "center",
              title : '入库单号'
          },  {

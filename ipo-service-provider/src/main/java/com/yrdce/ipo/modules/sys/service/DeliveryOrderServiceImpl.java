@@ -323,7 +323,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 		StringBuffer pwd = new StringBuffer("");
 		Random r = new Random();
-		while (count < 15) {
+		while (count < 9) {
 			i = Math.abs(r.nextInt(maxNum));
 			if (i >= 0 && i < str.length) {
 				pwd.append(str[i]);
@@ -332,18 +332,20 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		}
 		return pwd.toString();
 	}
+
 	/**
-	 *li
+	 * li
 	 * 
-	 */	
+	 */
 	@Override
 	public DeliveryOrder getPickupDeliveryInfo(DeliveryOrder order) {
 		IpoDeliveryorder delivery = new IpoDeliveryorder();
-		DeliveryOrder deliveryOrder =  new DeliveryOrder();
+		DeliveryOrder deliveryOrder = new DeliveryOrder();
 		BeanUtils.copyProperties(order, delivery);
-		IpoDeliveryorder temporder = deliveryordermapper.getPickupDeliveryInfo(delivery);
-		if(temporder!=null){
-		BeanUtils.copyProperties(temporder, deliveryOrder);
+		IpoDeliveryorder temporder = deliveryordermapper
+				.getPickupDeliveryInfo(delivery);
+		if (temporder != null) {
+			BeanUtils.copyProperties(temporder, deliveryOrder);
 		}
 		return deliveryOrder;
 	}
@@ -352,12 +354,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order) {
 		// TODO Auto-generated method stub
 		IpoDeliveryorder delivery = new IpoDeliveryorder();
-		DeliveryOrder deliveryOrder =  new DeliveryOrder();
-		
+		DeliveryOrder deliveryOrder = new DeliveryOrder();
+
 		BeanUtils.copyProperties(order, delivery);
-		IpoDeliveryorder temporder = deliveryordermapper.getExpressDeliveryInfo(delivery);
-		if(temporder!=null){
-		BeanUtils.copyProperties(temporder, deliveryOrder);
+		IpoDeliveryorder temporder = deliveryordermapper
+				.getExpressDeliveryInfo(delivery);
+		if (temporder != null) {
+			BeanUtils.copyProperties(temporder, deliveryOrder);
 		}
 		return deliveryOrder;
 	}

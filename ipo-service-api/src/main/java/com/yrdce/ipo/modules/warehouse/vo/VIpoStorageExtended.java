@@ -1,4 +1,4 @@
-package com.yrdce.ipo.modules.sys.vo;
+package com.yrdce.ipo.modules.warehouse.vo;
 
 import java.io.Serializable;
 import java.util.Date;

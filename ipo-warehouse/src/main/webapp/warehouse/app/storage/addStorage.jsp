@@ -39,29 +39,20 @@
             							<td width="110"> 
             							<input  type="text" id="commodityid" name="commodityid" />
 										</td>
-										<td align="right" width="110"></td>
-	      								<td width="110">
-		          						</td>
-							        </tr>  
-							        <tr>
-        			 					<td align="right" width="110">商品名称：</td>
+									    <td align="right" width="110">商品名称：</td>
 	      								<td width="110">
 	      								    <input id="commodityname" type="text" name="commodityname" readonly="readonly"/>
 		          						</td>
+							        </tr>  
+							        <tr>
 										<td align="right" width="110">品种代码：</td>     
             							<td width="110"> 
             								 <input id="breedid" type="text" name="breedid"  readonly="readonly"/>
 										</td>
-							        </tr> 
-							         <tr>
-        			 					<td align="right" width="110">发行会员代码：</td>
+										<td align="right" width="110">发行会员代码：</td>
 	      								<td width="110">
 	      								    <input id="pubmemberid" type="text" name="pubmemberid" readonly="readonly"/>
 		          						</td>
-										<td align="right" width="110">发行会员名称：</td>     
-            							<td width="110"> 
-            								 <input id="pubmembername" type="text" name="pubmembername" readonly="readonly"/>
-										</td>
 							        </tr> 
 							         <tr>
         			 					<td align="right" width="110">上市日期：</td>
@@ -76,9 +67,7 @@
 							         <tr>
         			 					<td align="right" width="110">入库件数：</td>
 	      								<td width="110">
-	      								    <input id="storagenum" type="text" name="storagenum" onfocus="checkCommodity()" onblur="getStorageCounts()"/>
-	      								    <input id="deliunittocontract" type="hidden">
-	      								    <span class="required">*</span>
+	      								    <input id="storagenum" type="text" name="storagenum" style="background-color: white;" onfocus="checkCommodity()" onblur="getStorageCounts()"/> <span class="required">*</span>
 		          						</td>
 		          						<td align="right" width="110">入库数量：</td>     
             							<td width="110">
@@ -88,11 +77,12 @@
 							         <tr>
         			 					<td align="right" width="110">起始标码编号：</td>
 	      								<td width="110">
-	      								    <input id="startnum" type="text" name="startnum"/>
+	      								    <input id="startnum" type="text" name="startnum" style="background-color: white;"/>
 		          						</td>
 		          						<td align="right" width="110">结束标码编号：</td>     
             							<td width="110">
-            								 <input id="endnum" type="text" name="endnum"/>
+            								 <input id="endnum" type="text" name="endnum" style="background-color: white;"/>
+										 <input id="deliunittocontract" name="deliunittocontract" type="hidden"/>
 										</td>
 							        </tr> 
 								</table >

@@ -113,4 +113,12 @@
     RAILWAYDAILYTHROUGHPUT, HASTANKER, TANKERDAILYTHROUGHPUT, CREATETIME
     from BI_WAREHOUSE
   </select>
+    <select id="getPrimaryKey" resultType="Long" parameterType="String" >
+    select ID
+    from BI_WAREHOUSE where WAREHOUSEID = #{warehouseId,jdbcType=VARCHAR}
+  </select>
+   <select id="getWarehouseId" resultType="String" parameterType="String" >
+    select WAREHOUSEID
+    from W_USER where USERID = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>

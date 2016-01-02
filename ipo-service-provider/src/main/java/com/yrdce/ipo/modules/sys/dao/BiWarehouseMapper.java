@@ -16,4 +16,8 @@ public interface BiWarehouseMapper {
 	List<BiWarehouse> selectAll();
 
 	int updateByPrimaryKey(BiWarehouse record);
+
+	Long getPrimaryKey(String warehouseId);
+
+	String getWarehouseId(String userId);
 }
