@@ -83,6 +83,7 @@ function addF ()
 				    alert (data.msg);
 			    }
 			    parent.document.frames['mainFrame'].needRefresh = false;
+			    parent.document.frames['mainFrame'].reload ();
 		    }
 		});
 	}

@@ -8,7 +8,7 @@ $ (document).ready (function ()
 		setTimeout (function ()
 		{
 			reload ()
-		}, 5000);
+		}, 3000);
 	}
 });
 
@@ -69,45 +69,6 @@ function reload ()
 		setTimeout (function ()
 		{
 			reload ()
-		}, 5000);
+		}, 3000);
 	}
 }
-
-// $ (document).ready (function ()
-// {
-// getClearRecords ();
-// });
-//
-// function getClearRecords ()
-// {// 要防缓存
-// $.ajax (
-// {
-// type : 'GET', //
-// url : getRootPath () + "/sysController/getClearRecords",
-// // async : false,
-// cache : false,
-// dataType : 'json',
-// success : function (data)
-// {
-// showRecord (data);
-// }
-// });
-//	
-
-// }
-//
-// function showRecord (result)
-// {
-// if (result == null)
-// {
-// alert ("出错啦。");
-// return;
-// }
-// $ ("tbody").html ("");
-// for ( var o in result)
-// {
-// // alert (o);
-// // alert (result[o]);
-// $ ("tbody").append ("<tr><td>" + result[o].actionid + "</td><td>" + result[o].actionnote + "</td><td>" + result[o].status + "</td><td>" + result[o].finishtime + "</td></tr>");
-// }
-// }
