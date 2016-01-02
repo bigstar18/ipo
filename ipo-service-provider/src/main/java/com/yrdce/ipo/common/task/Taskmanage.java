@@ -66,7 +66,7 @@ public class Taskmanage extends TimerTask {
 				int i = +1;
 				logger.info("遍历商品配置表:" + i);
 				int day = conf.getTradedays();
-				String oldtime = DateUtil.getTime(0);// 做了修改，此处参数应为day
+				String oldtime = DateUtil.getTime(day);// 做了修改，此处参数应为day
 				Date endtime = conf.getEndtime();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String endtime1 = sdf.format(endtime);
@@ -96,7 +96,7 @@ public class Taskmanage extends TimerTask {
 		try {
 			// 查找所有此商品的申购记录
 			System.out.println("申购记录查询开始");
-			String ballotNowtime = DateUtil.getTime(0);
+			String ballotNowtime = DateUtil.getTime(1);
 			List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
 			// List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByTime(ballotNowtime);
 			logger.info(ipoDidList.size() + "");
@@ -110,7 +110,7 @@ public class Taskmanage extends TimerTask {
 				logger.info("saleCounts:" + saleCounts);
 				selection = new Selection();
 				List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
-				System.out.println("申购记录查询成功");
+				logger.info("申购记录查询成功");
 				int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
 				// 号码匹配
 				System.out.println("中签号匹配开始");

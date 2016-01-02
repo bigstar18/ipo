@@ -63,6 +63,7 @@ public class Selection {
 
 	// 总体中签数匹配
 	private void MatchingEndNum(List<String> temp) {
+		System.out.println("总体中签数匹配开始");
 		for (int i = 0; i < temp.size(); i++) {
 			String endNum = temp.get(i);
 			int len = endNum.length();
@@ -79,6 +80,8 @@ public class Selection {
 					tmp += Long.parseLong(buyNumString.substring(0, buyNumString.length() - len));
 			}
 		}
+		System.out.println("总体中签数匹配结束");
+
 	}
 
 	// 个人中签数匹配
@@ -143,24 +146,31 @@ public class Selection {
 
 	// 号码补齐
 	private void AdjustmentNum() {
+		System.out.println("号码补齐开始" + tmp + ":" + iopNum);
+		String strEndNum;
 		while (tmp < iopNum) {
 			int temp = (int) Math.pow(10, String.valueOf((int) buyNum).length());
 
 			String zero = String.valueOf(temp).substring(1, String.valueOf(temp).length());
 			DecimalFormat df = new DecimalFormat(zero);
 			Random rd = new Random();
-			int iTemp = Integer.parseInt(String.valueOf((int) buyNum).substring(1, String.valueOf((int) buyNum).length()));
-			String strEndNum = String.valueOf(rd.nextInt(((int) buyNum - iTemp)) + iTemp);
-			while (!DeleSame(strEndNum)) {
+			if (String.valueOf((int) buyNum).length() > 1) {
+				int iTemp = Integer.parseInt(String.valueOf((int) buyNum).substring(1, String.valueOf((int) buyNum).length()));
 				strEndNum = String.valueOf(rd.nextInt(((int) buyNum - iTemp)) + iTemp);
+				while (!DeleSame(strEndNum)) {
+					strEndNum = String.valueOf(rd.nextInt(((int) buyNum - iTemp)) + iTemp);
+				}
+			} else {
+				strEndNum = String.valueOf(rd.nextInt((int) buyNum));
 			}
-			if (strEndNum.length() < String.valueOf((int) buyNum).length())
 
+			if (strEndNum.length() < String.valueOf((int) buyNum).length())
 				strEndNum = df.format(Integer.parseInt(strEndNum));
 			endNumList.add(strEndNum);
 			tmp++;
 
 		}
+		System.out.println("号码补齐结束");
 	}
 
 	// 获取中签率
@@ -175,11 +185,17 @@ public class Selection {
 		sucRate = df.format(result);
 		String[] a_splitSucRate = sucRate.split("\\.");
 		decimalNum = a_splitSucRate[1];
+		System.out.println("中签率：" + decimalNum);
 	}
 
 	// 拆分中签率
 	private void SplitSucRate() {
-		if (String.valueOf((int) buyNum).length() - 2 > decimalNum.length()) {
+		if (String.valueOf((int) buyNum).length() - 2 < 0) {
+			return;
+		}
+		if (String.valueOf((int) buyNum).length() - 2 == 0) {
+			SplitSucRate(0);
+		} else if (String.valueOf((int) buyNum).length() - 2 > decimalNum.length()) {
 			for (int i = 0; i < decimalNum.length(); i++) {
 				SplitSucRate(i);
 			}
