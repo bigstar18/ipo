@@ -3,7 +3,8 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
 <%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String dealerId = "888"; %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -116,6 +117,16 @@
               </td>
               <td>
                 <input id="vcount" type="text" name="position" style="width: 150px;" readonly="readonly"><b>*</b>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="35" width="100">
+                <span>
+                          &nbsp;&nbsp;单位：
+                        </span>
+              </td>
+              <td>
+                <input id="punit" type="text" name="positionUnit" style="width: 150px;" readonly="readonly"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -304,6 +315,7 @@ $(function() {
 		    }
 		    $("#vcode").val(commodities[0].commodityid);
 		    $("#vcount").val(commodities[0].position);
+		    $("#punit").val(commodities[0].positionUnit);
 		    var warehouses = commodities[0].warehouse;
 		    var warehouseId = commodities[0].warehouseid;
 		    for (var i = 0; i < warehouses.length; i++) {
@@ -319,6 +331,7 @@ $(function() {
 		    var selhouse = $('#housetext');
 		    $("#vcode").val(commodities[logic].commodityid);
 		    $("#vcount").val(commodities[logic].position);
+		    $("#punit").val(commodities[logic].positionUnit);
 		    var warehouses = commodities[logic].warehouse;
 		    var warehouseId = commodities[logic].warehouseid;
 		    selhouse.empty()
