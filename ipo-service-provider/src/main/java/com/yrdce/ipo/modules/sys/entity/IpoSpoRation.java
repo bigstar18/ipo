@@ -40,7 +40,9 @@ public class IpoSpoRation {
 
 	private Integer rationSate;
 
-	private String name;
+	private String brokerid;// 会员id
+
+	private String name;// 会员名称
 
 	public Date getSpoDate() {
 		return spoDate;
@@ -182,8 +184,16 @@ public class IpoSpoRation {
 		return rationSate;
 	}
 
-	public void setRationSatee(Integer rationSate) {
+	public void setRationSate(Integer rationSate) {
 		this.rationSate = rationSate;
+	}
+
+	public String getBrokerid() {
+		return brokerid;
+	}
+
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
 	}
 
 	public String getName() {

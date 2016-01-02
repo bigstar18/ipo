@@ -336,7 +336,7 @@
     select * from 
 	(select t.*,rownum TNO from
 	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid,d.zcounts
-	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityname=o.commodityname
+	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityid=o.commodityid
 	where d.userid=#{userid,jdbcType=VARCHAR})t
 	) a where a.TNO between #{beginnum} and  #{endnum}
   </select>

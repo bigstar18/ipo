@@ -68,10 +68,13 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from IPO_SPO_RATION
   </select>
-  <select id="selectBySPOid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE
-    from IPO_SPO_RATION WHERE SPOID = #{spoid,jdbcType=VARCHAR}
+  <select id="selectBySPOid" resultType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" parameterType="java.lang.String">
+  select d.name,d.brokerid,t.* from br_broker d 
+  left join (select * from ipo_spo_ration where spoid=#{spoid,jdbcType=VARCHAR})t 
+  on d.firmid = t.firmid 
+  left join br_brokertype btype 
+	on d.membertype = btype.borkertype 
+   where btype.brokername = '承销会员'
   </select>
   
   <select id="selectSPOAndRa" resultMap="BaseResultMap" parameterType="map">
