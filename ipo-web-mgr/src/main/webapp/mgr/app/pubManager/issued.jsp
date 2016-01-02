@@ -78,7 +78,16 @@ $(document).ready(function() {
 					return '结算成功';
 				}
 			}
-		 }]],  
+		 },{
+				field : 'oper',
+				width : 200,
+				align: "center",
+				title : '摇号',
+				formatter:function(value,row){
+					 return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">" + "开始" + "</a>";
+				}
+			 }
+		 ]],  
          pagination : true
      });  
 	
@@ -97,21 +106,24 @@ function dateconvertfunc(value,row){
         return value.substr(0,10);
 }
 
-<%-- function constructionManager(commodityid){
-	$.ajax({
-		type: 'get',  
-	    url: "<%=request.getContextPath()%>/QueryController/rock",  
-	    contentType: "application/json; charset=utf-8", 
-	    data:{"commodityid":commodityid},
-	    dataType: 'json',  
-	    async: true,  
-	    success : function(data, stats) { 
-	    	if(data == "1"){
-            alert('摇号结束');
-	    	}
-        }
-	});
-} --%>
+function constructionManager(commodityid){
+	$.ajax({  
+		    url: "<%=request.getContextPath()%>/QueryController/rock",  
+		    data:{"commodityid":commodityid}, 
+		    type: 'GET',dataType: 'json',  
+		    success : function(data, stats) {  
+	             if(data==true||data=="true"){
+	            	 alert('摇号结束');
+	             }else{
+	            	 alert('摇号失败');
+	             }
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	              alert('系统异常!');
+	        }
+		});  
+	
+}
     
 function doSearch(){
 	var commodityid=$("#commodityid").val();
@@ -170,7 +182,17 @@ function doSearch(){
 					return '结算成功';
 				}
 			}
-		 }]],  
+		 },{
+				field : 'oper',
+				width : 200,
+				align: "center",
+				title : '摇号',
+				formatter:function(value,row){
+					 return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">" + "开始" + "</a>";
+				}
+		  }
+		 
+		 ]],  
          pagination : true
      });  
 	

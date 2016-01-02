@@ -18,6 +18,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
+import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -37,6 +38,8 @@ public class QueryController {
 
 	@Autowired
 	private DistributionService distributionService;
+	@Autowired
+	private TaskService taskService;
 
 	/*
 	 * 发行摇号视图
@@ -165,12 +168,19 @@ public class QueryController {
 	/**
 	 * 手动摇号功能
 	 */
-	@RequestMapping(value = "/rock", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/rock")
 	@ResponseBody
-	public String rock(String commondityid) {
-
-		return 1 + "";
-		// return "";
+	public boolean rock(String commondityid) {
+		try {
+			taskService.lottery();
+		} catch (Exception e) {
+			logger.error("rock error:",e);
+			return false;
+		}
+		return true;
 	}
+	
+	
+	
 
 }
