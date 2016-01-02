@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDataItemMapper" >
+  
+  
+  <resultMap id="IpoDataItemResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDataItem" >
+    <result column="code" property="code"  />
+    <result column="value" property="value"  />
+    <result column="type" property="type"  />
+    <result column="remark" property="remark"  />
+  </resultMap>
+  
+   
+  <select id="queryForList" resultMap="IpoDataItemResultMap"  parameterType="map" >
+          select code, value, type, remark from ipo_data_item where delete_flag=0
+		  <if test="param.type!=null and param.type!='' ">
+			   and type=#{param.type} 
+		  </if>
+  </select>
+  
+  <select id="queryForPage" resultMap="IpoDataItemResultMap"  parameterType="map" >
+		 
+  </select>
+   
+  <select id="queryForCount" resultType="java.lang.Long"    parameterType="map" >
+       select count(1) as count_ from ipo_data_item where delete_flag=0
+	       <if test="param.type!=null and param.type!='' ">
+			   and type=#{param.type} 
+		  </if>
+  </select>
+   
+  
+  
+ 
+  
+  
+  
+</mapper>

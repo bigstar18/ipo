@@ -47,7 +47,8 @@
     <dubbo:reference id="trusteeshipWarehouseService" interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" />
     <dubbo:reference id="biWarehouseService" interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" />
     <dubbo:reference id="deliveryCommService" interface="com.yrdce.ipo.modules.sys.service.DeliveryCommodityService" />
-
+    <dubbo:reference id="dataItemService" interface="com.yrdce.ipo.modules.sys.service.DataItemService" />
+    <dubbo:reference id="chargeItemService" interface="com.yrdce.ipo.modules.sys.service.ChargeItemService" />
     
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
