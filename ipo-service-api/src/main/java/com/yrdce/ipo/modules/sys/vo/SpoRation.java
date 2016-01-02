@@ -44,6 +44,8 @@ public class SpoRation {
 
 	private Integer rationSate;
 
+	private String brokerid;
+
 	private String name;
 
 	public Date getSpoDate() {
@@ -188,6 +190,14 @@ public class SpoRation {
 
 	public void setRationSate(Integer rationSate) {
 		this.rationSate = rationSate;
+	}
+
+	public String getBrokerid() {
+		return brokerid;
+	}
+
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
 	}
 
 	public String getName() {
