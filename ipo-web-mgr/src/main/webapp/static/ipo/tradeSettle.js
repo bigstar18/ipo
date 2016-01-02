@@ -63,6 +63,8 @@ function addF ()
 	{
 		$ ('#add').attr ('disabled', "true");// 立刻禁止
 		$ ('#add').css ('color', "white");
+		parent.document.frames['mainFrame'].needRefresh = true;
+		parent.document.frames['mainFrame'].reload ();
 		
 		$.ajax (
 		{
@@ -80,6 +82,7 @@ function addF ()
 			    {
 				    alert (data.msg);
 			    }
+			    parent.document.frames['mainFrame'].needRefresh = false;
 		    }
 		});
 	}

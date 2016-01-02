@@ -1,4 +1,4 @@
-var needRefresh = true;
+var needRefresh = false;
 
 $ (document).ready (function ()
 {
