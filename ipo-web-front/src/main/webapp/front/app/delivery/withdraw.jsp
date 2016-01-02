@@ -9,6 +9,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>提货申请</title>
+  <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
+  <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
   <style type="text/css">
   .hide {
     display: none;
@@ -35,15 +37,17 @@
     background: #F4F4F4;
   }
   input {
+    border: 1px solid #95B8E7;
+    border-radius: 5px;
     height: 20px;
+    padding-left: 4px;
   }
   /*body{background-color: #E0EEEE}*/
   </style>
-  <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
-  <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
+
   <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
-
+  <script type="text/javascript" src="${ctxStatic}/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
   <div class="main">
@@ -59,7 +63,7 @@
       <div class="panel-title panel-with-icon">提货信息</div>
     </div>
     <div class="mbody">
-      <form id="withdraw" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply" method="POST" onsubmit="return checkSubmit();">
+      <!-- <form id="withdraw" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply" method="POST" onsubmit="return checkSubmit();"> -->
         <table border="0" width="300" cellspacing="0" cellpadding="0" align="center">
           <tbody>
             <tr>
@@ -89,7 +93,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcode" type="text" value="" name="commodityId" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
+                <input id="vcode" type="text" value="" name="commodityId" style="width: 150px;" readonly="readonly"><b>*</b>
               	<input type="hidden" id="dealerId" name="dealerId" value="<%=dealerId %>">
               </td>
             </tr>
@@ -111,7 +115,7 @@
                         </span>
               </td>
               <td>
-                <input id="vcount" type="text" name="position" style="width: 150px;" required="required" readonly="readonly"><b>*</b>
+                <input id="vcount" type="text" name="position" style="width: 150px;" readonly="readonly"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -121,7 +125,7 @@
                         </span>
               </td>
               <td>
-                <input id="dcount" type="number" name="deliveryQuatity" value="" style="width: 150px;" required="required"><b>*</b>
+                <input id="dcount" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -131,7 +135,7 @@
                         </span>
               </td>
               <td>
-                <input type="date" name="deliveryDate" value=""  style="width: 150px" required="required"><b>*</b>
+                <input id="ddate" type="text" name="deliveryDate" value="" class="easyui-datebox" style="width: 154px"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -158,7 +162,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="idcardNum" value="" style="width: 150px;" required="required"><b>*</b>
+                <input type="text" name="idcardNum" id="cardNum" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -168,7 +172,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="tel" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="tel" id="telNum" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -178,7 +182,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="receiver" value="" style="width: 150px;"><b>*</b>
+                <input type="text" id="receiverName" name="receiver" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -188,21 +192,22 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="address" value="" style="width: 150px;"><b>*</b>
+                <input type="text" id="addressName" name="address" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
               <td align="center" height="35" width="100">
-                <input type="submit" value="提交">
-                <!-- <button id="submit">提交</button> -->
+                <!-- <input type="button" value="提交"> -->
+                <button id="postbtn">提交</button>
               </td>
               <td align="center" height="35" width="100">
-                <input type="reset" name="button" value="重置">
+                <!-- <input type="reset" name="button" value="重置"> -->
+                <button id="postrest">重置</button>
               </td>
             </tr>
           </tbody>
         </table>
-      </form>
+      <!-- </form> -->
     </div>
   </div>
   <table border="0" width="700" align="center">
@@ -230,6 +235,50 @@ $(function() {
 	    }
 
 	  });
+    //提交
+    $('#postbtn').click(function  () {
+      var deliveryMethod = $(".pickup").find("option:selected").val();
+      var commodityName = $('#nametext').val();
+      var commodityId = $('#vcode').val();
+      var warehouseId = $('#housetext').val();
+      var position = $('#vcount').val();
+      var deliveryQuatity = $('#dcount').val();
+      var deliveryDate = $('#ddate').datebox('getValue');
+      var deliveryMethod = $(".pickup").find("option:selected").val();
+      var idcardNum = $('#cardNum').val();
+      var tel = $('#telNum').val();
+      var receiver = $('#receiverName').val();
+      var address = $('#addressName').val();
+      var dealerId = $('#dealerId').val();
+      $.ajax({
+        type:"POST",
+        url:'<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply',
+        data:{
+          "commodityName":commodityName,
+          "commodityId":commodityId,
+          "warehouseId":warehouseId,
+          "position":position,
+          "deliveryQuatity":deliveryQuatity,
+          "deliveryDate":deliveryDate,
+          "deliveryMethod":deliveryMethod,
+          "idcardNum":idcardNum,
+          "tel":tel,
+          "receiver":receiver,
+          "address":address,
+          "dealerId":dealerId
+        },
+        success: function(response) {
+          if (response == "success") {
+
+          };
+        },
+        error: function(response) {
+          alert("出错咯");
+        }
+      });
+    });
+
+
 
 	  var commodities;
 	  $.ajax({
