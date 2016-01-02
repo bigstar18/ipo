@@ -3,8 +3,7 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
 <%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String dealerId = "888"; %>
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -43,7 +42,9 @@
     height: 20px;
     padding-left: 4px;
   }
-  /*body{background-color: #E0EEEE}*/
+  body {
+    height: 600px;
+  }
   </style>
 
   <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
@@ -208,11 +209,9 @@
             </tr>
             <tr>
               <td align="center" height="35" width="100">
-                <!-- <input type="button" value="提交"> -->
                 <button id="postbtn">提交</button>
               </td>
               <td align="center" height="35" width="100">
-                <!-- <input type="reset" name="button" value="重置"> -->
                 <button id="postrest">重置</button>
               </td>
             </tr>
@@ -221,13 +220,13 @@
       <!-- </form> -->
     </div>
   </div>
-  <table border="0" width="700" align="center">
+  <!-- <table border="0" width="700" align="center" class="tips">
     <tbody>
       <tr>
         <td align="center" style="color: red">提示：提货单注册后过了提货日期则不能提货，需注销提货单后重新注册</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
   <script type="text/javascript">
 $(function() {
 	  $('.pickup').change(function() {
@@ -235,59 +234,62 @@ $(function() {
 	    if (value == '1') {
 	    	$('.customer').removeClass('hide');
 	        $('.dispatching').addClass('hide');
-	        $('.dispatching input').attr('required', false);
-	        $('.customer input').attr("required",true);
 	    }
 	    if (value == '2') {
 	    	$('.customer').addClass('hide');
 	        $('.dispatching').removeClass('hide');
-	        $('.customer input').attr('required', false);
-	        $('.dispatching input').attr("required",true);
 	    }
 
 	  });
     //提交
     $('#postbtn').click(function  () {
-      var deliveryMethod = $(".pickup").find("option:selected").val();
-      var commodityName = $('#nametext').val();
-      var commodityId = $('#vcode').val();
-      var warehouseId = $('#housetext').val();
-      var position = $('#vcount').val();
-      var deliveryQuatity = $('#dcount').val();
-      var deliveryDate = $('#ddate').datebox('getValue');
-      var deliveryMethod = $(".pickup").find("option:selected").val();
-      var idcardNum = $('#cardNum').val();
-      var tel = $('#telNum').val();
-      var receiver = $('#receiverName').val();
-      var address = $('#addressName').val();
-      var dealerId = $('#dealerId').val();
+      // var inp = $("input");
+      // for(var i=0;i<inp.length;i++)
+      // {
+      //     // if(inp[i].type=="text")
+      //     // {
+      //         if(inp[i].value=='')
+      //         {
+      //         // alert('第'+(i+1)+'个input为空');
+      //         // console.log('第'+(i+1)+'个input为空'+inp);
+      //           inp[i].style.background = "#EEEE00";
+      //           return false;
+      //         }
+      //     // }
+      // }
+      ajaxpost();
+    });
+
+    function ajaxpost () {
       $.ajax({
         type:"POST",
         url:'<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply',
         data:{
-          "commodityName":commodityName,
-          "commodityId":commodityId,
-          "warehouseId":warehouseId,
-          "position":position,
-          "deliveryQuatity":deliveryQuatity,
-          "deliveryDate":deliveryDate,
-          "deliveryMethod":deliveryMethod,
-          "idcardNum":idcardNum,
-          "tel":tel,
-          "receiver":receiver,
-          "address":address,
-          "dealerId":dealerId
+          "commodityName":$('#nametext').val(),
+          "commodityId":$('#vcode').val(),
+          "warehouseId":$('#housetext').val(),
+          "position":$('#vcount').val(),
+          "deliveryQuatity":$('#dcount').val(),
+          "deliveryDate":$('#ddate').datebox('getValue'),
+          "deliveryMethod":$(".pickup").find("option:selected").val(),
+          "idcardNum":$('#cardNum').val(),
+          "tel":$('#telNum').val(),
+          "receiver":$('#receiverName').val(),
+          "address":$('#addressName').val(),
+          "dealerId":$('#dealerId').val(),
+          "positionUnit":$('#punit').val()
         },
         success: function(response) {
           if (response == "success") {
-
+            alert("添加成功");
+            window.location.reload()
           };
         },
         error: function(response) {
           alert("出错咯");
         }
       });
-    });
+    }
 
 
 

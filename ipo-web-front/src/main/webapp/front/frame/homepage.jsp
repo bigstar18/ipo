@@ -6,7 +6,7 @@
 <title>我的平台首页</title>
 </head>
 <body>
-	<table width="98%" height="480" border="1" valign="center" align="center" cellpadding="0" cellspacing="3" bordercolor="#F2F2F2" class="homepage">
+	<table width="98%" height="100%" border="1" valign="center" align="center" cellpadding="0" cellspacing="3" bordercolor="#F2F2F2" class="homepage">
 		<tr>
 			<td>&nbsp;</td>
 		</tr>
