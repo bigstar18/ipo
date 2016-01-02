@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -63,6 +64,14 @@ public class Distribution implements Serializable {
 	@JsonProperty("orderid")
 	@XmlElement(name = "orderid")
 	private String orderid;// 订单
+
+	private Integer withold;
+
+	private BigDecimal tradingamount;
+
+	private BigDecimal counterfee;
+
+	private Date withholddate;
 
 	public String getOrderid() {
 		return orderid;
@@ -128,4 +137,35 @@ public class Distribution implements Serializable {
 		this.commodityid = commodityid;
 	}
 
+	public Integer getWithold() {
+		return withold;
+	}
+
+	public void setWithold(Integer withold) {
+		this.withold = withold;
+	}
+
+	public BigDecimal getTradingamount() {
+		return tradingamount;
+	}
+
+	public void setTradingamount(BigDecimal tradingamount) {
+		this.tradingamount = tradingamount;
+	}
+
+	public BigDecimal getCounterfee() {
+		return counterfee;
+	}
+
+	public void setCounterfee(BigDecimal counterfee) {
+		this.counterfee = counterfee;
+	}
+
+	public Date getWithholddate() {
+		return withholddate;
+	}
+
+	public void setWithholddate(Date withholddate) {
+		this.withholddate = withholddate;
+	}
 }

@@ -18,7 +18,7 @@ public class IpoOrder {
 
 	private Timestamp createtime;// 开始时间
 
-	private BigDecimal frozenfunds;// 结束时间
+	private BigDecimal frozenfunds;// 资金冻结
 
 	private int frozenst;// 资金状态
 

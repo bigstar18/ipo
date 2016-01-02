@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoDistribution {
@@ -20,6 +21,14 @@ public class IpoDistribution {
 	private byte[] numbers;
 	// 商品编号
 	private String commodityid;
+
+	private int withold;
+
+	private BigDecimal tradingamount;
+
+	private BigDecimal counterfee;
+
+	private Date withholddate;
 
 	public String getCommodityid() {
 		return commodityid;
@@ -92,4 +101,37 @@ public class IpoDistribution {
 	public void setNumbers(byte[] numbers) {
 		this.numbers = numbers;
 	}
+
+	public int getWithold() {
+		return withold;
+	}
+
+	public void setWithold(int withold) {
+		this.withold = withold;
+	}
+
+	public BigDecimal getTradingamount() {
+		return tradingamount;
+	}
+
+	public void setTradingamount(BigDecimal tradingamount) {
+		this.tradingamount = tradingamount;
+	}
+
+	public BigDecimal getCounterfee() {
+		return counterfee;
+	}
+
+	public void setCounterfee(BigDecimal counterfee) {
+		this.counterfee = counterfee;
+	}
+
+	public Date getWithholddate() {
+		return withholddate;
+	}
+
+	public void setWithholddate(Date withholddate) {
+		this.withholddate = withholddate;
+	}
+
 }

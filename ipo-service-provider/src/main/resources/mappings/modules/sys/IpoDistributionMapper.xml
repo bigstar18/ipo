@@ -10,6 +10,11 @@
     <result column="PTIME" property="ptime" jdbcType="TIMESTAMP" />
     <result column="ZCOUNTS" property="zcounts" jdbcType="INTEGER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="WITHOLD" property="withold" jdbcType="INTEGER" />
+    <result column="TRADINGAMOUNT" property="tradingamount" jdbcType="DECIMAL" />
+    <result column="COUNTERFEE" property="counterfee" jdbcType="DECIMAL" />
+    <result column="WITHHOLDDATE" property="withholddate" jdbcType="DATE" />
+    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" extends="BaseResultMap" >
     <result column="NUMBERS" property="numbers" jdbcType="BLOB" />
@@ -73,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, USERID, COMMODITYNAME, STARTNUMBER, PCOUNTS, PTIME, ZCOUNTS,COMMODITYID
+    ID, USERID, COMMODITYNAME, STARTNUMBER, PCOUNTS, PTIME, ZCOUNTS,COMMODITYID,WITHOLD,TRADINGAMOUNT,COUNTERFEE,WITHHOLDDATE
   </sql>
   <sql id="Blob_Column_List" >
     NUMBERS
