@@ -45,7 +45,10 @@ public class ChargeItem implements Serializable {
 	 * 备注
 	 */
 	private String remark;
-	 
+	/**
+	 * 是否叶子节点
+	 */
+	private boolean leaf;
 	
 	public ChargeItem() {
 	}
@@ -112,6 +115,14 @@ public class ChargeItem implements Serializable {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public boolean isLeaf() {
+		return leaf;
+	}
+
+	public void setLeaf(boolean leaf) {
+		this.leaf = leaf;
 	}
 	
 	

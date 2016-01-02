@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
@@ -96,15 +97,24 @@ public class ChargeItemServiceImpl implements ChargeItemService {
 	/**
 	 * 添加费用
 	 */
+	@Transactional
 	public void save(ChargeItem chargeItem) {
 		 String id=generateId(chargeItem);
 		 chargeItem.setId(id);
+		 chargeItem.setLeaf(true);
 		 chargeItemMapper.insert(chargeItem);
+		 // 更新父节点为非叶子节点
+		 ChargeItem parent=new ChargeItem();
+		 parent.setId(chargeItem.getParentId());
+		 parent.setLeaf(false);
+		 chargeItemMapper.updateLeaf(parent);
+		 
 	}
 	
 	/**
 	 * 更新费用
 	 */
+	@Transactional
 	public void update(ChargeItem chargeItem) {
 		 chargeItemMapper.update(chargeItem);
 	}

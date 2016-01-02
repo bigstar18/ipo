@@ -46,7 +46,10 @@ public class IpoChargeItem implements Serializable {
 	 * 删除标记 0:有效 1:无效
 	 */
 	private int deleteFlag;
-	
+	/**
+	 * 是否叶子节点
+	 */
+	private boolean leaf;
 	
 	
 	 public IpoChargeItem() {
@@ -140,6 +143,16 @@ public class IpoChargeItem implements Serializable {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+
+	public boolean isLeaf() {
+		return leaf;
+	}
+
+
+	public void setLeaf(boolean leaf) {
+		this.leaf = leaf;
 	}
 	 
 	 

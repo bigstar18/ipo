@@ -11,12 +11,13 @@
     <result column="parent_name" property="parentName"  />
     <result column="sort_id" property="sortId"  />
     <result column="remark" property="remark"  />
+    <result column="leaf" property="leaf"  />
   </resultMap>
    
   <select id="querySubLevelForPage" resultMap="IpoChargeItemResultMap"  parameterType="map" >
        select * from (
 	          select pg.*,rownum as row_num from (
-				  select  c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,
+				  select  c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,c.leaf,
 				          (select p.name from ipo_charge_item p where p.id=c.parent_id) as parent_name
 				  from ipo_charge_item c 
 				  where c.delete_flag=0 and c.parent_id=#{param.parentId}
@@ -38,7 +39,7 @@
   
   
   <select id="queryForList" resultMap="IpoChargeItemResultMap"  parameterType="map" >
-		  select  c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,
+		  select  c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,c.leaf,
 		          (select p.name from ipo_charge_item p where p.id=c.parent_id) as parent_name
 		  from ipo_charge_item c 
 		  where c.delete_flag=0 
@@ -55,7 +56,7 @@
   <select id="queryChildLevelForPage" resultMap="IpoChargeItemResultMap"  parameterType="map" >
        select * from (
 	          select pg.*,rownum as row_num from (
-				  select c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,
+				  select c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,c.leaf,
 				 	    (select  p.name  from ipo_charge_item p where p.id=c.parent_id) as parent_name
 				  from ipo_charge_item c 
 				  where c.delete_flag=0
@@ -87,20 +88,24 @@
   
   
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.vo.ChargeItem" >
-      insert into ipo_charge_item (id, name, type, parent_id, sort_id, remark)
-	  values  (#{id},#{name},#{type},#{parentId},#{sortId},#{remark})
+      insert into ipo_charge_item (id, name, type, parent_id, sort_id, remark,leaf)
+	  values  (#{id},#{name},#{type},#{parentId},#{sortId},#{remark},#{leaf})
   </insert>
   
 
   <select id="findById" resultMap="IpoChargeItemResultMap"  parameterType="java.lang.String" >
-     select id, name, type, parent_id, sort_id, remark from ipo_charge_item where id=#{id}
+     select id, name, type, parent_id, sort_id, remark,leaf from ipo_charge_item where id=#{id}
   </select>
   
-  <insert id="update" parameterType="map" >
+  <update id="update" parameterType="map" >
       update ipo_charge_item  set name = #{param.name},type = #{param.type},
            parent_id = #{param.parentId},sort_id = #{param.sortId},remark = #{param.remark}
       where id = #{param.id}
-  </insert>
+  </update>
+  
+  <update id="updateLeaf" parameterType="map" >
+      update ipo_charge_item  set leaf=#{param.leaf} where id = #{param.id}
+  </update>
   
   
 </mapper>

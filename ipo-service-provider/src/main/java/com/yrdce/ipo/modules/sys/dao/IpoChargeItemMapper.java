@@ -85,4 +85,11 @@ public interface IpoChargeItemMapper {
 	 */
 	public void update(@Param("param")ChargeItem chargeItem);
 	
+	/**
+	 * 更新节点状态
+	 * @param chargeItem
+	 */
+	public void updateLeaf(@Param("param")ChargeItem chargeItem);
+	
+	
 }
