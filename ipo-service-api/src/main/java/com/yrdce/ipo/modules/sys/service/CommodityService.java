@@ -50,4 +50,12 @@ public interface CommodityService {
 
 	// 根据id获取商品对象
 	Commodity queryByComid(String comid);
+
+	/**
+	 * 根据状态查所有发售的商品
+	 * 
+	 * @param status
+	 * @return
+	 */
+	public List<Commodity> queryAllByStatusForSettle(Integer status);
 }

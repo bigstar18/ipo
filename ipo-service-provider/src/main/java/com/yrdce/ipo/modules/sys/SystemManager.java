@@ -5,6 +5,7 @@ package com.yrdce.ipo.modules.sys;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
@@ -24,6 +26,9 @@ import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
+import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.OrderService;
+import com.yrdce.ipo.modules.sys.vo.Commodity;
 
 /**
  * @author hxx
@@ -77,6 +82,12 @@ public class SystemManager {
 	private SectionManager sectionManager;
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
+	@Autowired
+	@Qualifier("commodityService")
+	private CommodityService commodityService;
+	@Autowired
+	@Qualifier("orderService")
+	private OrderService orderService;
 
 	public String getStatus() {
 		return status;
@@ -249,9 +260,15 @@ public class SystemManager {
 		updateSysStatusLock(STATUS_MARKET_CLOSE, STATUS_MARKET_SETTLING, null, "结算中");
 		updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
 		// 收付当日货款、手续费
+		purchaseSettle();
+		updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
+
+		updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
+		updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
+		updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
+		updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
 
 		// TODO
-
 		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
 	}
 
@@ -262,6 +279,19 @@ public class SystemManager {
 		sectionManager.init();
 		reloadStatus();
 		listener.interrupt();// 让系统重新判别状态
+	}
+
+	private void purchaseSettle() throws Exception {
+		// 找sale表状态为3->41
+		List<Commodity> sales = commodityService.queryAllByStatusForSettle(new Integer(3));
+		if (sales != null && !sales.isEmpty()) {
+			for (Commodity commodity : sales) {
+				String commodityId = commodity.getCommodityid();
+				// 解冻order表中的订单费和手续费
+				// 扣distribution表中的订单费和手续费
+				// 变更sale表的状态41->4
+			}
+		}
 	}
 
 	@PostConstruct
