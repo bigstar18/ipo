@@ -20,13 +20,8 @@ public interface TaskService {
 	 * 
 	 * @throws Exception
 	 */
+	//public void lottery() throws Exception;
 	public void lottery() throws Exception;
 
-	/**
-	 * 申购结算
-	 * 
-	 * @throws Exception
-	 */
-	public void orderBalance() throws Exception;
 
 }
