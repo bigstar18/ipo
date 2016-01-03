@@ -30,11 +30,17 @@ public interface IpoCommodityConfMapper {
 	List<String> findAllCommIds();
 
 	List<IpoCommodityConf> findAllIpoCommConfsByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取所有商品
 
 	int countAll();// 获取商品总数
 
 	List<IpoCommodityConf> findAllIpoCommConfs();
+
+	List<IpoCommodityConf> findAllIpoCommConfsByExample(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("record") IpoCommodityConf example);// 根据条件分页获取所有商品
+
+	int getNumsByExample(IpoCommodityConf example);// 根据条件获取商品总数
 
 	List<DeliveryCommodity> findDeliveryCommoditys(
 			@Param("beginnum") int beginnum, @Param("endnum") int endnum,

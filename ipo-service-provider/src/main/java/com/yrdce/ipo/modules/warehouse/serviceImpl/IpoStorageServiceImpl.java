@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
@@ -27,6 +28,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	private IpoCommodityConfMapper ipoCommodityConfMapper;
 
 	@Override
+	@Transactional
 	public int insert(IpoStorageVo record) {
 		IpoStorage ipoStorage = new IpoStorage();
 		if (record != null) {
@@ -81,6 +83,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	}
 
 	@Override
+	@Transactional
 	public Integer checkStorage(String storageId, String flag, String checker) {
 		Log.info("审核入库单服务");
 		if (storageId != null && !storageId.equals("") && flag != null) {
