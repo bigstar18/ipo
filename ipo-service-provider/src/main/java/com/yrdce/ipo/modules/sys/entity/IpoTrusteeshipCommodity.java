@@ -28,6 +28,10 @@ public class IpoTrusteeshipCommodity implements Serializable {
 	 */
 	private BigDecimal purchaseRate;
 	/**
+	 * 挂牌费比例
+	 */
+	private BigDecimal listingChargeRate;
+	/**
 	 * 备注
 	 */
 	private String remark;
@@ -185,6 +189,18 @@ public class IpoTrusteeshipCommodity implements Serializable {
 
 	public void setCounts(long counts) {
 		this.counts = counts;
+	}
+
+
+
+	public BigDecimal getListingChargeRate() {
+		return listingChargeRate;
+	}
+
+
+
+	public void setListingChargeRate(BigDecimal listingChargeRate) {
+		this.listingChargeRate = listingChargeRate;
 	}
 	
 	

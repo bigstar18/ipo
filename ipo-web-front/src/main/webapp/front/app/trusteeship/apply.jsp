@@ -53,12 +53,12 @@
           {field: 'applyAmount',title: '申请数量',width: '6%',align: 'center'},
           {field: 'instorageAmount',title: '入库数量',width: '6%',align: 'center'},
           {field: 'plan',title: '托管计划',width: '10%',align: 'center'},
-          {field: 'delayCharge',title: '滞纳金',width: '7%',align: 'center'},
+          {field: 'listingCharge',title: '挂牌费',width: '7%',align: 'center'},
           {field: 'stateName',title: '状态',width: '10%',align: 'center'},
-          {field: 'warehouseName',title: '仓库',width: '10%',align: 'center'},
+          {field: 'warehouseName',title: '仓库',width: '12%',align: 'center'},
           {field: 'createDate',title: '申请时间',width: '10%',align: 'center'},
           {field: 'auditingDate',title: '审核时间',width: '10%',align: 'center'},
-      	  {field: 'oper',title: '操作',width: '8%',align: 'center',
+      	  {field: 'oper',title: '操作',width: '6%',align: 'center',
              formatter: function(value, row, index) {
               return  "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
              }

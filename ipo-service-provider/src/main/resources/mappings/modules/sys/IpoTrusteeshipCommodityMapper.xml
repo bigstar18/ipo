@@ -10,6 +10,7 @@
     <result column="price" property="price"  />
     <result column="counts" property="counts"  />
     <result column="purchase_rate" property="purchaseRate"  />
+    <result column="listing_charge_rate" property="listingChargeRate"  />
     <result column="remark" property="remark"  />
     <result column="delete_flag" property="deleteFlag"  />
     <result column="create_user" property="createUser"  />
@@ -21,7 +22,8 @@
     
   <select id="queryApplyForPage" resultMap="IpoTrusteeshipCommodityResultMap"  parameterType="map" >
        select * from (
-	        select tc.id,tc.plan,tc.commodity_id,conf.commodityname,conf.price,conf.counts,rownum as row_num  
+	        select tc.id,tc.plan,tc.commodity_id,conf.commodityname,conf.price,conf.counts,
+	        tc.listing_charge_rate,rownum as row_num  
 			from ipo_trusteeship_commodity tc
 			left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 			where tc.delete_flag=0 
@@ -60,22 +62,24 @@
 		select seq_ipo_trusteeship_commodity.nextval from dual
 		</selectKey>
 	       insert into ipo_trusteeship_commodity(
-	 			id, commodity_id, plan, purchase_rate, remark,create_user,create_date 
+	 			id, commodity_id, plan, purchase_rate,listing_charge_rate, remark,create_user,create_date 
 	 		)values(
 	           #{id,jdbcType=INTEGER},#{commodity.commodityId},#{commodity.plan},#{commodity.purchaseRate},
+	           #{commodity.listingChargeRate},
 	           #{commodity.remark},#{commodity.createUser},#{commodity.createDate,jdbcType=TIMESTAMP} 
 	       ) 
    </insert>
   
    <select id="findById" resultMap="IpoTrusteeshipCommodityResultMap"  parameterType="java.lang.Long" >
-       select id, commodity_id, plan, purchase_rate, remark, delete_flag, create_user, 
+       select id, commodity_id, plan, purchase_rate,listing_charge_rate, remark, delete_flag, create_user, 
               create_date, update_user, update_date 
 	   from ipo_trusteeship_commodity where id=#{id}
   </select>
   
   <update id="update" parameterType="map">
       update ipo_trusteeship_commodity t set t.commodity_id=#{commodity.commodityId},t.plan=#{commodity.plan},
-			t.purchase_rate=#{commodity.purchaseRate},t.remark=#{commodity.remark},
+			t.purchase_rate=#{commodity.purchaseRate},t.listing_charge_rate=#{commodity.listingChargeRate},
+			t.remark=#{commodity.remark},
 			t.update_user=#{commodity.updateUser}, t.update_date=#{commodity.updateDate,jdbcType=TIMESTAMP} 
       where t.id=#{commodity.id}
   </update>

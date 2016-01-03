@@ -103,6 +103,11 @@ public class Trusteeship implements Serializable {
 	 */
 	private BigDecimal delayCharge;
 	/**
+	 * 挂牌费
+	 */
+	private BigDecimal listingCharge;
+	
+	/**
 	 * 审核时间
 	 */
 	private Date auditingDate;
@@ -335,6 +340,14 @@ public class Trusteeship implements Serializable {
 
 	public void setCreateUserMobile(String createUserMobile) {
 		this.createUserMobile = createUserMobile;
+	}
+
+	public BigDecimal getListingCharge() {
+		return listingCharge;
+	}
+
+	public void setListingCharge(BigDecimal listingCharge) {
+		this.listingCharge = listingCharge;
 	}
 
 	 

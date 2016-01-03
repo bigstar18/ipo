@@ -48,6 +48,7 @@
 	    <div>
 		 <form   name="dataForm" id="dataForm">
 		      <input type="hidden" name="trusteeshipCommodityId" value="${param.id}">
+		      <input type="hidden" name="listingChargeRate" value="${param.listingChargeRate}">
 		      <table>
 		         <tr align="center" ><td colspan="4" style="padding-bottom: 20px;">托  管  申  请</td></tr>
 		        <tr>

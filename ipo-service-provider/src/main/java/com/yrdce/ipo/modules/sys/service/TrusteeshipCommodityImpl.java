@@ -138,8 +138,8 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	@Transactional
 	public int saveApply(Trusteeship trusteeship) {
 		Long planId = trusteeship.getTrusteeshipCommodityId();
-		IpoTrusteeshipCommodity shipCommodity = shipCommodityMapper
-				.findById(planId);
+		IpoTrusteeshipCommodity shipCommodity = shipCommodityMapper.findById(planId);
+		//发行比例
 		BigDecimal purchaseRate = shipCommodity.getPurchaseRate();
 		Long applyAmount = trusteeship.getApplyAmount();
 		// 约定入库数量等于申请数量，只能全部审核通过或全部审核不通过
@@ -147,11 +147,19 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		trusteeship.setInstorageAmount(instorageAmount);
 		trusteeship.setCreateDate(new Date());
 		trusteeship.setState(TrusteeshipConstant.State.APPLY.getCode());
-		Long effectiveAmount = new BigDecimal(instorageAmount)
-				.multiply(purchaseRate).divide(new BigDecimal(100)).longValue();
+		Long effectiveAmount = new BigDecimal(instorageAmount).multiply(purchaseRate)
+				.divide(new BigDecimal(100)).longValue();
+		//挂牌费=入库数量*发行价格*挂牌费比例
+		BigDecimal listingChargeRate = shipCommodity.getListingChargeRate();
+		if(listingChargeRate!=null){
+		   BigDecimal listingCharge =  new BigDecimal(instorageAmount).multiply(trusteeship.getPrice())
+					.multiply(listingChargeRate).divide(new BigDecimal(100));
+		   trusteeship.setListingCharge(listingCharge);
+		}
 		trusteeship.setEffectiveAmount(effectiveAmount);
 		trusteeship.setPositionAmount(instorageAmount - effectiveAmount);
-
+        
+		
 		return shipMapper.insertApply(trusteeship);
 	}
 

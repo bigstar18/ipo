@@ -34,6 +34,10 @@ public class TrusteeshipCommodity implements Serializable {
 	 * 申购发行比例
 	 */
 	private BigDecimal purchaseRate;
+	/**
+	 * 挂牌费比例
+	 */
+	private BigDecimal listingChargeRate;
 	
 	/**
 	 * 创建人
@@ -154,6 +158,14 @@ public class TrusteeshipCommodity implements Serializable {
 
 	public void setPurchaseRate(BigDecimal purchaseRate) {
 		this.purchaseRate = purchaseRate;
+	}
+
+	public BigDecimal getListingChargeRate() {
+		return listingChargeRate;
+	}
+
+	public void setListingChargeRate(BigDecimal listingChargeRate) {
+		this.listingChargeRate = listingChargeRate;
 	}
 	
 	

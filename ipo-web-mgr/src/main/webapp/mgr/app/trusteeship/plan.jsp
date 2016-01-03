@@ -58,7 +58,12 @@
           title: '上市指导价',
           width : 200,
           align: 'center'
-        }, {
+        },{
+           field: 'listingChargeRate',
+           title: '挂牌费比例(%)',
+           width : 200,
+           align: 'center'
+        },{
           field: 'oper',
           title: '操作',
           width : 200,

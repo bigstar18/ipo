@@ -27,6 +27,9 @@
 				 if(dataForm.purchaseRate.value==""){
 					alert('申购发行比例不能为空!');return ;
 				 };
+				 if(dataForm.listingChargeRate.value==""){
+					alert('挂牌费比例不能为空!');return ;
+				 };
 				 if(dataForm.remark.value.length>200){
 					 alert('备注不能超过200个字符');return ;
 				 };
@@ -83,6 +86,14 @@
         							<tr style="height: 30px">   
         								<td align="right" >申购发行比例:&nbsp;&nbsp;</td>
             							<td> <input name="purchaseRate" type="text" size="28" style="height: 24px;" maxlength="5"
+            							    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+                       						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>％
+			  								<font style="color:red">*</font> 
+            							</td> 
+        							</tr>
+        							<tr style="height: 30px">   
+        								<td align="right" >挂牌费比例:&nbsp;&nbsp;</td>
+            							<td> <input name="listingChargeRate" type="text" size="28" style="height: 24px;" maxlength="5"
             							    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                        						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>％
 			  								<font style="color:red">*</font> 

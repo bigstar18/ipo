@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>在线委托申请</title>
+  <title>支付挂牌费</title>
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
   <link rel="stylesheet" type="text/css" href="${ctxStatic}/jquery-easyui/themes/icon.css">
   <link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
@@ -12,25 +12,23 @@
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
 </head>
 
- <body>
+  <body>
 <div class="main">
 
-	<div class="msg">
-	      您当前的位置：<span>在线委托申请</span>
-	</div>
+<div class="msg">
+      您当前的位置：<span>支付挂牌费</span>
+    </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
       <div class="content"> 
-            1.在此展示您的可在线托管申请信息。 
-			2.在进行托管的同时，请同意协议中的相关条款!!!。 
-			3.以下带*的为必填项。
+            1.在此展示您的支付挂牌费信息
       </div>
     </div>
   <table id="dg"></table>
   <script type="text/javascript">
   $(document).ready(function() {
     $('#dg').datagrid({
-      url: '${root}/trusteeshipCommodityController/queryPlan?t='+Math.random(), //从远程站点请求数据的 URL。
+      url: '${root}/trusteeshipCommodityController/queryApply?t='+Math.random(), //从远程站点请求数据的 URL。
       method:"post",
       loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
       iconCls: 'icon-ok', //它将显示一个背景图片
@@ -46,49 +44,17 @@
       title: '商品信息', //列的标题文本。
       remoteSort: false, //定义是否从服务器排序数据。
       columns: [
-        [{
-          field: 'id',
-          title: 'id',
-          hidden:true
-         },{
-          field: 'commodityId',
-          title: '商品代码',
-          width: '10%',
-          align: 'center'
-        }, {
-          field: 'commodityName',
-          title: '商品名称',
-          width: '15%',
-          align: 'center'
-        }, {
-          field: 'plan',
-          title: '托管计划',
-          width: '17%',
-          align: 'center' 
-        }, {
-          field: 'counts',
-          title: '发行数量',
-          width: '15%',
-          align: 'center' 
-        },{
-          field: 'price',
-          title: '上市指导价',
-          width: '15%',
-          align: 'center'
-        },{
-          field: 'listingChargeRate',
-          title: '挂牌费比例(%)',
-          width: '15%',
-          align: 'center'
-        },{
-          field: 'oper',
-          title: '操作',
-          width: '10%',
-          align: 'center',
-          formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"add('"+row.id+"','"+row.commodityId+"','"+row.price+"','"+row.counts+"','"+row.listingChargeRate+"')\">" + "申请" + "</a>";
-            }
-        }]
+        [
+		  {field: 'id',title: 'id',hidden:true},
+          {field: 'commodityId',title: '商品代码',width: '10%',align: 'center'},
+          {field: 'commodityName',title: '商品名称',width: '15%',align: 'center'},
+          {field: 'createUserName',title: '交易商名称',width: '15%',align: 'center'},
+          {field: 'applyAmount',title: '申请数量',width: '12%',align: 'center'},
+          {field: 'instorageAmount',title: '入库数量',width: '12%',align: 'center'},
+          {field: 'listingCharge',title: '挂牌费',width: '10%',align: 'center'},
+          {field: 'stateName',title: '状态',width: '10%',align: 'center'},
+          {field: 'warehouseName',title: '仓库',width: '14%',align: 'center'}
+       ]
       ]
     });
     var p = $('#dg').datagrid('getPager');
@@ -98,38 +64,33 @@
       displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
   });
-  
-  function add(id,commodityId,price,counts,listingChargeRate){
-	  var url_='add_apply.jsp?id='+id+'&commodityId='+commodityId+'&price='+price+
-			   '&counts='+counts+'&listingChargeRate='+listingChargeRate;
-	  openCenterWindow(url_,'add_win',650,350);
-  }
-  
+ 
   function doSearch(){
     	$('#dg').datagrid('load',{
-    		commodityId:$('#commodityId').val()
+    		'commodityId':$('#commodityId').val(),'commodityName':$('#commodityName').val(),
+    		'state':$('#state').val(),'warehouseId':$('#warehouseId').val()
     	});
    }
   
-  function openCenterWindow(url, name, width,height ) {
-		var str = "height=" + height + ",innerHeight=" + height;
-		str += "px,width=" + width + "px,innerWidth=" + width;
-		if (window.screen) {
-			var ah = screen.availHeight - 30;
-			var aw = screen.availWidth - 10;
-			var xc = (aw - width) / 2;
-			var yc = (ah - height) / 2;
-			xc = xc >= 0 ? xc : 0 ;
-			yc = yc >= 0 ? yc : 0 ;
-			str += ",left=" + xc + ",screenX=" + xc;
-			str += ",top=" + yc + ",screenY=" + yc;
-		}
-	    window.open(url, name, str);
-	}
+  
+  
+  
   </script>
   <div id="tb" style="padding:5px;height:auto">
     <div>
-      商品代码： <input type="text" id="commodityId"/>
+                 商品代码：<input type="text" id="commodityId" size="10"/> 商品名称：<input type="text" id="commodityName" size="20"/>
+                 状态： <select style="width:100px;"   id="state">
+            <option value="-1">------全部------</option>
+            <c:forEach items="${stateList }" var="item">
+             <option value="${item.code }">${item.name}</option>
+            </c:forEach>     
+          </select>
+                 仓库： <select style="width:140px;" id="warehouseId">
+            <option value="-1">-----------全部-----------</option>
+            <c:forEach items="${warehouseList }" var="item">
+		      <option value="${item.id }">${item.warehousename}</option>
+		    </c:forEach>
+          </select>
       <a href="#" class="easyui-linkbutton" iconCls="icon-search"   onclick="doSearch()">查询</a>
     </div>
   </div>

@@ -101,6 +101,7 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/addPlan")
 	public String  addPlan(HttpServletRequest request,Model model)  {
+		// 所有的商品
 		List<?> commodityList=commodityService.findAll();
 		model.addAttribute("commodityList", commodityList);
 		return "app/trusteeship/add_plan";
@@ -121,6 +122,7 @@ public class TrusteeshipCommodityController {
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setPlan(request.getParameter("plan"));
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
+		commodity.setListingChargeRate(new BigDecimal(request.getParameter("listingChargeRate")));
 		commodity.setRemark(request.getParameter("remark"));
 		commodity.setCreateUser(getloginUserId(request));
 		try {
@@ -141,7 +143,7 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/editPlan")
 	public String  editPlan(HttpServletRequest request,Model model)  {
-		
+		//所有的商品
 		List<?> commodityList=commodityService.findAll();
 		model.addAttribute("commodityList", commodityList);
 		Long id=Long.valueOf(request.getParameter("id"));
@@ -168,6 +170,7 @@ public class TrusteeshipCommodityController {
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setPlan(request.getParameter("plan"));
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
+		commodity.setListingChargeRate(new BigDecimal(request.getParameter("listingChargeRate")));
 		commodity.setRemark(request.getParameter("remark"));
 		commodity.setUpdateUser(getloginUserId(request));
 		try {

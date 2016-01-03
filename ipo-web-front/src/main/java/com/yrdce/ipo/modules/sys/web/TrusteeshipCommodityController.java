@@ -172,6 +172,23 @@ public class TrusteeshipCommodityController {
 	
 	
 	
+	/**
+	 * 跳转到挂牌费列表 界面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/listingCharge")
+	public String listingCharge(HttpServletRequest request,Model model){
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		List stateList = new ArrayList();
+		stateList.add(TrusteeshipConstant.State.FINAL_PASS);
+		stateList.add(TrusteeshipConstant.State.MARKET_PASS);
+		model.addAttribute("stateList", stateList);
+		return "app/trusteeship/listingcharge";
+	}
+	
 	
 	private String getloginUserId(HttpServletRequest request){
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
