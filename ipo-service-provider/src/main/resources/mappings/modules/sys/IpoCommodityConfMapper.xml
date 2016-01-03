@@ -263,5 +263,10 @@
   <select id="selectCommUnit" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="java.lang.String">
   	select CONTRACTFACTORNAME,buy,TRADEALGR from IPO_COMMODITY_CONF
   	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+<<<<<<< HEAD
   </select>  
 </mapper>
+=======
+  </select>  
+</mapper>
+>>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
