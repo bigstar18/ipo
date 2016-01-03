@@ -42,6 +42,12 @@ public interface IpoChargeItemMapper {
 	 */
 	public List<IpoChargeItem> queryChildLevelForPage( @Param("startIndex") int startIndex,
 			@Param("endIndex") int endIndex, @Param("param") ChargeItem chargeItem);
+	/**
+	 * 查询所有的叶子节点
+	 * @return
+	 */
+	public List<IpoChargeItem> queryLeafForList();
+	
 	
     /**
      * 分页查询所有子费用配置数量
@@ -90,6 +96,11 @@ public interface IpoChargeItemMapper {
 	 * @param chargeItem
 	 */
 	public void updateLeaf(@Param("param")ChargeItem chargeItem);
+    /**
+     * 删除
+     * @param chargeItem
+     */
+	public void deleteById(@Param("param")ChargeItem chargeItem);
 	
 	
 }

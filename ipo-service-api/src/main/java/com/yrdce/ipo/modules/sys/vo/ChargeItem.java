@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.util.Date;
 /**
  * 费用配置表
  * @author wq 2016-1-1
@@ -49,6 +50,32 @@ public class ChargeItem implements Serializable {
 	 * 是否叶子节点
 	 */
 	private boolean leaf;
+	
+	/**
+	 * 创建人
+	 */
+	private String createUser;
+	/**
+	 * 创建人名称
+	 */
+	private String createUserName;
+	/**
+	 * 创建时间
+	 */
+	private Date createDate;
+	/**
+	 * 修改人
+	 */
+	private String updateUser;
+	/**
+	 * 修改人名称
+	 */
+	private String updateUserName;
+	/**
+	 * 修改时间
+	 */
+	private Date updateDate;
+	
 	
 	public ChargeItem() {
 	}
@@ -124,6 +151,55 @@ public class ChargeItem implements Serializable {
 	public void setLeaf(boolean leaf) {
 		this.leaf = leaf;
 	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+	
 	
 	
 }

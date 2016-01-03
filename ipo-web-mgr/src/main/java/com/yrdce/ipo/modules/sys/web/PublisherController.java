@@ -31,13 +31,6 @@ public class PublisherController {
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
 
-	/**
-	 * 产品发行查询
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
 	}
@@ -47,7 +40,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 分页查询所有商品列表
+	 * 产品发行查询
 	 * 
 	 * @param
 	 * @return

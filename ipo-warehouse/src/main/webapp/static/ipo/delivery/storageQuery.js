@@ -136,6 +136,6 @@ function clearInfo(){
 }
 
 function addStorage(){
-	document.location.href = getRootPath () +  "/warehouse/app/storage/addStorage.jsp";
+	document.location.href = getRootPath () +  "/mgr/app/storage/addStorage.jsp";
 	
 }

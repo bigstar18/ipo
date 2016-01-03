@@ -117,7 +117,7 @@
               }
             }
           }, {
-            field: 'deliverQuatity',
+            field: 'deliveryQuatity',
             title: '交割数量',
             width: 100,
             align: 'center'

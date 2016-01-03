@@ -28,11 +28,6 @@
 			   and type=#{param.type} 
 		  </if>
   </select>
-   
-  
-  
- 
-  
   
   
 </mapper>

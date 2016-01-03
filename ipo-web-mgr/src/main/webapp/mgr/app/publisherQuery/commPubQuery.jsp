@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>产品发行查询</title>
-<script src="<%=request.getContextPath()%>/static/ipo/delivery/commPubQuery.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/commPubQuery.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main_body">

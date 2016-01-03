@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 	<head><!-- 当利用IFRAME时,记得要在相应的动态页的页头添加一下P3P的信息,
 	否则IE会自觉的把IFRAME框里的COOKIE给阻止掉,产生问题.本身不保存自然就取不到了

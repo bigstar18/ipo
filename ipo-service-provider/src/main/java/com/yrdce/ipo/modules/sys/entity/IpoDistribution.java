@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class IpoDistribution {
 	private int id;
 	// 用户编号
@@ -22,13 +24,14 @@ public class IpoDistribution {
 	// 商品编号
 	private String commodityid;
 
-	private int withold;
+	private int frozen;
 
 	private BigDecimal tradingamount;
 
 	private BigDecimal counterfee;
 
-	private Date withholddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date frozendate;
 
 	public String getCommodityid() {
 		return commodityid;
@@ -102,14 +105,6 @@ public class IpoDistribution {
 		this.numbers = numbers;
 	}
 
-	public int getWithold() {
-		return withold;
-	}
-
-	public void setWithold(int withold) {
-		this.withold = withold;
-	}
-
 	public BigDecimal getTradingamount() {
 		return tradingamount;
 	}
@@ -126,12 +121,20 @@ public class IpoDistribution {
 		this.counterfee = counterfee;
 	}
 
-	public Date getWithholddate() {
-		return withholddate;
+	public int getFrozen() {
+		return frozen;
 	}
 
-	public void setWithholddate(Date withholddate) {
-		this.withholddate = withholddate;
+	public void setFrozen(int frozen) {
+		this.frozen = frozen;
+	}
+
+	public Date getFrozendate() {
+		return frozendate;
+	}
+
+	public void setFrozendate(Date frozendate) {
+		this.frozendate = frozendate;
 	}
 
 }

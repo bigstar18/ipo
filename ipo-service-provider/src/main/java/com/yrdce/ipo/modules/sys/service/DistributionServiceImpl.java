@@ -87,4 +87,18 @@ public class DistributionServiceImpl implements DistributionService {
 		i = ipoDistributionMapper.selectByCount();
 		return i;
 	}
+
+	//根据冻结货款情况 查询 li
+	@Override
+	public List<Distribution> getInfobyFrozen(int frozen) throws Exception {
+		// TODO Auto-generated method stub
+		List<IpoDistribution> distributions = ipoDistributionMapper.getInfobyFrozen(frozen);
+		List<Distribution> distributions2 = new ArrayList<Distribution>();
+		for (IpoDistribution ipoDistribution : distributions) {
+			Distribution distribution = new Distribution();
+			BeanUtils.copyProperties(ipoDistribution, distribution);
+			distributions2.add(distribution);
+		}
+		return distributions2;
+	}
 }

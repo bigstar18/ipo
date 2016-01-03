@@ -10,10 +10,10 @@
     <result column="PTIME" property="ptime" jdbcType="TIMESTAMP" />
     <result column="ZCOUNTS" property="zcounts" jdbcType="INTEGER" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
-    <result column="WITHOLD" property="withold" jdbcType="INTEGER" />
+    <result column="FROZEN" property="frozen" jdbcType="INTEGER" />
     <result column="TRADINGAMOUNT" property="tradingamount" jdbcType="DECIMAL" />
     <result column="COUNTERFEE" property="counterfee" jdbcType="DECIMAL" />
-    <result column="WITHHOLDDATE" property="withholddate" jdbcType="DATE" />
+    <result column="FROZENDATE" property="frozendate" jdbcType="DATE" />
     
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" extends="BaseResultMap" >
@@ -377,4 +377,17 @@
 		<include refid="Base_Column_List" /> 
 		from IPO_DISTRIBUTION where commodityid = #{commodityid,jdbcType=VARCHAR}
 	</select>
+	<select id="getInfobyFrozen" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select t.* from ipo_distribution t 
+		where t.frozen = #{frozen,jdbcType=INTEGER}  
+	</select>
+	<update id="setSomeInfo" parameterType="map">
+		update IPO_DISTRIBUTION
+		set frozen = #{frozen,jdbcType=INTEGER},
+			tradingamount = #{tradingamount,jdbcType=DECIMAL},
+			counterfee = #{counterfee,jdbcType=DECIMAL},
+			frozendate = #{frozendate,jdbcType=DATE}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	
 </mapper>

@@ -88,16 +88,20 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 		Log.info("审核入库单服务");
 		if (storageId != null && !storageId.equals("") && flag != null) {
 			if (flag.equals("warehousetrue")) {
-				return ipoStorageMapper.updateStorage(storageId, checker, "2");// 仓库通过
+				return ipoStorageMapper.updateStorageState(storageId, checker,
+						"2");// 仓库通过
 			}
 			if (flag.equals("warehousefalse")) {
-				return ipoStorageMapper.updateStorage(storageId, checker, "3");// 仓库驳回
+				return ipoStorageMapper.updateStorageState(storageId, checker,
+						"3");// 仓库驳回
 			}
 			if (flag.equals("mgrtrue")) {
-				return ipoStorageMapper.updateStorage(storageId, checker, "4");// 市场通过
+				return ipoStorageMapper.updateStorageState(storageId, checker,
+						"4");// 市场通过
 			}
 			if (flag.equals("mgrfalse")) {
-				return ipoStorageMapper.updateStorage(storageId, checker, "5");// 市场驳回
+				return ipoStorageMapper.updateStorageState(storageId, checker,
+						"5");// 市场驳回
 			}
 		}
 		return 0;

@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -95,6 +96,23 @@ public class ChargeItemServiceImpl implements ChargeItemService {
 	
 	
 	/**
+	 * 查询所有的叶子节点
+	 * @return
+	 */
+	public List<ChargeItem> queryLeafForList() {
+		List<IpoChargeItem> dbList=chargeItemMapper.queryLeafForList();
+		List<ChargeItem> dataList=new ArrayList<ChargeItem>();
+		for(IpoChargeItem item :dbList){
+			ChargeItem entity=new ChargeItem();
+			BeanUtils.copyProperties(item, entity);
+			entity.setTypeName(ChargeConstant.Type.getName(item.getType()));
+			dataList.add(entity);
+		};
+		return dataList;
+	}
+	
+	
+	/**
 	 * 添加费用
 	 */
 	@Transactional
@@ -102,13 +120,15 @@ public class ChargeItemServiceImpl implements ChargeItemService {
 		 String id=generateId(chargeItem);
 		 chargeItem.setId(id);
 		 chargeItem.setLeaf(true);
+		 chargeItem.setCreateDate(new Date());
 		 chargeItemMapper.insert(chargeItem);
 		 // 更新父节点为非叶子节点
 		 ChargeItem parent=new ChargeItem();
 		 parent.setId(chargeItem.getParentId());
 		 parent.setLeaf(false);
+		 parent.setUpdateDate(new Date());
+		 parent.setUpdateUser(chargeItem.getCreateUser());
 		 chargeItemMapper.updateLeaf(parent);
-		 
 	}
 	
 	/**
@@ -116,6 +136,7 @@ public class ChargeItemServiceImpl implements ChargeItemService {
 	 */
 	@Transactional
 	public void update(ChargeItem chargeItem) {
+		 chargeItem.setUpdateDate(new Date());
 		 chargeItemMapper.update(chargeItem);
 	}
 	
@@ -145,6 +166,17 @@ public class ChargeItemServiceImpl implements ChargeItemService {
 		BeanUtils.copyProperties(item, entity);
 		entity.setTypeName(ChargeConstant.Type.getName(item.getType()));
 		return entity;
+	}
+	
+	
+	/**
+	 * 删除费用项
+	 */
+	@Transactional
+	public void delete(ChargeItem chargeItem) {
+		chargeItem.setUpdateDate(new Date());
+		chargeItemMapper.deleteById(chargeItem);
+		
 	}
 	
 	

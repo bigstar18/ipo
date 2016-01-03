@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yrdce.ipo.modules.sys.vo.DataItem;
 
@@ -33,4 +34,12 @@ public interface DataItemService {
 	 * @return
 	 */
 	public List<DataItem> queryForList(DataItem dataItem);
+	/**
+	 * 根据类型查询数据项
+	 * @param type
+	 * @return
+	 */
+	public Map<String,String> queryForMap(String type);
+	
+	
 }

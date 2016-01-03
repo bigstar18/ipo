@@ -20,4 +20,7 @@ public interface DistributionService {
 
 	// 获取总记录
 	public int getAllDistribution() throws Exception;
+	
+	//根据货款冻结情况查询 li
+	public List<Distribution> getInfobyFrozen(int frozen) throws Exception;
 }

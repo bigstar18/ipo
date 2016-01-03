@@ -11,7 +11,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/warehouse/skinstyle/default/css/common.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/mgr/skinstyle/default/css/common.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" ></script>

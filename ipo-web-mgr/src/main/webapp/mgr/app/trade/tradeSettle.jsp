@@ -2,7 +2,7 @@
 <%@ include file="../ipoInclude.jsp"%>
 <html>
 <head>
-<title>交易结算</title>
+<title>结算</title>
 </head>
 <frameset rows="5%,*" cols="*" frameborder="NO" border="0" framespacing="0">
 	<frame src="tradeSettleMarketStatus.jsp" name="topFrame" scrolling="NO" noresize APPLICATION="yes" id="topFrame">

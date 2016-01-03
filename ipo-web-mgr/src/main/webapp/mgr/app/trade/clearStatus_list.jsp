@@ -2,7 +2,7 @@
 <%@ include file="../ipoInclude.jsp"%>
 <html>
 <head>
-<title>财务结算</title>
+<title>结算</title>
 <script src="<%=request.getContextPath()%>/static/ipo/clearStatus.js" type="text/javascript"></script>
 </head>
 <body>

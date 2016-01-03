@@ -2,7 +2,6 @@ package com.yrdce.ipo.web;
 
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -90,14 +90,15 @@ public class TrusteeshipCommodityController {
 	public String queryApply(@RequestParam("page") String pageNo,
 			@RequestParam("rows") String pageSize, HttpServletRequest request)
 			throws Exception {
+		Log.info("查询托管申请");
 		Trusteeship ship = new Trusteeship();
 		ship.setCommodityId(request.getParameter("commodityId"));
 		ship.setCommodityName(request.getParameter("commodityName"));
 		if (request.getParameter("state") != null) {
 			ship.setState(Integer.parseInt(request.getParameter("state")));
 		}
-		String warehouseUserId = "gnnt";
-		// String warehouseUserId = getloginUserId(request);
+		// String warehouseUserId = "001";
+		String warehouseUserId = getloginUserId(request);
 		ship.setWarehouseId(biWarehouseService
 				.getWarehousePrimary(biWarehouseService
 						.getWarehouseId(warehouseUserId)));
@@ -107,7 +108,7 @@ public class TrusteeshipCommodityController {
 		ship.setEndAuditingDate(request.getParameter("endAuditingDate"));
 		ship.setCreateUser(request.getParameter("createUser"));
 		long count = trusteeshipCommodityService.queryApplyForCount(ship);
-		List<Trusteeship> dataList = new ArrayList<Trusteeship>();
+		List<Trusteeship> dataList = null;
 		if (count > 0) {
 			dataList = trusteeshipCommodityService.queryApplyForPage(pageNo,
 					pageSize, ship);
@@ -115,6 +116,7 @@ public class TrusteeshipCommodityController {
 		ResponseResult result = new ResponseResult();
 		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
+		Log.info(JSON.json(result));
 		return JSON.json(result);
 	}
 

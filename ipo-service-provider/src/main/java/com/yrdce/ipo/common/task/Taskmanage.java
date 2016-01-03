@@ -37,6 +37,7 @@ public class Taskmanage extends TimerTask {
 	public void lottery() {
 		try {
 			taskService.lottery();
+			taskService.orderBalance();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

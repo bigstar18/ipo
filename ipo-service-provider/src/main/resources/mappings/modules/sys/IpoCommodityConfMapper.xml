@@ -96,14 +96,14 @@
   <select id="findAllIpoCommConfsByExample"  resultMap="BaseResultMap"  parameterType="map" >
   select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where 1=1
    <if test="record.pubmemberid != null" >
-    and  A.PUBMEMBERID like concat(#{record.pubmemberid,jdbcType=VARCHAR},'%')
+    and  t.PUBMEMBERID like concat(#{record.pubmemberid,jdbcType=VARCHAR},'%')
    </if>
-  order by t.COMMODITYID) a where a.TNO between  #{beginnum} and  #{endnum}
+  order by t.PUBMEMBERID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getNumsByExample" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf">
     select count(*) from IPO_COMMODITY_CONF where 1=1 
      <if test="pubmemberid != null" >
-    and  A.PUBMEMBERID like concat(#{pubmemberid,jdbcType=VARCHAR},'%')
+    and  PUBMEMBERID like concat(#{pubmemberid,jdbcType=VARCHAR},'%')
    </if>
   </select>
   
@@ -260,4 +260,8 @@
     and DELIVERYPROP =#{record.deliveryProp,jdbcType=DECIMAL}
    </if> 
   </select>
+  <select id="selectCommUnit" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="java.lang.String">
+  	select CONTRACTFACTORNAME,buy,TRADEALGR from IPO_COMMODITY_CONF
+  	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>  
 </mapper>

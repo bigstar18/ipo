@@ -30,7 +30,7 @@ public class SecurityFilter implements Filter {
 	WebApplicationContext wac;
 	DataSource ds;
 	Map<String, Long> auExpireTimeMap = new HashMap<String, Long>();
-	// 210001 223001
+	// 223001 499001
 	int configId = 223001;// TODO
 
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -66,8 +66,6 @@ public class SecurityFilter implements Filter {
 			return;
 		}
 
-		String loginURL = "/front/error/403.jsp";
-
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
 			// TODO 权限检查
@@ -99,7 +97,9 @@ public class SecurityFilter implements Filter {
 
 					ActiveUserManager.configId = configId;
 					String contextPath = request.getContextPath();
-					if (contextPath.indexOf("front") < 0) // 非前台
+					if (contextPath.indexOf("warehouse") > -1)
+						ActiveUserManager.configId = 499001;
+					else if (contextPath.indexOf("front") < 0) // 非前台
 						ActiveUserManager.configId = 199001;// TODO
 					ActiveUserManager.ds = ds;
 					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
@@ -121,6 +121,11 @@ public class SecurityFilter implements Filter {
 		} else {
 			// response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
 			// request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+			String loginURL = "/front/error/403.jsp";
+			String contextPath = request.getContextPath();
+			if (contextPath.indexOf("front") < 0) // 非前台
+				loginURL = "/mgr/error/403.jsp";
+
 			logger.info("user is null, forward to : {}", loginURL);
 			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
 		}

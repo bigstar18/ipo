@@ -43,7 +43,8 @@
 	          {field: 'remark',title: '备注',width: '300',align: 'center'},
 	          {field: 'oper',title: '操作',width : 200,align: 'center',
 	              formatter: function(value, row, index) {
-	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>";
+	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;"+
+	                         "<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";
 	              }
 	          }
 	       ]
@@ -63,10 +64,36 @@
 	  	});
 	  };
 	  
-	  
 	  function view(id,name){
 		  var url_='sub_index.jsp?id='+id+'&name='+name;
 		  window.open(url_);
+	  };
+	  
+	  
+	  function deleteById(id){
+		  if(!confirm('确认删除?')){
+			 return false; 
+		  };
+		  var url_="<%=request.getContextPath()%>/chargeItemController";
+		  url_+="/delete?id="+id;
+		  $.ajax({  
+	  		    url: url_ ,  
+	  		    data:$('#dataForm').serialize(),  
+	  		    type: 'POST',dataType: 'html',  
+	  		    success : function(data, stats) {  
+	  	             if(data=="001"){
+	  	            	 alert('删除成功');
+	  	            	 doSearch();
+	  	             }else if(data=="002"){
+	  	            	 alert('该费用下包含子费用,无法删除!');
+	  	             }else{
+	  	            	alert('删除失败');
+	  	             }
+	  	        },
+		  	    error: function (jqXHR, textStatus, errorThrown) {
+		              alert('系统异常!');
+		        }
+	  		}); 
 	  };
 	  
 	  

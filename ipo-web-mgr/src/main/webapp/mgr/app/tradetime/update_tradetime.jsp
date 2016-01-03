@@ -22,12 +22,15 @@ document.onkeypress=showKeyPress;
 	<head>
 	    <base target="_self" />
 		<title>交易节更新</title>
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
+        <style type="text/css" media="screen">
+        	td {white-space: nowrap;font-size: 13px;}
+        </style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		
-		<script type="text/javascript"> 
+
+		<script type="text/javascript">
 		 $(document).ready(function() {
 			 var tradeTime = window.dialogArguments;
 			 	document.getElementById("sectionid").value = tradeTime.sectionid;
@@ -45,13 +48,13 @@ document.onkeypress=showKeyPress;
 			    		}
 			    		</c:forEach>
 		 });
-		 
+
 		 function mysubmit(){
 				var flag=false;
 				flag=save_onclick();
 				if(flag){
 				var name=$("#name").val()
-				var status=$("#status").val();  
+				var status=$("#status").val();
 				var comms = document.getElementsByName("comms");
 				var commArry = [];
 				for(var i = 0;i<comms.length;i++){
@@ -69,10 +72,10 @@ document.onkeypress=showKeyPress;
 					return false;
 				}
 		}
-				 
+
 			 function isTime(val) {
 					var str=val;
-				    
+
 			    	if(str.length == 8) {
 			         	var j=str.split(":");
 			         	if(j.length == 3) {
@@ -88,22 +91,22 @@ document.onkeypress=showKeyPress;
 					   		if (a == null) {
 								return false;
 							}
-							
+
 							if (j[0]>24||j[1]>60||j[2]>60) {
 					           	return false;
 					    	}
 				        } else {
 							return false;
-					    } 	
+					    }
 			      	} else {
 			           	return false;
 			       	}
 			        return true;
 			}
-			
+
 			// 获取市场参数
 			function getMarket(){
-				
+
 					// 设置交易时间类型，0：同一天交易；1：跨天交易
 					document.getElementById("tradeTimeType").value = 0;
 			}
@@ -111,11 +114,11 @@ document.onkeypress=showKeyPress;
 			//save
 			function save_onclick()
 			{
-				// 获取市场参数的交易时间类型	
+				// 获取市场参数的交易时间类型
 				getMarket();
 			  if(document.forms[0].tradeTimeType.value != ""){
 
-				
+
 					if (document.forms[0].starttime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
@@ -125,7 +128,7 @@ document.onkeypress=showKeyPress;
 						document.forms[0].starttime.focus();
 						return false;
 					}
-					
+
 					if (document.forms[0].endtime.value.indexOf("：") != "-1") {
 						alert("时间不能输入中文冒号！");
 						return false;
@@ -135,18 +138,18 @@ document.onkeypress=showKeyPress;
 						document.forms[0].endTime.focus();
 						return false;
 					}
-					
+
 					if (document.forms[0].tradeTimeType.value == "0") {//同一天交易
 						if (true) {
-						
+
 							var startTimes = document.forms[0].starttime.value.split(":");
-							
+
 							var dateST = new Date(0,0,0,startTimes[0],startTimes[1],startTimes[2]);
 							var hourST = dateST.getHours();
 							var minuteST = dateST.getMinutes();
 							var secondST = dateST.getSeconds();
 							var relDateST = parseInt(hourST)*3600 + parseInt(minuteST)*60 + parseInt(secondST);
-							
+
 							var endTimes = document.forms[0].endtime.value.split(":");
 							var dateET = new Date(0,0,0,endTimes[0],endTimes[1],endTimes[2]);
 							var hourET = dateET.getHours();
@@ -166,12 +169,12 @@ document.onkeypress=showKeyPress;
 				  alert("请先在交易市场参数中，设置交易时间类型！");
 				  return false;
 			  }
-					
+
 			 }
 
 			 function suffixNamePress()
 			{
-				
+
 			  if (event.keyCode<=47 || event.keyCode>58)
 			  {
 			    event.returnValue=false;
@@ -181,8 +184,8 @@ document.onkeypress=showKeyPress;
 			    event.returnValue=true;
 			  }
 			}
-			 
-			
+
+
 
 </script>
 	</head>
@@ -216,7 +219,7 @@ document.onkeypress=showKeyPress;
 												<div>
 											<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style" style=" white-space:nowrap;">
 												<tr>
-													
+
 													<td align="right">
 														<span class="required">*</span>
 														交易节名称：
@@ -238,29 +241,29 @@ document.onkeypress=showKeyPress;
 														</select>
 													</td>
 												</tr>
-												
+
 												<tr>
 													<td align="right">
 														<span class="required">*</span>
 														当前交易节开始时间：
 													</td>
 													<td>
-														<input type="text" id="starttime" name="starttime" 
+														<input type="text" id="starttime" name="starttime"
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
-													
+
 													<td align="right">
 													    <span class="required">*</span>
 														当前交易节结束时间：
 													</td>
 													<td>
-														<input type="text" id="endtime" name="endtime" 
+														<input type="text" id="endtime" name="endtime"
 															class="validate[required] input_text datepicker" onkeypress="return suffixNamePress()"/>
 															<span class="required">&nbsp; HH:MM:SS</span>
 													</td>
 												</tr>
-												
+
 												<tr>
 													<td align="right">
 														当前交易节关联商品：
@@ -273,7 +276,7 @@ document.onkeypress=showKeyPress;
 								                             <c:out value="${comm.commodityname}"/>
 							                                 </label>
 						                                 </div>
-						                                </c:forEach>  
+						                                </c:forEach>
 													</td>
 												</tr>
 											</table>

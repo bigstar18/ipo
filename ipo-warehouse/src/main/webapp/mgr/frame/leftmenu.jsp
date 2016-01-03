@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
 <link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />
@@ -219,11 +219,11 @@ var promptTime = 60;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 入库流程","");</SCRIPT>
 
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("入库申请,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trade/systemManager.jsp");
+									M0101 = new WebFXTreeItem("入库申请,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/storage/storageQuery.jsp");
 									M01.add(M0101);</SCRIPT>
 
                         <SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("入库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trade/tradeSettle.jsp");
+									M0101 = new WebFXTreeItem("入库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/storage/storageApprove.jsp");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
@@ -235,18 +235,18 @@ var promptTime = 60;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 出库流程","");</SCRIPT>
                      
                         <SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("出库申请,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/TradetimeController/getTradeTimeForward");
+									M0101 = new WebFXTreeItem("出库申请,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/outbound/outboundApplication.jsp");
 									M01.add(M0101);</SCRIPT>
 						
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("出库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
+									M0101 = new WebFXTreeItem("出库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/outbound/outboundaudit.jsp");
 									M01.add(M0101);</SCRIPT>
 						
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
 						        	
-						<SCRIPT type=text/javascript>
+					<%-- 	<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 配送管理","");</SCRIPT>
@@ -257,7 +257,7 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
+						        	 --%>
 						        	
 						<SCRIPT type=text/javascript>
 								var M01;
@@ -276,10 +276,6 @@ var promptTime = 60;
 							M0101 = new WebFXTreeItem("托管申请查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/query");
 							M01.add(M0101);</SCRIPT>
 							
-						<SCRIPT type=text/javascript>
-							M0101 = new WebFXTreeItem("挂牌飞费设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityQuery");
-							M01.add(M0101);</SCRIPT>
-
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
 						        	     	

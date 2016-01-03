@@ -17,7 +17,7 @@
 	      height:430,
 	      loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
 	      iconCls: 'icon-ok', //它将显示一个背景图片
-	      fitColumns: false, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+	      fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
 	      nowrap: true, //设置为 true，则把数据显示在一行里。设置为 true 可提高加载性能。
 	      singleSelect: true, //设置为 true，则只允许选中一行。
 	      striped: true, //设置为 true，则把行条纹化。（即奇偶行使用不同背景色）
@@ -31,19 +31,19 @@
 	      columns: [
 	        [
 			  {field: 'id',title: 'id',hidden:true},
-	          {field: 'commodityId',title: '商品代码',width: '80',align: 'center'},
-	          {field: 'commodityName',title: '商品名称',width: '100',align: 'center'},
-	          {field: 'createUser',title: '交易商代码',width: '80',align: 'center'},
-	          {field: 'createUserName',title: '交易商名称',width: '100',align: 'center'},
+	          {field: 'commodityId',title: '商品代码',width: '90',align: 'center'},
+	          {field: 'commodityName',title: '商品名称',width: '130',align: 'center'},
+	          {field: 'createUser',title: '交易商代码',width: '100',align: 'center'},
+	          {field: 'createUserName',title: '交易商名称',width: '120',align: 'center'},
 	          {field: 'createUserMobile',title: '联系电话',width: '150',align: 'center'},
-	          {field: 'applyAmount',title: '申请数量',width: '80',align: 'center'},
-	          {field: 'instorageAmount',title: '入库数量',width: '80',align: 'center'},
+	          {field: 'applyAmount',title: '申请数量',width: '90',align: 'center'},
+	          {field: 'instorageAmount',title: '入库数量',width: '90',align: 'center'},
 	          {field: 'effectiveAmount',title: '供申购数量',width: '100',align: 'center'},
-	          {field: 'positionAmount',title: '持仓数量',width: '80',align: 'center'},
+	          {field: 'positionAmount',title: '持仓数量',width: '90',align: 'center'},
 	          {field: 'plan',title: '托管计划',width: '140',align: 'center'},
-	          {field: 'stateName',title: '状态',width: '100',align: 'center'},
+	          {field: 'stateName',title: '状态',width: '120',align: 'center'},
 	          {field: 'publishCharge',title: '发行手续费',width: '80',align: 'center'},
-	          {field: 'createDate',title: '申请时间',width: '130',align: 'center'},
+	          {field: 'createDate',title: '申请时间',width: '160',align: 'center'},
 	          {field: 'auditingDate',title: '审核时间',width: '130',align: 'center'},
 	       ]
 	      ]

@@ -12,6 +12,12 @@
     <result column="sort_id" property="sortId"  />
     <result column="remark" property="remark"  />
     <result column="leaf" property="leaf"  />
+    <result column="create_date" property="createDate"  />
+    <result column="create_user" property="createUser"  />
+    <result column="create_user_name" property="createUserName"  />
+    <result column="update_date" property="updateDate"  />
+    <result column="update_user" property="updateUser"  />
+    <result column="update_user_name" property="updateUserName"  />
   </resultMap>
    
   <select id="querySubLevelForPage" resultMap="IpoChargeItemResultMap"  parameterType="map" >
@@ -52,6 +58,13 @@
 		  order by c.sort_id
   </select>
   
+   <select id="queryLeafForList" resultMap="IpoChargeItemResultMap"  >
+		  select  c.id, c.name, c.type, c.parent_id, c.sort_id, c.remark,c.leaf,
+		          (select p.name from ipo_charge_item p where p.id=c.parent_id) as parent_name
+		  from ipo_charge_item c 
+		  where c.delete_flag=0 and c.leaf='1'
+		  order by c.sort_id
+  </select>
   
   <select id="queryChildLevelForPage" resultMap="IpoChargeItemResultMap"  parameterType="map" >
        select * from (
@@ -80,7 +93,7 @@
   
   <select id="getMaxId" resultType="java.lang.String"    parameterType="map" >
     select max(c.id) as max_id from  ipo_charge_item c 
-    where c.delete_flag=0
+    where 1=1
     <if test="param.parentId!=null and param.parentId!='' ">
 		and c.parent_id=#{param.parentId}
     </if>
@@ -88,10 +101,9 @@
   
   
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.vo.ChargeItem" >
-      insert into ipo_charge_item (id, name, type, parent_id, sort_id, remark,leaf)
-	  values  (#{id},#{name},#{type},#{parentId},#{sortId},#{remark},#{leaf})
+      insert into ipo_charge_item (id, name, type, parent_id, sort_id, remark,leaf,create_user,create_date)
+	  values  (#{id},#{name},#{type},#{parentId},#{sortId},#{remark},#{leaf},#{createUser},#{createDate,jdbcType=TIMESTAMP})
   </insert>
-  
 
   <select id="findById" resultMap="IpoChargeItemResultMap"  parameterType="java.lang.String" >
      select id, name, type, parent_id, sort_id, remark,leaf from ipo_charge_item where id=#{id}
@@ -99,13 +111,23 @@
   
   <update id="update" parameterType="map" >
       update ipo_charge_item  set name = #{param.name},type = #{param.type},
-           parent_id = #{param.parentId},sort_id = #{param.sortId},remark = #{param.remark}
+           parent_id = #{param.parentId},sort_id = #{param.sortId},remark = #{param.remark},
+           update_user=#{param.updateUser},update_date=#{param.updateDate,jdbcType=TIMESTAMP}
       where id = #{param.id}
   </update>
   
   <update id="updateLeaf" parameterType="map" >
-      update ipo_charge_item  set leaf=#{param.leaf} where id = #{param.id}
+      update ipo_charge_item  set leaf=#{param.leaf},update_user=#{param.updateUser},
+             update_date=#{param.updateDate,jdbcType=TIMESTAMP}
+      where id = #{param.id}
   </update>
+  
+  <delete id="deleteById" parameterType="map" >
+      update ipo_charge_item  set delete_flag=1,update_user=#{param.updateUser},
+            update_date=#{param.updateDate,jdbcType=TIMESTAMP}
+      where id = #{param.id}
+  </delete>
+  
   
   
 </mapper>

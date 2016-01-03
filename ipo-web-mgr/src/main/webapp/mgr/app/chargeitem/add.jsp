@@ -29,13 +29,14 @@
 				 if(dataForm.remark.value.length>200){
 					 alert('备注不能超过200个字符');return ;
 				 };
-		    	  $.ajax({  
+		    	 $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/chargeItemController/save",  
 		  		    data:$('#dataForm').serialize(),  
 		  		    type: 'POST',dataType: 'json',  
 		  		    success : function(data, stats) {  
 		  	             if(data==true||data=="true"){
 		  	            	 alert('保存成功');
+		  	            	 closeWion();
 		  	             }else{
 		  	            	 alert('保存失败');
 		  	             }
@@ -47,7 +48,17 @@
 		    	  
 		      }
 
+			
+			
+			function closeWion(){
+				if(window.opener){
+					window.opener.doSearch();
+				};
+				window.close();
+			}
  	
+			
+			
        </script>
     </head>
 <body leftmargin="14" topmargin="0">
@@ -113,7 +124,6 @@
 							<td colspan="4" align="center">
 								<div class="div_gn">
 								    <input type="button" value="提交" onclick="save()" class="anniu_btn"   />&nbsp;&nbsp;
-									<input type="button" value="返回" onclick="window.history.go(-1)" class="anniu_btn"   />
 								</div>
 							</td>
 						</tr>

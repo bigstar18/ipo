@@ -8,8 +8,8 @@ $('#commodityid').combobox({
     $("#commodityname").val(param.commodityname);
 	$("#breedid").val(param.breedid);
 	$("#pubmemberid").val(param.pubmemberid);
-	$("#listingdate").val(param.listingdate);
-	$("#deliverystartday").val(param.deliverystartday);
+	$("#listingdate").val(param.listingdate.substr(0,10));
+	$("#deliverystartday").val(param.deliverystartday.substr(0,10));
 	$("#deliunittocontract").val(param.deliunittocontract);
 	$("#storagenum").val("");
 	}
@@ -20,6 +20,8 @@ $('#commodityid').combobox({
 function checkCommodity(){
 	if( $("#commodityname").val()==""){
 		alert("请先选择商品！");
+		$("#startnum").focus();
+		return false;
 	}
 }
 
@@ -59,20 +61,6 @@ function saveStorage(){
 
 
 function returntoList(){
-var backUrl=getRootPath ()+"/warehouse/app/storage/storageQuery.jsp";
+var backUrl=getRootPath ()+"/mgr/app/storage/storageQuery.jsp";
 document.location.href = backUrl;
 }
-
-function setCommodity(commId) {
-var commlist =getRootPath ()+"/warehouse/app/storage/storageQuery.jsp"; 
-for(var o in commlist){  
- if (commId == commlist[o].commodityid ) {
-	$("#commodityname").val(commlist[o].commodityname);
-	$("#breedid").val(commlist[o].breedid);
-	$("#listingdate").val(commlist[o].listingdate);
-	$("#deliverystartday").val(commlist[o].deliverystartday);
-	$("#deliunittocontract").val(commlist[o].deliunittocontract);
-	break;
-	}
-}  
-}	

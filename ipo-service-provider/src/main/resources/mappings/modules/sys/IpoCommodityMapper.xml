@@ -449,4 +449,9 @@
    <select id="selectByCommodityid" resultType = "java.lang.Integer" parameterType="java.lang.String">
   	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
+  
+    <select id="selectPriceByCommodityid" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="java.lang.String">
+  	select * from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

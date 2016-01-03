@@ -12,10 +12,7 @@ a {color:#00f;}
 </head>
 <body>
 <div id="main_body">
-			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td>
-						<br/>
+			
 	<div class="div_list">
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
@@ -31,14 +28,12 @@ a {color:#00f;}
 					<option value="4">市场通过</option>
 					<option value="5">市场驳回</option>
 					</select>
-			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clearInfo()"/>			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search"  onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload"  onclick="clearInfo()">重置</a><br/>		
 		</div> 
 	</div>
 	</div>
-	</td>
-	</tr>
-    </table>
+	
 </div>
 </body>
 

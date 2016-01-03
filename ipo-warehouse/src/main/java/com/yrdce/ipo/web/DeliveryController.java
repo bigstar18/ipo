@@ -3,8 +3,6 @@ package com.yrdce.ipo.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +21,6 @@ import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
-import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
-import com.yrdce.ipo.modules.sys.vo.Express;
-import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
-import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
@@ -164,11 +158,11 @@ public class DeliveryController {
 	public String saveStorage(IpoStorageVo storage, HttpSession session)
 			throws IOException {
 		log.info("增加入库单");
-		// String inserter = ((UserManageVO)
-		// session.getAttribute("CurrentUser")).getUserID();
-		String userid = "cj";
-		storage.setOperatorid(userid);
-		storage.setWarehouseid(ipoStorageService.getWarehouseId(userid));
+		String inserter = ((UserManageVO) session.getAttribute("CurrentUser"))
+				.getUserID();
+		// String userid = "cj";
+		storage.setOperatorid(inserter);
+		storage.setWarehouseid(ipoStorageService.getWarehouseId(inserter));
 		int num = ipoStorageService.insert(storage);
 		if (num != 0) {
 			return "true";
@@ -188,286 +182,12 @@ public class DeliveryController {
 			@RequestParam("flag") String flag, HttpSession session)
 			throws IOException {
 		log.info("审核入库单");
-		// String userId = ((UserManageVO)
-		// session.getAttribute("CurrentUser")).getUserID();
-		String userId = "111";
+		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+				.getUserID();
+		// String userId = "111";
 		flag = "warehouse" + flag;
 		ipoStorageService.checkStorage(storageId, flag, userId);
 		return "app/storage/storageApprove";
-
-	}
-
-	/**
-	 * 分页返回提货单列表
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/findAllDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String findAllDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询所有提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.findAllDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getTotalNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 分页返回提货单列表（模糊查询）
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
-	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("applyDate") String applyDate,
-			@RequestParam("approvalStatus") String approvalStatus,
-			@RequestParam("dealerId") String dealerId) throws IOException {
-		log.info("模糊查询提货单");
-		try {
-			DeliveryOrder record = new DeliveryOrder();
-			if (!deliveryorderId.equals("")) {
-				record.setDeliveryorderId(deliveryorderId + "%");
-			}
-			if (!applyDate.equals("")) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(applyDate);
-				record.setApplyDate(date);
-			}
-			if (!approvalStatus.equals("")) {
-				record.setApprovalStatus(Integer.parseInt(approvalStatus));
-			}
-			if (!dealerId.equals("")) {
-				record.setDealerId(dealerId + "%");
-			}
-			List<DeliveryOrder> dlist = deliveryorderservice
-					.queryAllDeliOrdersByPage(page, rows, record);
-			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(dlist);
-			System.out.println(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-
-	/**
-	 * 分页返回可撤销提货单列表（模糊查询）
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/QueryCancelByConditions", method = RequestMethod.POST)
-	@ResponseBody
-	public String QueryCancelByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("applyDate") String applyDate,
-			@RequestParam("dealerId") String dealerId) throws IOException {
-		log.info("模糊查询提货单");
-		try {
-			DeliveryOrder record = new DeliveryOrder();
-			if (!deliveryorderId.equals("")) {
-				record.setDeliveryorderId(deliveryorderId + "%");
-			}
-			if (!applyDate.equals("")) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(applyDate);
-				record.setApplyDate(date);
-			}
-			if (!dealerId.equals("")) {
-				record.setDealerId(dealerId + "%");
-			}
-			List<DeliveryOrder> dlist = deliveryorderservice
-					.queryCancelDeliOrdersByPage(page, rows, record);
-
-			int totalnums = deliveryorderservice.getQueryCancelNum(record)
-					.intValue();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(dlist);
-			System.out.println(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-
-	/**
-	 * 分页展示待审核提货单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/approveDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String approveDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询待审核提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.approveDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getApproveNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 分页展示可撤销提货单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/cancelDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String cancelDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询可撤销提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.cancelDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getCancelNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 审核提货单(自提)
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
-	@ResponseBody
-	public String checkPorders(DeliveryOrder deorder, Pickup detail,
-			HttpSession session) throws IOException {
-		log.info("进行自提方式提货单审核");
-		try {
-
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			// String userId = "111";
-			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
-			return "true";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 审核提货单(配送)
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
-	@ResponseBody
-	public String checkEorders(DeliveryOrder deorder, Express detail,
-			HttpSession session) throws IOException {
-		log.info("进行在线配送方式提货单审核");
-		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			// String userId = "111";
-			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
-			return "true";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 撤销审核单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/cancelOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String cancelOrders(@RequestParam("deorderId") String deorderId,
-			HttpSession session) throws IOException {
-		log.info("撤销审核单");
-		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			// String userId = "111";
-			return deliveryorderservice.cancelDeorder(deorderId, userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 分页返回出库单列表
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/findAllOutBounds", method = RequestMethod.POST)
-	@ResponseBody
-	public String findAllOutBounds(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, OutboundExtended outbound)
-			throws IOException {
-		log.info("分页查询出库单");
-		log.info(outbound.toString());
-		try {
-			List<OutboundExtended> tlist = outboundService.getAllOutboundInfo(
-					page, rows, outbound);
-			int totalnums = outboundService.getTotalNum(outbound);
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(totalnums + "");
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
 	}
 
 }

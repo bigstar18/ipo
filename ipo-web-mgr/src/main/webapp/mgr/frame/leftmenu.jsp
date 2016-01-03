@@ -344,7 +344,20 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("托管转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/turnToPosition");
 									M01.add(M0101);</SCRIPT>			
 						<SCRIPT type=text/javascript>
-						        	document.write(M01);</SCRIPT>          	
+						        	document.write(M01);</SCRIPT>
+						        	
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 增发业务","");</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("增发商品管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/rationInfo.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("定向配售管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/ppPlacingManage.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>        	          	
 						        	
 						        	
 						 <SCRIPT type=text/javascript>
@@ -354,6 +367,13 @@ var promptTime = 60;
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("费用项配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/chargeitem/index.jsp");
 									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("一般费用配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/chargerole/index.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("特殊费用配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/chargeuser/index.jsp");
+									M01.add(M0101);</SCRIPT>
+									
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>       
 						        	

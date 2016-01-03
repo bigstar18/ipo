@@ -2,8 +2,8 @@
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
         <link rel="stylesheet" href="${skinPath }/css/validationengine/validationEngine.jquery.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/css/validationengine/template.css" type="text/css" />
 		<link rel="stylesheet" href="${skinPath }/ecside/css/ecside_style.css" type="text/css" />
@@ -14,12 +14,12 @@
 		<style type="text/css">
 			legend{font-weight:bold;}
 		</style>
-		<script type="text/javascript"> 
+		<script type="text/javascript">
 		function parseISO8601(dateStringInRange) {
  	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
  	            date = new Date(NaN), month,
  	            parts = isoExp.exec(dateStringInRange);
- 	      
+
  	        if(parts) {
  	          month = +parts[2];
  	          date.setFullYear(parts[1], month - 1, parts[3]);
@@ -29,9 +29,9 @@
  	        }
  	        return date;//new Date(str) IE8不兼容
  	      }
-		 	
-		
-		
+
+
+
 $(function () {
 	     $("#listingdate").datebox({
 	    	 editable: false,
@@ -49,7 +49,7 @@ $(function () {
 	    	   if (last < list) {
 	               alert('结束日期小于开始日期');
 	               $('#listingdate').datebox('setValue', '').datebox('showPanel');
-	           } 
+	           }
 	       }
 	      });
 	      $("#lasttradate").datebox({
@@ -68,10 +68,10 @@ $(function () {
 		    	   if (last < list) {
 		               alert('结束日期小于开始日期');
 		               $('#lasttradate').datebox('setValue', '').datebox('showPanel');
-		           } 
+		           }
 	     	}
 	       });
-	      
+
 	      $("#starttime").datebox({
 	    	     editable: false,
 		         required: true,
@@ -88,7 +88,7 @@ $(function () {
 	   		    	   if (etime < stime) {
 	   		               alert('结束日期小于开始日期');
 	   		               $('#starttime').datebox('setValue', '').datebox('showPanel');
-	   		           } 	
+	   		           }
 	   	     	}
 	            });
 	            $("#endtime").datebox({
@@ -107,10 +107,10 @@ $(function () {
 	   		    	   if (etime < stime) {
 	   		               alert('结束日期小于开始日期');
 	   		               $('#endtime').datebox('setValue', '').datebox('showPanel');
-	   		           } 	
+	   		           }
 	   	     	}
 	            });
-	            
+
 	            $("#warehousestartday").datebox({
 	            	editable: false,
 	    	        required: true,
@@ -122,7 +122,7 @@ $(function () {
 	                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 	                }
 	            });
-	            
+
 	            $("#insurancestartday").datebox({
 	            	editable: false,
 	    	        required: true,
@@ -134,7 +134,7 @@ $(function () {
 	                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 	                }
 	            });
-	            
+
 	            $("#deliverystartday").datebox({
 	            	editable: false,
 	    	        required: true,
@@ -146,8 +146,8 @@ $(function () {
 	                    return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
 	                }
 	            });
-	        });	
-		 
+	        });
+
 function addComm(){
 	var curstatus=$("#currstatus").val();
 	var publishalgr=$("#publishalgr").val();
@@ -156,29 +156,29 @@ function addComm(){
 	var pubmemberid=$("#pubmemberid").val();
 	var commid=$("#commodityid").val();
 	var flag= $('#frm').form('validate');
-	if(curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
-		 $.ajax({  
-			 type: 'GET',  
-		      url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",  
-		     contentType: "application/json; charset=utf-8", 
-		     data:{"commodityid":commid,"randnum":Math.floor(Math.random()*1000000)},  
-			 dataType: 'json',  
-		     success : function(data, stats) { 
+	if(curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){
+		 $.ajax({
+			 type: 'GET',
+		      url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",
+		     contentType: "application/json; charset=utf-8",
+		     data:{"commodityid":commid,"randnum":Math.floor(Math.random()*1000000)},
+			 dataType: 'json',
+		     success : function(data, stats) {
 			           if(data=='0'){
 			        	   alert("商品代码已存在，请重新输入！")
 			           }
                        if(data=='1'){
-                    	   $.ajax({ 
+                    	   $.ajax({
                     		   cache:false,
-                               type: "POST",  
-                               url: "<%=request.getContextPath()%>/BreedController/addCommodity",       
-                               data: $("#frm").serialize(),      
-                               success: function(data) { 
+                               type: "POST",
+                               url: "<%=request.getContextPath()%>/BreedController/addCommodity",
+                               data: $("#frm").serialize(),
+                               success: function(data) {
                             	   if(data=='success'){
-                                   alert("添加成功！"); 
+                                   alert("添加成功！");
                                    returntoList();
                             	   }else{
-                            		   alert("系统异常，请联系管理员");  
+                            		   alert("系统异常，请联系管理员");
                             	   }
                                }
                            }) ;
@@ -186,19 +186,19 @@ function addComm(){
                        if(data=='2'){
                     	   alert("系统内部异常,请联系管理员！")
 			           }
-			        }    
+			        }
 				});
 	}else{
 					alert("请检查所有参数必填！");
 		}
 }
-		
+
 function returntoList(){
 	var breedid=$("#breedid").val();
 	var backUrl="<%=request.getContextPath()%>/IpoController/CommodityList?breedID="+breedid+"&&randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
 }
-		
+
 function onlyNumberInput(){
 	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
 		    event.returnValue=false;
@@ -222,7 +222,7 @@ function on_change(){
 		$("#mktpubcharatioPercent").hide();
 	}
 }
-   
+
 function on_tchange(){
 	if (document.getElementById("tradealgr").value == "1") {
 		$("#buyPercent").show();
@@ -267,17 +267,17 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					         	</legend>
 								<span id="baseinfo">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								      <tr>
-        								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>   
+        								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${entity.breedname }"
-            								class="easyui-textbox" data-options="required:true"  style="width: 100; background-color:gray"  readonly="readonly"/>          
-			  								<span class="required">&nbsp;</span>   
-            							</td>    
-        								<td align="right" ></td> 
-            							<td> 
+            								class="easyui-textbox" data-options="required:true"  style="width: 100; background-color:gray"  readonly="readonly"/>
+			  								<span class="required">&nbsp;</span>
+            							</td>
+        								<td align="right" ></td>
+            							<td>
             							</td>
             							<td align="right"></td>
 										<td>
@@ -287,13 +287,13 @@ function on_tchange(){
         	  							<td align="right">商品名称：</td>
             							<td><input id="commodityname" name="commodityname" value=""
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>
-            								 <span class="required">*</span>           
-            							</td>    
-        								<td align="right" >商品代码：</td> 
-            							<td> 
+            								 <span class="required">*</span>
+            							</td>
+        								<td align="right" >商品代码：</td>
+            							<td>
 			  							<input id="commodityid" name="commodityid" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>  
-            								 <span class="required">*</span>         
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>
+            								 <span class="required">*</span>
             							</td>
             							<td align="right">当前状态</td>
 										<td>
@@ -301,7 +301,7 @@ function on_tchange(){
 												<option value=""></option>
 											    <option value="0">有效</option>
 												<option value="1">暂停交易</option>
-												 <span class="required">*</span> 
+												 <span class="required">*</span>
 										   </select>
 										</td>
         							</tr>
@@ -310,8 +310,8 @@ function on_tchange(){
             							<td >
             							<input id="supervisedprice" name="supervisedprice" value=""
             								class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"  style="width: 100"/>
-							           <span class="required">*</span> 
-							            </td> 
+							           <span class="required">*</span>
+							            </td>
 							            <td align="right">对应现货商品</td>
 										<td>
 										<select id="mapperid" name="mapperid" style="width:100">
@@ -320,31 +320,31 @@ function on_tchange(){
                                                       <option value="${Tcomm.commodityid}">${Tcomm.name}</option>
                                                     </c:forEach>
 								         </select>
-										 <span class="required">*</span> 
-										</td>       
+										 <span class="required">*</span>
+										</td>
 							            <td align="right">上市日期：</td>
 							            <td>
-			  							<input type="text" id="listingdate" name="listingdate" value="" style="width: 100"></input>       
-            							 <span class="required">*</span> 
+			  							<input type="text" id="listingdate" name="listingdate" value="" style="width: 100"></input>
+            							 <span class="required">*</span>
             							</td>
-        							</tr> 
+        							</tr>
 									<tr>
 										<td align="right">发行价：</td>
             							<td>
 			  							<input type="text" id="price" name="price"  value=""
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"/>          
-            							 <span class="required">*</span> 
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"/>
+            							 <span class="required">*</span>
             							</td>
             							<td align="right">发售单位</td>
             							<td>
             							<input type="text" id="units" name="units"  value=""
-			  									style="ime-mode:disabled; width: 100"  class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0"/>          
-            							 <span class="required">*</span> 
+			  									style="ime-mode:disabled; width: 100"  class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0"/>
+            							 <span class="required">*</span>
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input type="text" id="lasttradate" name="lasttradate" value="" style="width: 100"></input> 
-								      	 <span class="required">*</span> 
+										<input type="text" id="lasttradate" name="lasttradate" value="" style="width: 100"></input>
+								      	 <span class="required">*</span>
 								      	</td>
          							</tr>
 	 							</table >
@@ -367,22 +367,22 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"   readonly="readonly"
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100;" />          
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100;" />
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
 			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
-			  								</span><span class="required">*</span>  
+			  								</span><span class="required">*</span>
 			  								<input type="hidden" id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }" />
-            							</td>    
+            							</td>
         								<td align="right">T+N交易天数：</td>
 										<td>
-										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }" 
-			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0,precision:0"  style="ime-mode:disabled; width: 100" />          
-										 <span class="required">*</span> 
+										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }"
+			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0,precision:0"  style="ime-mode:disabled; width: 100" />
+										 <span class="required">*</span>
 										</td>
             							<td align="right"></td>
             							<td></td>
@@ -406,7 +406,7 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
         	  							<td align="right">发行会员编号：</td>
             							<td>
@@ -416,37 +416,37 @@ function on_tchange(){
                                                       <option value="${pubmember.brokerid}">${pubmember.name}</option>
                                                     </c:forEach>
 								            	</select>
-								            	 <span class="required">*</span> 
+								            	 <span class="required">*</span>
             							</td>
-            							<td align="right" >最大申购数量：</td> 
-            							<td> 
+            							<td align="right" >最大申购数量：</td>
+            							<td>
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入32位以内的正整数',min:0"/>
-            							 <span class="required">*</span> 
-            							</td>    
-        								<td align="right" >发行开始日期：</td> 
-            							<td> 
-			  								<input type="text" id="starttime" name="starttime" value="" style="width: 100"></input> 
-			  							 <span class="required">*</span> 
+            							 <span class="required">*</span>
+            							</td>
+        								<td align="right" >发行开始日期：</td>
+            							<td>
+			  								<input type="text" id="starttime" name="starttime" value="" style="width: 100"></input>
+			  							 <span class="required">*</span>
 			  							</td>
-            							
+
         							</tr>
 									<tr>
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
-            								 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:9999999999"  style="width: 100"/>          
-            							 <span class="required">*</span> 
-            							</td>    
+            								 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:9999999999"  style="width: 100"/>
+            							 <span class="required">*</span>
+            							</td>
         								<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
-										 <span class="required">*</span> 
+										 <span class="required">*</span>
 										</td>
             							<td align="right">发行结束日期：</td>
 										<td>
-											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input> 
-										 <span class="required">*</span> 
+											<input type="text" id="endtime" name="endtime" value="" style="width: 100"></input>
+										 <span class="required">*</span>
 										</td>
         							</tr>
 							        <tr>
@@ -456,43 +456,43 @@ function on_tchange(){
 												<option value=""></option>
 											    <option value="1" <c:if test="${entity.publishalgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.publishalgr==2 }">selected</c:if>>按绝对值</option>
-										   </select> <span class="required">*</span>            
-							            </td>        
+										   </select> <span class="required">*</span>
+							            </td>
 							            <td align="right">交易商发行手续费比例：</td>
 							            <td>
 			  								<input id="dealerpubcharatio" name="dealerpubcharatio" maxlength="10" value="${entity.dealerpubcharatio }"
 			  									style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"/>
-			  								<span id="dealerpubcharatioPercent">%</span> <span class="required">*</span>          
+			  								<span id="dealerpubcharatioPercent">%</span> <span class="required">*</span>
             							</td>
             							<td align="right">交易商发行手续费市场留存比例：</td>
             							<td>
 											<input id="mktdeapubcharatio" name="mktdeapubcharatio" maxlength="10" value="${entity.mktdeapubcharatio }"
 												style="ime-mode:disabled; width: 100" onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"/>
-											<span id="mktdeapubcharatioPercent">%</span> <span class="required">*</span>           
+											<span id="mktdeapubcharatioPercent">%</span> <span class="required">*</span>
 								      	</td>
 								      	<td>&nbsp;</td>
 								      	<script type="text/javascript">
 							            	if ("${entity.publishalgr}" == "1"){$("#dealerpubcharatioPercent").show();$("#mktdeapubcharatioPercent").show();} else {$("#dealerpubcharatioPercent").hide();$("#mktdeapubcharatioPercent").hide();}
 							            </script>
-        							</tr> 
+        							</tr>
 									<tr>
 										<td align="right">发行数量：</td>
             							<td>
             							<input type="text" id="counts" name="counts"  value=""
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:999999999"/>          
-            							 <span class="required">*</span> 
+			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:999999999"/>
+            							 <span class="required">*</span>
             							</td>
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
-			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />  
-			  								<span id="publishercharatioPercent">%</span> <span class="required">*</span>         
+			  								<input type="text" id="publishercharatio" name="publishercharatio" value="${entity.publishercharatio }"
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />
+			  								<span id="publishercharatioPercent">%</span> <span class="required">*</span>
             							</td>
             							<td align="right">发行商发行手续费市场留存比例：</td>
 										<td>
-										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />          
-										<span id="mktpubcharatioPercent">%</span> <span class="required">*</span> 
+										<input type="text" id="mktpubcharatio" name="mktpubcharatio" value="${entity.mktpubcharatio }"
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正数'"  style="ime-mode:disabled; width: 100" />
+										<span id="mktpubcharatioPercent">%</span> <span class="required">*</span>
 										</td>
 										<td>&nbsp;</td>
 								      	<script type="text/javascript">
@@ -504,7 +504,7 @@ function on_tchange(){
 								</fieldset>
 						 	</td>
 						</tr>
-						
+
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
@@ -518,7 +518,7 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
         	  							<td align="right">交易手续费算法：</td>
             							<td>
@@ -526,75 +526,75 @@ function on_tchange(){
 												<option value=""></option>
 											    <option value="1" <c:if test="${entity.tradealgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.tradealgr==2 }">selected</c:if>>按绝对值</option>
-										   </select> <span class="required">*</span>  
+										   </select> <span class="required">*</span>
             							</td>
-            							<td align="right" >买入：</td> 
-            							<td> 
+            							<td align="right" >买入：</td>
+            							<td>
 			  								<input id="buy" name="buy"  value="${entity.buy }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-            							<span id="buyPercent">%</span> <span class="required">*</span> 
-            							</td>    
-        								<td align="right" >卖出：</td> 
-            							<td> 
-			  								<input id="sell" name="sell" value="${entity.sell }" 
-			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/> 
-			  							<span id="sellPercent">%</span> <span class="required">*</span> 
+            							<span id="buyPercent">%</span> <span class="required">*</span>
+            							</td>
+        								<td align="right" >卖出：</td>
+            							<td>
+			  								<input id="sell" name="sell" value="${entity.sell }"
+			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+			  							<span id="sellPercent">%</span> <span class="required">*</span>
 			  							</td>
-            							
+
         							</tr>
 									<tr>
         	  							<td align="right"></td>
             							<td>
-            							</td>    
+            							</td>
         								<td align="right">买方手续费市场留存比例：</td>
 										<td>
 										<input id="mktbuyfeeradio" name="mktbuyfeeradio"  value="${entity.mktbuyfeeradio }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										<span id="mktbuyPercent">%</span> <span class="required">*</span> 
+										<span id="mktbuyPercent">%</span> <span class="required">*</span>
 										</td>
             							<td align="right">卖方手续费市场留存比例：</td>
 										<td>
-											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }" 
+											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }"
 											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										<span id="mktsellPercent">%</span> <span class="required">*</span> 
+										<span id="mktsellPercent">%</span> <span class="required">*</span>
 										</td>
         							</tr>
 							        <tr>
 							            <td align="right" >仓储日租金标准：</td>
 							            <td >
-											<input id="warehousedailyrent" name="warehousedailyrent" value="${entity.warehousedailyrent }" 
+											<input id="warehousedailyrent" name="warehousedailyrent" value="${entity.warehousedailyrent }"
 											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										    <span class="required">*</span>         
-							            </td>        
+										    <span class="required">*</span>
+							            </td>
 							            <td align="right">仓储日租金收取起始日期：</td>
 							            <td>
-			   				                 <input type="text" id="warehousestartday" name="warehousestartday" style="width: 100"></input> 
-			  								 <span class="required">*</span>          
+			   				                 <input type="text" id="warehousestartday" name="warehousestartday" style="width: 100"></input>
+			  								 <span class="required">*</span>
             							</td>
             							<td align="right">日托管费标准：</td>
             							<td>
-											<input id="trusteedailyrent" name="trusteedailyrent" value="${entity.trusteedailyrent }" 
+											<input id="trusteedailyrent" name="trusteedailyrent" value="${entity.trusteedailyrent }"
 											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										    <span class="required">*</span>       
+										    <span class="required">*</span>
 								      	</td>
-        							</tr> 
+        							</tr>
 									<tr>
 										<td align="right">日保险费标准：</td>
             							<td>
-            							<input id="insurancedailyrent" name="insurancedailyrent" value="${entity.insurancedailyrent }" 
+            							<input id="insurancedailyrent" name="insurancedailyrent" value="${entity.insurancedailyrent }"
 											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										    <span class="required">*</span>
             							</td>
             							<td align="right">日保险费收取起始日期：</td>
             							<td>
-			  								 <input type="text" id="insurancestartday" name="insurancestartday" style="width: 100"></input> 
-			  								 <span class="required">*</span>           
+			  								 <input type="text" id="insurancestartday" name="insurancestartday" style="width: 100"></input>
+			  								 <span class="required">*</span>
             							</td>
             							<td align="right">免托管天数：</td>
 										<td>
-										<input type="text" id="freetrusteedays" name="freetrusteedays" value="${entity.freetrusteedays }" 
-			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正整数'"  style="ime-mode:disabled; width: 100" />          
-										<span class="required">*</span> 
+										<input type="text" id="freetrusteedays" name="freetrusteedays" value="${entity.freetrusteedays }"
+			  									onkeypress="return onlyNumberInput()" class="easyui-validatebox textbox" data-options="required:true,missingMessage:'请填入正整数'"  style="ime-mode:disabled; width: 100" />
+										<span class="required">*</span>
 										</td>
 										<td>&nbsp;</td>
 								      	<script type="text/javascript">
@@ -606,7 +606,7 @@ function on_tchange(){
 								</fieldset>
 						 	</td>
 						</tr>
-						
+
 							<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
@@ -620,32 +620,32 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
         	  							<td align="right">交割单位：</td>
             							<td>
             							<input id="deliveryunit" name="deliveryunit" value="${entity.deliveryunit }"    style="width:100"  onblur="changeTail()"/>
-											 <span class="required">如箱、吨等*</span>  
+											 <span class="required">如箱、吨等*</span>
             							</td>
-            							<td align="right" >交割与交易单位换算：</td> 
-            							<td> 
+            							<td align="right" >交割与交易单位换算：</td>
+            							<td>
 			  								<input id="deliunittocontract" name="deliunittocontract"  value="${entity.deliunittocontract }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-            							<span class="required"><span id="tail">批/<c:out value="${entity.deliveryunit }"></c:out></span>*</span>  
-            							</td>    
-        								<td align="right" >交货开始日期：</td> 
-            							<td> 
-            							 <input type="text" id="deliverystartday" name="deliverystartday" style="width: 100"></input> 
-			  								 <span class="required">*</span> 
+            							<span class="required"><span id="tail">批/<c:out value="${entity.deliveryunit }"></c:out></span>*</span>
+            							</td>
+        								<td align="right" >交货开始日期：</td>
+            							<td>
+            							 <input type="text" id="deliverystartday" name="deliverystartday" style="width: 100"></input>
+			  								 <span class="required">*</span>
 			  							</td>
-        							</tr>									
+        							</tr>
 	 							</table >
 								</span>
 								</fieldset>
 						 	</td>
 						</tr>
-						
-						
+
+
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
@@ -659,54 +659,54 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
         	  							<td align="right">注册费用比例：</td>
             							<td>
-            							<input id="registfeeradio" name="registfeeradio" value="${entity.registfeeradio }"    
+            							<input id="registfeeradio" name="registfeeradio" value="${entity.registfeeradio }"
             							style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-											 <span class="required">%*</span>  
+											 <span class="required">%*</span>
             							</td>
-            							<td align="right" >注销费用比例：</td> 
-            							<td> 
+            							<td align="right" >注销费用比例：</td>
+            							<td>
 			  								<input id="cancelfeeradio" name="cancelfeeradio"  value="${entity.cancelfeeradio }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-            							<span class="required">%*</span> 
-            							</td>    
-        								<td align="right" >过户费用比例：</td> 
-            							<td> 
-            							 <input id="transferfeeradio" name="transferfeeradio"  value="${entity.transferfeeradio }"  
-            							 style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"></input> 
-			  								 <span class="required">%*</span> 
+            							<span class="required">%*</span>
+            							</td>
+        								<td align="right" >过户费用比例：</td>
+            							<td>
+            							 <input id="transferfeeradio" name="transferfeeradio"  value="${entity.transferfeeradio }"
+            							 style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"></input>
+			  								 <span class="required">%*</span>
 			  							</td>
         							</tr>
         							 <tr>
         	  							<td align="right">注册费市场留存比例：</td>
             							<td>
-            							<input id="mktregistfeeradio" name="mktregistfeeradio" value="${entity.mktregistfeeradio }"    
+            							<input id="mktregistfeeradio" name="mktregistfeeradio" value="${entity.mktregistfeeradio }"
             							style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-											 <span class="required">%*</span>  
+											 <span class="required">%*</span>
             							</td>
-            							<td align="right" >注销费市场留存比例：</td> 
-            							<td> 
+            							<td align="right" >注销费市场留存比例：</td>
+            							<td>
 			  								<input id="mktcancelfeeradio" name="mktcancelfeeradio"  value="${entity.mktcancelfeeradio }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-            							<span class="required">%*</span> 
-            							</td>    
-        								<td align="right" >提货单费用价格提前天数：</td> 
-            							<td> 
-            							 <input id="deliverycostbefore" name="deliverycostbefore"  value="${entity.deliverycostbefore }"  
-            							 style="width: 100"></input> 
-			  						   <span class="required">*</span> 
+            							<span class="required">%*</span>
+            							</td>
+        								<td align="right" >提货单费用价格提前天数：</td>
+            							<td>
+            							 <input id="deliverycostbefore" name="deliverycostbefore"  value="${entity.deliverycostbefore }"
+            							 style="width: 100"></input>
+			  						   <span class="required">*</span>
 			  							</td>
-        							</tr>										
+        							</tr>
 	 							</table >
 								</span>
 								</fieldset>
 						 	</td>
 						</tr>
-						
-						
+
+
 						<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
@@ -720,7 +720,7 @@ function on_tchange(){
 <!-- 					         	</table> -->
 					       		</legend>
 								<span id="baseinfo2">
-								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
+								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
         	  							<td align="right">商品详细描述：</td>
             							<td colspan="5">
@@ -732,11 +732,11 @@ function on_tchange(){
 								</fieldset>
 						 	</td>
 						</tr>
- 
+
 						<tr>
-							<td colspan="4" height="3">	
+							<td colspan="4" height="3">
 						</td>
-						</tr>                   
+						</tr>
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">

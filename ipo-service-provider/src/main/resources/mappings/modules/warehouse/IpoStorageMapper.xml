@@ -84,9 +84,15 @@
    <select id="sequence" resultType="java.lang.Integer">
 	SELECT SEQ_IPO_STORAGE.NEXTVAL FROM dual
    </select>
-     <update id="updateStorage" parameterType="map">
+     <update id="updateStorageState" parameterType="map">
     update IPO_STORAGE
-    set MARKETAUDITORID = #{checker,jdbcType=VARCHAR},
+    set 
+     <if test="state != 5 and state != 4" >
+        WAREHOUSEAUDITORID = #{checker,jdbcType=VARCHAR},
+      </if>
+     <if test="state != 2 and state != 3" >
+        MARKETAUDITORID = #{checker,jdbcType=VARCHAR},
+      </if>
       STORAGESTATE = #{state,jdbcType=DECIMAL}
     where STORAGEID = #{storageid,jdbcType=VARCHAR}
   </update>

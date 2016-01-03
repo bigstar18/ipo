@@ -66,8 +66,8 @@
 							        </tr> 
 							         <tr>
         			 					<td align="right" width="110">入库件数：</td>
-	      								<td width="110">
-	      								    <input id="storagenum" type="text" name="storagenum" style="background-color: white;" onfocus="checkCommodity()" onblur="getStorageCounts()"/> <span class="required">*</span>
+	      								<td width="110" class="required">
+	      								    <input id="storagenum" type="text" name="storagenum" style="background-color: white;" onfocus="checkCommodity()" onblur="getStorageCounts()"/>*
 		          						</td>
 		          						<td align="right" width="110">入库数量：</td>     
             							<td width="110">

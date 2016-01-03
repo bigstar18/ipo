@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 public class ChargeItemController {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
     @Autowired
 	private ChargeItemService chargeItemService;
 	
@@ -119,6 +122,7 @@ public class ChargeItemController {
 	public boolean save(HttpServletRequest request,ChargeItem chargeItem) 
 			throws Exception {
 		try {
+			chargeItem.setCreateUser(getloginUserId(request));
 			chargeItemService.save(chargeItem);
 		} catch (Exception e) {
 			logger.error("save error:"+e);
@@ -164,6 +168,7 @@ public class ChargeItemController {
 	public boolean update(HttpServletRequest request,ChargeItem chargeItem) 
 			throws Exception {
 		try {
+			chargeItem.setUpdateUser(getloginUserId(request));
 			chargeItemService.update(chargeItem);
 		} catch (Exception e) {
 			logger.error("update error:"+e);
@@ -172,6 +177,42 @@ public class ChargeItemController {
 		return true;
 	}
 	
-	 
+	/**
+	 * 删除费用项 
+	 * @param request
+	 * @param chargeItem
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/delete")
+	@ResponseBody
+	public String delete(HttpServletRequest request,ChargeItem chargeItem) 
+			throws Exception {
+		String messageCode="001";
+		try {
+			ChargeItem subChargeItem =new ChargeItem();
+			subChargeItem.setParentId(chargeItem.getId());
+			long count=chargeItemService.querySubLevelForCount(subChargeItem);
+			if(count==0){
+				chargeItem.setUpdateUser(getloginUserId(request));
+				chargeItemService.delete(chargeItem);
+			}else{
+				messageCode="002";
+			}
+		} catch (Exception e) {
+			logger.error("delete error:"+e);
+			messageCode="003";
+		}
+		return messageCode;
+	}
+	
+	
+	private String getloginUserId(HttpServletRequest request){
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+		if(user!=null){
+			return user.getUserID();
+		}
+		return "nologin";
+	}
 	
 }
