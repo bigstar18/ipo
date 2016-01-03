@@ -28,7 +28,17 @@ public class IpoOrder {
 
 	private BigDecimal buy;
 	
+	private BigDecimal frozencounterfee;
 	
+	
+	public BigDecimal getFrozencounterfee() {
+		return frozencounterfee;
+	}
+
+	public void setFrozencounterfee(BigDecimal frozencounterfee) {
+		this.frozencounterfee = frozencounterfee;
+	}
+
 	public Short getTradealgr() {
 		return tradealgr;
 	}
