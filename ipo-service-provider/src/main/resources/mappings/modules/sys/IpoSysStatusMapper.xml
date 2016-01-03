@@ -119,7 +119,15 @@
 		set STATUS = #{status,jdbcType=DECIMAL},
 		SECTIONID = #{sectionid,jdbcType=DECIMAL},
 		NOTE = #{note,jdbcType=VARCHAR},
-		RECOVERTIME = #{recovertime,jdbcType=VARCHAR}
+		RECOVERTIME
+		= #{recovertime,jdbcType=VARCHAR}
 		where TRADEDATE = #{tradedate,jdbcType=TIMESTAMP}
 	</update>
+
+	<select id="updateFundsFull" statementType="CALLABLE" parameterType="java.util.Map">
+		{#{monery,mode=OUT,jdbcType=Double} = call FN_F_UpdateFundsFull(#{userid,mode=IN,jdbcType=VARCHAR},
+		#{oprcode,mode=IN,jdbcType=CHAR},#{amount,mode=IN,jdbcType=Double}),#{contractNo,mode=IN,jdbcType=VARCHAR}),
+		#{extraCode,mode=IN,jdbcType=VARCHAR}),#{appendAmount,mode=IN,jdbcType=Double}),#{voucherNo,mode=IN,jdbcType=Double})}
+	</select>
+
 </mapper>

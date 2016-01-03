@@ -20,7 +20,19 @@ public interface DistributionService {
 
 	// 获取总记录
 	public int getAllDistribution() throws Exception;
-	
-	//根据货款冻结情况查询 li
+
+	// 根据货款冻结情况查询 li
 	public List<Distribution> getInfobyFrozen(int frozen) throws Exception;
+
+	/**
+	 * 根据商品id，查询未结算的摇号单
+	 * hxx
+	 * 
+	 * @param commId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Distribution> queryUnsettleOrdersByCommId(String commId) throws Exception;
+
+	public int updateOrderSettled(String orderId) throws Exception;
 }

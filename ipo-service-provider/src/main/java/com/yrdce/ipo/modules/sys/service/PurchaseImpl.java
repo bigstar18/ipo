@@ -173,19 +173,16 @@ public class PurchaseImpl implements Purchase {
 	public BigDecimal frozen(String userId, BigDecimal allMonery) {
 		logger.info("调用冻结资金函数");
 		float mony = allMonery.floatValue();
-		try {
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("monery", "");
-			param.put("userid", userId);
-			param.put("amount", mony);
-			param.put("moduleid", "40");
-			fundsMapper.getfrozen(param);
-			BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
-			return monery;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new BigDecimal(0);
-		}
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", userId);
+		param.put("amount", mony);
+		param.put("moduleid", "40");
+		fundsMapper.getfrozen(param);
+		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
+		return monery;
+
 	}
 
 	// 判断是重复申购

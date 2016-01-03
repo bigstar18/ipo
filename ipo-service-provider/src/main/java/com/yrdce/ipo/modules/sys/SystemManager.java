@@ -6,7 +6,9 @@ package com.yrdce.ipo.modules.sys;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
@@ -28,9 +30,11 @@ import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
+import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Order;
 
 /**
@@ -94,6 +98,9 @@ public class SystemManager {
 	@Autowired
 	@Qualifier("purchase")
 	private Purchase purchase;
+	@Autowired
+	@Qualifier("distributionService")
+	private DistributionService distributionService;
 
 	public String getStatus() {
 		return status;
@@ -274,7 +281,7 @@ public class SystemManager {
 		updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
 		updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
 
-		// TODO
+		// TODO 付钱给谁?承销商
 		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
 	}
 
@@ -298,8 +305,18 @@ public class SystemManager {
 					unfrozenOrders(orders);
 					orders = orderService.queryUnsettleOrdersByCommId(commodityId);
 				}
-				// 扣distribution表中的订单费和手续费
+
+				List<Distribution> distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
+				while (distributions != null && !distributions.isEmpty()) {
+					frozenTrades(distributions);
+					distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
+				}
+
 				// 变更sale表的状态41->4
+				if (commodityService.updateCommoditySettled(commodityId) < 1) {
+					logger.info("商品={}，变更sale状态失败", commodityId);
+					throw new Exception("变更sale状态失败，全部回滚");
+				}
 			}
 		}
 	}
@@ -313,8 +330,44 @@ public class SystemManager {
 			BigDecimal total = amount.add(fee).negate();
 
 			purchase.frozen(userId, total);
-			orderService.updateOrderSettled(order.getOrderid());// 标记处理
+			// 标记处理
+			if (orderService.updateOrderSettled(order.getOrderid()) < 1)
+				throw new Exception("变更申购记录为结算状态失败，全部回滚");
 		}
+	}
+
+	// 扣distribution表中的订单费和手续费
+	private void frozenTrades(List<Distribution> distributions) throws Exception {
+		for (Distribution distribution : distributions) {
+			String userId = distribution.getUserid();
+			String commoId = distribution.getCommodityid();
+			BigDecimal amount = distribution.getTradingamount();
+			BigDecimal fee = distribution.getCounterfee();
+
+			updateFundsFull(userId, "40001", amount, commoId);
+			updateFundsFull(userId, "40101", fee, commoId);
+
+			if (distributionService.updateOrderSettled(distribution.getOrderid()) < 1)
+				throw new Exception("变更摇号记录为结算状态失败，全部回滚");
+		}
+	}
+
+	@Transactional
+	public BigDecimal updateFundsFull(String userId, String opCode, BigDecimal amount, String commoId) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", userId);
+		param.put("oprcode", opCode);
+		param.put("amount", amount.doubleValue());
+		param.put("contractNo", null);
+		param.put("extraCode", commoId);
+		param.put("appendAmount", null);
+		param.put("voucherNo", null);
+
+		mapper.updateFundsFull(param);
+
+		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
+		return monery;
 	}
 
 	@PostConstruct

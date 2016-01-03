@@ -390,4 +390,14 @@
 		where ID = #{id,jdbcType=INTEGER}
 	</update>
 	
+	<select id="queryUnsettledByCommoId" resultMap="BaseResultMap" parameterType="map">
+		select t.* from ipo_distribution t 
+		where t.frozen != 3 and t.commodityid = #{commodityid,jdbcType=VARCHAR}
+	</select>
+  <update id="updateSettledById" parameterType="map">
+		update IPO_DISTRIBUTION
+		set frozen =3
+		where ID = #{id,jdbcType=INTEGER}
+  </update>
+	
 </mapper>

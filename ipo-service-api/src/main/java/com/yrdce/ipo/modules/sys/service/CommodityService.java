@@ -52,10 +52,18 @@ public interface CommodityService {
 	Commodity queryByComid(String comid);
 
 	/**
-	 * 根据状态查所有发售的商品
+	 * 根据状态查所有发售的商品 hxx
 	 * 
 	 * @param status
 	 * @return
 	 */
 	public List<Commodity> queryAllByStatusForSettle(Integer status);
+
+	/**
+	 * hxx
+	 * 
+	 * @param commoId
+	 * @return
+	 */
+	public int updateCommoditySettled(String commoId);
 }

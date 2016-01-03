@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,6 @@ public interface IpoSysStatusMapper {
 	String getDBTimeStr();
 
 	Date getDBTime();
+
+	void updateFundsFull(Map<String, Object> map);
 }

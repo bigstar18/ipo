@@ -20,6 +20,7 @@ public interface OrderService {
 
 	/**
 	 * 获取500未结算商品申购单
+	 * hxx
 	 * 
 	 * @param page
 	 * @param rows
@@ -29,6 +30,13 @@ public interface OrderService {
 	 */
 	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception;
 
+	/**
+	 * hxx
+	 * 
+	 * @param commId
+	 * @return
+	 * @throws Exception
+	 */
 	public int updateOrderSettled(String commId) throws Exception;
 
 }

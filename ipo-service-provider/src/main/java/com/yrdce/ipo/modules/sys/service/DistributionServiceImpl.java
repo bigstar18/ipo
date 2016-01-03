@@ -88,7 +88,7 @@ public class DistributionServiceImpl implements DistributionService {
 		return i;
 	}
 
-	//根据冻结货款情况 查询 li
+	// 根据冻结货款情况 查询 li
 	@Override
 	public List<Distribution> getInfobyFrozen(int frozen) throws Exception {
 		// TODO Auto-generated method stub
@@ -100,5 +100,25 @@ public class DistributionServiceImpl implements DistributionService {
 			distributions2.add(distribution);
 		}
 		return distributions2;
+	}
+
+	@Override // hxx
+	public List<Distribution> queryUnsettleOrdersByCommId(String commId) throws Exception {
+		List<IpoDistribution> distributions = ipoDistributionMapper.queryUnsettledByCommoId(commId);
+		List<Distribution> result = new ArrayList<Distribution>();
+		if (distributions != null && !distributions.isEmpty()) {
+			for (IpoDistribution ipoDistribution : distributions) {
+				Distribution distribution = new Distribution();
+				BeanUtils.copyProperties(ipoDistribution, distribution);
+				distribution.setOrderid(String.valueOf(ipoDistribution.getId()));// 坑货啊
+				result.add(distribution);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int updateOrderSettled(String orderId) throws Exception {
+		return ipoDistributionMapper.updateSettledById(Integer.parseInt(orderId));
 	}
 }

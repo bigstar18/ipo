@@ -55,9 +55,16 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> selectByCommId(String commId);
 
 	List<IpoDistribution> allByTime(String date);
-	//根据货款冻结情况查询信息 li
-	List<IpoDistribution>  getInfobyFrozen(@Param("frozen") int frozen);
-	//修改申购资金状态以及资金信息
+
+	// 根据货款冻结情况查询信息 li
+	List<IpoDistribution> getInfobyFrozen(@Param("frozen") int frozen);
+
+	// 修改申购资金状态以及资金信息
 	int setSomeInfo(IpoDistribution distribution);
-	
+
+	// hxx
+	List<IpoDistribution> queryUnsettledByCommoId(@Param("commodityid") String commodityid);
+
+	int updateSettledById(int id);
+
 }
