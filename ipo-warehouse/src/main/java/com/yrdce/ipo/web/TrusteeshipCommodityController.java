@@ -2,6 +2,7 @@ package com.yrdce.ipo.web;
 
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,7 +109,7 @@ public class TrusteeshipCommodityController {
 		ship.setEndAuditingDate(request.getParameter("endAuditingDate"));
 		ship.setCreateUser(request.getParameter("createUser"));
 		long count = trusteeshipCommodityService.queryApplyForCount(ship);
-		List<Trusteeship> dataList = null;
+		List<Trusteeship> dataList = new ArrayList<Trusteeship>();
 		if (count > 0) {
 			dataList = trusteeshipCommodityService.queryApplyForPage(pageNo,
 					pageSize, ship);
