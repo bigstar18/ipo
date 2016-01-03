@@ -32,14 +32,6 @@ function getAllInfo(){
          striped:true,  
          toolbar:"#tb",  
          url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo", //搜索前,触发此action请求所有用户信息  
-         queryParams:{
-        	communityId:$("#commIdp").val(),
-        	registerDate:$("#registerDatep").datebox("getValue"),
-			spoDate:$("#spoDatep").datebox("getValue"),
-			ipoDate:$("#ipoDatep").datebox("getValue"),
-			rationType:$("#rationTypep").val(),
-			rationSate:$("#rationSatep").val()
-        },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {
@@ -148,7 +140,7 @@ function getAllInfo(){
             		 return "增发失败";
             		 break;
             	 case 4:
-            		 return "未增发"
+            		 return "未增发";
             	 }
        	 	 }
          },{  
@@ -214,7 +206,7 @@ function getAllInfo(){
             		 return "----";
             		 break;
             	 case 4:
-            		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>"
+            		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>"; 
             	 }
             	
        	 	}
@@ -271,18 +263,28 @@ function updateSPOSate(spoid,spoSate){
 	});
 }
 
-//查询
+
 function doSearch(){
-	getAllInfo();
+	$('#depositInfo').datagrid('load',{
+		communityId:$("#commIdp").val(),
+		registerDate:$("#registerDatep").datebox("getValue"),
+		spoDate:$("#spoDatep").datebox("getValue"),
+		ipoDate:$("#ipoDatep").datebox("getValue"),
+		rationType:$("#rationTypep").val(),
+		spoSate:$("#rationSatep").val()
+	});
 }
+//查询
+// function doSearch(){
+// 	getAllInfo();
+// }
 function reSet(){
 	$("#commIdp").val("");
 	$("#rationTypep ").get(0).selectedIndex=0;
 	$("#rationSatep ").get(0).selectedIndex=0;
-	$("#registerDatep").datebox('setValue',""),
-	$("#spoDatep").datebox('setValue',"")
-	$("#ipoDatep").datebox('setValue',"")
-	getAllInfo();
+	$("#registerDatep").datebox('setValue',"");
+	$("#spoDatep").datebox('setValue',"");
+	$("#ipoDatep").datebox('setValue',"");
 }
 
 
@@ -361,17 +363,17 @@ function ration(spoId) {
 											&nbsp
 											&nbsp
 									配售类型: <select id="rationTypep" style="width:150px">
-												<option>全部</option>
-												<option>比例配售</option>
-												<option>定向配售</option>
+												<option value="">全部</option>
+												<option value="1">比例配售</option>
+												<option value="2">定向配售</option>
 											</select>
 											&nbsp
 											&nbsp
 									增发状态：<select id="rationSatep" style="width:150px">
-												<option>全部</option>
-												<option>未增发</option>
-												<option>已增发</option>
-												<option>增发失败</option>
+												<option value="">全部</option>
+												<option value="1">未增发</option>
+												<option value="2">已增发</option>
+												<option value="3">增发失败</option>
 											</select>
 											&nbsp
 											&nbsp

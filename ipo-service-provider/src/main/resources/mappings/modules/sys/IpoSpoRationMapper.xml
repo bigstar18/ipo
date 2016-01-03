@@ -32,7 +32,7 @@
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="rationid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" >
-  	<selectKey resultType="INTEGER" order="BEFORE" keyProperty="rationid">
+  	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="rationid">
 	SELECT SEQ_IPO_SPO_RATION.NEXTVAL FROM dual
 	</selectKey>
     insert into IPO_SPO_RATION (RATIONID, SPOID, RATIONCOUNTS, 
@@ -104,14 +104,14 @@
   </select>
   
   <select id="getRationInfoCounts" resultType="java.lang.Integer" parameterType="map">
-  	SELECT COUNT(*) FROM
-	 IPO_SPO S
+  	SELECT COUNT(r.*) FROM
+	 IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
   	 WHERE 1=1
   	 <if test="IpoSpoComm.communityId != null" >
-       AND S.COMMUNITY_ID = #{IpoSpoComm.communityId} 
+       AND c.COMMUNITY_ID = #{IpoSpoComm.communityId} 
      </if>
      <if test="IpoSpoComm.registerDateSart !=null and IpoSpoComm.registerDateEnd!=null">
-     	and s.register_date between to_date(#{IpoSpoComm.registerDateSart},'yyyy-mm-dd') and to_date(#{IpoSpoComm.registerDateEnd},'yyyy-mm-dd')
+     	and c.register_date between to_date(#{IpoSpoComm.registerDateSart},'yyyy-mm-dd') and to_date(#{IpoSpoComm.registerDateEnd},'yyyy-mm-dd')
      </if>
   </select>
   

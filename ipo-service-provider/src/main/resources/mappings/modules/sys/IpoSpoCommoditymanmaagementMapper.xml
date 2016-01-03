@@ -74,22 +74,25 @@
   select * from (
     select <include refid="Base_Column_List" />,rownum TNO from IPO_SPO_COMMODITYMANMAAGEMENT
     where 1=1
-    <if test="Spo.communityId != null">
+    <if test="Spo.communityId != null and Spo.communityId!=''">
 	and COMMUNITY_ID = #{Spo.communityId,jdbcType=VARCHAR}  
     </if>
-    <if test="Spo.rationType != null">
+    <if test="Spo.rationType != null and Spo.rationType!=''">
     and RATION_TYPE = #{Spo.rationType,jdbcType=VARCHAR}
     </if>
-    <if test="Spo.spoSate != null">
+    <if test="Spo.spoSate != null and Spo.spoSate != '' and Spo.spoSate != 1">
     and SPO_SATE = #{Spo.spoSate,jdbcType=DECIMAL}
     </if>
-    <if test="Spo.registerDate != null">
+    <if  test="Spo.spoSate == '1'">
+    and SPO_SATE = #{Spo.spoSate,jdbcType=DECIMAL} or SPO_SATE='4'
+    </if>
+    <if test="Spo.registerDate != null and Spo.registerDate!=''">
     and REGISTER_DATE = #{Spo.registerDate,jdbcType=DATE}
     </if>
-    <if test="Spo.spoDate != null">
+    <if test="Spo.spoDate != null and Spo.spoDate!=''" >
     and SPO_DATE = #{Spo.spoDate,jdbcType=DATE}
     </if>
-    <if test="Spo.ipoDate != null">
+    <if test="Spo.ipoDate != null and Spo.ipoDate!=''">
     and IPO_DATE = #{Spo.ipoDate,jdbcType=DATE}
     </if>
     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
@@ -98,22 +101,25 @@
   <select id="counts" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement">
   select count(0) from IPO_SPO_COMMODITYMANMAAGEMENT 
    where 1=1
-    <if test="Spo.communityId != null">
+    <if test="Spo.communityId != null and Spo.communityId!=''">
 	and COMMUNITY_ID = #{Spo.communityId,jdbcType=VARCHAR}  
     </if>
-    <if test="Spo.rationType != null">
+    <if test="Spo.rationType != null and Spo.rationType!=''">
     and RATION_TYPE = #{Spo.rationType,jdbcType=VARCHAR}
     </if>
-    <if test="Spo.spoSate != null">
+    <if test="Spo.spoSate != null and Spo.spoSate !='' and Spo.spoSate != 1">
     and SPO_SATE = #{Spo.spoSate,jdbcType=DECIMAL}
     </if>
-    <if test="Spo.registerDate != null">
+     <if  test="Spo.spoSate == '1'">
+    and SPO_SATE = #{Spo.spoSate,jdbcType=DECIMAL} or SPO_SATE='4'
+    </if>
+    <if test="Spo.registerDate != null and Spo.registerDate !=''">
     and REGISTER_DATE = #{Spo.registerDate,jdbcType=DATE}
     </if>
-    <if test="Spo.spoDate != null">
+    <if test="Spo.spoDate != null and Spo.spoDate!=''">
     and SPO_DATE = #{Spo.spoDate,jdbcType=DATE}
     </if>
-    <if test="Spo.ipoDate != null">
+    <if test="Spo.ipoDate != null and Spo.ipoDate!=''">
     and IPO_DATE = #{Spo.ipoDate,jdbcType=DATE}
     </if>
   </select>

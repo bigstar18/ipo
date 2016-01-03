@@ -63,6 +63,7 @@
   select p.commodityid,p.commodityname,p.position,p.position_unit,wm_concat(w.warehousename) as warehousename,wm_concat(w.warehouseid) as warehouseid from ipo_position p 
   left join ipo_trusteeship_warehouse t on p.commodityid = t.commodity_id
   left join bi_warehouse w on w.id = t.warehouse_id
-  where FIRMID = #{firmid,jdbcType=VARCHAR} group by p.commodityid,p.commodityname,p.position,p.position_unit
+  left join ipo_commodity_conf comm on comm.commodityid = t.commodity_id
+  where FIRMID = #{firmid,jdbcType=VARCHAR}   group by p.commodityid,p.commodityname,p.position,p.position_unit
   </select>
 </mapper>

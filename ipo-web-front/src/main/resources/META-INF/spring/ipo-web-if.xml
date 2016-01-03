@@ -34,7 +34,7 @@
 	<dubbo:reference id="spoService" interface="com.yrdce.ipo.modules.sys.service.SPOService" />
 	<dubbo:reference id="trusteeshipCommodityService" interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" />
     <dubbo:reference id="biWarehouseService" interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" />
-    
+    <dubbo:reference id="dataItemService" interface="com.yrdce.ipo.modules.sys.service.DataItemService" />
     
     
     
