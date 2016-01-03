@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class SpoCommoditymanmaagement {
 	private String spoId;
 
@@ -12,10 +14,13 @@ public class SpoCommoditymanmaagement {
 
 	private BigDecimal spoPrice;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date registerDate;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date spoDate;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ipoDate;
 
 	private Integer spoSate;

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.Spo;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
@@ -84,50 +86,45 @@ public class SPOController {
 	@ResponseBody
 	public String getAllSPOInfo(@RequestParam("page") String page,
 			@RequestParam("rows") String rows,
-			@RequestParam("communityId") String communityId,
-			@RequestParam("registerDate") String registerDate,
-			@RequestParam("spoDate") String spoDate,
-			@RequestParam("ipoDate") String ipoDate,
-			@RequestParam("rationType") String rationType,
-			@RequestParam("rationSate") String rationSate) throws IOException {
+			SpoCommoditymanmaagement spoComm) throws IOException {
 		logger.info("获取商品增发信息");
 		try {
-			SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			logger.info(communityId);
-			logger.info(registerDate);
-			logger.info(spoDate);
-			logger.info(ipoDate);
-			logger.info(rationType);
-			logger.info(rationSate);
-			if (!communityId.equals("")) {
-				spoComm.setCommunityId(communityId);
-			}
-			if (!registerDate.equals("")) {
-				Date date = sdf.parse(registerDate);
-				spoComm.setRegisterDate(date);
-			}
-			if (!spoDate.equals("")) {
-				Date date = sdf.parse(spoDate);
-				spoComm.setSpoDate(date);
-			}
-			if (!ipoDate.equals("")) {
-				Date date = sdf.parse(spoDate);
-				spoComm.setIpoDate(date);
-			}
-			if (!rationType.equals("")) {
-				if (rationType.equals("比例配售")) {
-					spoComm.setRationType("1");
-				}
-				if (rationType.equals("定向配售"))
-					spoComm.setRationType("2");
-			}
-			if (!rationSate.equals("")) {
-				if (rationSate.equals("已增发"))
-					spoComm.setSpoSate(1);
-				if (rationSate.equals("增发失败"))
-					spoComm.setSpoSate(2);
-			}
+//			SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			logger.info(communityId);
+//			logger.info(registerDate);
+//			logger.info(spoDate);
+//			logger.info(ipoDate);
+//			logger.info(rationType);
+//			logger.info(rationSate);
+//			if (!communityId.equals("")) {
+//				spoComm.setCommunityId(communityId);
+//			}
+//			if (!registerDate.equals("")) {
+//				Date date = sdf.parse(registerDate);
+//				spoComm.setRegisterDate(date);
+//			}
+//			if (!spoDate.equals("")) {
+//				Date date = sdf.parse(spoDate);
+//				spoComm.setSpoDate(date);
+//			}
+//			if (!ipoDate.equals("")) {
+//				Date date = sdf.parse(spoDate);
+//				spoComm.setIpoDate(date);
+//			}
+//			if (!rationType.equals("")) {
+//				if (rationType.equals("比例配售")) {
+//					spoComm.setRationType("1");
+//				}
+//				if (rationType.equals("定向配售"))
+//					spoComm.setRationType("2");
+//			}
+//			if (!rationSate.equals("")) {
+//				if (rationSate.equals("已增发"))
+//					spoComm.setSpoSate(1);
+//				if (rationSate.equals("增发失败"))
+//					spoComm.setSpoSate(2);
+//			}
 			logger.info(spoComm.getRationType());
 			List<SpoCommoditymanmaagement> tempList = spoService.getSPOList(
 					page, rows, spoComm);
@@ -280,5 +277,70 @@ public class SPOController {
 			}
 
 		}
-
+		//获取承销商列表
+		@RequestMapping(value = "/getUnderwriterInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+		@ResponseBody
+		public String getUnderwriterInfo(@RequestParam("spoId") String spoId){
+			logger.info("获取承销商列表");
+			try {
+				List<SpoRation> tempInfo = spoService.getRationInfo(spoId);
+				ResponseResult responseResult = new ResponseResult();
+				responseResult.setRows(tempInfo);
+				String jsonResult = JSON.json(tempInfo);
+				logger.info("承销商配售信息"+jsonResult);
+				return jsonResult;
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.error("承销商配售信息异常！");
+				return "error";
+			}
+		}
+		// 承销商配售信息插入
+		@RequestMapping(value = "/addUnderwriterRationInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+		@ResponseBody
+		public String addUnderwriterRationInfo(@RequestBody List<SpoRation> spoRationList){
+			logger.info("承销商配售信息插入");
+			try {
+				int result =0;
+				for (SpoRation spoRation : spoRationList) {
+					spoRation.setFirmid(spoRation.getBrokerid());
+					spoRation.setSalesid(spoRation.getBrokerid());
+					result+=spoService.insertByRation(spoRation);
+				}
+				if (result>=1) {
+					return "success";
+				}else{
+					return "fail";
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.info("承销商配售信息插入",e);
+				return "error";
+			}
+		}
+		
+		
+		// 承销商配售信息修改
+				@RequestMapping(value = "/updateUnderwriterRationInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+				@ResponseBody
+				public String updateUnderwriterRationInfo(@RequestBody List<SpoRation> spoRationList){
+					logger.info("承销商配售信息修改");
+					int result=0;
+					try {
+						for (SpoRation spoRation : spoRationList) {
+							spoRation.setFirmid(spoRation.getBrokerid());
+							spoRation.setSalesid(spoRation.getBrokerid());
+							result += spoService.updateByRation(spoRation);
+						}
+						if (result>=1) {
+							return "success";
+						}else{
+							return "fail";
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						logger.info("承销商配售信息修改",e);
+						return "error";
+					}
+				}
 }

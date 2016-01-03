@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author Bob
  *
  */
-public class SpoRation {
+public class SpoRation implements Serializable{
 	private Long rationid;
 
 	private String spoid;
