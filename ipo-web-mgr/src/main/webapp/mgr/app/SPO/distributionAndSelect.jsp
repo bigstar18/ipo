@@ -120,6 +120,8 @@ $(document).ready(function(){
             					return;
             				}else if(data=="success"&&update.length==0){
             					alert("分配成功！");
+            					parent.$("#dd").window("close");
+            					parent.$('#depositInfo').datagrid('reload');
             					return;
             				}
             			}
@@ -142,6 +144,8 @@ $(document).ready(function(){
             					return;
             				}else if(data=="success"){
             					alert("分配成功！");
+            					parent.$("#dd").window("close");
+            					parent.$('#depositInfo').datagrid('reload');
             				}
             			}
             		});
