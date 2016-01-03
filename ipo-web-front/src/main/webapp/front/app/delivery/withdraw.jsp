@@ -247,7 +247,7 @@ $(function() {
       var value = $(".pickup").find("option:selected").val();
       var vcount = Number($('#vcount').val());
       if (value == '1') {
-        if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
+        if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) <= 0) {
           $('#dcount').css('background', '#EEEE00');
           return false;
         }if ($('.textbox-text').val() == '') {
