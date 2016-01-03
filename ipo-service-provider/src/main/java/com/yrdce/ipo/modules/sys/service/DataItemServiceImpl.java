@@ -1,7 +1,9 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,28 @@ public class DataItemServiceImpl implements DataItemService {
 		}
 		return dataList;
 	}
+	
+	
+	
+	/**
+	 * 根据类型查询数据项
+	 * @param type
+	 * @return
+	 */
+	public Map<String,String> queryForMap(String type){
+		Map<String,String> map = new HashMap<String,String>();
+		DataItem dataItem = new DataItem();
+		dataItem.setType(type);
+		List<IpoDataItem> dbList=dataItemMapper.queryForList(dataItem);
+		if(dbList!=null&&!dbList.isEmpty()){
+			for(IpoDataItem item:dbList){
+				map.put(item.getCode(), item.getValue());
+			}
+		}
+		return map;
+	}
+	
+	
 	
 	
 	

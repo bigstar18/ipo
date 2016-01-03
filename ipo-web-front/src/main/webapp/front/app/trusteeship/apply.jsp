@@ -60,9 +60,7 @@
           {field: 'auditingDate',title: '审核时间',width: '10%',align: 'center'},
       	  {field: 'oper',title: '操作',width: '8%',align: 'center',
              formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"view("+row.id+")\">" + "查看" + "</a>&nbsp;&nbsp;"+
-                     "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
-                      
+              return  "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
              }
           }
        ]

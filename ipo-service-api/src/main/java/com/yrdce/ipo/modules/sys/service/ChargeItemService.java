@@ -43,6 +43,12 @@ public interface ChargeItemService {
      * @return
      */
 	public long queryChildLevelForCount(ChargeItem chargeItem);
+	
+	/**
+	 * 查询所有的叶子节点
+	 * @return
+	 */
+	public List<ChargeItem> queryLeafForList();
 
 	/**
 	 * 添加费用
@@ -70,6 +76,12 @@ public interface ChargeItemService {
      * @param chargeItem
      */
 	public void update(ChargeItem chargeItem);
+
+	/**
+	 * 删除费用项
+	 * @param chargeItem
+	 */
+	public void delete(ChargeItem chargeItem);
 	
 	
 	

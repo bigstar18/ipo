@@ -50,6 +50,10 @@
     <dubbo:reference id="dataItemService" interface="com.yrdce.ipo.modules.sys.service.DataItemService" />
     <dubbo:reference id="chargeItemService" interface="com.yrdce.ipo.modules.sys.service.ChargeItemService" />
     <dubbo:reference id="taskService" interface="com.yrdce.ipo.modules.sys.service.TaskService" />
+    <dubbo:reference id="chargeRoleService" interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" />
+    <dubbo:reference id="chargeUserService" interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" />
+    
+    
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->

@@ -38,8 +38,7 @@ public interface IpoDataItemMapper {
 	 * @return
 	 */
 	public List<IpoDataItem> queryForList(@Param("param") DataItem dataItem);
-	
-	
+
 	
 	
 	

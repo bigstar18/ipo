@@ -11,26 +11,29 @@
 		<style type="text/css">input {line-height: 14px;}    td {padding-bottom: 3px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<title>添加费用</title>
+		<title>添加一般费用配置</title>
 		<style type="text/css">
 			legend{font-weight:bold;}
 		</style>
 		<script type="text/javascript"> 
 			function save(){
-				 if(dataForm.name.value==""){
-					alert('费用名称不能为空!');return ;
+				 if(dataForm.businessCode.value==""){
+					alert('请选择绑定业务!');return ;
 				 };
-				 if(dataForm.type.value==""){
-					alert('请选择费用周期');return ;
+				 if(dataForm.roleCode.value==""){
+					alert('请选择绑定角色!');return ;
 				 };
-				 if(dataForm.sortId.value==""){
-					alert('排序不能为空!');return ;
+				 if(dataForm.chargeId.value==""){
+					alert('请选择绑定费用!');return ;
 				 };
-				 if(dataForm.remark.value.length>200){
-					 alert('备注不能超过200个字符');return ;
+				 if(dataForm.chargePattern.value==""){
+					alert('请选择收费模式!');return ;
 				 };
-		    	 $.ajax({  
-		  		    url: "<%=request.getContextPath()%>/chargeItemController/save",  
+				 if(dataForm.amount.value==""){
+					 alert('金额不能为空!');return ;
+				 };
+		    	  $.ajax({  
+		  		    url: "<%=request.getContextPath()%>/chargeRoleController/update",  
 		  		    data:$('#dataForm').serialize(),  
 		  		    type: 'POST',dataType: 'json',  
 		  		    success : function(data, stats) {  
@@ -46,19 +49,14 @@
 			        }
 		  		});  
 		    	  
-		      }
+		      };
 
-			
-			
 			function closeWion(){
 				if(window.opener){
 					window.opener.doSearch();
 				};
 				window.close();
 			}
- 	
-			
-			
        </script>
     </head>
 <body leftmargin="14" topmargin="0">
@@ -66,53 +64,76 @@
 		<div class="title font_orange_14b">温馨提示 : <font style="color: red">*号为必填项</font></div>
 	</div>
 	<form id="dataForm" name="dataForm"  >
+	            <input type="hidden" name="id" value="${param.id}"/>
 				<table style="border:0;width:850px" align="center"  class="common" cellpadding="0" cellspacing="2">
         				<tr class="common">
 							<td colspan="4">
 					      		<fieldset>
-					       		<legend>添加费用</legend>
+					       		<legend>一般费用配置</legend>
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr style="height: 20px">   
-        								<td align="right" >费用名称:&nbsp;&nbsp;</td>
-            							<td> <input name="name" type="text" size="28" style="height: 24px;" maxlength="50" />
+        								<td align="right" >绑定业务:&nbsp;&nbsp;</td>
+            							<td> 
+            							    <select name="businessCode" style="width:181px;">
+            							      <option value="0">请选择业务</option>
+            							      <c:forEach items="${businessList }" var="item">
+            							      
+            							        <option value="${item.code }"
+            							           <c:if test="${item.code eq entity.businessCode }" >selected</c:if>
+            							        >${item.value}</option>
+            							      </c:forEach>
+            							    </select> 
             							     <font style="color:red">*</font> 
             							</td> 
         							</tr>
 									<tr style="height: 30px">
-        	  							<td align="right" >上级费用:&nbsp;&nbsp;</td>
+        	  							<td align="right" >绑定角色:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="parentId" style="width:181px;">
-            							      <option value="0">请选择费用</option>
-            							      <c:forEach items="${chargeList }" var="item">
-            							        <option value="${item.id }">${item.name}</option>
+            							    <select name="roleCode" style="width:181px;">
+            							      <option value="0">请选择角色</option>
+            							      <c:forEach items="${roleList }" var="item">
+            							        <option value="${item.code }"
+            							          <c:if test="${item.code eq entity.roleCode }" >selected</c:if>
+            							        >${item.value}</option>
             							      </c:forEach>
             							    </select> 
 			  								<font style="color:red">如果未选择一级费用，则表示此次待添加的费用将被列为一级费用</font>  
             							</td> 
             						</tr>
             						<tr style="height: 30px">   
-        								<td align="right" >费用周期:&nbsp;&nbsp;</td>
+        								<td align="right" >绑定费用:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="type" style="width:180px;">
-            							      <option value="">请选择费用周期</option>
-            							      <c:forEach items="${typeList }" var="item">
-            							        <option value="${item.code }">${item.name}</option>
+            							    <select name="chargeId" style="width:180px;">
+            							      <option value="">请选择费用</option>
+            							      <c:forEach items="${leafChargeList }" var="item">
+            							        <option value="${item.id }"
+            							          <c:if test="${item.id eq entity.chargeId }" >selected</c:if>
+            							        >${item.name}</option>
+            							      </c:forEach>
+            							    </select> 
+			  								<font style="color:red">*</font>
+            							</td> 
+        							</tr>
+        							<tr style="height: 30px">   
+        								<td align="right" >收费模式:&nbsp;&nbsp;</td>
+            							<td> 
+            							    <select name="chargePattern" style="width:180px;">
+            							      <option value="">请选择收费模式</option>
+            							      <c:forEach items="${patternList }" var="item">
+            							        <option value="${item.code }"
+            							          <c:if test="${item.code eq entity.chargePattern }" >selected</c:if>
+            							        >${item.name}</option>
             							      </c:forEach>
             							    </select> 
 			  								<font style="color:red">*</font>
             							</td> 
         							</tr>
         							<tr style="height: 20px">   
-        								<td align="right" >排序:&nbsp;&nbsp;</td>
-            							<td> <input name="sortId" type="text" size="28" style="height: 24px;" maxlength="5"
+        								<td align="right" >金额:&nbsp;&nbsp;</td>
+            							<td> <input name="amount" type="text" size="28" style="height: 24px;" maxlength="12" value="${entity.amount }"
             							    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
                        						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/>
 			  								<font style="color:red">*</font> 
-            							</td> 
-        							</tr>
-        							<tr style="height: 30px">   
-        								<td align="right" >备注:&nbsp;&nbsp;</td>
-            							<td> <textarea name="remark" rows="5" cols="26" ></textarea> 
             							</td> 
         							</tr>
 	 							</table >
