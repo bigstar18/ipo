@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 <head>
  <title>设置用户快捷菜单</title>
 </head>
@@ -290,4 +290,4 @@ function frmChk()
 
 //-->
 </SCRIPT>
-<%@ include file="/wharehouse/public/jsp/footinc.jsp"%>
+<%@ include file="/mgr/public/jsp/footinc.jsp"%>

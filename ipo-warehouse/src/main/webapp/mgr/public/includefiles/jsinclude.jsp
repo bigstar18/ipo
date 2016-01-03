@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
 <!-- 提供一些公用的方法 js -->
 <script type="text/javascript"
 	src="<%=publicPath%>/js/tool.js"></script>

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/wharehouse/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
 
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
 <link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />

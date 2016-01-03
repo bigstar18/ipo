@@ -128,6 +128,7 @@ public class SystemServiceImpl implements SystemService {
 
 		systemManager.settle();
 
+		msg.setMsg("操作成功！");
 		return msg;
 	}
 
