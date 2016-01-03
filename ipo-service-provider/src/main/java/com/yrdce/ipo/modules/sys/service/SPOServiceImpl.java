@@ -286,7 +286,7 @@ public class SPOServiceImpl implements SPOService {
 		return list2;
 	}
 
-	// 跟新状态
+	// 更新状态
 	@Override
 	@Transactional
 	public int updateStatus(Integer rationSate, String spoid) throws Exception {
@@ -302,6 +302,11 @@ public class SPOServiceImpl implements SPOService {
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipospoComm);
 		return ipoSPOCommMapper.updateByComm(ipospoComm);
+	}
+
+	// 根据增发ID查询增发总量
+	public int all() {
+		return 0;
 	}
 
 }

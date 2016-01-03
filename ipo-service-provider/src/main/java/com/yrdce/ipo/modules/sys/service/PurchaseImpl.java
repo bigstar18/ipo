@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 
 /**
@@ -31,19 +33,21 @@ public class PurchaseImpl implements Purchase {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private FFirmfundsMapper funds;
+	private FFirmfundsMapper fundsMapper;
 	@Autowired
-	private IpoCommodityMapper com;
+	private IpoCommodityMapper ipoComMapper;
 	@Autowired
-	private IpoOrderMapper order;
+	private IpoOrderMapper ipoOrderMapper;
 	@Autowired
 	@Qualifier("systemService")
 	private SystemService system;
+	@Autowired
+	private IpoCommodityConfMapper ipoCommConfMapper;
 
 	// 时间判断
 	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
-		IpoCommodity c = com.selectByComid(sId);
+		IpoCommodity c = ipoComMapper.selectByComid(sId);
 		logger.info("获取开始时间");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// 获取开售日期
@@ -86,7 +90,7 @@ public class PurchaseImpl implements Purchase {
 					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = com.selectByComid(ID);
+					IpoCommodity commodity = ipoComMapper.selectByComid(ID);
 					// 获取商品名称
 					String name = commodity.getCommodityname();
 					// 商品单价
@@ -101,39 +105,52 @@ public class PurchaseImpl implements Purchase {
 					param.put("monery", "");
 					param.put("userid", userId);
 					param.put("lock", 0);
-					funds.getMonery(param);
+					fundsMapper.getMonery(param);
 					BigDecimal monery = (BigDecimal) param.get("monery");
 					// int类型转换
-					BigDecimal bigDecimal = new BigDecimal(counts);
+					BigDecimal num = new BigDecimal(counts);
 					// 申购消费总额
-					BigDecimal allMonery = bigDecimal.multiply(price);
-
+					BigDecimal allMonery = num.multiply(price);
+					// 获取算法方式，比例值 1：百分比 2：绝对值
+					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
+					short mode = ipoCommodityConf.getPublishalgr();
+					BigDecimal val = ipoCommodityConf.getBuy();
+					BigDecimal fee = new BigDecimal(0);
+					;
+					if (mode == 1) {
+						fee = allMonery.multiply(val);
+					} else {
+						fee = num.multiply(val);
+					}
+					BigDecimal cost = allMonery.add(fee);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断
-						if (monery.compareTo(allMonery) != -1) {
+						if (monery.compareTo(cost) != -1) {
 							logger.info("进入资金判断");
 							// 查询主键值
-							long sequence = order.sequence();
-
+							long sequence = ipoOrderMapper.sequence();
 							// 当前时间
 							Timestamp date = new Timestamp(System.currentTimeMillis());
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 							String sequence1 = String.format("%04d", sequence);
 							String time = sdf.format(date);
 							String primaryKey = time + sequence1;
-							IpoOrder d = new IpoOrder();
-							d.setOrderid(primaryKey);
-							d.setUserid(userId);
-							d.setCommodityid(sId);
-							d.setCommodityname(name);
-							d.setCounts(counts);
-							d.setCreatetime(date);
-							d.setFrozenfunds(allMonery);
-							d.setFrozenst(0);
-							d.setCommodity_id(id);
-							order.insert(d);
-							this.frozen(userId, allMonery);
+							IpoOrder ipoOrder = new IpoOrder();
+							ipoOrder.setOrderid(primaryKey);
+							ipoOrder.setUserid(userId);
+							ipoOrder.setCommodityid(sId);
+							ipoOrder.setCommodityname(name);
+							ipoOrder.setCounts(counts);
+							ipoOrder.setCreatetime(date);
+							ipoOrder.setFrozenfunds(cost);
+							ipoOrder.setFrozenst(0);
+							ipoOrder.setCommodity_id(id);
+							ipoOrder.setBuy(val);
+							ipoOrder.setTradealgr(mode);
+							ipoOrder.setFrozencounterfee(fee);
+							ipoOrderMapper.insert(ipoOrder);
+							this.frozen(userId, cost);
 							return SECCESS;
 						} else {
 							return LACK_OF_FUNDS;
@@ -162,7 +179,7 @@ public class PurchaseImpl implements Purchase {
 			param.put("userid", userId);
 			param.put("amount", mony);
 			param.put("moduleid", "40");
-			funds.getfrozen(param);
+			fundsMapper.getfrozen(param);
 			BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
 			return monery;
 		} catch (Exception e) {
@@ -174,7 +191,7 @@ public class PurchaseImpl implements Purchase {
 	// 判断是重复申购
 	public boolean repeat(String userId, String sId) {
 		logger.info("查询商品重复申购 ");
-		IpoOrder ipoOrder = order.selectByid(userId, sId);
+		IpoOrder ipoOrder = ipoOrderMapper.selectByid(userId, sId);
 		if (ipoOrder != null) {
 			return false;
 		} else {
