@@ -23,6 +23,27 @@ public class IpoOrder {
 	private int frozenst;// 资金状态
 
 	private int sale_id;// 发售表主键ID
+	
+	private Short tradealgr;
+
+	private BigDecimal buy;
+	
+	
+	public Short getTradealgr() {
+		return tradealgr;
+	}
+
+	public void setTradealgr(Short tradealgr) {
+		this.tradealgr = tradealgr;
+	}
+
+	public BigDecimal getBuy() {
+		return buy;
+	}
+
+	public void setBuy(BigDecimal buy) {
+		this.buy = buy;
+	}
 
 	public int getCommodity_id() {
 		return sale_id;
