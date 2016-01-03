@@ -65,13 +65,14 @@ public class Distribution implements Serializable {
 	@XmlElement(name = "orderid")
 	private String orderid;// 订单
 
-	private Integer withold;
+	private Integer frozen;
 
 	private BigDecimal tradingamount;
 
 	private BigDecimal counterfee;
 
-	private Date withholddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date frozendate;
 
 	public String getOrderid() {
 		return orderid;
@@ -137,12 +138,21 @@ public class Distribution implements Serializable {
 		this.commodityid = commodityid;
 	}
 
-	public Integer getWithold() {
-		return withold;
+
+	public Integer getFrozen() {
+		return frozen;
 	}
 
-	public void setWithold(Integer withold) {
-		this.withold = withold;
+	public void setFrozen(Integer frozen) {
+		this.frozen = frozen;
+	}
+
+	public Date getFrozendate() {
+		return frozendate;
+	}
+
+	public void setFrozendate(Date frozendate) {
+		this.frozendate = frozendate;
 	}
 
 	public BigDecimal getTradingamount() {
@@ -161,11 +171,5 @@ public class Distribution implements Serializable {
 		this.counterfee = counterfee;
 	}
 
-	public Date getWithholddate() {
-		return withholddate;
-	}
 
-	public void setWithholddate(Date withholddate) {
-		this.withholddate = withholddate;
-	}
 }
