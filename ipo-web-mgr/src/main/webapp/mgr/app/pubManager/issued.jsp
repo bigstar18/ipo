@@ -68,13 +68,13 @@ $(document).ready(function() {
 			align: "center",
 			title : '发行状态',
 			formatter:function(value,row){
-				if(row.status == 0){
+				if(row.status == 1){
 					return '申购成功';
-				}else if(row.status == 1){
-					return '配号成功';
 				}else if(row.status == 2){
-					return '摇号成功';
+					return '配号成功';
 				}else if(row.status == 3){
+					return '摇号成功';
+				}else if(row.status == 4){
 					return '结算成功';
 				}
 			}

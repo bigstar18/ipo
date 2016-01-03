@@ -75,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ORDERID, USERID, USERNAME, COMMODITYID, COMMODITYNAME, COUNTS, CREATETIME, FROZENFUNDS,FROZENST,COMMODITY_ID
+    ORDERID, USERID, USERNAME, COMMODITYID, COMMODITYNAME, COUNTS, CREATETIME, FROZENFUNDS,FROZENST,COMMODITY_ID,
+    TRADEALGR,BUY,FROZENCOUNTERFEE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrderExample" >
     select
@@ -108,13 +109,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
-    insert into IPO_ORDER (ORDERID, USERID, USERNAME, 
-      COMMODITYID, COMMODITYNAME, COUNTS, 
-      CREATETIME, FROZENFUNDS,FROZENST,COMMODITY_ID)
+    insert into IPO_ORDER <include refid="Base_Column_List" />
     values (#{orderid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{counts,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{frozenfunds,jdbcType=DECIMAL},#{frozenst,jdbcType=INTEGER},
-      #{commodity_id,jdbcType=INTEGER})
+      #{commodity_id,jdbcType=INTEGER},#{TRADEALGR,jdbcType=DECIMAL},#{BUY,jdbcType=DECIMAL},#{FROZENCOUNTERFEE,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="orderid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrder" >
     <selectKey resultType="INTEGER" order="BEFORE" keyProperty="orderid">
