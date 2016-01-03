@@ -241,4 +241,24 @@ public class CommodityServiceImpl implements CommodityService {
 		return null;
 	}
 
+	@Override
+	public List<Commodity> queryAllByStatusForSettle(Integer status) {
+		List<IpoCommodity> commlist = ipoCommodityMapper.selectByStatus(status);
+		if (commlist != null) {
+			List<Commodity> result = new ArrayList<Commodity>();
+			for (int i = 0; i < commlist.size(); i++) {
+				int update = ipoCommodityMapper.updateStatusByStatusId(3, 41, commlist.get(i).getCommodityid());
+				if (update < 1) // 更新不成功
+					continue;
+
+				Commodity commo = new Commodity();
+				BeanUtils.copyProperties(commlist.get(i), commo);
+				commo.setPrice(commlist.get(i).getPrice().doubleValue());
+				result.add(commo);
+			}
+			return result;
+		}
+		return null;
+	}
+
 }

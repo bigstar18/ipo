@@ -27,8 +27,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("QueryController")
 public class QueryController {
 
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
-			.getLogger(QueryController.class);
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(QueryController.class);
 
 	@Autowired
 	private OrderService orderService;
@@ -45,8 +44,7 @@ public class QueryController {
 	 * 发行摇号视图
 	 */
 	@RequestMapping(value = "/IssuedManage", method = RequestMethod.GET)
-	public String IssuedManage(HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+	public String IssuedManage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/pubManager/issued";
 	}
 
@@ -54,8 +52,7 @@ public class QueryController {
 	 * 申购成交视图
 	 */
 	@RequestMapping(value = "/ApplySuccManage", method = RequestMethod.GET)
-	public String ApplySuccManage(HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/pubManager/order_query";
 	}
 
@@ -65,12 +62,19 @@ public class QueryController {
 
 	@RequestMapping(value = "/getAllOrder", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getAllOrder(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
+	public String getAllOrder(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam(value = "userid", required = false) String userid) throws IOException {
 		logger.info("查询订单信息");
 		try {
-			List<Order> clist = orderService.getOrder(page, rows);
-			int totalnums = orderService.getAllOrder();
+			List<Order> clist;
+			int totalnums;
+			if (userid == null) {
+				clist = orderService.getOrder(page, rows);
+				totalnums = orderService.getAllOrder();
+			} else {
+				clist = orderService.getOrderInfo(page, rows, userid);
+				totalnums = orderService.getAll(userid);
+			}
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnums);
@@ -83,14 +87,13 @@ public class QueryController {
 	}
 
 	/**
-	 * 通过用户ID查询订单(申购记录)
+	 * 通过用户ID查询订单(申购记录)<暂不用>
 	 */
 
 	@RequestMapping(value = "/getOrderByUserid", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getOrderByUserid(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam("userid") String userid) throws IOException {
+	public String getOrderByUserid(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
+			throws IOException {
 		logger.info("根据用户ID查询订单信息");
 		try {
 			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
@@ -116,13 +119,19 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/findRockNums", method = RequestMethod.GET)
 	@ResponseBody
-	public String findRockNums(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
+	public String findRockNums(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam(value = "commodityid", required = false) String commodityid) throws IOException {
 		logger.info("分页查询发售商品信息");
 		try {
-			List<Commodity> clist = commodityService.getList(page, rows);
-			logger.info(clist.toString());
-			int totalnums = commodityService.getCounts();
+			List<Commodity> clist;
+			int totalnums;
+			if (commodityid == null) {
+				clist = commodityService.getList(page, rows);
+				totalnums = commodityService.getCounts();
+			} else {
+				clist = commodityService.getCommodityByPage(page, rows, commodityid);
+				totalnums = commodityService.getCountsByPage(commodityid);
+			}
 			logger.info(totalnums + "");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -136,21 +145,18 @@ public class QueryController {
 	}
 
 	/**
-	 * 根据商品id分页查询商品信息(发行摇号)
+	 * 根据商品id分页查询商品信息(发行摇号)(暂不用)
 	 */
 	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String commodityInfo(
-			@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
+	public String commodityInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			@RequestParam(value = "commodityid", required = false) String commodityid) {
 		logger.info("根据商品id查询商品信息");
 		try {
 			if (commodityid == null) {
 				commodityid = "";
 			}
-			List<Commodity> clist = commodityService.getCommodityByPage(page,
-					rows, commodityid);
+			List<Commodity> clist = commodityService.getCommodityByPage(page, rows, commodityid);
 			logger.info(clist.toString());
 			int totalnums = commodityService.getCountsByPage(commodityid);
 			logger.info("totalnums:" + totalnums);
@@ -174,13 +180,10 @@ public class QueryController {
 		try {
 			taskService.lottery();
 		} catch (Exception e) {
-			logger.error("rock error:",e);
+			logger.error("rock error:", e);
 			return false;
 		}
 		return true;
 	}
-	
-	
-	
 
 }

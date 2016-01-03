@@ -439,7 +439,7 @@
    <select id="getAllBycommodityid"  resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended"  parameterType="map" >
   select b.* from
 	(select a.*,rownum TNO from 
-	(select c.id,c.commodityid,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
+	(select c.id,c.commodityid,c.commodityname,c.starttime,c.endtime,c.counts,c.status,t1.ccounts from IPO_COMMODITY_SALE c 
 	left outer join 
 	(select commodityid,sum(counts) ccounts from IPO_ORDER t group by t.commodityid) t1
 	on c.commodityid = t1.commodityid where upper(c.commodityid) like concat(concat('%',#{commodityid,jdbcType=VARCHAR}),'%')) a order by a.ID) b
@@ -450,12 +450,18 @@
   	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
   
-<<<<<<< HEAD
     <select id="selectPriceByCommodityid" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="java.lang.String">
-=======
-   <select id="selectPriceByCommodityid" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="java.lang.String">
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
   	select * from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
+
   
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="map">
+   	select 
+   		<include refid="Base_Column_List" /> 
+   	from IPO_COMMODITY_SALE where STATUS = #{status,jdbcType=INTEGER}
+   </select>
+   
+   <update id="updateStatusByStatusId" parameterType="map">
+   	update IPO_COMMODITY_SALE set STATUS = #{newStatus,jdbcType=INTEGER} where STATUS = #{oldStatus,jdbcType=INTEGER} and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+   </update>
 </mapper>

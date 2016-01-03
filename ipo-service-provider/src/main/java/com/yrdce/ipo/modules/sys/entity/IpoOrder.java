@@ -23,14 +23,13 @@ public class IpoOrder {
 	private int frozenst;// 资金状态
 
 	private int sale_id;// 发售表主键ID
-	
-	private Short tradealgr;
 
-	private BigDecimal buy;
-	
-	private BigDecimal frozencounterfee;
-	
-	
+	private Short tradealgr;// 手续费算法
+
+	private BigDecimal buy;// 手续费比例
+
+	private BigDecimal frozencounterfee;// 手续费冻结资金
+
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;
 	}

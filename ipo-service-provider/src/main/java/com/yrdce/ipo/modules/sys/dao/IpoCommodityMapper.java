@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.sys.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -60,7 +59,7 @@ public interface IpoCommodityMapper {
 
 	int getCountsByPage(String commodityid);
 
-	void updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
+	int updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
 
 	List<IpoCommodityExtended> getAllBycommodityid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("commodityid") String commodityid);
@@ -68,11 +67,15 @@ public interface IpoCommodityMapper {
 	int selectByCommodityid(String commodityid);
 
 	IpoCommodity getSelectByComid(String comid);
-	
+
 	IpoCommodity queryByComid(String comid);
-	
-	List<String>  queryNames();
-	
-	//根据商品代码查询发售价格
+
+	List<String> queryNames();
+
+	// 根据商品代码查询发售价格
 	IpoCommodityExtended selectPriceByCommodityid(@Param("commodityid") String commId);
+
+	List<IpoCommodity> selectByStatus(@Param("status") int status);
+
+	int updateStatusByStatusId(@Param("oldStatus") int oldStatus, @Param("newStatus") int newStatus, @Param("commodityid") String commId);
 }

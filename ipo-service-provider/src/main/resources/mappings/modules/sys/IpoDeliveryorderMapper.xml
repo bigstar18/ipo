@@ -248,16 +248,15 @@
   
   <select id="getPickupDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
   	select d.*,p.IDCARD_NUM from IPO_DELIVERYORDER d 
-  	left join IPO_PICKUP p 
+  	left join (select * from IPO_PICKUP where PICKUP_PASSWORD = #{delivery.pickupPassword,jdbcType=VARCHAR})p 
   	on d.DELIVERYORDER_ID = p.PICKUP_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
-  	and p.PICKUP_PASSWORD = #{delivery.pickupPassword,jdbcType=VARCHAR}
   </select>
   
    <select id="getExpressDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
   	select d.*,t.ADDRESS,t.COST,t.RECEIVER,t.TEL
   	from IPO_DELIVERYORDER d 
-  	left join ipo_express t 
+  	inner join ipo_express t 
   	on d.DELIVERYORDER_ID = t.EXPRESS_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   </select>
