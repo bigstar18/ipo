@@ -75,62 +75,10 @@ $(document).ready(function() {
 });
     
 function doSearch(){
-	var userid=$("#userid").val();
-	 $('#tt').datagrid({  
-         title:'申购记录',  
-         iconCls:'icon-ok', 
-         method:"post",
-         height:400,
-         pageSize:10,  
-         pageList:[5,10,15],  
-         nowrap:true,
-         singleSelect:true,
-         striped:true,
-         toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/QueryController/getOrderByUserid?userid='+ userid, //搜索  
-		 loadMsg : '数据加载中......',
-		 fitColumns : true,//允许表格自动缩放,以适应父容器  
-		 columns : [ [ {
-		 field : 'userid',
-		 width : 200,
-		 align: "center",
-		 title : '交易商代码'
-	}, {
-		field : 'commodityid',
-		width : 200,
-		align: "center",
-		title : '商品编号'
-	}, {
-		field : 'commodityname',
-		width : 200,
-		align: "center",
-		title : '商品名称'
-	}, {
-		field : 'counts',
-		width : 200,
-		align: "center",
-		title : '已申购数量'
-	}, {
-		field : 'createtime',
-		width : 200,
-		align: "center",
-		title : '申购时间'
-	}, {
-		field : 'frozenfunds',
-		width : 200,
-		align: "center",
-		title : '资金冻结'
-	} ] ],
-		pagination : true
+	$('#tt').datagrid('load',{
+		userid: $('#userid').val()
 	});
-		var p2 = $('#tt').datagrid('getPager');
-			$(p2).pagination({
-				beforePageText : '第',
-				afterPageText : '页    共 {pages} 页',
-				displayMsg : '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-			});
-
-		}
+}
 </script>
 </head>
 <body>

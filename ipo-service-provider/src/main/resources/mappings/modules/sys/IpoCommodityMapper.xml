@@ -450,11 +450,7 @@
   	select UNITS from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
   
-<<<<<<< HEAD
     <select id="selectPriceByCommodityid" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="java.lang.String">
-=======
-   <select id="selectPriceByCommodityid" resultType = "com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended" parameterType="java.lang.String">
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
   	select * from IPO_COMMODITY_SALE where  COMMODITYID  = #{commodityid,jdbcType=VARCHAR}
   </select>
   

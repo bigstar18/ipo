@@ -212,24 +212,6 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int insertByRation(SpoRation spoRation) throws Exception {
 		logger.info("分配承销商配售比例");
-		String spoid = spoRation.getSpoid();
-
-		// 查询增发信息获取增发数量
-		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		long counts = ipoSPOComm.getSpoCounts();
-
-		// 获取承销商分配比例并计算应分配数量
-		long proportion = spoRation.getSalesAllocationratio();
-		long sum = counts * (proportion / 100);
-		spoRation.setRationcounts(sum);
-
-		// 获取已配售和未配售并更新
-		long nocounts = ipoSPOComm.getNotRationCounts();
-		long successcounts = ipoSPOComm.getSuccessRationCounts();
-		nocounts = nocounts - sum;
-		successcounts = successcounts + sum;
-		ipoSPOCommMapper.updateByCounts(spoid, nocounts, successcounts);
-
 		IpoSpoRation ipoSpoRation = new IpoSpoRation();
 		BeanUtils.copyProperties(spoRation, ipoSpoRation);
 		return ipoSpoRationMapper.insert(ipoSpoRation);

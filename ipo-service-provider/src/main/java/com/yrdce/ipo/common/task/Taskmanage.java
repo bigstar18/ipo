@@ -22,7 +22,6 @@ public class Taskmanage extends TimerTask {
 
 	@Autowired
 	private TaskService taskService;
-	 
 
 	@Override
 	@Transactional
@@ -39,7 +38,7 @@ public class Taskmanage extends TimerTask {
 			taskService.lottery();
 			taskService.orderBalance();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 }

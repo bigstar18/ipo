@@ -126,82 +126,9 @@ function constructionManager(commodityid){
 }
     
 function doSearch(){
-	var commodityid=$("#commodityid").val();
-	 $('#tt').datagrid({  
-         title:'发行摇号',  
-         iconCls:'icon-ok', 
-         method:"get",
-         height:400,
-         pageSize:10,  
-         pageList:[5,10,15],  
-         nowrap:true,  
-         singleSelect:true,
-         striped:true,  
-         toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/QueryController/commodityInfo?commodityid='+commodityid, //搜索前,触发此action请求所有用户信息  
-         loadMsg:'数据加载中......',  
-         fitColumns:true,//允许表格自动缩放,以适应父容器
-         columns : [ [ {  
-             field : 'commodityid',  
-             width : 200,  
-             align: "center",
-             title : '商品代码'  
-         }, {  
-             field : 'starttime',  
-             width : 200,  
-             align: "center",
-             title : '发行开始日期'  
-         }, {  
-             field : 'endtime',  
-             width : 200,  
-             align: "center",
-             title : '发行截至日期'
-         },{
-			field : 'counts',
-			width : 200,
-			align: "center",
-			title : '网上发行量'
-		 },{
-			field : 'ccounts',
-			width : 200,
-			align: "center",
-			title :  '申购数量'
-		 },{
-			field : 'operating',
-			width : 200,
-			align: "center",
-			title : '发行状态',
-			formatter:function(value,row){
-				if(row.status == 0){
-					return '申购成功';
-				}else if(row.status == 1){
-					return '配号成功';
-				}else if(row.status == 2){
-					return '摇号成功';
-				}else if(row.status == 3){
-					return '结算成功';
-				}
-			}
-		 },{
-				field : 'oper',
-				width : 200,
-				align: "center",
-				title : '摇号',
-				formatter:function(value,row){
-					 return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">" + "开始" + "</a>";
-				}
-		  }
-		 
-		 ]],  
-         pagination : true
-     });  
-	
-	 var p = $('#tt').datagrid('getPager'); 
-	    $(p).pagination({ 
-	        beforePageText: '第',
-	        afterPageText: '页    共 {pages} 页', 
-	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-	    });  
+	$('#tt').datagrid('load',{
+		commodityid: $('#commid').val()
+	});
 }
     
 
@@ -219,7 +146,7 @@ function doSearch(){
 		
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
-		商品代码: <input id="commodityid" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
+		商品代码: <input id="commid" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>

@@ -69,4 +69,7 @@ public interface SPOService {
 	// 修改增发商品
 	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
 
+	// 更新已配售、未配售数量
+	// public int update();
+
 }

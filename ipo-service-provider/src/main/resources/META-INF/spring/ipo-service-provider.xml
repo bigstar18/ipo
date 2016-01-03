@@ -55,11 +55,7 @@
     
     
     
-<<<<<<< HEAD
- 
-=======
- 
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
+
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="displayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
 	<bean id="purchase" class="com.yrdce.ipo.modules.sys.service.PurchaseImpl" />
@@ -88,11 +84,7 @@
     <bean id="taskService" class="com.yrdce.ipo.modules.sys.service.TaskServiceImpl"/>
     <bean id="chargeRoleService" class="com.yrdce.ipo.modules.sys.service.ChargeRoleServiceImpl"/>
     <bean id="chargeUserService" class="com.yrdce.ipo.modules.sys.service.ChargeUserServiceImpl"/>
-<<<<<<< HEAD
-    
-=======
-    
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
+
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 	读写分离：

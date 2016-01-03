@@ -5,13 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.sound.midi.MidiDevice.Info;
-
-import org.apache.jute.Record;
-import org.apache.jute.RecordReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,17 +27,17 @@ import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
-import com.yrdce.ipo.modules.sys.vo.Commodity;
 
 /**
  * 定时任务相关的 service
+ * 
  * @author wq 2016-1-2
  *
  */
 public class TaskServiceImpl implements TaskService {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	 
+
 	@Autowired
 	private IpoOrderMapper order;
 	@Autowired
@@ -57,13 +52,12 @@ public class TaskServiceImpl implements TaskService {
 	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
 	@Autowired
 	private IpoCommodityConfMapper commodityConfMapper;
-	@Autowired 
+	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
 
-
-	
 	/**
 	 * 配号
+	 * 
 	 * @throws Exception
 	 */
 	public void distribution() throws Exception {
@@ -73,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
 			int i = +1;
 			logger.info("遍历商品配置表:" + i);
 			int day = conf.getTradedays();
-			String oldtime = DateUtil.getTime(0);// 做了修改，此处参数应为day
+			String oldtime = DateUtil.getTime(day);// 做了修改，此处参数应为day
 			Date endtime = conf.getEndtime();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String endtime1 = sdf.format(endtime);
@@ -96,16 +90,16 @@ public class TaskServiceImpl implements TaskService {
 		}
 
 	}
-	
-	
+
 	/**
-     * 摇号
-     * @throws Exception
-     */
+	 * 摇号
+	 * 
+	 * @throws Exception
+	 */
 	public void lottery() throws Exception {
 		// 查找所有此商品的申购记录
 		System.out.println("申购记录查询开始");
-		String ballotNowtime = DateUtil.getTime(0);
+		String ballotNowtime = DateUtil.getTime(1);// 做了修改，此处参数应为1
 		List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
 		// List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByTime(ballotNowtime);
 		logger.info(ipoDidList.size() + "");
@@ -163,7 +157,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	/**
-	 *申购结算 
+	 * 申购结算
 	 */
 	@Override
 	@Transactional
@@ -175,47 +169,48 @@ public class TaskServiceImpl implements TaskService {
 		List<IpoDistribution> distributions = ipoDistribution.getInfobyFrozen(1);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
-			if (ipod.getZcounts()!=0){
-				logger.info("获取发售商品信息"+ipod.getCommodityid());
+			if (ipod.getZcounts() != 0) {
+				logger.info("获取发售商品信息" + ipod.getCommodityid());
 				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipod.getCommodityid());
 				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipod.getCommodityid());
-				if(commodityConf!=null){
-				BigDecimal bigDecimal =  commodityExtended.getPrice();
-				double price  = bigDecimal.doubleValue();
-				logger.info("计算成交金额"+price);
-				double tempPrice = price*(double)ipod.getZcounts();
-				logger.info("成交金额"+tempPrice);
-				ipod.setTradingamount(new BigDecimal(tempPrice));
-				logger.info("计算手续费"+commodityConf.getTradealgr());
-				short tradealgr = commodityConf.getTradealgr();
-				logger.info("计算手续费算法"+tradealgr);
-				if(tradealgr==1){
-					double tempDouble = (double)tradealgr/(double)100;
-					double counterfee = tempPrice*tempDouble;
-					ipod.setCounterfee(new BigDecimal(counterfee));
-				}else if(tradealgr==2){
-					double counterfee = (double)tradealgr*(double)ipod.getZcounts();
-					ipod.setCounterfee(new BigDecimal(counterfee));
-				}
-				Date dt = sdf.parse(DateUtil.getTime(0));
-				ipod.setFrozendate(dt);
-				logger.info("跟新中签结算开始");
-				ipoDistribution.setSomeInfo(ipod);
-				logger.info("跟新中签结算结束");
-				transferPosition(commodityExtended, ipod,commodityConf);
-				
+				if (commodityConf != null) {
+					BigDecimal bigDecimal = commodityExtended.getPrice();
+					double price = bigDecimal.doubleValue();
+					logger.info("计算成交金额" + price);
+					double tempPrice = price * (double) ipod.getZcounts();
+					logger.info("成交金额" + tempPrice);
+					ipod.setTradingamount(new BigDecimal(tempPrice));
+					logger.info("计算手续费" + commodityConf.getTradealgr());
+					short tradealgr = commodityConf.getTradealgr();
+					logger.info("计算手续费算法" + tradealgr);
+					if (tradealgr == 1) {
+						double tempDouble = (double) tradealgr / (double) 100;
+						double counterfee = tempPrice * tempDouble;
+						ipod.setCounterfee(new BigDecimal(counterfee));
+					} else if (tradealgr == 2) {
+						double counterfee = (double) tradealgr * (double) ipod.getZcounts();
+						ipod.setCounterfee(new BigDecimal(counterfee));
+					}
+					Date dt = sdf.parse(DateUtil.getTime(0));
+					ipod.setFrozendate(dt);
+					logger.info("跟新中签结算开始");
+					ipoDistribution.setSomeInfo(ipod);
+					logger.info("跟新中签结算结束");
+					transferPosition(commodityExtended, ipod, commodityConf);
+
 				}
 			}
 		}
 		logger.info("申购结束");
 	}
-	private void transferPosition(IpoCommodityExtended comm,IpoDistribution dst,IpoCommodityConf commodityConf) throws Exception {
+
+	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
 		String commUnit = commodityConf.getContractfactorname();
 		IpoPosition record = new IpoPosition();
 		record.setFirmid(dst.getUserid());
-		record.setPosition((long)dst.getZcounts());
+		record.setPosition((long) dst.getZcounts());
 		record.setCommodityid(dst.getCommodityid());
 		record.setCommodityname(dst.getCommodityname());
 		record.setPositionPrice(comm.getPrice().longValue());
@@ -223,6 +218,5 @@ public class TaskServiceImpl implements TaskService {
 		ipoPositionMapper.insert(record);
 		logger.info("转持仓结束");
 	}
-
 
 }
