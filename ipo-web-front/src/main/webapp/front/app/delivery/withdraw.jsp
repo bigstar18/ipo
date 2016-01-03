@@ -229,6 +229,13 @@
   </table> -->
   <script type="text/javascript">
 $(function() {
+  $('#ddate').datebox('calendar').calendar({
+      validator: function(date){
+          var now = new Date();
+          var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          return d1<=date;
+      }
+  });
 	  $('.pickup').change(function() {
 	    var value = $(".pickup").find("option:selected").val();
 	    if (value == '1') {
@@ -249,32 +256,11 @@ $(function() {
       var value = $(".pickup").find("option:selected").val();
       var vcount = Number($('#vcount').val());
 
-
-
-      var myDate = new Date();
-      var tdata = myDate.toLocaleDateString().split('/');
-      if (Number(tdata[1]) < 10) {
-        tdata[1] = '0' + tdata[1];
-      };
-      if (Number(tdata[2]) < 10) {
-        tdata[2] = '0' + tdata[2];
-      };
-      var tdateformat = Number(tdata[0] + tdata[1] + tdata[2]);
-
-      var thisdate = $('#ddate').datebox('getValue').split('-');
-      var selecteddate = Number(thisdate[0] + thisdate[1] + thisdate[2]);
-
-
-
-
       if (value == '1') {
         if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) <= 0) {
           $('#dcount').css('background', '#EEEE00');
           return false;
         }if ($('.textbox-text').val() == '') {
-          $('.textbox-text').css('background', '#EEEE00');
-          return false;
-        }if (tdateformat > selecteddate) {
           $('.textbox-text').css('background', '#EEEE00');
           return false;
         }if ($('#cardNum').val() == '') {
@@ -291,9 +277,6 @@ $(function() {
           $('#dcount').css('background', '#EEEE00');
           return false;
         }if ($('.textbox-text').val() == '') {
-          $('.textbox-text').css('background', '#EEEE00');
-          return false;
-        }if (tdateformat > selecteddate) {
           $('.textbox-text').css('background', '#EEEE00');
           return false;
         }if ($('#telNum').val() == '') {
