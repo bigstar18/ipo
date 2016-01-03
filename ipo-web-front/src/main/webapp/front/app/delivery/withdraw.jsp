@@ -293,7 +293,7 @@ $(function() {
           "receiver":$('#receiverName').val(),
           "address":$('#addressName').val(),
           "dealerId":$('#dealerId').val(),
-          "positionUnit":$('#punit').val()
+          "unit":$('#punit').val()
         },
         success: function(response) {
           if (response == "success") {
