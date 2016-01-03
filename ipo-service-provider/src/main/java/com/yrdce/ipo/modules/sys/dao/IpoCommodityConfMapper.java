@@ -56,12 +56,8 @@ public interface IpoCommodityConfMapper {
 
 	List<IpoCommodityConf> selectCommodityByExample(
 			@Param("record") IpoCommodityConf examples);
-<<<<<<< HEAD
-	
-	//查询单位名称
-		IpoCommodityConf selectCommUnit(@Param("commodityid")String commodityid);
-=======
-	//查询单位名称
-	IpoCommodityConf selectCommUnit(@Param("commodityid")String commodityid);
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
+
+	// 查询单位名称
+	IpoCommodityConf selectCommUnit(@Param("commodityid") String commodityid);
+
 }
