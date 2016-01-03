@@ -155,6 +155,13 @@
               $("#deliverystartday").datebox("setValue",$("#deliverystart").val());
               $("#insurancestartday").datebox("setValue",$("#insurancestart").val());
               $("#warehousestartday").datebox("setValue",$("#warehousestart").val()); 
+             /*  var arr1 = $("#stime").val().split("-");
+              var date1=new Date(parseInt(arr1[0]),parseInt(arr1[1])-1,parseInt(arr1[2]),0,0,0); 
+              var date2=new Date();
+              if(date1.getTime()<date2.getTime()) {                               
+            	  $("#starttime").attr("readonly","readonly");
+            	  $("#endtime").attr("readonly","readonly");
+            } */
 		  });	
 		
 		
@@ -420,7 +427,7 @@ function on_tchange(){
             							</td>  
         								<td align="right" >发行开始日期：</td> 
             							<td> <input type="hidden" id="stime" value="${start }">
-			  								<input type="text" id="starttime" name="starttime" value="" style="width: 100"></input> 
+			  								<input type="text" id="starttime" name="starttime" style="width: 100" ></input> 
 			  							 <span class="required">*</span>  
 			  							</td>
             							

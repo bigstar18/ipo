@@ -179,6 +179,18 @@ function apply(){
 	    success : function(data, stats) {
 	        if (data == "0") {
 	        	alert("提交订单成功！");
+	        	$.ajax({
+	        		cache:false,
+	    		    type: 'GET',
+	    		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",
+	    		    contentType: "application/json; charset=utf-8",
+	    		    data:{"userid":"<%=userId%>"},
+	    		    dataType: 'json',
+	    		    async: true,
+	    		    success : function(data, stats) {
+	    	            $("#money").text(data);
+	    	        }
+	    		});
             }
             if (data == "1") {
             	alert("不在商品发售期！");

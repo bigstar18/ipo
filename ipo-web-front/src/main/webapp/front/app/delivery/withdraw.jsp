@@ -58,7 +58,7 @@
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">在此页面上提交提货单
+      <div class="content">在此页面上提交提货单，星号为必填项
       </div>
     </div>
     <div class="mbodytop">
@@ -246,19 +246,35 @@ $(function() {
       // var inp = $("input");
       // for(var i=0;i<inp.length;i++)
       // {
-      //     // if(inp[i].type=="text")
-      //     // {
+      //     if(inp[i].type=="text")
+      //     {
       //         if(inp[i].value=='')
       //         {
-      //         // alert('第'+(i+1)+'个input为空');
-      //         // console.log('第'+(i+1)+'个input为空'+inp);
-      //           inp[i].style.background = "#EEEE00";
+      //           // console.log('第'+(i+1)+'个input为空'+inp);
+      //           console.log(inp[i].placeholder);
+      //           // inp[i].style.background = "#EEEE00";
       //           return false;
       //         }
-      //     // }
+      //     }
       // }
-      ajaxpost();
+      // var value = $(".pickup").find("option:selected").val();
+      var vcount = Number($('#vcount').val());
+      if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
+        $('#dcount').css('background', '#EEEE00');
+        return false;
+      }if ($('.textbox-text').val() == '') {
+        $('.textbox-text').css('background', '#EEEE00');
+        return false;
+      }else{
+        ajaxpost();
+      }
+
+      // ajaxpost();
     });
+
+    $('#postrest').click(function  () {
+      window.location.reload()
+    })
 
     function ajaxpost () {
       $.ajax({
@@ -277,16 +293,18 @@ $(function() {
           "receiver":$('#receiverName').val(),
           "address":$('#addressName').val(),
           "dealerId":$('#dealerId').val(),
-          "positionUnit":$('#punit').val()
+          "unit":$('#punit').val()
         },
         success: function(response) {
           if (response == "success") {
             alert("添加成功");
-            window.location.reload()
+            window.location.reload();
+          }if (response == "error") {
+            alert("添加失败，请按照格式填写参数");
           };
         },
         error: function(response) {
-          alert("出错咯");
+          alert("添加失败，请重试或联系管理员");
         }
       });
     }

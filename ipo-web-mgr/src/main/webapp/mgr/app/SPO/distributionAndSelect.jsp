@@ -27,34 +27,45 @@ $(document).ready(function(){
         nowrap:true,
         singleSelect:true,
         striped:true,  
-     
-        url:"<%=request.getContextPath()%>", //搜索前,触发此action请求所有用户信息  
-       queryParams:{
-   
-       },
+        url:"<%=request.getContextPath()%>/SPOController/getUnderwriterInfo", //搜索前,触发此action请求所有用户信息 
+        queryParams:{spoId:parent.$("#hidSpoId").val()},
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器  
         columns : [ [ {  
         	 fiele:'checked',
 	     	 checkbox:true  
         },{
-       	 field : 'id',  
+          	 field : 'rationid',  
+             width : 200,  
+             align: "center",
+             title : 'rationid'
+         },{
+          	 field : 'spoid',  
+             width : 200,  
+             align: "center",
+             title : 'spoId',
+             formatter:function(value,row){
+            	 row.spoid = parent.$("#hidSpoId").val();
+            	 return parent.$("#hidSpoId").val();
+             }
+         },{
+       	 field : 'brokerid',  
             width : 200,  
             align: "center",
             title : '承销商代码'
         },{
-       	 field : 'test2',  
+       	 field : 'name',  
             width : 200,  
             align: "center",
             title : '承销商名称',
         },{  
-            field : 'test3',  
+            field : 'salesAllocationratio',  
             width : 200,  
             align: "center",
             title : '承销商分配比例（%）',
             editor: { type: 'text', options: { required: true } }
         },{  
-            field : 'test4',  
+            field : 'salesRebateratio',  
             width : 200, 
             align: "center",
             title : '承销商返佣比例（%）',
@@ -80,6 +91,64 @@ $(document).ready(function(){
         { text: '保存', iconCls: 'icon-save', handler: function () {
             //保存时结束当前编辑的行，自动触发onAfterEdit事件如果要与后台交互可将数据通过Ajax提交后台
             $("#tt").datagrid("endEdit", editRow);
+             var rows = $('#tt').datagrid('getChecked');
+	 	    var add = new Array();
+	 	    var update = new Array();
+	        for(var temp in rows){
+	        	if(rows[temp].rationid==null){
+	        		add.push(rows[temp]);
+	        		//alert(rows[temp].salesRebateratio);
+	        	}else{
+	        		update.push(rows[temp]);
+	        		//alert("2223");
+	        	}
+	        }
+     	   
+            	if(add.length!=0){
+            		$.ajax({
+            			traditional: true,
+            			type:"POST",
+            			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo",
+            			contentType:"application/json", 
+                     	data:JSON.stringify(add),
+            			success:function(data){
+            				if(data=="fail"){
+            					alert("插入失败！");
+            					return;
+            				}else if(data=="error"){
+            					alert("系统异常！");
+            					return;
+            				}else if(data=="success"&&update.length==0){
+            					alert("分配成功！");
+            					return;
+            				}
+            			}
+            		});
+            	}
+            	
+            	if(update.length!=0){
+            		$.ajax({
+            			traditional: true,
+            			type:"POST",
+            			url:"<%=request.getContextPath()%>/SPOController/updateUnderwriterRationInfo",
+            			contentType:"application/json", 
+                     	data:JSON.stringify(update),
+            			success:function(data){
+            				if(data=="fail"){
+            					alert("插入失败！");
+            					return;
+            				}else if(data=="error"){
+            					alert("系统异常！");
+            					return;
+            				}else if(data=="success"){
+            					alert("分配成功！");
+            				}
+            			}
+            		});
+            	}
+            	
+           
+           
         }},
         '-',
         { text: '取消编辑', iconCls: 'icon-redo', handler: function () {
@@ -90,7 +159,6 @@ $(document).ready(function(){
         }
         }],
         onAfterEdit: function (rowIndex, rowData, changes) {
-        	alert(rowData.test3);
         	 console.info(rowData);
              editRow = undefined;
         },
@@ -116,35 +184,10 @@ $(document).ready(function(){
        
 	 
 });
-	 $('#tt').datagrid('insertRow',{
-		    index: 1,  
-		    row: {
-		        id: '新名称',
-		        test2: 30,
-		        test3: 'qq',
-		        test4: '新消息'
-		    }
-		});
-	 $('#tt').datagrid('insertRow',{
-		    index: 2,  
-		    row: {
-		        id: '新名称',
-		        test2: 30,
-		        test3: 'qq',
-		        test4: '新消息'
-		    }
-		});
-});
-function test2(inputValue,row){
-	row: {
-        test4: inputValue
-    }
-}
 
-function test(id){
-	
-	alert(id);
-}
+});
+
+
 
 </script>
 </head>

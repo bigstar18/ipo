@@ -40,6 +40,13 @@ public interface IpoCommConfService {
 	// 获取所有商品数
 	public int getAllComms();
 
+	// 根据条件分页查询所有商品
+	public List<VIpoCommConf> findIpoCommConfsByExample(String page,
+			String rows, VIpoCommConf example);
+
+	// 根据条件获取商品数
+	public int getNumsByExample(VIpoCommConf example);
+
 	// 获取设置了交收属性的商品
 	public List<VIpoCommConf> selectCommodityByExample(VIpoCommConf example);
 

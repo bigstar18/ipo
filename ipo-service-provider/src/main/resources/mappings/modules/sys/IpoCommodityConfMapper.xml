@@ -93,6 +93,21 @@
    <select id="countAll" resultType="java.lang.Integer" >
     select count(*) from IPO_COMMODITY_CONF
   </select>
+  <select id="findAllIpoCommConfsByExample"  resultMap="BaseResultMap"  parameterType="map" >
+  select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where 1=1
+   <if test="record.pubmemberid != null" >
+    and  A.PUBMEMBERID like concat(#{record.pubmemberid,jdbcType=VARCHAR},'%')
+   </if>
+  order by t.COMMODITYID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="getNumsByExample" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf">
+    select count(*) from IPO_COMMODITY_CONF where 1=1 
+     <if test="pubmemberid != null" >
+    and  A.PUBMEMBERID like concat(#{pubmemberid,jdbcType=VARCHAR},'%')
+   </if>
+  </select>
+  
+  
   <select id="findIpoCommConfByCommid"  resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf"  parameterType="String" >
     select 
      <include refid="Base_Column_List" />
