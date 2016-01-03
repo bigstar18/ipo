@@ -99,4 +99,34 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
+	@Override
+	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception {
+		List<Order> result = new ArrayList<Order>();
+
+		List<IpoOrder> list = ipoOrderMapper.selectByCidPaged(0, 500, commId);
+		if (list != null && !list.isEmpty()) {
+			for (int i = 0; i < list.size(); i++) {
+				Order order = new Order();
+				order.setOrderid(list.get(i).getOrderid());
+				order.setUserid(list.get(i).getUserid());
+				order.setCommodityid(list.get(i).getCommodityid());
+				order.setCommodityname(list.get(i).getCommodityname());
+				order.setCounts(list.get(i).getCounts());
+				Timestamp timestamp = list.get(i).getCreatetime();
+				Date date = new Date(timestamp.getTime());
+				order.setCreatetime(date);
+				order.setFrozenfunds(list.get(i).getFrozenfunds());
+				order.setFrozencounterfee(list.get(i).getFrozencounterfee());
+
+				result.add(order);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int updateOrderSettled(String orderid) throws Exception {
+		return ipoOrderMapper.updateByOrderId(1, orderid);
+	}
+
 }

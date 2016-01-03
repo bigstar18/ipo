@@ -18,4 +18,17 @@ public interface OrderService {
 	// 获取所有订单记录数
 	public int getAllOrder() throws Exception;
 
+	/**
+	 * 获取500未结算商品申购单
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception;
+
+	public int updateOrderSettled(String commId) throws Exception;
+
 }

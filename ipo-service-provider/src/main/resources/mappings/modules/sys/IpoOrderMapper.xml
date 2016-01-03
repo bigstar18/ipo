@@ -346,5 +346,16 @@
    <select id="sequence" resultType="java.lang.Long">
 	SELECT SEQ_IPO_ORDER.NEXTVAL FROM dual
    </select>
+   
+   <select id="selectByCidPaged" parameterType="map" resultMap="BaseResultMap">
+   	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_ORDER t where frozenst=0 and COMMODITYID = #{commodityid,jdbcType=VARCHAR}) a where a.TNO between  #{beginnum} and  #{endnum}
+   </select>
+   
+  <update id="updateByOrderId" parameterType="map" >
+    update IPO_ORDER
+    set 
+      FROZENST = #{frozenst,jdbcType=INTEGER}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
+  </update>
 
 </mapper>

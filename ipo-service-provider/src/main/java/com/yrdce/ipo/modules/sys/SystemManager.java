@@ -3,6 +3,7 @@
  */
 package com.yrdce.ipo.modules.sys;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,9 @@ import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
+import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
+import com.yrdce.ipo.modules.sys.vo.Order;
 
 /**
  * @author hxx
@@ -88,6 +91,9 @@ public class SystemManager {
 	@Autowired
 	@Qualifier("orderService")
 	private OrderService orderService;
+	@Autowired
+	@Qualifier("purchase")
+	private Purchase purchase;
 
 	public String getStatus() {
 		return status;
@@ -287,10 +293,27 @@ public class SystemManager {
 		if (sales != null && !sales.isEmpty()) {
 			for (Commodity commodity : sales) {
 				String commodityId = commodity.getCommodityid();
-				// 解冻order表中的订单费和手续费
+				List<Order> orders = orderService.queryUnsettleOrdersByCommId(commodityId);
+				while (orders != null && !orders.isEmpty()) {
+					unfrozenOrders(orders);
+					orders = orderService.queryUnsettleOrdersByCommId(commodityId);
+				}
 				// 扣distribution表中的订单费和手续费
 				// 变更sale表的状态41->4
 			}
+		}
+	}
+
+	// 解冻order表中的订单费和手续费
+	private void unfrozenOrders(List<Order> orders) throws Exception {
+		for (Order order : orders) {
+			String userId = order.getUserid();
+			BigDecimal amount = order.getFrozenfunds();
+			BigDecimal fee = order.getFrozencounterfee();
+			BigDecimal total = amount.add(fee).negate();
+
+			purchase.frozen(userId, total);
+			orderService.updateOrderSettled(order.getOrderid());// 标记处理
 		}
 	}
 

@@ -60,4 +60,8 @@ public interface IpoOrderMapper {
 	int ipoCommSum(Map<String, String> map);
 
 	long sequence();
+
+	List<IpoOrder> selectByCidPaged(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("commodityid") String commodityid);
+
+	int updateByOrderId(@Param("frozenst") int frozenst, @Param("orderid") String sid);
 }
