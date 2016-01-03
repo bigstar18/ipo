@@ -184,7 +184,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="tel" id="telNum" value="" style="width: 150px;"><b>*</b>
+                <input type="text" name="tel" id="telNum" value="" style="width: 150px;" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" ><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -233,43 +233,55 @@ $(function() {
 	    var value = $(".pickup").find("option:selected").val();
 	    if (value == '1') {
 	    	$('.customer').removeClass('hide');
-	        $('.dispatching').addClass('hide');
+        $('.dispatching').addClass('hide');
 	    }
 	    if (value == '2') {
 	    	$('.customer').addClass('hide');
-	        $('.dispatching').removeClass('hide');
+        $('.dispatching').removeClass('hide');
 	    }
 
 	  });
     //提交
     $('#postbtn').click(function  () {
-      // var inp = $("input");
-      // for(var i=0;i<inp.length;i++)
-      // {
-      //     if(inp[i].type=="text")
-      //     {
-      //         if(inp[i].value=='')
-      //         {
-      //           // console.log('第'+(i+1)+'个input为空'+inp);
-      //           console.log(inp[i].placeholder);
-      //           // inp[i].style.background = "#EEEE00";
-      //           return false;
-      //         }
-      //     }
-      // }
-      // var value = $(".pickup").find("option:selected").val();
+      var isIDcard = /^(\d{15}|\d{17}[x0-9])$/i;
+      var value = $(".pickup").find("option:selected").val();
       var vcount = Number($('#vcount').val());
-      if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
-        $('#dcount').css('background', '#EEEE00');
-        return false;
-      }if ($('.textbox-text').val() == '') {
-        $('.textbox-text').css('background', '#EEEE00');
-        return false;
-      }else{
-        ajaxpost();
-      }
-
-      // ajaxpost();
+      if (value == '1') {
+        if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
+          $('#dcount').css('background', '#EEEE00');
+          return false;
+        }if ($('.textbox-text').val() == '') {
+          $('.textbox-text').css('background', '#EEEE00');
+          return false;
+        }if ($('#cardNum').val() == '') {
+          $('#cardNum').css('background', '#EEEE00');
+          return false;
+        }if (!isIDcard.test($('#cardNum').val())) {
+          $('#cardNum').css('background', '#EEEE00');
+          return false;
+        }else{
+          ajaxpost();
+        }
+      }if (value == '2') {
+        if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
+          $('#dcount').css('background', '#EEEE00');
+          return false;
+        }if ($('.textbox-text').val() == '') {
+          $('.textbox-text').css('background', '#EEEE00');
+          return false;
+        }if ($('#telNum').val() == '') {
+          $('#telNum').css('background', '#EEEE00');
+          return false;
+        }if ($('#receiverName').val() == '') {
+          $('#receiverName').css('background', '#EEEE00');
+          return false;
+        }if ($('#addressName').val() == '') {
+          $('#addressName').css('background', '#EEEE00');
+          return false;
+        }else{
+          ajaxpost();
+        }
+      };
     });
 
     $('#postrest').click(function  () {
