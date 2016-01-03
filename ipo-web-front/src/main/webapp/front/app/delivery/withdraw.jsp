@@ -58,7 +58,7 @@
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">在此页面上提交提货单，星号为必填项
+      <div class="content">在此页面上提交提货单，星号为必填项，请选择合适提货日期。
       </div>
     </div>
     <div class="mbodytop">
@@ -137,7 +137,7 @@
                         </span>
               </td>
               <td>
-                <input id="dcount" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" style="width: 150px;"><b>*</b>
+                <input id="dcount" class="btnreset" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -174,7 +174,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="idcardNum" id="cardNum" value="" style="width: 150px;"><b>*</b>
+                <input type="text" class="btnreset" name="idcardNum" id="cardNum" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -184,7 +184,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" name="tel" id="telNum" value="" style="width: 150px;" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" ><b>*</b>
+                <input type="text" class="btnreset" name="tel" id="telNum" value="" style="width: 150px;" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" ><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -194,7 +194,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" id="receiverName" name="receiver" value="" style="width: 150px;"><b>*</b>
+                <input type="text" class="btnreset" id="receiverName" name="receiver" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr class="dispatching hide">
@@ -204,7 +204,7 @@
                         </span>
               </td>
               <td>
-                <input type="text" id="addressName" name="address" value="" style="width: 150px;"><b>*</b>
+                <input type="text" class="btnreset" id="addressName" name="address" value="" style="width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -241,16 +241,40 @@ $(function() {
 	    }
 
 	  });
+
+
     //提交
     $('#postbtn').click(function  () {
       var isIDcard = /^(\d{15}|\d{17}[x0-9])$/i;
       var value = $(".pickup").find("option:selected").val();
       var vcount = Number($('#vcount').val());
+
+
+
+      var myDate = new Date();
+      var tdata = myDate.toLocaleDateString().split('/');
+      if (Number(tdata[1]) < 10) {
+        tdata[1] = '0' + tdata[1];
+      };
+      if (Number(tdata[2]) < 10) {
+        tdata[2] = '0' + tdata[2];
+      };
+      var tdateformat = Number(tdata[0] + tdata[1] + tdata[2]);
+
+      var thisdate = $('#ddate').datebox('getValue').split('-');
+      var selecteddate = Number(thisdate[0] + thisdate[1] + thisdate[2]);
+
+
+
+
       if (value == '1') {
         if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) <= 0) {
           $('#dcount').css('background', '#EEEE00');
           return false;
         }if ($('.textbox-text').val() == '') {
+          $('.textbox-text').css('background', '#EEEE00');
+          return false;
+        }if (tdateformat > selecteddate) {
           $('.textbox-text').css('background', '#EEEE00');
           return false;
         }if ($('#cardNum').val() == '') {
@@ -269,6 +293,9 @@ $(function() {
         }if ($('.textbox-text').val() == '') {
           $('.textbox-text').css('background', '#EEEE00');
           return false;
+        }if (tdateformat > selecteddate) {
+          $('.textbox-text').css('background', '#EEEE00');
+          return false;
         }if ($('#telNum').val() == '') {
           $('#telNum').css('background', '#EEEE00');
           return false;
@@ -285,7 +312,10 @@ $(function() {
     });
 
     $('#postrest').click(function  () {
-      window.location.reload()
+      $('.btnreset').val('');
+      $('.btnreset').css('background', '#fff');
+      $('.textbox-text').val('');
+      $('.textbox-text').css('background', '#fff');
     })
 
     function ajaxpost () {
@@ -310,7 +340,10 @@ $(function() {
         success: function(response) {
           if (response == "success") {
             alert("添加成功");
-            window.location.reload();
+            $('.btnreset').val('');
+            $('.btnreset').css('background', '#fff');
+            $('.textbox-text').val('');
+            $('.textbox-text').css('background', '#fff');
           }if (response == "error") {
             alert("添加失败，请按照格式填写参数");
           };
