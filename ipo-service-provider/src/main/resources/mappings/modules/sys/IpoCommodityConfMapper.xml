@@ -260,4 +260,8 @@
     and DELIVERYPROP =#{record.deliveryProp,jdbcType=DECIMAL}
    </if> 
   </select>
+  <select id="selectCommUnit" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="java.lang.String">
+  	select CONTRACTFACTORNAME,buy,TRADEALGR from IPO_COMMODITY_CONF
+  	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>  
 </mapper>

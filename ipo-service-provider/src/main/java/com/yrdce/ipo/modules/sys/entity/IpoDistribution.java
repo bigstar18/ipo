@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class IpoDistribution {
 	private int id;
 	// 用户编号
@@ -28,6 +30,7 @@ public class IpoDistribution {
 
 	private BigDecimal counterfee;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date frozendate;
 
 	public String getCommodityid() {

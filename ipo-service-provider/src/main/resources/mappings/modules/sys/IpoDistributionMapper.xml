@@ -377,4 +377,17 @@
 		<include refid="Base_Column_List" /> 
 		from IPO_DISTRIBUTION where commodityid = #{commodityid,jdbcType=VARCHAR}
 	</select>
+	<select id="getInfobyFrozen" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select t.* from ipo_distribution t 
+		where t.frozen = #{frozen,jdbcType=INTEGER}  
+	</select>
+	<update id="setSomeInfo" parameterType="map">
+		update IPO_DISTRIBUTION
+		set frozen = #{frozen,jdbcType=INTEGER},
+			tradingamount = #{tradingamount,jdbcType=DECIMAL},
+			counterfee = #{counterfee,jdbcType=DECIMAL},
+			frozendate = #{frozendate,jdbcType=DATE}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	
 </mapper>

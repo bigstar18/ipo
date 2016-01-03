@@ -56,4 +56,6 @@ public interface IpoCommodityConfMapper {
 
 	List<IpoCommodityConf> selectCommodityByExample(
 			@Param("record") IpoCommodityConf examples);
+	//查询单位名称
+	IpoCommodityConf selectCommUnit(@Param("commodityid")String commodityid);
 }
