@@ -49,7 +49,9 @@ public class DeliveryOrder implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyDate;
 
-	private Integer approvalStatus;
+	private Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、仓库通过 5、仓库驳回
+									// 6、已设置配置费用
+									// 7、已确认 8.已废除 9已出库 10已收货)
 
 	private String approvers;
 
@@ -145,7 +147,8 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName == null ? null : commodityName.trim();
+		this.commodityName = commodityName == null ? null : commodityName
+				.trim();
 	}
 
 	public String getDealerId() {
@@ -177,7 +180,8 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName == null ? null : warehouseName.trim();
+		this.warehouseName = warehouseName == null ? null : warehouseName
+				.trim();
 	}
 
 	public Long getDeliveryQuatity() {
@@ -201,7 +205,8 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
+				.trim();
 	}
 
 	public String getMethodId() {
@@ -302,12 +307,19 @@ public class DeliveryOrder implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DeliveryOrder [deliveryorderId=" + deliveryorderId + ", commodityId=" + commodityId + ", commodityName=" + commodityName
-				+ ", dealerId=" + dealerId + ", dealerName=" + dealerName + ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName
-				+ ", deliveryQuatity=" + deliveryQuatity + ", deliveryCounts=" + deliveryCounts + ", deliveryMethod=" + deliveryMethod + ", methodId="
-				+ methodId + ", unit=" + unit + ", deliveryDate=" + deliveryDate + ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus
-				+ ", approvers=" + approvers + ", approveDate=" + approveDate + ", canceler=" + canceler + ", cancelDate=" + cancelDate
-				+ ", position=" + position + ", remarks=" + remarks + "]";
+		return "DeliveryOrder [deliveryorderId=" + deliveryorderId
+				+ ", commodityId=" + commodityId + ", commodityName="
+				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
+				+ dealerName + ", warehouseId=" + warehouseId
+				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
+				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
+				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate="
+				+ deliveryDate + ", applyDate=" + applyDate
+				+ ", approvalStatus=" + approvalStatus + ", approvers="
+				+ approvers + ", approveDate=" + approveDate + ", canceler="
+				+ canceler + ", cancelDate=" + cancelDate + ", position="
+				+ position + ", remarks=" + remarks + "]";
 	}
 
 }

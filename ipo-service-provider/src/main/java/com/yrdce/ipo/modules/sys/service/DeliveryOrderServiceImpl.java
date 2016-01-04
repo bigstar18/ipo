@@ -100,32 +100,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public List<DeliveryOrder> approveDeliOrdersByPage(String page, String rows) {
-		Log.info("分页查询待审核提货单服务");
-		page = (page == null ? "1" : page);
-		rows = (rows == null ? "5" : rows);
-		int curpage = Integer.parseInt(page);
-		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.approveDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
-						* pagesize);
-		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
-		for (int i = 0; i < dorderslist.size(); i++) {
-			DeliveryOrder temp = new DeliveryOrder();
-			BeanUtils.copyProperties(dorderslist.get(i), temp);
-			dorderslist2.add(temp);
-			Log.info(temp.toString());
-		}
-		return dorderslist2;
-	}
-
-	@Override
-	public Integer getApproveNum() {
-		return deliveryordermapper.getApproveNum();
-	}
-
-	@Override
 	public DeliveryOrder getDeliveryOrderByDeliOrderID(String deliOrderID) {
 		Log.info("根据提货单号查询提货单");
 		IpoDeliveryorder deorder = deliveryordermapper
@@ -188,32 +162,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			}
 		}
 		return "审核失败";
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<DeliveryOrder> findAllDeliOrdersByPage(String page, String rows) {
-		Log.info("分页查询提货单服务");
-		page = (page == null ? "1" : page);
-		rows = (rows == null ? "5" : rows);
-		int curpage = Integer.parseInt(page);
-		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.findAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
-						* pagesize);
-		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
-		for (int i = 0; i < dorderslist.size(); i++) {
-			DeliveryOrder temp = new DeliveryOrder();
-			BeanUtils.copyProperties(dorderslist.get(i), temp);
-			dorderslist2.add(temp);
-			Log.info(temp.toString());
-		}
-		return dorderslist2;
-	}
-
-	@Override
-	public Integer getTotalNum() {
-		return deliveryordermapper.getTotalNum();
 	}
 
 	@Override
