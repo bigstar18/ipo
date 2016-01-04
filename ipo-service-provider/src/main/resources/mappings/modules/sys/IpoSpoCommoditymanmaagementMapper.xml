@@ -148,4 +148,11 @@
   <select id="select" resultMap="BaseResultMap">
   select <include refid="Base_Column_List" /> from IPO_SPO_COMMODITYMANMAAGEMENT
   </select>
+  
+  <update id="updatePlscingNum" parameterType="map">
+  	update IPO_SPO_COMMODITYMANMAAGEMENT
+    set NOT_RATION_COUNTS = #{notRationCounts,jdbcType=DECIMAL},
+      	SUCCESS_RATION_COUNTS = #{successRationCounts,jdbcType=DECIMAL}
+    where SPO_ID = #{spoId,jdbcType=VARCHAR}
+  </update>
 </mapper>

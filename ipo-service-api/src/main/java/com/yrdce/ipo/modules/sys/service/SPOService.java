@@ -60,16 +60,19 @@ public interface SPOService {
 	// 根据增发id查增发信息
 	public SpoCommoditymanmaagement getListBySpocom(String spoid);
 
-	// 承销商列表信息
-	public List<SpoRation> getList();
-
 	// 跟新状态
 	public int updateStatus(Integer rationSate, String spoid) throws Exception;
 
 	// 修改增发商品
 	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
 
-	// 更新已配售、未配售数量
-	// public int update();
+	// 获取增发总量
+	public long circulation(String spoid) throws Exception;
+
+	// 更新已配售和未配售
+	public int updatePlscingNum(Long success, Long balance, String spoid) throws Exception;
+
+	// 根据会员id查询交易商id
+	public String getFirmid(String brokerid);
 
 }

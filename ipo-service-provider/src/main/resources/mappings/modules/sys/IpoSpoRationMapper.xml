@@ -104,7 +104,7 @@
   </select>
   
   <select id="getRationInfoCounts" resultType="java.lang.Integer" parameterType="map">
-  	SELECT COUNT(r.*) FROM
+  	SELECT COUNT(r.rationid) FROM
 	 IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
   	 WHERE 1=1
   	 <if test="IpoSpoComm.communityId != null" >
@@ -149,11 +149,11 @@
     where RATIONID = #{rationid,jdbcType=DECIMAL}
   </select>
   
-  <select id="selectBySales" resultType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation">
-  select * from br_broker b 
+  <select id="firmidBySales" resultType="java.lang.String">
+  select b.firmid from br_broker b 
 	left join br_brokertype btype 
 	on b.membertype = btype.borkertype 
-	where btype.brokername = '承销会员'
+	where btype.brokername = '承销会员' and  b.brokerid =#{brokerid,jdbcType=VARCHAR}
   </select>
   
 </mapper>

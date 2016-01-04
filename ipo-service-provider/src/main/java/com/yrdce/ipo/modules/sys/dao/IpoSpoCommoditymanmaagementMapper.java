@@ -30,4 +30,6 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByCounts(@Param("spoId") String spoId, @Param("notRationCounts") long notRationCounts,
 			@Param("successRationCounts") long successRationCounts);
+
+	int updatePlscingNum(@Param("successRationCounts") long success, @Param("notRationCounts") long balance, @Param("spoId") String spoid);
 }

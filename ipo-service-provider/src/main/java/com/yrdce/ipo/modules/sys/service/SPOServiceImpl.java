@@ -273,19 +273,6 @@ public class SPOServiceImpl implements SPOService {
 		return spoComm;
 	}
 
-	// 承销商列表信息
-	public List<SpoRation> getList() {
-		logger.info("承销商列表信息");
-		List<IpoSpoRation> list1 = ipoSpoRationMapper.selectBySales();
-		List<SpoRation> list2 = new ArrayList<SpoRation>();
-		for (IpoSpoRation ipoSpoRation : list1) {
-			SpoRation spoRation = new SpoRation();
-			BeanUtils.copyProperties(ipoSpoRation, spoRation);
-			list2.add(spoRation);
-		}
-		return list2;
-	}
-
 	// 更新状态
 	@Override
 	@Transactional
@@ -305,8 +292,25 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	// 根据增发ID查询增发总量
-	public int all() {
-		return 0;
+	@Override
+	public long circulation(String spoid) throws Exception {
+		logger.info("根据增发ID查询增发总量" + "spoid:" + spoid);
+		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		return ipoSPOComm.getSpoCounts();
+	}
+
+	// 更新已配售和未配售
+	@Override
+	@Transactional
+	public int updatePlscingNum(Long success, Long balance, String spoid) throws Exception {
+		logger.info("更新已配售和未配售" + "已配售：" + success + ",未配售：" + balance + ",spoid:" + spoid);
+		ipoSPOCommMapper.updatePlscingNum(success, balance, spoid);
+		return ipoSPOCommMapper.updatePlscingNum(success, balance, spoid);
+	}
+
+	// 根据会员id查询交易商id
+	public String getFirmid(String brokerid) {
+		return ipoSpoRationMapper.firmidBySales(brokerid);
 	}
 
 }
