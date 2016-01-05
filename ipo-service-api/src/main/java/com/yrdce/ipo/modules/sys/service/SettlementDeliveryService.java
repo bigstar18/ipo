@@ -35,8 +35,11 @@ public interface SettlementDeliveryService {
 
 	public Pickup getDetail(String methodid) throws Exception;
 
+	// 撤销提货列表
+	public List<DeliveryOrder> getRevocationList(String page, String rows, Paging paging) throws Exception;
+
 	// 撤销提货
-	public String getRevocation(String deliveryorderid, String status) throws Exception;
+	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception;
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception;

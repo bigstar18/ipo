@@ -26,6 +26,9 @@ public interface IpoStorageService {
 	// 根据仓库管理员获取仓库编号
 	String getWarehouseId(String userID);
 
+	// 根据仓库管理员获取仓库主键
+	Long getWarehousePrimary(String userID);
+
 	// 审核入库单
 	Integer checkStorage(String storageId, String result, String checker);
 

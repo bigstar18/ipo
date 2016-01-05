@@ -91,22 +91,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoPickupMapper.insert(ipoPickup);
 		String pickupId = ipoPickup.getPickupId();
 
-		// 提货单表
-		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
-		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
-		ipoDeliveryorder.setApprovalStatus(1);
-		ipoDeliveryorder.setMethodId(pickupId);
-		// 生成主键
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String id1 = sdf.format(new Date());
-		String id2 = String.valueOf(ipoDeliveryorderMapper.sequence());
-		String primaryKey = id1 + id2;
-		ipoDeliveryorder.setDeliveryorderId(primaryKey);
-		ipoDeliveryorder.setApplyDate(new Date());
-		// 查询用户名称并插入表中
-		String dealerId = ipoDeliveryorder.getDealerId();
-		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
-		ipoDeliveryorder.setDealerName(dealername);
+		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, pickupId);
+
+		// 更新持仓量
+		long quatity = deliveryOrder.getDeliveryQuatity();
+		String firmid = deliveryOrder.getDealerId();
+		String commid = deliveryOrder.getCommodityId();
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+		long position = ipoPosition.getPosition();
+		long num = position - quatity;
+		ipoPositionMapper.updatePosition(firmid, commid, num);
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
@@ -123,11 +117,28 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoExpressMapper.insert(ipoExpress);
 		String expressId = ipoExpress.getExpressId();
 
+		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, expressId);
+
+		// 更新持仓量
+		long quatity = deliveryOrder.getDeliveryQuatity();
+		String firmid = deliveryOrder.getDealerId();
+		String commid = deliveryOrder.getCommodityId();
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+		long position = ipoPosition.getPosition();
+		long num = position - quatity;
+		ipoPositionMapper.updatePosition(firmid, commid, num);
+
+		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
+		return "success";
+	}
+
+	// 申请共用部分方法
+	public IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder, String id) {
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
 		ipoDeliveryorder.setApprovalStatus(1);
-		ipoDeliveryorder.setMethodId(expressId);
+		ipoDeliveryorder.setMethodId(id);
 		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String id1 = sdf.format(new Date());
@@ -139,8 +150,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String dealerId = ipoDeliveryorder.getDealerId();
 		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
 		ipoDeliveryorder.setDealerName(dealername);
-		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
-		return "success";
+		return ipoDeliveryorder;
 	}
 
 	// 自提打印
@@ -165,7 +175,11 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Override
 	public int counts(Paging paging, String deliveryMethod) throws Exception {
 		logger.info("自提打印总页数" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-		return ipoDeliveryorderMapper.selectByCounts(paging, deliveryMethod);
+		if (deliveryMethod.equals("no")) {
+			return ipoDeliveryorderMapper.selectCounts(paging, null);
+		} else {
+			return ipoDeliveryorderMapper.selectCounts(paging, deliveryMethod);
+		}
 	}
 
 	// 自提详细信息
@@ -178,12 +192,44 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return pickup;
 	}
 
-	// 撤销申请
+	// 撤销申请页面展示
+	@Override
+	public List<DeliveryOrder> getRevocationList(String page, String rows, Paging paging) throws Exception {
+		logger.info("撤销提货列表:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectRevocation((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
+		for (IpoDeliveryorder ipoDeliveryorder : list1) {
+			DeliveryOrder deliveryOrder = new DeliveryOrder();
+			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+			list2.add(deliveryOrder);
+		}
+		return list2;
+	}
+
+	// 撤销申请(状态修改)
 	@Override
 	@Transactional
-	public String getRevocation(String deliveryorderid, String status) throws Exception {
+	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception {
 		int status1 = Integer.parseInt(status);
 		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
+		if (status1 == 7) {
+			// 获取此条订单的属性
+			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+			String firmid = ipoDeliveryorder.getDealerId();
+			String commid = ipoDeliveryorder.getCommodityId();
+			long quatity = ipoDeliveryorder.getDeliveryQuatity();
+			// 获取此交易商的持仓量
+			IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+			long position = ipoPosition.getPosition();
+			long num = position + quatity;
+			// 更新交易商的持仓量
+			ipoPositionMapper.updatePosition(firmid, commid, num);
+		}
+		// 跟新订单状态
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
 		return "success";
 	}

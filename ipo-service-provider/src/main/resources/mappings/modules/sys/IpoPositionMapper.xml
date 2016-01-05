@@ -54,9 +54,7 @@
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
-    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
-    from IPO_POSITION
+    select <include refid="Base_Column_List"/> from IPO_POSITION
   </select>
   
   <select id="selectByFirmid" resultType="com.yrdce.ipo.modules.sys.entity.IpoPosition" parameterType="java.lang.String">
@@ -66,4 +64,15 @@
   left join ipo_commodity_conf comm on comm.commodityid = t.commodity_id
   where FIRMID = #{firmid,jdbcType=VARCHAR}   group by p.commodityid,p.commodityname,p.position,p.position_unit
   </select>
-</mapper>
+  
+  <update id="updatePosition" parameterType="map">
+  update IPO_POSITION
+    set POSITION = #{position,jdbcType=DECIMAL}
+    where COMMODITYID = #{commodityid,jdbcType=VARCHAR} and FIRMID = #{firmid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select <include refid="Base_Column_List"/> from IPO_POSITION 
+  where FIRMID = #{firmid,jdbcType=VARCHAR} and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  </mapper>

@@ -12,7 +12,7 @@
     <result column="MARKETAUDITORID" property="marketauditorid" jdbcType="VARCHAR" />
     <result column="STORAGESTATE" property="storagestate" jdbcType="DECIMAL" />
     <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
-    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="DECIMAL" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
     <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
   </resultMap>
@@ -27,7 +27,7 @@
     <result column="MARKETAUDITORID" property="marketauditorid" jdbcType="VARCHAR" />
     <result column="STORAGESTATE" property="storagestate" jdbcType="DECIMAL" />
     <result column="STORAGEDATE" property="storagedate" jdbcType="DATE" />
-    <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="DECIMAL" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
     <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
@@ -101,10 +101,16 @@
     values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
-      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=DECIMAL}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
       )
   </insert>
    <select id="getWarehouseId" resultType="String" parameterType="String">
      SELECT T.WAREHOUSEID FROM W_USER T WHERE T.USERID = #{userId,jdbcType=VARCHAR}
+      </select>
+       <select id="getWarehousePrimaryKey" resultType="Long" parameterType="String">
+      SELECT B.ID  FROM BI_WAREHOUSE B WHERE B.WAREHOUSEID=(SELECT U.WAREHOUSEID  FROM W_USER U WHERE U.USERID=#{userId,jdbcType=VARCHAR}) 
+      </select>
+       <select id="getStorageByPrimary" resultType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" parameterType="String">
+     SELECT <include refid="Base_Column_List" /> from IPO_STORAGE where STORAGEID=#{storageid,jdbcType=VARCHAR}
       </select>
 </mapper>

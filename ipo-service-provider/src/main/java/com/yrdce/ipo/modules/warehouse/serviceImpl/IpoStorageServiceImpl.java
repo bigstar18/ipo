@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
+import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended;
+import com.yrdce.ipo.modules.warehouse.entity.WarehouseStock;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
 import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
@@ -26,6 +28,8 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	private IpoStorageMapper ipoStorageMapper;
 	@Autowired
 	private IpoCommodityConfMapper ipoCommodityConfMapper;
+	@Autowired
+	private IpoWarehouseStockMapper ipowarehousestockmapper;
 
 	@Override
 	@Transactional
@@ -96,6 +100,15 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 						"3");// 仓库驳回
 			}
 			if (flag.equals("mgrtrue")) {
+				WarehouseStock record = new WarehouseStock();
+				IpoStorage example = ipoStorageMapper
+						.getStorageByPrimary(storageId);
+				record.setCommodityid(example.getCommodityid());
+				record.setStoragenum(example.getStoragecounts());
+				record.setForzennum((long) 0);
+				record.setOutboundnum((long) 0);
+				record.setAvailablenum(example.getStoragecounts());
+				ipowarehousestockmapper.insert(record);
 				return ipoStorageMapper.updateStorageState(storageId, checker,
 						"4");// 市场通过
 			}
@@ -111,6 +124,12 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	public String getWarehouseId(String userID) {
 
 		return ipoStorageMapper.getWarehouseId(userID);
+	}
+
+	@Override
+	public Long getWarehousePrimary(String userID) {
+
+		return ipoStorageMapper.getWarehousePrimaryKey(userID);
 	}
 
 }

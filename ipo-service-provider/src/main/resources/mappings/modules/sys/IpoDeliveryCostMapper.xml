@@ -46,7 +46,7 @@
   <select id="selectByUserid" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended" parameterType="map">
   select * from 
   (select t.*,rownum TNO from
-     (select b.*,a.delivery_date from ipo_deliveryorder a left join 
+     (select b.*,a.delivery_date from ipo_deliveryorder a right join 
 		ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
      and a.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
  	) c where c.TNO between #{beginnum} and  #{endnum}
