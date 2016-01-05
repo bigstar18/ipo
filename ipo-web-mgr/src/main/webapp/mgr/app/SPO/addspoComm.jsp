@@ -249,9 +249,6 @@ function updateSPOInfo(){
 	var positionsPrice = $("#positionsPrice").val();
 	var minRationCounts = $("#minRationCounts").val();
 	var minRationProportion = $("#minRationProportion").val();
-	var dateRe=null;
-	var dateSPO=null;
-	var dateIPO=null;
 	//验证
 	var commonityId = $("#commIdInput").val();
 	if(!myDateValidate(ipoDate,registerDate)){
@@ -307,17 +304,6 @@ function updateSPOInfo(){
 		rationType=2;
 	}
 	
- 	registerDate = registerDate.replace(/-/g,"/");
-	dateRe = new Date(registerDate );
-	if(spoDate==""||spoDate==null){
-		dateSPO = new Date(null);
-	}else{
-		spoDate = spoDate.replace(/-/g,"/");
-		dateSPO = new Date(spoDate);
-	}
-
-     ipoDate = ipoDate.replace(/-/g,"/");
-     dateIPO = new Date(ipoDate );
 
 	$.ajax({
 		type:"POST",
@@ -325,9 +311,9 @@ function updateSPOInfo(){
 		data:{communityId:commonityId,
 			spoCounts:spoCounts,
 			spoPrice:spoPrice,
-			registerDate:dateRe,
-			spoDate:dateSPO,
-			ipoDate:dateIPO,
+			registerDate:registerDate,
+			spoDate:spoDate,
+			ipoDate:ipoDate,
 			rationType:rationType,
 			minRationCounts:minRationCounts,
 			minRationProportion:minRationProportion,

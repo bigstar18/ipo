@@ -60,7 +60,9 @@ function getAllInfo(){
              align: "center",
              title : '登记日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null){
+                 	return value.substr(0,10);
+            	 }
              }
          },{  
              field : 'spoDate',  
@@ -68,7 +70,9 @@ function getAllInfo(){
              align: "center",
              title : '增发日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null){
+                  	return value.substr(0,10);
+             	 }
              }
          },{  
              field : 'ipoDate',  
@@ -76,7 +80,9 @@ function getAllInfo(){
              align: "center",
              title : '上市日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null){
+                  	return value.substr(0,10);
+             	 }
              }
          },{  
              field : 'spoCounts',  
@@ -269,9 +275,9 @@ function updateSPOSate(spoid,spoSate){
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
 		communityId:$("#commIdp").val(),
-		registerDate:$("#registerDatep").datebox("getValue"),
-		spoDate:$("#spoDatep").datebox("getValue"),
-		ipoDate:$("#ipoDatep").datebox("getValue"),
+		registerDate:$("#registerDate").datebox("getValue"),
+		spoDate:$("#spoDate").datebox("getValue"),
+		ipoDate:$("#ipoDate").datebox("getValue"),
 		rationType:$("#rationTypep").val(),
 		spoSate:$("#rationSatep").val()
 	});
@@ -284,9 +290,9 @@ function reSet(){
 	$("#commIdp").val("");
 	$("#rationTypep ").get(0).selectedIndex=0;
 	$("#rationSatep ").get(0).selectedIndex=0;
-	$("#registerDatep").datebox('setValue',"");
-	$("#spoDatep").datebox('setValue',"");
-	$("#ipoDatep").datebox('setValue',"");
+	$("#registerDate").datebox('setValue',"");
+	$("#spoDate").datebox('setValue',"");
+	$("#ipoDate").datebox('setValue',"");
 }
 
 
