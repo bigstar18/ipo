@@ -127,4 +127,10 @@
   	where t.outboundorderid=#{outboundorderid,jdbcType=VARCHAR}
   </update>
   
+  <update id="updateOutBoundState" parameterType="map">
+  	update ipo_outbound t 
+  	set t.outboundstate = #{outboundstate,jdbcType=DECIMAL}
+  	where t.outboundorderid=#{outboundorderid,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>

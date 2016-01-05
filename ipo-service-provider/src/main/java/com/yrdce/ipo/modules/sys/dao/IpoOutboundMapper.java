@@ -29,5 +29,6 @@ public interface IpoOutboundMapper {
 	int getTotalNum(IpoOutboundExtended record);
 	
 	int updateOutBoundInfo(IpoOutbound ipoOutbound);
+	int updateOutBoundState(@Param("outboundstate")Integer outboundstate,@Param("outboundorderid")String outboundorderid);
 
 }

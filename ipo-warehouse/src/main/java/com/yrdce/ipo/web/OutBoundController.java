@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,15 +92,14 @@ public class OutBoundController {
 	public String updateOutBoundInfo(Outbound outbound,HttpSession session) {
 		try {
 			log.info("出库单审核");
-//			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-//			outbound.setOperatorid(operatorid);
-//			int result = outboundService.updateOutBoundInfo(outbound);
-//			if (result > 0) {
-//				return "success";
-//			} else {
-//				return "fail";
-//			}
-			return "success";
+			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			outbound.setOperatorid(operatorid);
+			int result = outboundService.updateOutBoundInfo(outbound);
+			if (result > 0) {
+				return "success";
+			} else {
+				return "fail";
+			}
 		} catch (Exception e) {
 			log.error("出库单审核", e);
 			return "error";
@@ -130,13 +130,14 @@ public class OutBoundController {
 	//修改提货单状态
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSate(@RequestParam("deliveryorderId")String deliveryorderId){
+	public String updateSate(@RequestParam("deliveryorderId")String deliveryorderId,
+			@RequestParam("outboundorderid")String outboundorderid){
 		try {
 			log.info("确认出库");
 			DeliveryOrder  deliveryOrder= new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
 			deliveryOrder.setApprovalStatus(9);
-			int result = deliveryOrderService.updateStatus(deliveryOrder);
+			int result = deliveryOrderService.updateStatus(deliveryOrder,outboundorderid);
 			if (result==1) {
 				return "success";
 			}else{
