@@ -113,4 +113,10 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 		return ipoStorageMapper.getWarehouseId(userID);
 	}
 
+	@Override
+	public Long getWarehousePrimary(String userID) {
+
+		return ipoStorageMapper.getWarehousePrimaryKey(userID);
+	}
+
 }

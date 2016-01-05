@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock" >
+    <id column="STOCKID" property="stockid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="STORAGENUM" property="storagenum" jdbcType="DECIMAL" />
+    <result column="FORZENNUM" property="forzennum" jdbcType="DECIMAL" />
+    <result column="AVAILABLENUM" property="availablenum" jdbcType="DECIMAL" />
+    <result column="OUTBOUNDNUM" property="outboundnum" jdbcType="DECIMAL" />
+    <result column="WAREHOUSEID" property="warehouseid" jdbcType="DECIMAL" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+    <result column="PUBMEMBERNAME" property="pubmembername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    STOCKID, COMMODITYID, STORAGENUM, FORZENNUM, AVAILABLENUM, OUTBOUNDNUM,WAREHOUSEID
+  </sql>
+
+   <select id="findWarehouseStockByPage" resultMap="BaseResultMap" parameterType="map">
+     select <include refid="Base_Column_List" />,COMMODITYNAME,PUBMEMBERID,PUBMEMBERNAME from (select t.*, c.COMMODITYNAME, c.PUBMEMBERID, b.NAME PUBMEMBERNAME, rownum TNO
+     from IPO_WAREHOUSE_STOCK t  LEFT JOIN IPO_COMMODITY_CONF c ON t.COMMODITYID = c.COMMODITYID  LEFT JOIN BR_BROKER b
+     ON c.PUBMEMBERID = b.BROKERID  where 1 = 1 
+       <if test="record.commodityid != null" >
+       and t.COMMODITYID like concat (#{record.commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.warehouseid != null" >
+       and t.WAREHOUSEID = #{record.warehouseid,jdbcType=DECIMAL}
+      </if>
+       order by t.STOCKID) a where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+   <select id="getQueryNum" resultType="Integer" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock">
+     select count(*) from IPO_WAREHOUSE_STOCK t where 1=1 
+       <if test="record.commodityid != null" >
+       and t.COMMODITYID like concat (#{record.commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.warehouseid != null" >
+       and t.WAREHOUSEID = #{record.warehouseid,jdbcType=DECIMAL}
+      </if>
+  </select>
+  
+</mapper>

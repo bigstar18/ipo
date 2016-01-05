@@ -28,4 +28,6 @@ public interface IpoStorageMapper {
 
 	String getWarehouseId(String userId);
 
+	Long getWarehousePrimaryKey(String userId);
+
 }

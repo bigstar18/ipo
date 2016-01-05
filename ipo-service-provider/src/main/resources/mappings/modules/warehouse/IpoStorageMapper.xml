@@ -107,4 +107,7 @@
    <select id="getWarehouseId" resultType="String" parameterType="String">
      SELECT T.WAREHOUSEID FROM W_USER T WHERE T.USERID = #{userId,jdbcType=VARCHAR}
       </select>
+       <select id="getWarehousePrimaryKey" resultType="Long" parameterType="String">
+      SELECT B.ID  FROM BI_WAREHOUSE B WHERE B.WAREHOUSEID=(SELECT U.WAREHOUSEID  FROM W_USER U WHERE U.USERID=#{userId,jdbcType=VARCHAR}) 
+      </select>
 </mapper>

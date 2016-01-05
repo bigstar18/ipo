@@ -24,7 +24,9 @@ import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
+import com.yrdce.ipo.modules.warehouse.vo.IpoWarehouseStock;
 import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 
 /**
@@ -54,6 +56,9 @@ public class DeliveryController {
 
 	@Autowired
 	private DeliveryCommodityService deliveryCommService;
+
+	@Autowired
+	private IpoWarehouseStockService warehouseStockService;
 
 	public OutboundService getOutboundService() {
 		return outboundService;
@@ -95,6 +100,15 @@ public class DeliveryController {
 	public void setDeliveryCommService(
 			DeliveryCommodityService deliveryCommService) {
 		this.deliveryCommService = deliveryCommService;
+	}
+
+	public IpoWarehouseStockService getWarehouseStockService() {
+		return warehouseStockService;
+	}
+
+	public void setWarehouseStockService(
+			IpoWarehouseStockService warehouseStockService) {
+		this.warehouseStockService = warehouseStockService;
 	}
 
 	/**
@@ -190,4 +204,36 @@ public class DeliveryController {
 		return "app/storage/storageApprove";
 	}
 
+	/**
+	 * 分页返回库存信息列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findStocks", method = RequestMethod.POST)
+	@ResponseBody
+	public String findStocks(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, IpoWarehouseStock stock,
+			HttpSession session) throws IOException {
+		log.info("分页查询库存列表");
+		log.info(stock.toString());
+		try {
+
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			stock.setWarehouseid(ipoStorageService.getWarehousePrimary(userId));
+			List<IpoWarehouseStock> slist = warehouseStockService
+					.findWarehouseStockByPage(page, rows, stock);
+			int totalnums = warehouseStockService.getQueryNum(stock);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(slist);
+			log.info(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
 }
