@@ -49,9 +49,8 @@ public class DeliveryOrder implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyDate;
 
-	private Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、仓库通过 5、仓库驳回
-									// 6、已设置配置费用
-									// 7、已确认 8.已废除 9已出库 10已收货)
+	private Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、打印 5、仓库通过 6、仓库驳回
+									// 7、已设置配置费用 8、已确认 9.已废除 10、已过户 11已出库 12已收货)
 
 	private String approvers;
 

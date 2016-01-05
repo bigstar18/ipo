@@ -32,8 +32,9 @@ public class IpoDeliveryorder {
 
 	public Date applyDate;
 
-	public Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、仓库通过 5、仓库驳回 6、已确认
-									// 7、已废除 8.已设置配置费用 9已出库 10已收货)
+	public Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、打印 5、仓库通过
+									// 6、仓库驳回7、已设置配置费用 8、已确认 9.已废除 10、已过户 11已出库
+									// 12已收货)
 
 	public String approvers;
 
