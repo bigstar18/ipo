@@ -2,6 +2,8 @@ package com.yrdce.ipo.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +15,12 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
+import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 入库申请Controller
@@ -83,15 +88,18 @@ public class OutBoundController {
 	// 出库单审核
 	@RequestMapping(value = "/updateOutBoundInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateOutBoundInfo(Outbound outbound) {
+	public String updateOutBoundInfo(Outbound outbound,HttpSession session) {
 		try {
 			log.info("出库单审核");
-			int result = outboundService.updateOutBoundInfo(outbound);
-			if (result > 0) {
-				return "success";
-			} else {
-				return "fail";
-			}
+//			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+//			outbound.setOperatorid(operatorid);
+//			int result = outboundService.updateOutBoundInfo(outbound);
+//			if (result > 0) {
+//				return "success";
+//			} else {
+//				return "fail";
+//			}
+			return "success";
 		} catch (Exception e) {
 			log.error("出库单审核", e);
 			return "error";
@@ -101,9 +109,11 @@ public class OutBoundController {
 	// 出库单添加
 	@RequestMapping(value = "/addOutBoundOrder", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String addOutBoundOrder(Outbound outBound) {
+	public String addOutBoundOrder(Outbound outBound,HttpSession session) {
 		try {
 			log.info("出库单添加");
+			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			outBound.setOperatorid(operatorid);
 			int result = outboundService.addOutBoundOrder(outBound);
 			if (result == 1) {
 				return "success";
@@ -113,6 +123,29 @@ public class OutBoundController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("出库单添加", e);
+			return "error";
+		}
+	}
+	
+	//修改提货单状态
+	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String updateSate(@RequestParam("deliveryorderId")String deliveryorderId){
+		try {
+			log.info("确认出库");
+			DeliveryOrder  deliveryOrder= new DeliveryOrder();
+			deliveryOrder.setDeliveryorderId(deliveryorderId);
+			deliveryOrder.setApprovalStatus(9);
+			int result = deliveryOrderService.updateStatus(deliveryOrder);
+			if (result==1) {
+				return "success";
+			}else{
+				return "fail";
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("修改出库单状态",e);
 			return "error";
 		}
 	}

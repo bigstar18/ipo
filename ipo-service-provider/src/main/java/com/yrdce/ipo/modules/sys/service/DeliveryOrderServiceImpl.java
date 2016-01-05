@@ -316,9 +316,14 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	 * li
 	 * */
 	@Override
-	public int updateStatus(String deliveryorderId, int approvalStatus) {
+	public int updateStatus(DeliveryOrder deliveryOrder) {
 		// TODO Auto-generated method stub
-		int result = deliveryordermapper.updateByStatus(deliveryorderId, approvalStatus);
+		int result=0;
+		IpoDeliveryorder deliveryorder2 = new IpoDeliveryorder();
+		if (deliveryorder2!=null) {
+			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);
+			result = deliveryordermapper.updateStatus(deliveryorder2);
+		}
 		if (result>0) {
 			return 1;
 		}else{

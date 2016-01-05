@@ -134,6 +134,6 @@ public interface DeliveryOrderService {
 	 *修改提货单状态
 	 *li 
 	 * */
-	public int updateStatus(String deliveryorderId,int approvalStatus); 
+	public int updateStatus(DeliveryOrder deliveryOrder); 
 
 }

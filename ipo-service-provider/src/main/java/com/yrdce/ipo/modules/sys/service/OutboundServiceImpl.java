@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoOutbound;
 import com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
@@ -87,19 +88,23 @@ public class OutboundServiceImpl implements OutboundService {
 		try {
 			int result1;
 			Log.info("修改出库单状态");
+			IpoDeliveryorder deliveryorder = new IpoDeliveryorder(); 
 			if(outbound==null)
 				return 0;
 			IpoOutbound ipoOutbound = new IpoOutbound();
 			BeanUtils.copyProperties(outbound, ipoOutbound);
 			int result = ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
 			if (ipoOutbound.getOutboundstate()==2) {
-				result1 = ipoDeliveryorderMapper.updateByStatus(ipoOutbound.getDeliveryorderid(), 4);
+				deliveryorder.setDeliveryorderId(ipoOutbound.getDeliveryorderid());
+				deliveryorder.setApprovalStatus(4);
+				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}else if (ipoOutbound.getOutboundstate()==3){
-				result1 = ipoDeliveryorderMapper.updateByStatus(ipoOutbound.getDeliveryorderid(), 5);
+				deliveryorder.setDeliveryorderId(ipoOutbound.getDeliveryorderid());
+				deliveryorder.setApprovalStatus(5);
+				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}else{
 				result1=0;
 			}
-			
 			if(result>0&&result1>0){
 				return 1;
 			}else{

@@ -140,18 +140,9 @@ public class SPOController {
 	@RequestMapping(value = "/getRationInfopp", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String getRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam("communityId") String communityId, @RequestParam("registerDate") String registerDate) throws IOException {
+			SpoCommoditymanmaagement spoComm) throws IOException {
 		logger.info("获取定向配售信息");
 		try {
-			SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			if (!communityId.equals("")) {
-				spoComm.setCommunityId(communityId);
-			}
-			if (!registerDate.equals("")) {
-				Date date = sdf.parse(registerDate);
-				spoComm.setRegisterDate(date);
-			}
 			List<SpoRation> tempList = spoService.getRationInfo(page, rows, spoComm);
 			int counts = spoService.rationCounts(spoComm);
 			ResponseResult responseResult = new ResponseResult();
