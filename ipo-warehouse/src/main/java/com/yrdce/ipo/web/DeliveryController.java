@@ -174,7 +174,6 @@ public class DeliveryController {
 		log.info("增加入库单");
 		String inserter = ((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID();
-		// String userid = "cj";
 		storage.setOperatorid(inserter);
 		storage.setWarehouseid(ipoStorageService.getWarehousePrimary(inserter));
 		int num = ipoStorageService.insert(storage);

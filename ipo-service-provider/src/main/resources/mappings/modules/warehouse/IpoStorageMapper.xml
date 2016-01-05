@@ -101,7 +101,7 @@
     values (#{storageid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
-      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=VARCHAR}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
+      #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=DECIMAL}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
       )
   </insert>
    <select id="getWarehouseId" resultType="String" parameterType="String">

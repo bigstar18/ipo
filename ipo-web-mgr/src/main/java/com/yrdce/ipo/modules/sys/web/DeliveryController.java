@@ -270,8 +270,6 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-
-			// String userId = "111";
 			flag = "mgr" + flag;
 			ipoStorageService.checkStorage(storageId, flag, userId);
 			return new ModelAndView("redirect:/IpoController/StorageApprove");
