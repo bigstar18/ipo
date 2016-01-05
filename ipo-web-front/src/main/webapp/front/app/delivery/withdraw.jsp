@@ -268,6 +268,8 @@ $(function() {
           return false;
         }if (!isIDcard.test($('#cardNum').val())) {
           $('#cardNum').css('background', '#EEEE00');
+          $('#cardNum').attr('placeholder', '请输入正确的身份证格式');
+          $('#cardNum').val('');
           return false;
         }else{
           ajaxpost();
@@ -286,7 +288,9 @@ $(function() {
           $('#receiverName').css('background', '#EEEE00');
           return false;
         }if ($('#addressName').val() == '') {
-          $('#addressName').css('background', '#EEEE00');
+          $('#cardNum').css('background', '#EEEE00');
+          $('#cardNum').attr('placeholder', '请输入正确的身份证格式');
+          $('#cardNum').val('');
           return false;
         }else{
           ajaxpost();
