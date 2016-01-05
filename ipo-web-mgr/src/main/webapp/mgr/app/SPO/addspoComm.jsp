@@ -225,8 +225,9 @@ function addSPOInfo(){
 		},
 		success:function(data){
         	if(data=="success"){
-        		alert("添加成功！")
-        		parent.$('#depositInfo').datagrid('reload');
+        		alert("添加成功！");
+        		//parent.$('#depositInfo').datagrid('reload');
+        		parent.doSearch();
         		parent.$('#dd').window('close');
         	 	return;
         	}

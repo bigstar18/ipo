@@ -27,7 +27,7 @@ $(document).ready(function(){
         nowrap:true,
         singleSelect:true,
         striped:true,  
-        url:"<%=request.getContextPath()%>/SPOController/getUnderwriterInfo", //搜索前,触发此action请求所有用户信息 
+        url:"<%=request.getContextPath()%>/SPOController/getUnderwriterInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息 
         queryParams:{spoId:parent.$("#hidSpoId").val()},
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器  
@@ -36,12 +36,14 @@ $(document).ready(function(){
 	     	 checkbox:true  
         },{
           	 field : 'rationid',  
-             width : 200,  
+             width : 200,
+             hidden:'true',	
              align: "center",
              title : 'rationid'
          },{
           	 field : 'spoid',  
-             width : 200,  
+             width : 200,
+             hidden:'true',
              align: "center",
              title : 'spoId',
              formatter:function(value,row){
@@ -108,7 +110,7 @@ $(document).ready(function(){
             		$.ajax({
             			traditional: true,
             			type:"POST",
-            			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo",
+            			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo?randnum="+Math.floor(Math.random()*1000000),
             			contentType:"application/json", 
                      	data:JSON.stringify(add),
             			success:function(data){
@@ -150,9 +152,6 @@ $(document).ready(function(){
             			}
             		});
             	}
-            	
-           
-           
         }},
         '-',
         { text: '取消编辑', iconCls: 'icon-redo', handler: function () {
