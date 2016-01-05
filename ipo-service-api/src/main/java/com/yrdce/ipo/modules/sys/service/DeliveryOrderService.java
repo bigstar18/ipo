@@ -13,22 +13,6 @@ import com.yrdce.ipo.modules.sys.vo.Pickup;
 public interface DeliveryOrderService {
 
 	/**
-	 * 分页查询所有提货单
-	 * 
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	public List<DeliveryOrder> findAllDeliOrdersByPage(String page, String rows);
-
-	/**
-	 * 查询提货单总数
-	 * 
-	 * @return
-	 */
-	public Integer getTotalNum();
-
-	/**
 	 * 分页查询所有提货单(模糊查询)
 	 * 
 	 * @param page
@@ -65,22 +49,6 @@ public interface DeliveryOrderService {
 	 * @return
 	 */
 	public Integer getQueryCancelNum(DeliveryOrder deorder);
-
-	/**
-	 * 分页查询待审核提货单
-	 * 
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	public List<DeliveryOrder> approveDeliOrdersByPage(String page, String rows);
-
-	/**
-	 * 查询待审核提货单总数
-	 * 
-	 * @return
-	 */
-	public Integer getApproveNum();
 
 	/**
 	 * 分页查询可撤销提货单
@@ -150,18 +118,17 @@ public interface DeliveryOrderService {
 	 * @return
 	 */
 	public String cancelDeorder(String deOrderId, String cancellerId);
-	
+
 	/**
-	 *根据提货单号 密码 查自提 
-	 *li
+	 * 根据提货单号 密码 查自提 li
 	 */
 	public DeliveryOrder getPickupDeliveryInfo(DeliveryOrder order);
-	
+
 	/**
-	 *根据提货单号差配送单信息
+	 * 根据提货单号差配送单信息
 	 *
-	 *li
+	 * li
 	 */
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order);
-	
+
 }

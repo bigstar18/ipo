@@ -108,7 +108,7 @@ $(document).ready(function() {
              formatter: function(value,row){
              	if(row.storagestate==2){
                   var hrefpath=getRootPath () + "/DeliveryController/approveStorages";
-                  return  "<a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=true\"  onclick=\"confirmDialog(1);\">通过</a>&nbsp; <a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=false\"  onclick=\"confirmDialog(2);\">驳回</a>";
+                  return  "<a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=true\"  onclick=\"return confirmDialog(1);\">通过</a>&nbsp; <a href=\""+hrefpath+"?storageId="+row.storageid+"&&flag=false\"  onclick=\"return confirmDialog(2);\">驳回</a>";
              	}
              	return "";} 
          }

@@ -225,21 +225,23 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 分页返回提货单列表
+	 * 分页返回入库单列表
 	 * 
 	 * @param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/findAllDeliveryOrders", method = RequestMethod.POST)
+	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
 	@ResponseBody
-	public String findAllDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询所有提货单");
+	public String findAllStorages(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, VIpoStorageExtended storage)
+			throws IOException {
+		log.info("分页查询入库单");
+		log.info(storage.toString());
 		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.findAllDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getTotalNum();
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
+					page, rows, storage);
+			int totalnums = ipoStorageService.getTotalNum(storage);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
@@ -248,6 +250,34 @@ public class DeliveryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
+		}
+	}
+
+	/**
+	 * 审核入库单
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
+	public ModelAndView approveStorages(
+			@RequestParam("storageId") String storageId,
+			@RequestParam("flag") String flag, HttpSession session)
+			throws IOException {
+		log.info("审核入库单");
+		try {
+
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+
+			// String userId = "111";
+			flag = "mgr" + flag;
+			ipoStorageService.checkStorage(storageId, flag, userId);
+			return new ModelAndView("redirect:/IpoController/StorageApprove");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
 
@@ -261,28 +291,10 @@ public class DeliveryController {
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
 	public String QueryByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("applyDate") String applyDate,
-			@RequestParam("approvalStatus") String approvalStatus,
-			@RequestParam("dealerId") String dealerId) throws IOException {
+			@RequestParam("rows") String rows, DeliveryOrder record)
+			throws IOException {
 		log.info("模糊查询提货单");
 		try {
-			DeliveryOrder record = new DeliveryOrder();
-			if (!deliveryorderId.equals("")) {
-				record.setDeliveryorderId(deliveryorderId + "%");
-			}
-			if (!applyDate.equals("")) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(applyDate);
-				record.setApplyDate(date);
-			}
-			if (!approvalStatus.equals("")) {
-				record.setApprovalStatus(Integer.parseInt(approvalStatus));
-			}
-			if (!dealerId.equals("")) {
-				record.setDealerId(dealerId + "%");
-			}
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
@@ -338,33 +350,6 @@ public class DeliveryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
-		}
-	}
-
-	/**
-	 * 分页展示待审核提货单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/approveDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String approveDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询待审核提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.approveDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getApproveNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
 		}
 	}
 
@@ -464,67 +449,6 @@ public class DeliveryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
-		}
-	}
-
-	/**
-	 * 分页返回入库单列表
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/findAllStorages", method = RequestMethod.POST)
-	@ResponseBody
-	public String findAllStorages(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, VIpoStorageExtended storage)
-			throws IOException {
-		log.info("分页查询入库单");
-		log.info(storage.toString());
-		try {
-			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
-					page, rows, storage);
-			int totalnums = ipoStorageService.getTotalNum(storage);
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 审核入库单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/approveStorages", method = RequestMethod.GET)
-	public ModelAndView approveStorages(
-			@RequestParam("storageId") String storageId,
-			@RequestParam("flag") String flag, HttpSession session)
-			throws IOException {
-		log.info("审核入库单");
-		try {
-
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-
-			// String userId = "111";
-			flag = "mgr" + flag;
-			int num = ipoStorageService.checkStorage(storageId, flag, userId);
-			if (num != 0) {
-				return new ModelAndView(
-						"redirect:/IpoController/StorageApprove");
-			}
-			return new ModelAndView("redirect:/IpoController/StorageApprove");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
 
