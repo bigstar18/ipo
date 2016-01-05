@@ -288,9 +288,7 @@ $(function() {
           $('#receiverName').css('background', '#EEEE00');
           return false;
         }if ($('#addressName').val() == '') {
-          $('#cardNum').css('background', '#EEEE00');
-          $('#cardNum').attr('placeholder', '请输入正确的身份证格式');
-          $('#cardNum').val('');
+          $('#addressName').css('background', '#EEEE00');
           return false;
         }else{
           ajaxpost();
