@@ -20,14 +20,17 @@
 $(document).ready(function(){
 	var spoid=parent.$("#hidSpoId").val();
 	getIPOCommInfo();
+	
 	if(spoid!=""){
+		getSpoInfo(spoid);
+		var value = $("#rationType").val();
 		$("#communityId").hide();
 		$("#commIdInput").show();
 		$(".radio").show();
 		$(".all").show();
 	 	$("#add").val("修改");
 	 	$("#title").html("修改增发商品");
-		getSpoInfo(spoid);
+		
 	}
 });
 
@@ -52,22 +55,32 @@ function getSpoInfo(spoId){
 				$("#minRationCounts").val(data.minRationCounts);
 				$("#minRationProportion").val(data.minRationProportion);
 			}
+			if(data.rationType==1){
+				$(".radio").show();
+				$(".all").show();
+			}else if(data.rationType==2){
+				$(".radio").hide();
+				$(".all").show();
+			}
+				
+			
 		}
 		
 	});
 }
 
-function rationTypeChange(type){
+function rationTypeChange(){
 	var spoid=parent.$("#hidSpoId").val();
+	var value = $("#rationType").val();
 	if(spoid==""){
-		$("span input").val("");
 		$("#spoDate").datebox("setValue","");
 		$("#ipoDate").datebox("setValue","");
 		$("#registerDate").datebox("setValue","");
-		if(type.value=="比例配售"){
+		$("span input").val("");
+		if(value=="1"){
 			$(".radio").show();
 			$(".all").show();
-		}else if(type.value=="定向配售"){
+		}else if(value=="2"){
 			$(".radio").hide();
 			$(".all").show();
 		}else{
@@ -75,10 +88,10 @@ function rationTypeChange(type){
 			$(".all").hide();
 		}
 	}else if(spoid!=""){
-		if(type.value=="比例配售"){
+		if(value=="1"){
 			$(".radio").show();
 			$(".all").show();
-		}else if(type.value=="定向配售"){
+		}else if(value=="2"){
 			$(".radio").hide();
 			$("#minRationCounts").val("");
 			$("#minRationProportion").val("");
@@ -454,6 +467,13 @@ function myDateValidate(tempDate,nowDate){
 }
 
 
+//关闭
+function doClose(){
+	parent. $('#dd').window('close');
+	parent.$('#depositInfo').datagrid('reload');
+}
+
+
 </script>
 </head>
 <body>
@@ -514,10 +534,10 @@ function myDateValidate(tempDate,nowDate){
 				<td>
 				<span>配售类型：</span>
 				<span>
-					<select id="rationType" name="rationType" style="width:150px" onchange="rationTypeChange(this)">
-						<option>请选择</option>
-						<option>比例配售</option>
-						<option>定向配售</option>
+					<select id="rationType" name="rationType" style="width:150px" onchange="rationTypeChange()">
+						<option value="">请选择</option>
+						<option value="1">比例配售</option>
+						<option value="2">定向配售</option>
 					</select>
 				</span>
 				</td>
@@ -567,7 +587,7 @@ function myDateValidate(tempDate,nowDate){
 			<tr >
 				<td align="center">
 					<input type="button" class="btn_sec" id="add" onclick="btnClick()" value="添加">
-				    <input type="button" class="btn_sec" id="close" onclick="" value="关闭">
+				    <input type="button" class="btn_sec" id="close" onclick="doClose()" value="关闭">
 				</td>
 			</tr>
 		</table>
