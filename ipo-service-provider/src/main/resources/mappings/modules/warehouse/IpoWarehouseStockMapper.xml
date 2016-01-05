@@ -49,4 +49,21 @@
       </if>
   </select>
   
+  <select id="selectByCommoId" resultMap="BaseResultMap" parameterType="map">
+  	select * from ipo_warehouse_stock
+  	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  	and WAREHOUSEID=#{warehouseid,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="updateInfo" parameterType="map">
+  	update IPO_WAREHOUSE_STOCK set
+    COMMODITYID=#{commodityid,jdbcType=VARCHAR},
+    STORAGENUM=#{storagenum,jdbcType=DECIMAL}, 
+     FORZENNUM= #{forzennum,jdbcType=DECIMAL},
+      AVAILABLENUM=#{availablenum,jdbcType=DECIMAL}, 
+      OUTBOUNDNUM=#{outboundnum,jdbcType=DECIMAL}, 
+      WAREHOUSEID=#{warehouseid,jdbcType=DECIMAL}
+    where STOCKID=#{stockid,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>

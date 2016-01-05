@@ -132,6 +132,12 @@ public class OutboundServiceImpl implements OutboundService {
 		int result = ipoOutboundMapper.insert(ipoOutbound);
 		return result;
 	}
+
+	@Override
+	public int updateOutBoundState(Integer outboundstate, String outboundorderid) {
+		// TODO Auto-generated method stub
+		return  ipoOutboundMapper.updateOutBoundState(outboundstate, outboundorderid);
+	}
 	
 	
 }

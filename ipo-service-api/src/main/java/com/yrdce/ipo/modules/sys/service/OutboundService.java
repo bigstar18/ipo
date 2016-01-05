@@ -42,4 +42,6 @@ public interface OutboundService {
 	 *添加出库单
 	 * */
 	public Integer addOutBoundOrder(Outbound outbound);
+	
+	public int updateOutBoundState(Integer outboundstate,String outboundorderid);
 }
