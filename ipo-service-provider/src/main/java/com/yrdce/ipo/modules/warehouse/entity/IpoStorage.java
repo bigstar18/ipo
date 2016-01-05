@@ -7,7 +7,7 @@ public class IpoStorage {
 
 	private String commodityid;
 
-	private Long storagenum;
+	private Long storagenum;// 入库件数
 
 	private String startnum;
 
@@ -23,11 +23,11 @@ public class IpoStorage {
 
 	private Date storagedate;
 
-	private String warehouseid;
+	private Long warehouseid;
 
 	private String mapperbillid;
 
-	private Long storagecounts;
+	private Long storagecounts;// 入库数量
 
 	public Long getStoragecounts() {
 		return storagecounts;
@@ -119,12 +119,12 @@ public class IpoStorage {
 		this.storagedate = storagedate;
 	}
 
-	public String getWarehouseid() {
+	public Long getWarehouseid() {
 		return warehouseid;
 	}
 
-	public void setWarehouseid(String warehouseid) {
-		this.warehouseid = warehouseid == null ? null : warehouseid.trim();
+	public void setWarehouseid(Long warehouseid) {
+		this.warehouseid = warehouseid;
 	}
 
 	public String getMapperbillid() {

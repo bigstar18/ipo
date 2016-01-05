@@ -176,7 +176,7 @@ public class DeliveryController {
 				.getUserID();
 		// String userid = "cj";
 		storage.setOperatorid(inserter);
-		storage.setWarehouseid(ipoStorageService.getWarehouseId(inserter));
+		storage.setWarehouseid(ipoStorageService.getWarehousePrimary(inserter));
 		int num = ipoStorageService.insert(storage);
 		if (num != 0) {
 			return "true";

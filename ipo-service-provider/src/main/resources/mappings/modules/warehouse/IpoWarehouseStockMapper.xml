@@ -16,6 +16,16 @@
   <sql id="Base_Column_List" >
     STOCKID, COMMODITYID, STORAGENUM, FORZENNUM, AVAILABLENUM, OUTBOUNDNUM,WAREHOUSEID
   </sql>
+    <insert id="insert" parameterType="com.yrdce.ipo.modules.warehouse.entity.WarehouseStock" >
+    	 <selectKey resultType="String" order="BEFORE" keyProperty="stockid">
+	     SELECT to_char(SEQ_IPO_WAREHOUSE_STOCK.NEXTVAL) FROM dual
+	     </selectKey>
+    insert into IPO_WAREHOUSE_STOCK (<include refid="Base_Column_List" />  )
+    values (#{stockid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
+      #{forzennum,jdbcType=DECIMAL}, #{availablenum,jdbcType=DECIMAL}, #{outboundnum,jdbcType=DECIMAL}, 
+      #{warehouseid,jdbcType=DECIMAL})
+      )
+  </insert>
 
    <select id="findWarehouseStockByPage" resultMap="BaseResultMap" parameterType="map">
      select <include refid="Base_Column_List" />,COMMODITYNAME,PUBMEMBERID,PUBMEMBERNAME from (select t.*, c.COMMODITYNAME, c.PUBMEMBERID, b.NAME PUBMEMBERNAME, rownum TNO

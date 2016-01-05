@@ -23,6 +23,8 @@ public interface IpoStorageMapper {
 	// 1.申请 2.仓库通过 3.仓库驳回 4.市场通过 5.市场驳回(storagedate对应数字)
 	int insert(IpoStorage record);
 
+	IpoStorage getStorageByPrimary(String storageid);
+
 	int updateStorageState(@Param("storageid") String storageid,
 			@Param("checker") String checker, @Param("state") String state);
 

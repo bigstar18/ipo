@@ -6,18 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
+import com.yrdce.ipo.modules.warehouse.entity.WarehouseStock;
 
 @MyBatisDao
 public interface IpoWarehouseStockMapper {
-	int deleteByPrimaryKey(String stockid);
 
-	int insert(IpoWarehouseStock record);
-
-	IpoWarehouseStock selectByPrimaryKey(String stockid);
-
-	List<IpoWarehouseStock> selectAll();
-
-	int updateByPrimaryKey(IpoWarehouseStock record);
+	int insert(WarehouseStock record);// 序列从2开始
 
 	List<IpoWarehouseStock> findWarehouseStockByPage(
 			@Param("beginnum") int beginnum, @Param("endnum") int endnum,

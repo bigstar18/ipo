@@ -27,7 +27,7 @@ public class VIpoStorageExtended implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date storagedate;
 
-	private String warehouseid;
+	private Long warehouseid;
 
 	private String mapperbillid;
 
@@ -145,12 +145,12 @@ public class VIpoStorageExtended implements Serializable {
 		this.storagedate = storagedate;
 	}
 
-	public String getWarehouseid() {
+	public Long getWarehouseid() {
 		return warehouseid;
 	}
 
-	public void setWarehouseid(String warehouseid) {
-		this.warehouseid = warehouseid == null ? null : warehouseid.trim();
+	public void setWarehouseid(Long warehouseid) {
+		this.warehouseid = warehouseid;
 	}
 
 	public String getMapperbillid() {
