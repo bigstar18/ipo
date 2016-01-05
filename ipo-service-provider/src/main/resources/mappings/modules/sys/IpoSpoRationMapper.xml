@@ -83,22 +83,23 @@
 	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.community_id,c.register_date,
 	r.RATION_SATE,rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
 	where 1=1
-    <if test="IpoSpoComm.communityId != null">
+    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId !=''" >
     and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
     </if>
-    <if test="IpoSpoComm.registerDate != null">
+    <if test="IpoSpoComm.registerDate != null and IpoSpoComm.registerDate != ''">
     and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
     </if>
      ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
   
   <select id="counts" resultType="java.lang.Integer" parameterType="map">
-  	select count(0) from IPO_SPO_RATION
+  	select count(0) from IPO_SPO_RATION t inner join ipo_spo_commoditymanmaagement c
+  	on t.spoid = c.spo_id
   	where 1=1
-    <if test="IpoSpoComm.communityId != null">
+    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId != ''"> 
     and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
     </if>
-    <if test="IpoSpoComm.registerDate != null">
+    <if test="IpoSpoComm.registerDate != null and IpoSpoComm.registerDate != ''">
     and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
     </if>
   </select>

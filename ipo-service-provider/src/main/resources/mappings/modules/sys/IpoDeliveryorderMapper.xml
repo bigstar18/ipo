@@ -283,4 +283,10 @@
      ) t
    ) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
+  <update id="updateStatus" parameterType="map">
+  	update IPO_DELIVERYORDER
+    set APPROVAL_STATUS = #{approvalStatus,jdbcType=DECIMAL}
+    where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>
