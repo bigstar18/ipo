@@ -23,5 +23,9 @@ public interface TaskService {
 	//public void lottery() throws Exception;
 	public void lottery() throws Exception;
 
+	/**
+	 *算钱 转持仓 
+	 * */
+	public void orderBalance() throws Exception;
 
 }

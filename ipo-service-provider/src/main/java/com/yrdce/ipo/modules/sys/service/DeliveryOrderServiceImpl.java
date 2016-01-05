@@ -312,5 +312,18 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		}
 		return deliveryOrder;
 	}
+	/**
+	 * li
+	 * */
+	@Override
+	public int updateStatus(String deliveryorderId, int approvalStatus) {
+		// TODO Auto-generated method stub
+		int result = deliveryordermapper.updateByStatus(deliveryorderId, approvalStatus);
+		if (result>0) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 
 }

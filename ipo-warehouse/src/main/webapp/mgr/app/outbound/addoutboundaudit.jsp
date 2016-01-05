@@ -96,7 +96,6 @@ function doAdd(){
 			deliveryorderid:deliveryorderId,
 			outboundstate:outboundstate,
 			outbounddate:outbounddate,
-			operatorid:"56565",
 			warehouseid:warehouseid,
 			deliveryperson:deliveryperson
 		},
@@ -143,7 +142,6 @@ function doClick(){
 	</div>
 	</div>
 		<form>
-
 						<div class="div_cxtj">
 							<div class="div_cxtjL"></div>
 							<div class="div_cxtjC">

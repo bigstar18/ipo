@@ -57,7 +57,7 @@ $(document).ready(function(){
        	 field : 'name',  
             width : 200,  
             align: "center",
-            title : '承销商名称',
+            title : '承销商名称'
         },{  
             field : 'salesAllocationratio',  
             width : 200,  

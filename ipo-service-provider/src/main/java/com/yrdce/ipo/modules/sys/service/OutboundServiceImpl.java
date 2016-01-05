@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
+import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoOutbound;
 import com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended;
@@ -25,6 +26,8 @@ import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 public class OutboundServiceImpl implements OutboundService {
 	@Autowired
 	private IpoOutboundMapper ipoOutboundMapper;
+	@Autowired
+	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
 
 	@Override
 	public List<OutboundExtended> getAllOutboundInfo(String page, String rows,
@@ -78,16 +81,26 @@ public class OutboundServiceImpl implements OutboundService {
 	}
 	//修改出库单状态
 	@Override
+	@Transactional
 	public Integer updateOutBoundInfo(Outbound outbound) {
 		// TODO Auto-generated method stub
 		try {
+			int result1;
 			Log.info("修改出库单状态");
 			if(outbound==null)
 				return 0;
 			IpoOutbound ipoOutbound = new IpoOutbound();
 			BeanUtils.copyProperties(outbound, ipoOutbound);
 			int result = ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
-			if(result>0){
+			if (ipoOutbound.getOutboundstate()==2) {
+				result1 = ipoDeliveryorderMapper.updateByStatus(ipoOutbound.getDeliveryorderid(), 4);
+			}else if (ipoOutbound.getOutboundstate()==3){
+				result1 = ipoDeliveryorderMapper.updateByStatus(ipoOutbound.getDeliveryorderid(), 5);
+			}else{
+				result1=0;
+			}
+			
+			if(result>0&&result1>0){
 				return 1;
 			}else{
 				return 0;
@@ -102,6 +115,7 @@ public class OutboundServiceImpl implements OutboundService {
 
 	//添加出库单
 	@Override
+	@Transactional
 	public Integer addOutBoundOrder(Outbound outbound) {
 		// TODO Auto-generated method stub
 		if (outbound==null) {

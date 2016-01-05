@@ -263,6 +263,7 @@ function updateSPOSate(spoid,spoSate){
 		success:function(data){
         	if(data=="success"){
         		alert("修改成功！");
+        		getAllInfo();
         		$('#depositInfo').datagrid('reload');
         	}
         	else if(data=="error")

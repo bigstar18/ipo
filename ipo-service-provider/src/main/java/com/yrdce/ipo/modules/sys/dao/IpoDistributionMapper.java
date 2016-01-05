@@ -11,7 +11,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended;
 
 @MyBatisDao
 public interface IpoDistributionMapper {
-	int countByExample(String userid);
+	int countByExample(@Param("userid") String userid, @Param("ptime") String ptime);
 
 	int deleteByExample(IpoDistributionExample example);
 
@@ -27,7 +27,8 @@ public interface IpoDistributionMapper {
 
 	List<IpoDistribution> selectAll();
 
-	List<IpoDistributionExtended> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);// 分页获取配号信息
+	List<IpoDistributionExtended> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid,
+			@Param("ptime") String ptime);// 分页获取配号信息
 
 	// 分页获取配号表
 	List<IpoDistribution> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
@@ -57,7 +58,7 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> allByTime(String date);
 
 	// 根据货款冻结情况查询信息 li
-	List<IpoDistribution> getInfobyFrozen(@Param("frozen") int frozen);
+	List<IpoDistribution> getInfobyDate(@Param("ptime") String ptime);
 
 	// 修改申购资金状态以及资金信息
 	int setSomeInfo(IpoDistribution distribution);
@@ -66,5 +67,7 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> queryUnsettledByCommoId(@Param("commodityid") String commodityid);
 
 	int updateSettledById(int id);
+
+	int ballotCounts(String userid, String ptime);
 
 }

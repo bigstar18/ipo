@@ -212,6 +212,9 @@
   </insert>
   <select id="countByExample" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(*) from IPO_DISTRIBUTION where USERID = #{userid,jdbcType=VARCHAR} 
+     <if test="ptime != null" >
+       and to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
+      </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update IPO_DISTRIBUTION
@@ -338,13 +341,18 @@
       	where COMMODITYID = #{commodityid,jdbcType=VARCHAR} and USERID = #{userid,jdbcType=VARCHAR}
   </update>
   <select id="getAllByPage"  resultType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExtended"  parameterType="map" >
-    select * from 
+	select * from 
 	(select t.*,rownum TNO from
 	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid,d.zcounts
 	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityid=o.commodityid
-	where d.userid=#{userid,jdbcType=VARCHAR})t
+	where d.userid=#{userid,jdbcType=VARCHAR}
+	<if test="ptime != null">
+	and to_char(PTIME,'yyyy-MM-dd') != #{ptime,jdbcType=VARCHAR}
+	</if>
+	)t
 	) a where a.TNO between #{beginnum} and  #{endnum}
   </select>
+  
   <select id="selectAll"  resultMap="BaseResultMap"  >
     select 
      <include refid="Base_Column_List" />
@@ -377,9 +385,11 @@
 		<include refid="Base_Column_List" /> 
 		from IPO_DISTRIBUTION where commodityid = #{commodityid,jdbcType=VARCHAR}
 	</select>
-	<select id="getInfobyFrozen" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-		select t.* from ipo_distribution t 
-		where t.frozen = #{frozen,jdbcType=INTEGER}  
+	<select id="getInfobyDate" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+   		<include refid="Base_Column_List" /> 
+	   	from IPO_DISTRIBUTION where to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
+	   	and frozen = 1
 	</select>
 	<update id="setSomeInfo" parameterType="map">
 		update IPO_DISTRIBUTION
@@ -399,5 +409,18 @@
 		set frozen =3
 		where ID = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectBallot" resultMap="BaseResultMap" parameterType="map">
+  select * from 
+	(select t.*,rownum TNO from
+	(select d.userid,d.commodityname,d.startnumber,d.pcounts,d.ptime,d.numbers,d.commodityid,o.orderid,d.zcounts
+	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityid=o.commodityid
+	where d.userid=#{userid,jdbcType=VARCHAR}
+	<if test="ptime != null">
+	and to_char(PTIME,'yyyy-MM-dd') != #{ptime,jdbcType=VARCHAR}
+	</if>
+	)t
+	) a where a.TNO between #{beginnum} and  #{endnum}
+  </select>
 	
 </mapper>

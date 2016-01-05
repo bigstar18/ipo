@@ -130,5 +130,10 @@ public interface DeliveryOrderService {
 	 * li
 	 */
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order);
+	/**
+	 *修改提货单状态
+	 *li 
+	 * */
+	public int updateStatus(String deliveryorderId,int approvalStatus); 
 
 }

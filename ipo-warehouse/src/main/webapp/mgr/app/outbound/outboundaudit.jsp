@@ -131,8 +131,11 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter:function(value,row){
-            	 if(row.outboundstate==1)
+            	 if(row.outboundstate==1){
      	      	   return "<a href=\"#\" onclick=\"audit("+row.outboundorderid+",2)\">通过</a>  <a href=\"#\" onclick=\"audit("+row.outboundorderid+",3)\">驳回</a>";
+            	 }else if(row.outboundstate==2){
+            		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"')\">已出库</a>";
+            	 }
      	      } 
          }]],  
          pagination : true
@@ -147,6 +150,31 @@ function getAllInfo(){
 }
 
 
+//确认出库
+function confirmOut(deliveryorderid){
+	alert(deliveryorderid);
+	$.ajax({
+		type:"POST",
+		url:"<%=request.getContextPath()%>/OutBoundController/updateSate",
+		data:{deliveryorderId:deliveryorderid},
+		success:function(data){
+			alert(data);
+			switch(data){
+				case "success":
+					alert("确认成功！");
+					$('#outboundinfo').datagrid('reload');
+					break;
+				case "fail":
+					alert("确认失败，请稍后再试！");
+					break;
+				case "error":
+					alert("系统异常！");
+					break;
+			}
+		}
+	});
+}
+
 //出库单审核
 function audit(outboundorderid,outboundstate){
 	$.ajax({
@@ -154,8 +182,7 @@ function audit(outboundorderid,outboundstate){
 		url:"<%=request.getContextPath()%>/OutBoundController/updateOutBoundInfo",
 		data:{
 			outboundstate:outboundstate,
-			outboundorderid:outboundorderid,
-			auditorid:"12345"
+			outboundorderid:outboundorderid
 		},
 		success:function(data){
 			switch(data){
