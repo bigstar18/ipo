@@ -24,12 +24,6 @@ public interface DistributionService {
 	// 用户中签总条数
 	public int ballotCounts(String userid, String date);
 
-	// 分页获取用户中签信息
-	public List<Distribution> getBallotInfo(String page, String rows, String userid, String date);
-
-	// 用户中签总条数
-	public int ballotCounts(String userid, String date);
-
 	// 获取总记录
 	public int getAllDistribution() throws Exception;
 
