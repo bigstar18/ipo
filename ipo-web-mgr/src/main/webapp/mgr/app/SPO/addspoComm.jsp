@@ -148,9 +148,7 @@ function addSPOInfo(){
 	var positionsPrice = $("#positionsPrice").val();
 	var minRationCounts = $("#minRationCounts").val();
 	var minRationProportion = $("#minRationProportion").val();
-	var dateRe=null;
-	var dateSPO=null;
-	var dateIPO=null;
+
 	//验证
 	if($("#communityId").val() == "请选择"){
 		alert("请选择具体商品！");
@@ -210,17 +208,6 @@ function addSPOInfo(){
 		rationType=2;
 	}
 	
- 	registerDate = registerDate.replace(/-/g,"/");
-	dateRe = new Date(registerDate );
-	if(spoDate==""||spoDate==null){
-		dateSPO = new Date(null);
-	}else{
-		spoDate = spoDate.replace(/-/g,"/");
-		dateSPO = new Date(spoDate);
-	}
-
-     ipoDate = ipoDate.replace(/-/g,"/");
-     dateIPO = new Date(ipoDate );
 
 	$.ajax({
 		type:"POST",
@@ -228,9 +215,9 @@ function addSPOInfo(){
 		data:{communityId:commonityId,
 			spoCounts:spoCounts,
 			spoPrice:spoPrice,
-			registerDate:dateRe,
-			spoDate:dateSPO,
-			ipoDate:dateIPO,
+			registerDate:registerDate,
+			spoDate:spoDate,
+			ipoDate:ipoDate,
 			rationType:rationType,
 			minRationCounts:minRationCounts,
 			minRationProportion:minRationProportion,
