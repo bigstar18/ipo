@@ -117,8 +117,8 @@
    <select id="queryAllDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
     select <include refid="Base_Column_List" />
     from (select t.*,rownum TNO from IPO_DELIVERYORDER t where 1=1
-      <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
+      <if test="record.deliveryorderId != null" > 
+       and t.DELIVERYORDER_ID like concat (#{record.deliveryorderId,jdbcType=VARCHAR},'%')
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -127,14 +127,14 @@
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
       <if test="record.dealerId != null" >
-       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+       and t.DEALER_ID = #{record.dealerId,jdbcType=VARCHAR}
       </if>
     order by t.DELIVERYORDER_ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
    <select id="getQueryNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
    	 select count(*) from IPO_DELIVERYORDER t where 1=1
    	    <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
+       and t.DELIVERYORDER_ID like concat (#{record.deliveryorderId,jdbcType=VARCHAR},'%')
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
@@ -248,17 +248,19 @@
   
   <select id="getPickupDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
   	select d.*,p.IDCARD_NUM from IPO_DELIVERYORDER d 
-  	left join (select * from IPO_PICKUP where PICKUP_PASSWORD = #{delivery.pickupPassword,jdbcType=VARCHAR})p 
+  	inner join (select * from IPO_PICKUP where PICKUP_PASSWORD = #{delivery.pickupPassword,jdbcType=VARCHAR})p 
   	on d.DELIVERYORDER_ID = p.PICKUP_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
+  	and d.DELIVERY_METHOD='自提'
   </select>
   
    <select id="getExpressDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
   	select d.*,t.ADDRESS,t.COST,t.RECEIVER,t.TEL
   	from IPO_DELIVERYORDER d 
-  	inner join ipo_express t 
+  	left join ipo_express t 
   	on d.DELIVERYORDER_ID = t.EXPRESS_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
+  	and d.DELIVERY_METHOD='在线配送'
   </select>
   
   <select id="selectByFrim" resultType="java.lang.String" parameterType="java.lang.String">
