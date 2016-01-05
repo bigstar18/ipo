@@ -219,6 +219,8 @@ function getAllInfo(){
 	        afterPageText: '页    共 {pages} 页', 
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
+	    
+
 	
 }
 
@@ -387,13 +389,14 @@ function ration(spoId) {
 							</tr>
 							<tr>
 								<td>
-										登记日期: <input id="registerDatep" name="registerDate"  class="easyui-datebox" editable="false" data-options="formatter:myformatter,parser:myparser">
+								
+										登记日期: <input id="registerDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 										&nbsp
 										&nbsp
-										增发日期: <input id="spoDatep" name="spoDate" class="easyui-datebox" editable="false" data-options="formatter:myformatter,parser:myparser" >
+										增发日期: <input id="spoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 										&nbsp
 										&nbsp
-										上市日期：<input id="ipoDatep" name="ipoDate" class="easyui-datebox" editable="false" data-options="formatter:myformatter,parser:myparser"  >
+										上市日期：<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 											&nbsp
 											&nbsp
 											<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>		
