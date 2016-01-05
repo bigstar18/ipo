@@ -39,6 +39,19 @@
 	-->
 
 	<filter>
+		<filter-name>cacheControlHeaderFilter</filter-name>
+		<filter-class>com.yrdce.ipo.util.CacheControlHeaderFilter</filter-class>
+		<init-param>
+			<param-name>expiresSeconds</param-name>
+			<param-value>0</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>cacheControlHeaderFilter</filter-name>
+		<url-pattern>/static/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
