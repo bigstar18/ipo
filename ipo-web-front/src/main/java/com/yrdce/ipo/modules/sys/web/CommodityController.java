@@ -289,12 +289,12 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/findApplyNums", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
-			throws IOException {
+	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid,
+			@RequestParam("status") String status) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid);
-			int totalnums = distributionService.getAllDistris(userid);
+			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid, status);
+			int totalnums = distributionService.getAllDistris(userid, status);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(dlist);

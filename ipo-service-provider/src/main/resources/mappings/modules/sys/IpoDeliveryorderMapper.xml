@@ -237,8 +237,11 @@
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
-  <select id="selectByCounts" parameterType="map" resultType="java.lang.Integer">
-  	select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} and DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+  <select id="selectCounts" parameterType="map" resultType="java.lang.Integer">
+  	select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} 
+  	<if test="deliveryMethod != null">
+  	   and DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+  	</if>
        and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
   
@@ -265,5 +268,19 @@
   
   <select id="selectByFrim" resultType="java.lang.String" parameterType="java.lang.String">
   	select name from m_firm where firmid =#{firmid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectRevocation" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder">
+  select * from 
+  (select t.*,rownum TNO from
+     (
+     select d.DELIVERYORDER_ID,d.commodity_id,d.commodity_name,d.warehouse_id,w.warehousename,d.position,d.delivery_quatity,
+     d.unit,d.apply_date,d.delivery_date,d.approval_status,d.delivery_method
+      from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id 
+     left join bi_warehouse w on d.warehouse_id = w.warehouseid 
+     where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
+       and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
+     ) t
+   ) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
 </mapper>

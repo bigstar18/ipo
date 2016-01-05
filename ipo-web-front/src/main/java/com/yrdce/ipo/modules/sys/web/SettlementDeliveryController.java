@@ -171,16 +171,33 @@ public class SettlementDeliveryController {
 		}
 	}
 
+	// 撤销提货单列表
+	@RequestMapping(value = "/revocation", method = RequestMethod.GET)
+	@ResponseBody
+	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging) {
+		logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		try {
+			List<DeliveryOrder> clist = settlementDeliveryService.getRevocationList(page, rows, paging);
+			int totalnums = settlementDeliveryService.counts(paging, "no");
+			ResponseResult result = new ResponseResult();
+			result.setTotal(totalnums);
+			result.setRows(clist);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
 	// 提货单状态修改(撤销提货、提货确认)
 	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			settlementDeliveryService.getRevocation(deliveryorderid, status);
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status);
 			return "success";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "error";
 		}
