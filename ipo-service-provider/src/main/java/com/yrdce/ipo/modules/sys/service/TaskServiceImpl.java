@@ -111,15 +111,9 @@ public class TaskServiceImpl implements TaskService {
 		}
 
 	}
-<<<<<<< HEAD
-	
+
 	//商品摇号
 	public void commolottery(String commId) throws Exception{
-=======
-
-	// 商品摇号
-	public void Commolottery(String commId) throws Exception {
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
 		logger.info("commID:" + commId);
 		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
 		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
@@ -186,7 +180,6 @@ public class TaskServiceImpl implements TaskService {
 		List<IpoDistribution> distributions = ipoDistribution.allByTime(ballotNowtime);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
-<<<<<<< HEAD
 			List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(ipod.getCommodityid());
 			for (IpoDistribution ipodb : ipoDidList1) {
 				if (ipodb.getZcounts() != 0) {
@@ -217,29 +210,6 @@ public class TaskServiceImpl implements TaskService {
 						logger.info("跟新中签计算金额结束");
 						transferPosition(commodityExtended, ipodb, commodityConf);
 						commodityMapper.updateStatusByStatusId(3, 32, ipodb.getCommodityid());
-=======
-			if (ipod.getZcounts() != 0) {
-				logger.info("获取发售商品信息" + ipod.getCommodityid());
-				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipod.getCommodityid());
-				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipod.getCommodityid());
-				if (commodityConf != null) {
-					BigDecimal bigDecimal = commodityExtended.getPrice();
-					// double price = bigDecimal.doubleValue();
-					logger.info("计算成交金额" + bigDecimal);
-					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipod.getZcounts()));
-					logger.info("成交金额" + tempPrice);
-					ipod.setTradingamount(tempPrice);
-					logger.info("计算手续费" + commodityConf.getTradealgr());
-					short tradealgr = commodityConf.getTradealgr();
-					logger.info("计算手续费算法" + tradealgr);
-					if (tradealgr == 1) {
-						BigDecimal tempDecimal = new BigDecimal(tradealgr).divide(new BigDecimal(100));
-						BigDecimal counterfee = tempPrice.multiply(tempDecimal);
-						ipod.setCounterfee(counterfee);
-					} else if (tradealgr == 2) {
-						BigDecimal counterfee = new BigDecimal(tradealgr).multiply(new BigDecimal(ipod.getZcounts()));
-						ipod.setCounterfee(counterfee);
->>>>>>> branch 'master' of http://10.0.100.180/ipo/ipo.git
 					}
 				}
 			}
