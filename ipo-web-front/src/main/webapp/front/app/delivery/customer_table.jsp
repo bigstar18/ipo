@@ -90,27 +90,10 @@ ody>
     </table>
 
   <script type="text/javascript">
-  function printpage() {
-    window.print();
-    $.ajax({
-		 type: 'post',
-	      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-	     data:{"deliveryorderid":deliveryorderid,
-	    	 	"status":"5"	
-	    	  },
-	     success : function(data) {
-		           if(data=='success'){
-		        	   alert("撤销成功");
-		        	   $('#dg').datagrid('reload');
-
-		           }else{
-	          		   alert("系统异常，请联系管理员");
-	          	   }
-		        }
-			});
-  }
+  
   
   $(document).ready(function() {
+  	
     var url = location.search;
     if (url.indexOf("?") != -1) {
       var str = url.substr(1);
@@ -140,7 +123,31 @@ ody>
         alert("加载失败，请刷新重试");
       }
     });
+    
   });
+  function printpage() {
+ 	  var deliveryorderid = $('#deliveryorderId').html();
+  	  $.ajax({
+  			 type: 'post',
+  		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
+  		     data:{"deliveryorderid":deliveryorderid,
+  		    	 	"status":"5"	
+  		    	  },
+  		     success : function(data) {
+  			           if(data=='success'){
+  			        	 window.print();
+  			           }else{
+  		          		   alert("系统异常，请联系管理员");
+  		          	   }
+  			        },
+		      error : function(data) {
+		    	  alert("系统异常，请联系管理员");
+		        }
+  				});
+    }
+  window.onunload = function(){
+      window.opener.location.reload();
+  }
   </script>
 </body>
 </html>

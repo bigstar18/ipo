@@ -93,31 +93,31 @@
             width: 100,
             align: 'center',
             formatter: function(value, row) {
-              if (value == 1) {
-                return '已申请';
-              }if (value == 2) {
-                return '市场通过';
-              }if (value == 3) {
-                return '市场驳回';
-              }if (value == 4) {
-                return '打印';
-              }if (value == 5) {
-                return '仓库通过';
-              }if (value == 6) {
-                return '仓库驳回';
-              }if (value == 7) {
-                return '已设置配置费用';
-              }if (value == 8) {
-                return '已确认';
-              }if (value == 9) {
-                return '已废除';
-              }if (value == 10) {
-                return '已过户';
-              }if (value == 11) {
-                return '已出库';
-              }if (value == 12) {
-                return '已收货';
-              }
+            	if (value == 1) {
+                    return '已申请';
+                  }if (value == 2) {
+                    return '市场通过';
+                  }if (value == 3) {
+                    return '市场驳回';
+                  }if (value == 4) {
+                    return '已过户';
+                  }if (value == 5) {
+                    return '打印';
+                  }if (value == 6) {
+                    return '仓库通过';
+                  }if (value == 7) {
+                    return '仓库驳回';
+                  }if (value == 8) {
+                    return '已设置配置费用';
+                  }if (value == 9) {
+                    return '已确认';
+                  }if (value == 10) {
+                    return '已废除';
+                  }if (value == 11) {
+                    return '已出库';
+                  }if (value == 12) {
+                    return '已收货';
+                  }
             }
           }, {
             field: 'cost',
@@ -135,7 +135,7 @@
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-            	if(row.approvalStatus == 7){
+            	if(row.approvalStatus == 8){
             		return "<a href=\"#\" onclick=\"execution("+row.deliveryorderId+")\">" + "确认" + "</a>";
             	}else {
             		return "确认";
@@ -158,7 +158,7 @@
         	$.ajax({
     			 type: 'post',
     		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-    		     data:{"deliveryorderid":deliveryorderid,"status":"6"},
+    		     data:{"deliveryorderid":deliveryorderid,"status":"9"},
     		     success : function(data) {
     			           if(data=='success'){
     			        	   alert("确认成功");

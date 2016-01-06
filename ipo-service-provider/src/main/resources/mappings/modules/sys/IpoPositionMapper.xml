@@ -63,7 +63,7 @@
 	       p.position,
 	       p.position_unit,
 	       wm_concat(w.warehousename) as warehousename,
-	       wm_concat(w.id) as warehouseid,
+	       wm_concat(w.id) as warehouseid
 	  from ipo_position p
 	  left join ipo_trusteeship_warehouse t
 	    on p.commodityid = t.commodity_id
@@ -71,8 +71,8 @@
 	    on w.id = t.warehouse_id
 	  left join ipo_commodity_conf comm
 	    on comm.commodityid = t.commodity_id
-	 where FIRMID = '888'
-	 group by p.commodityid, p.commodityname, p.position, p.position_unit;
+	 where FIRMID = #{firmid,jdbcType=VARCHAR}
+	 group by p.commodityid, p.commodityname, p.position, p.position_unit
   </select>
   
   <update id="updatePosition" parameterType="map">
