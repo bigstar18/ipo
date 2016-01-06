@@ -149,7 +149,7 @@ body {
 			{
 				loadData ();
 				initCalendar ();
-				
+
 			});
 
 			var commodities;
@@ -170,10 +170,10 @@ body {
 					    alert ("出错咯");
 				    }
 				});
-				
+
 				// 页面初始化
 				initial ();
-				
+
 			}
 			// 加载藏品名称数据
 			function initial ()
@@ -183,7 +183,7 @@ body {
 				var selhouse = $ ('#housetext');
 				selname.empty();
 				selhouse.empty();
-				
+
 				for (var i = 0; i < commodities.length; i++)
 				{
 					selname.append ('<option logix =' + i + '>' + commodities[i].commodityname + '</option>');
@@ -244,7 +244,7 @@ body {
 					$ ('.customer').addClass ('hide');
 					$ ('.dispatching').removeClass ('hide');
 				}
-				
+
 			});
 
 			// 提交
@@ -253,9 +253,21 @@ body {
 				var isIDcard = /^(\d{15}|\d{17}[x0-9])$/i;
 				var value = $ (".pickup").find ("option:selected").val ();
 				var vcount = Number ($ ('#vcount').val ());
-				
+
 				if (value == '1')
 				{
+          if ($ ('#telNum').val () != '')
+          {
+            $ ('#telNum').val ('');
+          }
+          if ($ ('#receiverName').val () != '')
+          {
+            $ ('#receiverName').val ('');
+          }
+          if ($ ('#addressName').val () != '')
+          {
+            $ ('#addressName').val ('');
+          }
 					if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
@@ -341,6 +353,7 @@ body {
 				        "commodityName" : $ ('#nametext').val (),
 				        "commodityId" : $ ('#vcode').val (),
 				        "warehouseId" : $ ('#housetext').val (),
+                "warehouseName": $('#housetext').find("option:selected").text(),
 				        "position" : $ ('#vcount').val (),
 				        "deliveryQuatity" : $ ('#dcount').val (),
 				        "deliveryDate" : $ ('#ddate').datebox ('getValue'),
@@ -360,7 +373,7 @@ body {
 						    $ ('.btnreset').css ('background', '#fff');
 						    $ ('.textbox-text').val ('');
 						    $ ('.textbox-text').css ('background', '#fff');
-						    
+
 						    loadData ();
 					    }
 					    if (response == "error")
