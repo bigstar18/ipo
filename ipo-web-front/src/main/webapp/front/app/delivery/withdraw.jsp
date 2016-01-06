@@ -281,7 +281,6 @@ $(function() {
           return false;
         }else{
           ajaxpost();
-          initial();
         }
       }if (value == '2') {
         if ($('#cardNum').val() != '') {
@@ -303,7 +302,6 @@ $(function() {
           return false;
         }else{
           ajaxpost();
-          initial();
         }
       };
     });
@@ -341,8 +339,7 @@ $(function() {
             $('.btnreset').css('background', '#fff');
             $('.textbox-text').val('');
             $('.textbox-text').css('background', '#fff');
-            ajaxget();
-            initial();
+            window.location.reload();
           }if (response == "error") {
             alert("添加失败，请按照格式填写参数");
           };
@@ -356,20 +353,17 @@ $(function() {
 
 
 	  var commodities;
-    function ajaxget() {
-      $.ajax({
-        type:"GET",
-        async: false,
-        url:'<%=request.getContextPath()%>/SettlementDeliveryController/deliveryInfo?dealerId='+'<%=dealerId %>',
-        success: function(response) {
-          commodities = eval(response);
-        },
-        error: function(response) {
-          alert("出错咯");
-        }
-      });
-    }
-    ajaxget();
+	  $.ajax({
+	  	type:"GET",
+	  	async: false,
+	    url:'<%=request.getContextPath()%>/SettlementDeliveryController/deliveryInfo?dealerId='+'<%=dealerId %>',
+	    success: function(response) {
+	    	commodities = eval(response);
+	    },
+	    error: function(response) {
+	    	alert("出错咯");
+	    }
+	  });
 
 	  //页面初始化
 	  initial();
