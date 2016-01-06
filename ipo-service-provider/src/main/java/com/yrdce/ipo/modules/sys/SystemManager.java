@@ -282,7 +282,8 @@ public class SystemManager {
 		updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
 
 		// TODO 付钱给谁?承销商
-		updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
+		// updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
+		updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
 	}
 
 	/**
