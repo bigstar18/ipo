@@ -232,8 +232,7 @@ function addSPOInfo(){
 		success:function(data){
         	if(data=="success"){
         		alert("添加成功！");
-        		//parent.$('#depositInfo').datagrid('reload');
-        		parent.doSearch();
+        		parent.getAllInfo();
         		parent.$('#dd').window('close');
         	 	return;
         	}
@@ -330,7 +329,7 @@ function updateSPOInfo(){
 		success:function(data){
         	if(data=="success"){
         		alert("修改成功！")
-        		parent.$('#depositInfo').datagrid('reload');
+        		parent.getAllInfo();
         		parent.$('#dd').window('close');
         	 	return;
         	}
