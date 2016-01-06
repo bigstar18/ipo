@@ -339,6 +339,7 @@ $(function() {
             $('.btnreset').css('background', '#fff');
             $('.textbox-text').val('');
             $('.textbox-text').css('background', '#fff');
+            window.location.reload();
           }if (response == "error") {
             alert("添加失败，请按照格式填写参数");
           };

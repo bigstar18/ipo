@@ -178,7 +178,7 @@ public class QueryController {
 	@ResponseBody
 	public boolean rock(String commondityid) {
 		try {
-			taskService.lottery();
+			taskService.lottery(commondityid);
 		} catch (Exception e) {
 			logger.error("rock error:", e);
 			return false;

@@ -107,13 +107,13 @@ public class TaskServiceImpl implements TaskService {
 		logger.info(ipoDidList.size() + "");
 		for (IpoDistribution ipoDistribution1 : ipoDidList) {
 			String commId = ipoDistribution1.getCommodityid();
-			commolottery(commId);
+			lottery(commId);
 		}
 
 	}
 
 	//商品摇号
-	public void commolottery(String commId) throws Exception{
+	public void lottery(String commId) throws Exception{
 		logger.info("commID:" + commId);
 		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
 		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());

@@ -149,29 +149,30 @@
   
   
    <select id="queryCancelDeliOrdersByPage" resultMap="BaseResultMap" parameterType="map">
-    select <include refid="Base_Column_List" />
-    from (select t.*,rownum TNO from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3,4,5)
+    SELECT T.* FROM (SELECT A.*,ROWNUM TNO FROM (SELECT <include refid="Base_Column_List" />  FROM IPO_DELIVERYORDER T WHERE T.DELIVERY_METHOD = '自提' AND T.APPROVAL_STATUS IN  (1,2,3,4)  
+    UNION  SELECT <include refid="Base_Column_List" />  FROM IPO_DELIVERYORDER T WHERE T.DELIVERY_METHOD = '在线配送' AND T.APPROVAL_STATUS IN  (1,2,3,4,5,6,7,8) ) A WHERE 1=1  
       <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
+       and A.DELIVERYORDER_ID like concat (#{record.deliveryorderId,jdbcType=VARCHAR},'%')
       </if>
        <if test="record.applyDate != null" >
-       and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
+       and A.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
       </if>
       <if test="record.dealerId != null" >
-       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+       and A.DEALER_ID like concat (#{record.dealerId,jdbcType=VARCHAR},'%')
       </if>
-    order by t.DELIVERYORDER_ID) a where a.TNO between  #{beginnum} and  #{endnum}
+         ) T WHERE T.TNO BETWEEN #{beginnum} AND  #{endnum}
   </select>
    <select id="getQueryCancelNum" resultType="java.lang.Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" >
-   	 select count(*) from IPO_DELIVERYORDER t where t.APPROVAL_STATUS in(1,2,3,4,5)
+   	 SELECT COUNT(*) FROM (SELECT <include refid="Base_Column_List" />  FROM IPO_DELIVERYORDER T WHERE T.DELIVERY_METHOD = '自提' AND T.APPROVAL_STATUS IN  (1,2,3,4)  
+     UNION  SELECT <include refid="Base_Column_List" />   FROM IPO_DELIVERYORDER T WHERE T.DELIVERY_METHOD = '在线配送' AND T.APPROVAL_STATUS IN  (1,2,3,4,5,6,7,8) ) A WHERE 1=1 
    	    <if test="record.deliveryorderId != null" >
-       and t.DELIVERYORDER_ID like #{record.deliveryorderId,jdbcType=VARCHAR} 
+       and A.DELIVERYORDER_ID like concat (#{record.deliveryorderId,jdbcType=VARCHAR},'%')
       </if>
        <if test="record.applyDate != null" >
-       and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
+       and A.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
       </if>
       <if test="record.dealerId != null" >
-       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+       and A.DEALER_ID like concat (#{record.dealerId,jdbcType=VARCHAR},'%')
       </if>
   </select>
   
