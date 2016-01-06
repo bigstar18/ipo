@@ -90,6 +90,7 @@
 		<div class="menu_3" id="3001001020" action="<%=request.getContextPath()%>/SettlementDeliveryController/dispatchingView">在线配送</div>
 		<div class="menu_3" id="3001001030" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryQueryView">提货查询</div>
 		<div class="menu_3" id="3001001040" action="<%=request.getContextPath()%>/SettlementDeliveryController/costQueryView">费用查询</div>
+		<div class="menu_3" id="3001001050" action="<%=request.getContextPath()%>/front/app/delivery/transfer.jsp">提单过户</div>
 	</div>
 	<div class="menu_1" id="5001001000">库转交易</div>
 	<div id="5001001000Div" style="display: none;">
