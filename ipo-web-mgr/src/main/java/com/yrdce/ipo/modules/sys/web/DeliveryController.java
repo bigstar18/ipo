@@ -398,9 +398,8 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("撤销审核单");
 		try {
-			// String userId = ((UserManageVO)
-			// session.getAttribute("CurrentUser")).getUserID();
-			String userId = "111";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();
