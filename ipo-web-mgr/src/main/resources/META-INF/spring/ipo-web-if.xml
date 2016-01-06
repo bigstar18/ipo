@@ -52,7 +52,7 @@
     <dubbo:reference id="taskService" interface="com.yrdce.ipo.modules.sys.service.TaskService" />
     <dubbo:reference id="chargeRoleService" interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" />
     <dubbo:reference id="chargeUserService" interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" />
-    
+    <dubbo:reference id="warehouseStockService" interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" />
     
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->

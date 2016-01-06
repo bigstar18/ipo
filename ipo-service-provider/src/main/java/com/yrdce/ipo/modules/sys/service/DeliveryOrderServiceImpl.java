@@ -141,6 +141,18 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				if (order.getApprovalStatus() == 2) {
 					ipopickup.setPickupPassword(genRandomNum());
 					ipopickupmapper.updateByPrimaryKey(ipopickup);
+					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
+					String commid = deorder.getCommodityId();
+					IpoWarehouseStock stock = ipoWarehouseStockMapper
+							.selectByCommoId(commid,
+									Long.parseLong(deorder.getWarehouseId()));
+					Long frozennum = stock.getForzennum();
+					Long available = stock.getAvailablenum();
+					Long newfrozen = frozennum + quantity;
+					Long newavailble = available - quantity;
+					stock.setForzennum(newfrozen);
+					stock.setAvailablenum(newavailble);
+					ipoWarehouseStockMapper.updateInfo(stock);
 				}
 				if (order.getApprovalStatus() == 3) {
 					// 驳回更新持仓量
@@ -177,6 +189,18 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
 					ipoexpressmapper.updateByPrimaryKey(ipoexpress);
+					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
+					String commid = deorder.getCommodityId();
+					IpoWarehouseStock stock = ipoWarehouseStockMapper
+							.selectByCommoId(commid,
+									Long.parseLong(deorder.getWarehouseId()));
+					Long frozennum = stock.getForzennum();
+					Long available = stock.getAvailablenum();
+					Long newfrozen = frozennum + quantity;
+					Long newavailble = available - quantity;
+					stock.setForzennum(newfrozen);
+					stock.setAvailablenum(newavailble);
+					ipoWarehouseStockMapper.updateInfo(stock);
 				}
 				if (order.getApprovalStatus() == 3) {
 					// 驳回更新持仓量
@@ -360,7 +384,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	@Transactional
 	public int updateStatus(DeliveryOrder deliveryOrder, String outboundorderid) {
-		// TODO Auto-generated method stub
 		int result = 0;
 		int result1 = 0;
 		int result3 = 0;
@@ -371,7 +394,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			String tempCommId = deliveryorder3.getCommodityId();
 			String wareHouseId = deliveryorder3.getWarehouseId();
 			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
-					.selectByCommoId(tempCommId, wareHouseId);
+					.selectByCommoId(tempCommId, Long.parseLong(wareHouseId));
 			long num = ipoWarehouseStock.getAvailablenum()
 					- deliveryorder3.getDeliveryQuatity();
 			long num2 = ipoWarehouseStock.getOutboundnum()
