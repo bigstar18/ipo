@@ -3,9 +3,7 @@ package com.yrdce.ipo.modules.warehouse.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.aspectj.internal.lang.annotation.ajcDeclareParents;
 
-import com.alibaba.dubbo.config.support.Parameter;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 import com.yrdce.ipo.modules.warehouse.entity.WarehouseStock;
@@ -20,9 +18,9 @@ public interface IpoWarehouseStockMapper {
 			@Param("record") IpoWarehouseStock record);
 
 	int getQueryNum(@Param("record") IpoWarehouseStock record);
-	
-	
-	IpoWarehouseStock selectByCommoId(@Param("commodityid")String commodityid,@Param("warehouseid")String warehouseid);
-	
+
+	IpoWarehouseStock selectByCommoId(@Param("commodityid") String commodityid,
+			@Param("warehouseid") Long warehouseid);
+
 	int updateInfo(IpoWarehouseStock ipoWarehouseStock);
 }
