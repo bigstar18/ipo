@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
@@ -20,6 +21,8 @@ import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
+import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
+import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 
 @Service("deliveryorderservice")
 public class DeliveryOrderServiceImpl implements DeliveryOrderService {
@@ -35,6 +38,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Autowired
 	private IpoPickupMapper ipopickupmapper;
+	@Autowired
+	private IpoWarehouseStockMapper ipoWarehouseStockMapper;
+	@Autowired
+	private IpoOutboundMapper ipoOutboundMapper;
 
 	public IpoDeliveryorderMapper getDeliveryordermapper() {
 		return deliveryordermapper;
@@ -316,10 +323,28 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	 * li
 	 * */
 	@Override
-	public int updateStatus(String deliveryorderId, int approvalStatus) {
+	@Transactional
+	public int updateStatus(DeliveryOrder deliveryOrder,String outboundorderid) {
 		// TODO Auto-generated method stub
-		int result = deliveryordermapper.updateByStatus(deliveryorderId, approvalStatus);
-		if (result>0) {
+		int result=0;
+		int result1=0;
+		int result3=0;
+		IpoDeliveryorder deliveryorder2 = new IpoDeliveryorder();
+		if (deliveryorder2!=null) {
+			IpoDeliveryorder deliveryorder3 = deliveryordermapper.selectByPrimaryKey(deliveryOrder.getDeliveryorderId());
+			String tempCommId=deliveryorder3.getCommodityId();
+			String wareHouseId= deliveryorder3.getWarehouseId();
+			IpoWarehouseStock ipoWarehouseStock= ipoWarehouseStockMapper.selectByCommoId(tempCommId,wareHouseId);
+			long num = ipoWarehouseStock.getAvailablenum()-deliveryorder3.getDeliveryQuatity();
+			long num2 = ipoWarehouseStock.getOutboundnum()+deliveryorder3.getDeliveryQuatity();
+			ipoWarehouseStock.setAvailablenum(num);
+			ipoWarehouseStock.setAvailablenum(num2);
+			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);
+			result = deliveryordermapper.updateStatus(deliveryorder2);
+			result1 = ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
+			result3 = ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
+		}
+		if (result>0&&result1>0&&result3>0) {
 			return 1;
 		}else{
 			return 0;

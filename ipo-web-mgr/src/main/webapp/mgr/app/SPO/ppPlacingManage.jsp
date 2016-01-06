@@ -30,11 +30,7 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:"<%=request.getContextPath()%>/SPOController/getRationInfopp", //搜索前,触发此action请求所有用户信息  
-        queryParams:{
-        	communityId:$("#commId").val(),
-        	registerDate:$("#registerDate").datebox("getValue")
-        },
+         url:"<%=request.getContextPath()%>/SPOController/getRationInfopp?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {
@@ -60,7 +56,8 @@ function getAllInfo(){
              align: "center",
              title : '登记日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null)
+                 	return value.substr(0,10);
              }
          },{  
              field : 'firmid',  
@@ -98,7 +95,8 @@ function getAllInfo(){
              align: "center",
              title : '操作日期',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null)
+                 	return value.substr(0,10);
              }
          },{  
              field : 'test17',  
@@ -130,7 +128,7 @@ function deleteRationInfo(rantionId){
 		success:function(data){
         	if(data=="success"){
         		alert("删除成功");
-        		$('#tt').datagrid('reload');
+        		getAllInfo();
         	}
         	else if(data=="error")
         		alert("初始化失败，请稍后再试");
@@ -171,7 +169,10 @@ function myparser(s){
  }
 
 function doSearch(){
-	getAllInfo();
+	$('#tt').datagrid('load',{
+		communityId:$("#commId").val(),
+    	registerDate:$("#registerDate").datebox("getValue")
+	});
 }
 
 function reSet(){

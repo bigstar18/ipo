@@ -18,7 +18,7 @@ function doSearch(){
 	var pickupPassword = $("#pickupPassword").val();	
 	$.ajax({
 		type:"GET",
-		url:"<%=request.getContextPath()%>/OutBoundController/getDeliveryInfo",
+		url:"<%=request.getContextPath()%>/OutBoundController/getDeliveryInfo?randnum="+Math.floor(Math.random()*1000000),
 		data:{
 			pickupPassword:pickupPassword,
 			deliveryorderId:deliveryorderId
@@ -102,8 +102,8 @@ function doAdd(){
 		success:function(data){
 			if(data=="success"){
 				alert("添加成功！");
+				parent.doSearch();
 				parent.$('#dd').window('close');
-				parent.$('#storageInfo').datagrid('reload');
 			}
 			if(data=="fail"){
 				alert("添加失败！");

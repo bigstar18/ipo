@@ -131,9 +131,9 @@ public interface DeliveryOrderService {
 	 */
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order);
 	/**
-	 *修改提货单状态
+	 *修改提货单，出库状态
 	 *li 
 	 * */
-	public int updateStatus(String deliveryorderId,int approvalStatus); 
+	public int updateStatus(DeliveryOrder deliveryOrder,String outboundorderid); 
 
 }

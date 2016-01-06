@@ -268,6 +268,8 @@ $(function() {
           return false;
         }if (!isIDcard.test($('#cardNum').val())) {
           $('#cardNum').css('background', '#EEEE00');
+          $('#cardNum').attr('placeholder', '请输入正确的身份证格式');
+          $('#cardNum').val('');
           return false;
         }else{
           ajaxpost();

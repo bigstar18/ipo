@@ -104,6 +104,8 @@ function getAllInfo(){
                 	 break;
                  case 3:
                 	 return "审核驳回";
+                 case 4:
+                	 return "已出库";
                 	 break;
                  }
              }
@@ -134,7 +136,9 @@ function getAllInfo(){
             	 if(row.outboundstate==1){
      	      	   return "<a href=\"#\" onclick=\"audit("+row.outboundorderid+",2)\">通过</a>  <a href=\"#\" onclick=\"audit("+row.outboundorderid+",3)\">驳回</a>";
             	 }else if(row.outboundstate==2){
-            		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"')\">已出库</a>";
+            		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"','"+row.outboundorderid+"')\">已出库</a>";
+            	 }else{
+            		 return"";
             	 }
      	      } 
          }]],  
@@ -151,14 +155,14 @@ function getAllInfo(){
 
 
 //确认出库
-function confirmOut(deliveryorderid){
-	alert(deliveryorderid);
+function confirmOut(deliveryorderid,outboundorderid){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/OutBoundController/updateSate",
-		data:{deliveryorderId:deliveryorderid},
+		data:{deliveryorderId:deliveryorderid,
+			outboundorderid:outboundorderid
+		},
 		success:function(data){
-			alert(data);
 			switch(data){
 				case "success":
 					alert("确认成功！");

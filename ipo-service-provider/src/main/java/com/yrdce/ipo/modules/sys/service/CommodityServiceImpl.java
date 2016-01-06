@@ -16,6 +16,12 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodityExample;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 
+/**
+ * 
+ * 商品发售服务
+ * add by hxx
+ *
+ */
 @Service("commodityService")
 public class CommodityServiceImpl implements CommodityService {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -242,12 +248,13 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public List<Commodity> queryAllByStatusForSettle(Integer status) {
-		List<IpoCommodity> commlist = ipoCommodityMapper.selectByStatus(status);
+	public List<Commodity> queryAllByStatusForSettle() {
+		List<IpoCommodity> commlist = ipoCommodityMapper.selectByStatus(Integer.valueOf(SALE_STATUS_FEECOMPLETED));
 		if (commlist != null && !commlist.isEmpty()) {
 			List<Commodity> result = new ArrayList<Commodity>();
 			for (int i = 0; i < commlist.size(); i++) {
-				int update = ipoCommodityMapper.updateStatusByStatusId(3, 41, commlist.get(i).getCommodityid());
+				int update = ipoCommodityMapper.updateStatusByStatusId(Integer.valueOf(SALE_STATUS_FEECOMPLETED),
+						Integer.valueOf(SALE_STATUS_SETTLING), commlist.get(i).getCommodityid());
 				if (update < 1) // 更新不成功
 					continue;
 
@@ -263,7 +270,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public int updateCommoditySettled(String commoId) {
-		return ipoCommodityMapper.updateStatusByStatusId(41, 4, commoId);
+		return ipoCommodityMapper.updateStatusByStatusId(Integer.valueOf(SALE_STATUS_SETTLING), Integer.valueOf(SALE_STATUS_SETTLED), commoId);
 	}
 
 }

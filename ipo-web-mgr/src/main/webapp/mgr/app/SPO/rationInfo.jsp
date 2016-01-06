@@ -31,7 +31,7 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo", //搜索前,触发此action请求所有用户信息  
+         url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {
@@ -225,9 +225,6 @@ function getAllInfo(){
 	        afterPageText: '页    共 {pages} 页', 
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
-	    
-
-	
 }
 
 //修改日期格式
@@ -307,7 +304,7 @@ function deleteSPOInfo(spoId){
 		success:function(data){
         	if(data=="success"){
         		alert("删除成功");
-        		$('#depositInfo').datagrid('reload');
+        		getAllInfo();
         	}
         	else if(data=="error")
         		alert("删除失败，请稍后再试");
@@ -348,13 +345,14 @@ function ration(spoId) {
 <body>
  <input type="hidden" id="hidSpoId" value=""/>
 
-<div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800px;height:600px;padding:5px;">
-</div>
 
-<div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800px;height:600px;padding:5px;">
-</div> 
 
 <div id="main_body">
+<div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800%;height:600%;padding:5px;">
+</div>
+
+<div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800%;height:750%;padding:5px;">
+</div> 
 <table class="table1_style" border="0" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<td>		
