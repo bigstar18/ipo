@@ -113,10 +113,10 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal allMonery = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
-					short mode = ipoCommodityConf.getPublishalgr();
+					short mode = ipoCommodityConf.getTradealgr();
 					BigDecimal val = ipoCommodityConf.getBuy();
 					BigDecimal fee = new BigDecimal(0);
-					;
+
 					if (mode == 1) {
 						fee = allMonery.multiply(val);
 					} else {
