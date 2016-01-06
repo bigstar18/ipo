@@ -12,6 +12,7 @@
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
     <result column="PUBMEMBERNAME" property="pubmembername" jdbcType="VARCHAR" />
+    <result column="WAREHOUSENAME" property="warehousename" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     STOCKID, COMMODITYID, STORAGENUM, FORZENNUM, AVAILABLENUM, OUTBOUNDNUM,WAREHOUSEID
@@ -27,9 +28,9 @@
   </insert>
 
    <select id="findWarehouseStockByPage" resultMap="BaseResultMap" parameterType="map">
-     select <include refid="Base_Column_List" />,COMMODITYNAME,PUBMEMBERID,PUBMEMBERNAME from (select t.*, c.COMMODITYNAME, c.PUBMEMBERID, b.NAME PUBMEMBERNAME, rownum TNO
+     select <include refid="Base_Column_List" />,COMMODITYNAME,PUBMEMBERID,PUBMEMBERNAME,WAREHOUSENAME from (select t.*, c.COMMODITYNAME, c.PUBMEMBERID, b.NAME PUBMEMBERNAME,w.WAREHOUSENAME WAREHOUSENAME, rownum TNO
      from IPO_WAREHOUSE_STOCK t  LEFT JOIN IPO_COMMODITY_CONF c ON t.COMMODITYID = c.COMMODITYID  LEFT JOIN BR_BROKER b
-     ON c.PUBMEMBERID = b.BROKERID  where 1 = 1 
+     ON c.PUBMEMBERID = b.BROKERID LEFT JOIN  BI_WAREHOUSE w ON  w.ID=t.WAREHOUSEID  where 1 = 1 
        <if test="record.commodityid != null" >
        and t.COMMODITYID like concat (#{record.commodityid,jdbcType=VARCHAR},'%')
       </if>

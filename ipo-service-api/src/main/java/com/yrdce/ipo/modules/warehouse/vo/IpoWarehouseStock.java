@@ -26,6 +26,16 @@ public class IpoWarehouseStock {
 
 	private String pubmembername;
 
+	private String warehousename;
+
+	public String getWarehousename() {
+		return warehousename;
+	}
+
+	public void setWarehousename(String warehousename) {
+		this.warehousename = warehousename;
+	}
+
 	public String getCommodityname() {
 		return commodityname;
 	}
