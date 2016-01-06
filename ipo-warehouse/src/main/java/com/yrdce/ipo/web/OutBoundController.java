@@ -117,7 +117,7 @@ public class OutBoundController {
 	// 出库单添加
 	@RequestMapping(value = "/addOutBoundOrder", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String addOutBoundOrder(Outbound outBound,HttpSession session) {
+	public String addOutBoundOrder(Outbound outBound,HttpSession session){
 		try {
 			log.info("出库单添加");
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();

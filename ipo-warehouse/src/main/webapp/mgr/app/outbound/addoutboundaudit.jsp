@@ -46,24 +46,30 @@ function doSearch(){
 					$("#approvalStatus").val("市场驳回");
 					break;
 				case 4:
-					$("#approvalStatus").val("仓库通过");
+					$("#approvalStatus").val("已过户");
 					break;
 				case 5:
-					$("#approvalStatus").val("仓库驳回");
+					$("#approvalStatus").val("打印");
 					break;
 				case 6:
-					$("#approvalStatus").val("已确认");
+					$("#approvalStatus").val("仓库通过");
 					break;
 				case 7:
-					$("#approvalStatus").val("已废除");
+					$("#approvalStatus").val("仓库驳回");
 					break;
 				case 8:
 					$("#approvalStatus").val("已设置配置费用");
 					break;
 				case 9:
-					$("#approvalStatus").val("已出库");
+					$("#approvalStatus").val("已确认");
 					break;
 				case 10:
+					$("#approvalStatus").val("已废除");
+					break;
+				case 11:
+					$("#approvalStatus").val("已出库");
+					break;
+				case 12:
 					$("#approvalStatus").val("已收货");
 					break;
 				}
