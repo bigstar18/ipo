@@ -54,7 +54,8 @@ public class TaskServiceImpl implements TaskService {
 	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
-
+	@Autowired
+	private IpoCommodityMapper commodityMapper;
 	/**
 	 * 配号
 	 * 
@@ -106,13 +107,13 @@ public class TaskServiceImpl implements TaskService {
 		logger.info(ipoDidList.size() + "");
 		for (IpoDistribution ipoDistribution1 : ipoDidList) {
 			String commId = ipoDistribution1.getCommodityid();
-			Commolottery(commId);
+			commolottery(commId);
 		}
 
 	}
 	
 	//商品摇号
-	public void Commolottery(String commId) throws Exception{
+	public void commolottery(String commId) throws Exception{
 		logger.info("commID:" + commId);
 		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
 		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
@@ -164,7 +165,6 @@ public class TaskServiceImpl implements TaskService {
 			logger.info("摇号结束");
 		}
 	}
-
 	/**
 	 * 申购结算
 	 */
@@ -176,40 +176,44 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("开始获取所有未结算的中签记录");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String ballotNowtime = DateUtil.getTime(2);
-		List<IpoDistribution> distributions = ipoDistribution.getInfobyDate(ballotNowtime);
+		//List<IpoDistribution> distributions = ipoDistribution.getInfobyDate(ballotNowtime);
+		List<IpoDistribution> distributions = ipoDistribution.allByTime(ballotNowtime);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
-			if (ipod.getZcounts() != 0) {
-				logger.info("获取发售商品信息" + ipod.getCommodityid());
-				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipod.getCommodityid());
-				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipod.getCommodityid());
-				if (commodityConf != null) {
-					BigDecimal bigDecimal = commodityExtended.getPrice();
-					//double price = bigDecimal.doubleValue();
-					logger.info("计算成交金额" + bigDecimal);
-					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipod.getZcounts()));
-					logger.info("成交金额" + tempPrice);
-					ipod.setTradingamount(tempPrice);
-					logger.info("计算手续费" + commodityConf.getTradealgr());
-					short tradealgr = commodityConf.getTradealgr();
-					logger.info("计算手续费算法" + tradealgr);
-					if (tradealgr == 1) {
-						BigDecimal tempDecimal = new BigDecimal(tradealgr).divide(new BigDecimal(100));
-						BigDecimal counterfee = tempPrice.multiply(tempDecimal);
-						ipod.setCounterfee(counterfee);
-					} else if (tradealgr == 2) {
-						BigDecimal counterfee =  new BigDecimal(tradealgr).multiply(new BigDecimal(ipod.getZcounts())) ;
-						ipod.setCounterfee(counterfee);
+			List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(ipod.getCommodityid());
+			for (IpoDistribution ipodb : ipoDidList1) {
+				if (ipodb.getZcounts() != 0) {
+					logger.info("获取发售商品信息" + ipodb.getCommodityid());
+					IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipodb.getCommodityid());
+					IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipodb.getCommodityid());
+					if (commodityConf != null) {
+						BigDecimal bigDecimal = commodityExtended.getPrice();
+						logger.info("计算成交金额" + bigDecimal);
+						BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipodb.getZcounts()));
+						logger.info("成交金额" + tempPrice);
+						ipod.setTradingamount(tempPrice);
+						logger.info("计算手续费" + commodityConf.getTradealgr());
+						short tradealgr = commodityConf.getTradealgr();
+						logger.info("计算手续费算法" + tradealgr);
+						if (tradealgr == 1) {
+							BigDecimal tempDecimal = new BigDecimal(tradealgr).divide(new BigDecimal(100));
+							BigDecimal counterfee = tempPrice.multiply(tempDecimal);
+							ipodb.setCounterfee(counterfee);
+						} else if (tradealgr == 2) {
+							BigDecimal counterfee =  new BigDecimal(tradealgr).multiply(new BigDecimal(ipod.getZcounts())) ;
+							ipodb.setCounterfee(counterfee);
+						}
+						Date dt = sdf.parse(DateUtil.getTime(0));
+						ipodb.setFrozendate(dt);
+						logger.info("跟新中签计算金额开始");
+						ipoDistribution.setSomeInfo(ipodb);
+						logger.info("跟新中签计算金额结束");
+						transferPosition(commodityExtended, ipodb, commodityConf);
+						commodityMapper.updateStatusByStatusId(3, 32, ipodb.getCommodityid());
 					}
-					Date dt = sdf.parse(DateUtil.getTime(0));
-					ipod.setFrozendate(dt);
-					logger.info("跟新中签计算金额开始");
-					ipoDistribution.setSomeInfo(ipod);
-					logger.info("跟新中签计算金额结束");
-					transferPosition(commodityExtended, ipod, commodityConf);
-
 				}
 			}
+	
 		}
 		logger.info("申购结束");
 	}
