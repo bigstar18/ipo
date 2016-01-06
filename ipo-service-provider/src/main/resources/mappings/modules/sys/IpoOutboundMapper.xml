@@ -83,6 +83,9 @@
   <select id="findOutboundsByPage" resultMap="EResultMap" parameterType="map">
   select a.*  from (select g.*, rownum TNO from (select t.*, d.commodity_id,d.commodity_name, d.dealer_id, d.dealer_name,d.delivery_quatity,d.delivery_method
   from ipo_outbound t left join ipo_deliveryorder d on t.deliveryorderid = d.deliveryorder_id) g where 1=1
+  		<if test="record.warehouseid != null ">
+  		 and g.WAREHOUSEID = #{record.warehouseid,jdbcType=VARCHAR}	
+  		</if>
        <if test="record.outboundorderid != null " >
        and g.OUTBOUNDORDERID like concat (#{record.outboundorderid,jdbcType=VARCHAR},'%')
       </if>
@@ -103,6 +106,9 @@
    <select id="getTotalNum" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended">
     select count(*)  from (select t.*, d.commodity_id, d.commodity_name, d.dealer_id,d.dealer_name, d.delivery_quatity, d.delivery_method
       from ipo_outbound t left join ipo_deliveryorder d on t.deliveryorderid = d.deliveryorder_id) t where 1=1 
+      <if test="warehouseid != null ">
+  		 and t.WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR}	
+  		</if>
    	     <if test="outboundorderid != null" >
        and t.OUTBOUNDORDERID like concat (#{outboundorderid,jdbcType=VARCHAR},'%')
       </if>
