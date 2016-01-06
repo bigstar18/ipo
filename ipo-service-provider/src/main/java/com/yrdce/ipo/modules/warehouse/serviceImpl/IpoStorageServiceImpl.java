@@ -108,6 +108,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 				record.setForzennum((long) 0);
 				record.setOutboundnum((long) 0);
 				record.setAvailablenum(example.getStoragecounts());
+				record.setWarehouseid(example.getWarehouseid());
 				ipowarehousestockmapper.insert(record);
 				return ipoStorageMapper.updateStorageState(storageId, checker,
 						"4");// 市场通过

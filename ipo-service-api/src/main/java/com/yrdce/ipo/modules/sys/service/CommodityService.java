@@ -10,6 +10,14 @@ import com.yrdce.ipo.modules.sys.vo.Commodity;
  */
 public interface CommodityService {
 
+	public final static String SALE_STATUS_NOTALLOCATIE = "1";// 未配号
+	public final static String SALE_STATUS_ALLOCATED = "2";// 配号完毕
+	public final static String SALE_STATUS_BALLOTED = "3";// 抽签完毕
+	public final static String SALE_STATUS_BALLOTING = "31";// 抽签中
+	public final static String SALE_STATUS_FEECOMPLETED = "32";// 费用计算完毕
+	public final static String SALE_STATUS_SETTLED = "4";// 结算完毕
+	public final static String SALE_STATUS_SETTLING = "41";// 结算中
+
 	// 分页获取可申购商品列表
 	public List<Commodity> findCommList(String page, String rows);
 
@@ -57,7 +65,7 @@ public interface CommodityService {
 	 * @param status
 	 * @return
 	 */
-	public List<Commodity> queryAllByStatusForSettle(Integer status);
+	public List<Commodity> queryAllByStatusForSettle();
 
 	/**
 	 * hxx

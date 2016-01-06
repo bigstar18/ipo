@@ -24,7 +24,6 @@
     values (#{stockid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{forzennum,jdbcType=DECIMAL}, #{availablenum,jdbcType=DECIMAL}, #{outboundnum,jdbcType=DECIMAL}, 
       #{warehouseid,jdbcType=DECIMAL})
-      )
   </insert>
 
    <select id="findWarehouseStockByPage" resultMap="BaseResultMap" parameterType="map">

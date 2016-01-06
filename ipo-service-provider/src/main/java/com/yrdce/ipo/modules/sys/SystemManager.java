@@ -295,8 +295,8 @@ public class SystemManager {
 	}
 
 	private void purchaseSettle() throws Exception {
-		// 找sale表状态为3->41
-		List<Commodity> sales = commodityService.queryAllByStatusForSettle(new Integer(3));
+		// 找sale表状态为32->41
+		List<Commodity> sales = commodityService.queryAllByStatusForSettle();
 		if (sales != null && !sales.isEmpty()) {
 			for (Commodity commodity : sales) {
 				String commodityId = commodity.getCommodityid();
