@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +15,10 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
-import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
@@ -36,15 +35,21 @@ public class OutBoundController {
 	private OutboundService outboundService;
 	@Autowired
 	private DeliveryOrderService deliveryOrderService;
+	@Autowired
+	private IpoStorageService ipoStorageService;
+	
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(OutBoundController.class);
 
 	@RequestMapping(value = "/geOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String geOutBoundInfo(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, OutboundExtended outbound) {
+			@RequestParam("rows") String rows, OutboundExtended outbound,HttpSession session) {
 		try {
 			System.out.println("start");
+			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			Long wareHouseId=ipoStorageService.getWarehousePrimary(operatorid);
+			outbound.setWarehouseid(String.valueOf(wareHouseId));
 			List<OutboundExtended> slist = outboundService.getAllOutboundInfo(
 					page, rows, outbound);
 			int counts = outboundService.getTotalNum(outbound);
@@ -61,10 +66,13 @@ public class OutBoundController {
 
 	@RequestMapping(value = "/getDeliveryInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getDeliveryInfo(DeliveryOrder order) {
+	public String getDeliveryInfo(DeliveryOrder order,HttpSession session) {
 		try {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
+			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			Long wareHouseId=ipoStorageService.getWarehousePrimary(operatorid);
+			order.setWarehouseId(String.valueOf(wareHouseId));
 			if (!order.getPickupPassword().equals("")) {
 				deliveryOrder = deliveryOrderService
 						.getPickupDeliveryInfo(order);
@@ -113,6 +121,8 @@ public class OutBoundController {
 		try {
 			log.info("出库单添加");
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
+			outBound.setWarehouseid(String.valueOf(wareHouseId));
 			outBound.setOperatorid(operatorid);
 			int result = outboundService.addOutBoundOrder(outBound);
 			if (result == 1) {

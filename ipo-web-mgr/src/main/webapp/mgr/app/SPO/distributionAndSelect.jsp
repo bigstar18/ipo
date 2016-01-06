@@ -110,7 +110,6 @@ $(document).ready(function(){
 	        }
      	   
             	if(add.length!=0){
-            		alert("");
             		$.ajax({
             			traditional: true,
             			type:"POST",
