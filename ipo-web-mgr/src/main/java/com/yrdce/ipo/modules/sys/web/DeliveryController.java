@@ -337,33 +337,6 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 分页展示可撤销提货单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/cancelDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String cancelDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询可撤销提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.cancelDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getCancelNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
 	 * 审核提货单(自提)
 	 * 
 	 * @param
@@ -425,9 +398,9 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("撤销审核单");
 		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			// String userId = "111";
+			// String userId = ((UserManageVO)
+			// session.getAttribute("CurrentUser")).getUserID();
+			String userId = "111";
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();

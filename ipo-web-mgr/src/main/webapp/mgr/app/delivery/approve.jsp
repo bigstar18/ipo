@@ -144,7 +144,7 @@ function doSearch(){
   $('#dg').datagrid('load',{
 		deliveryorderId: $('#deliveryorderId').val(),
 		applyDate: $('#applyDate').datebox('getValue'),
-		approvalStatus: $('#approvalStatus').val(),
+		approvalStatus: '1',
 		dealerId: $('#dealerId').val()
 	});       
 }
