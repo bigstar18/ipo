@@ -11,8 +11,9 @@
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
 <link rel="stylesheet" href="../../skinstyle/default/css/common.css" type="text/css" />
+<script src="<%=request.getContextPath()%>/mgr/public/js/json2.js" type="text/javascript"></script>
 <style type="text/css">
-	.content span{display:block}
+	.content span{font-size:12px}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -93,24 +94,27 @@ $(document).ready(function(){
         { text: '保存', iconCls: 'icon-save', handler: function () {
             //保存时结束当前编辑的行，自动触发onAfterEdit事件如果要与后台交互可将数据通过Ajax提交后台
             $("#tt").datagrid("endEdit", editRow);
-             var rows = $('#tt').datagrid('getChecked');
+            var rows = $('#tt').datagrid('getChecked');
+            if(rows.length==0){
+            	alert("至少请勾选一条分配信息");
+            	return;
+            }
 	 	    var add = new Array();
 	 	    var update = new Array();
 	        for(var temp in rows){
 	        	if(rows[temp].rationid==null){
 	        		add.push(rows[temp]);
-	        		//alert(rows[temp].salesRebateratio);
 	        	}else{
 	        		update.push(rows[temp]);
-	        		//alert("2223");
 	        	}
 	        }
      	   
             	if(add.length!=0){
+            		alert("");
             		$.ajax({
             			traditional: true,
             			type:"POST",
-            			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo?randnum="+Math.floor(Math.random()*1000000),
+            			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo",
             			contentType:"application/json", 
                      	data:JSON.stringify(add),
             			success:function(data){
@@ -190,13 +194,16 @@ $(document).ready(function(){
 
 });
 
-
+//关闭
+function doClose(){
+	parent. $('#dd').window('close');
+}
 
 </script>
 </head>
 <body>
 	<div class="warning">
-		<div class="content" style="height:100%">
+		<div class="content" style="height:80%">
 			<span>温馨提示 :</span>
 			<span>分配增发商品及查询</span>
 		</div>
@@ -207,7 +214,12 @@ $(document).ready(function(){
 		<table id="tt" width="95%" height="100" align="center">
 			
 		</table>
+		
+		</div>
+		<div align="center" style="margin-top:20px">
+			<input type="button" class="btn_sec" id="close" onclick="doClose()" value="关闭">
 		</div>
 	</form>
+	
 </body>
 </html>

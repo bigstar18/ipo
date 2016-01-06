@@ -50,6 +50,13 @@
   <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
   <script type="text/javascript" src="${ctxStatic}/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+  <script type="text/javascript">
+    function onlyNum() {
+      if (!(event.keyCode == 46) && !(event.keyCode == 8) && !(event.keyCode == 37) && !(event.keyCode == 39))
+        if (!((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)))
+          event.returnValue = false;
+    }
+  </script>
 </head>
 <body>
   <div class="main">
@@ -137,7 +144,7 @@
                         </span>
               </td>
               <td>
-                <input id="dcount" class="btnreset" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" style="width: 150px;"><b>*</b>
+                <input id="dcount" class="btnreset" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" onkeydown="onlyNum();" style="ime-mode:Disabled;width: 150px;"><b>*</b>
               </td>
             </tr>
             <tr>
@@ -250,6 +257,7 @@ $(function() {
 	  });
 
 
+
     //提交
     $('#postbtn').click(function  () {
       var isIDcard = /^(\d{15}|\d{17}[x0-9])$/i;
@@ -275,7 +283,9 @@ $(function() {
           ajaxpost();
         }
       }if (value == '2') {
-        if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
+        if ($('#cardNum').val() != '') {
+          $('#cardNum').val('');
+        }if ($('#dcount').val() == '' || Number($('#dcount').val()) > vcount || Number($('#dcount').val()) < 0) {
           $('#dcount').css('background', '#EEEE00');
           return false;
         }if ($('.textbox-text').val() == '') {

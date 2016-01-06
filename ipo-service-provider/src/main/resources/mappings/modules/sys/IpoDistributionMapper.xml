@@ -213,7 +213,7 @@
   <select id="countByExample" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(*) from IPO_DISTRIBUTION where USERID = #{userid,jdbcType=VARCHAR} 
      <if test="ptime != null" >
-       and to_char(PTIME,'yyyy-MM-dd') = #{ptime,jdbcType=VARCHAR}
+       and to_char(PTIME,'yyyy-MM-dd') != #{ptime,jdbcType=VARCHAR}
       </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >

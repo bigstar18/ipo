@@ -293,6 +293,7 @@ public class DeliveryController {
 			throws IOException {
 		log.info("模糊查询提货单");
 		try {
+			log.info(record.toString());
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();

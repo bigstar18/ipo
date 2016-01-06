@@ -84,7 +84,9 @@ $(document).ready(function() {
 				align: "center",
 				title : '摇号',
 				formatter:function(value,row){
-					 return "<a href=\"#\" onclick=\"constructionManager("+row.commodityid+")\">" + "开始" + "</a>";
+					if(row.status==2||row.status==3){
+					  return "<a href=\"#\" onclick=\"javascript:constructionManager("+row.commodityid+",this)\">" + "开始" + "</a>";
+					}
 				}
 			 }
 		 ]],  
@@ -106,23 +108,25 @@ function dateconvertfunc(value,row){
         return value.substr(0,10);
 }
 
-function constructionManager(commodityid){
+function constructionManager(commodityid,obj){
+	obj.innerHTML='<img src=<%=request.getContextPath()%>/static/images/loading.gif style="height:25px;" />';
 	$.ajax({  
 		    url: "<%=request.getContextPath()%>/QueryController/rock",  
 		    data:{"commodityid":commodityid}, 
-		    type: 'GET',dataType: 'json',  
+		    type: 'GET',dataType: 'json',async:false,
 		    success : function(data, stats) {  
 	             if(data==true||data=="true"){
 	            	 alert('摇号结束');
 	             }else{
 	            	 alert('摇号失败');
-	             }
+	             };
+	             obj.innerHTML="开始";
 	        },
 	  	    error: function (jqXHR, textStatus, errorThrown) {
-	              alert('系统异常!');
+	  	    	obj.innerHTML="开始";
+	            alert('系统异常!');
 	        }
 		});  
-	
 }
     
 function doSearch(){

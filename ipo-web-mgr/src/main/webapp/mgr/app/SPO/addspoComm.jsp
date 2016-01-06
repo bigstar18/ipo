@@ -39,16 +39,22 @@ function getSpoInfo(spoId){
 	var tempType;
 	$.ajax({
 		type:"GET",
-		url:"<%=request.getContextPath()%>/SPOController/getSPOInfoBySPOId",
+		url:"<%=request.getContextPath()%>/SPOController/getSPOInfoBySPOId?randnum="+Math.floor(Math.random()*1000000),
 		data:{spoId:spoId},
 		dataType: "json", 
 		success:function(data){
 			if(data!="error"&&data!=""){
 				$("#spoCounts").val(data.spoCounts);
 				$("#commIdInput").val(data.communityId);
-				$("#registerDate").datebox("setValue",data.registerDate.substr(0,10));
-				$("#spoDate").datebox("setValue",data.spoDate.substr(0,10));
-				$("#ipoDate").datebox("setValue",data.ipoDate.substr(0,10));
+				if(data.registerDate!=null){
+					$("#registerDate").datebox("setValue",data.registerDate.substr(0,10));
+				}
+				if(data.spoDate!=null){
+					$("#spoDate").datebox("setValue",data.spoDate.substr(0,10));
+				}
+				if(data.ipoDate!=null){
+					$("#ipoDate").datebox("setValue",data.ipoDate.substr(0,10));
+				}
 				$("#rationType ").get(0).selectedIndex=data.rationType;
 				$("#spoPrice").val(data.spoPrice);
 				$("#positionsPrice").val(data.positionsPrice);

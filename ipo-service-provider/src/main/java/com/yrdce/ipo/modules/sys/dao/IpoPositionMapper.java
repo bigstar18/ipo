@@ -23,7 +23,8 @@ public interface IpoPositionMapper {
 	List<IpoPosition> selectByFirmid(String firmid);
 
 	// 根据交易商id和商品id更新持仓量
-	int updatePosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid, @Param("Position") long Position);
+	int updatePosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid, @Param("position") long position);
 
-	IpoPosition selectPosition(String firmid, String Commodityid);
+	IpoPosition selectPosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid);
+
 }

@@ -93,15 +93,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, pickupId);
 
-		// 更新持仓量
-		long quatity = deliveryOrder.getDeliveryQuatity();
-		String firmid = deliveryOrder.getDealerId();
-		String commid = deliveryOrder.getCommodityId();
-		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
-		long position = ipoPosition.getPosition();
-		long num = position - quatity;
-		ipoPositionMapper.updatePosition(firmid, commid, num);
-
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}
@@ -118,15 +109,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String expressId = ipoExpress.getExpressId();
 
 		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, expressId);
-
-		// 更新持仓量
-		long quatity = deliveryOrder.getDeliveryQuatity();
-		String firmid = deliveryOrder.getDealerId();
-		String commid = deliveryOrder.getCommodityId();
-		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
-		long position = ipoPosition.getPosition();
-		long num = position - quatity;
-		ipoPositionMapper.updatePosition(firmid, commid, num);
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
@@ -150,6 +132,15 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String dealerId = ipoDeliveryorder.getDealerId();
 		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
 		ipoDeliveryorder.setDealerName(dealername);
+
+		// 更新持仓量
+		long quatity = deliveryOrder.getDeliveryQuatity();
+		String firmid = deliveryOrder.getDealerId();
+		String commid = deliveryOrder.getCommodityId();
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+		long position = ipoPosition.getPosition();
+		long num = position - quatity;
+		ipoPositionMapper.updatePosition(firmid, commid, num);
 		return ipoDeliveryorder;
 	}
 
@@ -176,8 +167,10 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	public int counts(Paging paging, String deliveryMethod) throws Exception {
 		logger.info("自提打印总页数" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		if (deliveryMethod.equals("no")) {
+			logger.info("无参数的条数查询");
 			return ipoDeliveryorderMapper.selectCounts(paging, null);
 		} else {
+			logger.info("有参数的条数查询");
 			return ipoDeliveryorderMapper.selectCounts(paging, deliveryMethod);
 		}
 	}
