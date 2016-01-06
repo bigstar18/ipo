@@ -130,10 +130,18 @@ public interface DeliveryOrderService {
 	 * li
 	 */
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order);
+
 	/**
-	 *修改提货单，出库状态
-	 *li 
+	 * 修改提货单，出库状态 li
 	 * */
-	public int updateStatus(DeliveryOrder deliveryOrder,String outboundorderid); 
+	public int updateStatus(DeliveryOrder deliveryOrder, String outboundorderid);
+
+	/**
+	 * 过户 chenj
+	 * 
+	 * @param deliveryId
+	 * @return
+	 */
+	public Integer transferDeliveryOrder(String deliveryId);
 
 }

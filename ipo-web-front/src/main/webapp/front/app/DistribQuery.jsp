@@ -30,7 +30,7 @@
 		<div class="col-xs-12">
 			<div id="myTabContent" class="tab-content">
 		   <table id="mytb" class="easyui-datagrid"  title="ÅäºÅ¼ÇÂ¼²éÑ¯"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>&&status=no',method:'get'">
+            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?status=no',method:'get'">
         <thead>
             <tr>
             	<th data-options="field:'orderid',align: 'center',width:200">¶©µ¥ºÅ</th>

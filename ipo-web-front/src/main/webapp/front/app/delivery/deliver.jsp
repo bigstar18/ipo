@@ -32,7 +32,7 @@
     $(document).ready(function() {
       $('#dg').datagrid({
     	  method:"get",
-        url: '<%=request.getContextPath()%>/SettlementDeliveryController/delivery?dealerId='+'<%=dealerId %>', //从远程站点请求数据的 URL。
+        url: '<%=request.getContextPath()%>/SettlementDeliveryController/delivery', //从远程站点请求数据的 URL。
         loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
         iconCls: 'icon-ok', //它将显示一个背景图片
         fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。

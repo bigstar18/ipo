@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,8 @@ import com.yrdce.ipo.modules.sys.vo.Display;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 查询商品Controller
@@ -289,10 +292,12 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/findApplyNums", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid,
-			@RequestParam("status") String status) throws IOException {
+	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("status") String status,
+			HttpSession session) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			String userid = user.getUserID();
 			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid, status);
 			int totalnums = distributionService.getAllDistris(userid, status);
 			ResponseResult result = new ResponseResult();
@@ -311,10 +316,11 @@ public class CommodityController {
 
 	@RequestMapping(value = "/getOrder", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getOrder(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
-			throws IOException {
+	public String getOrder(@RequestParam("page") String page, @RequestParam("rows") String rows, HttpSession session) throws IOException {
 		log.info("根据用户ID查询订单信息");
 		try {
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			String userid = user.getUserID();
 			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
 			int totalnums = orderService.getAll(userid);
 			ResponseResult result = new ResponseResult();

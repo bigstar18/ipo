@@ -390,4 +390,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public Integer transferDeliveryOrder(String deliveryId) {
+		IpoDeliveryorder example = deliveryordermapper
+				.selectByPrimaryKey(deliveryId);
+		example.setApprovalStatus(4);// 已过户
+		return deliveryordermapper.updateByPrimaryKey(example);
+	}
+
 }

@@ -1,7 +1,9 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,15 +156,36 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int insertSPOInfo(SpoCommoditymanmaagement spoComm) throws Exception {
 		logger.info("添加增发信息");
+		String type = spoComm.getRationType();
+		if (type.equals("1")) {
+			Date spoDate = spoComm.getSpoDate();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String spoDate1 = sdf.format(spoDate);
+			String date = sdf.format(new Date());
+			if (spoDate1.equals(date)) {
+				IpoSpoCommoditymanmaagement ipospoComm = this.status(spoComm, 1);
+				return ipoSPOCommMapper.insert(ipospoComm);
+			} else {
+				IpoSpoCommoditymanmaagement ipospoComm = this.status(spoComm, 4);
+				return ipoSPOCommMapper.insert(ipospoComm);
+			}
+		} else {
+			IpoSpoCommoditymanmaagement ipospoComm = this.status(spoComm, 1);
+			return ipoSPOCommMapper.insert(ipospoComm);
+		}
+	}
+
+	// 添加增发信息共用方法
+	public IpoSpoCommoditymanmaagement status(SpoCommoditymanmaagement spoComm, int status) {
 		long counts = spoComm.getSpoCounts();
 		spoComm.setNotRationCounts(counts);
 		spoComm.setSuccessRationCounts((long) 0);
-		spoComm.setSpoSate(4);
+		spoComm.setSpoSate(status);
 		spoComm.setRebate(2);
 		spoComm.setBeListed(2);
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipospoComm);
-		return ipoSPOCommMapper.insert(ipospoComm);
+		return ipospoComm;
 	}
 
 	// 修改增发信息
@@ -314,4 +337,8 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSpoRationMapper.firmidBySales(brokerid);
 	}
 
+	@Override
+	public String getFirmname(String firmid) {
+		return ipoSpoRationMapper.selectFirmname(firmid);
+	}
 }
