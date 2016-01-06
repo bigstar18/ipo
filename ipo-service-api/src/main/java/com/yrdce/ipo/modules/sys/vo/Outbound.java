@@ -15,7 +15,7 @@ public class Outbound implements Serializable {
 	private String deliveryorderid;
 
 	private Integer outboundstate;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date outbounddate;
 
@@ -23,7 +23,7 @@ public class Outbound implements Serializable {
 
 	private String auditorid;
 
-	private String warehouseid;
+	private String warehouseid;// 关联BI_WAREHOUSE表的主键 Long 类型的ID
 
 	private String deliveryperson;
 
