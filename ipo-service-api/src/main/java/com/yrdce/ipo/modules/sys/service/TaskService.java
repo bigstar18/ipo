@@ -20,9 +20,14 @@ public interface TaskService {
 	 * 
 	 * @throws Exception
 	 */
-	//public void lottery() throws Exception;
 	public void lottery() throws Exception;
-
+    /**
+     * 摇号
+     * @param commId  商品id 
+     * @throws Exception
+     */
+	public void lottery(String commId) throws Exception;
+	
 	/**
 	 *算钱 转持仓 
 	 * */
