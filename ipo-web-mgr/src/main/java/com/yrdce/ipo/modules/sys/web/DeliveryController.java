@@ -312,36 +312,6 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 分页返回可撤销提货单列表（模糊查询）
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/QueryCancelByConditions", method = RequestMethod.POST)
-	@ResponseBody
-	public String QueryCancelByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, DeliveryOrder record)
-			throws IOException {
-		log.info("模糊查询可撤销提货单");
-		try {
-			log.info(record.toString());
-			List<DeliveryOrder> dlist = deliveryorderservice
-					.queryCancelDeliOrdersByPage(page, rows, record);
-			int totalnums = deliveryorderservice.getQueryCancelNum(record)
-					.intValue();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(dlist);
-			System.out.println(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-
-	/**
 	 * 审核提货单(自提)
 	 * 
 	 * @param

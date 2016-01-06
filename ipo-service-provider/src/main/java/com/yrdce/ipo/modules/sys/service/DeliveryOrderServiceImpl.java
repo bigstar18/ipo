@@ -260,7 +260,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			long position = ipoPosition.getPosition();
 			long num = position + quatity;
 			ipopositionmapper.updatePosition(firmid, commid, num);
-			if (status == 7) {
+			if (status == 10) {
 				return "撤销成功";
 			}
 		}

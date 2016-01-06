@@ -18,7 +18,10 @@ $(document).ready(function() {
         nowrap:true,  
         striped:true,  
         collapsible:false,  
-        url:  getRootPath () + "/DeliveryController/QueryCancelByConditions?randnum=" +Math.floor(Math.random()*1000000),
+        url:  getRootPath () + "/DeliveryController/QueryByConditions?randnum=" +Math.floor(Math.random()*1000000),
+        queryParams:{
+        	approvalStatus:'1'
+        },
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
         columns : [ [ {
@@ -88,11 +91,18 @@ $(document).ready(function() {
             align: "center",
             title : '状态' ,
             formatter:function(value,row){
-        	   if(value=='1') return "申请";
-           	 if(value=='2') return "市场通过";
-           	 if(value=='3') return "市场驳回";
-           	 if(value=='4') return "仓库通过";
-           	 if(value=='5') return "仓库驳回";
+            	 if(value=='1') return "申请";
+               	 if(value=='2') return "市场通过";
+               	 if(value=='3') return "市场驳回";
+               	 if(value=='4') return "已过户";
+               	 if(value=='5') return "打印";
+               	 if(value=='6') return "仓库通过";
+               	 if(value=='7') return "仓库驳回";
+               	 if(value=='8') return "已设置配置费用";
+               	 if(value=='9')  return "已确认";
+               	 if(value=='10') return "已废除";
+               	 if(value=='11')  return "已出库";
+               	 if(value=='12') return "已收货";
         }
         },{  
             field : 'methodId',  
@@ -169,6 +179,7 @@ function doSearch(){
 	 $('#dg').datagrid('load',{
 			deliveryorderId: $('#deliveryorderId').val(),
 			applyDate: $('#applyDate').datebox('getValue'),
+			approvalStatus: '1',
 			dealerId: $('#dealerId').val()
 		});                   
 }

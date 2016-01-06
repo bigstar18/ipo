@@ -112,7 +112,7 @@ function clearInfo(){
 	 <div id="tb" style="padding:5px;height:auto">
 		 <div>
 			商品代码：<input type="text" id="commodityid" name="commodityid" />
-			仓库代码：<input type="text" id="warehouseid" name="warehouseid" />
+			仓库号：<input type="text" id="warehouseid" name="warehouseid" />
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search"  onclick="doSearch()">查询</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-reload"  onclick="clearInfo()">重置</a><br/>
 		</div>  
