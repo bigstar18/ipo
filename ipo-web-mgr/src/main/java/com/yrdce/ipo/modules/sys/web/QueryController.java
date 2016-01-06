@@ -176,9 +176,9 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/rock")
 	@ResponseBody
-	public boolean rock(String commondityid) {
+	public boolean rock(@RequestParam(value = "commodityid",required = true)String commodityid) {
 		try {
-			taskService.lottery(commondityid);
+			taskService.lottery(commodityid);
 		} catch (Exception e) {
 			logger.error("rock error:", e);
 			return false;
@@ -186,4 +186,21 @@ public class QueryController {
 		return true;
 	}
 
+	
+	/**
+	 * 手动配号功能
+	 */
+	@RequestMapping(value = "/distribution")
+	@ResponseBody
+	public boolean distribution(@RequestParam(value = "commodityid",required = true)String commodityid) {
+		try {
+			taskService.distribution(commodityid);
+		} catch (Exception e) {
+			logger.error("distribution error:", e);
+			return false;
+		}
+		return true;
+	}
+	
+	
 }
