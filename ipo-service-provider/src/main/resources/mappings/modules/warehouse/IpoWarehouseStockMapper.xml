@@ -24,7 +24,6 @@
     values (#{stockid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{storagenum,jdbcType=DECIMAL}, 
       #{forzennum,jdbcType=DECIMAL}, #{availablenum,jdbcType=DECIMAL}, #{outboundnum,jdbcType=DECIMAL}, 
       #{warehouseid,jdbcType=DECIMAL})
-      )
   </insert>
 
    <select id="findWarehouseStockByPage" resultMap="BaseResultMap" parameterType="map">
@@ -48,5 +47,22 @@
        and t.WAREHOUSEID = #{record.warehouseid,jdbcType=DECIMAL}
       </if>
   </select>
+  
+  <select id="selectByCommoId" resultMap="BaseResultMap" parameterType="map">
+  	select * from ipo_warehouse_stock
+  	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  	and WAREHOUSEID=#{warehouseid,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="updateInfo" parameterType="map">
+  	update IPO_WAREHOUSE_STOCK set
+    COMMODITYID=#{commodityid,jdbcType=VARCHAR},
+    STORAGENUM=#{storagenum,jdbcType=DECIMAL}, 
+     FORZENNUM= #{forzennum,jdbcType=DECIMAL},
+      AVAILABLENUM=#{availablenum,jdbcType=DECIMAL}, 
+      OUTBOUNDNUM=#{outboundnum,jdbcType=DECIMAL}, 
+      WAREHOUSEID=#{warehouseid,jdbcType=DECIMAL}
+    where STOCKID=#{stockid,jdbcType=VARCHAR}
+  </update>
   
 </mapper>

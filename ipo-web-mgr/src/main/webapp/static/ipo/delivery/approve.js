@@ -12,6 +12,9 @@ $(document).ready(function() {
          striped:true,  
          collapsible:false,  
          url:  getRootPath () + "/DeliveryController/QueryByConditions" ,  
+         queryParams:{
+         	approvalStatus:'1'
+         },
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [ {
