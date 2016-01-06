@@ -30,7 +30,7 @@ function getAllInfo(){
          nowrap:true,  
          singleSelect:true,
          striped:true,
-         fitColumns=false,
+//          fitColumns=false,
          toolbar:"#tb",  
          url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
