@@ -3,9 +3,9 @@
 
 <html>
 <head>
-
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
 <title>发行摇号</title>
-
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
@@ -15,7 +15,7 @@
 
 
 <script type="text/javascript">
-
+ 
 $(document).ready(function() {
 
 	 $('#tt').datagrid({  
@@ -29,7 +29,7 @@ $(document).ready(function() {
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/QueryController/findRockNums', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/QueryController/findRockNums?t='+Math.random(), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
