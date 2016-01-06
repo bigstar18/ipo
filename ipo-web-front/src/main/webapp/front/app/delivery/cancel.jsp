@@ -3,8 +3,8 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
 <%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%//String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-String dealerId = "888";%>
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String dealerId = "888";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -110,27 +110,31 @@ String dealerId = "888";%>
             width: 100,
             align: 'center',
             formatter: function(value, row) {
-              if (value == 1) {
-                return '已申请';
-              }if (value == 2) {
-                return '市场通过';
-              }if (value == 3) {
-                return '市场驳回';
-              }if (value == 4) {
-                return '仓库通过';
-              }if (value == 5) {
-                return '仓库驳回';
-              }if (value == 6) {
-                return '已确认';
-              }if (value == 7) {
-                return '已废除';
-              }if (value == 8) {
-                return '已设置配置费用';
-              }if (value == 9) {
-                return '已出库';
-              }if (value == 10) {
-                return '已收货';
-              }
+            	if (value == 1) {
+                    return '已申请';
+                  }if (value == 2) {
+                    return '市场通过';
+                  }if (value == 3) {
+                    return '市场驳回';
+                  }if (value == 4) {
+                    return '打印';
+                  }if (value == 5) {
+                    return '仓库通过';
+                  }if (value == 6) {
+                    return '仓库驳回';
+                  }if (value == 7) {
+                    return '已设置配置费用';
+                  }if (value == 8) {
+                    return '已确认';
+                  }if (value == 9) {
+                    return '已废除';
+                  }if (value == 10) {
+                    return '已过户';
+                  }if (value == 11) {
+                    return '已出库';
+                  }if (value == 12) {
+                    return '已收货';
+                  }
             }
           }, {
             field: 'test',
@@ -145,7 +149,7 @@ String dealerId = "888";%>
 	            		return "已撤销";
 	            	}
             	}else{
-            		if(row.approvalStatus < 6){
+            		if(row.approvalStatus < 8){
 	            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"')\">" + "撤销" + "</a>";
 	            	}else{
 	            		return "已撤销";
@@ -169,7 +173,7 @@ String dealerId = "888";%>
 			 type: 'post',
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
 		     data:{"deliveryorderid":deliveryorderid,
-		    	 	"status":"7"	
+		    	 	"status":"9"	
 		    	  },
 		     success : function(data) {
 			           if(data=='success'){

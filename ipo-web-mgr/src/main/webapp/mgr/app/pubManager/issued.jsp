@@ -82,11 +82,15 @@ $(document).ready(function() {
 				field : 'oper',
 				width : 200,
 				align: "center",
-				title : '摇号',
+				title : '操作',
 				formatter:function(value,row){
-					if(row.status==2||row.status==3){
-					  return "<a href=\"#\" onclick=\"javascript:constructionManager("+row.commodityid+",this)\">" + "开始" + "</a>";
-					}
+					var str="";
+					if(row.status==1){
+						str+= "<a href=\"#\" onclick=\"javascript:distribution('"+row.commodityid+"',this)\">" + "手动配号 " +"</a>";
+					}else if(row.status==2||row.status==3){
+						str+= "<a href=\"#\" onclick=\"javascript:constructionManager('"+row.commodityid+"',this)\">" + "手动摇号" + "</a>";
+					};
+					return str;
 				}
 			 }
 		 ]],  
@@ -109,26 +113,52 @@ function dateconvertfunc(value,row){
 }
 
 function constructionManager(commodityid,obj){
-	obj.innerHTML='<img src=<%=request.getContextPath()%>/static/images/loading.gif style="height:25px;" />';
+	obj.innerHTML="<img src='<%=request.getContextPath()%>/static/images/loading.gif' style='height:25px;' />";
 	$.ajax({  
-		    url: "<%=request.getContextPath()%>/QueryController/rock",  
+		    url: "<%=request.getContextPath()%>/QueryController/rock?t="+Math.random(),  
 		    data:{"commodityid":commodityid}, 
 		    type: 'GET',dataType: 'json',async:false,
 		    success : function(data, stats) {  
 	             if(data==true||data=="true"){
-	            	 alert('摇号结束');
+	            	 alert('摇号成功');
+	            	 doSearch();
 	             }else{
 	            	 alert('摇号失败');
 	             };
-	             obj.innerHTML="开始";
+	             obj.innerHTML="手动摇号";
 	        },
 	  	    error: function (jqXHR, textStatus, errorThrown) {
-	  	    	obj.innerHTML="开始";
+	  	    	obj.innerHTML="手动摇号";
 	            alert('系统异常!');
 	        }
 		});  
 }
-    
+
+
+function distribution(commodityid,obj){
+	obj.innerHTML='<img src=<%=request.getContextPath()%>/static/images/loading.gif style="height:25px;" />';
+	$.ajax({  
+		    url: "<%=request.getContextPath()%>/QueryController/distribution?t="+Math.random(),  
+		    data:{"commodityid":commodityid}, 
+		    type: 'GET',dataType: 'json',async:false,
+		    success : function(data, stats) {  
+	             if(data==true||data=="true"){
+	            	 alert('配号成功');
+	            	 doSearch();
+	             }else{
+	            	 alert('配号失败');
+	             };
+	             obj.innerHTML="手动配号";
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	  	    	obj.innerHTML="手动配号";
+	            alert('系统异常!');
+	        }
+		});  
+}
+
+
+
 function doSearch(){
 	$('#tt').datagrid('load',{
 		commodityid: $('#commid').val()

@@ -99,16 +99,28 @@ $(document).ready(function(){
             	alert("至少请勾选一条分配信息");
             	return;
             }
+            var counts=0;
 	 	    var add = new Array();
 	 	    var update = new Array();
 	        for(var temp in rows){
+	        	if(rows[temp].salesRebateratio>100){
+	        		alert("承销商返佣比例不能大于100");
+	        		return;
+	        	}
+	        	counts+=rows[temp].salesAllocationratio;
 	        	if(rows[temp].rationid==null){
 	        		add.push(rows[temp]);
 	        	}else{
 	        		update.push(rows[temp]);
 	        	}
 	        }
-     	   
+     	   	if(counts>100){
+     	   		alert("所分配的比例总和不能大于100");
+     	   		return;
+     	   	}else if(counts==0){
+     	   		alert("分配比例总和不能为0");
+     	   		return;
+     	   	}
             	if(add.length!=0){
             		$.ajax({
             			traditional: true,

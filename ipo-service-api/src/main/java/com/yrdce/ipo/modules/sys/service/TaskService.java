@@ -7,7 +7,13 @@ package com.yrdce.ipo.modules.sys.service;
  *
  */
 public interface TaskService {
-
+    /**
+     * 配号
+     * @param commodityid
+     * @throws Exception
+     */
+	public void distribution(String commodityid) throws Exception;
+	
 	/**
 	 * 配号
 	 * 

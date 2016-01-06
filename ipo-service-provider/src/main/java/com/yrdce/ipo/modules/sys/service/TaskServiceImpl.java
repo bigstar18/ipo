@@ -56,11 +56,36 @@ public class TaskServiceImpl implements TaskService {
 	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
 	private IpoCommodityMapper commodityMapper;
+	
+	
+	/**
+	 * 配号
+	 * @param commodityid 商品id
+	 * @throws Exception
+	 */
+	@Transactional()
+	public void distribution(String commodityid) throws Exception{
+		List<IpoOrder> orderList = order.selectByCid(commodityid);
+		if (orderList.size() != 0) {
+			IpoNumberofrecords frecord = new IpoNumberofrecords();
+			Date date = new Date();
+			frecord.setCommodityid(commodityid);
+			frecord.setCounts(BigDecimal.valueOf(0));
+			frecord.setNowtime(date);
+			unmberofrecord.insert(frecord);
+
+			logger.info("调用配号任务");
+			distribution.start(orderList);
+		}
+	}
+	
+	
 	/**
 	 * 配号
 	 * 
 	 * @throws Exception
 	 */
+	@Transactional()
 	public void distribution() throws Exception {
 		List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
 		logger.info("遍历商品配置表");
@@ -72,21 +97,10 @@ public class TaskServiceImpl implements TaskService {
 			Date endtime = conf.getEndtime();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String endtime1 = sdf.format(endtime);
-			if (oldtime.equals(endtime1)) {
+			if (oldtime.equals(endtime1)&&conf.getStatus().intValue()==1) {
 				logger.info("T+N天符合要求");
 				String commodityid = conf.getCommodityid();
-				List<IpoOrder> orderList = order.selectByCid(commodityid);
-				if (orderList.size() != 0) {
-					IpoNumberofrecords frecord = new IpoNumberofrecords();
-					Date date = new Date();
-					frecord.setCommodityid(commodityid);
-					frecord.setCounts(BigDecimal.valueOf(0));
-					frecord.setNowtime(date);
-					unmberofrecord.insert(frecord);
-
-					logger.info("调用配号任务");
-					distribution.start(orderList);
-				}
+				distribution(commodityid);
 			}
 		}
 
@@ -113,6 +127,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	//商品摇号
+	@Transactional()
 	public void lottery(String commId) throws Exception{
 		logger.info("commID:" + commId);
 		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);

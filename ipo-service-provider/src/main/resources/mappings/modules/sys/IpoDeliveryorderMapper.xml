@@ -256,7 +256,9 @@
   	on d.METHOD_ID = p.PICKUP_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   	and d.DELIVERY_METHOD='自提'
+  	 <if test="delivery.warehouseId != null" >
   	and d.WAREHOUSE_ID = #{delivery.warehouseId,jdbcType=VARCHAR}
+  	 </if>
   </select>
   
    <select id="getExpressDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
@@ -266,7 +268,9 @@
   	on d.METHOD_ID = t.EXPRESS_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   	and d.DELIVERY_METHOD='在线配送'
+  	 <if test="delivery.warehouseId != null" >
   	and d.WAREHOUSE_ID = #{delivery.warehouseId,jdbcType=VARCHAR}
+  		 </if>
   </select>
   
   <select id="selectByFrim" resultType="java.lang.String" parameterType="java.lang.String">
@@ -277,11 +281,9 @@
   select * from 
   (select t.*,rownum TNO from
      (
-     select d.DELIVERYORDER_ID,d.commodity_id,d.commodity_name,d.warehouse_id,w.warehousename,d.position,d.delivery_quatity,
-     d.unit,d.apply_date,d.delivery_date,d.approval_status,d.delivery_method
-      from IPO_PICKUP p left join IPO_DELIVERYORDER d on p.pickup_id = d.method_id 
-     left join bi_warehouse w on d.warehouse_id = w.warehouseid 
-     where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
+     select  d.DELIVERYORDER_ID,d.commodity_id,d.commodity_name,d.warehouse_id,w.warehousename,d.position,d.delivery_quatity,
+     d.unit,d.apply_date,d.delivery_date,d.approval_status,d.delivery_method from ipo_deliveryorder d left join bi_warehouse w 
+     on d.warehouse_id = w.warehouseid where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
        and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
      ) t
    ) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE

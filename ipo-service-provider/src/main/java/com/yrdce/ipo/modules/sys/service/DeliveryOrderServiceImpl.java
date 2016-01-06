@@ -260,7 +260,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			long position = ipoPosition.getPosition();
 			long num = position + quatity;
 			ipopositionmapper.updatePosition(firmid, commid, num);
-			if (status == 7) {
+			if (status == 10) {
 				return "撤销成功";
 			}
 		}
@@ -388,6 +388,15 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	@Transactional
+	public Integer transferDeliveryOrder(String deliveryId) {
+		IpoDeliveryorder example = deliveryordermapper
+				.selectByPrimaryKey(deliveryId);
+		example.setApprovalStatus(4);// 已过户
+		return deliveryordermapper.updateByPrimaryKey(example);
 	}
 
 }
