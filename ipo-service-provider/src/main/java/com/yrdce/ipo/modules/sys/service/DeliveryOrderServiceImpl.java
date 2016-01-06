@@ -245,12 +245,21 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
+	@Transactional
 	public String cancelDeorder(String deOrderId, String cancellId) {
 		deliveryordermapper.cancelDeorder(deOrderId, cancellId);
 		IpoDeliveryorder deorder = deliveryordermapper
 				.selectByPrimaryKey(deOrderId);
 		if (deorder != null) {
 			Integer status = deorder.getApprovalStatus();
+			long quatity = deorder.getDeliveryQuatity();// 撤销返还持仓量
+			String firmid = deorder.getDealerId();
+			String commid = deorder.getCommodityId();
+			IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid,
+					commid);
+			long position = ipoPosition.getPosition();
+			long num = position + quatity;
+			ipopositionmapper.updatePosition(firmid, commid, num);
 			if (status == 7) {
 				return "撤销成功";
 			}
@@ -333,7 +342,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	public DeliveryOrder getExpressDeliveryInfo(DeliveryOrder order) {
-		// TODO Auto-generated method stub
 		IpoDeliveryorder delivery = new IpoDeliveryorder();
 		DeliveryOrder deliveryOrder = new DeliveryOrder();
 

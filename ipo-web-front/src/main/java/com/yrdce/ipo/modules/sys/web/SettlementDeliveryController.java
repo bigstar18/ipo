@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.Position;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 
@@ -78,10 +81,11 @@ public class SettlementDeliveryController {
 	// 提货申请
 	@RequestMapping(value = "/deliveryApply", method = RequestMethod.POST)
 	@ResponseBody
-	public String deliveryApply(DeliveryOrder deliveryOrder) {
+	public String deliveryApply(DeliveryOrder deliveryOrder, HttpSession session) {
 		String method = deliveryOrder.getDeliveryMethod();
-
 		try {
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			deliveryOrder.setDealerId(user.getUserID());
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
 				settlementDeliveryService.applicationByPickup(deliveryOrder);
@@ -92,7 +96,7 @@ public class SettlementDeliveryController {
 				return "success";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error", e);
 			return "error";
 		}
 	}
@@ -100,13 +104,14 @@ public class SettlementDeliveryController {
 	// 提货申请(初始化数据)
 	@RequestMapping(value = "/deliveryInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public String deliveryInfo(@RequestParam("dealerId") String firmid) {
+	public String deliveryInfo(HttpSession session) {
 		logger.info("提货申请(初始化数据)");
 		try {
-			List<Position> list = settlementDeliveryService.getListByPosition(firmid);
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			List<Position> list = settlementDeliveryService.getListByPosition(user.getUserID());
 			return JSON.json(list);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("error", e);
 			return "error";
 		}
 	}

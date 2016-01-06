@@ -69,6 +69,11 @@ $(document).ready(function() {
             align: "center",
             title : '单位'
         },{
+          	 field : 'deliveryMethod',  
+             width : 200,  
+             align: "center",
+             title : '提货方式'
+         },{
        	 field : 'deliveryDate',  
             width : 200,  
             align: "center",
@@ -139,7 +144,7 @@ function doSearch(){
   $('#dg').datagrid('load',{
 		deliveryorderId: $('#deliveryorderId').val(),
 		applyDate: $('#applyDate').datebox('getValue'),
-		approvalStatus: $('#approvalStatus').val(),
+		approvalStatus: '1',
 		dealerId: $('#dealerId').val()
 	});       
 }

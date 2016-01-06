@@ -26,7 +26,7 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/OutBoundController/geOutBoundInfo', //搜索前,触发此action请求所有用户信息  
+         url:"<%=request.getContextPath()%>/OutBoundController/geOutBoundInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  

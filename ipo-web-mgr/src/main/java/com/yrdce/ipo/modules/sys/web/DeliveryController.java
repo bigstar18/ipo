@@ -3,8 +3,6 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -318,27 +316,13 @@ public class DeliveryController {
 	@RequestMapping(value = "/QueryCancelByConditions", method = RequestMethod.POST)
 	@ResponseBody
 	public String QueryCancelByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
-			@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("applyDate") String applyDate,
-			@RequestParam("dealerId") String dealerId) throws IOException {
-		log.info("模糊查询提货单");
+			@RequestParam("rows") String rows, DeliveryOrder record)
+			throws IOException {
+		log.info("模糊查询可撤销提货单");
 		try {
-			DeliveryOrder record = new DeliveryOrder();
-			if (!deliveryorderId.equals("")) {
-				record.setDeliveryorderId(deliveryorderId + "%");
-			}
-			if (!applyDate.equals("")) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(applyDate);
-				record.setApplyDate(date);
-			}
-			if (!dealerId.equals("")) {
-				record.setDealerId(dealerId + "%");
-			}
+			log.info(record.toString());
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryCancelDeliOrdersByPage(page, rows, record);
-
 			int totalnums = deliveryorderservice.getQueryCancelNum(record)
 					.intValue();
 			ResponseResult result = new ResponseResult();
@@ -349,33 +333,6 @@ public class DeliveryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
-		}
-	}
-
-	/**
-	 * 分页展示可撤销提货单
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/cancelDeliveryOrders", method = RequestMethod.POST)
-	@ResponseBody
-	public String cancelDeliveryOrders(@RequestParam("page") String page,
-			@RequestParam("rows") String rows) throws IOException {
-		log.info("分页查询可撤销提货单");
-		try {
-			List<DeliveryOrder> tlist = deliveryorderservice
-					.cancelDeliOrdersByPage(page, rows);
-			int totalnums = deliveryorderservice.getCancelNum();
-			ResponseResult result = new ResponseResult();
-			result.setTotal(totalnums);
-			result.setRows(tlist);
-			log.info(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
 		}
 	}
 
@@ -443,7 +400,6 @@ public class DeliveryController {
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// String userId = "111";
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();
