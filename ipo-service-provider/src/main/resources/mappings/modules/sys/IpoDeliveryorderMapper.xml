@@ -256,7 +256,9 @@
   	on d.METHOD_ID = p.PICKUP_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   	and d.DELIVERY_METHOD='自提'
+  	 <if test="delivery.warehouseId != null" >
   	and d.WAREHOUSE_ID = #{delivery.warehouseId,jdbcType=VARCHAR}
+  	 </if>
   </select>
   
    <select id="getExpressDeliveryInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder" parameterType="map">
@@ -266,7 +268,9 @@
   	on d.METHOD_ID = t.EXPRESS_ID  
   	where d.DELIVERYORDER_ID = #{delivery.deliveryorderId,jdbcType=VARCHAR}
   	and d.DELIVERY_METHOD='在线配送'
+  	 <if test="delivery.warehouseId != null" >
   	and d.WAREHOUSE_ID = #{delivery.warehouseId,jdbcType=VARCHAR}
+  		 </if>
   </select>
   
   <select id="selectByFrim" resultType="java.lang.String" parameterType="java.lang.String">
