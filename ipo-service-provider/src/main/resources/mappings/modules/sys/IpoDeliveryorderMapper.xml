@@ -127,7 +127,7 @@
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
       <if test="record.dealerId != null" >
-       and t.DEALER_ID = #{record.dealerId,jdbcType=VARCHAR}
+       and t.DEALER_ID like concat (#{record.dealerId,jdbcType=VARCHAR},'%')
       </if>
     order by t.DELIVERYORDER_ID) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
@@ -143,7 +143,7 @@
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
       <if test="record.dealerId != null" >
-       and t.DEALER_ID like #{record.dealerId,jdbcType=VARCHAR}
+       and t.DEALER_ID like concat (#{record.dealerId,jdbcType=VARCHAR},'%')
       </if>
   </select>
   

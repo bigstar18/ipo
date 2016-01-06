@@ -11,7 +11,7 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/DeliveryController/QueryByConditions" ,  
+         url:  getRootPath () + "/DeliveryController/QueryByConditions?randnum="+Math.floor(Math.random()*1000000) ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [ {
