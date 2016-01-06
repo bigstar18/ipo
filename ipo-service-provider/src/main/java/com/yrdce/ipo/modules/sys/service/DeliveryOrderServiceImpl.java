@@ -15,9 +15,11 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
@@ -42,6 +44,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	private IpoWarehouseStockMapper ipoWarehouseStockMapper;
 	@Autowired
 	private IpoOutboundMapper ipoOutboundMapper;
+	@Autowired
+	private IpoPositionMapper ipopositionmapper;
 
 	public IpoDeliveryorderMapper getDeliveryordermapper() {
 		return deliveryordermapper;
@@ -138,6 +142,17 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					ipopickup.setPickupPassword(genRandomNum());
 					ipopickupmapper.updateByPrimaryKey(ipopickup);
 				}
+				if (order.getApprovalStatus() == 3) {
+					// 驳回更新持仓量
+					long quatity = order.getDeliveryQuatity();
+					String firmid = order.getDealerId();
+					String commid = order.getCommodityId();
+					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
+							firmid, commid);
+					long position = ipoPosition.getPosition();
+					long num = position + quatity;
+					ipopositionmapper.updatePosition(firmid, commid, num);
+				}
 				if (onum != 0) {
 					return "已审核";
 				}
@@ -162,6 +177,17 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
 					ipoexpressmapper.updateByPrimaryKey(ipoexpress);
+				}
+				if (order.getApprovalStatus() == 3) {
+					// 驳回更新持仓量
+					long quatity = order.getDeliveryQuatity();
+					String firmid = order.getDealerId();
+					String commid = order.getCommodityId();
+					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
+							firmid, commid);
+					long position = ipoPosition.getPosition();
+					long num = position + quatity;
+					ipopositionmapper.updatePosition(firmid, commid, num);
 				}
 				if (onum != 0) {
 					return "已审核";
@@ -319,24 +345,29 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		}
 		return deliveryOrder;
 	}
+
 	/**
 	 * li
 	 * */
 	@Override
 	@Transactional
-	public int updateStatus(DeliveryOrder deliveryOrder,String outboundorderid) {
+	public int updateStatus(DeliveryOrder deliveryOrder, String outboundorderid) {
 		// TODO Auto-generated method stub
-		int result=0;
-		int result1=0;
-		int result3=0;
+		int result = 0;
+		int result1 = 0;
+		int result3 = 0;
 		IpoDeliveryorder deliveryorder2 = new IpoDeliveryorder();
-		if (deliveryorder2!=null) {
-			IpoDeliveryorder deliveryorder3 = deliveryordermapper.selectByPrimaryKey(deliveryOrder.getDeliveryorderId());
-			String tempCommId=deliveryorder3.getCommodityId();
-			String wareHouseId= deliveryorder3.getWarehouseId();
-			IpoWarehouseStock ipoWarehouseStock= ipoWarehouseStockMapper.selectByCommoId(tempCommId,wareHouseId);
-			long num = ipoWarehouseStock.getAvailablenum()-deliveryorder3.getDeliveryQuatity();
-			long num2 = ipoWarehouseStock.getOutboundnum()+deliveryorder3.getDeliveryQuatity();
+		if (deliveryorder2 != null) {
+			IpoDeliveryorder deliveryorder3 = deliveryordermapper
+					.selectByPrimaryKey(deliveryOrder.getDeliveryorderId());
+			String tempCommId = deliveryorder3.getCommodityId();
+			String wareHouseId = deliveryorder3.getWarehouseId();
+			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
+					.selectByCommoId(tempCommId, wareHouseId);
+			long num = ipoWarehouseStock.getAvailablenum()
+					- deliveryorder3.getDeliveryQuatity();
+			long num2 = ipoWarehouseStock.getOutboundnum()
+					+ deliveryorder3.getDeliveryQuatity();
 			ipoWarehouseStock.setAvailablenum(num);
 			ipoWarehouseStock.setAvailablenum(num2);
 			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);
@@ -344,9 +375,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			result1 = ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
 			result3 = ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
 		}
-		if (result>0&&result1>0&&result3>0) {
+		if (result > 0 && result1 > 0 && result3 > 0) {
 			return 1;
-		}else{
+		} else {
 			return 0;
 		}
 	}
