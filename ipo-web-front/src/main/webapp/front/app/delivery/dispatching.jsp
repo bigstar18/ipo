@@ -3,7 +3,8 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
 <%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
+<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
+//String dealerId ="888";%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>

@@ -5,7 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%><html>
+//String userId ="888888";%><html>
 <head>
 <title>中签记录查询页面</title>
      <meta name="decorator" content="default"/>
@@ -31,7 +31,7 @@
 		<div class="col-xs-12">
 			<div id="myTabContent" class="tab-content">
 		   <table  id="mytb"  class="easyui-datagrid"  title="中签记录查询"   style="width:100%;height:385px"
-            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>&&status="yes"',method:'get'">
+            data-options="singleSelect:true,collapsible:false,pagination:true,fitColumns:true,url:'<%=request.getContextPath()%>/CommodityController/findApplyNums?userid=<%=userId %>&&status=yes',method:'get'">
         <thead>
             <tr>
             	<th data-options="field:'orderid',align: 'center',width:200">订单号</th>

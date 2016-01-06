@@ -140,13 +140,13 @@ String dealerId = "888";%>
             formatter: function(value, row, index) {
             	if(row.deliveryMethod == '自提'){
 	            	if(row.approvalStatus < 4){
-	            		return "<a href=\"#\" onclick=\"updateStatus("'+row.deliveryorderId+'")\">" + "撤销" + "</a>";
+	            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"')\">" + "撤销" + "</a>";
 	            	}else{
 	            		return "已撤销";
 	            	}
             	}else{
             		if(row.approvalStatus < 6){
-	            		return "<a href=\"#\" onclick=\"updateStatus("'+row.deliveryorderId+'")\">" + "撤销" + "</a>";
+	            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"')\">" + "撤销" + "</a>";
 	            	}else{
 	            		return "已撤销";
 	            	}
@@ -169,8 +169,7 @@ String dealerId = "888";%>
 			 type: 'post',
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
 		     data:{"deliveryorderid":deliveryorderid,
-		    	 	"status":"7",
-		    	 	""	
+		    	 	"status":"7"	
 		    	  },
 		     success : function(data) {
 			           if(data=='success'){

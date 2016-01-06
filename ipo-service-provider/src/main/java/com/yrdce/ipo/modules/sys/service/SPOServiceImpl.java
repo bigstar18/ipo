@@ -309,6 +309,7 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	// 根据会员id查询交易商id
+	@Override
 	public String getFirmid(String brokerid) {
 		return ipoSpoRationMapper.firmidBySales(brokerid);
 	}

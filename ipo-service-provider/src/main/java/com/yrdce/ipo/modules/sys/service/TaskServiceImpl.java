@@ -96,7 +96,7 @@ public class TaskServiceImpl implements TaskService {
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	@Transactional
 	public void lottery() throws Exception {
 		// 查找所有此商品的申购记录
@@ -110,14 +110,14 @@ public class TaskServiceImpl implements TaskService {
 		}
 
 	}
-	
-	//商品摇号
-	public void Commolottery(String commId) throws Exception{
+
+	// 商品摇号
+	public void Commolottery(String commId) throws Exception {
 		logger.info("commID:" + commId);
 		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
 		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
-		if(ipoCommodity.getStatus()==2||ipoCommodity.getStatus()==3){
-			commodity.updateByStatus(31, commId);//31表示摇号中
+		if (ipoCommodity.getStatus() == 2 || ipoCommodity.getStatus() == 3) {
+			commodity.updateByStatus(31, commId);// 31表示摇号中
 			commodityConfMapper.updateByStatus(31, commId);
 			int commCounts = ipoCommodity.getCounts();
 			logger.info("commCounts:" + commCounts);
@@ -141,8 +141,8 @@ public class TaskServiceImpl implements TaskService {
 				System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 				ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
 				ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
-//				commodityConfMapper.updateByStatus(3, commId);
-//				commodity.updateByStatus(3, commId);
+				// commodityConfMapper.updateByStatus(3, commId);
+				// commodity.updateByStatus(3, commId);
 				System.out.println("中签号匹配完成");
 			}
 			System.out.println(commId + "尾号记录开始");
@@ -185,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
 				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipod.getCommodityid());
 				if (commodityConf != null) {
 					BigDecimal bigDecimal = commodityExtended.getPrice();
-					//double price = bigDecimal.doubleValue();
+					// double price = bigDecimal.doubleValue();
 					logger.info("计算成交金额" + bigDecimal);
 					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipod.getZcounts()));
 					logger.info("成交金额" + tempPrice);
@@ -198,7 +198,7 @@ public class TaskServiceImpl implements TaskService {
 						BigDecimal counterfee = tempPrice.multiply(tempDecimal);
 						ipod.setCounterfee(counterfee);
 					} else if (tradealgr == 2) {
-						BigDecimal counterfee =  new BigDecimal(tradealgr).multiply(new BigDecimal(ipod.getZcounts())) ;
+						BigDecimal counterfee = new BigDecimal(tradealgr).multiply(new BigDecimal(ipod.getZcounts()));
 						ipod.setCounterfee(counterfee);
 					}
 					Date dt = sdf.parse(DateUtil.getTime(0));
@@ -217,20 +217,26 @@ public class TaskServiceImpl implements TaskService {
 	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
-		String commUnit = commodityConf.getContractfactorname();
-		IpoPosition record = new IpoPosition();
-		record.setFirmid(dst.getUserid());
-		record.setPosition((long) dst.getZcounts());
-		record.setCommodityid(dst.getCommodityid());
-		record.setCommodityname(dst.getCommodityname());
-		record.setPositionPrice(comm.getPrice().longValue());
-		record.setPositionUnit(commUnit);
-		ipoPositionMapper.insert(record);
-
+		String userid = dst.getUserid();
+		String commid = comm.getCommodityid();
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid, commid);
+		if (ipoPosition != null) {
+			long price = ipoPosition.getPositionPrice();
+			long num = comm.getPrice().longValue();
+			long sum = price + num;
+			ipoPositionMapper.updatePosition(userid, commid, sum);
+		} else {
+			String commUnit = commodityConf.getContractfactorname();
+			IpoPosition record = new IpoPosition();
+			record.setFirmid(dst.getUserid());
+			record.setPosition((long) dst.getZcounts());
+			record.setCommodityid(dst.getCommodityid());
+			record.setCommodityname(dst.getCommodityname());
+			record.setPositionPrice(comm.getPrice().longValue());
+			record.setPositionUnit(commUnit);
+			ipoPositionMapper.insert(record);
+		}
 		logger.info("转持仓结束");
 	}
 
-	
-
-	
 }
