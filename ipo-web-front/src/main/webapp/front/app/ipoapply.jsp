@@ -230,7 +230,18 @@ function getDetail(index, data) {
 		        $("#price").val(data.price);
 		        $("#units").val(data.units);
 		        var money=$("#money").text();
-		        $("#availibleQua").text(parseInt(money/(data.price)));
+		        $.ajax({
+				    type: 'GET',
+				    url: "<%=request.getContextPath()%>/CommodityController/getInfos",
+				    contentType: "application/json; charset=utf-8",
+				    data:{ "commodityid": data.commodityid , "money" : money,"randnum":Math.floor(Math.random()*1000000) },
+				    dataType: 'json',
+				    async: true,
+				    success : function(data) {
+				    	 $("#availibleQua").text(data);
+			        }
+				});
+		       
 	        }
 }
 </script>
