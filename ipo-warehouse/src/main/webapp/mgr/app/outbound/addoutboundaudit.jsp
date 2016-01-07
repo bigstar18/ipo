@@ -30,7 +30,7 @@ function doSearch(){
 				$("#commodityid").val(data.commodityId);
 				$("#commodityname").val(data.commodityName);
 				$("#dealerName").val(data.dealerName);
-				$("#warehouseName").val(data.warehouseName);
+				$("#warehousename").val(data.warehouseName);
 				$("#deliveryMethod").val(data.deliveryMethod);
 				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
@@ -50,6 +50,7 @@ function doSearch(){
 					break;
 				case 5:
 					$("#approvalStatus").val("打印");
+					$("#add").val("添加");
 					break;
 				case 6:
 					$("#approvalStatus").val("仓库通过");
@@ -73,7 +74,10 @@ function doSearch(){
 					$("#approvalStatus").val("已收货");
 					break;
 				}
-				
+				if(data.deliveryMethod=="自提"){
+					$(".ps").hide();
+					return;
+				}
 				$("#cost").val(data.cost);
 				$("#receiver").val(data.receiver);
 				$("#tel").val(data.tel);
@@ -88,7 +92,22 @@ function doSearch(){
 		
 	});
 }
-	
+
+function existOutboundId(){
+	var deliveryorderId = $("#deliveryorderId").val();
+	var url_="<%=request.getContextPath()%>/OutBoundController/getOutboundorder?deliveryorderId="+deliveryorderId;
+	$.get(url_,function(data){
+		alert(data);
+		 if(data==true){
+			 doAdd();
+		 }else{
+			 alert("出库申请已经存在");
+		 }
+
+});
+
+}
+
 function doAdd(){
 	var deliveryorderId = $("#deliveryorderId").val();
 	var outboundstate = 1;
@@ -131,7 +150,7 @@ function doClick(){
 	if(temp=="查询"){
 		doSearch();
 	}else if(temp=="添加"){
-		doAdd();
+		existOutboundId();
 	}
 }
 
@@ -212,7 +231,7 @@ function doClick(){
 											<input id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
-										<tr>
+										<tr class="ps"> 
 											<td align="center">
 											快递费用：
 											<input id="cost" class="easyui-text" style="width:160px;height:20px;">
@@ -222,16 +241,16 @@ function doClick(){
 											<input id="receiver" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
-										<tr>
+										<tr class="ps">
 											<td align="center">
 											电&nbsp&nbsp&nbsp话：
 											<input id="tel" class="easyui-text" style="width:300px;height:20px;">
 											</td>
 										</tr>
-										<tr>
+										<tr class="ps">
 											<td align="center">
 											地&nbsp&nbsp&nbsp址：
-											<input id="address" class="easyui-text" style="width:300px;height:20px;">
+											<input  id="address" class="easyui-text" style="width:300px;height:20px;">
 											</td>
 										</tr>
 							</table>
