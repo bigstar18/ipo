@@ -28,6 +28,18 @@
 	<filter>
 		<filter-name>checkUrl</filter-name>
 		<filter-class>com.yrdce.ipo.integrate.SecurityFilter</filter-class>
+		<init-param>
+			<param-name>sysType</param-name>
+			<param-value>front</param-value>
+		</init-param>
+		<init-param>
+			<param-name>configId</param-name>
+			<param-value>223001</param-value>
+		</init-param>
+		<init-param>
+			<param-name>moduleId</param-name>
+			<param-value>40</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>checkUrl</filter-name>

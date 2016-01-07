@@ -30,10 +30,25 @@ public class SecurityFilter implements Filter {
 	WebApplicationContext wac;
 	DataSource ds;
 	Map<String, Long> auExpireTimeMap = new HashMap<String, Long>();
-	// 223001 499001
-	int configId = 223001;// TODO
+	// front 223001 ws 499001 mgr 199001
+	int configId = 223001;
+	int moduleId = 40;
+	String sysType = "front";
 
 	public void init(FilterConfig filterConfig) throws ServletException {
+		String tmp = filterConfig.getInitParameter("sysType");
+		if (tmp != null) {
+			sysType = tmp;
+		}
+		tmp = filterConfig.getInitParameter("configId");
+		if (tmp != null) {
+			configId = Integer.valueOf(tmp);
+		}
+		tmp = filterConfig.getInitParameter("moduleId");
+		if (tmp != null) {
+			moduleId = Integer.valueOf(tmp);
+		}
+
 		try {
 			wac = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
 			ds = (DataSource) wac.getBean("dataSourceForQuery");
@@ -41,7 +56,7 @@ public class SecurityFilter implements Filter {
 			auExpireTimeMap.put("pc", 7200000l);
 			auExpireTimeMap.put("mobile", 7200000l);
 
-			LogonActualize.createInstance(getSelfModuleID(), 0, ds, auExpireTimeMap, 200, 3, "front");
+			LogonActualize.createInstance(moduleId, 0, ds, auExpireTimeMap, 200, 3, sysType);
 		} catch (Exception e) {
 			logger.error("error", e);
 		}
@@ -59,6 +74,7 @@ public class SecurityFilter implements Filter {
 				request.getParameter("LogonType"));
 
 		String url = request.getServletPath();
+		request.setAttribute("currenturl", url);
 		// 不需要验证
 		if (url.indexOf("403.jsp") > -1 || url.indexOf("404.jsp") > -1 || url.indexOf("500.jsp") > -1) {
 			logger.info("current url : {}", url);
@@ -70,7 +86,7 @@ public class SecurityFilter implements Filter {
 		if (user != null) {
 			// TODO 权限检查
 			String inSession = request.getParameter("sessionID");
-			if (inSession != null) {
+			if (inSession != null && !inSession.isEmpty()) {
 				String oldSession = String.valueOf(user.getSessionID());
 				if (!inSession.equals(oldSession)) {
 					synchronized (syncObject) {
@@ -93,14 +109,9 @@ public class SecurityFilter implements Filter {
 					if ((selfLogonType == null) || (selfLogonType.trim().length() == 0)) {
 						selfLogonType = "web";
 					}
-					int selfModuleID = Tool.strToInt(request.getParameter("ModuleID"), getSelfModuleID());
+					int selfModuleID = Tool.strToInt(request.getParameter("ModuleID"), moduleId);
 
 					ActiveUserManager.configId = configId;
-					String contextPath = request.getContextPath();
-					if (contextPath.indexOf("warehouse") > -1)
-						ActiveUserManager.configId = 499001;
-					else if (contextPath.indexOf("front") < 0) // 非前台
-						ActiveUserManager.configId = 199001;// TODO
 					ActiveUserManager.ds = ds;
 					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 					user = au.getUserManageVO();
@@ -113,26 +124,18 @@ public class SecurityFilter implements Filter {
 			}
 		}
 
-		request.setAttribute("currenturl", url);
-		String preUrl = (String) request.getSession().getAttribute("currentRealPath");
-
 		if (user != null) {
 			chain.doFilter(req, res);
 		} else {
 			// response.sendRedirect(loginURL + "?preUrl" + "=" + preUrl);
 			// request.getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
-			String loginURL = "/front/error/403.jsp";
-			String contextPath = request.getContextPath();
-			if (contextPath.indexOf("front") < 0) // 非前台
-				loginURL = "/mgr/error/403.jsp";
 
+			String preUrl = (String) request.getSession().getAttribute("currentRealPath");
+			String loginURL = "/" + sysType + "/error/403.jsp";
 			logger.info("user is null, forward to : {}", loginURL);
+
 			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
 		}
-	}
-
-	private int getSelfModuleID() {
-		return 40;// TODO
 	}
 
 	public void destroy() {
