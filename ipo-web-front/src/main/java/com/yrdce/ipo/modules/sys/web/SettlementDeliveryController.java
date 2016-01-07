@@ -49,7 +49,7 @@ public class SettlementDeliveryController {
 	}
 
 	// 自提打印视图
-	@RequestMapping(value = "/printView", method = RequestMethod.POST)
+	@RequestMapping(value = "/printView")
 	public String printView(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/delivery/customer";
 	}
