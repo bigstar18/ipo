@@ -30,7 +30,7 @@ function doSearch(){
 				$("#commodityid").val(data.commodityId);
 				$("#commodityname").val(data.commodityName);
 				$("#dealerName").val(data.dealerName);
-				$("#warehouseName").val(data.warehouseName);
+				$("#warehousename").val(data.warehousename);
 				$("#deliveryMethod").val(data.deliveryMethod);
 				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
@@ -84,11 +84,11 @@ function doSearch(){
 	//过户
 function doAdd(){
     var appstatus=$("#approvalStatus").val();
-    if(appstatus=='1'){
+    if(appstatus=='申请'){
     	alert("提货单还未进行市场审核，无法过户！");
     	return ;
     }
-    if(appstatus!='2'){
+    if(appstatus!='市场通过'){
     	alert("提货单未通过市场审核，无法过户！");
     	return ;
     }
@@ -97,7 +97,7 @@ function doAdd(){
 		type:"POST",
 		url:"<%=request.getContextPath()%>/TransferController/updateSate",
 		data:{
-			deliveryorderid:deliveryorderId
+			deliveryorderId:deliveryorderId
 		},
 		success:function(data){
 			if(data=="success"){
@@ -132,15 +132,17 @@ function doClick(){
 
 </script>
 	</head>
-
 	<body>
-		<div class="warning">
-		<div class="content">
-		温馨提示 :提货单过户！
-		<br>
-		<div class="required" style="color: red">提货类型为自提时需要提货单密码，在线配送时不需要提货单密码！  </div>
-	</div>
-	</div>
+	 <div class="main">
+	<div class="msg">
+         您当前的位置：<span>提货单过户</span>
+    </div>
+    <div class="warning">
+      <div class="title font_orange_14b">温馨提示 :</div>
+      <div class="content">提货类型为自提时需要提货单密码，在线配送时不需要提货单密码！ 
+      </div>
+    </div>
+	
 		<form>
 						<div class="div_cxtj">
 							<div class="div_cxtjL"></div>
@@ -183,7 +185,7 @@ function doClick(){
 											</td>
 											<td align="center">
 											仓库名称：
-											<input id="warehouseName" class="easyui-text" style="width:160px;height:20px;">
+											<input id="warehousename" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
@@ -216,5 +218,6 @@ function doClick(){
 								</tr>
 							</table>
 		</form>	
+	</div>
 	</body>
 </html>
