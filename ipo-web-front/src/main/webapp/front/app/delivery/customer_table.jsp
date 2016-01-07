@@ -7,9 +7,12 @@
   <title>打印单号</title>
   <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="dickytest/vue.js"></script>
+  <style media=print type="text/css">
+    .noprint{visibility:hidden}
+  </style>
 </head>
 <body>
-  <input id="printset" type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
+  <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
