@@ -30,6 +30,8 @@ import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.sys.vo.VTCommodity;
+import com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService;
+import com.yrdce.ipo.modules.warehouse.vo.IpoWarehouseStock;
 
 /**
  * 查询商品Controller
@@ -61,6 +63,9 @@ public class IpoController {
 
 	@Autowired
 	private DeliveryOrderService deliveryorderservice;
+
+	@Autowired
+	private IpoWarehouseStockService warehouseStockService;
 
 	public DeliveryOrderService getDeliveryorderservice() {
 		return deliveryorderservice;
@@ -365,6 +370,10 @@ public class IpoController {
 		if (deorder != null) {
 			String deliveryDate = formatDate(deorder.getDeliveryDate());
 			String applyDate = formatDate(deorder.getApplyDate());
+			IpoWarehouseStock stock = warehouseStockService
+					.getWarehouseStockByCommodity(deorder.getCommodityId(),
+							deorder.getWarehouseId());
+			request.setAttribute("stock", stock.getAvailablenum());
 			request.setAttribute("deliveryDate", deliveryDate);
 			request.setAttribute("applyDate", applyDate);
 			request.setAttribute("entity", deorder);

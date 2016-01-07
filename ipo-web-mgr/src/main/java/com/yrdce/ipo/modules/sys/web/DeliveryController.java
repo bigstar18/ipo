@@ -425,11 +425,13 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, IpoWarehouseStock stock,
 			HttpSession session) throws IOException {
 		log.info("分页查询库存列表");
-		log.info(stock.toString());
 		try {
 			if (stock != null) {
-				if (stock.getWarehouseid().equals("")) {
-					stock.setWarehouseid(null);
+				log.info(stock.toString());
+				if (stock.getWarehouseid() != null) {
+					if (stock.getWarehouseid().equals("")) {
+						stock.setWarehouseid(null);
+					}
 				}
 			}
 			List<IpoWarehouseStock> slist = warehouseStockService

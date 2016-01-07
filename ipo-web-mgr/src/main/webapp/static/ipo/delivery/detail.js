@@ -78,6 +78,12 @@ function parseISO8601(dateStringInRange) {
 function updatePickup(){
 	var approvalStatus=$("#approvalStatus").val();
 	var flag= $('#frm').form('validate');
+	var stock=$("#stock").val();
+	var deliveryQuantity=$("#deliveryQuatity").val();
+	if(stock<deliveryQuantity&&approvalStatus=='2'){
+		alert("库存不足，暂时无法通过审核!");
+		return ;
+	}
 	if(approvalStatus!= ''&&flag==true){
                             	   $.ajax({ 
                             		   cache:false,
@@ -104,6 +110,12 @@ function updatePickup(){
 function updateExpress(){
 	var approvalStatus=$("#approvalStatus").val();
 	var flag= $('#frm').form('validate');
+	var stock=$("#stock").val();
+	var deliveryQuantity=$("#deliveryQuatity").val();
+	if(stock<deliveryQuantity&&approvalStatus=='2'){
+		alert("库存不足，暂时无法通过审核!");
+		return ;
+	}
 	if(approvalStatus== '2'&&flag==true){
                             	   $.ajax({ 
                             		   cache:false,

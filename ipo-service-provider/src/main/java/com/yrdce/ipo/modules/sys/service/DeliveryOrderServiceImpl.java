@@ -146,13 +146,15 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
 							.selectByCommoId(commid,
 									Long.parseLong(deorder.getWarehouseId()));
-					Long frozennum = stock.getForzennum();
-					Long available = stock.getAvailablenum();
-					Long newfrozen = frozennum + quantity;
-					Long newavailble = available - quantity;
-					stock.setForzennum(newfrozen);
-					stock.setAvailablenum(newavailble);
-					ipoWarehouseStockMapper.updateInfo(stock);
+					if (stock != null) {
+						Long frozennum = stock.getForzennum();
+						Long available = stock.getAvailablenum();
+						Long newfrozen = frozennum + quantity;
+						Long newavailble = available - quantity;
+						stock.setForzennum(newfrozen);
+						stock.setAvailablenum(newavailble);
+						ipoWarehouseStockMapper.updateInfo(stock);
+					}
 				}
 				if (order.getApprovalStatus() == 3) {
 					// 驳回更新持仓量

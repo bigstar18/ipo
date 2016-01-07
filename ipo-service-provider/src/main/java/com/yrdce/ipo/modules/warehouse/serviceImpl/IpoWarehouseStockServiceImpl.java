@@ -53,4 +53,16 @@ public class IpoWarehouseStockServiceImpl implements IpoWarehouseStockService {
 		return 0;
 	}
 
+	@Override
+	public IpoWarehouseStock getWarehouseStockByCommodity(String commid,
+			String warehouseId) {
+		com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock record = warehousestockmapper
+				.selectByCommoId(commid, Long.parseLong(warehouseId));
+		if (record != null) {
+			IpoWarehouseStock stock = new IpoWarehouseStock();
+			BeanUtils.copyProperties(record, stock);
+			return stock;
+		}
+		return null;
+	}
 }

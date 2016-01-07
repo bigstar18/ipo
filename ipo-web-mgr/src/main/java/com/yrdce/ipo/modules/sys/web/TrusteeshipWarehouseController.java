@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
-import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService;
 import com.yrdce.ipo.modules.sys.vo.BiWarehouse;
-import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipWarehouse;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 托管仓库
@@ -43,7 +43,7 @@ public class TrusteeshipWarehouseController {
 	private BiWarehouseService biWarehouseService;
 
 	@Autowired
-	private CommodityService commodityService;
+	private IpoCommConfService commodityService;
 
 	/*
 	 * 修改或新增托管仓库视图
@@ -114,7 +114,10 @@ public class TrusteeshipWarehouseController {
 	@RequestMapping(value = "/trusteeCommodity", method = RequestMethod.POST)
 	@ResponseBody
 	public String trusteeCommodity() throws IOException {
-		List<Commodity> commList = commodityService.findAll();
+		VIpoCommConf example = new VIpoCommConf();
+		example.setDeliveryProp((short) 1);// 获取具有交收属性的商品
+		List<VIpoCommConf> commList = commodityService
+				.selectCommodityByExample(example);
 		return JSON.json(commList);
 	}
 

@@ -30,4 +30,14 @@ public interface IpoWarehouseStockService {
 	 * @return
 	 */
 	public Integer getQueryNum(IpoWarehouseStock example);
+
+	/**
+	 * 获取商品在某仓库的库存
+	 * 
+	 * @param commid
+	 * @param warehouseId
+	 * @return
+	 */
+	public IpoWarehouseStock getWarehouseStockByCommodity(String commid,
+			String warehouseId);
 }

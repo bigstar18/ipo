@@ -109,8 +109,9 @@
 	      								<td width="110">
 	      								    <input id="idcardNum" type="text" name="idcardNum" value="${detail.idcardNum }" readonly="readonly"/>
 		          						</td>
-										<td align="right" width="110"></td>     
+										<td align="right" width="110">当前仓库可用数量：</td>     
             							<td width="110"> 
+            							<input id="stock" type="hidden" name="stock" value="${stock }" >
             							<input id="pickupId" type="hidden" name="pickupId" value="${detail.pickupId }" >
 										</td>
 										<td align="right" width="110">审核意见：</td>
@@ -139,6 +140,11 @@
 										</td>
 							        </tr> 
 							         <tr>
+							            <td align="right" width="90">当前仓库可用数量：</td>     
+            							<td width="110">
+            							<input id="stock" type="hidden" name="stock" value="${stock }" >
+            							<input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
+            							</td>
 							            <td align="right" width="110">审核意见：</td>
 	      								<td>
 	      								 <select id="approvalStatus" name="approvalStatus" style="width:140px">
@@ -152,8 +158,7 @@
 	      								    <input id="cost" type="text" name="cost"
 	      								    class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'精度为2的正数(驳回可不填)'"/>
 		          						</td>
-										<td align="right" width="90"></td>     
-            							<td width="110"><input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" ></td>
+										
 							        </tr> 
 							        </c:if>
 							         <tr>
