@@ -7,13 +7,15 @@
   <title>打印单号</title>
   <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="dickytest/vue.js"></script>
+  <style media=print type="text/css">
+    .noprint{visibility:hidden}
+  </style>
 </head>
 <body>
-  <input type="button" value="打印页面" onclick="printpage()" />
+  <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
-      <tb
-ody>
+      <tbody>
         <tr>
           <td align="center" height="35">
             <span>
@@ -59,7 +61,7 @@ ody>
           <td align="center" id="deliveryQuatity">
           </td>
         </tr>
-        <tr>
+        <tr id="pickupshow">
           <td align="center" height="35">
             <span>
             提货密码：
@@ -86,13 +88,22 @@ ody>
           <td align="center" id="deliveryDate">
           </td>
         </tr>
+        <tr id="pickupset">
+          <td colspan="2" align="center" height="35">
+            <input type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码"
+            onkeyup="value=value.replace(/[\W]/g,'') "
+            onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+            style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
+            <input type="button" onclick="passwordset()" value="确认" />
+          </td>
+        </tr>
       </tbody>
     </table>
-
   <script type="text/javascript">
 
 
   $(document).ready(function() {
+
 
     var url = location.search;
     if (url.indexOf("?") != -1) {
@@ -101,7 +112,7 @@ ody>
     }
     var methodid = strs[1];//获取url参数
 
-    var ctable = {}
+    var ctable = {};
     $.ajax({
       type: 'post',
       url: "../../../SettlementDeliveryController/getDetail",
@@ -118,6 +129,16 @@ ody>
         $('#deliveryDate').html(responseStr.deliveryDate);
         var cdata = $('#deliveryDate').text().substr(0, 10)
         $('#deliveryDate').html(cdata);
+        if (responseStr.approvalStatus == 4 || responseStr.approvalStatus == 5) {
+          $('#printset').attr('disabled', false);
+        };
+        if (responseStr.pickupPassword == null) {
+          $('#pickupshow').hide();
+          $('#pickupset').show();
+        }else {
+          $('#pickupset').hide();
+          $('#pickupshow').show();
+        };
       },
       error: function(response) {
         alert("加载失败，请刷新重试");
@@ -125,25 +146,52 @@ ody>
     });
 
   });
-  function printpage() {
+  //点击设置密码
+  function passwordset (argument) {
     var deliveryorderid = $('#deliveryorderId').html();
+    var pickupPassword = $('#setpickuppwd').val();
+    if ($('#setpickuppwd').val().length != 8) {
+      alert("请输入八位有效密码");
+    }else{
       $.ajax({
-         type: 'post',
-            url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-           data:{"deliveryorderid":deliveryorderid,
-              "status":"5"
-              },
-           success : function(data) {
-                   if(data=='success'){
-                   window.print();
-                   }else{
-                       alert("系统异常，请联系管理员");
-                     }
-                },
-          error : function(data) {
-            alert("系统异常，请联系管理员");
-            }
-          });
+        type: 'post',
+        // url: "",
+        data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
+        success : function(response) {
+             if(response=='success'){
+            	 alert("设置成功！");
+            	 window.close();
+             }else{
+            	 alert("系统异常，请联系管理员！");
+             }
+        },
+        error: function(response) {
+          alert("系统异常，请联系管理员！");
+        }
+      });
+    };
+
+  }
+  //点击打印
+  function printpage() {
+ 	  var deliveryorderid = $('#deliveryorderId').html();
+  	  $.ajax({
+  			 type: 'post',
+  		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
+  		     data:{"deliveryorderid":deliveryorderid,
+  		    	 	"status":"5"
+  		    	  },
+  		     success : function(data) {
+  			           if(data=='success'){
+  			        	 window.print();
+  			           }else{
+  		          		   alert("系统异常，请联系管理员");
+  		          	   }
+  			        },
+		      error : function(data) {
+		    	  alert("系统异常，请联系管理员");
+		        }
+  				});
     }
   window.onunload = function(){
       window.opener.location.reload();
