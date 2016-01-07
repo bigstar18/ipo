@@ -139,7 +139,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
-					ipopickup.setPickupPassword(genRandomNum());
 					ipopickupmapper.updateByPrimaryKey(ipopickup);
 					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
