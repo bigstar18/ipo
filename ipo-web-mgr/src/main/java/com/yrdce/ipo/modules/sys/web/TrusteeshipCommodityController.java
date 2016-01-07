@@ -21,11 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
-import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 托管商品
@@ -40,7 +41,7 @@ public class TrusteeshipCommodityController {
 	@Autowired
 	private TrusteeshipCommodityService trusteeshipCommodityService;
 	@Autowired
-	private CommodityService commodityService;
+	private IpoCommConfService ipoCommConfService;
 	@Autowired
 	private BiWarehouseService biWarehouseService;
 	
@@ -102,7 +103,9 @@ public class TrusteeshipCommodityController {
 	@RequestMapping(value = "/addPlan")
 	public String  addPlan(HttpServletRequest request,Model model)  {
 		// 所有的商品
-		List<?> commodityList=commodityService.findAll();
+		VIpoCommConf conf = new VIpoCommConf();
+		conf.setDeliveryProp((short)1);
+		List<?> commodityList=ipoCommConfService.selectCommodityByExample(conf);
 		model.addAttribute("commodityList", commodityList);
 		return "app/trusteeship/add_plan";
 	}
@@ -144,7 +147,9 @@ public class TrusteeshipCommodityController {
 	@RequestMapping(value = "/editPlan")
 	public String  editPlan(HttpServletRequest request,Model model)  {
 		//所有的商品
-		List<?> commodityList=commodityService.findAll();
+		VIpoCommConf conf = new VIpoCommConf();
+		conf.setDeliveryProp((short)1);
+		List<?> commodityList=ipoCommConfService.selectCommodityByExample(conf);
 		model.addAttribute("commodityList", commodityList);
 		Long id=Long.valueOf(request.getParameter("id"));
 		TrusteeshipCommodity entity=trusteeshipCommodityService.findPlanById(id);

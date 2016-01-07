@@ -80,15 +80,19 @@ $(document).ready(function() {
 			}
 		 },{
 				field : 'oper',
-				width : 200,
+				width : 250,
 				align: "center",
 				title : '操作',
 				formatter:function(value,row){
 					var str="";
 					if(row.status==1){
 						str+= "<a href=\"#\" onclick=\"javascript:distribution('"+row.commodityid+"',this)\">" + "手动配号 " +"</a>";
-					}else if(row.status==2||row.status==3){
-						str+= "<a href=\"#\" onclick=\"javascript:constructionManager('"+row.commodityid+"',this)\">" + "手动摇号" + "</a>";
+					};
+					if(row.status==2||row.status==3){
+						str+= "<a href=\"#\" onclick=\"javascript:constructionManager('"+row.commodityid+"',this)\">" + "手动摇号" + "</a>&nbsp;";
+					};
+					if(row.status==3){
+						str+= "<a href=\"#\" onclick=\"javascript:orderBalance('"+row.commodityid+"',this)\">" + "费用计算转持仓" + "</a>";
 					};
 					return str;
 				}
@@ -157,6 +161,27 @@ function distribution(commodityid,obj){
 		});  
 }
 
+function orderBalance(commodityid,obj){
+	obj.innerHTML='<img src=<%=request.getContextPath()%>/static/images/loading.gif style="height:25px;" />';
+	$.ajax({  
+		    url: "<%=request.getContextPath()%>/QueryController/orderBalance?t="+Math.random(),  
+		    data:{"commodityid":commodityid}, 
+		    type: 'GET',dataType: 'json',async:false,
+		    success : function(data, stats) {  
+	             if(data==true||data=="true"){
+	            	 alert('费用计算转持仓成功');
+	            	 doSearch();
+	             }else{
+	            	 alert('费用计算转持仓失败');
+	             };
+	             obj.innerHTML="费用计算转持仓";
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	  	    	obj.innerHTML="费用计算转持仓";
+	            alert('系统异常!');
+	        }
+		});  
+}
 
 
 function doSearch(){

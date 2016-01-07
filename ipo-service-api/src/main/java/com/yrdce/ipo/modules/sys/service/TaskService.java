@@ -35,8 +35,15 @@ public interface TaskService {
 	public void lottery(String commId) throws Exception;
 	
 	/**
-	 *算钱 转持仓 
-	 * */
+	 * 费用计算和 转持仓
+	 * @param commId 商品id
+	 * @throws Exception
+	 */
+	public void orderBalance(String commId) throws Exception;
+	/**
+	 * 费用计算和 转持仓
+	 * @throws Exception
+	 */
 	public void orderBalance() throws Exception;
 
 }

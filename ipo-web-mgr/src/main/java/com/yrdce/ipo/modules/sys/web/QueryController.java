@@ -202,5 +202,20 @@ public class QueryController {
 		return true;
 	}
 	
+	/**
+	 * 费用计算转持仓
+	 */
+	@RequestMapping(value = "/orderBalance")
+	@ResponseBody
+	public boolean orderBalance(@RequestParam(value = "commodityid",required = true)String commodityid) {
+		try {
+			taskService.orderBalance(commodityid);
+		} catch (Exception e) {
+			logger.error("orderBalance error:", e);
+			return false;
+		}
+		return true;
+	}
+	
 	
 }
