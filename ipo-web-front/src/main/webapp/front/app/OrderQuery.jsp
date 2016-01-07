@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=GBK"
-    pageEncoding="GBK"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%>   
+    pageEncoding="GBK"%> 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";%><html>
+<html>
 <head>
 <title>Éê¹º¼ÇÂ¼²éÑ¯Ò³Ãæ</title>
      <meta name="decorator" content="default"/>

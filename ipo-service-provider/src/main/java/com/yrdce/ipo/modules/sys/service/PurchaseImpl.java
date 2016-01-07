@@ -116,13 +116,16 @@ public class PurchaseImpl implements Purchase {
 					short mode = ipoCommodityConf.getTradealgr();
 					BigDecimal val = ipoCommodityConf.getBuy();
 					BigDecimal fee = new BigDecimal(0);
-
 					if (mode == 1) {
-						fee = allMonery.multiply(val);
+						BigDecimal valparam = val.divide(new BigDecimal("100"));
+						fee = allMonery.multiply(valparam);
+						logger.info("比例手续费：" + fee);
 					} else {
 						fee = num.multiply(val);
+						logger.info("绝对值手续费：" + fee);
 					}
 					BigDecimal cost = allMonery.add(fee);
+					logger.info("总值：" + cost);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断

@@ -230,8 +230,9 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public String getUserInfo(@RequestParam("userid") String userid) throws IOException {
+	public String getUserInfo(HttpSession session) throws IOException {
 		try {
+			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			return displayService.userInfo(userid);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,10 +272,11 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/purchApply", method = RequestMethod.GET)
 	@ResponseBody
-	public String purchApply(@RequestParam("commodityid") String commodityid, @RequestParam("userid") String userid,
-			@RequestParam("quantity") String quantity, @RequestParam("id") String id) {
-		log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity + " " + id);
+	public String purchApply(@RequestParam("commodityid") String commodityid, HttpSession session, @RequestParam("quantity") String quantity,
+			@RequestParam("id") String id) {
 		try {
+			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity + " " + id);
 			return purchase.apply(userid, commodityid, Integer.parseInt(quantity), Integer.parseInt(id)) + "";
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -281,13 +281,15 @@ public class SPOController {
 			String spoid = spoRationList.get(0).getSpoid();
 			long counts = spoService.circulation(spoid);
 			for (SpoRation spoRation : spoRationList) {
-				spoRation.setFirmid(spoRation.getBrokerid());
+				String brokerid = spoRation.getBrokerid();
+				String fiemid = spoService.getFirmid(brokerid);
+				spoRation.setFirmid(fiemid);
 				spoRation.setSalesid(spoRation.getBrokerid());
 				// 获取以配售总和
 				long proportion = spoRation.getSalesAllocationratio();
 				long sum = (long) (counts * ((double) proportion / 100));
 				spoRation.setRationcounts(sum);
-				sum1 = +sum;
+				sum1 += sum;
 
 				result1 += spoService.insertByRation(spoRation);
 			}
@@ -330,7 +332,7 @@ public class SPOController {
 				long sum = (long) (counts * ((double) proportion / 100));
 				logger.info("承销商配售总数：" + sum);
 				spoRation.setRationcounts(sum);
-				sum1 = +sum;
+				sum1 += sum;
 				result1 += spoService.updateByRation(spoRation);
 			}
 			Long balance = counts - sum1;

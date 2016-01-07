@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=GBK"
 	pageEncoding="GBK"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
-<%@page import="java.lang.String"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-//String userId ="888";
-%><html>
+<html>
 <head>
 <title>投资者申购页面</title>
 <meta name="decorator" content="default" />
@@ -79,7 +75,7 @@
 						 <input type="hidden" id="commodityid" />
 						 <input type="hidden" id="price" />
 					     <input type="hidden" id="units" />
-						<p>账户编号：<b id="userId"><%=userId%></b></p>
+						<%-- <p>账户编号：<b id="userId"><%=userId%></b></p> --%>
 						<p>申购产品：<b id="comname"></b></p>
 						<p>可用资金(/元)：<b id="money"></b></p>
 						<p>可购买数量：<b id="availibleQua"></b></p>
@@ -116,7 +112,6 @@ $(document).ready(function() {
 		    type: 'GET',
 		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",
 		    contentType: "application/json; charset=utf-8",
-		    data:{"userid":"<%=userId%>"},
 		    dataType: 'json',
 		    async: true,
 		    success : function(data, stats) {
@@ -168,7 +163,7 @@ function apply(){
 	if(moneyneed>money){
 		alert("资金不足！");
 	}else{
-	var infos={ "id":$("#id").val(),"userid":"<%=userId%>","commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val(),"randnum":Math.floor(Math.random()*1000000) };
+	var infos={ "id":$("#id").val(),"commodityid": $("#commodityid").val() , "quantity" : $("#quantity").val(),"randnum":Math.floor(Math.random()*1000000) };
 	    $.ajax({
 	    type: 'GET',
 	    url: "<%=request.getContextPath()%>/CommodityController/purchApply",
@@ -184,7 +179,6 @@ function apply(){
 	    		    type: 'GET',
 	    		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",
 	    		    contentType: "application/json; charset=utf-8",
-	    		    data:{"userid":"<%=userId%>"},
 	    		    dataType: 'json',
 	    		    async: true,
 	    		    success : function(data, stats) {

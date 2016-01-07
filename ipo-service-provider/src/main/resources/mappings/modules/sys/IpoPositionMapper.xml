@@ -71,7 +71,7 @@
 	    on w.id = t.warehouse_id
 	  left join ipo_commodity_conf comm
 	    on comm.commodityid = t.commodity_id
-	 where FIRMID = #{firmid,jdbcType=VARCHAR}
+	 where FIRMID = #{firmid,jdbcType=VARCHAR} and comm.deliveryprop = 1
 	 group by p.commodityid, p.commodityname, p.position, p.position_unit
   </select>
   

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.vo.Display;
 
 /**
@@ -28,6 +30,8 @@ public class DisplayServiceImpl implements DisplayService {
 	private IpoCommodityMapper commodity;
 	@Autowired
 	private FFirmfundsMapper funds;
+	@Autowired
+	private IpoCommodityConfMapper ipoCommConfMapper;
 
 	public String userInfo(String userId) {
 		// 获取可用资金
@@ -52,13 +56,16 @@ public class DisplayServiceImpl implements DisplayService {
 				String name = com.getCommodityname();
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
+
+				BigDecimal sum = this.getFee(sId, monery, price);
+
 				// 获取配售单位
 				int units = com.getUnits();
-				BigDecimal Unitprice = new BigDecimal(units);
+				// BigDecimal Unitprice = new BigDecimal(units);
 				// 1单位价格
-				BigDecimal total = price.multiply(Unitprice);
+				// BigDecimal total = price.multiply(Unitprice);
 				// 计算可购买多少
-				int number = (monery.divide(price, 0, BigDecimal.ROUND_DOWN)).intValue();
+				int number = (monery.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
 				// 获得申购额度
 				long purchaseCredits = com.getPurchaseCredits();
 
@@ -70,6 +77,23 @@ public class DisplayServiceImpl implements DisplayService {
 			}
 		} else {
 			return null;
+		}
+	}
+
+	public BigDecimal getFee(String sid, BigDecimal monery, BigDecimal price) {
+		// 获取算法方式，比例值 1：百分比 2：绝对值
+		IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sid);
+		short mode = ipoCommodityConf.getTradealgr();
+		BigDecimal val = ipoCommodityConf.getBuy();
+		if (mode == 1) {
+			BigDecimal valparam = (val.divide(new BigDecimal("100")));
+			BigDecimal sum = (valparam.multiply(price)).add(price);
+			logger.info("比例购买算法：" + valparam);
+			return sum;
+		} else {
+			BigDecimal sum = val.add(price);
+			logger.info("绝对值算法：" + val);
+			return sum;
 		}
 	}
 
