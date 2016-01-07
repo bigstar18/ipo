@@ -87,7 +87,10 @@
         </tr>
         <tr>
           <td colspan="2" align="center" height="35">
-            <input class="setpsd" type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码" style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
+            <input class="setpsd" type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码"
+            onkeyup="value=value.replace(/[\W]/g,'') "
+            onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+            style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
             <input class="setpsd" type="button" onclick="passwordset()" value="确认" />
           </td>
         </tr>
@@ -138,16 +141,21 @@
   function passwordset (argument) {
     var deliveryorderid = $('#deliveryorderId').html();
     var pickupPassword = $('#setpickuppwd').val();
-    $.ajax({
-      type: 'post',
-      // url: "",
-      data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
-      success : function(response) {
+    if ($('#setpickuppwd').val().length != 8) {
+      alert("请输入八位有效密码");
+    }else{
+      $.ajax({
+        type: 'post',
+        // url: "",
+        data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
+        success : function(response) {
 
-      },
-      error: function(response) {
-      }
-    });
+        },
+        error: function(response) {
+        }
+      });
+    };
+
   }
   //点击打印
   function printpage() {
