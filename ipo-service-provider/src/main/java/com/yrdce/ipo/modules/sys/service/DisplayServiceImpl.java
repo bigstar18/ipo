@@ -14,7 +14,6 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
-import com.yrdce.ipo.modules.sys.vo.Display;
 
 /**
  * 返回前台数据
@@ -44,7 +43,7 @@ public class DisplayServiceImpl implements DisplayService {
 		return monery1;
 	}
 
-	public Display display(String sId, String monery1) {
+	public Integer display(String sId, String monery1) {
 
 		if (sId != null && monery1 != null) {
 			String ID = sId.toUpperCase();
@@ -52,26 +51,12 @@ public class DisplayServiceImpl implements DisplayService {
 			// 获得商品名称
 			IpoCommodity com = commodity.selectByComid(ID);
 			if (com != null) {
-				int id = com.getId();
-				String name = com.getCommodityname();
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
-
 				BigDecimal sum = this.getFee(sId, monery, price);
-
-				// 获取配售单位
-				int units = com.getUnits();
-				// BigDecimal Unitprice = new BigDecimal(units);
-				// 1单位价格
-				// BigDecimal total = price.multiply(Unitprice);
 				// 计算可购买多少
-				int number = (monery.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
-				// 获得申购额度
-				long purchaseCredits = com.getPurchaseCredits();
-
-				Display display = new Display(id, name, number, units, price, purchaseCredits);
-
-				return display;
+				Integer number = (monery.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
+				return number;
 			} else {
 				return null;
 			}
