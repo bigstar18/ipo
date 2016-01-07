@@ -9,7 +9,7 @@
   <script type="text/javascript" src="dickytest/vue.js"></script>
 </head>
 <body>
-  <input type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
+  <input id="printset" type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
@@ -58,7 +58,7 @@
           <td align="center" id="deliveryQuatity">
           </td>
         </tr>
-        <tr>
+        <tr id="pickupshow">
           <td align="center" height="35">
             <span>
             提货密码：
@@ -85,13 +85,13 @@
           <td align="center" id="deliveryDate">
           </td>
         </tr>
-        <tr>
+        <tr id="pickupset">
           <td colspan="2" align="center" height="35">
-            <input class="setpsd" type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码"
+            <input type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码"
             onkeyup="value=value.replace(/[\W]/g,'') "
             onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
             style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
-            <input class="setpsd" type="button" onclick="passwordset()" value="确认" />
+            <input type="button" onclick="passwordset()" value="确认" />
           </td>
         </tr>
       </tbody>
@@ -100,7 +100,7 @@
 
 
   $(document).ready(function() {
-	  
+
 
     var url = location.search;
     if (url.indexOf("?") != -1) {
@@ -126,10 +126,15 @@
         $('#deliveryDate').html(responseStr.deliveryDate);
         var cdata = $('#deliveryDate').text().substr(0, 10)
         $('#deliveryDate').html(cdata);
+        if (responseStr.approvalStatus == 4 || responseStr.approvalStatus == 5) {
+          $('#printset').attr('disabled', false);
+        };
         if (responseStr.pickupPassword == null) {
-          $('.setpsd').show();
-        }if (responseStr.pickupPassword != null) {
-          $('.setpsd').hide();
+          $('#pickupshow').hide();
+          $('#pickupset').show();
+        }else {
+          $('#pickupset').hide();
+          $('#pickupshow').show();
         };
       },
       error: function(response) {
@@ -158,6 +163,7 @@
              }
         },
         error: function(response) {
+          alert("系统异常，请联系管理员！");
         }
       });
     };
