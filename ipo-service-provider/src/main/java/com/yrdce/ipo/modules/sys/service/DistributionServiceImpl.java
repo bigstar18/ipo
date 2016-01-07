@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import com.yrdce.ipo.modules.sys.vo.Distribution;
 @Service("distributionService")
 
 public class DistributionServiceImpl implements DistributionService {
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IpoDistributionMapper ipoDistributionMapper;
@@ -119,17 +122,20 @@ public class DistributionServiceImpl implements DistributionService {
 		List<IpoDistribution> distributions = ipoDistributionMapper.queryUnsettledByCommoId(commId);
 		List<Distribution> result = new ArrayList<Distribution>();
 		if (distributions != null && !distributions.isEmpty()) {
+			logger.info("申购结算：查询配号摇号记录表，frozen != 3, 找到记录数={}", commId);
+
 			for (IpoDistribution ipoDistribution : distributions) {
 				Distribution distribution = new Distribution();
 				BeanUtils.copyProperties(ipoDistribution, distribution);
 				distribution.setOrderid(String.valueOf(ipoDistribution.getId()));// 坑货啊
 				result.add(distribution);
 			}
-		}
+		} else
+			logger.info("申购结算：商品={} 没有找到相应的配号摇号记录", commId);
 		return result;
 	}
 
-	@Override
+	@Override // hxx
 	public int updateOrderSettled(String orderId) throws Exception {
 		return ipoDistributionMapper.updateSettledById(Integer.parseInt(orderId));
 	}

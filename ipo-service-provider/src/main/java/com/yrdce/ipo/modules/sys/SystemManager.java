@@ -299,25 +299,34 @@ public class SystemManager {
 		// 找sale表状态为32->41
 		List<Commodity> sales = commodityService.queryAllByStatusForSettle();
 		if (sales != null && !sales.isEmpty()) {
+			logger.info("申购结算：待结算的商品个数={}", sales.size());
+
 			for (Commodity commodity : sales) {
 				String commodityId = commodity.getCommodityid();
+				logger.info("申购结算：开始结算处理id={} 的商品", commodityId);
+
 				List<Order> orders = orderService.queryUnsettleOrdersByCommId(commodityId);
 				while (orders != null && !orders.isEmpty()) {
+					logger.info("申购结算：开始结算处理商品id={} 的申购订单。", commodityId);
+
 					unfrozenOrders(orders);
 					orders = orderService.queryUnsettleOrdersByCommId(commodityId);
 				}
 
 				List<Distribution> distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
 				while (distributions != null && !distributions.isEmpty()) {
+					logger.info("申购结算：开始结算处理商品id={} 的配号摇号单。", commodityId);
+
 					frozenTrades(distributions);
 					distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
 				}
 
 				// 变更sale表的状态41->4
 				if (commodityService.updateCommoditySettled(commodityId) < 1) {
-					logger.info("商品={}，变更sale状态失败", commodityId);
+					logger.info("申购结算：商品={}，变更sale状态失败", commodityId);
 					throw new Exception("变更sale状态失败，全部回滚");
 				}
+				logger.info("申购结算：结束处理id={} 的商品", commodityId);
 			}
 		}
 	}
@@ -334,6 +343,8 @@ public class SystemManager {
 			// 标记处理
 			if (orderService.updateOrderSettled(order.getOrderid()) < 1)
 				throw new Exception("变更申购记录为结算状态失败，全部回滚");
+
+			logger.info("申购结算：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId, total.toString());
 		}
 	}
 
@@ -350,6 +361,8 @@ public class SystemManager {
 
 			if (distributionService.updateOrderSettled(distribution.getOrderid()) < 1)
 				throw new Exception("变更摇号记录为结算状态失败，全部回滚");
+
+			logger.info("申购结算：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(), fee.toString());
 		}
 	}
 

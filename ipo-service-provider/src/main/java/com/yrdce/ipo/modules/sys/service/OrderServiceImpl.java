@@ -103,6 +103,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception {
 		List<Order> result = new ArrayList<Order>();
 
+		logger.info("申购结算：根据商品id={} and frozenst=0，查询发售记录", commId);
 		List<IpoOrder> list = ipoOrderMapper.selectByCidPaged(0, 500, commId);
 		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -120,7 +121,9 @@ public class OrderServiceImpl implements OrderService {
 				// 坑货啊
 				result.add(order);
 			}
-		}
+		} else
+			logger.info("申购结算：没有获得发售商品id={} 的申购记录", commId);
+
 		return result;
 	}
 

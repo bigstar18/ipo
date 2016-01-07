@@ -258,6 +258,7 @@ public class CommodityServiceImpl implements CommodityService {
 				if (update < 1) // 更新不成功
 					continue;
 
+				logger.info("申购结算：获得待结算的商品id={}，成功把发售状态变为结算中={}", commlist.get(i).getCommodityid(), SALE_STATUS_SETTLING);
 				Commodity commo = new Commodity();
 				BeanUtils.copyProperties(commlist.get(i), commo);
 				commo.setPrice(commlist.get(i).getPrice().doubleValue());
@@ -265,6 +266,7 @@ public class CommodityServiceImpl implements CommodityService {
 			}
 			return result;
 		}
+		logger.info("申购结算：没有获取到待结算的发售商品列表。。。。。。");
 		return null;
 	}
 
