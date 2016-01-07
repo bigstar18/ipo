@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class TransferController {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
 			order.setWarehouseId(null);
+			String operatorid = ((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID();
 			if (!order.getPickupPassword().equals("")) {
 				deliveryOrder = deliveryOrderService
 						.getPickupDeliveryInfo(order);
@@ -45,6 +49,11 @@ public class TransferController {
 			}
 			System.out.println(deliveryOrder);
 			if (deliveryOrder != null) {
+				if (operatorid != null) {
+					if (!operatorid.equals(deliveryOrder.getDealerId())) {
+						return "";
+					}
+				}
 				String request = JSON.json(deliveryOrder);
 				return request;
 			} else {
