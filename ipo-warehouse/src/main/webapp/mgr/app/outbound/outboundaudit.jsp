@@ -115,7 +115,9 @@ function getAllInfo(){
              align: "center",
              title : '出库时间',
              formatter: function(value,row){
-                 return value.substr(0,10);
+            	 if(value!=null){
+                 	return value.substr(0,10);
+            	 }
              }
          }, {  
              field : 'operatorid',  
@@ -166,7 +168,7 @@ function confirmOut(deliveryorderid,outboundorderid){
 			switch(data){
 				case "success":
 					alert("确认成功！");
-					$('#outboundinfo').datagrid('reload');
+					getAllInfo();
 					break;
 				case "fail":
 					alert("确认失败，请稍后再试！");

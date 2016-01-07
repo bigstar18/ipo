@@ -53,7 +53,7 @@
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" ref="chargeRoleService" protocol="dubbo" />
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" ref="chargeUserService" protocol="dubbo" />
     <dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" ref="warehouseStockService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.PickUpService" ref="pickupservice" protocol="dubbo" />
+    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.PickUpService" ref="pickupservice" protocol="dubbo" />
     
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
@@ -85,7 +85,7 @@
     <bean id="chargeRoleService" class="com.yrdce.ipo.modules.sys.service.ChargeRoleServiceImpl"/>
     <bean id="chargeUserService" class="com.yrdce.ipo.modules.sys.service.ChargeUserServiceImpl"/>
     <bean id="warehouseStockService" class="com.yrdce.ipo.modules.warehouse.serviceImpl.IpoWarehouseStockServiceImpl"/>
-    <bean id="pickupservice" class="com.yrdce.ipo.modules.warehouse.serviceImpl.PickUpServiceImpl"/>
+    <bean id="pickupservice" class="com.yrdce.ipo.modules.sys.service.PickUpServiceImpl"/>
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 	读写分离：

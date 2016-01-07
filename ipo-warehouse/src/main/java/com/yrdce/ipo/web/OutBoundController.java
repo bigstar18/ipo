@@ -123,7 +123,7 @@ public class OutBoundController {
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
 			outBound.setWarehouseid(String.valueOf(wareHouseId));
-			outBound.setOperatorid(operatorid);
+			outBound.setOperatorid("1");
 			int result = outboundService.addOutBoundOrder(outBound);
 			if (result == 1) {
 				return "success";
@@ -146,7 +146,7 @@ public class OutBoundController {
 			log.info("确认出库");
 			DeliveryOrder  deliveryOrder= new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
-			deliveryOrder.setApprovalStatus(9);
+			deliveryOrder.setApprovalStatus(11);
 			int result = deliveryOrderService.updateStatus(deliveryOrder,outboundorderid);
 			if (result==1) {
 				return "success";
@@ -158,6 +158,21 @@ public class OutBoundController {
 			// TODO: handle exception
 			log.error("修改出库单状态",e);
 			return "error";
+		}
+	}
+	
+	@RequestMapping(value = "/getOutboundorder")
+	@ResponseBody
+	public boolean getOutboundorder(@RequestParam("deliveryorderId")String outboundId){
+		try {
+			log.info("验证出库单是否存在");
+			Outbound outBound= outboundService.getOutboundOrder(outboundId);
+				return outBound==null;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("验证出库单是否存在",e);
+			return false;
 		}
 	}
 

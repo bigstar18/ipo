@@ -126,8 +126,8 @@
 
 	<select id="updateFundsFull" statementType="CALLABLE" parameterType="java.util.Map">
 		{#{monery,mode=OUT,jdbcType=DECIMAL} = call FN_F_UpdateFundsFull(#{userid,mode=IN,jdbcType=VARCHAR},
-		#{oprcode,mode=IN,jdbcType=CHAR},#{amount,mode=IN,jdbcType=DECIMAL}),#{contractNo,mode=IN,jdbcType=VARCHAR}),
-		#{extraCode,mode=IN,jdbcType=VARCHAR}),#{appendAmount,mode=IN,jdbcType=DECIMAL}),#{voucherNo,mode=IN,jdbcType=DECIMAL})}
+		#{oprcode,mode=IN,jdbcType=CHAR},#{amount,mode=IN,jdbcType=DECIMAL},#{contractNo,mode=IN,jdbcType=VARCHAR},
+		#{extraCode,mode=IN,jdbcType=VARCHAR},#{appendAmount,mode=IN,jdbcType=DECIMAL},#{voucherNo,mode=IN,jdbcType=DECIMAL})}
 	</select>
 
 </mapper>

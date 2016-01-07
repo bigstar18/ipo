@@ -44,4 +44,9 @@ public interface OutboundService {
 	public Integer addOutBoundOrder(Outbound outbound);
 	
 	public int updateOutBoundState(Integer outboundstate,String outboundorderid);
+	//查询出库单记录
+	public Outbound getOutboundOrder(String outboundOrderId);
+		
+	
+
 }
