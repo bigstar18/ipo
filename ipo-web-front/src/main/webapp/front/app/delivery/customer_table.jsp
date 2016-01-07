@@ -9,11 +9,10 @@
   <script type="text/javascript" src="dickytest/vue.js"></script>
 </head>
 <body>
-  <input type="button" value="打印页面" onclick="printpage()" />
+  <input type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
-      <tb
-ody>
+      <tbody>
         <tr>
           <td align="center" height="35">
             <span>
@@ -86,14 +85,19 @@ ody>
           <td align="center" id="deliveryDate">
           </td>
         </tr>
+        <tr>
+          <td colspan="2" align="center" height="35">
+            <input class="setpsd" type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码" style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
+            <input class="setpsd" type="button" onclick="passwordset()" value="确认" />
+          </td>
+        </tr>
       </tbody>
     </table>
-
   <script type="text/javascript">
-  
-  
+
+
   $(document).ready(function() {
-  	
+
     var url = location.search;
     if (url.indexOf("?") != -1) {
       var str = url.substr(1);
@@ -101,7 +105,7 @@ ody>
     }
     var methodid = strs[1];//获取url参数
 
-    var ctable = {}
+    var ctable = {};
     $.ajax({
       type: 'post',
       url: "../../../SettlementDeliveryController/getDetail",
@@ -118,20 +122,41 @@ ody>
         $('#deliveryDate').html(responseStr.deliveryDate);
         var cdata = $('#deliveryDate').text().substr(0, 10)
         $('#deliveryDate').html(cdata);
+        if (responseStr.pickupPassword == null) {
+          $('.setpsd').show();
+        }if (responseStr.pickupPassword != null) {
+          $('.setpsd').hide();
+        };
       },
       error: function(response) {
         alert("加载失败，请刷新重试");
       }
     });
-    
+
   });
+  //点击设置密码
+  function passwordset (argument) {
+    var deliveryorderid = $('#deliveryorderId').html();
+    var pickupPassword = $('#setpickuppwd').val();
+    $.ajax({
+      type: 'post',
+      // url: "",
+      data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
+      success : function(response) {
+
+      },
+      error: function(response) {
+      }
+    });
+  }
+  //点击打印
   function printpage() {
  	  var deliveryorderid = $('#deliveryorderId').html();
   	  $.ajax({
   			 type: 'post',
   		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
   		     data:{"deliveryorderid":deliveryorderid,
-  		    	 	"status":"5"	
+  		    	 	"status":"5"
   		    	  },
   		     success : function(data) {
   			           if(data=='success'){
