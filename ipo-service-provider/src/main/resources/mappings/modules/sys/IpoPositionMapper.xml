@@ -59,20 +59,20 @@
   
   <select id="selectByFirmid" resultType="com.yrdce.ipo.modules.sys.entity.IpoPosition" parameterType="java.lang.String">
 	  select p.commodityid,
-	       p.commodityname,
-	       p.position,
-	       p.position_unit,
-	       wm_concat(w.warehousename) as warehousename,
-	       wm_concat(w.id) as warehouseid
-	  from ipo_position p
-	  left join ipo_trusteeship_warehouse t
-	    on p.commodityid = t.commodity_id
-	  left join bi_warehouse w
-	    on w.id = t.warehouse_id
-	  left join ipo_commodity_conf comm
-	    on comm.commodityid = t.commodity_id
-	 where FIRMID = #{firmid,jdbcType=VARCHAR} and comm.deliveryprop = 1
-	 group by p.commodityid, p.commodityname, p.position, p.position_unit
+         p.commodityname,
+         p.position,
+         p.position_unit,
+         wm_concat(w.warehousename) as warehousename,
+         wm_concat(w.id) as warehouseid
+    from ipo_position p
+    left join ipo_warehouse_stock t
+      on p.commodityid = t.commodityid
+    left join bi_warehouse w
+      on w.id = t.warehouseid
+    left join ipo_commodity_conf comm
+      on comm.commodityid = t.commodityid
+   where FIRMID = #{firmid,jdbcType=VARCHAR} and comm.deliveryprop = 1
+   group by p.commodityid, p.commodityname, p.position, p.position_unit
   </select>
   
   <update id="updatePosition" parameterType="map">
