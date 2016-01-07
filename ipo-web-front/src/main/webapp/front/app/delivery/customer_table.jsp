@@ -100,6 +100,7 @@
 
 
   $(document).ready(function() {
+	  
 
     var url = location.search;
     if (url.indexOf("?") != -1) {
@@ -149,7 +150,12 @@
         // url: "",
         data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
         success : function(response) {
-
+             if(response=='success'){
+            	 alert("设置成功！");
+            	 window.close();
+             }else{
+            	 alert("系统异常，请联系管理员！");
+             }
         },
         error: function(response) {
         }

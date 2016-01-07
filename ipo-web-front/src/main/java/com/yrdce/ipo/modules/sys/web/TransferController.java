@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
+import com.yrdce.ipo.modules.sys.service.PickUpService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 
 /**
@@ -27,6 +28,9 @@ public class TransferController {
 
 	@Autowired
 	private DeliveryOrderService deliveryOrderService;
+
+	@Autowired
+	private PickUpService pickupservice;
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(TransferController.class);
@@ -63,6 +67,23 @@ public class TransferController {
 			log.error("获取提货单信息异常", e);
 			return "error";
 		}
+
+	}
+
+	// 设置密码
+	@RequestMapping(value = "/setPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String setPassword(
+			@RequestParam("deliveryorderid") String deliveryorderId,
+			@RequestParam("pickupPassword") String pickupPassword) {
+		DeliveryOrder order = deliveryOrderService
+				.getDeliveryOrderByDeliOrderID(deliveryorderId);
+		int num = pickupservice
+				.setPassword(order.getMethodId(), pickupPassword);
+		if (num == 1) {
+			return "success";
+		}
+		return "fail";
 
 	}
 

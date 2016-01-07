@@ -139,7 +139,7 @@
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"updateForward('" + row.methodId + "')\">" + "打印自提" + "</a>";
+              return "<a href=\"#\" onclick=\"updateForward('" + row.methodId + "')\">" + "查看详情" + "</a>";
             }
           }]
         ]
