@@ -1,8 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -139,8 +137,8 @@ public class SPOController {
 	// 获取配售信息
 	@RequestMapping(value = "/getRationInfopp", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			SpoCommoditymanmaagement spoComm) throws IOException {
+	public String getRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows, SpoCommoditymanmaagement spoComm)
+			throws IOException {
 		logger.info("获取定向配售信息");
 		try {
 			List<SpoRation> tempList = spoService.getRationInfo(page, rows, spoComm);
@@ -322,6 +320,8 @@ public class SPOController {
 			for (SpoRation spoRation : spoRationList) {
 				String brokerid = spoRation.getBrokerid();
 				String firmid = spoService.getFirmid(brokerid);
+				String firmname = spoService.getFirmname(firmid);
+				spoRation.setFirmname(firmname);
 				spoRation.setFirmid(firmid);
 				spoRation.setSalesid(brokerid);
 				// 获取以配售总和

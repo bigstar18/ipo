@@ -113,5 +113,4 @@ public class IpoPosition {
 	public void setWarehouseId(String warehouseId) {
 		this.warehouseId = warehouseId;
 	}
-
 }

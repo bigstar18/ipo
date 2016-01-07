@@ -102,8 +102,8 @@ public class SectionManager {
 	 * @return
 	 */
 	public long getOpenMarketTimeFromNow(Date date) {
-		if (isOpenMarketTime(date))
-			return 0;// 立刻开始
+		// if (isOpenMarketTime(date))
+		// return 0;// 立刻开始
 
 		long in = date.getTime();
 		long start = getTimeBeforSection5m(date).getTimeInMillis();

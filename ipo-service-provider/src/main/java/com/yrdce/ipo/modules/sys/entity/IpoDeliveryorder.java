@@ -16,7 +16,7 @@ public class IpoDeliveryorder {
 
 	public String warehouseId;
 
-	public String warehouseName;// 原表设计的字段，空值暂不用
+	public String warehouseName;
 
 	public Long deliveryQuatity;
 
@@ -57,7 +57,7 @@ public class IpoDeliveryorder {
 	private String receiver;
 	private String tel;
 
-	private String warehousename;// 仓库名称
+	private String warehousename;// 仓库名称(暂不用)
 
 	public String getAddress() {
 		return address;

@@ -464,7 +464,7 @@ public class SystemManager {
 							}
 						} else {
 							Date now = new Date(System.currentTimeMillis() + timeDiff);
-							if (isTradeDayToday(now) || isPreTradeDayNormal(now)) {
+							if (isTradeDayToday(now)) {
 								switch (Integer.parseInt(status)) {
 								case 0:// opened, ready to trade
 									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
@@ -533,6 +533,23 @@ public class SystemManager {
 									break;
 								default:
 									threadSleep(1000);
+									break;
+								}
+							} else if (isPreTradeDayNormal(now)) {// 以前的交易日
+								switch (Integer.parseInt(status)) {
+								case 3:// 发现财务结算完成，准备今天的交易日的开市
+									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									try {
+										logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
+										Thread.currentThread().sleep(nextOpenTime + 1);
+
+										reopenMarketInternal();
+									} catch (InterruptedException e) {
+										logResumeStatus();
+									}
+									break;
+								default:
+									threadSleep(600000);// 休眠10分钟
 									break;
 								}
 							} else {

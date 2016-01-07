@@ -90,10 +90,10 @@ ody>
     </table>
 
   <script type="text/javascript">
-  function printpage() {
-    window.print();
-  }
+  
+  
   $(document).ready(function() {
+  	
     var url = location.search;
     if (url.indexOf("?") != -1) {
       var str = url.substr(1);
@@ -120,15 +120,34 @@ ody>
         $('#deliveryDate').html(cdata);
       },
       error: function(response) {
-        alert(response);
-        //console.log(response);
+        alert("加载失败，请刷新重试");
       }
     });
-
-    // $('#deliveryDate').val().substr(0, 10);
-
-    // console.log($('#deliveryDate').text().substr(10, 10));
+    
   });
+  function printpage() {
+ 	  var deliveryorderid = $('#deliveryorderId').html();
+  	  $.ajax({
+  			 type: 'post',
+  		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
+  		     data:{"deliveryorderid":deliveryorderid,
+  		    	 	"status":"5"	
+  		    	  },
+  		     success : function(data) {
+  			           if(data=='success'){
+  			        	 window.print();
+  			           }else{
+  		          		   alert("系统异常，请联系管理员");
+  		          	   }
+  			        },
+		      error : function(data) {
+		    	  alert("系统异常，请联系管理员");
+		        }
+  				});
+    }
+  window.onunload = function(){
+      window.opener.location.reload();
+  }
   </script>
 </body>
 </html>

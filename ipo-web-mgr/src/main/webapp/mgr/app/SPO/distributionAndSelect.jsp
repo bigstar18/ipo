@@ -16,8 +16,11 @@
 	.content span{font-size:12px}
 </style>
 <script type="text/javascript">
+var pintegral =  /^[0-9]*[1-9][0-9]*$/;
+var zeroToHundred = /^(\d{1,2}(\.{1}\d+)?|100)$/;
+var editRow = undefined;
 $(document).ready(function(){
-	var editRow = undefined;
+
 	 $('#tt').datagrid({  
         title:'分配增发商品及查询',  
         iconCls:'icon-ok', 
@@ -66,13 +69,20 @@ $(document).ready(function(){
             width : 200,  
             align: "center",
             title : '承销商分配比例（%）',
-            editor: { type: 'text', options: { required: true } }
+            editor: { type: 'text', options: { required: true } },
+	        formatter:function(value,row){
+	       	 return value;
+	        }
         },{  
             field : 'salesRebateratio',  
             width : 200, 
             align: "center",
             title : '承销商返佣比例（%）',
-            editor: { type: 'text', options: { required: true } }
+            editor: { type: 'text', options: { required: true } },
+            formatter:function(value,row){
+            	 editRow = undefined;
+            	return value;
+            }
         }]],
         toolbar:[{text: '修改', iconCls: 'icon-edit', handler: function () {
             var row = $("#tt").datagrid('getSelected');
@@ -92,7 +102,6 @@ $(document).ready(function(){
         }},
         '-',
         { text: '保存', iconCls: 'icon-save', handler: function () {
-            //保存时结束当前编辑的行，自动触发onAfterEdit事件如果要与后台交互可将数据通过Ajax提交后台
             $("#tt").datagrid("endEdit", editRow);
             var rows = $('#tt').datagrid('getChecked');
             if(rows.length==0){
@@ -107,7 +116,7 @@ $(document).ready(function(){
 	        		alert("承销商返佣比例不能大于100");
 	        		return;
 	        	}
-	        	counts+=rows[temp].salesAllocationratio;
+	        	counts=parseInt(counts)+parseInt(rows[temp].salesAllocationratio);
 	        	if(rows[temp].rationid==null){
 	        		add.push(rows[temp]);
 	        	}else{
@@ -170,30 +179,36 @@ $(document).ready(function(){
         }},
         '-',
         { text: '取消编辑', iconCls: 'icon-redo', handler: function () {
-            //取消当前编辑行把当前编辑行罢undefined回滚改变的数据,取消选择的行
             editRow = undefined;
             $("#tt").datagrid("rejectChanges");
             $("#tt").datagrid("unselectAll");
         }
         }],
         onAfterEdit: function (rowIndex, rowData, changes) {
-        	 console.info(rowData);
              editRow = undefined;
+             if(rowData.salesRebateratio!=''&&!zeroToHundred.test(rowData.salesRebateratio)){
+            	 alert("请输入小于100的正整数！");
+            	 $('#tt').datagrid('reload');
+            	 return;
+             }
+        	 if(rowData.salesAllocationratio!=''&&!zeroToHundred.test(rowData.salesAllocationratio)){
+        		 alert("请输入小于100的正整数！");
+        		 $('#tt').datagrid('reload');
+        		 return;
+        	 }
+        	 
         },
         onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#tt").datagrid('endEdit', editRow);
-            }
-
-            if (editRow == undefined) {
-                $("#tt").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+        	
         },
         onClickRow:function(rowIndex,rowData){
-            if (editRow != undefined) {
-                $("#tt").datagrid('endEdit', editRow);
-            }
+        	 if (editRow != undefined) {
+                 $("#tt").datagrid('endEdit', editRow);
+             }
+             if (editRow == undefined) {
+                 $("#tt").datagrid('beginEdit', rowIndex);
+                 editRow = rowIndex;
+             }
         },
         pagination : true,
         rownumbers : false,

@@ -38,4 +38,7 @@ public interface IpoSpoRationMapper {
 
 	String firmidBySales(@Param("brokerid") String brokerid);
 
+	// 根据交易商id查找交易商名称
+	String selectFirmname(String firmid);
+
 }

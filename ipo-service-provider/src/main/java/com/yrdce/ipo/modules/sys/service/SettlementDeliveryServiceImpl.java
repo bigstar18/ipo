@@ -209,7 +209,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception {
 		int status1 = Integer.parseInt(status);
 		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
-		if (status1 == 7) {
+		if (status1 == 10) {
 			// 获取此条订单的属性
 			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
 			String firmid = ipoDeliveryorder.getDealerId();

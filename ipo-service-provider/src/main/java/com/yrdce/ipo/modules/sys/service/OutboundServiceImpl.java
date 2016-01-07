@@ -96,11 +96,11 @@ public class OutboundServiceImpl implements OutboundService {
 			int result = ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
 			if (ipoOutbound.getOutboundstate()==2) {
 				deliveryorder.setDeliveryorderId(ipoOutbound.getDeliveryorderid());
-				deliveryorder.setApprovalStatus(4);
+				deliveryorder.setApprovalStatus(6);
 				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}else if (ipoOutbound.getOutboundstate()==3){
 				deliveryorder.setDeliveryorderId(ipoOutbound.getDeliveryorderid());
-				deliveryorder.setApprovalStatus(5);
+				deliveryorder.setApprovalStatus(10);
 				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}else{
 				result1=0;

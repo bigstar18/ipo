@@ -75,4 +75,7 @@ public interface SPOService {
 	// 根据会员id查询交易商id
 	public String getFirmid(String brokerid);
 
+	// 根据交易商id查询交易商名称
+	public String getFirmname(String firmid);
+
 }
