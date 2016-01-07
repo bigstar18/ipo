@@ -21,7 +21,8 @@
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">1.在此展示您的所有可打印自提的提货单信息。 2.如果您要打印自提，请点击“打印自提”
+      <div class="content">1.在此展示您的所有可打印自提的提货单信息。 2.如果您要打印自提，请点击“打印自提”。<br>
+      <p style="color: red;">3.必须要提单过户后才能打印您的订单</p>
       </div>
     </div>
     <table id="dg" style="height: 385px;"></table>
