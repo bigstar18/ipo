@@ -80,6 +80,10 @@ function updatePickup(){
 	var flag= $('#frm').form('validate');
 	var stock=$("#stock").val();
 	var deliveryQuantity=$("#deliveryQuatity").val();
+	if(stock==''){
+		alert("库存为空，数据异常，请联系仓库管理员");
+		return;
+	}
 	if(stock<deliveryQuantity&&approvalStatus=='2'){
 		alert("库存不足，暂时无法通过审核!");
 		return ;
