@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+<link rel="stylesheet" href="../../skinstyle/default/css/common.css" type="text/css" />
 
 <script type="text/javascript">
 
@@ -29,8 +30,8 @@ function getAllInfo(){
          pageList:[5,10,15],  
          nowrap:true,  
          singleSelect:true,
-         striped:true,
-//          fitColumns=false,
+         striped:true, 
+         fitColumns:true,
          toolbar:"#tb",  
          url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
@@ -198,7 +199,7 @@ function getAllInfo(){
        	 	 }
          },{  
              field : 'test17',  
-             width : 200, 
+             width :400, 
              align: "center",
              title : '操作',
              formatter: function(value,row){
@@ -344,6 +345,8 @@ function ration(spoId) {
 </script>
 </head>
 <body>
+<table id="depositInfo">
+</table>
  <input type="hidden" id="hidSpoId" value=""/>
 
 
@@ -359,8 +362,7 @@ function ration(spoId) {
 		<td>		
 		<br />
 			<div class="div_list">
-				<table id="depositInfo">
-				</table>
+				
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >

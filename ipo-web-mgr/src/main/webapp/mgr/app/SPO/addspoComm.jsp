@@ -457,7 +457,7 @@ function doClose(){
 </head>
 <body>
 	<div class="warning">
-		<div class="content" style="height:100%">
+		<div class="content" style="height:80%;font-size:12px">
 			<span>温馨提示 :（比例配售下）</span>
 			<span> 1、最小配售数量指的是：增发的此商品数量如果不超过这个最小配售数量的话，就自动增发失败</span>
 			<span>2、最小配售比例指的是：增发给承销会员的最小比例不能小于这个设置</span>

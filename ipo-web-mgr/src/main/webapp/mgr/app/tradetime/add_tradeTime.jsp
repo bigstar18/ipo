@@ -256,7 +256,7 @@ else
 				</table>
 			</div>
 			<input type="hidden" id="tradeTimeType" name="tradeTimeType"  />
-			<div class="tab_pad" style="bottom: 250">
+			<div class="tab_pad" style="">
 				<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center">
 					<tr>
 						<td align="center">

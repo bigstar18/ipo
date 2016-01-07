@@ -40,13 +40,13 @@ function doSearch(){
 					break;
 				case 2:
 					$("#approvalStatus").val("市场通过");
-					$("#add").val("添加");
 					break;
 				case 3:
 					$("#approvalStatus").val("市场驳回");
 					break;
 				case 4:
 					$("#approvalStatus").val("已过户");
+					$("#add").val("添加");
 					break;
 				case 5:
 					$("#approvalStatus").val("打印");

@@ -157,27 +157,27 @@ function returntoList(){
 	           	<td align="center" colspan="2" style="color:red">（温馨提示：必须为商品绑定至少一个仓库）</td>
 	        </tr>  
 	        <tr>
-	        	<td align="right" width="40%">托管商品：</td>
+	        	<td align="right" style="font-size:15px" width="20%">托管商品：</td>
 	            <td align="left" width="60%">
 	                    <c:if test="${crud == 'create'}">
-	                   <input id="commodityname" name="commodityName"/>
+	                   <input style="width:150px;" id="commodityname" name="commodityName"/>
 	                   <span class="required">*</span>  
 	                    </c:if>
 	            		<c:if test="${crud == 'update'}">
-	            		<input type="text" id="commodityName" name="commodityName" style="ime-mode:disabled; width: 130;background-color: C0C0C0" readonly="readonly" value="<%=name %>" />
+	            		<input type="text" id="commodityName" name="commodityName" style="ime-mode:disabled; width:150px;background-color: C0C0C0" readonly="readonly" value="<%=name %>" />
 	            		</c:if>
 	            		<input type="hidden" id="commodityId" name="commodityId"  value="${commId }" />
 	            </td>
 	        </tr>   
 	        <tr>
-	        	<td align="right">仓库：</td>
+	        	<td style="font-size:15px" align="right">仓库：</td>
 	        	<td>
 	        	<c:forEach var="warehouse" items="${allWarehouse }" varStatus="status">
-                     <div style="width: 100px; float: left;">
-						<input type="checkbox" name="warehouse" class="NormalInput" value="${warehouse.id }"/>
-						<label class="hand">
+                     <div style="float:left;white-space:nowrap;display:inline-block;width:20%">
+						<input type="checkbox" name="warehouse" style="float:left" class="NormalInput" value="${warehouse.id }"/>
+						<label  style="padding-left:2px;padding-right:5px;padding-top:2px" class="hand">
 						<c:out value="${warehouse.warehousename }"/>
-						 </label>
+						</label>
 					</div>
 			    </c:forEach> 
 	        	

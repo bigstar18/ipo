@@ -184,7 +184,7 @@ function reSet(){
 </head>
 <body>
 	<div class="warning">
-		<div class="content" style="height:100%">
+		<div class="content" style="height:100%" style="font-size:12px">
 			<span>温馨提示 :</span>
 			<span>只有定向配售在此可以进行删除操作 </span>
 		</div>

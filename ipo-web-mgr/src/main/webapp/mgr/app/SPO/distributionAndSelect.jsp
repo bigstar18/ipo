@@ -112,11 +112,19 @@ $(document).ready(function(){
 	 	    var add = new Array();
 	 	    var update = new Array();
 	        for(var temp in rows){
+	        	if(rows[temp].salesAllocationratio==null||rows[temp].salesAllocationratio==''){
+	        		alert("承销商分配比例不能为空");
+	        		return;
+	        	}
+	        	if(rows[temp].salesRebateratio==null||rows[temp].salesRebateratio==''){
+	        		alert("承销商返佣比例不能为空");
+	        		return;
+	        	}
 	        	if(rows[temp].salesRebateratio>100){
 	        		alert("承销商返佣比例不能大于100");
 	        		return;
 	        	}
-	        	counts=parseInt(counts)+parseInt(rows[temp].salesAllocationratio);
+	        	counts=Number(counts)+Number(rows[temp].salesAllocationratio);
 	        	if(rows[temp].rationid==null){
 	        		add.push(rows[temp]);
 	        	}else{
@@ -236,11 +244,9 @@ function doClose(){
 	</div>
 
 	<form>
-		<div>
-		<table id="tt" width="95%" height="100" align="center">
-			
+		<div align="center">
+		<table id="tt" height="100" align="center">
 		</table>
-		
 		</div>
 		<div align="center" style="margin-top:20px">
 			<input type="button" class="btn_sec" id="close" onclick="doClose()" value="关闭">
