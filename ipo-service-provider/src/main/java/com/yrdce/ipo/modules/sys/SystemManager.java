@@ -380,7 +380,7 @@ public class SystemManager {
 
 		mapper.updateFundsFull(param);
 
-		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
+		BigDecimal monery = (BigDecimal) (param.get("monery"));
 		return monery;
 	}
 
