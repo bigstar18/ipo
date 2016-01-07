@@ -54,6 +54,8 @@ public class DisplayServiceImpl implements DisplayService {
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
 				BigDecimal sum = this.getFee(sId, monery, price);
+				logger.info("比例单价：" + sum);
+				logger.info("总金额：" + monery);
 				// 计算可购买多少
 				Integer number = (monery.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
 				return number;

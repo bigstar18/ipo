@@ -9,7 +9,12 @@ import java.util.Date;
  * @author Bob
  *
  */
-public class SpoRation implements Serializable{
+public class SpoRation implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Long rationid;
 
 	private String spoid;
@@ -24,9 +29,9 @@ public class SpoRation implements Serializable{
 
 	private BigDecimal servicefee;
 
-	private Long salesAllocationratio;
+	private BigDecimal salesAllocationratio;
 
-	private Long salesRebateratio;
+	private BigDecimal salesRebateratio;
 
 	private String firmname;
 
@@ -137,19 +142,19 @@ public class SpoRation implements Serializable{
 		this.servicefee = servicefee;
 	}
 
-	public Long getSalesAllocationratio() {
+	public BigDecimal getSalesAllocationratio() {
 		return salesAllocationratio;
 	}
 
-	public void setSalesAllocationratio(Long salesAllocationratio) {
+	public void setSalesAllocationratio(BigDecimal salesAllocationratio) {
 		this.salesAllocationratio = salesAllocationratio;
 	}
 
-	public Long getSalesRebateratio() {
+	public BigDecimal getSalesRebateratio() {
 		return salesRebateratio;
 	}
 
-	public void setSalesRebateratio(Long salesRebateratio) {
+	public void setSalesRebateratio(BigDecimal salesRebateratio) {
 		this.salesRebateratio = salesRebateratio;
 	}
 

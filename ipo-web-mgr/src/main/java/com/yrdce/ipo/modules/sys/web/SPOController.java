@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -286,8 +287,9 @@ public class SPOController {
 				spoRation.setFirmid(fiemid);
 				spoRation.setSalesid(spoRation.getBrokerid());
 				// 获取以配售总和
-				long proportion = spoRation.getSalesAllocationratio();
-				long sum = (long) (counts * ((double) proportion / 100));
+				BigDecimal proportion = spoRation.getSalesAllocationratio();
+				double pro = proportion.doubleValue();
+				long sum = (long) (counts * (pro / 100));
 				spoRation.setRationcounts(sum);
 				sum1 += sum;
 
@@ -319,6 +321,7 @@ public class SPOController {
 			Long sum1 = 0L;
 			String spoid = spoRationList.get(0).getSpoid();
 			long counts = spoService.circulation(spoid);
+			logger.info("增发总量：" + counts);
 			for (SpoRation spoRation : spoRationList) {
 				String brokerid = spoRation.getBrokerid();
 				String firmid = spoService.getFirmid(brokerid);
@@ -327,9 +330,9 @@ public class SPOController {
 				spoRation.setFirmid(firmid);
 				spoRation.setSalesid(brokerid);
 				// 获取以配售总和
-				long proportion = spoRation.getSalesAllocationratio();
+				BigDecimal proportion = spoRation.getSalesAllocationratio();
 				logger.info("承销商配售比例：" + proportion);
-				long sum = (long) (counts * ((double) proportion / 100));
+				long sum = (long) (counts * (proportion.doubleValue() / 100));
 				logger.info("承销商配售总数：" + sum);
 				spoRation.setRationcounts(sum);
 				sum1 += sum;
