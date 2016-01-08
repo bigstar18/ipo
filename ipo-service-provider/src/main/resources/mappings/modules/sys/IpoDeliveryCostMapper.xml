@@ -53,7 +53,7 @@
   </select>
   
   <select id="countsByCost" parameterType="map" resultType="java.lang.Integer">
-  select count(0) from ipo_deliveryorder a left join 
+  select count(0) from ipo_deliveryorder a right join 
 	ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
 	and a.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
