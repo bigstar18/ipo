@@ -95,8 +95,8 @@ $(document).ready(function() {
            	 if(value=='1') return "申请";
            	 if(value=='2') return "市场通过";
            	 if(value=='3') return "市场驳回";
-           	 if(value=='4') return "已过户";
-           	 if(value=='5') return "打印";
+           	 if(value=='4') return "已打印";
+           	 if(value=='5') return "已过户";
            	 if(value=='6') return "仓库通过";
            	 if(value=='7') return "仓库驳回";
            	 if(value=='8') return "已设置配置费用";
@@ -162,8 +162,8 @@ function clearInfo(){
 					<option value="1">申请</option>
 					<option value="2">市场通过</option>
 					<option value="3">市场驳回</option>
-					<option value="4">已过户</option>
-					<option value="5">打印</option>
+					<option value="4">已打印</option>
+					<option value="5">已过户</option>
 					<option value="6">仓库通过</option>
 					<option value="7">仓库驳回</option>
 					<option value="8">已设置配置费用</option>

@@ -419,7 +419,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	public Integer transferDeliveryOrder(String deliveryId) {
 		IpoDeliveryorder example = deliveryordermapper
 				.selectByPrimaryKey(deliveryId);
-		example.setApprovalStatus(4);// 已过户
+		example.setApprovalStatus(5);// 已过户
 		return deliveryordermapper.updateByPrimaryKey(example);
 	}
 

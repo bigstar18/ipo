@@ -47,10 +47,10 @@ function doSearch(){
 					$("#approvalStatus").val("市场驳回");
 					break;
 				case 4:
-					$("#approvalStatus").val("已过户");
+					$("#approvalStatus").val("已打印");
 					break;
 				case 5:
-					$("#approvalStatus").val("打印");
+					$("#approvalStatus").val("已过户");
 					break;
 				case 6:
 					$("#approvalStatus").val("仓库通过");
