@@ -109,7 +109,7 @@
 	      								<td width="110">
 	      								    <input id="idcardNum" type="text" name="idcardNum" value="${detail.idcardNum }" readonly="readonly"/>
 		          						</td>
-										<td align="right" width="110">当前仓库可用数量：</td>     
+										<td align="right" width="110">仓库可用数量：</td>     
             							<td width="110"> 
             							<input id="stock" type="hidden" name="stock" value="${stock }" >
             							<input id="pickupId" type="hidden" name="pickupId" value="${detail.pickupId }" >
@@ -140,7 +140,7 @@
 										</td>
 							        </tr> 
 							         <tr>
-							            <td align="right" width="90">当前仓库可用数量：</td>     
+							            <td align="right" width="90">仓库可用数量：</td>     
             							<td width="110">
             							<input id="stock" type="hidden" name="stock" value="${stock }" >
             							<input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
