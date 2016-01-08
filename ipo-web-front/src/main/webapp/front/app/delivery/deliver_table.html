@@ -6,10 +6,13 @@
   <title>提货信息</title>
   <script type="text/javascript" src="../../../static/jquery/jquery-1.8.0.min.js"></script>
   <script type="text/javascript" src="dickytest/vue.js"></script>
+  <style media=print type="text/css">
+    .noprint{visibility:hidden}
+  </style>
 </head>
 
 <body>
-  <input type="button" value="打印页面" onclick="printpage()" />
+  <input class="noprint" type="button" value="打印页面" onclick="printpage()" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
@@ -118,7 +121,17 @@
         success : function(response) {
           //console.log(response);
           var responseStr = $.parseJSON(response);
-          //console.log($.parseJSON(response));
+          $('#deliveryorderId').html(responseStr.deliveryorderId);
+          $('#commodityId').html(responseStr.commodityId);
+          $('#commodityName').html(responseStr.commodityName);
+          $('#warehouseName').html(responseStr.warehousename);
+          $('#deliveryQuatity').html(responseStr.deliveryQuatity);
+          $('#unit').html(responseStr.unit);
+          $('#deliveryDate').html(responseStr.deliveryDate);
+
+
+
+
           $('#idcardNum').html(responseStr.idcardNum);
           $('#pickupPassword').html(responseStr.pickupPassword);
 
