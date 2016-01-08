@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public interface SPOService {
 	public int updateByRation(SpoRation spoRation) throws Exception;
 
 	// 承销商配售信息插入(mgr)
-	public int insertByRation(SpoRation spoRation) throws Exception;
+	public int insertByRation(ArrayList<SpoRation> spoRationList) throws Exception;
 
 	// 增发查询总页数
 	public int spoCounts(SpoCommoditymanmaagement spoComm);

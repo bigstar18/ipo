@@ -261,7 +261,9 @@ public class TaskServiceImpl implements TaskService {
 		} else {
 			String commUnit = commodityConf.getContractfactorname();
 			BigDecimal unit = commodityConf.getUnits();
+			logger.info("配售单位" + unit);
 			BigDecimal counts = new BigDecimal(dst.getZcounts());
+			logger.info("中签数量：" + counts);
 			long num = (unit.multiply(counts)).intValue();
 			IpoPosition record = new IpoPosition();
 			record.setFirmid(dst.getUserid());

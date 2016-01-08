@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -277,40 +278,8 @@ public class SPOController {
 	public String addUnderwriterRationInfo(@RequestBody List<SpoRation> spoRationList) {
 		logger.info("承销商配售信息插入");
 		try {
-			int result1 = 0;
-			Long sum1 = 0L;
-			String spoid = spoRationList.get(0).getSpoid();
-			SpoCommoditymanmaagement spocomm = spoService.circulation(spoid);
-			long counts = spocomm.getSpoCounts();
-			long successration = spocomm.getSuccessRationCounts();
-			for (SpoRation spoRation : spoRationList) {
-				String brokerid = spoRation.getBrokerid();
-				String firmid = spoService.getFirmid(brokerid);
-				String firmname = spoService.getFirmname(firmid);
-				spoRation.setFirmname(firmname);
-				spoRation.setFirmid(firmid);
-				spoRation.setSalesid(brokerid);
-				// 获取以配售总和
-				BigDecimal proportion = spoRation.getSalesAllocationratio();
-				logger.info("插入承销商配售比例：" + proportion);
-				double pro = proportion.doubleValue();
-				long sum = (long) (counts * (pro / 100));
-				spoRation.setRationcounts(sum);
-				logger.info("插入承销商配售总数：" + sum);
-				sum1 += sum;
-
-				result1 += spoService.insertByRation(spoRation);
-			}
-			// 更新已配售和未配售
-			Long balance = counts - (sum1 + successration);
-			logger.info("插入共计和：" + sum1);
-			int result2 = spoService.updatePlscingNum(sum1, balance, spoid);
-
-			if (result1 >= 1 && result2 >= 1) {
-				return "success";
-			} else {
-				return "fail";
-			}
+			spoService.insertByRation((ArrayList) spoRationList);
+			return "success";
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.info("承销商配售信息插入", e);

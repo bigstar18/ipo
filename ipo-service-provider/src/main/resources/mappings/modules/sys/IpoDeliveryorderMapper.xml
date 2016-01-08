@@ -239,7 +239,8 @@
   select * from 
 	(select t.*,rownum TNO from
  		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d 
- 		where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}) t
+ 		where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}
+ 		and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
