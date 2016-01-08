@@ -16,7 +16,69 @@
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
-
+        <tr>
+          <td align="center" height="35">
+            <span>
+            提货单号：
+          </span>
+          </td>
+          <td align="center" id="deliveryorderId">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            商品代码：
+          </span>
+          </td>
+          <td align="center" id="commodityId">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            商品名称：
+          </span>
+          </td>
+          <td align="center" id="commodityName">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            交收仓库名称：
+          </span>
+          </td>
+          <td align="center" id="warehouseName">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            交割数量：
+          </span>
+          </td>
+          <td align="center" id="deliveryQuatity">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="35">
+            <span>
+            单位：
+          </span>
+          </td>
+          <td align="center" id="unit">
+          </td>
+        </tr>
+        <tr class="deliver">
+          <td align="center" height="35">
+            <span>
+            提货日期：
+          </span>
+          </td>
+          <td align="center" id="deliveryDate">
+          </td>
+        </tr>
 
         <tr class="deliver">
           <td align="center" height="35">
@@ -144,8 +206,7 @@
           $('#tel').html(responseStr.tel);
         },
         error: function(response) {
-          alert(response);
-          //console.log(response);
+          alert("请稍候再试");
         }
       });
 
