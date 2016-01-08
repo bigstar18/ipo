@@ -89,10 +89,7 @@ function doAdd(){
     	alert("提货单还未进行市场审核，无法过户！");
     	return ;
     }
-    if(appstatus!='市场通过'){
-    	alert("提货单未通过市场审核，无法过户！");
-    	return ;
-    }
+    if(appstatus=='市场通过'||appstatus=='已打印'){
 	var deliveryorderId = $("#deliveryorderId").val();
 	$.ajax({
 		type:"POST",
@@ -112,8 +109,10 @@ function doAdd(){
 				alert("系统异常!");
 			}
 		}
-		
 	});
+    }else{
+    	alert("提货单未通过市场审核，无法过户！");
+    }
 }
 
 function closeform(){
