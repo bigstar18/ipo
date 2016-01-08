@@ -100,8 +100,8 @@ public class OutBoundController {
 	public String updateOutBoundInfo(Outbound outbound,HttpSession session) {
 		try {
 			log.info("出库单审核");
-			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			outbound.setOperatorid(operatorid);
+			String auditorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			outbound.setAuditorid(auditorid);
 			int result = outboundService.updateOutBoundInfo(outbound);
 			if (result > 0) {
 				return "success";
