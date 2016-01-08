@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" disabled="disabled" />
+  <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" style="display: none;" />
 
     <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
       <tbody>
@@ -89,8 +89,12 @@
           </td>
         </tr>
         <tr id="pickupset">
-          <td colspan="2" align="center" height="35">
-            <input type="text" id="setpickuppwd" placeholder="请输入您的8位提货密码"
+          <td colspan="3" align="center" height="35">
+            <input type="password" id="setpickuppwd" placeholder="请输入您的8位提货密码"
+            onkeyup="value=value.replace(/[\W]/g,'') "
+            onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+            style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
+            <input type="password" id="checkpickuppwd" placeholder="请输入相同密码"
             onkeyup="value=value.replace(/[\W]/g,'') "
             onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
             style="width: 150px; border: 1px solid #95B8E7; border-radius: 5px; height: 20px; padding-left: 4px;" />
@@ -127,17 +131,16 @@
         $('#pickupPassword').html(responseStr.pickupPassword);
         $('#unit').html(responseStr.unit);
         $('#deliveryDate').html(responseStr.deliveryDate);
-        var cdata = $('#deliveryDate').text().substr(0, 10)
+        var cdata = $('#deliveryDate').text().substr(0, 10);
         $('#deliveryDate').html(cdata);
         if (responseStr.approvalStatus == 4 || responseStr.approvalStatus == 5) {
-          $('#printset').attr('disabled', false);
-        };
-        if (responseStr.pickupPassword == null) {
+          $('#printset').show();
+          $('#pickupshow').show();
+          $('#pickupset').hide();
+        }else{
+          $('#printset').hide();
           $('#pickupshow').hide();
           $('#pickupset').show();
-        }else {
-          $('#pickupset').hide();
-          $('#pickupshow').show();
         };
       },
       error: function(response) {
@@ -152,10 +155,14 @@
     var pickupPassword = $('#setpickuppwd').val();
     if ($('#setpickuppwd').val().length != 8) {
       alert("请输入八位有效密码");
+      return false;
+    }if ($('#setpickuppwd').val() != $('#checkpickuppwd').val()){
+      alert("请输入相同密码");
+      return false;
     }else{
       $.ajax({
         type: 'post',
-        // url: "",
+        url: "<%=request.getContextPath()%>/TransferController/setPassword",
         data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
         success : function(response) {
              if(response=='success'){
