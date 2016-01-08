@@ -106,6 +106,9 @@ function getAllInfo(){
                  case 3:
                 	 return "审核驳回";
                 	 break;
+                 case 4:
+                	 return "已出库";
+                	 break;
                  }
              }
          }, {  

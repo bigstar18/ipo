@@ -125,11 +125,6 @@ $(document).ready(function(){
 	        		return;
 	        	}
 	        	counts=Number(counts)+Number(rows[temp].salesAllocationratio);
-	        	if(rows[temp].rationid==null){
-	        		add.push(rows[temp]);
-	        	}else{
-	        		update.push(rows[temp]);
-	        	}
 	        }
      	   	if(counts>100){
      	   		alert("所分配的比例总和不能大于100");
@@ -144,31 +139,7 @@ $(document).ready(function(){
             			type:"POST",
             			url:"<%=request.getContextPath()%>/SPOController/addUnderwriterRationInfo",
             			contentType:"application/json", 
-                     	data:JSON.stringify(add),
-            			success:function(data){
-            				if(data=="fail"){
-            					alert("插入失败！");
-            					return;
-            				}else if(data=="error"){
-            					alert("系统异常！");
-            					return;
-            				}else if(data=="success"&&update.length==0){
-            					alert("分配成功！");
-            					parent.$("#dd").window("close");
-            					parent.$('#depositInfo').datagrid('reload');
-            					return;
-            				}
-            			}
-            		});
-            	}
-            	
-            	if(update.length!=0){
-            		$.ajax({
-            			traditional: true,
-            			type:"POST",
-            			url:"<%=request.getContextPath()%>/SPOController/updateUnderwriterRationInfo",
-            			contentType:"application/json", 
-                     	data:JSON.stringify(update),
+                     	data:JSON.stringify(rows),
             			success:function(data){
             				if(data=="fail"){
             					alert("插入失败！");
@@ -179,11 +150,14 @@ $(document).ready(function(){
             				}else if(data=="success"){
             					alert("分配成功！");
             					parent.$("#dd").window("close");
-            					parent.$('#depositInfo').datagrid('reload');
+            					parent.getAllInfo();
+            					return;
             				}
             			}
             		});
             	}
+            	
+            	
         }},
         '-',
         { text: '取消编辑', iconCls: 'icon-redo', handler: function () {

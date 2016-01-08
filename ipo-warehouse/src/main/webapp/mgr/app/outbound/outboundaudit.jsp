@@ -194,7 +194,7 @@ function audit(outboundorderid,outboundstate){
 			switch(data){
 			case "success":
 				alert("审核成功！");
-				$('#outboundinfo').datagrid('reload');
+				getAllInfo();
 				break;
 			case "fail":
 				alert("审核失败，请稍后再试！");

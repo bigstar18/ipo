@@ -20,8 +20,7 @@ public class IpoPickup {
 	}
 
 	public void setPickupPassword(String pickupPassword) {
-		this.pickupPassword = pickupPassword == null ? null : pickupPassword
-				.trim();
+		this.pickupPassword = pickupPassword == null ? null : pickupPassword.trim();
 	}
 
 	public String getIdcardNum() {

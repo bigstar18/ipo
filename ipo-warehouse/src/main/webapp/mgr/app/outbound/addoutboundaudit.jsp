@@ -30,7 +30,7 @@ function doSearch(){
 				$("#commodityid").val(data.commodityId);
 				$("#commodityname").val(data.commodityName);
 				$("#dealerName").val(data.dealerName);
-				$("#warehousename").val(data.warehouseName);
+				$("#warehouseName").val(data.warehousename);
 				$("#deliveryMethod").val(data.deliveryMethod);
 				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
@@ -45,11 +45,10 @@ function doSearch(){
 					$("#approvalStatus").val("市场驳回");
 					break;
 				case 4:
-					$("#approvalStatus").val("已过户");
-					$("#add").val("添加");
+					$("#approvalStatus").val("已打印");
 					break;
 				case 5:
-					$("#approvalStatus").val("打印");
+					$("#approvalStatus").val("已过户");
 					$("#add").val("添加");
 					break;
 				case 6:
@@ -97,7 +96,6 @@ function existOutboundId(){
 	var deliveryorderId = $("#deliveryorderId").val();
 	var url_="<%=request.getContextPath()%>/OutBoundController/getOutboundorder?deliveryorderId="+deliveryorderId;
 	$.get(url_,function(data){
-		alert(data);
 		 if(data==true){
 			 doAdd();
 		 }else{
@@ -113,7 +111,27 @@ function doAdd(){
 	var outboundstate = 1;
 	var outbounddate = $("#deliveryDate").val();
 	var warehouseid = $("#warehouseName").val();
-	var deliveryperson = $("#receiver").val();
+	var deliveryperson = $("#deliveryperson").val();
+	var sex=$("#sex").val();
+	var idtype = $("#idtype").val();
+	var idnum=$("#idnum").val();
+	if(deliveryperson==""){
+		alert("提货人不可为空！")
+		return;
+	}
+	if(sex==""){
+		alert("性别不可为空！");
+		return;
+	}
+	if(idtype==""){
+		alert("证件类型不可为空！");
+		return;
+	}
+	if(idnum=""){
+		alert("证件号不可为空！");
+		return;
+	}
+	
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/OutBoundController/addOutBoundOrder",
@@ -122,7 +140,10 @@ function doAdd(){
 			outboundstate:outboundstate,
 			outbounddate:outbounddate,
 			warehouseid:warehouseid,
-			deliveryperson:deliveryperson
+			deliveryperson:deliveryperson,
+			sex:sex,
+			idtype:idtype,
+			idnum:idnum
 		},
 		success:function(data){
 			if(data=="success"){
@@ -198,39 +219,62 @@ function doClick(){
 											</td>
 											<td align="center">
 											商品名称：
-											<input id="commodityname" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="commodityname" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											交易商名称：
-											<input id="dealerName" class="easyui-text" style="width:160px;height:20px;margin-right:12px">
+											<input readonly="readonly" id="dealerName" class="easyui-text" style="width:160px;height:20px;margin-right:12px">
 											</td>
 											<td align="center">
 											仓库名称：
-											<input id="warehouseName" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="warehouseName" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											提货方式：
-											<input id="deliveryMethod" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryMethod" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											提货日期：
-											<input id="deliveryDate" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryDate" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											交割数量：
-											<input id="deliveryQuatity" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryQuatity" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											审批状态：
-											<input id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
 											</td>
 										</tr>
+										
+										<tr>
+											<td align="center">
+											提货人：
+											<input id="deliveryperson" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											性别：
+											<input id="sex" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										
+										<tr>
+											<td align="center">
+											证件类型：
+											<input  id="idtype" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+											<td align="center">
+											证件号码：
+											<input id="idnum" class="easyui-text" style="width:160px;height:20px;">
+											</td>
+										</tr>
+										
 										<tr class="ps"> 
 											<td align="center">
 											快递费用：

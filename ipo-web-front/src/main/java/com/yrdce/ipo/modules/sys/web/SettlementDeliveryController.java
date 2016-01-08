@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -205,7 +206,9 @@ public class SettlementDeliveryController {
 	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status);
+			if (status == "2") {
+				settlementDeliveryService.updateRevocationStatus(deliveryorderid, "4");
+			}
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -258,17 +261,24 @@ public class SettlementDeliveryController {
 	@RequestMapping(value = "/detail", method = RequestMethod.POST)
 	@ResponseBody
 	public String detail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
-		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
+		logger.info("提货查询详细" + "methodid:" + methodid);
 		try {
 			if (deliveryMethod.equals("1")) {
 				Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
-				return JSON.json(pickup);
+				DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("自提", methodid);
+				List<Object> list = new ArrayList<Object>();
+				list.add(deliveryOrder);
+				list.add(pickup);
+				return JSON.json(list);
 			} else {
 				Express express = settlementDeliveryService.getDetailByExpress(methodid);
-				return JSON.json(express);
+				DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("在线配送", methodid);
+				List<Object> list = new ArrayList<Object>();
+				list.add(deliveryOrder);
+				list.add(express);
+				return JSON.json(list);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}

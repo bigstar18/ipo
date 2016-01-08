@@ -280,23 +280,30 @@ public class SPOController {
 			int result1 = 0;
 			Long sum1 = 0L;
 			String spoid = spoRationList.get(0).getSpoid();
-			long counts = spoService.circulation(spoid);
+			SpoCommoditymanmaagement spocomm = spoService.circulation(spoid);
+			long counts = spocomm.getSpoCounts();
+			long successration = spocomm.getSuccessRationCounts();
 			for (SpoRation spoRation : spoRationList) {
 				String brokerid = spoRation.getBrokerid();
-				String fiemid = spoService.getFirmid(brokerid);
-				spoRation.setFirmid(fiemid);
-				spoRation.setSalesid(spoRation.getBrokerid());
+				String firmid = spoService.getFirmid(brokerid);
+				String firmname = spoService.getFirmname(firmid);
+				spoRation.setFirmname(firmname);
+				spoRation.setFirmid(firmid);
+				spoRation.setSalesid(brokerid);
 				// 获取以配售总和
 				BigDecimal proportion = spoRation.getSalesAllocationratio();
+				logger.info("插入承销商配售比例：" + proportion);
 				double pro = proportion.doubleValue();
 				long sum = (long) (counts * (pro / 100));
 				spoRation.setRationcounts(sum);
+				logger.info("插入承销商配售总数：" + sum);
 				sum1 += sum;
 
 				result1 += spoService.insertByRation(spoRation);
 			}
 			// 更新已配售和未配售
-			Long balance = counts - sum1;
+			Long balance = counts - (sum1 + successration);
+			logger.info("插入共计和：" + sum1);
 			int result2 = spoService.updatePlscingNum(sum1, balance, spoid);
 
 			if (result1 >= 1 && result2 >= 1) {
@@ -311,7 +318,7 @@ public class SPOController {
 		}
 	}
 
-	// 承销商配售信息修改
+	// 承销商配售信息修改(暂不用)
 	@RequestMapping(value = "/updateUnderwriterRationInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String updateUnderwriterRationInfo(@RequestBody List<SpoRation> spoRationList) {
@@ -320,8 +327,8 @@ public class SPOController {
 		try {
 			Long sum1 = 0L;
 			String spoid = spoRationList.get(0).getSpoid();
-			long counts = spoService.circulation(spoid);
-			logger.info("增发总量：" + counts);
+			long counts = spoService.circulation(spoid).getSpoCounts();
+			logger.info("更新增发总量：" + counts);
 			for (SpoRation spoRation : spoRationList) {
 				String brokerid = spoRation.getBrokerid();
 				String firmid = spoService.getFirmid(brokerid);
@@ -331,15 +338,15 @@ public class SPOController {
 				spoRation.setSalesid(brokerid);
 				// 获取以配售总和
 				BigDecimal proportion = spoRation.getSalesAllocationratio();
-				logger.info("承销商配售比例：" + proportion);
+				logger.info("更新承销商配售比例：" + proportion);
 				long sum = (long) (counts * (proportion.doubleValue() / 100));
-				logger.info("承销商配售总数：" + sum);
+				logger.info("更新承销商配售总数：" + sum);
 				spoRation.setRationcounts(sum);
 				sum1 += sum;
 				result1 += spoService.updateByRation(spoRation);
 			}
 			Long balance = counts - sum1;
-			logger.info("共计和：" + sum1);
+			logger.info("更新共计和：" + sum1);
 			int result2 = spoService.updatePlscingNum(sum1, balance, spoid);
 
 			if (result1 >= 1 && result2 >= 1) {

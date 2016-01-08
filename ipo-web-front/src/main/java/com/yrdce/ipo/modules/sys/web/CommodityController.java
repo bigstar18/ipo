@@ -231,7 +231,7 @@ public class CommodityController {
 	@ResponseBody
 	public String getUserInfo(HttpSession session) throws IOException {
 		try {
-			String userid = "888";// ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			return displayService.userInfo(userid);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -270,7 +270,7 @@ public class CommodityController {
 	public String purchApply(@RequestParam("commodityid") String commodityid, HttpSession session, @RequestParam("quantity") String quantity,
 			@RequestParam("id") String id) {
 		try {
-			String userid = "888";// ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity + " " + id);
 			return purchase.apply(userid, commodityid, Integer.parseInt(quantity), Integer.parseInt(id)) + "";
 		} catch (Exception e) {
