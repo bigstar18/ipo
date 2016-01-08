@@ -60,7 +60,7 @@
             width: 100,
             align: 'center'
           }, {
-            field: 'warehousename',
+            field: 'warehouseName',
             title: '交收仓库名称',
             width: 100,
             align: 'center'

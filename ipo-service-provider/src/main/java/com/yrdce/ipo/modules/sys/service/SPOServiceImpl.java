@@ -220,7 +220,7 @@ public class SPOServiceImpl implements SPOService {
 		return list2;
 	}
 
-	// 更新承销商配售比例
+	// 更新承销商配售比例<暂不用>
 	@Override
 	@Transactional
 	public int updateByRation(SpoRation spoRation) throws Exception {
@@ -233,11 +233,51 @@ public class SPOServiceImpl implements SPOService {
 	// 分配承销商配售比例
 	@Override
 	@Transactional
-	public int insertByRation(SpoRation spoRation) throws Exception {
+	public int insertByRation(ArrayList<SpoRation> spoRationList) throws Exception {
 		logger.info("分配承销商配售比例");
-		IpoSpoRation ipoSpoRation = new IpoSpoRation();
-		BeanUtils.copyProperties(spoRation, ipoSpoRation);
-		return ipoSpoRationMapper.insert(ipoSpoRation);
+		int result = 0;
+		int sum = 0;
+		String spoid = spoRationList.get(0).getSpoid();
+		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		long counts = ipoSPOComm.getSpoCounts();
+		for (SpoRation spoRation : spoRationList) {
+			IpoSpoRation ipoSpoRation = new IpoSpoRation();
+			BeanUtils.copyProperties(spoRation, ipoSpoRation);
+			String rationid = ipoSpoRation.getRationid().toString();
+			logger.info("dfrferferferferferferfre" + rationid);
+			if (rationid.equals("0")) {
+				String brokerid = ipoSpoRation.getBrokerid();
+				String firmid = ipoSpoRationMapper.firmidBySales(brokerid);
+				String firmname = ipoSpoRationMapper.selectFirmname(firmid);
+				ipoSpoRation.setFirmname(firmname);
+				ipoSpoRation.setFirmid(firmid);
+				ipoSpoRation.setSalesid(brokerid);
+				// 获取以配售总和
+				BigDecimal proportion = ipoSpoRation.getSalesAllocationratio();
+				logger.info("插入承销商配售比例：" + proportion);
+				double pro = proportion.doubleValue();
+				long sumparam = (long) (counts * (pro / 100));
+				spoRation.setRationcounts(sumparam);
+				logger.info("插入承销商配售总数：" + sumparam);
+				sum += sumparam;
+				result += ipoSpoRationMapper.insert(ipoSpoRation);
+			} else {
+				// 获取以配售总和
+				BigDecimal proportion = ipoSpoRation.getSalesAllocationratio();
+				logger.info("更新承销商配售比例：" + proportion);
+				double pro = proportion.doubleValue();
+				long sumparam = (long) (counts * (pro / 100));
+				spoRation.setRationcounts(sumparam);
+				logger.info("更新承销商配售总数：" + sumparam);
+				sum += sumparam;
+				result += ipoSpoRationMapper.updateByPrimaryKey(ipoSpoRation);
+			}
+		}
+		// 更新已配售和未配售
+		Long balance = counts - sum;
+		logger.info("共计和：" + sum);
+		ipoSPOCommMapper.updatePlscingNum(sum, balance, spoid);
+		return result;
 	}
 
 	// 分页获取配售信息
@@ -314,7 +354,7 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSPOCommMapper.updateByComm(ipospoComm);
 	}
 
-	// 根据增发ID查询增发总量
+	// 根据增发ID查询增发总量<暂不用>
 	@Override
 	public SpoCommoditymanmaagement circulation(String spoid) throws Exception {
 		logger.info("根据增发ID查询增发总量" + "spoid:" + spoid);
@@ -333,12 +373,13 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSPOCommMapper.updatePlscingNum(success, balance, spoid);
 	}
 
-	// 根据会员id查询交易商id
+	// 根据会员id查询交易商id<暂不用>
 	@Override
 	public String getFirmid(String brokerid) {
 		return ipoSpoRationMapper.firmidBySales(brokerid);
 	}
 
+	// <暂不用>
 	@Override
 	public String getFirmname(String firmid) {
 		return ipoSpoRationMapper.selectFirmname(firmid);
