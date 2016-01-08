@@ -124,6 +124,9 @@ $(document).ready(function(){
 	        		alert("承销商返佣比例不能大于100");
 	        		return;
 	        	}
+	        	if(rows[temp].rationid==null||rows[temp].rationid==""){
+	        		rows[temp].rationid="null";
+	        	}
 	        	counts=Number(counts)+Number(rows[temp].salesAllocationratio);
 	        }
      	   	if(counts>100){

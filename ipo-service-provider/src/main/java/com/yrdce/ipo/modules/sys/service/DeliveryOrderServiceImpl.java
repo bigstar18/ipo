@@ -29,8 +29,7 @@ import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 @Service("deliveryorderservice")
 public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(DeliveryOrderServiceImpl.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DeliveryOrderServiceImpl.class);
 
 	@Autowired
 	private IpoDeliveryorderMapper deliveryordermapper;
@@ -51,8 +50,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		return deliveryordermapper;
 	}
 
-	public void setDeliveryordermapper(
-			IpoDeliveryorderMapper deliveryordermapper) {
+	public void setDeliveryordermapper(IpoDeliveryorderMapper deliveryordermapper) {
 		this.deliveryordermapper = deliveryordermapper;
 	}
 
@@ -74,8 +72,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DeliveryOrder> queryAllDeliOrdersByPage(String page,
-			String rows, DeliveryOrder deorder) {
+	public List<DeliveryOrder> queryAllDeliOrdersByPage(String page, String rows, DeliveryOrder deorder) {
 		Log.info("分页模糊查询提货单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -85,8 +82,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, record);
 			List<IpoDeliveryorder> dorderslist = deliveryordermapper
-					.queryAllDeliOrdersByPage((curpage - 1) * pagesize + 1,
-							curpage * pagesize, record);
+					.queryAllDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage * pagesize, record);
 			List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
 			for (int i = 0; i < dorderslist.size(); i++) {
 				DeliveryOrder temp = new DeliveryOrder();
@@ -113,8 +109,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	public DeliveryOrder getDeliveryOrderByDeliOrderID(String deliOrderID) {
 		Log.info("根据提货单号查询提货单");
-		IpoDeliveryorder deorder = deliveryordermapper
-				.selectByPrimaryKey(deliOrderID);
+		IpoDeliveryorder deorder = deliveryordermapper.selectByPrimaryKey(deliOrderID);
 		if (deorder != null) {
 			DeliveryOrder order = new DeliveryOrder();
 			BeanUtils.copyProperties(deorder, order);
@@ -126,8 +121,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup,
-			String managerId) {
+	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup, String managerId) {
 		Log.info("审核自提提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		IpoPickup ipopickup = new IpoPickup();
@@ -142,9 +136,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					ipopickupmapper.updateByPrimaryKey(ipopickup);
 					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
-					IpoWarehouseStock stock = ipoWarehouseStockMapper
-							.selectByCommoId(commid,
-									Long.parseLong(deorder.getWarehouseId()));
+					IpoWarehouseStock stock = ipoWarehouseStockMapper.selectByCommoId(commid,
+							Long.parseLong(deorder.getWarehouseId()));
 					if (stock != null) {
 						Long frozennum = stock.getForzennum();
 						Long available = stock.getAvailablenum();
@@ -160,8 +153,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					long quatity = order.getDeliveryQuatity();
 					String firmid = order.getDealerId();
 					String commid = order.getCommodityId();
-					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
-							firmid, commid);
+					IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid, commid);
 					long position = ipoPosition.getPosition();
 					long num = position + quatity;
 					ipopositionmapper.updatePosition(firmid, commid, num);
@@ -176,8 +168,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Express express,
-			String managerId) {
+	public String updateDeliveryOrder(DeliveryOrder order, Express express, String managerId) {
 		Log.info("审核配送提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		IpoExpress ipoexpress = new IpoExpress();
@@ -192,9 +183,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					ipoexpressmapper.updateByPrimaryKey(ipoexpress);
 					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
-					IpoWarehouseStock stock = ipoWarehouseStockMapper
-							.selectByCommoId(commid,
-									Long.parseLong(deorder.getWarehouseId()));
+					IpoWarehouseStock stock = ipoWarehouseStockMapper.selectByCommoId(commid,
+							Long.parseLong(deorder.getWarehouseId()));
 					Long frozennum = stock.getForzennum();
 					Long available = stock.getAvailablenum();
 					Long newfrozen = frozennum + quantity;
@@ -208,8 +198,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					long quatity = order.getDeliveryQuatity();
 					String firmid = order.getDealerId();
 					String commid = order.getCommodityId();
-					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
-							firmid, commid);
+					IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid, commid);
 					long position = ipoPosition.getPosition();
 					long num = position + quatity;
 					ipopositionmapper.updatePosition(firmid, commid, num);
@@ -251,9 +240,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> dorderslist = deliveryordermapper
-				.cancelDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage
-						* pagesize);
+		List<IpoDeliveryorder> dorderslist = deliveryordermapper.cancelDeliOrdersByPage((curpage - 1) * pagesize + 1,
+				curpage * pagesize);
 		List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
 		for (int i = 0; i < dorderslist.size(); i++) {
 			DeliveryOrder temp = new DeliveryOrder();
@@ -273,15 +261,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Transactional
 	public String cancelDeorder(String deOrderId, String cancellId) {
 		deliveryordermapper.cancelDeorder(deOrderId, cancellId);
-		IpoDeliveryorder deorder = deliveryordermapper
-				.selectByPrimaryKey(deOrderId);
+		IpoDeliveryorder deorder = deliveryordermapper.selectByPrimaryKey(deOrderId);
 		if (deorder != null) {
 			Integer status = deorder.getApprovalStatus();
 			long quatity = deorder.getDeliveryQuatity();// 撤销返还持仓量
 			String firmid = deorder.getDealerId();
 			String commid = deorder.getCommodityId();
-			IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid,
-					commid);
+			IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid, commid);
 			long position = ipoPosition.getPosition();
 			long num = position + quatity;
 			ipopositionmapper.updatePosition(firmid, commid, num);
@@ -293,8 +279,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	@Override
-	public List<DeliveryOrder> queryCancelDeliOrdersByPage(String page,
-			String rows, DeliveryOrder deorder) {
+	public List<DeliveryOrder> queryCancelDeliOrdersByPage(String page, String rows, DeliveryOrder deorder) {
 		Log.info("分页模糊查询提货单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -304,8 +289,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		if (deorder != null) {
 			BeanUtils.copyProperties(deorder, record);
 			List<IpoDeliveryorder> dorderslist = deliveryordermapper
-					.queryCancelDeliOrdersByPage((curpage - 1) * pagesize + 1,
-							curpage * pagesize, record);
+					.queryCancelDeliOrdersByPage((curpage - 1) * pagesize + 1, curpage * pagesize, record);
 			List<DeliveryOrder> dorderslist2 = new ArrayList<DeliveryOrder>();
 			for (int i = 0; i < dorderslist.size(); i++) {
 				DeliveryOrder temp = new DeliveryOrder();
@@ -332,9 +316,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		final int maxNum = 36;
 		int i;
 		int count = 0;
-		char[] str = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-				'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		char[] str = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+				't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 		StringBuffer pwd = new StringBuffer("");
 		Random r = new Random();
@@ -357,8 +340,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		IpoDeliveryorder delivery = new IpoDeliveryorder();
 		DeliveryOrder deliveryOrder = new DeliveryOrder();
 		BeanUtils.copyProperties(order, delivery);
-		IpoDeliveryorder temporder = deliveryordermapper
-				.getPickupDeliveryInfo(delivery);
+		IpoDeliveryorder temporder = deliveryordermapper.getPickupDeliveryInfo(delivery);
 		if (temporder != null) {
 			BeanUtils.copyProperties(temporder, deliveryOrder);
 		}
@@ -371,8 +353,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		DeliveryOrder deliveryOrder = new DeliveryOrder();
 
 		BeanUtils.copyProperties(order, delivery);
-		IpoDeliveryorder temporder = deliveryordermapper
-				.getExpressDeliveryInfo(delivery);
+		IpoDeliveryorder temporder = deliveryordermapper.getExpressDeliveryInfo(delivery);
 		if (temporder != null) {
 			BeanUtils.copyProperties(temporder, deliveryOrder);
 		}
@@ -381,44 +362,35 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	/**
 	 * li
-	 * */
+	 */
 	@Override
 	@Transactional
 	public int updateStatus(DeliveryOrder deliveryOrder, String outboundorderid) {
-		int result = 0;
-		int result1 = 0;
-		int result3 = 0;
+
 		IpoDeliveryorder deliveryorder2 = new IpoDeliveryorder();
-		if (deliveryorder2 != null) {
-			IpoDeliveryorder deliveryorder3 = deliveryordermapper
+		if (deliveryOrder != null) {
+			IpoDeliveryorder deliveryorderInfo = deliveryordermapper
 					.selectByPrimaryKey(deliveryOrder.getDeliveryorderId());
-			String tempCommId = deliveryorder3.getCommodityId();
-			String wareHouseId = deliveryorder3.getWarehouseId();
-			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
-					.selectByCommoId(tempCommId, Long.parseLong(wareHouseId));
-			long num = ipoWarehouseStock.getAvailablenum()
-					- deliveryorder3.getDeliveryQuatity();
-			long num2 = ipoWarehouseStock.getOutboundnum()
-					+ deliveryorder3.getDeliveryQuatity();
-			ipoWarehouseStock.setAvailablenum(num);
-			ipoWarehouseStock.setAvailablenum(num2);
+			String tempCommId = deliveryorderInfo.getCommodityId();
+			String wareHouseId = deliveryorderInfo.getWarehouseId();
+			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper.selectByCommoId(tempCommId,
+					Long.parseLong(wareHouseId));
+			long forzennum = ipoWarehouseStock.getForzennum() - deliveryorderInfo.getDeliveryQuatity();
+			long outboundnum = ipoWarehouseStock.getOutboundnum() + deliveryorderInfo.getDeliveryQuatity();
+			ipoWarehouseStock.setForzennum(forzennum);
+			ipoWarehouseStock.setOutboundnum(outboundnum);
 			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);
-			result = deliveryordermapper.updateStatus(deliveryorder2);
-			result1 = ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
-			result3 = ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
+			deliveryordermapper.updateStatus(deliveryorder2);
+			ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
+			ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
 		}
-		if (result > 0 && result1 > 0 && result3 > 0) {
-			return 1;
-		} else {
-			return 0;
-		}
+		return 1;
 	}
 
 	@Override
 	@Transactional
 	public Integer transferDeliveryOrder(String deliveryId) {
-		IpoDeliveryorder example = deliveryordermapper
-				.selectByPrimaryKey(deliveryId);
+		IpoDeliveryorder example = deliveryordermapper.selectByPrimaryKey(deliveryId);
 		example.setApprovalStatus(5);// 已过户
 		return deliveryordermapper.updateByPrimaryKey(example);
 	}
