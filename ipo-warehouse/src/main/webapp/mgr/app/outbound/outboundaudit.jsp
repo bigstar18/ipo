@@ -111,14 +111,9 @@ function getAllInfo(){
              }
          }, {  
              field : 'outbounddate',  
-             width : 200, 
+             width : 250, 
              align: "center",
-             title : '出库时间',
-             formatter: function(value,row){
-            	 if(value!=null){
-                 	return value.substr(0,10);
-            	 }
-             }
+             title : '出库时间'
          }, {  
              field : 'operatorid',  
              width : 200, 

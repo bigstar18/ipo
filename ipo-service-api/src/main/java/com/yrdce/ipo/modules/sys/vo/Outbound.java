@@ -16,7 +16,7 @@ public class Outbound implements Serializable {
 
 	private Integer outboundstate;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date outbounddate;
 
 	private String operatorid;
@@ -38,8 +38,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setOutboundorderid(String outboundorderid) {
-		this.outboundorderid = outboundorderid == null ? null : outboundorderid
-				.trim();
+		this.outboundorderid = outboundorderid == null ? null : outboundorderid.trim();
 	}
 
 	public String getDeliveryorderid() {
@@ -47,8 +46,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setDeliveryorderid(String deliveryorderid) {
-		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid
-				.trim();
+		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid.trim();
 	}
 
 	public Integer getOutboundstate() {
@@ -96,8 +94,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setDeliveryperson(String deliveryperson) {
-		this.deliveryperson = deliveryperson == null ? null : deliveryperson
-				.trim();
+		this.deliveryperson = deliveryperson == null ? null : deliveryperson.trim();
 	}
 
 	public String getSex() {
