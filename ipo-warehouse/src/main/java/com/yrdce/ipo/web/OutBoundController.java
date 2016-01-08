@@ -1,5 +1,6 @@
 package com.yrdce.ipo.web;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -37,21 +38,19 @@ public class OutBoundController {
 	private DeliveryOrderService deliveryOrderService;
 	@Autowired
 	private IpoStorageService ipoStorageService;
-	
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(OutBoundController.class);
+
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OutBoundController.class);
 
 	@RequestMapping(value = "/geOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String geOutBoundInfo(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, OutboundExtended outbound,HttpSession session) {
+	public String geOutBoundInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			OutboundExtended outbound, HttpSession session) {
 		try {
 			System.out.println("start");
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			Long wareHouseId=ipoStorageService.getWarehousePrimary(operatorid);
+			Long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
 			outbound.setWarehouseid(String.valueOf(wareHouseId));
-			List<OutboundExtended> slist = outboundService.getAllOutboundInfo(
-					page, rows, outbound);
+			List<OutboundExtended> slist = outboundService.getAllOutboundInfo(page, rows, outbound);
 			int counts = outboundService.getTotalNum(outbound);
 			ResponseResult result = new ResponseResult();
 			result.setRows(slist);
@@ -66,19 +65,17 @@ public class OutBoundController {
 
 	@RequestMapping(value = "/getDeliveryInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getDeliveryInfo(DeliveryOrder order,HttpSession session) {
+	public String getDeliveryInfo(DeliveryOrder order, HttpSession session) {
 		try {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			Long wareHouseId=ipoStorageService.getWarehousePrimary(operatorid);
+			Long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
 			order.setWarehouseId(String.valueOf(wareHouseId));
 			if (!order.getPickupPassword().equals("")) {
-				deliveryOrder = deliveryOrderService
-						.getPickupDeliveryInfo(order);
+				deliveryOrder = deliveryOrderService.getPickupDeliveryInfo(order);
 			} else {
-				deliveryOrder = deliveryOrderService
-						.getExpressDeliveryInfo(order);
+				deliveryOrder = deliveryOrderService.getExpressDeliveryInfo(order);
 			}
 			System.out.println(deliveryOrder);
 			if (deliveryOrder != null) {
@@ -97,9 +94,12 @@ public class OutBoundController {
 	// 出库单审核
 	@RequestMapping(value = "/updateOutBoundInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateOutBoundInfo(Outbound outbound,HttpSession session) {
+	public String updateOutBoundInfo(Outbound outbound, HttpSession session) {
 		try {
 			log.info("出库单审核");
+			long dateNow = new Date().getTime();
+			Date date = new Date(dateNow);
+			outbound.setOutbounddate(date);
 			String auditorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			outbound.setAuditorid(auditorid);
 			int result = outboundService.updateOutBoundInfo(outbound);
@@ -117,13 +117,13 @@ public class OutBoundController {
 	// 出库单添加
 	@RequestMapping(value = "/addOutBoundOrder", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String addOutBoundOrder(Outbound outBound,HttpSession session){
+	public String addOutBoundOrder(Outbound outBound, HttpSession session) {
 		try {
 			log.info("出库单添加");
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
 			outBound.setWarehouseid(String.valueOf(wareHouseId));
-			outBound.setOperatorid("1");
+			outBound.setOperatorid(operatorid);
 			int result = outboundService.addOutBoundOrder(outBound);
 			if (result == 1) {
 				return "success";
@@ -136,42 +136,42 @@ public class OutBoundController {
 			return "error";
 		}
 	}
-	
-	//修改提货单状态
+
+	// 修改提货单状态
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSate(@RequestParam("deliveryorderId")String deliveryorderId,
-			@RequestParam("outboundorderid")String outboundorderid){
+	public String updateSate(@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("outboundorderid") String outboundorderid) {
 		try {
 			log.info("确认出库");
-			DeliveryOrder  deliveryOrder= new DeliveryOrder();
+			DeliveryOrder deliveryOrder = new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
 			deliveryOrder.setApprovalStatus(11);
-			int result = deliveryOrderService.updateStatus(deliveryOrder,outboundorderid);
-			if (result==1) {
+			int result = deliveryOrderService.updateStatus(deliveryOrder, outboundorderid);
+			if (result == 1) {
 				return "success";
-			}else{
+			} else {
 				return "fail";
 			}
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error("修改出库单状态",e);
-			return "error";
-		}
-	}
-	
-	@RequestMapping(value = "/getOutboundorder")
-	@ResponseBody
-	public boolean getOutboundorder(@RequestParam("deliveryorderId")String outboundId){
-		try {
-			log.info("验证出库单是否存在");
-			Outbound outBound= outboundService.getOutboundOrder(outboundId);
-				return outBound==null;
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			log.error("验证出库单是否存在",e);
+			log.error("修改出库单状态", e);
+			return "error";
+		}
+	}
+
+	@RequestMapping(value = "/getOutboundorder")
+	@ResponseBody
+	public boolean getOutboundorder(@RequestParam("deliveryorderId") String outboundId) {
+		try {
+			log.info("验证出库单是否存在");
+			Outbound outBound = outboundService.getOutboundOrder(outboundId);
+			return outBound == null;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("验证出库单是否存在", e);
 			return false;
 		}
 	}
