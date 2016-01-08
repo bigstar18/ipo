@@ -93,10 +93,10 @@
             提货日期：
           </span>
           </td>
-          <td align="center" id="deliveryDate"> 
+          <td align="center" id="deliveryDate">
           </td>
         </tr>
-        
+
         <tr id="pickupset">
           <td colspan="3" align="center" height="35">
             <input type="password" id="setpickuppwd" placeholder="请输入您的8位提货密码"
@@ -143,15 +143,8 @@
         $('#deliveryDate').html(responseStr.deliveryDate);
         var cdata = $('#deliveryDate').text().substr(0, 10);
         $('#deliveryDate').html(cdata);
-        if (responseStr.approvalStatus == 4 || responseStr.approvalStatus == 5) {
-          $('#printset').show();
-          $('#pickupshow').show();
-          $('#pickupset').hide();
-        }else{
-          $('#printset').hide();
-          $('#pickupshow').hide();
-          $('#pickupset').show();
-        };
+        $('#printset').show();
+        $('#pickupshow').show();
       },
       error: function(response) {
         alert("加载失败，请刷新重试");
