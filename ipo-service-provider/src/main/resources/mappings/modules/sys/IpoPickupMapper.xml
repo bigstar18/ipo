@@ -25,10 +25,11 @@
       IDCARD_NUM = #{idcardNum,jdbcType=VARCHAR}
     where PICKUP_ID = #{pickupId,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM
-    from IPO_PICKUP
-    where PICKUP_ID = #{pickupId,jdbcType=VARCHAR}
+  <select id="selectByPrimaryKey" resultType="com.yrdce.ipo.modules.sys.entity.IpoPickup" parameterType="java.lang.String">
+    select PICKUP_PASSWORD,
+       PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM
+  from IPO_PICKUP pickup
+ where PICKUP_ID = #{pickupId, jdbcType = VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select PICKUP_ID, PICKUP_PASSWORD, IDCARD_NUM

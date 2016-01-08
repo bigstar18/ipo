@@ -67,7 +67,7 @@ public interface SPOService {
 	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
 
 	// 获取增发总量
-	public long circulation(String spoid) throws Exception;
+	public SpoCommoditymanmaagement circulation(String spoid) throws Exception;
 
 	// 更新已配售和未配售
 	public int updatePlscingNum(Long success, Long balance, String spoid) throws Exception;

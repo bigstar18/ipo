@@ -316,10 +316,12 @@ public class SPOServiceImpl implements SPOService {
 
 	// 根据增发ID查询增发总量
 	@Override
-	public long circulation(String spoid) throws Exception {
+	public SpoCommoditymanmaagement circulation(String spoid) throws Exception {
 		logger.info("根据增发ID查询增发总量" + "spoid:" + spoid);
 		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		return ipoSPOComm.getSpoCounts();
+		SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
+		BeanUtils.copyProperties(ipoSPOComm, spoComm);
+		return spoComm;
 	}
 
 	// 更新已配售和未配售

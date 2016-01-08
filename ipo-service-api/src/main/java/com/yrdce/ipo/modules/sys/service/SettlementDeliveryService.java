@@ -61,4 +61,7 @@ public interface SettlementDeliveryService {
 	// 费用页数
 	public int countsByCost(Paging paging) throws Exception;
 
+	// 根据提货方式和提货id查申请主表
+	public DeliveryOrder getorder(String method, String id);
+
 }

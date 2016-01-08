@@ -85,9 +85,10 @@
             提货日期：
           </span>
           </td>
-          <td align="center" id="deliveryDate">
+          <td align="center" id="deliveryDate"> 
           </td>
         </tr>
+        
         <tr id="pickupset">
           <td colspan="3" align="center" height="35">
             <input type="password" id="setpickuppwd" placeholder="请输入您的8位提货密码"
@@ -182,11 +183,12 @@
   //点击打印
   function printpage() {
  	  var deliveryorderid = $('#deliveryorderId').html();
+ 	  var approvalStatus = $('#approvalStatus').val();
   	  $.ajax({
   			 type: 'post',
   		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
   		     data:{"deliveryorderid":deliveryorderid,
-  		    	 	"status":"5"
+  		    	 	"status":"4"
   		    	  },
   		     success : function(data) {
   			           if(data=='success'){

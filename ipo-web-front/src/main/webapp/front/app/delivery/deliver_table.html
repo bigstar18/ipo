@@ -181,29 +181,30 @@
         url: "../../../SettlementDeliveryController/detail",
         data:{"methodid":methodId,"deliveryMethod":deliveryMethod},
         success : function(response) {
-          //console.log(response);
+          
           var responseStr = $.parseJSON(response);
-          $('#deliveryorderId').html(responseStr.deliveryorderId);
-          $('#commodityId').html(responseStr.commodityId);
-          $('#commodityName').html(responseStr.commodityName);
-          $('#warehouseName').html(responseStr.warehousename);
-          $('#deliveryQuatity').html(responseStr.deliveryQuatity);
-          $('#unit').html(responseStr.unit);
-          $('#deliveryDate').html(responseStr.deliveryDate);
+          console.log(responseStr[1]);
+          $('#deliveryorderId').html(responseStr[0].deliveryorderId);
+          $('#commodityId').html(responseStr[0].commodityId);
+          $('#commodityName').html(responseStr[0].commodityName);
+          $('#warehouseName').html(responseStr[0].warehousename);
+          $('#deliveryQuatity').html(responseStr[0].deliveryQuatity);
+          $('#unit').html(responseStr[0].unit);
+          $('#deliveryDate').html(responseStr[0].deliveryDate);
 
 
 
 
-          $('#idcardNum').html(responseStr.idcardNum);
-          $('#pickupPassword').html(responseStr.pickupPassword);
+          $('#idcardNum').html(responseStr[1].idcardNum);
+          $('#pickupPassword').html(responseStr[1].pickupPassword);
 
 
 
-          $('#address').html(responseStr.address);
-          $('#cost').html(responseStr.cost);
-          $('#expressDate').html(responseStr.expressDate);
-          $('#receiver').html(responseStr.receiver);
-          $('#tel').html(responseStr.tel);
+          $('#address').html(responseStr[1].address);
+          $('#cost').html(responseStr[1].cost);
+          $('#expressDate').html(responseStr[1].expressDate);
+          $('#receiver').html(responseStr[1].receiver);
+          $('#tel').html(responseStr[1].tel);
         },
         error: function(response) {
           alert("请稍候再试");

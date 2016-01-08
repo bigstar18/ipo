@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
-<%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -155,7 +152,7 @@
         var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
         var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
         window.open("${pageContext.request.contextPath}/front/app/delivery/deliver_table.html?deliveryMethod=" + deliveryMethod + "&methodId=" + methodId, "打印页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
-
+		
     }
     function doSearch(){
     	$('#dg').datagrid('load',{

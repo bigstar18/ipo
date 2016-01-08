@@ -270,6 +270,15 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return ipoDeliveryorderMapper.allCounts(paging);
 	}
 
+	// 根据提货方式和提货id查申请主表
+	@Override
+	public DeliveryOrder getorder(String method, String id) {
+		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByMethodAndId(method, id);
+		DeliveryOrder deliveryOrder = new DeliveryOrder();
+		BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+		return deliveryOrder;
+	}
+
 	// 提货查询(自提)详细信息
 	@Override
 	public Pickup getDetailByPickup(String methodid) throws Exception {
