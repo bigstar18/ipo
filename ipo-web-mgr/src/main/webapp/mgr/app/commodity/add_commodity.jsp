@@ -370,7 +370,7 @@ function on_tchange(){
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"   readonly="readonly"
+            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100;" />
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>

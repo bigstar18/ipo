@@ -368,7 +368,6 @@ public class IpoController {
 		log.info("跳转到提货单视图" + deliveryorderId);
 		DeliveryOrder deorder = deliveryorderservice
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
-
 		if (deorder != null) {
 			log.info(deorder.toString());
 			String deliveryDate = formatDate(deorder.getDeliveryDate());

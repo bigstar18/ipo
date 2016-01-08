@@ -120,7 +120,6 @@ $(document).ready(function() {
 });
 
 function approve(id){
-	alert(id);
 	document.location.href =  getRootPath () + "/IpoController/approveDelivery?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
 }
 
