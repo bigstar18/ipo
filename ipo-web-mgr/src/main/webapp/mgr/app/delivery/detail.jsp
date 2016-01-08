@@ -3,7 +3,181 @@
 <html>
 	<head>
 		<title>提货单详情</title>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/static/ipo/delivery/detail.js"> </script>
+		<script type="text/javascript">
+		 function parseISO8601(dateStringInRange) {
+	 	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+	 	            date = new Date(NaN), month,
+	 	            parts = isoExp.exec(dateStringInRange);
+	 	      
+	 	        if(parts) {
+	 	          month = +parts[2];
+	 	          date.setFullYear(parts[1], month - 1, parts[3]);
+	 	          if(month != date.getMonth() + 1) {
+	 	            date.setTime(NaN);
+	 	          }
+	 	        }
+	 	        return date;
+	 	      }
+		
+		$(function () {
+			 $("#deliveryDate").datebox({
+		    	 editable: false,
+		         required: true,
+		         missingMessage: "必填项",
+		         formatter: function (date) {
+		         var y = date.getFullYear();
+		         var m = date.getMonth() + 1;
+		         var d = date.getDate();
+		         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		       }
+			 });
+			 $("#applyDate").datebox({
+		    	 editable: false,
+		         required: true,
+		         missingMessage: "必填项",
+		         formatter: function (date) {
+		         var y = date.getFullYear();
+		         var m = date.getMonth() + 1;
+		         var d = date.getDate();
+		         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		       }
+			 });
+		   /*  $("#expressDate").datebox({
+		    	 editable: false,
+		         required: true,
+		         missingMessage: "必填项，(驳回可不填)",
+		         formatter: function (date) {
+		         var y = date.getFullYear();
+		         var m = date.getMonth() + 1;
+		         var d = date.getDate();
+		         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+		       },
+		       onSelect:function (date){
+		          var delivery=parseISO8601($('#deliveryDate').datebox('getValue'));
+		          var apply=parseISO8601($('#applyDate').datebox('getValue'));
+		          var express=parseISO8601($('#expressDate').datebox('getValue'));
+		    	   if (express < apply || express > delivery) {
+		               alert('配送日期必须介于申请日期和提货日期之间！');
+		               $('#expressDate').datebox('setValue', '').datebox('showPanel');
+		           } 
+		       }
+		      });*/
+		        $("#deliveryDate").datebox("setValue",$("#picktime").val());
+				$("#applyDate").datebox("setValue",$("#applytime").val());
+		});
+		
+function parseISO8601(dateStringInRange) {
+	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+	            date = new Date(NaN), month,
+	            parts = isoExp.exec(dateStringInRange);
+	      
+	        if(parts) {
+	          month = +parts[2];
+	          date.setFullYear(parts[1], month - 1, parts[3]);
+	          if(month != date.getMonth() + 1) {
+	            date.setTime(NaN);
+	          }
+	        }
+	        return date;//new Date(str) IE8不兼容
+	      }		
+		
+function updatePickup(){
+	var approvalStatus=$("#approvalStatus").val();
+	var flag= $('#frm').form('validate');
+	var stock=$("#stock").val();
+	var deliveryQuantity=$("#deliveryQuatity").val();
+	if(stock==''){
+		alert("库存为空，数据异常，请联系仓库管理员");
+		return;
+	}
+	if(stock<deliveryQuantity&&approvalStatus=='2'){
+		alert("库存不足，暂时无法通过审核!");
+		return ;
+	}
+	if(approvalStatus!= ''&&flag==true){
+                         	   $.ajax({ 
+                         		   cache:false,
+                                    type: "post",  
+                                    url: getRootPath () +"/DeliveryController/checkPorders",       
+                                    data: $("#frm").serialize(),      
+                                    success: function(data) { 
+                                 	   if(data=='true'){
+                                        alert("审核完成！"); 
+                                        returntoList();
+                                 	   }else{
+                                 		   alert("系统异常，请联系管理员");  
+                                 	   }
+                                    },  
+                                    error: function(data) {  
+                                        alert("系统异常，请联系管理员!");  
+                                    }  
+                                }); 
+         }else{
+			 alert("请填入必填参数!");  
+		}
+}
+
+function updateExpress(){
+	var approvalStatus=$("#approvalStatus").val();
+	var flag= $('#frm').form('validate');
+	var stock=$("#stock").val();
+	var deliveryQuantity=$("#deliveryQuatity").val();
+	if(stock<deliveryQuantity&&approvalStatus=='2'){
+		alert("库存不足，暂时无法通过审核!");
+		return ;
+	}
+	if(approvalStatus== '2'&&flag==true){
+                         	   $.ajax({ 
+                         		   cache:false,
+                                    type: "post",  
+                                    url: getRootPath () +"/DeliveryController/checkEorders",       
+                                    data: $("#frm").serialize(),      
+                                    success: function(data) { 
+                                 	   if(data=='true'){
+                                        alert("审核完成！"); 
+                                        returntoList();
+                                 	   }else{
+                                 		   alert("系统异常，请联系管理员");  
+                                 	   }
+                                    },  
+                                    error: function(data) {  
+                                        alert("系统异常，请联系管理员!");  
+                                    }  
+                                }); 
+         }else if(approvalStatus== '3'){
+		                    $.ajax({ 
+                         		   cache:false,
+                                    type: "post",  
+                                    url: getRootPath () +"/DeliveryController/checkPorders",       
+                                    data: $("#frm").serialize(),      
+                                    success: function(data) { 
+                                 	   if(data=='true'){
+                                        alert("审核完成！"); 
+                                        returntoList();
+                                 	   }else{
+                                 		   alert("系统异常，请联系管理员");  
+                                 	   }
+                                    },  
+                                    error: function(data) {  
+                                        alert("系统异常，请联系管理员!");  
+                                    }  
+                                }); 
+		}
+			else{
+					alert("请填入必填参数!");
+		}
+}
+function returntoList(){
+	var backUrl=getRootPath () +"/IpoController/DeliveryApprove?randnum="+Math.floor(Math.random()*1000000);
+	document.location.href = backUrl;
+}
+		
+function onlyNumberInput(){
+	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
+		    event.returnValue=false;
+	 }
+}
+		</script>
 		<style type="text/css">
 		td{font-size:12px;}
 		tr{margin-top:10px}
@@ -111,7 +285,7 @@
 		          						</td>
 										<td align="right" width="110">仓库可用数量：</td>     
             							<td width="110"> 
-            							<input id="stock" type="hidden" name="stock" value="${stock }" >
+            							<input id="stock" type="text" name="stock" value="${stock }" >
             							<input id="pickupId" type="hidden" name="pickupId" value="${detail.pickupId }" >
 										</td>
 										<td align="right" width="110">审核意见：</td>
@@ -142,7 +316,7 @@
 							         <tr>
 							            <td align="right" width="90">仓库可用数量：</td>     
             							<td width="110">
-            							<input id="stock" type="hidden" name="stock" value="${stock }" >
+            							<input id="stock" type="text" name="stock" value="${stock }" >
             							<input id="expressId" type="hidden" name="expressId" value="${detail.expressId }" >
             							</td>
 							            <td align="right" width="110">审核意见：</td>
