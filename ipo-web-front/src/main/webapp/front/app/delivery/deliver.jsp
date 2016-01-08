@@ -98,9 +98,9 @@
                   }if (value == 3) {
                     return '市场驳回';
                   }if (value == 4) {
-                    return '已过户';
-                  }if (value == 5) {
                     return '打印';
+                  }if (value == 5) {
+                    return '已过户';
                   }if (value == 6) {
                     return '仓库通过';
                   }if (value == 7) {

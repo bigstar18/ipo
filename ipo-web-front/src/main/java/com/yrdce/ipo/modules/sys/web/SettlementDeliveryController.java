@@ -267,8 +267,8 @@ public class SettlementDeliveryController {
 				Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
 				DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("自提", methodid);
 				List<Object> list = new ArrayList<Object>();
-				list.add(deliveryOrder);
 				list.add(pickup);
+				list.add(deliveryOrder);
 				return JSON.json(list);
 			} else {
 				Express express = settlementDeliveryService.getDetailByExpress(methodid);
