@@ -86,7 +86,6 @@ public class OutboundServiceImpl implements OutboundService {
 	public Integer updateOutBoundInfo(Outbound outbound) {
 		// TODO Auto-generated method stub
 		try {
-			int result1;
 			Log.info("修改出库单状态");
 			IpoDeliveryorder deliveryorder = new IpoDeliveryorder(); 
 			if(outbound==null)
@@ -98,11 +97,11 @@ public class OutboundServiceImpl implements OutboundService {
 			if (ipoOutbound.getOutboundstate()==2) {
 				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
 				deliveryorder.setApprovalStatus(6);
-				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
+				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}else if (ipoOutbound.getOutboundstate()==3){
 				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
 				deliveryorder.setApprovalStatus(7);
-				result1 = ipoDeliveryorderMapper.updateStatus(deliveryorder);
+				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}
 			return 1;
 		} catch (Exception e) {
