@@ -155,7 +155,7 @@
     }else{
       $.ajax({
         type: 'post',
-        // url: "",
+        url: "<%=request.getContextPath()%>/TransferController/setPassword",
         data:{"deliveryorderid":deliveryorderid, "pickupPassword": pickupPassword},
         success : function(response) {
              if(response=='success'){
