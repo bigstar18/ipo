@@ -1,6 +1,5 @@
 package com.yrdce.ipo.web;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -97,9 +96,6 @@ public class OutBoundController {
 	public String updateOutBoundInfo(Outbound outbound, HttpSession session) {
 		try {
 			log.info("出库单审核");
-			long dateNow = new Date().getTime();
-			Date date = new Date(dateNow);
-			outbound.setOutbounddate(date);
 			String auditorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			outbound.setAuditorid(auditorid);
 			int result = outboundService.updateOutBoundInfo(outbound);
@@ -123,6 +119,7 @@ public class OutBoundController {
 			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
 			outBound.setWarehouseid(String.valueOf(wareHouseId));
+			log.info(outBound.getIdnum());
 			outBound.setOperatorid(operatorid);
 			int result = outboundService.addOutBoundOrder(outBound);
 			if (result == 1) {

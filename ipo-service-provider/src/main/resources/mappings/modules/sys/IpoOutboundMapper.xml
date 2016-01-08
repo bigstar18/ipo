@@ -43,7 +43,7 @@
       AUDITORID, WAREHOUSEID, DELIVERYPERSON, 
       SEX, IDTYPE, IDNUM)
     values (#{outboundorderid,jdbcType=VARCHAR}, #{deliveryorderid,jdbcType=VARCHAR}, 
-      #{outboundstate,jdbcType=DECIMAL}, #{outbounddate,jdbcType=DATE}, #{operatorid,jdbcType=VARCHAR}, 
+      #{outboundstate,jdbcType=DECIMAL}, sysdate , #{operatorid,jdbcType=VARCHAR}, 
       #{auditorid,jdbcType=VARCHAR}, #{warehouseid,jdbcType=VARCHAR}, #{deliveryperson,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{idtype,jdbcType=VARCHAR}, #{idnum,jdbcType=VARCHAR})
   </insert>
@@ -135,7 +135,8 @@
   
   <update id="updateOutBoundState" parameterType="map">
   	update ipo_outbound t 
-  	set t.outboundstate = #{outboundstate,jdbcType=DECIMAL}
+  	set t.outboundstate = #{outboundstate,jdbcType=DECIMAL},
+  		t.outbounddate=sysdate
   	where t.outboundorderid=#{outboundorderid,jdbcType=VARCHAR}
   </update>
   

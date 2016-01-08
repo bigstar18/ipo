@@ -127,23 +127,21 @@ function doAdd(){
 		alert("证件类型不可为空！");
 		return;
 	}
-	if(idnum=""){
+	if(idnum==""){
 		alert("证件号不可为空！");
 		return;
 	}
-	
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/OutBoundController/addOutBoundOrder",
 		data:{
 			deliveryorderid:deliveryorderId,
 			outboundstate:outboundstate,
-			outbounddate:outbounddate,
 			warehouseid:warehouseid,
 			deliveryperson:deliveryperson,
 			sex:sex,
 			idtype:idtype,
-			idnum:idnum
+			idnum:11
 		},
 		success:function(data){
 			if(data=="success"){
@@ -215,86 +213,86 @@ function doClick(){
 										<tr>
 											<td align="center">
 											商品代码：
-											<input readonly="readonly" id="commodityid" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="commodityid"  style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											商品名称：
-											<input readonly="readonly" id="commodityname" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="commodityname" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											交易商名称：
-											<input readonly="readonly" id="dealerName" class="easyui-text" style="width:160px;height:20px;margin-right:12px">
+											<input readonly="readonly" id="dealerName" style="width:160px;height:20px;margin-right:12px">
 											</td>
 											<td align="center">
 											仓库名称：
-											<input readonly="readonly" id="warehouseName" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="warehouseName" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											提货方式：
-											<input readonly="readonly" id="deliveryMethod" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryMethod" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											提货日期：
-											<input readonly="readonly" id="deliveryDate" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryDate" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr>
 											<td align="center">
 											交割数量：
-											<input readonly="readonly" id="deliveryQuatity" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="deliveryQuatity" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											审批状态：
-											<input readonly="readonly" id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
+											<input readonly="readonly" id="approvalStatus"  style="width:160px;height:20px;">
 											</td>
 										</tr>
 										
 										<tr>
 											<td align="center">
 											提货人：
-											<input id="deliveryperson" class="easyui-text" style="width:160px;height:20px;">
+											<input id="deliveryperson" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											性别：
-											<input id="sex" class="easyui-text" style="width:160px;height:20px;">
+											<input id="sex"  style="width:160px;height:20px;">
 											</td>
 										</tr>
 										
 										<tr>
 											<td align="center">
 											证件类型：
-											<input  id="idtype" class="easyui-text" style="width:160px;height:20px;">
+											<input  id="idtype"  style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											证件号码：
-											<input id="idnum" class="easyui-text" style="width:160px;height:20px;">
+											<input id="idnum" style="width:160px;height:20px;">
 											</td>
 										</tr>
 										
 										<tr class="ps"> 
 											<td align="center">
 											快递费用：
-											<input id="cost" class="easyui-text" style="width:160px;height:20px;">
+											<input id="cost" style="width:160px;height:20px;">
 											</td>
 											<td align="center">
 											收 货 人：
-											<input id="receiver" class="easyui-text" style="width:160px;height:20px;">
+											<input id="receiver"  style="width:160px;height:20px;">
 											</td>
 										</tr>
 										<tr class="ps">
 											<td align="center">
 											电&nbsp&nbsp&nbsp话：
-											<input id="tel" class="easyui-text" style="width:300px;height:20px;">
+											<input id="tel" style="width:300px;height:20px;">
 											</td>
 										</tr>
 										<tr class="ps">
 											<td align="center">
 											地&nbsp&nbsp&nbsp址：
-											<input  id="address" class="easyui-text" style="width:300px;height:20px;">
+											<input  id="address" style="width:300px;height:20px;">
 											</td>
 										</tr>
 							</table>
