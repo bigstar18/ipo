@@ -365,7 +365,7 @@ public class IpoController {
 			HttpServletResponse response, Model model,
 			@RequestParam("deliveryorderId") String deliveryorderId)
 			throws IOException {
-		log.info("跳转到提货单视图");
+		log.info("跳转到提货单视图" + deliveryorderId);
 		DeliveryOrder deorder = deliveryorderservice
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 
@@ -396,6 +396,8 @@ public class IpoController {
 				request.setAttribute("detail", express);
 				request.setAttribute("flag", "express");
 			}
+		} else {
+			log.info("未查询到提货单");
 		}
 		return "app/delivery/detail";
 	}
