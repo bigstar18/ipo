@@ -13,11 +13,19 @@
 </head>
 <body>
   <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" style="display: none;" />
-
-    <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
+  <fieldset>
+    <legend>提货单信息</legend>
+    <table id="ctable" width="55%" cellspacing="0" cellpadding="0" align="center">
       <tbody>
         <tr>
-          <td align="center" height="35">
+          <td align="center" height="45" colspan="2">
+            <p style="font-size: 30px; font-weight: bold;">
+              中国供销集团<br>提货单
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" height="35">
             <span>
             提货单号：
           </span>
@@ -26,7 +34,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             商品代码：
           </span>
@@ -35,7 +43,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             商品名称：
           </span>
@@ -44,7 +52,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             交收仓库名称：
           </span>
@@ -53,7 +61,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             交割数量：
           </span>
@@ -62,7 +70,7 @@
           </td>
         </tr>
         <tr id="pickupshow">
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             提货密码：
           </span>
@@ -71,7 +79,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             单位：
           </span>
@@ -80,7 +88,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             提货日期：
           </span>
@@ -103,6 +111,7 @@
         </tr>
       </tbody>
     </table>
+  </fieldset>
   <script type="text/javascript">
 
 
