@@ -271,19 +271,24 @@ public class SystemManager {
 			throw new Exception("交易服务器没有闭市操作，不能结算！");
 
 		updateSysStatusLock(STATUS_MARKET_CLOSE, STATUS_MARKET_SETTLING, null, "结算中");
-		updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
-		// 收付当日货款、手续费
-		purchaseSettle();
-		updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
+		try {
+			updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
+			// 收付当日货款、手续费
+			purchaseSettle();
+			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
 
-		updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
-		updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
-		updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
-		updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
 
-		// TODO 付钱给谁?承销商
-		// updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
-		updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
+			// TODO 付钱给谁?承销商
+			// updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
+			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
+		} catch (Throwable e) {
+			updateSysStatusLock(STATUS_MARKET_SETTLING, STATUS_MARKET_CLOSE, null, "已闭市");
+			throw new Exception(e);
+		}
 	}
 
 	/**
