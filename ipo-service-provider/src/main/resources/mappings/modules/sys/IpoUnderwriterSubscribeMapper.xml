@@ -51,4 +51,27 @@
     CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
     from IPO_UNDERWRITER_SUBSCRIBE
   </select>
+  
+   <select id="getInfosByPage" resultMap="BaseResultMap"  parameterType="map">
+    SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
+       <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    ORDER BY T.SUBSCRIBEID)A  WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
+    </select>
+  
+  <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
+   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 
+      <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    </select>
+  
+  
 </mapper>
