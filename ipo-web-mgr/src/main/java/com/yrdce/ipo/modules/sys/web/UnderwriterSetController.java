@@ -46,6 +46,8 @@ public class UnderwriterSetController {
 		log.info("分页查询承销设置");
 		try {
 			if (example != null) {
+				example.setDeleteFlag((short) 0);
+				log.info(example.toString());
 				List<UnderwriterSubscribe> list = underwritersubscribeService
 						.getInfosByPage(page, rows, example);
 				int totalnums = underwritersubscribeService
@@ -61,6 +63,21 @@ public class UnderwriterSetController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * 删除承销设置信息
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deleteInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteInfo(@RequestParam("ids") String ids)
+			throws IOException {
+		log.info("批量删除承销设置信息:" + ids);
+		return underwritersubscribeService.deleteInfo(ids);
 	}
 
 }

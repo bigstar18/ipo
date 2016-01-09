@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,22 @@ public class UnderwriterSubscribeServiceImpl implements
 			return underwriterSubscribrmapper.getQueryNum(record);
 		}
 		return 0;
+	}
+
+	@Override
+	public String deleteInfo(String ids) {
+		String[] subscribeids = ids.split(",");
+		int num = 0;
+		for (String id : subscribeids) {
+			IpoUnderwriterSubscribe example = underwriterSubscribrmapper
+					.selectByPrimaryKey(new BigDecimal(id));
+			example.setDeleteFlag((short) 1);
+			num = num + underwriterSubscribrmapper.updateByPrimaryKey(example);
+		}
+		if (num == subscribeids.length) {
+			return "true";
+		}
+		return "false";
 	}
 
 }

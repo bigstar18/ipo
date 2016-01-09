@@ -31,4 +31,12 @@ public interface UnderwriterSubscribeService {
 	 */
 	public Integer getQueryNum(UnderwriterSubscribe example);
 
+	/**
+	 * 删除承销设置信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public String deleteInfo(String ids);
+
 }
