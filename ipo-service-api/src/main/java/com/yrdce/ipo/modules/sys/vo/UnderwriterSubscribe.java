@@ -1,4 +1,4 @@
-package com.yrdce.ipo.modules.sys.entity;
+package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * @author chenjing
  *
  */
-public class IpoUnderwriterSubscribe {
+public class UnderwriterSubscribe {
 	private BigDecimal subscribeid;
 
 	private String underwriterid;// 承销商ID
@@ -30,11 +30,11 @@ public class IpoUnderwriterSubscribe {
 
 	private Date updateDate;// 修改时间
 	
-	private BigDecimal amount;//认购金额
+	private BigDecimal amount;//认购货款
 
-	private BigDecimal userBalance;//用户可用资金
+	private BigDecimal userBalance;//可用资金
 
-	private BigDecimal lBalance;//冻结后的余额
+	private BigDecimal lBalance;//冻结后的资金
 
 	public BigDecimal getSubscribeid() {
 		return subscribeid;
