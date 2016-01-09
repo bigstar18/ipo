@@ -30,6 +30,13 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  */
 @Service("purchase")
 public class PurchaseImpl implements Purchase {
+	final static int SECCESS = 0;
+	final static int NOT_COMMODITY_TIME = 1;
+	final static int LACK_OF_FUNDS = 2;
+	final static int REPEAT = 3;
+	// final static int ERROR = 4;
+	final static int OUT_OF_QUOTA = 5;
+	final static int NOT_TIME = 6;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
@@ -43,6 +50,8 @@ public class PurchaseImpl implements Purchase {
 	private SystemService system;
 	@Autowired
 	private IpoCommodityConfMapper ipoCommConfMapper;
+
+	private ThreadLocal<String> applyUser = new ThreadLocal<String>();
 
 	// 时间判断
 	public boolean isInDates(String sId) {
@@ -73,14 +82,13 @@ public class PurchaseImpl implements Purchase {
 	@Override
 	@Transactional
 	public int apply(String userId, String sId, Integer counts, Integer id) throws Exception {
+		if (applyUser.get() != null)
+			return REPEAT;
+
+		applyUser.set(userId);// 要求不高
+		int result = SECCESS;
+
 		logger.info("进入申购方法");
-		final int SECCESS = 0;
-		final int NOT_COMMODITY_TIME = 1;
-		final int LACK_OF_FUNDS = 2;
-		final int REPEAT = 3;
-		// final int ERROR = 4;
-		final int OUT_OF_QUOTA = 5;
-		final int NOT_TIME = 6;
 		if (system.canSystemTrade()) {
 			String ID = sId.toUpperCase();
 			if (this.isInDates(ID)) {
@@ -154,22 +162,25 @@ public class PurchaseImpl implements Purchase {
 							ipoOrder.setFrozencounterfee(fee);
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
-							return SECCESS;
+							result = SECCESS;
 						} else {
-							return LACK_OF_FUNDS;
+							result = LACK_OF_FUNDS;
 						}
 					} else {
-						return OUT_OF_QUOTA;
+						result = OUT_OF_QUOTA;
 					}
 				} else {
-					return REPEAT;
+					result = REPEAT;
 				}
 			} else {
-				return NOT_COMMODITY_TIME;
+				result = NOT_COMMODITY_TIME;
 			}
 		} else {
-			return NOT_TIME;
+			result = NOT_TIME;
 		}
+
+		applyUser.remove();
+		return result;
 	}
 
 	// 冻结资金
