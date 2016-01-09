@@ -97,7 +97,7 @@
           </td>
         </tr>
 
-        <tr id="pickupset">
+        <tr id="pickupset" class="noprint">
           <td colspan="3" align="center" height="35">
             <input type="password" id="setpickuppwd" placeholder="请输入您的8位提货密码"
             onkeyup="value=value.replace(/[\W]/g,'') "
