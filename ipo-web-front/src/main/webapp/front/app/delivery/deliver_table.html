@@ -183,28 +183,28 @@
         success : function(response) {
           
           var responseStr = $.parseJSON(response);
-          console.log(responseStr[1]);
-          $('#deliveryorderId').html(responseStr[0].deliveryorderId);
-          $('#commodityId').html(responseStr[0].commodityId);
-          $('#commodityName').html(responseStr[0].commodityName);
-          $('#warehouseName').html(responseStr[0].warehousename);
-          $('#deliveryQuatity').html(responseStr[0].deliveryQuatity);
-          $('#unit').html(responseStr[0].unit);
-          $('#deliveryDate').html(responseStr[0].deliveryDate);
+          //console.log(responseStr[1]);
+          $('#deliveryorderId').html(responseStr[1].deliveryorderId);
+          $('#commodityId').html(responseStr[1].commodityId);
+          $('#commodityName').html(responseStr[1].commodityName);
+          $('#warehouseName').html(responseStr[1].warehouseName);
+          $('#deliveryQuatity').html(responseStr[1].deliveryQuatity);
+          $('#unit').html(responseStr[1].unit);
+          $('#deliveryDate').html(responseStr[1].deliveryDate);
 
 
 
 
-          $('#idcardNum').html(responseStr[1].idcardNum);
-          $('#pickupPassword').html(responseStr[1].pickupPassword);
+          $('#idcardNum').html(responseStr[0].idcardNum);
+          $('#pickupPassword').html(responseStr[0].pickupPassword);
 
 
 
-          $('#address').html(responseStr[1].address);
-          $('#cost').html(responseStr[1].cost);
-          $('#expressDate').html(responseStr[1].expressDate);
-          $('#receiver').html(responseStr[1].receiver);
-          $('#tel').html(responseStr[1].tel);
+          $('#address').html(responseStr[0].address);
+          $('#cost').html(responseStr[0].cost);
+          $('#expressDate').html(responseStr[0].expressDate);
+          $('#receiver').html(responseStr[0].receiver);
+          $('#tel').html(responseStr[0].tel);
         },
         error: function(response) {
           alert("请稍候再试");

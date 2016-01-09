@@ -133,14 +133,14 @@
       data:{"methodid":methodid},
       success : function(response) {
         var responseStr = $.parseJSON(response);
-        $('#deliveryorderId').html(responseStr.deliveryorderId);
-        $('#commodityId').html(responseStr.commodityId);
-        $('#commodityName').html(responseStr.commodityName);
-        $('#warehouseName').html(responseStr.warehousename);
-        $('#deliveryQuatity').html(responseStr.deliveryQuatity);
-        $('#pickupPassword').html(responseStr.pickupPassword);
-        $('#unit').html(responseStr.unit);
-        $('#deliveryDate').html(responseStr.deliveryDate);
+        $('#deliveryorderId').html(responseStr[1].deliveryorderId);
+        $('#commodityId').html(responseStr[1].commodityId);
+        $('#commodityName').html(responseStr[1].commodityName);
+        $('#warehouseName').html(responseStr[1].warehouseName);
+        $('#deliveryQuatity').html(responseStr[1].deliveryQuatity);
+        $('#pickupPassword').html(responseStr[0].pickupPassword);
+        $('#unit').html(responseStr[1].unit);
+        $('#deliveryDate').html(responseStr[1].deliveryDate);
         var cdata = $('#deliveryDate').text().substr(0, 10);
         $('#deliveryDate').html(cdata);
         $('#printset').show();

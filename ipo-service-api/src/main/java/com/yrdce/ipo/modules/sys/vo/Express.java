@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Express extends DeliveryOrder implements Serializable {
+public class Express implements Serializable {
 
 	private String expressId;
 

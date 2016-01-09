@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Pickup extends DeliveryOrder implements Serializable {
+public class Pickup implements Serializable {
 	private String pickupId;
 
 	private String pickupPassword;
