@@ -32,8 +32,8 @@ public class IpoDeliveryorder {
 
 	public Date applyDate;
 
-	public Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、打印 5、仓库通过
-									// 6、仓库驳回7、已设置配置费用 8、已确认 9.已废除 10、已过户 11已出库
+	public Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、已打印 5、已过户 6、仓库通过
+									// 7、仓库驳回 8、已设置配置费用 9、已确认 10.已废除 11、已出库
 									// 12已收货)
 
 	public String approvers;
@@ -112,7 +112,8 @@ public class IpoDeliveryorder {
 	}
 
 	public void setDeliveryorderId(String deliveryorderId) {
-		this.deliveryorderId = deliveryorderId == null ? null : deliveryorderId.trim();
+		this.deliveryorderId = deliveryorderId == null ? null : deliveryorderId
+				.trim();
 	}
 
 	public String getCommodityId() {
@@ -128,7 +129,8 @@ public class IpoDeliveryorder {
 	}
 
 	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName == null ? null : commodityName.trim();
+		this.commodityName = commodityName == null ? null : commodityName
+				.trim();
 	}
 
 	public String getDealerId() {
@@ -160,7 +162,8 @@ public class IpoDeliveryorder {
 	}
 
 	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName == null ? null : warehouseName.trim();
+		this.warehouseName = warehouseName == null ? null : warehouseName
+				.trim();
 	}
 
 	public Long getDeliveryQuatity() {
@@ -184,7 +187,8 @@ public class IpoDeliveryorder {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
+				.trim();
 	}
 
 	public String getMethodId() {
@@ -285,12 +289,19 @@ public class IpoDeliveryorder {
 
 	@Override
 	public String toString() {
-		return "IpoDeliveryorder [deliveryorderId=" + deliveryorderId + ", commodityId=" + commodityId + ", commodityName=" + commodityName
-				+ ", dealerId=" + dealerId + ", dealerName=" + dealerName + ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName
-				+ ", deliveryQuatity=" + deliveryQuatity + ", deliveryCounts=" + deliveryCounts + ", deliveryMethod=" + deliveryMethod + ", methodId="
-				+ methodId + ", unit=" + unit + ", deliveryDate=" + deliveryDate + ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus
-				+ ", approvers=" + approvers + ", approveDate=" + approveDate + ", canceler=" + canceler + ", cancelDate=" + cancelDate
-				+ ", position=" + position + ", remarks=" + remarks + "]";
+		return "IpoDeliveryorder [deliveryorderId=" + deliveryorderId
+				+ ", commodityId=" + commodityId + ", commodityName="
+				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
+				+ dealerName + ", warehouseId=" + warehouseId
+				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
+				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
+				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
+				+ methodId + ", unit=" + unit + ", deliveryDate="
+				+ deliveryDate + ", applyDate=" + applyDate
+				+ ", approvalStatus=" + approvalStatus + ", approvers="
+				+ approvers + ", approveDate=" + approveDate + ", canceler="
+				+ canceler + ", cancelDate=" + cancelDate + ", position="
+				+ position + ", remarks=" + remarks + "]";
 	}
 
 }
