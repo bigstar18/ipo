@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,43 +39,50 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 @RequestMapping("SettlementDeliveryController")
 public class SettlementDeliveryController {
 
-	static Logger logger = LoggerFactory.getLogger(SettlementDeliveryController.class);
+	static Logger logger = LoggerFactory
+			.getLogger(SettlementDeliveryController.class);
 	@Autowired
 	private SettlementDeliveryService settlementDeliveryService;
 
 	// 提货申请视图
 	@RequestMapping(value = "/deliveryview", method = RequestMethod.POST)
-	public String deliveryView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String deliveryView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/withdraw";
 	}
 
 	// 自提打印视图
 	@RequestMapping(value = "/printView")
-	public String printView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String printView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/customer";
 	}
 
 	// 撤销提货视图
 	@RequestMapping(value = "/revocationView", method = RequestMethod.POST)
-	public String revocationView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String revocationView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/cancel";
 	}
 
 	// 在线配送视图
 	@RequestMapping(value = "/dispatchingView", method = RequestMethod.POST)
-	public String dispatchingView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String dispatchingView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/dispatching";
 	}
 
 	// 提货查询视图
 	@RequestMapping(value = "/deliveryQueryView", method = RequestMethod.POST)
-	public String deliveryQueryView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String deliveryQueryView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/deliver";
 	}
 
 	// 费用查询视图
 	@RequestMapping(value = "/costQueryView", method = RequestMethod.POST)
-	public String costQueryView(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String costQueryView(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 		return "app/delivery/cost";
 	}
 
@@ -83,7 +92,8 @@ public class SettlementDeliveryController {
 	public String deliveryApply(DeliveryOrder deliveryOrder, HttpSession session) {
 		String method = deliveryOrder.getDeliveryMethod();
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			// UserManageVO user = (UserManageVO)
+			// session.getAttribute("CurrentUser");
 			// deliveryOrder.setDealerId(user.getUserID());
 			deliveryOrder.setDealerId("888888");
 			if (method.equals("1")) {
@@ -107,8 +117,10 @@ public class SettlementDeliveryController {
 	public String deliveryInfo(HttpSession session) {
 		logger.info("提货申请(初始化数据)");
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			List<Position> list = settlementDeliveryService.getListByPosition("888888");// user.getUserID()
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			List<Position> list = settlementDeliveryService
+					.getListByPosition(user.getUserID());//
 			return JSON.json(list);
 		} catch (IOException e) {
 			logger.error("error", e);
@@ -120,27 +132,37 @@ public class SettlementDeliveryController {
 	// @RequestMapping(value = "/deliveryBypickup", method = RequestMethod.GET)
 	// @ResponseBody
 	/*
-	 * public String deliveryBypickup(Pickup pickup) { logger.info("提货申请(自提打印)"); try { settlementDeliveryService.applicationByPickup(pickup); return
-	 * "success"; } catch (Exception e) { e.printStackTrace(); return "error"; } }
+	 * public String deliveryBypickup(Pickup pickup) {
+	 * logger.info("提货申请(自提打印)"); try {
+	 * settlementDeliveryService.applicationByPickup(pickup); return "success";
+	 * } catch (Exception e) { e.printStackTrace(); return "error"; } }
 	 */
 
 	// 提货申请(在线配送)(暂不用)
 	// @RequestMapping(value = "/deliveryByexpress", method = RequestMethod.GET)
 	// @ResponseBody
 	/*
-	 * public String deliveryByexpress(Express express) { logger.info("提货申请(在线配送)"); try { settlementDeliveryService.applicationByexpress(express);
-	 * return "success"; } catch (Exception e) { e.printStackTrace(); return "error"; } }
+	 * public String deliveryByexpress(Express express) {
+	 * logger.info("提货申请(在线配送)"); try {
+	 * settlementDeliveryService.applicationByexpress(express); return
+	 * "success"; } catch (Exception e) { e.printStackTrace(); return "error"; }
+	 * }
 	 */
 
 	// 自提打印
 	@RequestMapping(value = "/print", method = RequestMethod.GET)
 	@ResponseBody
-	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String print(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("888888");// user.getUserID()
-			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-			List<DeliveryOrder> clist = settlementDeliveryService.getPrint(page, rows, paging);
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());
+			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号："
+					+ paging.getDeliveryorderId());
+			List<DeliveryOrder> clist = settlementDeliveryService.getPrint(
+					page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "自提");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -158,8 +180,10 @@ public class SettlementDeliveryController {
 	public String getDetail(@RequestParam("methodid") String methodid) {
 		logger.info("自提打印(操作后弹出的数据)" + "methodid:" + methodid);
 		try {
-			Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
-			DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("自提", methodid);
+			Pickup pickup = settlementDeliveryService
+					.getDetailByPickup(methodid);
+			DeliveryOrder deliveryOrder = settlementDeliveryService.getorder(
+					"自提", methodid);
 			List<Object> list = new ArrayList<Object>();
 			list.add(pickup);
 			list.add(deliveryOrder);
@@ -173,12 +197,17 @@ public class SettlementDeliveryController {
 	// 撤销提货单列表
 	@RequestMapping(value = "/revocation", method = RequestMethod.GET)
 	@ResponseBody
-	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String revocation(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("888888");// user.getUserID()
-			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-			List<DeliveryOrder> clist = settlementDeliveryService.getRevocationList(page, rows, paging);
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());
+			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号："
+					+ paging.getDeliveryorderId());
+			List<DeliveryOrder> clist = settlementDeliveryService
+					.getRevocationList(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "no");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -193,11 +222,15 @@ public class SettlementDeliveryController {
 	// 提货单状态修改(撤销提货、提货确认)
 	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
-		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
+	public String updateByStatus(
+			@RequestParam("deliveryorderid") String deliveryorderid,
+			@RequestParam("status") String status) {
+		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid
+				+ "status:" + status);
 		try {
 			if (status == "2") {
-				settlementDeliveryService.updateRevocationStatus(deliveryorderid, "4");
+				settlementDeliveryService.updateRevocationStatus(
+						deliveryorderid, "4");
 			}
 			return "success";
 		} catch (Exception e) {
@@ -209,12 +242,17 @@ public class SettlementDeliveryController {
 	// 在线配送
 	@RequestMapping(value = "/getDispatching", method = RequestMethod.GET)
 	@ResponseBody
-	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String getDispatching(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("888888");// user.getUserID()
-			logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-			List<Express> clist = settlementDeliveryService.getListByExpress(page, rows, paging);
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());
+			logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号："
+					+ paging.getDeliveryorderId());
+			List<Express> clist = settlementDeliveryService.getListByExpress(
+					page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "在线配送");
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -229,12 +267,17 @@ public class SettlementDeliveryController {
 	// 提货查询
 	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
 	@ResponseBody
-	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String delivery(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("888888");// user.getUserID()
-			logger.info("提货查询" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-			List<DeliveryOrder> clist = settlementDeliveryService.getListByOrder(page, rows, paging);
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());// user.getUserID()
+			logger.info("提货查询" + paging.getDealerId() + "单号："
+					+ paging.getDeliveryorderId());
+			List<DeliveryOrder> clist = settlementDeliveryService
+					.getListByOrder(page, rows, paging);
 			int totalnums = settlementDeliveryService.countsByAll(paging);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -250,19 +293,24 @@ public class SettlementDeliveryController {
 	// 提货查询详细
 	@RequestMapping(value = "/detail", method = RequestMethod.POST)
 	@ResponseBody
-	public String detail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
+	public String detail(@RequestParam("methodid") String methodid,
+			@RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询详细" + "methodid:" + methodid);
 		try {
 			if (deliveryMethod.equals("1")) {
-				Pickup pickup = settlementDeliveryService.getDetailByPickup(methodid);
-				DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("自提", methodid);
+				Pickup pickup = settlementDeliveryService
+						.getDetailByPickup(methodid);
+				DeliveryOrder deliveryOrder = settlementDeliveryService
+						.getorder("自提", methodid);
 				List<Object> list = new ArrayList<Object>();
 				list.add(pickup);
 				list.add(deliveryOrder);
 				return JSON.json(list);
 			} else {
-				Express express = settlementDeliveryService.getDetailByExpress(methodid);
-				DeliveryOrder deliveryOrder = settlementDeliveryService.getorder("在线配送", methodid);
+				Express express = settlementDeliveryService
+						.getDetailByExpress(methodid);
+				DeliveryOrder deliveryOrder = settlementDeliveryService
+						.getorder("在线配送", methodid);
 				List<Object> list = new ArrayList<Object>();
 				list.add(express);
 				list.add(deliveryOrder);
@@ -277,10 +325,12 @@ public class SettlementDeliveryController {
 	// 提货查询(自提详细)<暂不用>
 	@RequestMapping(value = "/expressDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public String expressDetail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
+	public String expressDetail(@RequestParam("methodid") String methodid,
+			@RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
-			Express express = settlementDeliveryService.getDetailByExpress(methodid);
+			Express express = settlementDeliveryService
+					.getDetailByExpress(methodid);
 			return JSON.json(express);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -292,12 +342,17 @@ public class SettlementDeliveryController {
 	// 费用查询
 	@RequestMapping(value = "/costQuery", method = RequestMethod.GET)
 	@ResponseBody
-	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String costQuery(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
-			// UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("888888");
-			logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
-			List<DeliveryCost> clist = settlementDeliveryService.getListByDeliveryCost(page, rows, paging);
+			UserManageVO user = (UserManageVO) session
+					.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());
+			logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号："
+					+ paging.getDeliveryorderId());
+			List<DeliveryCost> clist = settlementDeliveryService
+					.getListByDeliveryCost(page, rows, paging);
 			int totalnums = settlementDeliveryService.countsByCost(paging);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
