@@ -74,14 +74,13 @@ function doSearch(){
 					$("#approvalStatus").val("已收货");
 					break;
 				}
-				if(data.deliveryMethod=="自提"){
-					$(".ps").hide();
-					return;
+				if(data.deliveryMethod=="在线配送"){
+					$("#psInfo").show();
 				}
-				$("#cost").val(data.cost);
-				$("#receiver").val(data.receiver);
-				$("#tel").val(data.tel);
-				$("#address").val(data.address);
+				$("#cost").html(data.cost);
+				$("#receiver").html(data.receiver);
+				$("#tel").html(data.tel);
+				$("#address").html(data.address);
 				
 				
 			}else if(data.commodityId==null){
@@ -204,18 +203,18 @@ function validate(obj){
 
 							<table class="table2_style" align="center">
 								<tr>
-									<td align="right">
+									<td style="width:15%" align="right">
 										<span class="required">*</span>
 										提货单号：
 									</td>
 									<td align="left">
-										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
+										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;margin-left:2px"/> 
 									</td>
-									<td align="right" style="width:95px">		
+									<td align="right" style="width:92px;">		
 										提货单密码：
 									</td>
 									<td align="left">
-										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
+										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;margin-left:2px"/> 
 									</td>
 								</tr>
 							</table>
@@ -313,34 +312,39 @@ function validate(obj){
 											</td>
 										</tr>
 										
-										<tr class="ps"> 
-											<td align="center">
-											快递费用：
-											<input id="cost" style="width:160px;height:20px;">
-											</td>
-											<td align="center">
-											收 货 人：
-											<input id="receiver"  style="width:160px;height:20px;">
-											</td>
-										</tr>
-										<tr class="ps">
-											<td align="center">
-											电&nbsp&nbsp&nbsp话：
-											<input id="tel" style="width:300px;height:20px;">
-											</td>
-										</tr>
-										<tr class="ps">
-											<td align="center">
-											地&nbsp&nbsp&nbsp址：
-											<input  id="address" style="width:300px;height:20px;">
-											</td>
-										</tr>
+										
 							</table>
-							<table class="table2_style" style="border-top:0" align="center">
+							<table id="psInfo" class="table2_style" style="border-top:0;;display:none" align="center">
+									<tr> 
+										<td style="width:15%" align="right">快递费用：</td>
+										<td align="left">
+										<label id="cost"></label>
+										</td>
+									</tr>
+									<tr>
+										<td align="right">收 货 人：</td>
+										<td align="left">
+										<label id="receiver"></label>
+										</td>
+									</tr>
+									<tr>
+										<td align="right">电话：</td>
+										<td align="left">
+										<label id="tel"></label>
+										</td>
+									</tr>
+									<tr>
+										<td align="right">地址：</td>
+										<td align="left">
+										<label id="address"></label>
+										</td>
+									</tr>
+							</table>
+							<table class="table2_style" style="border-top:0;" align="center">
 								<tr>
 									<td align="center">
 										<input type="button" class="btn_sec" id="add" onclick="doClick()" value="查询">
-				   						 <input type="button" class="btn_sec" id="close" onclick="closeform()" value="关闭">
+				   						<input type="button" class="btn_sec" id="close" onclick="closeform()" value="关闭">
 									</td>
 								</tr>
 							</table>

@@ -29,12 +29,12 @@ public class IpoUnderwriterSubscribe {
 	private String updateUser;// 修改人
 
 	private Date updateDate;// 修改时间
-	
-	private BigDecimal amount;//认购金额
 
-	private BigDecimal userBalance;//用户可用资金
+	private BigDecimal amount;// 认购金额
 
-	private BigDecimal lBalance;//冻结后的余额
+	private BigDecimal userBalance;// 用户可用资金
+
+	private BigDecimal lBalance;// 冻结后的余额
 
 	public BigDecimal getSubscribeid() {
 		return subscribeid;
@@ -49,8 +49,7 @@ public class IpoUnderwriterSubscribe {
 	}
 
 	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid == null ? null : underwriterid
-				.trim();
+		this.underwriterid = underwriterid;
 	}
 
 	public String getCommodityid() {
@@ -58,7 +57,7 @@ public class IpoUnderwriterSubscribe {
 	}
 
 	public void setCommodityid(String commodityid) {
-		this.commodityid = commodityid == null ? null : commodityid.trim();
+		this.commodityid = commodityid;
 	}
 
 	public Long getSubscribecounts() {
@@ -90,7 +89,7 @@ public class IpoUnderwriterSubscribe {
 	}
 
 	public void setCreateUser(String createUser) {
-		this.createUser = createUser == null ? null : createUser.trim();
+		this.createUser = createUser;
 	}
 
 	public Date getCreateDate() {
@@ -106,7 +105,7 @@ public class IpoUnderwriterSubscribe {
 	}
 
 	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser == null ? null : updateUser.trim();
+		this.updateUser = updateUser;
 	}
 
 	public Date getUpdateDate() {
@@ -116,7 +115,7 @@ public class IpoUnderwriterSubscribe {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+
 	public BigDecimal getAmount() {
 		return amount;
 	}

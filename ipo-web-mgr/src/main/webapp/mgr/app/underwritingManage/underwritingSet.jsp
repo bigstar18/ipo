@@ -23,7 +23,7 @@ $(document).ready(function(){
 	 $('#tt').datagrid({
 		 title:'承销信息',
 	      iconCls:'icon-ok',
-	       method:"get",
+	       method:"POST",
 	       height:400,
 	      pageSize:10,
 	      pageList:[5,10,15],
@@ -45,7 +45,7 @@ $(document).ready(function(){
 		        	   deleteList();
 		           }},'-'
 		           ],
-<%-- 	      url:'<%=request.getContextPath()%>/SpacialSetController/getAllInfo', //搜索前,触发此action请求所有用户信息  --%>
+ 	      url:'<%=request.getContextPath()%>/UnderwriterSetController/findUnderwriterSet', //搜索前,触发此action请求所有用户信息  
 	      fitColumns:true,//允许表格自动缩放,以适应父容器
 	      loadMsg:'数据加载中......', 
 	      sortName:'sectionid',
@@ -55,31 +55,29 @@ $(document).ready(function(){
 	     	 fiele:'checked',
 	     	 checkbox:true
 	      },{
-	          field : 'frimId',
+	          field : 'underwriterid',
 	          width : 200,
 	          align: "center",
 	          title : '承销会员编号',
 	      },{
-	          field : 'commodityId',
+	          field : 'commodityid',
 	          width : 200,
 	          align: "center",
 	          title : '商品代码',
 	      }, {
-	          field : 'temp',
+	          field : 'subscribecounts',
 	          width : 200,
 	          align: "center",
 	          title : '认购数量',
 	      }, {
-	          field : 'radio',
+	          field : 'proportion',
 	          width : 200,
 	          align: "center",
 	          title : '占承销会员手续费总和的比例（%）',
 	      } ]],
 	      pagination : true,
 
-	  });
-		
-		 $('tt').datagrid('fitColumns');
+	  });		
 		 var p = $('#tt').datagrid('getPager');
 		    $(p).pagination({
 		        beforePageText: '第',

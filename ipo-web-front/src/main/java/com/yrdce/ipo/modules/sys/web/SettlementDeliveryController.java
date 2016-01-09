@@ -29,6 +29,7 @@ import com.yrdce.ipo.modules.sys.vo.Position;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
 import gnnt.MEBS.logonService.vo.UserManageVO;
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 
@@ -88,6 +89,7 @@ public class SettlementDeliveryController {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			deliveryOrder.setDealerId(user.getUserID());
 			// deliveryOrder.setDealerId("888888");
+			deliveryOrder.setDealerId("888888");
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
 				settlementDeliveryService.applicationByPickup(deliveryOrder);

@@ -29,12 +29,12 @@ public class UnderwriterSubscribe {
 	private String updateUser;// 修改人
 
 	private Date updateDate;// 修改时间
-	
-	private BigDecimal amount;//认购货款
 
-	private BigDecimal userBalance;//可用资金
+	private BigDecimal amount;// 认购货款
 
-	private BigDecimal lBalance;//冻结后的资金
+	private BigDecimal userBalance;// 可用资金
+
+	private BigDecimal lBalance;// 冻结后的资金
 
 	public BigDecimal getSubscribeid() {
 		return subscribeid;
@@ -49,8 +49,7 @@ public class UnderwriterSubscribe {
 	}
 
 	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid == null ? null : underwriterid
-				.trim();
+		this.underwriterid = underwriterid == null ? null : underwriterid.trim();
 	}
 
 	public String getCommodityid() {
@@ -116,7 +115,7 @@ public class UnderwriterSubscribe {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
+
 	public BigDecimal getAmount() {
 		return amount;
 	}
