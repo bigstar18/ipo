@@ -66,4 +66,14 @@ public class UnderwriterSubscribeServiceImpl implements
 		return "false";
 	}
 
+	@Override
+	public Integer insertInfo(UnderwriterSubscribe example) {
+		if (example != null) {
+			IpoUnderwriterSubscribe record = new IpoUnderwriterSubscribe();
+			BeanUtils.copyProperties(example, record);
+			return underwriterSubscribrmapper.insert(record);
+		}
+		return 0;
+	}
+
 }

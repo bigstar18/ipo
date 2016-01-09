@@ -90,7 +90,10 @@ function deleteList(){
 		alert("至少选择一条记录再进行删除！");
 	}
 }
+function addInfo(){
+	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward?randnum="+Math.floor(Math.random()*1000000);
 
+}
 function doSearch(){
 $('#dg').datagrid('load',{
 	commodityid: $('#commodityid').val(),
@@ -110,7 +113,7 @@ $("#underwriterid").val("");
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
 		<div>
-		   <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
+		   <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addInfo()">添加</a>
 		   <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a>
 			商品代码：<input type="text" id="commodityid" name="commodityid" />
 			承销会员编码：<input type="text" id="underwriterid" name="underwriterid"></input> 

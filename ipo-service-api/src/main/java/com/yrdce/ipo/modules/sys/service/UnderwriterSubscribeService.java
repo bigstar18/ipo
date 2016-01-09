@@ -39,4 +39,12 @@ public interface UnderwriterSubscribeService {
 	 */
 	public String deleteInfo(String ids);
 
+	/**
+	 * 添加承销设置信息
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public Integer insertInfo(UnderwriterSubscribe example);
+
 }
