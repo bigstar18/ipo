@@ -402,7 +402,7 @@
 	
 	<select id="queryUnsettledByCommoId" resultMap="BaseResultMap" parameterType="map">
 		select t.* from ipo_distribution t 
-		where t.frozen != 3 and t.commodityid = #{commodityid,jdbcType=VARCHAR}
+		where t.frozen != 3 and pcounts>0 and t.commodityid = #{commodityid,jdbcType=VARCHAR}
 	</select>
   <update id="updateSettledById" parameterType="map">
 		update IPO_DISTRIBUTION
