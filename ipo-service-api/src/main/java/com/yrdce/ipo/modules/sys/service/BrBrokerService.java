@@ -17,7 +17,10 @@ public interface BrBrokerService {
 	 * 查询所有发行会员
 	 */
 	public List<VBrBroker> findAllPublisher();
-	
+
 	int insert(VBrBroker record);
+
+	// hxx
+	public VBrBroker queryBrokerById(String brokerId);
 
 }

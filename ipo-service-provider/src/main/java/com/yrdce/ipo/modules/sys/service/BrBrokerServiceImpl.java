@@ -18,15 +18,13 @@ import com.yrdce.ipo.modules.sys.vo.VBrBroker;
  */
 @Service("brBrokerService")
 public class BrBrokerServiceImpl implements BrBrokerService {
-	
+
 	@Autowired
 	private BrBrokerMapper brBrokerMapper;
-	
+
 	public BrBrokerMapper getBrBrokerMapper() {
 		return brBrokerMapper;
 	}
-
-
 
 	public void setBrBrokerMapper(BrBrokerMapper brBrokerMapper) {
 		this.brBrokerMapper = brBrokerMapper;
@@ -35,30 +33,39 @@ public class BrBrokerServiceImpl implements BrBrokerService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<VBrBroker> findAllPublisher() {
-		try{
-		List<BrBroker> blist=brBrokerMapper.findAllPublisher();
-		List<VBrBroker>  blist2=new ArrayList<VBrBroker>();
-		for(BrBroker temp: blist){
-			VBrBroker brbroker=new VBrBroker();
-			BeanUtils.copyProperties(temp, brbroker);
-			blist2.add(brbroker);
-		}
-		return blist2;
-		}catch (Exception e){
+		try {
+			List<BrBroker> blist = brBrokerMapper.findAllPublisher();
+			List<VBrBroker> blist2 = new ArrayList<VBrBroker>();
+			for (BrBroker temp : blist) {
+				VBrBroker brbroker = new VBrBroker();
+				BeanUtils.copyProperties(temp, brbroker);
+				blist2.add(brbroker);
+			}
+			return blist2;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-
-
 	@Override
 	public int insert(VBrBroker record) {
 		BrBroker brBroker = new BrBroker();
-		if(record != null){
-			BeanUtils.copyProperties(record ,brBroker);
-		    return brBrokerMapper.insert(brBroker);
+		if (record != null) {
+			BeanUtils.copyProperties(record, brBroker);
+			return brBrokerMapper.insert(brBroker);
 		}
 		return 0;
+	}
+
+	@Override // hxx
+	public VBrBroker queryBrokerById(String brokerId) {
+		BrBroker broker = brBrokerMapper.selectById(brokerId);
+		if (broker != null) {
+			VBrBroker brbroker = new VBrBroker();
+			BeanUtils.copyProperties(broker, brbroker);
+			return brbroker;
+		}
+		return null;
 	}
 }

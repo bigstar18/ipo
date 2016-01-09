@@ -40,4 +40,6 @@ public interface BrBrokerMapper {
 
 	List<BrBroker> findAllPublisher();// 获取所有发行会员
 
+	BrBroker selectById(String brokerid);
+
 }
