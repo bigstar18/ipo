@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoUnderwriterDepositMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="DECIMAL" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
+    insert into IPO_UNDERWRITER_DEPOSIT (ID, AMOUNT, REMARK, 
+      DELETE_FLAG, CREATE_USER, CREATE_DATE, 
+      UPDATE_USER, UPDATE_DATE, STATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{state,jdbcType=DECIMAL}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, AMOUNT, REMARK, DELETE_FLAG, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
+    STATE
+    from IPO_UNDERWRITER_DEPOSIT
+  </select>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+    <id column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
+    <result column="UNDERWRITERID" property="underwriterid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="SUBSCRIBECOUNTS" property="subscribecounts" jdbcType="DECIMAL" />
+    <result column="PROPORTION" property="proportion" jdbcType="DECIMAL" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="DECIMAL" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_UNDERWRITER_SUBSCRIBE
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+    insert into IPO_UNDERWRITER_SUBSCRIBE (SUBSCRIBEID, UNDERWRITERID, COMMODITYID, 
+      SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+      CREATE_USER, CREATE_DATE, UPDATE_USER, 
+      UPDATE_DATE)
+    values (#{subscribeid,jdbcType=DECIMAL}, #{underwriterid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{subscribecounts,jdbcType=DECIMAL}, #{proportion,jdbcType=DECIMAL}, #{deleteFlag,jdbcType=DECIMAL}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+    update IPO_UNDERWRITER_SUBSCRIBE
+    set UNDERWRITERID = #{underwriterid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      SUBSCRIBECOUNTS = #{subscribecounts,jdbcType=DECIMAL},
+      PROPORTION = #{proportion,jdbcType=DECIMAL},
+      DELETE_FLAG = #{deleteFlag,jdbcType=DECIMAL},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE}
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    from IPO_UNDERWRITER_SUBSCRIBE
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    from IPO_UNDERWRITER_SUBSCRIBE
+  </select>
+</mapper>
