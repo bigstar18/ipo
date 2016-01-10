@@ -76,6 +76,12 @@ $(document).ready(function() {
 					return '摇号成功';
 				}else if(row.status == 4){
 					return '结算成功';
+				}else if(row.status == 31){
+					return "抽签中";
+				}else if(row.status == 32){
+					return "费用计算完毕";
+				}else if(row.status == 41){
+					return "结算中";
 				}
 			}
 		 },{
