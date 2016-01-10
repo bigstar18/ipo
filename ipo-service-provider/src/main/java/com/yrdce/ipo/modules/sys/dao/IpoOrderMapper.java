@@ -67,5 +67,5 @@ public interface IpoOrderMapper {
 
 	int updateByOrderId(@Param("frozenst") int frozenst, @Param("orderid") String sid);
 
-	IpoOrder selectCounterFeeInfo(@Param("commodityid") String commodityid);// 查询发售时的手续费信息
+	List<IpoOrder> selectCounterFeeInfo(@Param("commodityid") String commodityid);// 查询发售时的手续费信息
 }
