@@ -141,6 +141,10 @@ public class OutBoundController {
 			@RequestParam("outboundorderid") String outboundorderid) {
 		try {
 			log.info("确认出库");
+			DeliveryOrder temp = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
+			if (temp.getDeliveryMethod().equals("在线配送") && temp.getApprovalStatus() != 9) {
+				return "no";
+			}
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
 			deliveryOrder.setApprovalStatus(11);

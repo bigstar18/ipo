@@ -171,6 +171,9 @@ function confirmOut(deliveryorderid,outboundorderid){
 				case "error":
 					alert("系统异常！");
 					break;
+				case "no":
+					alert("在线配送需客户确认后再执行出库！");
+					break;
 			}
 		}
 	});
