@@ -26,11 +26,14 @@ public interface BrBrokerMapper {
 
 	BrBroker selectByPrimaryKey(String brokerid);
 
-	int updateByExampleSelective(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExampleSelective(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
-	int updateByExampleWithBLOBs(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExampleWithBLOBs(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
-	int updateByExample(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExample(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
 	int updateByPrimaryKeySelective(BrBroker record);
 
@@ -39,5 +42,10 @@ public interface BrBrokerMapper {
 	int updateByPrimaryKey(BrBroker record);
 
 	List<BrBroker> findAllPublisher();// 获取所有发行会员
+
+	BrBroker selectById(String brokerid);
+	
+	List<BrBroker> findAllUnderwriter();// 获取所有承销会员
+
 
 }

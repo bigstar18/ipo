@@ -345,8 +345,7 @@ function ration(spoId) {
 </script>
 </head>
 <body>
-<table id="depositInfo">
-</table>
+
  <input type="hidden" id="hidSpoId" value=""/>
 
 
@@ -357,19 +356,17 @@ function ration(spoId) {
 
 <div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800%;height:750%;padding:5px;">
 </div> 
-<table class="table1_style" border="0" cellspacing="0" cellpadding="0" width="100%">
-	<tr>
-		<td>		
-		<br />
-			<div class="div_list">
-				
-				<div id="tb" style="padding:5px;height:auto">
+
+			<div class="">
+				<table id="depositInfo">
+				</table>
+					<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
 						<table>
 							<tr>
 								<td>
-									商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc">
+									商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc;height:18px">
 											&nbsp
 											&nbsp
 									配售类型: <select id="rationTypep" style="width:150px">
@@ -398,10 +395,10 @@ function ration(spoId) {
 							<tr>
 								<td>
 								
-										登记日期: <input id="registerDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
+										登记日期: <input id="registerDate" class="easyui-datebox" style="width:146px" editable="false" data-options="formatter:myformatter,parser:myparser">
 										&nbsp
 										&nbsp
-										增发日期: <input id="spoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
+										增发日期: <input id="spoDate" class="easyui-datebox" style="width:149px" editable="false" data-options="formatter:myformatter,parser:myparser">
 										&nbsp
 										&nbsp
 										上市日期：<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
@@ -418,9 +415,7 @@ function ration(spoId) {
 				</div>
 				
 			</div>
-		</td>
-	</tr>
-</table>
+
    
 </div>
 </body>

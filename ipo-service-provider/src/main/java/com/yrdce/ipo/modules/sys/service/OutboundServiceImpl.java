@@ -3,8 +3,6 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.client.protocol.RequestDefaultHeaders;
-import org.jboss.netty.util.EstimatableObjectWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +29,7 @@ public class OutboundServiceImpl implements OutboundService {
 	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
 
 	@Override
-	public List<OutboundExtended> getAllOutboundInfo(String page, String rows,
-			OutboundExtended record) {
+	public List<OutboundExtended> getAllOutboundInfo(String page, String rows, OutboundExtended record) {
 		Log.info("分页查询出库单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -49,9 +46,8 @@ public class OutboundServiceImpl implements OutboundService {
 				}
 			}
 			Log.info("调用后台服务" + example.toString());
-			List<IpoOutboundExtended> storageslist = ipoOutboundMapper
-					.findOutboundsByPage((curpage - 1) * pagesize + 1, curpage
-							* pagesize, example);
+			List<IpoOutboundExtended> storageslist = ipoOutboundMapper.findOutboundsByPage((curpage - 1) * pagesize + 1,
+					curpage * pagesize, example);
 			List<OutboundExtended> storageslist2 = new ArrayList<OutboundExtended>();
 			for (int i = 0; i < storageslist.size(); i++) {
 				OutboundExtended temp = new OutboundExtended();
@@ -80,25 +76,26 @@ public class OutboundServiceImpl implements OutboundService {
 		}
 		return 0;
 	}
-	//修改出库单状态
+
+	// 修改出库单状态
 	@Override
 	@Transactional
 	public Integer updateOutBoundInfo(Outbound outbound) {
 		// TODO Auto-generated method stub
 		try {
 			Log.info("修改出库单状态");
-			IpoDeliveryorder deliveryorder = new IpoDeliveryorder(); 
-			if(outbound==null)
+			IpoDeliveryorder deliveryorder = new IpoDeliveryorder();
+			if (outbound == null)
 				return 0;
 			IpoOutbound ipoOutbound = new IpoOutbound();
 			BeanUtils.copyProperties(outbound, ipoOutbound);
 			ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
-			Log.info("修改出库单状态"+ipoOutbound.getOutboundstate());
-			if (ipoOutbound.getOutboundstate()==2) {
+			Log.info("修改出库单状态" + ipoOutbound.getOutboundstate());
+			if (ipoOutbound.getOutboundstate() == 2) {
 				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
 				deliveryorder.setApprovalStatus(6);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
-			}else if (ipoOutbound.getOutboundstate()==3){
+			} else if (ipoOutbound.getOutboundstate() == 3) {
 				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
 				deliveryorder.setApprovalStatus(7);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
@@ -106,20 +103,21 @@ public class OutboundServiceImpl implements OutboundService {
 			return 1;
 		} catch (Exception e) {
 			// TODO: handle exception
-			Log.error("修改出库单状态",e);
+			Log.error("修改出库单状态", e);
 			return 0;
 		}
 	}
 
-	//添加出库单
+	// 添加出库单
 	@Override
 	@Transactional
 	public Integer addOutBoundOrder(Outbound outbound) {
 		// TODO Auto-generated method stub
-		if (outbound==null) {
+		if (outbound == null) {
 			return 0;
 		}
 		IpoOutbound ipoOutbound = new IpoOutbound();
+
 		BeanUtils.copyProperties(outbound, ipoOutbound);
 		ipoOutbound.setOutboundorderid(ipoOutbound.getDeliveryorderid());
 		int result = ipoOutboundMapper.insert(ipoOutbound);
@@ -129,7 +127,7 @@ public class OutboundServiceImpl implements OutboundService {
 	@Override
 	public int updateOutBoundState(Integer outboundstate, String outboundorderid) {
 		// TODO Auto-generated method stub
-		return  ipoOutboundMapper.updateOutBoundState(outboundstate, outboundorderid);
+		return ipoOutboundMapper.updateOutBoundState(outboundstate, outboundorderid);
 	}
 
 	@Override
@@ -137,13 +135,12 @@ public class OutboundServiceImpl implements OutboundService {
 		// TODO Auto-generated method stub
 		Outbound outbound = null;
 		IpoOutbound ipoOutbound = ipoOutboundMapper.selectByPrimaryKey(outboundOrderId);
-		Log.info("ipoOutbound.id["+outboundOrderId+"]:"+ipoOutbound);
-		if (ipoOutbound!=null) {
+		Log.info("ipoOutbound.id[" + outboundOrderId + "]:" + ipoOutbound);
+		if (ipoOutbound != null) {
 			outbound = new Outbound();
 			BeanUtils.copyProperties(ipoOutbound, outbound);
 		}
 		return outbound;
 	}
-	
-	
+
 }

@@ -13,11 +13,19 @@
 </head>
 <body>
   <input class="noprint" id="printset" type="button" value="打印页面" onclick="printpage()" style="display: none;" />
-
-    <table id="ctable" width="65%" border="1" cellspacing="0" cellpadding="0" align="center">
+  <fieldset>
+    <legend>提货单信息</legend>
+    <table id="ctable" width="55%" cellspacing="0" cellpadding="0" align="center">
       <tbody>
         <tr>
-          <td align="center" height="35">
+          <td align="center" height="45" colspan="2">
+            <p style="font-size: 30px; font-weight: bold;">
+              中国供销集团<br>提货单
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" height="35">
             <span>
             提货单号：
           </span>
@@ -26,7 +34,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             商品代码：
           </span>
@@ -35,7 +43,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             商品名称：
           </span>
@@ -44,7 +52,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             交收仓库名称：
           </span>
@@ -53,7 +61,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             交割数量：
           </span>
@@ -62,7 +70,7 @@
           </td>
         </tr>
         <tr id="pickupshow">
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             提货密码：
           </span>
@@ -71,7 +79,7 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             单位：
           </span>
@@ -80,16 +88,16 @@
           </td>
         </tr>
         <tr>
-          <td align="center" height="35">
+          <td align="right" height="35">
             <span>
             提货日期：
           </span>
           </td>
-          <td align="center" id="deliveryDate"> 
+          <td align="center" id="deliveryDate"><input id="approvalStatus" type="hidden">
           </td>
         </tr>
-        
-        <tr id="pickupset">
+
+        <tr id="pickupset" class="noprint">
           <td colspan="3" align="center" height="35">
             <input type="password" id="setpickuppwd" placeholder="请输入您的8位提货密码"
             onkeyup="value=value.replace(/[\W]/g,'') "
@@ -104,6 +112,7 @@
         </tr>
       </tbody>
     </table>
+  </fieldset>
   <script type="text/javascript">
 
 
@@ -116,6 +125,7 @@
       strs = str.split("=");
     }
     var methodid = strs[1];//获取url参数
+    
 
     var ctable = {};
     $.ajax({
@@ -124,25 +134,19 @@
       data:{"methodid":methodid},
       success : function(response) {
         var responseStr = $.parseJSON(response);
-        $('#deliveryorderId').html(responseStr.deliveryorderId);
-        $('#commodityId').html(responseStr.commodityId);
-        $('#commodityName').html(responseStr.commodityName);
-        $('#warehouseName').html(responseStr.warehousename);
-        $('#deliveryQuatity').html(responseStr.deliveryQuatity);
-        $('#pickupPassword').html(responseStr.pickupPassword);
-        $('#unit').html(responseStr.unit);
-        $('#deliveryDate').html(responseStr.deliveryDate);
+        $('#deliveryorderId').html(responseStr[1].deliveryorderId);
+        $('#commodityId').html(responseStr[1].commodityId);
+        $('#commodityName').html(responseStr[1].commodityName);
+        $('#warehouseName').html(responseStr[1].warehouseName);
+        $('#deliveryQuatity').html(responseStr[1].deliveryQuatity);
+        $('#pickupPassword').html(responseStr[0].pickupPassword);
+        $('#unit').html(responseStr[1].unit);
+        $('#deliveryDate').html(responseStr[1].deliveryDate);
+        $('#approvalStatus').val(responseStr[1].approvalStatus);
         var cdata = $('#deliveryDate').text().substr(0, 10);
         $('#deliveryDate').html(cdata);
-        if (responseStr.approvalStatus == 4 || responseStr.approvalStatus == 5) {
-          $('#printset').show();
-          $('#pickupshow').show();
-          $('#pickupset').hide();
-        }else{
-          $('#printset').hide();
-          $('#pickupshow').hide();
-          $('#pickupset').show();
-        };
+        $('#printset').show();
+        $('#pickupshow').show();
       },
       error: function(response) {
         alert("加载失败，请刷新重试");
@@ -178,17 +182,22 @@
         }
       });
     };
-
   }
   //点击打印
   function printpage() {
+	  var status = '0';
  	  var deliveryorderid = $('#deliveryorderId').html();
  	  var approvalStatus = $('#approvalStatus').val();
+ 	  if(approvalStatus == 2){
+ 		  status = 4;
+ 	  }else{
+ 		  status = approvalStatus;
+ 	  }
   	  $.ajax({
   			 type: 'post',
   		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
   		     data:{"deliveryorderid":deliveryorderid,
-  		    	 	"status":"4"
+  		    	 	"status":status
   		    	  },
   		     success : function(data) {
   			           if(data=='success'){

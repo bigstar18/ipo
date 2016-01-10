@@ -73,6 +73,9 @@ $(document).ready(function() {
             	 if(value=='2') return "已配号";
             	 if(value=='3') return "已摇号";
             	 if(value=='4') return "已结算";
+            	 if(value=='31') return "抽签中";
+            	 if(value=='32') return "费用计算完毕";
+            	 if(value=='41') return "结算中";
            }
           }, {  
               field : 'starttime',  

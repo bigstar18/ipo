@@ -49,7 +49,8 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByPrimaryKey(@Param("orderid") String orderid);
 
-	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
+	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("userid") String userid);
 
 	List<IpoOrder> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
@@ -61,7 +62,10 @@ public interface IpoOrderMapper {
 
 	long sequence();
 
-	List<IpoOrder> selectByCidPaged(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("commodityid") String commodityid);
+	List<IpoOrder> selectByCidPaged(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("commodityid") String commodityid);
 
 	int updateByOrderId(@Param("frozenst") int frozenst, @Param("orderid") String sid);
+
+	IpoOrder selectCounterFeeInfo(@Param("commodityid") String commodityid);// 查询发售时的手续费信息
 }

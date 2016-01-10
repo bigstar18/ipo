@@ -111,14 +111,9 @@ function getAllInfo(){
              }
          }, {  
              field : 'outbounddate',  
-             width : 200, 
+             width : 250, 
              align: "center",
-             title : '出库时间',
-             formatter: function(value,row){
-            	 if(value!=null){
-                 	return value.substr(0,10);
-            	 }
-             }
+             title : '出库时间'
          }, {  
              field : 'operatorid',  
              width : 200, 
@@ -136,7 +131,7 @@ function getAllInfo(){
              title : '操作',
              formatter:function(value,row){
             	 if(row.outboundstate==1){
-     	      	   return "<a href=\"#\" onclick=\"audit("+row.outboundorderid+",2)\">通过</a>  <a href=\"#\" onclick=\"audit("+row.outboundorderid+",3)\">驳回</a>";
+     	      	   return "<a href=\"#\" onclick=\"audit('"+row.outboundorderid+"',2)\">通过</a>  <a href=\"#\" onclick=\"audit('"+row.outboundorderid+"',3)\">驳回</a>";
             	 }else if(row.outboundstate==2){
             		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"','"+row.outboundorderid+"')\">已出库</a>";
             	 }else{
@@ -175,6 +170,9 @@ function confirmOut(deliveryorderid,outboundorderid){
 					break;
 				case "error":
 					alert("系统异常！");
+					break;
+				case "no":
+					alert("在线配送需客户确认后再执行出库！");
 					break;
 			}
 		}

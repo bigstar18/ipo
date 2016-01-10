@@ -134,13 +134,10 @@ public class Distribution {
 						}
 
 					}
-
 				}
 				// 更新商品状态
 				// 1：未配号
 				// 2：配号成功
-				// 3：摇号成功
-				// 4：结算成功
 				ipoCommodityConfMapper.updateByStatus(2, sId);
 				commodity.updateByStatus(2, sId);
 				logger.info("配号成功");
@@ -150,7 +147,6 @@ public class Distribution {
 			// 删除配号临时表
 			unmberofrecord.deleteAll();
 		}
-
 	}
 
 	public void updateTable(int allcounts, String sid, String sname, long num, String userId, int units1) {

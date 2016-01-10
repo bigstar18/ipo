@@ -365,9 +365,11 @@ public class IpoController {
 			HttpServletResponse response, Model model,
 			@RequestParam("deliveryorderId") String deliveryorderId)
 			throws IOException {
+		log.info("跳转到提货单视图" + deliveryorderId);
 		DeliveryOrder deorder = deliveryorderservice
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 		if (deorder != null) {
+			log.info(deorder.toString());
 			String deliveryDate = formatDate(deorder.getDeliveryDate());
 			String applyDate = formatDate(deorder.getApplyDate());
 			IpoWarehouseStock stock = warehouseStockService
@@ -382,15 +384,19 @@ public class IpoController {
 			String methodId = deorder.getMethodId() + "";
 			if (deorder.getDeliveryMethod().equals("自提")) {
 				Pickup pickup = deliveryorderservice.getPickUpDetail(methodId);
+				log.info(pickup.toString());
 				request.setAttribute("detail", pickup);
 				request.setAttribute("flag", "pickup");
 			}
 			if (deorder.getDeliveryMethod().equals("在线配送")) {
 				Express express = deliveryorderservice
 						.getExpressDetail(methodId);
+				log.info(express.toString());
 				request.setAttribute("detail", express);
 				request.setAttribute("flag", "express");
 			}
+		} else {
+			log.info("未查询到提货单");
 		}
 		return "app/delivery/detail";
 	}

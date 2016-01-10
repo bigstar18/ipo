@@ -1,7 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,8 +16,8 @@ public class Outbound implements Serializable {
 
 	private Integer outboundstate;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date outbounddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Timestamp outbounddate;
 
 	private String operatorid;
 
@@ -38,8 +38,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setOutboundorderid(String outboundorderid) {
-		this.outboundorderid = outboundorderid == null ? null : outboundorderid
-				.trim();
+		this.outboundorderid = outboundorderid == null ? null : outboundorderid.trim();
 	}
 
 	public String getDeliveryorderid() {
@@ -47,8 +46,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setDeliveryorderid(String deliveryorderid) {
-		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid
-				.trim();
+		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid.trim();
 	}
 
 	public Integer getOutboundstate() {
@@ -59,11 +57,11 @@ public class Outbound implements Serializable {
 		this.outboundstate = outboundstate;
 	}
 
-	public Date getOutbounddate() {
+	public Timestamp getOutbounddate() {
 		return outbounddate;
 	}
 
-	public void setOutbounddate(Date outbounddate) {
+	public void setOutbounddate(Timestamp outbounddate) {
 		this.outbounddate = outbounddate;
 	}
 
@@ -96,8 +94,7 @@ public class Outbound implements Serializable {
 	}
 
 	public void setDeliveryperson(String deliveryperson) {
-		this.deliveryperson = deliveryperson == null ? null : deliveryperson
-				.trim();
+		this.deliveryperson = deliveryperson == null ? null : deliveryperson.trim();
 	}
 
 	public String getSex() {

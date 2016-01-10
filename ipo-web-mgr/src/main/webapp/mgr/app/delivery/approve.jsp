@@ -95,7 +95,7 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
-        	    return "<input type=\"button\" onclick=\"approve("+row.deliveryorderId+")\" value=\"审核\"/>";
+        	    return "<input type=\"button\" onclick=\"approve('"+row.deliveryorderId+"')\" value=\"审核\"/>";
         }
          }
         ]],  
@@ -172,8 +172,8 @@ function clearInfo(){
 			提货单号：<input type="text" id="deliveryorderId" name="deliveryorderId" />
 			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
-			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clearInfo()"/>			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>			
 		</div> 
 	</div>
 	</div>

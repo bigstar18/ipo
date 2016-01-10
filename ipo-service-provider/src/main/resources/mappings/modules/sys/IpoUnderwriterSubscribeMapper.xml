@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+    <id column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
+    <result column="UNDERWRITERID" property="underwriterid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="SUBSCRIBECOUNTS" property="subscribecounts" jdbcType="DECIMAL" />
+    <result column="PROPORTION" property="proportion" jdbcType="DECIMAL" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="DECIMAL" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_UNDERWRITER_SUBSCRIBE
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+  	 <selectKey resultType="Integer" order="BEFORE" keyProperty="subscribeid">
+	SELECT SEQ_IPO_UNDERWRITER_SUBSCRIBE.NEXTVAL FROM dual
+	</selectKey>
+    insert into IPO_UNDERWRITER_SUBSCRIBE (SUBSCRIBEID, UNDERWRITERID, COMMODITYID, 
+      SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+      CREATE_USER, CREATE_DATE, UPDATE_USER, 
+      UPDATE_DATE)
+    values (#{subscribeid,jdbcType=DECIMAL}, #{underwriterid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{subscribecounts,jdbcType=DECIMAL}, #{proportion,jdbcType=DECIMAL}, #{deleteFlag,jdbcType=DECIMAL}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=DATE})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
+    update IPO_UNDERWRITER_SUBSCRIBE
+    set UNDERWRITERID = #{underwriterid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      SUBSCRIBECOUNTS = #{subscribecounts,jdbcType=DECIMAL},
+      PROPORTION = #{proportion,jdbcType=DECIMAL},
+      DELETE_FLAG = #{deleteFlag,jdbcType=DECIMAL},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE}
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    from IPO_UNDERWRITER_SUBSCRIBE
+    where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    from IPO_UNDERWRITER_SUBSCRIBE
+  </select>
+  
+  <select id="getInfosByPage" resultMap="BaseResultMap"  parameterType="map">
+    SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
+       <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    ORDER BY T.SUBSCRIBEID)A  WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
+    </select>
+    
+    <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
+   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 
+      <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    </select>
+  
+  <select id="selectFunds" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
+  select * from (
+		select t.*, rownum TNO from (
+  select sub.underwriterid,sub.commodityid,sub.subscribecounts,sub.proportion,dep.amount,v.user_balance from ipo_underwriter_subscribe sub 
+	left join ipo_underwriter_deposit dep
+	on sub.subscribeid = dep.subscribeid
+	left join BR_BROKER bro
+	on bro.brokerid = sub.underwriterid
+	left join V_F_FIRMCURFUNDS v
+	on bro.firmid = v.firmId
+	where 
+	UNDERWRITERID like concat (concat('%',#{underwriterid,jdbcType=VARCHAR}),'%')
+	) t) c
+ 	where c.TNO between #{beginnum} and #{endnum}
+ 	order by  underwriterid
+  </select>
+  
+  <select id="selectPage" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(*) from IPO_UNDERWRITER_SUBSCRIBE where 
+  UNDERWRITERID like concat (concat('%',#{underwriterid,jdbcType=VARCHAR}),'%')
+  </select>
+</mapper>

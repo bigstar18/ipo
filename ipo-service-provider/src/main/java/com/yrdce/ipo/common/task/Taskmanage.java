@@ -41,4 +41,13 @@ public class Taskmanage extends TimerTask {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void ipoTransferGoodsPosition(){
+		try {
+			taskService.ipoTransferGoodsPosition();
+		} catch (Exception e) {
+			logger.error("ipo 转持仓失败:",e);
+		}
+	}
 }

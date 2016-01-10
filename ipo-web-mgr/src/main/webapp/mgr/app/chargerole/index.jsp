@@ -36,9 +36,9 @@
 	          {field: 'roleCodeName',title: '绑定角色',width: '200',align: 'center'},
 	          {field: 'chargeName',title: '费用名称',width: '200',align: 'center'},
 	          {field: 'chargeParentName',title: '上级费用名称',width: '200',align: 'center'},
-	          {field: 'chargePatternName',title: '收费模式',width: '200',align: 'center'},
+	          {field: 'chargePatternName',title: '收费模式',width: '150',align: 'center'},
 	          {field: 'amount',title: '金额',width: '200',align: 'center'},
-	          {field: 'oper',title: '操作',width : 200,align: 'center',
+	          {field: 'oper',title: '操作',width : '180',align: 'center',
 	              formatter: function(value, row, index) {
 	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>";
 	              }

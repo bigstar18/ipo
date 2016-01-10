@@ -26,35 +26,40 @@
     <!-- we add the group property since there's another annotation-configured service impl: com.yrdce.ipo.user.facade.AnnotationDrivenUserRestServiceImpl -->
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.CommodityService" ref="commodityService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DisplayService" ref="displayService" protocol="dubbo" />
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.Purchase" ref="purchase" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.Purchase" ref="purchase" protocol="dubbo">
+		<dubbo:method name="apply" retries="1" />
+	</dubbo:service>
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DistributionService" ref="distributionService" protocol="dubbo" />
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.OrderService" ref="orderService" protocol="dubbo"/>
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" ref="vIpoABreedService" protocol="dubbo"/>
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.MBreedService" ref="mBreedservice" protocol="dubbo"/>
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TradetimeService" ref="tradetimeservice" protocol="dubbo"/>
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" ref="ipoCommConfService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TCommodityService" ref="tCommodityService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" ref="brBrokerService" protocol="dubbo" />
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SystemService" ref="systemService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.OrderService" ref="orderService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" ref="vIpoABreedService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.MBreedService" ref="mBreedservice" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TradetimeService" ref="tradetimeservice" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" ref="ipoCommConfService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TCommodityService" ref="tCommodityService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" ref="brBrokerService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SystemService" ref="systemService" protocol="dubbo">
+		<dubbo:method name="settle" timeout="600000" />
+	</dubbo:service>
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.LoanDepositService" ref="loanDepositService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SpecialPoundageService" ref="specialPoundageService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" ref="deliveryorderservice" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SettlementDeliveryService" ref="settlementDeliveryService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.OutboundService" ref="outboundService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" ref="ipoStorageService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.SPOService" ref="spoService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" ref="trusteeshipCommodityService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" ref="trusteeshipWarehouseService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" ref="biWarehouseService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.DeliveryCommodityService" ref="deliveryCommService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.DataItemService" ref="dataItemService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeItemService" ref="chargeItemService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.TaskService" ref="taskService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" ref="chargeRoleService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" ref="chargeUserService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" ref="warehouseStockService" protocol="dubbo" />
-    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.PickUpService" ref="pickupservice" protocol="dubbo" />
-    
+	<dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" ref="ipoStorageService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SPOService" ref="spoService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" ref="trusteeshipCommodityService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" ref="trusteeshipWarehouseService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" ref="biWarehouseService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DeliveryCommodityService" ref="deliveryCommService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DataItemService" ref="dataItemService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeItemService" ref="chargeItemService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.TaskService" ref="taskService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" ref="chargeRoleService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" ref="chargeUserService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" ref="warehouseStockService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.PickUpService" ref="pickupservice" protocol="dubbo" />
+   	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService" ref="underwritersubscribeService" protocol="dubbo" />
+
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="displayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -68,24 +73,25 @@
 	<bean id="tCommodityService" class="com.yrdce.ipo.modules.sys.service.TCommodityServiceImpl" />
 	<bean id="brBrokerService" class="com.yrdce.ipo.modules.sys.service.BrBrokerServiceImpl" />
 	<bean id="systemService" class="com.yrdce.ipo.modules.sys.service.SystemServiceImpl" />
-	<bean id="loanDepositService" class="com.yrdce.ipo.modules.sys.service.LoanDepositServiceImpl"/>
-	<bean id="specialPoundageService" class="com.yrdce.ipo.modules.sys.service.SpecialPoundageServiceImpl"/>
-	<bean id="deliveryorderservice" class="com.yrdce.ipo.modules.sys.service.DeliveryOrderServiceImpl"/>
-	<bean id="settlementDeliveryService" class="com.yrdce.ipo.modules.sys.service.SettlementDeliveryServiceImpl"/>
-	<bean id="outboundService" class="com.yrdce.ipo.modules.sys.service.OutboundServiceImpl"/>
-	<bean id="ipoStorageService" class="com.yrdce.ipo.modules.warehouse.serviceImpl.IpoStorageServiceImpl"/>
-	<bean id="spoService" class="com.yrdce.ipo.modules.sys.service.SPOServiceImpl"/>
-	<bean id="trusteeshipCommodityService" class="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityImpl"/>
-    <bean id="trusteeshipWarehouseService" class="com.yrdce.ipo.modules.sys.service.TrusteeshipWarehouseImpl"/>
-    <bean id="biWarehouseService" class="com.yrdce.ipo.modules.sys.service.BiWarehouseServiceImpl"/>
-    <bean id="deliveryCommService" class="com.yrdce.ipo.modules.sys.service.DeliveryCommodityServiceImpl"/>
-    <bean id="dataItemService" class="com.yrdce.ipo.modules.sys.service.DataItemServiceImpl"/>
-    <bean id="chargeItemService" class="com.yrdce.ipo.modules.sys.service.ChargeItemServiceImpl"/>
-    <bean id="taskService" class="com.yrdce.ipo.modules.sys.service.TaskServiceImpl"/>
-    <bean id="chargeRoleService" class="com.yrdce.ipo.modules.sys.service.ChargeRoleServiceImpl"/>
-    <bean id="chargeUserService" class="com.yrdce.ipo.modules.sys.service.ChargeUserServiceImpl"/>
-    <bean id="warehouseStockService" class="com.yrdce.ipo.modules.warehouse.serviceImpl.IpoWarehouseStockServiceImpl"/>
-    <bean id="pickupservice" class="com.yrdce.ipo.modules.sys.service.PickUpServiceImpl"/>
+	<bean id="loanDepositService" class="com.yrdce.ipo.modules.sys.service.LoanDepositServiceImpl" />
+	<bean id="specialPoundageService" class="com.yrdce.ipo.modules.sys.service.SpecialPoundageServiceImpl" />
+	<bean id="deliveryorderservice" class="com.yrdce.ipo.modules.sys.service.DeliveryOrderServiceImpl" />
+	<bean id="settlementDeliveryService" class="com.yrdce.ipo.modules.sys.service.SettlementDeliveryServiceImpl" />
+	<bean id="outboundService" class="com.yrdce.ipo.modules.sys.service.OutboundServiceImpl" />
+	<bean id="ipoStorageService" class="com.yrdce.ipo.modules.warehouse.serviceImpl.IpoStorageServiceImpl" />
+	<bean id="spoService" class="com.yrdce.ipo.modules.sys.service.SPOServiceImpl" />
+	<bean id="trusteeshipCommodityService" class="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityImpl" />
+	<bean id="trusteeshipWarehouseService" class="com.yrdce.ipo.modules.sys.service.TrusteeshipWarehouseImpl" />
+	<bean id="biWarehouseService" class="com.yrdce.ipo.modules.sys.service.BiWarehouseServiceImpl" />
+	<bean id="deliveryCommService" class="com.yrdce.ipo.modules.sys.service.DeliveryCommodityServiceImpl" />
+	<bean id="dataItemService" class="com.yrdce.ipo.modules.sys.service.DataItemServiceImpl" />
+	<bean id="chargeItemService" class="com.yrdce.ipo.modules.sys.service.ChargeItemServiceImpl" />
+	<bean id="taskService" class="com.yrdce.ipo.modules.sys.service.TaskServiceImpl" />
+	<bean id="chargeRoleService" class="com.yrdce.ipo.modules.sys.service.ChargeRoleServiceImpl" />
+	<bean id="chargeUserService" class="com.yrdce.ipo.modules.sys.service.ChargeUserServiceImpl" />
+	<bean id="warehouseStockService" class="com.yrdce.ipo.modules.warehouse.serviceImpl.IpoWarehouseStockServiceImpl" />
+	<bean id="pickupservice" class="com.yrdce.ipo.modules.sys.service.PickUpServiceImpl" />
+	<bean id="underwritersubscribeService" class="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeServiceImpl" />
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 	读写分离：

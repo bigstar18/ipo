@@ -208,7 +208,10 @@
                  where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
                    and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
                    and DELIVERY_METHOD = '自提'
-                   and d.approval_status = 2
+        
+                   <![CDATA[
+                   and d.approval_status < 6
+                   ]]>
                    ) t) c
  	where c.TNO between #{beginnum} and #{endnum}
  	order by APPLY_DATE
@@ -239,7 +242,8 @@
   select * from 
 	(select t.*,rownum TNO from
  		(select <include refid="Base_Column_List" /> from IPO_DELIVERYORDER d 
- 		where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}) t
+ 		where d.DEALER_ID = #{paging.dealerId,jdbcType=VARCHAR}
+ 		and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')) t
  	) c where c.TNO between #{beginnum} and  #{endnum} order by APPLY_DATE
   </select>
   
@@ -247,6 +251,11 @@
   	select count(0) from IPO_DELIVERYORDER d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR} 
   	<if test="deliveryMethod != null">
   	   and DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR}
+  	</if>
+  	<if test="deliveryMethod != null">
+  		<![CDATA[
+                   and d.approval_status < 6
+                   ]]>
   	</if>
        and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>

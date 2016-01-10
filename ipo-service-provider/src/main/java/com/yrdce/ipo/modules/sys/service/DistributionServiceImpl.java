@@ -122,7 +122,7 @@ public class DistributionServiceImpl implements DistributionService {
 		List<IpoDistribution> distributions = ipoDistributionMapper.queryUnsettledByCommoId(commId);
 		List<Distribution> result = new ArrayList<Distribution>();
 		if (distributions != null && !distributions.isEmpty()) {
-			logger.info("申购结算：查询配号摇号记录表，frozen != 3, 找到记录数={}", commId);
+			logger.info("申购结算：查询配号摇号记录表，frozen != 3, 找到记录数={}", distributions.size());
 
 			for (IpoDistribution ipoDistribution : distributions) {
 				Distribution distribution = new Distribution();

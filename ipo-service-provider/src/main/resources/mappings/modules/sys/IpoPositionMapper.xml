@@ -101,5 +101,7 @@
        <![CDATA[
             {call SP_I_TRANSFERGOODSPOSITION(#{commodityid,mode=IN,jdbcType=VARCHAR})}
        ]]>
+ 
   </select>
+  
   </mapper>

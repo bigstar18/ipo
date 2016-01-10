@@ -109,8 +109,6 @@ $(document).ready(function(){
             	return;
             }
             var counts=0;
-	 	    var add = new Array();
-	 	    var update = new Array();
 	        for(var temp in rows){
 	        	if(rows[temp].salesAllocationratio==null||rows[temp].salesAllocationratio==''){
 	        		alert("承销商分配比例不能为空");
@@ -124,6 +122,9 @@ $(document).ready(function(){
 	        		alert("承销商返佣比例不能大于100");
 	        		return;
 	        	}
+	        	if(rows[temp].rationid==null||rows[temp].rationid==""){
+	        		rows[temp].rationid='0';
+	        	}
 	        	counts=Number(counts)+Number(rows[temp].salesAllocationratio);
 	        }
      	   	if(counts>100){
@@ -133,7 +134,7 @@ $(document).ready(function(){
      	   		alert("分配比例总和不能为0");
      	   		return;
      	   	}
-            	if(add.length!=0){
+            	if(rows.length!=0){
             		$.ajax({
             			traditional: true,
             			type:"POST",

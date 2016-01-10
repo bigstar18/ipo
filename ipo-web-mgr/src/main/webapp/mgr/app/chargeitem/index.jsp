@@ -31,17 +31,17 @@
 	      remoteSort: false, //定义是否从服务器排序数据。
 	      columns: [
 	        [
-			  {field: 'id',title: '费用编号',width: '200',align: 'center',
+			  {field: 'id',title: '费用编号',width: '120',align: 'center',
 				    formatter: function(value, row, index) {
 		              return "<a href=\"#\" onclick=\"view('"+row.id+"','"+row.name+"')\">" + row.id + "</a>&nbsp;&nbsp;";
 		            }
 			  },
 	          {field: 'name',title: '费用名称',width: '200',align: 'center'},
-	          {field: 'parentId',title: '上级费用编号',width: '200',align: 'center'},
+	          {field: 'parentId',title: '上级费用编号',width: '120',align: 'center'},
 	          {field: 'parentName',title: '上级费用名称',width: '200',align: 'center'},
 	          {field: 'typeName',title: '费用周期',width: '200',align: 'center'},
 	          {field: 'remark',title: '备注',width: '300',align: 'center'},
-	          {field: 'oper',title: '操作',width : 200,align: 'center',
+	          {field: 'oper',title: '操作',width : '200',align: 'center',
 	              formatter: function(value, row, index) {
 	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;"+
 	                         "<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";

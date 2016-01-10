@@ -218,4 +218,21 @@ public class QueryController {
 	}
 	
 	
+	/**
+	 * ipo 转现货持仓
+	 */
+	@RequestMapping(value = "/ipoTransferGoodsPosition")
+	@ResponseBody
+	public boolean ipoTransferGoodsPosition() {
+		try {
+			taskService.ipoTransferGoodsPosition();
+		} catch (Exception e) {
+			logger.error("ipoTransferGoodsPosition error:", e);
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 }

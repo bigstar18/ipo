@@ -2,7 +2,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 
 /**
- * 定时任务相关�?service
+ * 定时任务相关�?service
  * 
  * @author wq 2016-1-2
  *
@@ -29,8 +29,9 @@ public interface TaskService {
 	 * @throws Exception
 	 */
 	public void lottery() throws Exception;
-
+ 
 	/**
+ 
 	 * 摇号
 	 * 
 	 * @param commId
@@ -40,7 +41,7 @@ public interface TaskService {
 	public void lottery(String commId) throws Exception;
 
 	/**
-	 * 费用计算�?转持�?
+	 * 费用计算和 转持仓
 	 * 
 	 * @param commId
 	 *            商品id
@@ -49,20 +50,20 @@ public interface TaskService {
 	public void orderBalance(String commId) throws Exception;
 
 	/**
-	 * 费用计算�?转持�?
+	 * 费用计算和 转持仓
 	 * 
 	 * @throws Exception
 	 */
 	public void orderBalance() throws Exception;
 	
 	/**
-	 * ipo 转现货持�?
+	 * ipo 现货转持仓
 	 * @throws Exception
 	 */
 	public  void ipoTransferGoodsPosition()throws Exception;
 	/**
-	 * ipo 转现货持�?
-	 * @param commodityid 商品id
+	 * ipo 现货转持仓
+	 * @param commodityid
 	 * @throws Exception
 	 */
 	public void ipoTransferGoodsPosition(String commodityid) throws Exception;

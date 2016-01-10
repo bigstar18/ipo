@@ -41,4 +41,7 @@ public interface IpoSpoRationMapper {
 	// 根据交易商id查找交易商名称
 	String selectFirmname(String firmid);
 
+	// 增发id查询配售信息
+	List<IpoSpoRation> selectInfoBySPOid(String spoid);
+
 }

@@ -26,7 +26,7 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
 
-	List<IpoSpoCommoditymanmaagement> select();
+	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype);
 
 	int updateByCounts(@Param("spoId") String spoId, @Param("notRationCounts") long notRationCounts,
 			@Param("successRationCounts") long successRationCounts);
