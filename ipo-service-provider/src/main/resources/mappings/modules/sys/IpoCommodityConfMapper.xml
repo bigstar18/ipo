@@ -261,8 +261,25 @@
    </if> 
   </select>
   <select id="selectCommUnit" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="java.lang.String">
-  	select CONTRACTFACTORNAME,buy,TRADEALGR from IPO_COMMODITY_CONF
+  	select <include refid="Base_Column_List" /> from IPO_COMMODITY_CONF
   	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </select>  
+  
+   <select id="queryListingCommodity"  resultMap="BaseResultMap"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" >
+	  
+	   select <include refid="Base_Column_List" /> from (
+	     select conf.* from ipo_commodity_conf conf
+	     join ipo_commodity_sale sa on (conf.commodityid=sa.commodityid)
+	     where  sa.status=4  
+	     <![CDATA[ 
+			and to_char(conf.listingdate,'yyyymmdd') <=to_char(sysdate,'yyyymmdd')
+		 ]]>
+	     <if test="param.commodityid != null and param.commodityid != '' " >
+	    	and conf.commodityid =#{param.commodityid}
+	   	 </if>
+	   )
+	  
+  </select>
+  
 </mapper>
 

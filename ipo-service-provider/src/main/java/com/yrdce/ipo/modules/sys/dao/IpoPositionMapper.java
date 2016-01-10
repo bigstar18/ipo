@@ -22,9 +22,33 @@ public interface IpoPositionMapper {
 
 	List<IpoPosition> selectByFirmid(String firmid);
 
-	// 根据交易商id和商品id更新持仓量
+	 
 	int updatePosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid, @Param("position") long position);
 
 	IpoPosition selectPosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid);
+	 
+	
+	List<IpoPosition> queryForList(@Param("param") IpoPosition position);
+	
+	
+	void transferGoodsPosition(@Param("commodityid") String commodityid);
+
+	 
+	int selectSumByComm(String commodityid);
+
+	 
+	List<IpoPosition> selectPositionList(String commodityid);
+
+	// 查询商品在持仓中的�?�?
+	int selectSumByComm(String commodityid);
+
+	// 根据商品id查询持仓
+	List<IpoPosition> selectPositionList(String commodityid);
+
+	// 查询商品在持仓中的�?�?
+	int selectSumByComm(String commodityid);
+
+	// 根据商品id查询持仓
+	List<IpoPosition> selectPositionList(String commodityid);
 
 }

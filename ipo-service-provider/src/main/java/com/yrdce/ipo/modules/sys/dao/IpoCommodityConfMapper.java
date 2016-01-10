@@ -59,5 +59,9 @@ public interface IpoCommodityConfMapper {
 
 	// 查询单位名称
 	IpoCommodityConf selectCommUnit(@Param("commodityid") String commodityid);
-
+	
+	//查询待上市的商品
+	List<IpoCommodityConf> queryListingCommodity(@Param("param") IpoCommodityConf example);
+	
+	
 }

@@ -83,6 +83,23 @@
   
   <select id="selectPosition" resultMap="BaseResultMap" parameterType="java.lang.String">
   select <include refid="Base_Column_List"/> from IPO_POSITION 
-  where FIRMID = #{firmid,jdbcType=VARCHAR} and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  where
+  FIRMID = #{firmid,jdbcType=VARCHAR}
+   and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
+ <select id="selectSumByComm" resultType="java.lang.Integer" parameterType="java.lang.String">
+ select sum(p.position) from ipo_position p where p.commodityid = #{commodityid,jdbcType=VARCHAR}
+ </select>
+ 
+ <select id="selectPositionList" resultMap="BaseResultMap" parameterType="java.lang.String">
+ select <include refid="Base_Column_List"/> from IPO_POSITION 
+  where COMMODITYID = #{commodityid,jdbcType=VARCHAR} 
+ </select>
+ 
+  <select id="transferGoodsPosition" statementType="CALLABLE" parameterType="java.util.HashMap">
+       <![CDATA[
+            {call SP_I_TRANSFERGOODSPOSITION(#{commodityid,mode=IN,jdbcType=VARCHAR})}
+       ]]>
   </select>
   </mapper>
