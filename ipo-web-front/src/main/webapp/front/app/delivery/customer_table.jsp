@@ -93,7 +93,7 @@
             提货日期：
           </span>
           </td>
-          <td align="center" id="deliveryDate">
+          <td align="center" id="deliveryDate"><input id="approvalStatus" type="hidden">
           </td>
         </tr>
 
@@ -125,6 +125,7 @@
       strs = str.split("=");
     }
     var methodid = strs[1];//获取url参数
+    
 
     var ctable = {};
     $.ajax({
@@ -141,6 +142,7 @@
         $('#pickupPassword').html(responseStr[0].pickupPassword);
         $('#unit').html(responseStr[1].unit);
         $('#deliveryDate').html(responseStr[1].deliveryDate);
+        $('#approvalStatus').val(responseStr[1].approvalStatus);
         var cdata = $('#deliveryDate').text().substr(0, 10);
         $('#deliveryDate').html(cdata);
         $('#printset').show();
@@ -180,17 +182,22 @@
         }
       });
     };
-
   }
   //点击打印
   function printpage() {
+	  var status = '0';
  	  var deliveryorderid = $('#deliveryorderId').html();
  	  var approvalStatus = $('#approvalStatus').val();
+ 	  if(approvalStatus == 2){
+ 		  status = 4;
+ 	  }else{
+ 		  status = approvalStatus;
+ 	  }
   	  $.ajax({
   			 type: 'post',
   		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
   		     data:{"deliveryorderid":deliveryorderid,
-  		    	 	"status":"4"
+  		    	 	"status":status
   		    	  },
   		     success : function(data) {
   			           if(data=='success'){

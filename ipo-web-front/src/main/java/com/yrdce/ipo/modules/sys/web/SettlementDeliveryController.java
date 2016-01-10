@@ -89,7 +89,6 @@ public class SettlementDeliveryController {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			deliveryOrder.setDealerId(user.getUserID());
 			// deliveryOrder.setDealerId("888888");
-			deliveryOrder.setDealerId("888888");
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
 				settlementDeliveryService.applicationByPickup(deliveryOrder);
@@ -200,9 +199,7 @@ public class SettlementDeliveryController {
 	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			if (status == "2") {
-				settlementDeliveryService.updateRevocationStatus(deliveryorderid, "4");
-			}
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status);
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
