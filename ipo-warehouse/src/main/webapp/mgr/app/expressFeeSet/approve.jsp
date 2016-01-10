@@ -6,7 +6,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-        title:'待审核提货单',  
+        title:'配送提货单',  
         iconCls:'icon-ok', 
         method:"post",
         height:400,
@@ -18,9 +18,6 @@ $(document).ready(function() {
         striped:true,  
         collapsible:false,  
         url:  getRootPath () + "/DeliveryController/QueryByConditions?randnum=" +Math.floor(Math.random()*1000000),  
-        queryParams:{
-        	approvalStatus:'1'
-        },
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
         columns : [ [ {
@@ -95,7 +92,7 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
-        	    return "<input type=\"button\" onclick=\"approve("+row.deliveryorderId+")\" value=\"审核\"/>";
+        	    return "<input type=\"button\" onclick=\"approve('"+row.deliveryorderId+"')\" value=\"设置费用\"/>";
         }
          }
         ]],  
@@ -120,31 +117,15 @@ $(document).ready(function() {
 });
 
 function approve(id){
-	document.location.href =  getRootPath () + "/IpoController/approveDelivery?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
+	document.location.href =  getRootPath () + "/DeliveryController/setExpressFee?deliveryorderId="+id+"&&randnum="+Math.floor(Math.random()*1000000) ;
 }
 
 
 
 function doSearch(){
-	
-   /* var options = $('#dg').datagrid('getPager').data("pagination").options;  
-    var curr = options.pageNumber;
-    var rows=  options.pageSize;
-    $('#pageNo').val(curr);
-    $('#pageSize').val(rows);
-           $.ajax({ 
-                 type: "post",  
-                 url: getRootPath () + "/DeliveryController/QueryByConditions",       
-                 data: form2Json(),      
-                 success: function(result) { 
-                     $("#dg").datagrid("reload",result); 
-                 }
-           });*/
-           
   $('#dg').datagrid('load',{
 		deliveryorderId: $('#deliveryorderId').val(),
 		applyDate: $('#applyDate').datebox('getValue'),
-		approvalStatus: '1',
 		dealerId: $('#dealerId').val()
 	});       
 }
@@ -161,10 +142,6 @@ function clearInfo(){
 </head>
 <body>
 <div id="main_body">
-			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td>
-						<br/>
 	<div class="div_list">
 	<table id="dg" width="100%"></table>
 	 <div id="tb" style="padding:5px;height:auto">
@@ -177,9 +154,6 @@ function clearInfo(){
 		</div> 
 	</div>
 	</div>
-	</td>
-	</tr>
-    </table>
 </div>
 </body>
 

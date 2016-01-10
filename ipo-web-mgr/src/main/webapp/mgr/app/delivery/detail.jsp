@@ -83,7 +83,6 @@ function parseISO8601(dateStringInRange) {
 		
 function updatePickup(){
 	var approvalStatus=$("#approvalStatus").val();
-	var flag= $('#frm').form('validate');
 	var stock=$("#stock").val();
 	var deliveryQuantity=$("#deliveryQuatity").val();
 	if(stock==''){
@@ -94,7 +93,7 @@ function updatePickup(){
 		alert("库存不足，暂时无法通过审核!");
 		return ;
 	}
-	if(approvalStatus!= ''&&flag==true){
+	if(approvalStatus!= ''){
                          	   $.ajax({ 
                          		   cache:false,
                                     type: "post",  
@@ -113,20 +112,19 @@ function updatePickup(){
                                     }  
                                 }); 
          }else{
-			 alert("请填入必填参数!");  
+			 alert("请先审核再提交!");  
 		}
 }
 
 function updateExpress(){
 	var approvalStatus=$("#approvalStatus").val();
-	var flag= $('#frm').form('validate');
 	var stock=$("#stock").val();
 	var deliveryQuantity=$("#deliveryQuatity").val();
 	if(stock<deliveryQuantity&&approvalStatus=='2'){
 		alert("库存不足，暂时无法通过审核!");
 		return ;
 	}
-	if(approvalStatus== '2'&&flag==true){
+	if(approvalStatus== '2'){
                          	   $.ajax({ 
                          		   cache:false,
                                     type: "post",  
@@ -164,7 +162,7 @@ function updateExpress(){
                                 }); 
 		}
 			else{
-					alert("请填入必填参数!");
+					alert("请先审核再提交!");
 		}
 }
 function returntoList(){
@@ -308,6 +306,8 @@ function onlyNumberInput(){
 										<td align="right" width="110">收货人：</td>     
             							<td width="110"> 
             								 <input id="receiver" type="text" name="receiver" value="${detail.receiver }" readonly="readonly"/>
+										      <input id="cost" type="hidden" name="cost" value="${detail.cost }" readonly="readonly"/>
+									
 										</td>
 										<td align="right" width="110">联系电话：</td>     
             							<td width="110"> 
@@ -328,12 +328,9 @@ function onlyNumberInput(){
 												<option value="3">驳回</option>
 										   </select> <span class="required">*</span> 
 										</td>
-        			 					<td align="right" width="110">配送费：</td>
+        			 					<td align="right" width="110"></td>
 	      								<td width="110">
-	      								    <input id="cost" type="text" name="cost"
-	      								    class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'精度为2的正数(驳回可不填)'"/>
-		          						</td>
-										
+	      								</td>
 							        </tr> 
 							        </c:if>
 							         <tr>

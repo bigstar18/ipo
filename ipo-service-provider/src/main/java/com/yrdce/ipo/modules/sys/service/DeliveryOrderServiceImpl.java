@@ -130,16 +130,14 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			String managerId) {
 		Log.info("审核自提提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
-		IpoPickup ipopickup = new IpoPickup();
 		if (order != null) {
 			if (pickup != null) {
 				BeanUtils.copyProperties(order, deorder);
-				BeanUtils.copyProperties(pickup, ipopickup);
 				deorder.setApproveDate(new Date());
 				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
-					ipopickupmapper.updateByPrimaryKey(ipopickup);
+					// ipopickupmapper.updateByPrimaryKey(ipopickup);
 					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
@@ -184,16 +182,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			String managerId) {
 		Log.info("审核配送提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
-		IpoExpress ipoexpress = new IpoExpress();
 		if (order != null) {
 			if (express != null) {
 				BeanUtils.copyProperties(order, deorder);
-				BeanUtils.copyProperties(express, ipoexpress);
 				deorder.setApproveDate(new Date());
 				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
-					ipoexpressmapper.updateByPrimaryKey(ipoexpress);
 					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
@@ -429,6 +424,25 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				.selectByPrimaryKey(deliveryId);
 		example.setApprovalStatus(5);// 已过户
 		return deliveryordermapper.updateByPrimaryKey(example);
+	}
+
+	@Override
+	public String setExpressFee(DeliveryOrder order, Express express) {
+		Log.info("设置配送费用");
+		IpoDeliveryorder deorder = new IpoDeliveryorder();
+		IpoExpress ipoexpress = new IpoExpress();
+		if (order != null) {
+			if (express != null) {
+				BeanUtils.copyProperties(order, deorder);
+				BeanUtils.copyProperties(express, ipoexpress);
+				int num = deliveryordermapper.updateByPrimaryKey(deorder);
+				int onum = ipoexpressmapper.updateByPrimaryKey(ipoexpress);
+				if (onum == 1 && num == 1) {
+					return "true";
+				}
+			}
+		}
+		return "false";
 	}
 
 }

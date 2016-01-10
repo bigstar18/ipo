@@ -144,4 +144,14 @@ public interface DeliveryOrderService {
 	 */
 	public Integer transferDeliveryOrder(String deliveryId);
 
+	/**
+	 * 仓库设置配送费
+	 * 
+	 * @param order
+	 * @param express
+	 * @param managerId
+	 * @return
+	 */
+	public String setExpressFee(DeliveryOrder order, Express express);
+
 }
