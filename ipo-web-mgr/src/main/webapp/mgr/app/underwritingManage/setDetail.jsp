@@ -37,9 +37,7 @@ function add(){
             	 $.ajax({  
         			 type: 'POST', 
         		      url: "<%=request.getContextPath()%>/UnderwriterSetController/findUnderwriter",  
-        		     contentType: "application/json; charset=utf-8", 
         		     data:{"underwriterid":$("#underwriterid").val(),"randnum":Math.floor(Math.random()*1000000)},  
-        			 dataType: 'json',  
         		     success : function(data, stats) { 
         			           if(data=='0'){
         			        	   alert("承销会员代码不存在！")
@@ -121,7 +119,7 @@ function onlyNumberInput(){
 	        	<td style="font-size:15px" align="right" width="20%">认购数量：</td>
 	        	<td align="left" width="60%">
 	        	 <input style="width:150px;" id="subscribecounts" name="subscribecounts"
-	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0/>
+	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0"/>
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr> 

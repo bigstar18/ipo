@@ -35,22 +35,22 @@ $(document).ready(function(){
 	          field : 'underwriterid',
 	          width : 200,
 	          align: "center",
-	          title : '承销会员编号',
+	          title : '承销会员编号'
 	      },{
 	          field : 'commodityid',
 	          width : 200,
 	          align: "center",
-	          title : '商品代码',
+	          title : '商品代码'
 	      }, {
 	          field : 'subscribecounts',
 	          width : 200,
 	          align: "center",
-	          title : '认购数量',
+	          title : '认购数量'
 	      }, {
 	          field : 'proportion',
 	          width : 200,
 	          align: "center",
-	          title : '占承销会员手续费总和的比例（%）',
+	          title : '占承销会员手续费总和的比例（%）'
 	      } ]],
 	      pagination : true,
 	      singleSelect: false,
@@ -91,7 +91,7 @@ function deleteList(){
 	}
 }
 function addInfo(){
-	document.location.href = "<%=request.getContextPath()%>/IpoController/addBreedforward?randnum="+Math.floor(Math.random()*1000000);
+	document.location.href = '<%=request.getContextPath()%>/UnderwriterSetController/addInfo?randnum='+Math.floor(Math.random()*1000000);
 
 }
 function doSearch(){
