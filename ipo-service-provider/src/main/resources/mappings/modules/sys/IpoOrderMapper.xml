@@ -358,5 +358,9 @@
       FROZENST = #{frozenst,jdbcType=INTEGER}
     where ORDERID = #{orderid,jdbcType=VARCHAR}
   </update>
+   <select id="selectCounterFeeInfo" resultType="com.yrdce.ipo.modules.sys.entity.IpoOrder" parameterType="java.lang.String">
+  	select TRADEALGR,BUY from IPO_ORDER
+  	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>  
 
 </mapper>

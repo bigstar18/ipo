@@ -56,6 +56,8 @@ public class TaskServiceImpl implements TaskService {
 	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
 	private IpoCommodityMapper commodityMapper;
+	@Autowired
+	private IpoOrderMapper ipoOrderMapper;
 
 	/**
 	 * 配号
@@ -124,9 +126,7 @@ public class TaskServiceImpl implements TaskService {
 			if (ipoCommodity.getStatus() == 2) {
 				lottery(commId);
 			}
-
 		}
-
 	}
 
 	// 商品摇号
@@ -193,6 +193,7 @@ public class TaskServiceImpl implements TaskService {
 			if (ipodb.getZcounts() != 0) {
 				logger.info("获取发售商品信息" + ipodb.getCommodityid());
 				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipodb.getCommodityid());
+				IpoOrder counterFeeInfo = ipoOrderMapper.selectCounterFeeInfo(ipodb.getCommodityid());
 				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipodb.getCommodityid());
 				if (commodityConf != null) {
 					BigDecimal bigDecimal = commodityExtended.getPrice();
@@ -200,15 +201,16 @@ public class TaskServiceImpl implements TaskService {
 					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipodb.getZcounts()));
 					logger.info("成交金额" + tempPrice);
 					ipodb.setTradingamount(tempPrice);
-					logger.info("计算手续费" + commodityConf.getTradealgr());
-					short tradealgr = commodityConf.getTradealgr();
+					logger.info("计算手续费" + counterFeeInfo.getTradealgr());
+					short tradealgr = counterFeeInfo.getTradealgr();
+					BigDecimal buyfee = counterFeeInfo.getBuy();
 					logger.info("计算手续费算法" + tradealgr);
 					if (tradealgr == 1) {
-						BigDecimal tempDecimal = new BigDecimal(tradealgr).divide(new BigDecimal(100));
+						BigDecimal tempDecimal = buyfee.divide(new BigDecimal(100));
 						BigDecimal counterfee = tempPrice.multiply(tempDecimal);
 						ipodb.setCounterfee(counterfee);
 					} else if (tradealgr == 2) {
-						BigDecimal counterfee = new BigDecimal(tradealgr).multiply(new BigDecimal(ipodb.getZcounts()));
+						BigDecimal counterfee = buyfee.multiply(new BigDecimal(ipodb.getZcounts()));
 						ipodb.setCounterfee(counterfee);
 					}
 					Date dt = sdf.parse(DateUtil.getTime(0));
@@ -233,7 +235,8 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("开始获取所有未结算的中签记录");
 
 		String ballotNowtime = DateUtil.getTime(2);
-		// List<IpoDistribution> distributions = ipoDistribution.getInfobyDate(ballotNowtime);
+		// List<IpoDistribution> distributions =
+		// ipoDistribution.getInfobyDate(ballotNowtime);
 		List<IpoDistribution> distributions = ipoDistribution.allByTime(ballotNowtime);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
@@ -247,7 +250,8 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("申购结束");
 	}
 
-	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
+	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf)
+			throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
 		String userid = dst.getUserid();
