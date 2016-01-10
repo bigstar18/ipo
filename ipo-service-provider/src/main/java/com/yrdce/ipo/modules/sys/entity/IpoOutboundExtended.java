@@ -1,7 +1,7 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,7 +29,7 @@ public class IpoOutboundExtended implements Serializable {
 	private Integer outboundstate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Timestamp outbounddate;
+	private Date outbounddate;
 
 	private String operatorid;
 
@@ -117,11 +117,11 @@ public class IpoOutboundExtended implements Serializable {
 		this.outboundstate = outboundstate;
 	}
 
-	public Timestamp getOutbounddate() {
+	public Date getOutbounddate() {
 		return outbounddate;
 	}
 
-	public void setOutbounddate(Timestamp outbounddate) {
+	public void setOutbounddate(Date outbounddate) {
 		this.outbounddate = outbounddate;
 	}
 
