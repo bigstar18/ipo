@@ -27,4 +27,10 @@ public interface IpoPositionMapper {
 
 	IpoPosition selectPosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid);
 
+	// 查询商品在持仓中的总量
+	int selectSumByComm(String commodityid);
+
+	// 根据商品id查询持仓
+	List<IpoPosition> selectPositionList(String commodityid);
+
 }

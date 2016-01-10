@@ -160,4 +160,8 @@
   <select id="selectFirmname" resultType="java.lang.String" parameterType="java.lang.String">
   select t.name from m_firm t where t.firmid =  #{firmid,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectInfoBySPOid" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select <include refid="Base_Column_List"/> from IPO_SPO_RATION where SPOID = #{spoid,jdbcType=VARCHAR}
+  </select>
 </mapper>
