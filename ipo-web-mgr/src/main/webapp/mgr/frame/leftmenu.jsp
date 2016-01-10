@@ -284,6 +284,9 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("承销设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/underwritingSet.jsp");
 									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("承销贷款押金,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/loanDeposit.jsp");
+									M01.add(M0101);</SCRIPT>			
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
