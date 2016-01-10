@@ -5,7 +5,7 @@
     <id column="OUTBOUNDORDERID" property="outboundorderid" jdbcType="VARCHAR" />
     <result column="DELIVERYORDERID" property="deliveryorderid" jdbcType="VARCHAR" />
     <result column="OUTBOUNDSTATE" property="outboundstate" jdbcType="DECIMAL" />
-    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="DATE" />
+    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="TIMESTAMP" />
     <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
     <result column="AUDITORID" property="auditorid" jdbcType="VARCHAR" />
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
     <result column="DELIVERY_QUATITY" property="deliveryQuatity" jdbcType="DECIMAL" />
     <result column="DELIVERY_METHOD" property="deliveryMethod" jdbcType="VARCHAR" />
     <result column="OUTBOUNDSTATE" property="outboundstate" jdbcType="DECIMAL" />
-    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="DATE" />
+    <result column="OUTBOUNDDATE" property="outbounddate" jdbcType="TIMESTAMP" />
     <result column="OPERATORID" property="operatorid" jdbcType="VARCHAR" />
     <result column="AUDITORID" property="auditorid" jdbcType="VARCHAR" />
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="VARCHAR" />
@@ -51,7 +51,7 @@
     update IPO_OUTBOUND
     set DELIVERYORDERID = #{deliveryorderid,jdbcType=VARCHAR},
       OUTBOUNDSTATE = #{outboundstate,jdbcType=DECIMAL},
-      OUTBOUNDDATE = #{outbounddate,jdbcType=DATE},
+      OUTBOUNDDATE = #{outbounddate,jdbcType=TIMESTAMP},
       OPERATORID = #{operatorid,jdbcType=VARCHAR},
       AUDITORID = #{auditorid,jdbcType=VARCHAR},
       WAREHOUSEID = #{warehouseid,jdbcType=VARCHAR},
@@ -90,7 +90,7 @@
        and g.OUTBOUNDORDERID like concat (#{record.outboundorderid,jdbcType=VARCHAR},'%')
       </if>
        <if test="record.outbounddate != null" >
-       and g.OUTBOUNDDATE = #{record.outbounddate,jdbcType=DATE}
+       and g.OUTBOUNDDATE = #{record.outbounddate,jdbcType=TIMESTAMP}
       </if>
         <if test="record.outboundstate != null" >
        and g.OUTBOUNDSTATE = #{record.outboundstate,jdbcType=DECIMAL}
@@ -113,7 +113,7 @@
        and t.OUTBOUNDORDERID like concat (#{outboundorderid,jdbcType=VARCHAR},'%')
       </if>
        <if test="outbounddate != null" >
-       and t.OUTBOUNDDATE = #{outbounddate,jdbcType=DATE}
+       and t.OUTBOUNDDATE = #{outbounddate,jdbcType=TIMESTAMP}
       </if>
         <if test="outboundstate != null" >
        and t.OUTBOUNDSTATE = #{outboundstate,jdbcType=DECIMAL}

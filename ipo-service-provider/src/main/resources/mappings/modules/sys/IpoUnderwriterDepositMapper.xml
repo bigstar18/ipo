@@ -11,6 +11,8 @@
     <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="UNDERWRITERID" property="underwriterid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
     insert into IPO_UNDERWRITER_DEPOSIT (ID, AMOUNT, REMARK, 
@@ -26,5 +28,28 @@
     select ID, AMOUNT, REMARK, DELETE_FLAG, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
     STATE
     from IPO_UNDERWRITER_DEPOSIT
+  </select>
+  <select id="getSubFundsInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+	  select a.* from
+	  (select t.id,t.amount,b.underwriterid,b.commodityid,rownum TNO
+	  from ipo_underwriter_deposit t 
+	  inner join ipo_underwriter_subscribe b 
+	  on t.subscribeid = b.subscribeid
+	  where 1=1 
+	  <if test="underwriterid!=null and underwriterid!=''">
+	  and b.underwriterid=#{underwriterid,jdbcType=VARCHAR}
+	  </if>
+	  order by t.id)a
+	  where a.TNO between  #{beginnum} and #{endnum}
+  </select>
+  <select id="getSubFundsInfoCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
+	  select count(0) 
+	  from ipo_underwriter_deposit t 
+	  inner join ipo_underwriter_subscribe b 
+	  on t.subscribeid = b.subscribeid
+	  where 1=1 
+	  <if test="underwriterid!=null and underwriterid!=''">
+	  and b.underwriterid=#{underwriterid,jdbcType=VARCHAR}
+	  </if>
   </select>
 </mapper>

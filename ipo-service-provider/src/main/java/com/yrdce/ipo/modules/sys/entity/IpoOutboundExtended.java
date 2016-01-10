@@ -1,7 +1,9 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author chenjing
@@ -26,7 +28,8 @@ public class IpoOutboundExtended implements Serializable {
 
 	private Integer outboundstate;
 
-	private Date outbounddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Timestamp outbounddate;
 
 	private String operatorid;
 
@@ -95,8 +98,7 @@ public class IpoOutboundExtended implements Serializable {
 	}
 
 	public void setOutboundorderid(String outboundorderid) {
-		this.outboundorderid = outboundorderid == null ? null : outboundorderid
-				.trim();
+		this.outboundorderid = outboundorderid == null ? null : outboundorderid.trim();
 	}
 
 	public String getDeliveryorderid() {
@@ -104,8 +106,7 @@ public class IpoOutboundExtended implements Serializable {
 	}
 
 	public void setDeliveryorderid(String deliveryorderid) {
-		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid
-				.trim();
+		this.deliveryorderid = deliveryorderid == null ? null : deliveryorderid.trim();
 	}
 
 	public Integer getOutboundstate() {
@@ -116,11 +117,11 @@ public class IpoOutboundExtended implements Serializable {
 		this.outboundstate = outboundstate;
 	}
 
-	public Date getOutbounddate() {
+	public Timestamp getOutbounddate() {
 		return outbounddate;
 	}
 
-	public void setOutbounddate(Date outbounddate) {
+	public void setOutbounddate(Timestamp outbounddate) {
 		this.outbounddate = outbounddate;
 	}
 
@@ -153,8 +154,7 @@ public class IpoOutboundExtended implements Serializable {
 	}
 
 	public void setDeliveryperson(String deliveryperson) {
-		this.deliveryperson = deliveryperson == null ? null : deliveryperson
-				.trim();
+		this.deliveryperson = deliveryperson == null ? null : deliveryperson.trim();
 	}
 
 	public String getSex() {
@@ -183,16 +183,13 @@ public class IpoOutboundExtended implements Serializable {
 
 	@Override
 	public String toString() {
-		return "IpoOutboundExtended [outboundorderid=" + outboundorderid
-				+ ", deliveryorderid=" + deliveryorderid + ", commodityid="
-				+ commodityid + ", commodityname=" + commodityname
-				+ ", dealerId=" + dealerId + ", dealerName=" + dealerName
-				+ ", deliveryQuatity=" + deliveryQuatity + ", deliveryMethod="
-				+ deliveryMethod + ", outboundstate=" + outboundstate
-				+ ", outbounddate=" + outbounddate + ", operatorid="
-				+ operatorid + ", auditorid=" + auditorid + ", warehouseid="
-				+ warehouseid + ", deliveryperson=" + deliveryperson + ", sex="
-				+ sex + ", idtype=" + idtype + ", idnum=" + idnum + "]";
+		return "IpoOutboundExtended [outboundorderid=" + outboundorderid + ", deliveryorderid=" + deliveryorderid
+				+ ", commodityid=" + commodityid + ", commodityname=" + commodityname + ", dealerId=" + dealerId
+				+ ", dealerName=" + dealerName + ", deliveryQuatity=" + deliveryQuatity + ", deliveryMethod="
+				+ deliveryMethod + ", outboundstate=" + outboundstate + ", outbounddate=" + outbounddate
+				+ ", operatorid=" + operatorid + ", auditorid=" + auditorid + ", warehouseid=" + warehouseid
+				+ ", deliveryperson=" + deliveryperson + ", sex=" + sex + ", idtype=" + idtype + ", idnum=" + idnum
+				+ "]";
 	}
 
 }

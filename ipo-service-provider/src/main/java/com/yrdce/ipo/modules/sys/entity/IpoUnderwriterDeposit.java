@@ -4,93 +4,113 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoUnderwriterDeposit {
-    private BigDecimal id;
+	private BigDecimal id;
 
-    private BigDecimal amount;
+	private BigDecimal amount;
 
-    private String remark;
+	private String remark;
 
-    private Short deleteFlag;
+	private Short deleteFlag;
 
-    private String createUser;
+	private String createUser;
 
-    private Date createDate;
+	private Date createDate;
 
-    private String updateUser;
+	private String updateUser;
 
-    private Date updateDate;
+	private Date updateDate;
 
-    private Short state;
+	private Short state;
 
-    public BigDecimal getId() {
-        return id;
-    }
+	private String underwriterid;
 
-    public void setId(BigDecimal id) {
-        this.id = id;
-    }
+	private String commodityid;
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+	public String getUnderwriterid() {
+		return underwriterid;
+	}
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+	public void setUnderwriterid(String underwriterid) {
+		this.underwriterid = underwriterid;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getCommodityid() {
+		return commodityid;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid;
+	}
 
-    public Short getDeleteFlag() {
-        return deleteFlag;
-    }
+	public BigDecimal getId() {
+		return id;
+	}
 
-    public void setDeleteFlag(Short deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
+	public void setId(BigDecimal id) {
+		this.id = id;
+	}
 
-    public String getCreateUser() {
-        return createUser;
-    }
+	public BigDecimal getAmount() {
+		return amount;
+	}
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
-    }
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public String getUpdateUser() {
-        return updateUser;
-    }
+	public Short getDeleteFlag() {
+		return deleteFlag;
+	}
 
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser == null ? null : updateUser.trim();
-    }
+	public void setDeleteFlag(Short deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public String getCreateUser() {
+		return createUser;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser == null ? null : createUser.trim();
+	}
 
-    public Short getState() {
-        return state;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setState(Short state) {
-        this.state = state;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser == null ? null : updateUser.trim();
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Short getState() {
+		return state;
+	}
+
+	public void setState(Short state) {
+		this.state = state;
+	}
 }

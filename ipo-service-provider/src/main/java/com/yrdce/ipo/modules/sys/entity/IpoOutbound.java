@@ -1,8 +1,6 @@
 package com.yrdce.ipo.modules.sys.entity;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.sql.Timestamp;
 
 public class IpoOutbound {
 	private String outboundorderid;
@@ -11,8 +9,7 @@ public class IpoOutbound {
 
 	private Integer outboundstate;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date outbounddate;
+	private Timestamp outbounddate;
 
 	private String operatorid;
 
@@ -52,11 +49,11 @@ public class IpoOutbound {
 		this.outboundstate = outboundstate;
 	}
 
-	public Date getOutbounddate() {
+	public Timestamp getOutbounddate() {
 		return outbounddate;
 	}
 
-	public void setOutbounddate(Date outbounddate) {
+	public void setOutbounddate(Timestamp outbounddate) {
 		this.outbounddate = outbounddate;
 	}
 
