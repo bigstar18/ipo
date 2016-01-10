@@ -243,9 +243,6 @@ public class SystemManager {
 		}
 		return null;
 	}
-	// "select f.billid from T_billFrozen f, T_E_GageBill g where f.operation = g.id and Operationtype = 0 and g.commodityid in (select
-	// CommodityID from T_Commodity where SettleDate <= (select trunc(tradedate) from t_systemstatus))");
-	// 解冻仓单 抵押unFrozenStocks(15, arrayOfString);
 
 	// i = tradeRMI.balance(); // FN_T_CloseMarketProcess
 	// FN_F_UpdateFrozenFunds
@@ -310,6 +307,9 @@ public class SystemManager {
 		listener.interrupt();// 让系统重新判别状态
 	}
 
+	// INSERT INTO "TRADE_GNNT"."F_LEDGERFIELD" VALUES ('Payout_I', '申购购货支出', '-1', '40', '40001', 'Y');
+	// INSERT INTO "TRADE_GNNT"."F_LEDGERFIELD" VALUES ('Income_I', '发售销售收入', '1', '40', '40002', 'Y');
+	// INSERT INTO "TRADE_GNNT"."F_LEDGERFIELD" VALUES ('TradeFee_I', '申购交易手续费', '-1', '40', '40101', 'Y');
 	private void purchaseSettle() throws Exception {
 		// 找sale表状态为32->41
 		List<Commodity> sales = commodityService.queryAllByStatusForSettle();
@@ -320,28 +320,15 @@ public class SystemManager {
 				String commodityId = commodity.getCommodityid();
 				logger.info("申购结算：开始结算处理id={} 的商品", commodityId);
 				// 解冻order表中的订单费和手续费
-				List<Order> orders = orderService.queryUnsettleOrdersByCommId(commodityId);
-				while (orders != null && !orders.isEmpty()) {
-					logger.info("申购结算：申购订单处理：开始处理商品id={} 的申购订单。", commodityId);
+				processApplyOrders(commodityId);
 
-					unfrozenOrders(orders);
-					orders = orderService.queryUnsettleOrdersByCommId(commodityId);
-				}
 				// 扣distribution表中的订单费和手续费
-				BigDecimal commoAmonut = new BigDecimal(0);// 商品付给发行商总金额
-				List<Distribution> distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
-				while (distributions != null && !distributions.isEmpty()) {
-					logger.info("申购结算：配号摇号单处理：开始结算处理商品id={} 的配号摇号单。", commodityId);
+				BigDecimal commoAmount = processSelectOrders(commodityId);
 
-					commoAmonut = frozenTrades(distributions, commoAmonut);
-					distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
-				}
-				// 付钱给发行商// TODO
-				String firmId = queryBrokerFirmId(commodityId);
-				if (firmId == null || firmId.isEmpty()) {
-					logger.error("申购结算：查找商品的发行商：商品={}，失败", commodityId);
-					throw new Exception("查找商品的发行商失败，全部回滚");
-				}
+				// 付钱给发行商
+				payPublisher(commodityId, commoAmount);
+
+				// 返佣操作 TODO
 
 				// 变更sale表的状态41->4
 				if (commodityService.updateCommoditySettled(commodityId) < 1) {
@@ -353,18 +340,14 @@ public class SystemManager {
 		}
 	}
 
-	private String queryBrokerFirmId(String commodityId) {
-		VIpoCommConf vIpoCommConf = new VIpoCommConf();
-		vIpoCommConf.setCommodityid(commodityId);
-		List<VIpoCommConf> commConfs = commConfService.selectCommodityByExample(vIpoCommConf);
-		if (commConfs != null && commConfs.size() == 1) {
-			String brokerId = commConfs.get(0).getPubmemberid();
-			VBrBroker brBroker = brokerService.queryBrokerById(brokerId);
-			if (brBroker != null)
-				return brBroker.getFirmid();
-		}
+	private void processApplyOrders(String commodityId) throws Exception {
+		List<Order> orders = orderService.queryUnsettleOrdersByCommId(commodityId);
+		while (orders != null && !orders.isEmpty()) {
+			logger.info("申购结算：申购订单处理：开始处理商品id={} 的申购订单。", commodityId);
 
-		return null;
+			unfrozenOrders(orders);
+			orders = orderService.queryUnsettleOrdersByCommId(commodityId);
+		}
 	}
 
 	// 解冻order表中的订单费和手续费
@@ -382,6 +365,18 @@ public class SystemManager {
 
 			logger.info("申购结算：申购订单处理：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId, total.toString());
 		}
+	}
+
+	private BigDecimal processSelectOrders(String commodityId) throws Exception {
+		BigDecimal commoAmount = new BigDecimal(0);// 商品付给发行商总金额
+		List<Distribution> distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
+		while (distributions != null && !distributions.isEmpty()) {
+			logger.info("申购结算：配号摇号单处理：开始结算处理商品id={} 的配号摇号单。", commodityId);
+
+			commoAmount = frozenTrades(distributions, commoAmount);
+			distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
+		}
+		return commoAmount;
 	}
 
 	// 扣distribution表中的订单费和手续费
@@ -404,6 +399,30 @@ public class SystemManager {
 			logger.info("申购结算：配号摇号单处理：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(), fee.toString());
 		}
 		return result;
+	}
+
+	private void payPublisher(String commodityId, BigDecimal commoAmount) throws Exception {
+		String firmId = queryBrokerFirmId(commodityId);
+		if (firmId == null || firmId.isEmpty()) {
+			logger.error("申购结算：查找商品的发行商：商品={}，失败", commodityId);
+			throw new Exception("查找商品的发行商失败，全部回滚");
+		}
+		updateFundsFull(firmId, "40002", commoAmount, commodityId);
+		logger.info("申购结算：付发行商货款：商品={}，发行商id={}，付货款={}", commodityId, firmId, commoAmount.toString());
+	}
+
+	private String queryBrokerFirmId(String commodityId) {
+		VIpoCommConf vIpoCommConf = new VIpoCommConf();
+		vIpoCommConf.setCommodityid(commodityId);
+		List<VIpoCommConf> commConfs = commConfService.selectCommodityByExample(vIpoCommConf);
+		if (commConfs != null && commConfs.size() == 1) {
+			String brokerId = commConfs.get(0).getPubmemberid();
+			VBrBroker brBroker = brokerService.queryBrokerById(brokerId);
+			if (brBroker != null)
+				return brBroker.getFirmid();
+		}
+
+		return null;
 	}
 
 	@Transactional
