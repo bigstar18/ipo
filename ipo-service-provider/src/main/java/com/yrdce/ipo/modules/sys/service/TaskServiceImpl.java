@@ -138,9 +138,10 @@ public class TaskServiceImpl implements TaskService {
 
 		commodity.updateByStatus(31, commId);// 31表示摇号中
 		commodityConfMapper.updateByStatus(31, commId);
-		int commCounts = ipoCommodity.getCounts();
-		logger.info("commCounts:" + commCounts);
-		int saleCounts = order.bycommodityid(commId);
+		int commCounts = ipoCommodity.getCounts() / ipoCommodity.getUnits();
+		logger.info("单位" + ipoCommodity.getUnits());
+		logger.info("commCounts:" + commCounts + ":" + ipoCommodity.getUnits());
+		int saleCounts = order.bycommodityid(commId) / ipoCommodity.getUnits();
 		logger.info("saleCounts:" + saleCounts);
 		Selection selection = new Selection();
 		List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
