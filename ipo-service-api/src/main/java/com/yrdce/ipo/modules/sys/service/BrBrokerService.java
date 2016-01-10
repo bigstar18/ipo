@@ -24,10 +24,9 @@ public interface BrBrokerService {
 	 */
 	public List<VBrBroker> findAllUnderwriter();
 
+
 	int insert(VBrBroker record);
 
-	// hxx
-		public VBrBroker queryBrokerById(String brokerId);
-
+	public VBrBroker queryBrokerById(String brokerId);
 
 }

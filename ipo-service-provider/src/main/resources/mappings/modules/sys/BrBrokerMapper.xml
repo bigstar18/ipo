@@ -414,8 +414,7 @@
    <include refid="Base_Column_List" /> 
    from BR_BROKER where  MEMBERTYPE= (select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='发行会员' )
   </select>  
- 
-  
+
    <select id="selectById"  resultMap="BaseResultMap" parameterType="String" >
     select  
    <include refid="Base_Column_List" /> 

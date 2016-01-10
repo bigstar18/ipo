@@ -244,7 +244,6 @@ public class SPOServiceImpl implements SPOService {
 			IpoSpoRation ipoSpoRation = new IpoSpoRation();
 			BeanUtils.copyProperties(spoRation, ipoSpoRation);
 			String rationid = ipoSpoRation.getRationid().toString();
-			logger.info("dfrferferferferferferfre" + rationid);
 			if (rationid.equals("0")) {
 				String brokerid = ipoSpoRation.getBrokerid();
 				String firmid = ipoSpoRationMapper.firmidBySales(brokerid);
@@ -257,7 +256,7 @@ public class SPOServiceImpl implements SPOService {
 				logger.info("插入承销商配售比例：" + proportion);
 				double pro = proportion.doubleValue();
 				long sumparam = (long) (counts * (pro / 100));
-				spoRation.setRationcounts(sumparam);
+				ipoSpoRation.setRationcounts(sumparam);
 				logger.info("插入承销商配售总数：" + sumparam);
 				sum += sumparam;
 				result += ipoSpoRationMapper.insert(ipoSpoRation);

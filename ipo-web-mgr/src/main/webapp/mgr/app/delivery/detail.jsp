@@ -282,6 +282,7 @@ function onlyNumberInput(){
         			 					<td align="right" width="110">身份证号：</td>
 	      								<td width="110">
 	      								    <input id="idcardNum" type="text" name="idcardNum" value="${detail.idcardNum }" readonly="readonly"/>
+	      								    <input id="pickupPassword" type="hidden" name="pickupPassword" value="${detail.pickupPassword }" readonly="readonly"/>
 		          						</td>
 										<td align="right" width="110">仓库可用数量：</td>     
             							<td width="110"> 

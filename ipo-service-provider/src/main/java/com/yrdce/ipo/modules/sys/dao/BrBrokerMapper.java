@@ -47,4 +47,5 @@ public interface BrBrokerMapper {
 	
 	List<BrBroker> findAllUnderwriter();// 获取所有承销会员
 
+
 }

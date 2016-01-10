@@ -29,13 +29,17 @@ import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
+import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Order;
+import com.yrdce.ipo.modules.sys.vo.VBrBroker;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * @author hxx
@@ -101,6 +105,12 @@ public class SystemManager {
 	@Autowired
 	@Qualifier("distributionService")
 	private DistributionService distributionService;
+	@Autowired
+	@Qualifier("ipoCommConfService")
+	private IpoCommConfService commConfService;
+	@Autowired
+	@Qualifier("brBrokerService")
+	private BrBrokerService brokerService;
 
 	public String getStatus() {
 		return status;
@@ -282,7 +292,7 @@ public class SystemManager {
 			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
 			updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
 
-			// TODO 付钱给谁?承销商
+			// TODO
 			// updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
 			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
 		} catch (Throwable e) {
@@ -304,36 +314,57 @@ public class SystemManager {
 		// 找sale表状态为32->41
 		List<Commodity> sales = commodityService.queryAllByStatusForSettle();
 		if (sales != null && !sales.isEmpty()) {
-			logger.info("申购结算：待结算的商品个数={}", sales.size());
+			logger.info("申购结算：发售商品查询：待结算的商品个数={}", sales.size());
 
 			for (Commodity commodity : sales) {
 				String commodityId = commodity.getCommodityid();
 				logger.info("申购结算：开始结算处理id={} 的商品", commodityId);
-
+				// 解冻order表中的订单费和手续费
 				List<Order> orders = orderService.queryUnsettleOrdersByCommId(commodityId);
 				while (orders != null && !orders.isEmpty()) {
-					logger.info("申购结算：开始结算处理商品id={} 的申购订单。", commodityId);
+					logger.info("申购结算：申购订单处理：开始处理商品id={} 的申购订单。", commodityId);
 
 					unfrozenOrders(orders);
 					orders = orderService.queryUnsettleOrdersByCommId(commodityId);
 				}
-
+				// 扣distribution表中的订单费和手续费
+				BigDecimal commoAmonut = new BigDecimal(0);// 商品付给发行商总金额
 				List<Distribution> distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
 				while (distributions != null && !distributions.isEmpty()) {
-					logger.info("申购结算：开始结算处理商品id={} 的配号摇号单。", commodityId);
+					logger.info("申购结算：配号摇号单处理：开始结算处理商品id={} 的配号摇号单。", commodityId);
 
-					frozenTrades(distributions);
+					commoAmonut = frozenTrades(distributions, commoAmonut);
 					distributions = distributionService.queryUnsettleOrdersByCommId(commodityId);
+				}
+				// 付钱给发行商// TODO
+				String firmId = queryBrokerFirmId(commodityId);
+				if (firmId == null || firmId.isEmpty()) {
+					logger.error("申购结算：查找商品的发行商：商品={}，失败", commodityId);
+					throw new Exception("查找商品的发行商失败，全部回滚");
 				}
 
 				// 变更sale表的状态41->4
 				if (commodityService.updateCommoditySettled(commodityId) < 1) {
-					logger.info("申购结算：商品={}，变更sale状态失败", commodityId);
+					logger.error("申购结算：发售状态变更：商品={}，变更sale状态失败", commodityId);
 					throw new Exception("变更sale状态失败，全部回滚");
 				}
 				logger.info("申购结算：结束处理id={} 的商品", commodityId);
 			}
 		}
+	}
+
+	private String queryBrokerFirmId(String commodityId) {
+		VIpoCommConf vIpoCommConf = new VIpoCommConf();
+		vIpoCommConf.setCommodityid(commodityId);
+		List<VIpoCommConf> commConfs = commConfService.selectCommodityByExample(vIpoCommConf);
+		if (commConfs != null && commConfs.size() == 1) {
+			String brokerId = commConfs.get(0).getPubmemberid();
+			VBrBroker brBroker = brokerService.queryBrokerById(brokerId);
+			if (brBroker != null)
+				return brBroker.getFirmid();
+		}
+
+		return null;
 	}
 
 	// 解冻order表中的订单费和手续费
@@ -349,17 +380,20 @@ public class SystemManager {
 			if (orderService.updateOrderSettled(order.getOrderid()) < 1)
 				throw new Exception("变更申购记录为结算状态失败，全部回滚");
 
-			logger.info("申购结算：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId, total.toString());
+			logger.info("申购结算：申购订单处理：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId, total.toString());
 		}
 	}
 
 	// 扣distribution表中的订单费和手续费
-	private void frozenTrades(List<Distribution> distributions) throws Exception {
+	private BigDecimal frozenTrades(List<Distribution> distributions, BigDecimal totalFee) throws Exception {
+		BigDecimal result = totalFee;
 		for (Distribution distribution : distributions) {
 			String userId = distribution.getUserid();
 			String commoId = distribution.getCommodityid();
 			BigDecimal amount = distribution.getTradingamount();
 			BigDecimal fee = distribution.getCounterfee();
+
+			result = result.add(amount);
 
 			updateFundsFull(userId, "40001", amount, commoId);
 			updateFundsFull(userId, "40101", fee, commoId);
@@ -367,8 +401,9 @@ public class SystemManager {
 			if (distributionService.updateOrderSettled(distribution.getOrderid()) < 1)
 				throw new Exception("变更摇号记录为结算状态失败，全部回滚");
 
-			logger.info("申购结算：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(), fee.toString());
+			logger.info("申购结算：配号摇号单处理：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(), fee.toString());
 		}
+		return result;
 	}
 
 	@Transactional
