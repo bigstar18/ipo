@@ -3,6 +3,8 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 承销商承销设置表
  * 
@@ -10,7 +12,7 @@ import java.util.Date;
  *
  */
 public class UnderwriterSubscribe {
-	private BigDecimal subscribeid;
+	private Long subscribeid;
 
 	private String underwriterid;// 承销商ID
 
@@ -24,10 +26,11 @@ public class UnderwriterSubscribe {
 
 	private String createUser;// 创建人
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;// 创建时间
 
 	private String updateUser;// 修改人
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;// 修改时间
 
 	private BigDecimal amount;// 认购货款
@@ -36,11 +39,11 @@ public class UnderwriterSubscribe {
 
 	private BigDecimal lBalance;// 冻结后的资金
 
-	public BigDecimal getSubscribeid() {
+	public Long getSubscribeid() {
 		return subscribeid;
 	}
 
-	public void setSubscribeid(BigDecimal subscribeid) {
+	public void setSubscribeid(Long subscribeid) {
 		this.subscribeid = subscribeid;
 	}
 
@@ -49,7 +52,8 @@ public class UnderwriterSubscribe {
 	}
 
 	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid == null ? null : underwriterid.trim();
+		this.underwriterid = underwriterid == null ? null : underwriterid
+				.trim();
 	}
 
 	public String getCommodityid() {
