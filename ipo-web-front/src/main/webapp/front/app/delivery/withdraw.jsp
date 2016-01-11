@@ -316,6 +316,13 @@ body {
 						$ ('#telNum').css ('background', '#EEEE00');
 						return false;
 					}
+					if (Number ($ ('#telNum').val ()) <= 6)
+					{
+						$ ('#telNum').css ('background', '#EEEE00');
+						$ ('#telNum').attr ('placeholder', '请输入正确的电话格式');
+						$ ('#telNum').val ('');
+						return false;
+					}
 					if ($ ('#receiverName').val () == '')
 					{
 						$ ('#receiverName').css ('background', '#EEEE00');
@@ -378,7 +385,7 @@ body {
 					    }
 					    if (response == "error")
 					    {
-						    alert ("添加失败，请按照格式填写参数");
+						    alert ("添加失败，请稍候重试");
 					    }
 					    ;
 				    },
