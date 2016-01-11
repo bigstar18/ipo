@@ -118,8 +118,8 @@ function updatePickup(){
 
 function updateExpress(){
 	var approvalStatus=$("#approvalStatus").val();
-	var stock=parseInt$("#stock").val());
-	var deliveryQuantity=parseInt$("#deliveryQuatity").val());
+	var stock=parseInt($("#stock").val());
+	var deliveryQuantity=parseInt($("#deliveryQuatity").val());
 	if(stock<deliveryQuantity&&approvalStatus=='2'){
 		alert("库存不足，暂时无法通过审核!");
 		return ;

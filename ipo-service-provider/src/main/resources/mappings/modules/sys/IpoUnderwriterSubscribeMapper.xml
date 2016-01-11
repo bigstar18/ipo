@@ -13,6 +13,14 @@
     <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
   </resultMap>
+  <resultMap id="UResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderWriters" >
+    <id column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
+    <result column="UNDERWRITERID" property="underwriterid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+     <result column="NAME" property="underwritername" jdbcType="VARCHAR" />
+      <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+       <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from IPO_UNDERWRITER_SUBSCRIBE
     where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
@@ -101,4 +109,23 @@
   select count(*) from IPO_UNDERWRITER_SUBSCRIBE where 
   UNDERWRITERID like concat (concat('%',#{underwriterid,jdbcType=VARCHAR}),'%')
   </select>
+  
+   <select id="getUnderwritersByPub" resultMap="UResultMap"  parameterType="map">
+   SELECT A.* FROM( SELECT T.*,ROWNUM TNO FROM(SELECT C.PUBMEMBERID,S.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
+    ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 
+       <if test="record.pubmemberid != null" >
+       and S.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
+      </if>
+       ORDER BY C.PUBMEMBERID)T) A   WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
+    </select>
+    
+    <select id="getUnderwritersNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderWriters">
+    SELECT COUNT(*) FROM(SELECT C.PUBMEMBERID,S.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
+    ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 
+      <if test="record.pubmemberid != null" >
+       and S.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
+      </if>
+      )
+    </select>
+  
 </mapper>

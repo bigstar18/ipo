@@ -110,7 +110,7 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
-        	    return "<input type=\"button\" onclick=\"cancel("+row.deliveryorderId+")\" value=\"撤销\"/>";
+        	    return "<input type=\"button\" onclick=\"cancel('"+row.deliveryorderId+"')\" value=\"撤销\"/>";
         }
          }
         ]],  
