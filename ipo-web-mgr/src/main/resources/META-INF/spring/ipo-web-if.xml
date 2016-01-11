@@ -54,7 +54,7 @@
     <dubbo:reference id="chargeUserService" interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" />
     <dubbo:reference id="warehouseStockService" interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" />
     <dubbo:reference id="underwritersubscribeService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService" />
-
+    <dubbo:reference id="depositService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterDepositService" />
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->

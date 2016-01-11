@@ -7,7 +7,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class UnderwriterDeposit implements Serializable {
-	private BigDecimal id;
+	private Long id;
 
 	private BigDecimal amount;
 
@@ -25,10 +25,6 @@ public class UnderwriterDeposit implements Serializable {
 
 	private Short state;
 
-	private String underwriterid;
-
-	private String commodityid;
-
 	private Long subscribeid;
 
 	public Long getSubscribeid() {
@@ -39,27 +35,11 @@ public class UnderwriterDeposit implements Serializable {
 		this.subscribeid = subscribeid;
 	}
 
-	public String getUnderwriterid() {
-		return underwriterid;
-	}
-
-	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid;
-	}
-
-	public String getCommodityid() {
-		return commodityid;
-	}
-
-	public void setCommodityid(String commodityid) {
-		this.commodityid = commodityid;
-	}
-
-	public BigDecimal getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -70,7 +70,7 @@ function onlyNumberInput(){
 	                    <input type="hidden" id="subscribeid" name="subscribeid" value="${subscribeid }"/>
 	                   <span class="required">*</span>  
 	            </td>
-	        </tr>   
+	        </tr>  
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">预付货款金额：</td>
 	        	<td align="left" width="60%">
@@ -78,7 +78,13 @@ function onlyNumberInput(){
 	        	 class="easyui-numberbox" data-options="required:true,missingMessage:'必填',min:0,precision:2"/>
 	                   <span class="required">*</span>
 	        	</td>
-	        </tr>  
+	        </tr> 
+	         <tr>
+        		<td align="right" width="20%">备注：</td>
+	      		<td>
+	      		<textarea id="remark" name="remark" style="width: 675px;" rows="3"></textarea>
+				</td>
+			</tr>  
 		  	<tr>
 				<td align="right">
 					<input type="button" value="添加" onclick="add()"/>

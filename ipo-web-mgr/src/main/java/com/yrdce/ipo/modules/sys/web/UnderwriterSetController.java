@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.UnderwriterDepositService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -48,6 +49,9 @@ public class UnderwriterSetController {
 
 	@Autowired
 	private BrBrokerService brBrokerService;
+
+	@Autowired
+	private UnderwriterDepositService depositService;
 
 	/**
 	 * 分页返回承销设置
@@ -188,9 +192,19 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/deductMoney", method = RequestMethod.POST)
 	@ResponseBody
-	public String deductMoney(UnderwriterDeposit deposit) throws IOException {
-
-		return "app/underwritingManage/withhold";
+	public String deductMoney(UnderwriterDeposit deposit, HttpSession session)
+			throws IOException {
+		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+				.getUserID();
+		deposit.setCreateDate(new Date());
+		deposit.setCreateUser(userId);
+		deposit.setDeleteFlag((short) 0);
+		deposit.setState((short) 1);
+		int num = depositService.insertInfo(deposit);
+		if (num == 1) {
+			return "true";
+		}
+		return "false";
 
 	}
 }
