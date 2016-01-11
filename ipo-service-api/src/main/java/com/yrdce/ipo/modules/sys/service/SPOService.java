@@ -23,7 +23,8 @@ public interface SPOService {
 	public int updateRationType(Long rationId, String dealerId);
 
 	// 条件查询(mgr)
-	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm) throws Exception;
+	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows, SpoCommoditymanmaagement spoComm)
+			throws Exception;
 
 	// 发售商品查询(添加增发)(mgr)
 	public Map<String, String> getCommodityidByAll() throws Exception;

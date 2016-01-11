@@ -36,14 +36,23 @@ public class IpoSpoCommoditymanmaagement {
 
 	private Long prePlacement;
 
-    private BigDecimal positionsPrice;
-    
-    private String registerDateSart;
+	private BigDecimal positionsPrice;
+
+	private String registerDateSart;
 
 	private String registerDateEnd;
-	
 
-    public String getRegisterDateSart() {
+	private String firmid;
+
+	public String getFirmid() {
+		return firmid;
+	}
+
+	public void setFirmid(String firmid) {
+		this.firmid = firmid;
+	}
+
+	public String getRegisterDateSart() {
 		return registerDateSart;
 	}
 
@@ -60,8 +69,8 @@ public class IpoSpoCommoditymanmaagement {
 	}
 
 	public String getSpoId() {
-        return spoId;
-    }
+		return spoId;
+	}
 
 	public void setSpoId(String spoId) {
 		this.spoId = spoId == null ? null : spoId.trim();

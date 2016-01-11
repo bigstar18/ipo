@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>  
-<%@page import="java.lang.String"%> 
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
+
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -31,11 +30,9 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,
          toolbar:"#tb",
-         url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo", //搜索前,触发此action请求所有用户信息
+         url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息
         queryParams:{
-        	communityId: $("#commId").val(),
-        	registerDateStart:"",
-        	registerDateEnd:""
+        	communityId: $("#commId").val()
         },
          loadMsg:'数据加载中......',
          fitColumns:true,//允许表格自动缩放,以适应父容器
@@ -139,7 +136,9 @@ function getAllInfo(){
 
 //查询
 function doSearch(){
-	getAllInfo();
+	$('#depositInfo').datagrid('load',{
+		communityId: $("#commId").val()
+	});
 }
 function reSet(){
 	$("#commId").val("");
@@ -154,8 +153,7 @@ function rationConfirm(rationid){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/spoRationController/updateRationType",
-		data:{rationId:rationid,
-			dealerId:<%=dealerId%>},
+		data:{rationId:rationid
 		success:function(data){
         	if(data=="success"){
         	   alert("确认配售成功！");
