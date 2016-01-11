@@ -88,7 +88,7 @@ public class BreedController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -306,7 +306,7 @@ public class BreedController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -333,7 +333,7 @@ public class BreedController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();

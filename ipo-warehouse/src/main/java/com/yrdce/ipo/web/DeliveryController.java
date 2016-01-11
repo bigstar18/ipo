@@ -136,7 +136,7 @@ public class DeliveryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -232,7 +232,7 @@ public class DeliveryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(slist);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -263,7 +263,7 @@ public class DeliveryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(dlist);
-			System.out.println(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
