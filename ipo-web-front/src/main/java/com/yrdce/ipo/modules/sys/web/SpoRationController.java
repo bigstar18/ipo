@@ -2,6 +2,8 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,43 +19,30 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 @Controller
 @RequestMapping("spoRationController")
 public class SpoRationController {
 	static Logger logger = LoggerFactory.getLogger(SpoRationController.class);
 	@Autowired
 	private SPOService spoService;
-	
+
 	@RequestMapping(value = "/selectRationInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public String SelectRationInfo(@RequestParam("page")String page,
-			@RequestParam("rows")String rows,
-			@RequestParam("communityId")String commId,
-			@RequestParam("registerDateStart")String startdate,
-			@RequestParam("registerDateEnd")String enddate
-			){
+	public String SelectRationInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			SpoCommoditymanmaagement spo, HttpSession session) {
 		logger.info("配售信息");
-		logger.info(commId);
-		logger.info(startdate);
-		logger.info(enddate);
 		try {
-			SpoCommoditymanmaagement spo = new SpoCommoditymanmaagement();
-			if (!commId.equals("")) {
-				spo.setCommunityId(commId);
-			}
-			if (!startdate.equals("")) {
-				spo.setRegisterDateSart(startdate);
-			}
-			if (!enddate.equals("")) {
-				spo.setRegisterDateEnd(enddate);
-			}
+			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			spo.setFirmid(dealerId);
 			List<SpoRation> spoList = spoService.getMyRationInfo(spo, page, rows);
 			int counts = spoService.getRationInfoCounts(spo);
 			logger.info(String.valueOf(counts));
 			ResponseResult responseResult = new ResponseResult();
 			responseResult.setRows(spoList);
 			responseResult.setTotal(counts);
-			String resultJson =JSON.json(responseResult);
+			String resultJson = JSON.json(responseResult);
 			System.out.println(resultJson);
 			return resultJson;
 		} catch (Exception e) {
@@ -61,19 +50,17 @@ public class SpoRationController {
 			return "error";
 		}
 	}
-	
 
-	
 	@RequestMapping(value = "/updateRationType", method = RequestMethod.POST)
 	@ResponseBody
-	public String UpdateRationType(@RequestParam("rationId")String rationId,
-			@RequestParam("dealerId") String dealerId){
+	public String UpdateRationType(@RequestParam("rationId") String rationId, HttpSession session) {
 		logger.info("确认配售");
 		try {
-			int result = spoService.updateRationType(Long.parseLong(rationId),dealerId);
-			if (result==1) {
+			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			int result = spoService.updateRationType(Long.parseLong(rationId), dealerId);
+			if (result == 1) {
 				return "success";
-			}else{
+			} else {
 				return "error";
 			}
 		} catch (Exception e) {
@@ -82,5 +69,5 @@ public class SpoRationController {
 			return "error";
 		}
 	}
-	
+
 }

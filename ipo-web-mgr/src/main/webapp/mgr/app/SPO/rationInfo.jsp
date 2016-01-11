@@ -1,41 +1,37 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="../ipoInclude.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>增发商品管理</title>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
-<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-<link rel="stylesheet" href="../../skinstyle/default/css/common.css" type="text/css" />
 
 <script type="text/javascript">
 
 $(document).ready(function() {
 
 	getAllInfo();
-	  
+
 });
 //加载所有信息
 function getAllInfo(){
 
-	 $('#depositInfo').datagrid({  
-         title:'增发商品信息',  
-         iconCls:'icon-ok', 
+	 $('#depositInfo').datagrid({
+         title:'增发商品信息',
+         iconCls:'icon-ok',
          method:"get",
          height:400,
-         pageSize:5,  
-         pageList:[5,10,15],  
-         nowrap:true,  
+         pageSize:5,
+         pageList:[5,10,15],
+         nowrap:true,
          singleSelect:true,
-         striped:true, 
+         striped:true,
          fitColumns:true,
-         toolbar:"#tb",  
-         url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
-         loadMsg:'数据加载中......',  
-         fitColumns:true,//允许表格自动缩放,以适应父容器  
+         toolbar:"#tb",
+         url:"<%=request.getContextPath()%>/SPOController/getAllSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息
+         loadMsg:'数据加载中......',
+         fitColumns:true,//允许表格自动缩放,以适应父容器
          columns : [ [ {
         	 field : 'spoId',
              width : 200,
@@ -43,8 +39,8 @@ function getAllInfo(){
              align: "center",
              title : 'spoId'
          },{
-        	 field : 'communityId',  
-             width : 200,  
+        	 field : 'communityId',
+             width : 200,
              align: "center",
              title : '商品代码',
              formatter: function(value,row){
@@ -57,8 +53,8 @@ function getAllInfo(){
             	 }
        	 	 }
          },{
-           	 field : 'registerDate',  
-             width : 200,  
+           	 field : 'registerDate',
+             width : 200,
              align: "center",
              title : '登记日期',
              formatter: function(value,row){
@@ -66,9 +62,9 @@ function getAllInfo(){
                  	return value.substr(0,10);
             	 }
              }
-         },{  
-             field : 'spoDate',  
-             width : 200,  
+         },{
+             field : 'spoDate',
+             width : 200,
              align: "center",
              title : '增发日期',
              formatter: function(value,row){
@@ -76,9 +72,9 @@ function getAllInfo(){
                   	return value.substr(0,10);
              	 }
              }
-         },{  
-             field : 'ipoDate',  
-             width : 200, 
+         },{
+             field : 'ipoDate',
+             width : 200,
              align: "center",
              title : '上市日期',
              formatter: function(value,row){
@@ -86,19 +82,19 @@ function getAllInfo(){
                   	return value.substr(0,10);
              	 }
              }
-         },{  
-             field : 'spoCounts',  
-             width : 200, 
+         },{
+             field : 'spoCounts',
+             width : 200,
              align: "center",
              title : '数量'
-         },{  
-             field : 'spoPrice',  
-             width : 200, 
+         },{
+             field : 'spoPrice',
+             width : 200,
              align: "center",
              title : '价格'
-         },{  
-             field : 'rationType',  
-             width : 200, 
+         },{
+             field : 'rationType',
+             width : 200,
              align: "center",
              title : '配售类型',
              formatter:function(value,row){
@@ -111,29 +107,29 @@ function getAllInfo(){
             		 break;
             	 }
              }
-         },{  
-             field : 'notRationCounts',  
-             width : 200, 
+         },{
+             field : 'notRationCounts',
+             width : 200,
              align: "center",
              title : '未配售数量'
-         },{  
-             field : 'successRationCounts',  
-             width : 200, 
+         },{
+             field : 'successRationCounts',
+             width : 200,
              align: "center",
              title : '已配售数量'
-         },{  
-             field : 'minRationCounts',  
-             width : 200, 
+         },{
+             field : 'minRationCounts',
+             width : 200,
              align: "center",
              title : '最小配售数量'
-         },{  
-             field : 'minRationProportion',  
-             width : 200, 
+         },{
+             field : 'minRationProportion',
+             width : 200,
              align: "center",
              title : '最小配售比例'
-         },{  
-             field : 'spoSate',  
-             width : 200, 
+         },{
+             field : 'spoSate',
+             width : 200,
              align: "center",
              title : '状态',
              formatter: function(value,row){
@@ -151,9 +147,9 @@ function getAllInfo(){
             		 return "未增发";
             	 }
        	 	 }
-         },{  
-             field : 'rebate',  
-             width : 200, 
+         },{
+             field : 'rebate',
+             width : 200,
              align: "center",
              title : '是否返佣',
              formatter: function(value,row){
@@ -166,9 +162,9 @@ function getAllInfo(){
             		 break;
             	 }
        	 	 }
-         },{  
-             field : 'beListed',  
-             width : 200, 
+         },{
+             field : 'beListed',
+             width : 200,
              align: "center",
              title : '是否上市',
              formatter: function(value,row){
@@ -181,25 +177,25 @@ function getAllInfo(){
             		 break;
             	 }
        	 	 }
-         },{  
-             field : 'test15',  
-             width : 200, 
+         },{
+             field : 'test15',
+             width : 200,
              align: "center",
              title : '分配承销商配售比例',
              formatter: function(value,row){
                  return "<a href='#' onclick='ration(\""+row.spoId+"\")'>分配及查询</a>";
        	 	 }
-         },{  
-             field : 'prePlacement',  
-             width : 200, 
+         },{
+             field : 'prePlacement',
+             width : 200,
              align: "center",
              title : '预配售',
              formatter: function(value,row){
                  return "<a herf='#'>---</a>";
        	 	 }
-         },{  
-             field : 'test17',  
-             width :400, 
+         },{
+             field : 'test17',
+             width :400,
              align: "center",
              title : '操作',
              formatter: function(value,row){
@@ -214,17 +210,17 @@ function getAllInfo(){
             		 return "----";
             		 break;
             	 case 4:
-            		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>"; 
+            		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>";
             	 }
-            	
+
        	 	}
-         }]],  
+         }]],
          pagination : true
-     });  
-	 var p = $('#depositInfo').datagrid('getPager'); 
-	    $(p).pagination({ 
+     });
+	 var p = $('#depositInfo').datagrid('getPager');
+	    $(p).pagination({
 	        beforePageText: '第',
-	        afterPageText: '页    共 {pages} 页', 
+	        afterPageText: '页    共 {pages} 页',
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    });
 }
@@ -267,7 +263,7 @@ function updateSPOSate(spoid,spoSate){
         	}
         	else if(data=="error")
         		alert("修改失败，请稍后再试");
-         } 
+         }
 	});
 }
 
@@ -310,7 +306,7 @@ function deleteSPOInfo(spoId){
         	}
         	else if(data=="error")
         		alert("删除失败，请稍后再试");
-         } 
+         }
 	});
 }
 //确认消息
@@ -351,11 +347,15 @@ function ration(spoId) {
 
 
 <div id="main_body">
+<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <br />
 <div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800%;height:600%;padding:5px;">
 </div>
 
 <div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800%;height:750%;padding:5px;">
-</div> 
+</div>
 
 			<div class="">
 				<table id="depositInfo">
@@ -389,12 +389,12 @@ function ration(spoId) {
 											&nbsp
 											&nbsp
 											&nbsp
-										<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>		
+										<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
 								</td>
 							</tr>
 							<tr>
 								<td>
-								
+
 										登记日期: <input id="registerDate" class="easyui-datebox" style="width:146px" editable="false" data-options="formatter:myformatter,parser:myparser">
 										&nbsp
 										&nbsp
@@ -404,19 +404,22 @@ function ration(spoId) {
 										上市日期：<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 											&nbsp
 											&nbsp
-											<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>		
+											<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>
 								</td>
 							</tr>
-						
+
 						</table>
-							
-					</form> 
+
+					</form>
 					</div>
 				</div>
-				
-			</div>
 
-   
+			</div>
+            </td>
+        </tr>
+    </table>
+
+
 </div>
 </body>
 </html>

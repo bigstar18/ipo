@@ -85,7 +85,7 @@
     where DELIVERYORDER_ID = #{deliveryorderId,jdbcType=VARCHAR}
   </update>
    <update id="cancelDeorder" parameterType="map" >
-    update IPO_DELIVERYORDER  set APPROVAL_STATUS = 7,CANCELER= #{canceller,jdbcType=VARCHAR},CANCEL_DATE=trunc(sysdate)  where DELIVERYORDER_ID = #{deorderId,jdbcType=VARCHAR}
+    update IPO_DELIVERYORDER  set APPROVAL_STATUS = 10,CANCELER= #{canceller,jdbcType=VARCHAR},CANCEL_DATE=trunc(sysdate)  where DELIVERYORDER_ID = #{deorderId,jdbcType=VARCHAR}
   </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

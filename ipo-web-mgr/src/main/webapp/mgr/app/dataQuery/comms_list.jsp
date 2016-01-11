@@ -65,14 +65,14 @@ $(document).ready(function() {
              title : '商品名称'
          }, {  
              field : 'status',  
-             width : 200,  
+             width : 200, 
              align: "center",
              title : '状态' ,
              formatter:function(value){
             	 if(value=='1') return "未配号";
-            	 if(value=='2') return "已配号";
-            	 if(value=='3') return "已摇号";
-            	 if(value=='4') return "已结算";
+            	 if(value=='2') return "配号完毕";
+            	 if(value=='3') return "抽签完毕";
+            	 if(value=='4') return "结算完毕";
             	 if(value=='31') return "抽签中";
             	 if(value=='32') return "费用计算完毕";
             	 if(value=='41') return "结算中";
@@ -168,9 +168,12 @@ function doSearch(){
 			状态: 	<select id="status" name="status" style="width:80">
 					<option value="">请选择</option>
 					<option value="1">未配号</option>
-					<option value="2">已配号</option>
-					<option value="3">已摇号</option>
-					<option value="4">已结算</option>
+					<option value="2">配号完毕</option>
+					<option value="3">抽签完毕</option>
+					<option value="31">抽签中</option>
+					<option value="32">费用计算完毕</option>
+					<option value="4">结算完毕</option>
+					<option value="41">结算中</option>
 					</select>
 			发售日期：<input type="text" id="starttime" name="starttime"></input> 
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 

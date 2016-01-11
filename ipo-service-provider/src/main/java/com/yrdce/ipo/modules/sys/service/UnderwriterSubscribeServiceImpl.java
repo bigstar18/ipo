@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoUnderWriters;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe;
+import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 
 @Service
@@ -72,6 +74,37 @@ public class UnderwriterSubscribeServiceImpl implements
 			IpoUnderwriterSubscribe record = new IpoUnderwriterSubscribe();
 			BeanUtils.copyProperties(example, record);
 			return underwriterSubscribrmapper.insert(record);
+		}
+		return 0;
+	}
+
+	@Override
+	public List<UnderWriters> findUnderwriters(String page, String rows,
+			UnderWriters example) {
+		int startIndex = PageUtil.getStartIndex(page, rows);
+		int endIndex = PageUtil.getEndIndex(page, rows);
+		if (example != null) {
+			IpoUnderWriters record = new IpoUnderWriters();
+			BeanUtils.copyProperties(example, record);
+			List<IpoUnderWriters> datalist = underwriterSubscribrmapper
+					.getUnderwritersByPub(startIndex, endIndex, record);
+			List<UnderWriters> datalist2 = new ArrayList<UnderWriters>();
+			for (IpoUnderWriters temp : datalist) {
+				UnderWriters info = new UnderWriters();
+				BeanUtils.copyProperties(temp, info);
+				datalist2.add(info);
+			}
+			return datalist2;
+		}
+		return null;
+	}
+
+	@Override
+	public Integer getUnderwritersNum(UnderWriters example) {
+		if (example != null) {
+			IpoUnderWriters record = new IpoUnderWriters();
+			BeanUtils.copyProperties(example, record);
+			return underwriterSubscribrmapper.getUnderwritersNum(record);
 		}
 		return 0;
 	}

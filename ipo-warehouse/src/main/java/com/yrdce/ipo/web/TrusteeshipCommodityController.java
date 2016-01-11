@@ -117,7 +117,7 @@ public class TrusteeshipCommodityController {
 		ResponseResult result = new ResponseResult();
 		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
-		Log.info(JSON.json(result));
+		logger.debug(JSON.json(result));
 		return JSON.json(result);
 	}
 

@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>承销会员查询</title>
-<script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/commPubQuery.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/underwriterQuery.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main_body">

@@ -11,7 +11,7 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/PublisherController/findAllCommsByExample" ,  
+         url:  getRootPath () + "/PublisherController/findUnderwriters" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [  {
@@ -30,35 +30,15 @@ $(document).ready(function() {
              align: "center",
              title : '商品名称'
          } , {
-        	 field : 'status',  
+        	 field : 'underwriterid',  
              width : 200,  
              align: "center",
-             title : '状态',
-             formatter:function(value){
-            	 if(value=='1') return "未配号";
-            	 if(value=='2') return "配号完毕";
-            	 if(value=='3') return "抽签完毕";
-            	 if(value=='31') return "抽签中";
-            	 if(value=='32') return "费用计算完毕";
-            	 if(value=='4') return "结算完毕";
-            	 if(value=='41') return "结算中";
-           }
+             title : '承销会员代码'
          },{
-        	 field : 'listingdate',  
+        	 field : 'underwritername',  
              width : 200,  
              align: "center",
-             title : '上市日期',
-             formatter: function(value,row){
-                  return value.substr(0,10);
-          } 
-         },{
-        	 field : 'lasttradate',  
-             width : 200,  
-             align: "center",
-             title : '最后交易日',
-             formatter: function(value,row){
-                  return value.substr(0,10);
-          } 
+             title : '承销会员名称'
          }
          ]],  
          pagination : true 
