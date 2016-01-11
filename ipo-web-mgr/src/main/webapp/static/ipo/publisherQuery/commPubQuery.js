@@ -36,9 +36,12 @@ $(document).ready(function() {
              title : '状态',
              formatter:function(value){
             	 if(value=='1') return "未配号";
-            	 if(value=='2') return "已配号";
-            	 if(value=='3') return "已摇号";
-            	 if(value=='4') return "已结算";
+            	 if(value=='2') return "配号完毕";
+            	 if(value=='3') return "抽签完毕";
+            	 if(value=='31') return "抽签中";
+            	 if(value=='32') return "费用计算完毕";
+            	 if(value=='4') return "结算完毕";
+            	 if(value=='41') return "结算中";
            }
          },{
         	 field : 'listingdate',  
