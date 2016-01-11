@@ -2,21 +2,30 @@
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="../../skinstyle/default/css/common.css"> 
+		<link rel="stylesheet" type="text/css" href="../../skinstyle/default/css/common.css">
 		<link href="${pageContext.request.contextPath}/front/skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-        <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-        <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
+    <style type="text/css">
+    	.mbodytop{padding:5px;border-top:1px solid #95b8e7;border-right:1px solid #95b8e7;border-left:1px solid #95b8e7;background:#eff5ff}
+			input{padding-left:4px;width:10pc;height:20px;border:1px solid #95b8e7;border-radius:5px}
+			b{color:red;font-size:15px}
+			td{white-space:normal}
+			.mbody{border:1px solid #95b8e7;background:#f4f4f4}
+			.deliveryInfo{display:none}
+			#add,#close{width:90pt;height:25px;border-radius:3px;background:#fff}
+    </style>
+    <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 		<title>提货单过户</title>
 		<style type="text/css">
 			tr{font-size:12px}
 		</style>
-<script type="text/javascript"> 
+<script type="text/javascript">
 
 function doSearch(){
 	var deliveryorderId = $("#deliveryorderId").val();
-	var pickupPassword = $("#pickupPassword").val();	
+	var pickupPassword = $("#pickupPassword").val();
 	$.ajax({
 		type:"GET",
 		url:"<%=request.getContextPath()%>/TransferController/getDeliveryInfo?randnum="+Math.floor(Math.random()*1000000),
@@ -24,7 +33,7 @@ function doSearch(){
 			pickupPassword:pickupPassword,
 			deliveryorderId:deliveryorderId
 		},
-		dataType: "json", 
+		dataType: "json",
 		success:function(data){
 			if(data!="error"&&data.commodityId!=null){
 				$("#deliveryInfo").show();
@@ -79,7 +88,7 @@ function doSearch(){
 				alert("提货单不存在(自提单请输入密码)！")
 			}
 		}
-		
+
 	});
 }
 	//过户
@@ -134,82 +143,95 @@ function doClick(){
 	</head>
 	<body>
 	 <div class="main">
-	<div class="msg">
+		<div class="msg">
          您当前的位置：<span>提货单过户</span>
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">提货类型为自提时需要提货单密码，在线配送时不需要提货单密码！ 
+      <div class="content">提货类型为自提时需要提货单密码，在线配送时不需要提货单密码！
       </div>
     </div>
-	
+    <div class="mbodytop">
+		  <div class="panel-title panel-with-icon">提单过户</div>
+		</div>
+		<div class="mbody">
 		<form>
-						<div class="div_cxtj">
-							<div class="div_cxtjL"></div>
-							<div class="div_cxtjC">
-								提货单过户
-							</div>
-							<div class="div_cxtjR"></div>
-						</div>
-						<div style="clear: both;"></div>
 
-							<table border="0" cellspacing="0" cellpadding="4" width="100%" align="center" class="table2_style">
+							<table border="0" width="550" align="center" style="margin-top: 25px;">
 								<tr>
-									<td align="center">
-										<span class="required">*</span>
+									<td align="right" width="90">
 											提货单号：
-										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
 									</td>
-									<td align="center">
-										<span class="required">*</span>
+									<td align="left" width="200">
+										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"  />
+									</td>
+									<td align="right" width="90">
 										提货单密码：
-										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"   style="width:160px;height:20px;"/> 
+									</td>
+									<td align="left" width="200">
+										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"  />
 									</td>
 								</tr>
 							</table>
-							<table id="deliveryInfo" class="table2_style" style="border-top:0;display:none" align="center">
+							<table id="deliveryInfo" width="550" style="display:none" align="center">
 										<tr>
-											<td align="center">
-											商品代码：
-											<input readonly="readonly" id="commodityid" class="easyui-text" style="width:160px;height:20px;">
+											<td align="right" width="90">
+												商品代码：
 											</td>
-											<td align="center">
-											商品名称：
-											<input id="commodityname" class="easyui-text" style="width:160px;height:20px;">
+											<td align="left" width="200">
+												<input readonly="readonly" id="commodityid" class="easyui-text">
+											</td>
+											<td align="right" width="90">
+												商品名称：
+											</td>
+											<td align="left" width="200">
+												<input id="commodityname" class="easyui-text">
 											</td>
 										</tr>
 										<tr>
-											<td align="center">
-											交易商名称：
-											<input id="dealerName" class="easyui-text" style="width:160px;height:20px;margin-right:12px">
+											<td align="right" width="90">
+												交易商名称：
 											</td>
-											<td align="center">
-											仓库名称：
-											<input id="warehousename" class="easyui-text" style="width:160px;height:20px;">
+											<td align="left" width="200">
+												<input id="dealerName" class="easyui-text">
 											</td>
-										</tr>
-										<tr>
-											<td align="center">
-											提货方式：
-											<input id="deliveryMethod" class="easyui-text" style="width:160px;height:20px;">
+											<td align="right" width="90">
+												仓库名称：
 											</td>
-											<td align="center">
-											提货日期：
-											<input id="deliveryDate" class="easyui-text" style="width:160px;height:20px;">
+											<td align="left" width="200">
+												<input id="warehousename" class="easyui-text">
 											</td>
 										</tr>
 										<tr>
-											<td align="center">
-											交割数量：
-											<input id="deliveryQuatity" class="easyui-text" style="width:160px;height:20px;">
+											<td align="right" width="90">
+												提货方式：
 											</td>
-											<td align="center">
-											审批状态：
-											<input id="approvalStatus" class="easyui-text" style="width:160px;height:20px;">
+											<td align="left" width="200">
+												<input id="deliveryMethod" class="easyui-text">
+											</td>
+											<td align="right" width="90">
+												提货日期：
+											</td>
+											<td align="left" width="200">
+												<input id="deliveryDate" class="easyui-text">
+											</td>
+										</tr>
+										<tr>
+											<td align="right" width="90">
+												交割数量：
+											</td>
+											<td align="left" width="200">
+												<input id="deliveryQuatity" class="easyui-text">
+											</td>
+											<td align="right" width="90">
+												审批状态：
+											</td>
+											<td align="left" width="200">
+												<input id="approvalStatus" class="easyui-text">
 											</td>
 										</tr>
 							</table>
-							<table class="table2_style" style="border-top:0" align="center">
+							<table style="border-top:0" align="center">
 								<tr>
 									<td align="center">
 										<input type="button" class="btn_sec" id="add" onclick="doClick()" value="查询">
@@ -217,7 +239,8 @@ function doClick(){
 									</td>
 								</tr>
 							</table>
-		</form>	
+		</form>
+	</div>
 	</div>
 	</body>
 </html>
