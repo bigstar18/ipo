@@ -105,10 +105,10 @@ function getAllInfo(){
             	 switch(value)
             	 {
             	 case 1:
-            	  return "以配售"
+            	  return "未配售";
             	   break;
             	 case 2:
-            	   	return "未配售"
+            	   	return "已配售";
             	   break;
             	 }
                  }
@@ -118,7 +118,7 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter:function(value,row){
-            	 if(row.rationSate==2)
+            	 if(row.rationSate==1)
             	 	return "<a href='#' onclick='rationConfirm("+row.rationid+")'>确认</a>";
              }
 
@@ -153,7 +153,7 @@ function rationConfirm(rationid){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/spoRationController/updateRationType",
-		data:{rationId:rationid
+		data:{rationId:rationid},
 		success:function(data){
         	if(data=="success"){
         	   alert("确认配售成功！");

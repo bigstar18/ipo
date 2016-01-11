@@ -79,6 +79,7 @@ public class SPOServiceImpl implements SPOService {
 
 	@Override
 	public int updateRationType(Long rationId, String dealerId) {
+		logger.info("进入客户确认操作");
 		// 获得可用资金
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("monery", "");
@@ -86,17 +87,23 @@ public class SPOServiceImpl implements SPOService {
 		param.put("lock", 0);
 		fundsMapper.getMonery(param);
 		BigDecimal monery = (BigDecimal) param.get("monery");
-		IpoSpoRation ipoSpoRation = ipoSpoRationMapper.selectByPrimaryKey(rationId);
+		IpoSpoRation ipoSpoRation = ipoSpoRationMapper.select(rationId);
 		// 单价
 		BigDecimal price = ipoSpoRation.getSpoPrice();
+		logger.info("单价price：" + price);
 		// 数量
 		Long counts = ipoSpoRation.getRationcounts();
 		BigDecimal counts1 = new BigDecimal(counts);
+		logger.info("数量counts1：" + counts1);
 		// 服务费
-		BigDecimal fee = ipoSpoRation.getServicefee();
+		// BigDecimal fee = ipoSpoRation.getServicefee();
 		BigDecimal Monery = price.multiply(counts1);
+		logger.info("商品费用Monery：" + Monery);
+		BigDecimal fee = new BigDecimal(0);
+		logger.info("服务费fee：" + fee);
 		// 总费用
 		BigDecimal allMonery = Monery.add(fee);
+		logger.info("总费用allMonery：" + allMonery);
 		if (monery.compareTo(allMonery) != -1) {
 			int result = ipoSpoRationMapper.updateRationType(rationId);
 			// 资金冻结

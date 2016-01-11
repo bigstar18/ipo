@@ -145,6 +145,10 @@ function getAllInfo(){
             		 break;
             	 case 4:
             		 return "未增发";
+            		 break;
+            	 case 5:
+            		 return "未增发";
+            		 break;
             	 }
        	 	 }
          },{
@@ -211,6 +215,10 @@ function getAllInfo(){
             		 break;
             	 case 4:
             		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>";
+            		 break;
+            	 case 5:
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 
             	 }
 
        	 	}
@@ -378,7 +386,7 @@ function ration(spoId) {
 											&nbsp
 									增发状态：<select id="rationSatep" style="width:150px">
 												<option value="">全部</option>
-												<option value="1">未增发</option>
+												<option value="5">未增发</option>
 												<option value="2">已增发</option>
 												<option value="3">增发失败</option>
 											</select>

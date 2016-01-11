@@ -67,7 +67,7 @@
     <task:scheduled ref="IPOTask" method="lottery" cron="0 10 0 * * ?" />
     <task:scheduled ref="IPOTask" method="ipoTransferGoodsPosition" cron="0 20 0 * * ?" />
     <task:scheduled ref="sPOTask" method="runSPO" cron="0 15 0 * * ?" /> 
-    <task:scheduled ref="sPOTask" method="placing" cron="0 25 0 * * ?" />
+    <task:scheduled ref="sPOTask" method="placing" cron="0 37 20 * * ?" />
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->
 	<!-- <task:scheduler id="scheduler" pool-size="10" />-->

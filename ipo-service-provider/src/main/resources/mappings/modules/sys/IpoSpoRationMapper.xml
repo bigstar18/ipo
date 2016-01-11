@@ -122,8 +122,8 @@
 	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.community_id,c.register_date,
 	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
 	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
-	where c.community_id = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
-    <if test="IpoSpoComm.communityId != null">
+	where  r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
+    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId !=''">
     and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
     </if>
     <if test="IpoSpoComm.registerDateSart !=null and IpoSpoComm.registerDateEnd!=null">
@@ -144,10 +144,21 @@
   </update>
 
   <select id="select" resultType="com.yrdce.ipo.modules.sys.entity.IpoSpoRation" parameterType="java.lang.Long" >
-    select RATIONID, SPOID, RATIONCOUNTS, FIRMID, OPERATIONDATE, RATIONLOAN, SERVICEFEE, 
-    SALES_ALLOCATIONRATIO, SALES_REBATERATIO, FIRMNAME, SALESID,RATION_SATE,c.spo_price
-    from IPO_SPO_RATION s left join ipo_spo_commoditymanmaagement c on s.rationid = s.rationid
-    where RATIONID = #{rationid,jdbcType=DECIMAL}
+    select c.spo_price,t.*  from (select RATIONID,
+       SPOID,
+       RATIONCOUNTS,
+       FIRMID,
+       OPERATIONDATE,
+       RATIONLOAN,
+       SERVICEFEE,
+       SALES_ALLOCATIONRATIO,
+       SALES_REBATERATIO,
+       FIRMNAME,
+       SALESID,
+       RATION_SATE
+  from IPO_SPO_RATION s  where RATIONID = #{rationid,jdbcType=DECIMAL})t
+  left join ipo_spo_commoditymanmaagement c
+    on c.spo_id = t.spoid
   </select>
   
   <select id="firmidBySales" resultType="java.lang.String">

@@ -44,4 +44,6 @@ public interface IpoSpoRationMapper {
 	// 增发id查询配售信息
 	List<IpoSpoRation> selectInfoBySPOid(String spoid);
 
+	// 根据id查询信息（关联增发价格）
+	IpoSpoRation select(Long rationid);
 }
