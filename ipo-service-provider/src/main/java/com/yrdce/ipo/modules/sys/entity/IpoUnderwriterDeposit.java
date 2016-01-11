@@ -26,6 +26,16 @@ public class IpoUnderwriterDeposit {
 
 	private String commodityid;
 
+	private Long subscribeid;
+
+	public Long getSubscribeid() {
+		return subscribeid;
+	}
+
+	public void setSubscribeid(Long subscribeid) {
+		this.subscribeid = subscribeid;
+	}
+
 	public String getUnderwriterid() {
 		return underwriterid;
 	}

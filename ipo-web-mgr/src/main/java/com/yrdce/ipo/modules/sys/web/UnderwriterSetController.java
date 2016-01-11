@@ -23,6 +23,7 @@ import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.UnderwriterDeposit;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
@@ -157,6 +158,39 @@ public class UnderwriterSetController {
 			}
 		}
 		return "0";
+
+	}
+
+	/**
+	 * 暂扣货款视图
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/withhold", method = RequestMethod.GET)
+	public String withhold(@RequestParam("subscribeid") String subscribeid,
+			@RequestParam("underwriterId") String underwriterId,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		request.setAttribute("subscribeid", subscribeid);
+		request.setAttribute("underwriterId", underwriterId);
+		return "app/underwritingManage/withhold";
+
+	}
+
+	/**
+	 * 暂扣货款
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deductMoney", method = RequestMethod.POST)
+	@ResponseBody
+	public String deductMoney(UnderwriterDeposit deposit) throws IOException {
+
+		return "app/underwritingManage/withhold";
 
 	}
 }

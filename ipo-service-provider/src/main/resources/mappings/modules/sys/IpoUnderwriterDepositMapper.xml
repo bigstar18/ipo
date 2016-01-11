@@ -13,20 +13,21 @@
     <result column="STATE" property="state" jdbcType="DECIMAL" />
     <result column="UNDERWRITERID" property="underwriterid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
     insert into IPO_UNDERWRITER_DEPOSIT (ID, AMOUNT, REMARK, 
       DELETE_FLAG, CREATE_USER, CREATE_DATE, 
-      UPDATE_USER, UPDATE_DATE, STATE
+      UPDATE_USER, UPDATE_DATE, STATE,SUBSCRIBEID
       )
     values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
       #{deleteFlag,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
-      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{state,jdbcType=DECIMAL}
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{state,jdbcType=DECIMAL}, #{subscribeid,jdbcType=DECIMAL}
       )
   </insert>
   <select id="selectAll" resultMap="BaseResultMap" >
     select ID, AMOUNT, REMARK, DELETE_FLAG, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
-    STATE
+    STATE,SUBSCRIBEID
     from IPO_UNDERWRITER_DEPOSIT
   </select>
   <select id="getSubFundsInfo" resultMap="BaseResultMap" parameterType="java.lang.String">

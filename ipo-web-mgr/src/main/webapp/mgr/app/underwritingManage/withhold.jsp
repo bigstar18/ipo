@@ -10,66 +10,32 @@
 		<style type="text/css">input {line-height: 14px;}    td {padding-bottom: 3px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<title>承销设置</title>
+		<title>暂扣货款</title>
 		<style type="text/css">
 			legend{font-weight:bold;}
 		</style>
 		<script type="text/javascript">
 function add(){
-	if($("#underwriterid").val()==''){
-		alert("承销会员编码不可为空");
-		return;
-	}
-	if($("#commodityid").val()==''){
-		alert("请选择商品");
-		return;
-	}
-	if($("#subscribecounts").val()==''){
-		alert("认购数量不可为空");
-		return;
-	}
-	if($("#proportion").val()==''){
-		alert("占承销会员手续费总和的比例不可为空");
-		return;
-	}
 	var flag= $('#frm').form('validate');
 	if(flag==true){
-            	 $.ajax({  
-        			 type: 'POST', 
-        		      url: "<%=request.getContextPath()%>/UnderwriterSetController/findUnderwriter",  
-        		     data:{"underwriterid":$("#underwriterid").val(),"randnum":Math.floor(Math.random()*1000000)},  
-        		     success : function(data, stats) { 
-        			           if(data=='0'){
-        			        	   alert("承销会员代码不存在！")
-        			           }
-                               if(data=='1'){
-                            	   $.ajax({ 
+             $.ajax({ 
                             		   cache:false,
                                        type: "post",  
-                                       url: "<%=request.getContextPath()%>/UnderwriterSetController/addSet",       
+                                       url: "<%=request.getContextPath()%>/UnderwriterSetController/deductMoney",       
                                        data: $("#frm").serialize(),      
                                        success: function(data) { 
                                     	   if(data=='true'){
-                                           alert("添加成功！"); 
+                                           alert("扣款成功！"); 
                                            returntoList();
                                     	   }else{
-                                    		   alert("系统异常，请联系管理员");  
+                                    		   alert("扣款失败！");  
                                     	   }
                                        },  
                                        error: function(data) {  
                                            alert("系统异常，请联系管理员！");  
                                        }  
                                    }) ;
-        			           }
-                               if(data=='2'){
-                            	   alert("系统内部异常,请联系管理员")
-        			           }
-        			        }    
-        				});
-            }
-			else{
-					alert("所有参数必填！");
-		}
+        			        }            
 }
 		
 
@@ -92,7 +58,7 @@ function onlyNumberInput(){
 			<tr>
 				<td>
               <fieldset class="pickList" >
-	                 <legend class="common"><b>添加认购商品</b></legend>
+	                 <legend class="common"><b>暂扣货款</b></legend>
 		<table border="0" align="center" cellpadding="5" cellspacing="5" class="common" width="100%">
 			<tr>
 	           	<td align="center" colspan="2" style="color:red"></td>
@@ -100,34 +66,16 @@ function onlyNumberInput(){
 	        <tr>
 	        	<td align="right" style="font-size:15px" width="20%">承销会员编号：</td>
 	            <td align="left" width="60%">
-	                   <input style="width:150px;" id="underwriterid" name="underwriterid"/>
+	                   <input style="width:150px;" id="underwriterid" name="underwriterid" value="${underwriterId }"/>
+	                    <input type="hidden" id="subscribeid" name="subscribeid" value="${subscribeid }"/>
 	                   <span class="required">*</span>  
 	            </td>
 	        </tr>   
 	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
+	        	<td style="font-size:15px" align="right" width="20%">预付货款金额：</td>
 	        	<td align="left" width="60%">
-	        	<select id="commodityid" name="commodityid" style="width:100" >
-						<option value="">请选择</option>
-                         <c:forEach var="commodity" items="${commList}">
-                         <option value="${commodity.commodityid}">${commodity.commodityid}${commodity.commodityname}</option>
-                          </c:forEach>
-				</select><span class="required">*</span>
-	        	</td>
-	        </tr>  
-	         <tr>
-	        	<td style="font-size:15px" align="right" width="20%">认购数量：</td>
-	        	<td align="left" width="60%">
-	        	 <input style="width:150px;" id="subscribecounts" name="subscribecounts"
-	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0"/>
-	                   <span class="required">*</span>
-	        	</td>
-	        </tr> 
-	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">占承销会员手续费总和的比例(%)：</td>
-	        	<td align="left" width="60%">
-	        	 <input style="width:150px;" id="proportion" name="proportion" 
-	        	 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,max:100,precision:2"/>
+	        	 <input style="width:150px;" id="amount" name="amount" 
+	        	 class="easyui-numberbox" data-options="required:true,missingMessage:'必填',min:0,precision:2"/>
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr>  

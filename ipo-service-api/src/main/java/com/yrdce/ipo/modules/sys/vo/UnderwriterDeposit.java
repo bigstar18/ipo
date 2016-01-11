@@ -1,9 +1,12 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class UnderwriterDeposit {
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class UnderwriterDeposit implements Serializable {
 	private BigDecimal id;
 
 	private BigDecimal amount;
@@ -13,11 +16,11 @@ public class UnderwriterDeposit {
 	private Short deleteFlag;
 
 	private String createUser;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 
 	private String updateUser;
-
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
 
 	private Short state;
@@ -25,6 +28,16 @@ public class UnderwriterDeposit {
 	private String underwriterid;
 
 	private String commodityid;
+
+	private Long subscribeid;
+
+	public Long getSubscribeid() {
+		return subscribeid;
+	}
+
+	public void setSubscribeid(Long subscribeid) {
+		this.subscribeid = subscribeid;
+	}
 
 	public String getUnderwriterid() {
 		return underwriterid;
