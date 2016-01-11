@@ -126,7 +126,7 @@
   
   <update id="updateByStatus" parameterType="map">
    update IPO_SPO_COMMODITYMANMAAGEMENT
-    set SPO_SATE = #{rationSate,jdbcType=DECIMAL}
+    set SPO_SATE = #{sposate,jdbcType=DECIMAL}
     where SPO_ID = #{spoid,jdbcType=VARCHAR}
   </update>
   

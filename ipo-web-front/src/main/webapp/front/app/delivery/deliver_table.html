@@ -147,6 +147,16 @@
           <td align="center" id="tel">
           </td>
         </tr>
+         <tr>
+          <td align="center" height="35">
+            <span>
+            备注：
+          </span>
+          </td>
+          <td align="center" id="remarks">
+          </td>
+        </tr>
+        
       </tbody>
     </table>
 
@@ -178,7 +188,7 @@
       var ctable = {}
       $.ajax({
         type: 'post',
-        url: "../../../SettlementDeliveryController/detail",
+        url: "../../../SettlementDeliveryController/detail?math="+Math.random(),
         data:{"methodid":methodId,"deliveryMethod":deliveryMethod},
         success : function(response) {
           
@@ -191,7 +201,7 @@
           $('#deliveryQuatity').html(responseStr[1].deliveryQuatity);
           $('#unit').html(responseStr[1].unit);
           $('#deliveryDate').html(responseStr[1].deliveryDate);
-
+          $('#remarks').html(responseStr[1].remarks);
 
 
 

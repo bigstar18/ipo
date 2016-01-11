@@ -78,7 +78,7 @@ public class QueryController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnums);
-			System.out.println(JSON.json(result));
+			// System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +101,7 @@ public class QueryController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnums);
-			System.out.println(JSON.json(result));
+			// System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,7 +136,7 @@ public class QueryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
-			System.out.println(JSON.json(result));
+			// System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,7 +163,7 @@ public class QueryController {
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(clist);
-			System.out.println(JSON.json(result));
+			// System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,7 +176,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/rock")
 	@ResponseBody
-	public boolean rock(@RequestParam(value = "commodityid",required = true)String commodityid) {
+	public boolean rock(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.lottery(commodityid);
 		} catch (Exception e) {
@@ -186,13 +186,12 @@ public class QueryController {
 		return true;
 	}
 
-	
 	/**
 	 * 手动配号功能
 	 */
 	@RequestMapping(value = "/distribution")
 	@ResponseBody
-	public boolean distribution(@RequestParam(value = "commodityid",required = true)String commodityid) {
+	public boolean distribution(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.distribution(commodityid);
 		} catch (Exception e) {
@@ -201,13 +200,13 @@ public class QueryController {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 费用计算转持仓
 	 */
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody
-	public boolean orderBalance(@RequestParam(value = "commodityid",required = true)String commodityid) {
+	public boolean orderBalance(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.orderBalance(commodityid);
 		} catch (Exception e) {
@@ -216,8 +215,7 @@ public class QueryController {
 		}
 		return true;
 	}
-	
-	
+
 	/**
 	 * ipo 转现货持仓
 	 */
@@ -232,7 +230,5 @@ public class QueryController {
 		}
 		return true;
 	}
-	
-	
-	
+
 }

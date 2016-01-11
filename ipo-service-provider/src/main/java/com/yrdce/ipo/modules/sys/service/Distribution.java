@@ -45,10 +45,7 @@ public class Distribution {
 	@Transactional
 	public void start(List<IpoOrder> orderList) throws Exception {
 		// 获得系统当前时间的前一天
-		// String oldtime = DateUtil.getTime(1);
 		logger.info("进入配号功能" + orderList.size());
-		// 获取系统前一天订单列表
-		// List<IpoOrder> orderList = order.selectAll(oldtime);
 		if (orderList.size() > 0) {
 			logger.info("获取前一天订单列表");
 			for (int i = 0; i < orderList.size(); i++) {
@@ -67,14 +64,14 @@ public class Distribution {
 				// 格局配号规则选择配号方式
 				if (sum < 99999999) {
 					if (all == 0) {
-						System.out.println("3 - 1");
+						// System.out.println("3 - 1");
 						long startNum = 10000001;
 						// 更新数据
 						this.updateTable(units1, sId, sname, startNum, userid, units1);
 					} else {
-						System.out.println("3 - 2");
+						// System.out.println("3 - 2");
 						int allCounts = all + units1;
-						System.out.println(allCounts);
+						// System.out.println(allCounts);
 						long startNum = 10000001 + all;
 						// 更新数据
 						this.updateTable(allCounts, sId, sname, startNum, userid, units1);
@@ -85,7 +82,7 @@ public class Distribution {
 					int Records = Record++;
 					if (Records < 99999999) {
 						if (all == 0) {
-							System.out.println("4 - 1");
+							// System.out.println("4 - 1");
 							// 更新记录表
 							String str1 = 10000001 + "";
 							StringBuffer str2 = new StringBuffer("111111");
@@ -95,7 +92,7 @@ public class Distribution {
 							this.updateTable(units1, sId, sname, startNum, userid, units1);
 
 						} else {
-							System.out.println("4 - 2");
+							// System.out.println("4 - 2");
 
 							String str = 10000001 + "";
 							StringBuffer str1 = new StringBuffer("111111");
@@ -110,7 +107,7 @@ public class Distribution {
 
 					} else {
 						if (all == 0) {
-							System.out.println("5 - 1");
+							// System.out.println("5 - 1");
 
 							String str1 = 10000001 + "";
 							StringBuffer str2 = new StringBuffer("222222");
@@ -120,7 +117,7 @@ public class Distribution {
 							this.updateTable(units1, sId, sname, startNum, userid, units1);
 
 						} else {
-							System.out.println("5 - 2");
+							// System.out.println("5 - 2");
 
 							String str = 10000001 + "";
 							StringBuffer str1 = new StringBuffer("222222");

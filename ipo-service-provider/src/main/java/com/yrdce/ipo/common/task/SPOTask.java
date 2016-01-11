@@ -1,11 +1,8 @@
 package com.yrdce.ipo.common.task;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,43 +44,11 @@ public class SPOTask {
 		// 遍历增发商品管理列表
 		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
 			String spoid = ipoSPOComm.getSpoId();
-			Date spoDate = ipoSPOComm.getSpoDate();
-			String spotime = sdf.format(spoDate);
-
-			// 时间判断，更新增发表状态
-			if (time == spotime) {
-				// 增发价格
-				BigDecimal price = ipoSPOComm.getPositionsPrice();
-				List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
-				for (IpoSpoRation ipoSpoRation : list2) {
-					// 承销商id
-					String salesid = ipoSpoRation.getSalesid();
-					if (salesid != null) {
-						// 交易商id
-						String firmid = ipoSpoRation.getFirmid();
-						// 买了多少
-						long counts = ipoSpoRation.getRationcounts();
-						BigDecimal countsparam = new BigDecimal(counts);
-						// 计算应冻结多少
-						BigDecimal monery = countsparam.multiply(price);
-						float allmonery = monery.floatValue();
-						// 资金冻结
-						Map<String, Object> param = new HashMap<String, Object>();
-						param.put("monery", "");
-						param.put("userid", firmid);
-						param.put("amount", allmonery);
-						param.put("moduleid", "40");
-						fundsMapper.getfrozen(param);
-					}
-				}
-				ipoSPOCommMapper.updateByStatus(4, spoid);
-				logger.info("增发状态更新成功");
-			}
 			Date ipoDate = ipoSPOComm.getIpoDate();
 			String ipotime = sdf.format(ipoDate);
 			// 时间判断，更新配售表状态
 			if (time == ipotime) {
-				ipoSpoRationMapper.updateByStatus(3, spoid);
+				ipoSpoRationMapper.updateByStatus(1, spoid);
 				logger.info("配售状态更新成功");
 			}
 		}
@@ -102,12 +67,14 @@ public class SPOTask {
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 			String spoid = ipospocomm.getSpoId();
 			logger.info(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
-			Date spodate = ipospocomm.getSpoDate();
-			logger.info(">>>>>>>>>>>>>>>>>>spodate:" + spodate);
-			String nowtime = sdf.format(new Date());
-			String spodateparam = sdf.format(spodate);
+			int sate = ipospocomm.getSpoSate();// 状态3为未配售
+			// Date spodate = ipospocomm.getSpoDate();
+			// logger.info(">>>>>>>>>>>>>>>>>>spodate:" + spodate);
+			// String nowtime = sdf.format(new Date());
+			// String spodateparam = sdf.format(spodate);
 			// 判断是否到增发日期
-			if (nowtime.equals(spodateparam)) {
+			// if (nowtime.equals(spodateparam)) {
+			if (sate == 1) {
 				// 获得增发商品id
 				String commodityid = ipospocomm.getCommunityId();
 				logger.info(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
@@ -115,7 +82,7 @@ public class SPOTask {
 				long otration = ipospocomm.getNotRationCounts();
 				logger.info(">>>>>>>>>>>>>>>>>>otration:" + otration);
 				// 商品在持仓中的总量
-				double sum = ipoPositionMapper.selectSumByComm(commodityid);
+				int sum = ipoPositionMapper.selectSumByComm(commodityid);
 				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				List<IpoPosition> ipoPositionslist = ipoPositionMapper.selectPositionList(commodityid);
 				for (IpoPosition ipoPosition : ipoPositionslist) {
@@ -123,7 +90,7 @@ public class SPOTask {
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
 					double position = ipoPosition.getPosition();
 					logger.info(">>>>>>>>>>>>>>>>>>position:" + position);
-					double value = position / sum;
+					double value = position / (double) sum;
 					logger.info(">>>>>>>>>>>>>>>>>>value:" + value);
 					// 增发量
 					long num = (long) (otration * value);
@@ -134,11 +101,12 @@ public class SPOTask {
 					ipoSpoRation.setOperationdate(new Date());
 					String firmname = ipoSpoRationMapper.selectFirmname(firmid);
 					ipoSpoRation.setFirmname(firmname);
-					ipoSpoRation.setRationSate(2);
+					ipoSpoRation.setRationSate(1);
 					ipoSpoRationMapper.insert(ipoSpoRation);
 					logger.info("散户增发定时任务结束");
 				}
 			}
+			ipoSPOCommMapper.updateByStatus(5, spoid);
 		}
 	}
 }

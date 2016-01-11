@@ -122,7 +122,7 @@
 	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.community_id,c.register_date,
 	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
 	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
-	where 1=1
+	where c.community_id = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
     <if test="IpoSpoComm.communityId != null">
     and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
     </if>
@@ -134,7 +134,7 @@
   <update id="updateRationType" parameterType="java.lang.Long" >
     update IPO_SPO_RATION
     set 
-    RATION_SATE = 1
+    RATION_SATE = 2
     where RATIONID = #{rationId,jdbcType=DECIMAL}
   </update>
 

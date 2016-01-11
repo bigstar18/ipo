@@ -132,7 +132,7 @@
             align: 'center',
             formatter: function(value, row, index) {
             	if(row.approvalStatus == 8){
-            		return "<a href=\"#\" onclick=\"execution("+row.deliveryorderId+")\">" + "确认" + "</a>";
+            		return "<a href=\"#\" onclick=\"execution('"+row.deliveryorderId+"')\">" + "确认" + "</a>";
             	}else {
             		return "确认";
             	}

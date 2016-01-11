@@ -87,7 +87,7 @@ public class TaskServiceImpl implements TaskService {
 	 * 
 	 * @throws Exception
 	 */
-
+	@Transactional
 	public void distribution() throws Exception {
 		List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
 		logger.info("遍历商品配置表");
@@ -113,10 +113,10 @@ public class TaskServiceImpl implements TaskService {
 	 * 
 	 * @throws Exception
 	 */
-
+	@Transactional
 	public void lottery() throws Exception {
 		// 查找所有此商品的申购记录
-		System.out.println("申购记录查询开始");
+		logger.info("申购记录查询开始");
 		String ballotNowtime = DateUtil.getTime(1);// 做了修改，此处参数应为1
 		List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
 		logger.info(ipoDidList.size() + "");
@@ -145,10 +145,10 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("saleCounts:" + saleCounts);
 		Selection selection = new Selection();
 		List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
-		System.out.println("申购记录查询成功");
+		logger.info("申购记录查询成功");
 		int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
 		// 号码匹配
-		System.out.println("中签号匹配开始");
+		logger.info("中签号匹配开始");
 		List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(commId);
 		for (IpoDistribution ipoDis : ipoDidList1) {
 			int userGetNum = 0;
@@ -230,6 +230,7 @@ public class TaskServiceImpl implements TaskService {
 	/**
 	 * 费用计算和 转持仓
 	 */
+	@Transactional
 	public void orderBalance() throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("申购结算开始");
@@ -251,8 +252,8 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("申购结束");
 	}
 
-	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf)
-			throws Exception {
+	@Transactional
+	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
 		String userid = dst.getUserid();
@@ -282,29 +283,28 @@ public class TaskServiceImpl implements TaskService {
 		logger.info("转持仓结束");
 	}
 
-	
-	/**
-	 * ipo 转现货持仓
-	 */
-	public  void ipoTransferGoodsPosition() throws Exception{
-		
-		IpoCommodityConf examples = new IpoCommodityConf();
-		List<IpoCommodityConf>  commList = commodityConfMapper.queryListingCommodity(examples);
-		if(commList==null||commList.isEmpty()){
-			return ;
-		}
-		for(IpoCommodityConf item:commList){
-			ipoTransferGoodsPosition(item.getCommodityid());
-		}
-		
-	}
-	
-	
 	/**
 	 * ipo 转现货持仓
 	 */
 	@Transactional
-	public void ipoTransferGoodsPosition(String commodityid) throws Exception{
+	public void ipoTransferGoodsPosition() throws Exception {
+
+		IpoCommodityConf examples = new IpoCommodityConf();
+		List<IpoCommodityConf> commList = commodityConfMapper.queryListingCommodity(examples);
+		if (commList == null || commList.isEmpty()) {
+			return;
+		}
+		for (IpoCommodityConf item : commList) {
+			ipoTransferGoodsPosition(item.getCommodityid());
+		}
+
+	}
+
+	/**
+	 * ipo 转现货持仓
+	 */
+	@Transactional
+	public void ipoTransferGoodsPosition(String commodityid) throws Exception {
 		ipoPositionMapper.transferGoodsPosition(commodityid);
 	}
 

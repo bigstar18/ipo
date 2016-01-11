@@ -54,7 +54,6 @@ public class LoanDepositController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnum);
-			System.out.println(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();

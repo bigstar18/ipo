@@ -340,6 +340,32 @@ public class SPOServiceImpl implements SPOService {
 	@Transactional
 	public int updateStatus(Integer rationSate, String spoid) throws Exception {
 		logger.info("跟新状态" + "rationSate:" + rationSate + "SPOID:" + spoid);
+		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		// 增发价格
+		BigDecimal price = ipoSpoComm.getPositionsPrice();
+		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
+		for (IpoSpoRation ipoSpoRation : list2) {
+			// 承销商id
+			String salesid = ipoSpoRation.getSalesid();
+			if (salesid != null) {
+				// 交易商id
+				String firmid = ipoSpoRation.getFirmid();
+				// 买了多少
+				long counts = ipoSpoRation.getRationcounts();
+				BigDecimal countsparam = new BigDecimal(counts);
+				// 计算应冻结多少
+				BigDecimal monery = countsparam.multiply(price);
+				float allmonery = monery.floatValue();
+				// 资金冻结
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("monery", "");
+				param.put("userid", firmid);
+				param.put("amount", allmonery);
+				param.put("moduleid", "40");
+				fundsMapper.getfrozen(param);
+			}
+		}
+		logger.info("增发状态更新成功");
 		return ipoSPOCommMapper.updateByStatus(rationSate, spoid);
 	}
 

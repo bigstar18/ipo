@@ -22,7 +22,7 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int counts(@Param("Spo") IpoSpoCommoditymanmaagement spoComm);
 
-	int updateByStatus(@Param("rationSate") int rationSate, @Param("spoid") String spoid);
+	int updateByStatus(@Param("sposate") int sposate, @Param("spoid") String spoid);
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
 
