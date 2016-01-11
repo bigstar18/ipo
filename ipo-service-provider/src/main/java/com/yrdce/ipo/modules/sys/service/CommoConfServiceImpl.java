@@ -39,23 +39,20 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		return ipoCommodityConfmapper;
 	}
 
-	public void setIpoCommodityConfmapper(
-			IpoCommodityConfMapper ipoCommodityConfmapper) {
+	public void setIpoCommodityConfmapper(IpoCommodityConfMapper ipoCommodityConfmapper) {
 		this.ipoCommodityConfmapper = ipoCommodityConfmapper;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<VIpoCommConf> findIpoCommConfByBreedid(Long Breedid,
-			String page, String rows) {
+	public List<VIpoCommConf> findIpoCommConfByBreedid(Long Breedid, String page, String rows) {
 
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
-				.findIpoCommConfByBreedid(Breedid,
-						(curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findIpoCommConfByBreedid(Breedid, (curpage - 1) * pagesize + 1,
+				curpage * pagesize);
 		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
 		for (int i = 0; i < ipocomcoflist.size(); i++) {
 			VIpoCommConf vipocomconf = new VIpoCommConf();
@@ -74,8 +71,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	@Override
 	public VIpoCommConf getVIpoCommConfByCommid(String commid) {
 		VIpoCommConf ipocommconf = new VIpoCommConf();
-		IpoCommodityConf comm = ipoCommodityConfmapper
-				.findIpoCommConfByCommid(commid);
+		IpoCommodityConf comm = ipoCommodityConfmapper.findIpoCommConfByCommid(commid);
 		if (comm != null) {
 			log.info(comm.toString());
 			BeanUtils.copyProperties(comm, ipocommconf);
@@ -98,12 +94,29 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			ipocomm.setStatus(comm.getStatus().intValue());
 			int inum = ipoCommodityConfmapper.insert(ipocommconf);
 			int cnum = commoditymapper.insert(ipocomm);
+			addFeeSubject(comm.getCommodityid());
 			if (inum != 0 && cnum != 0) {
 				return "success";
 			}
 			return "false";
 		}
 		return "false";
+	}
+
+	// select count(*) into v_cnt from f_account where code='200215'||p_CommodityID;
+	// if(v_cnt=0) then
+	// insert into f_account(Code,Name,accountLevel,dCFlag)
+	// select '200215'||p_CommodityID,name||p_CommodityID,3,'C' from f_account where code='200215';
+	// end if;
+	// INSERT INTO "TRADE_GNNT"."F_ACCOUNT" VALUES ('200240', '申购货款', '2', 'C', 'Y');
+	// hxx
+	private void addFeeSubject(String commoId) {
+		int cnt = ipoCommodityConfmapper.querySubjectCommoCount("200240" + commoId);
+		if (cnt == 0) {
+			if (ipoCommodityConfmapper.addFeeSubject("200240", commoId) < 1)
+				log.error("账簿添加科目失败: parentSubject=200240, commoId={}", commoId);
+		} else
+			log.error("科目已经存在: parentSubject=200240, commoId={}", commoId);
 	}
 
 	@Override
@@ -152,9 +165,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
-				.findAllIpoCommConfsByPage((curpage - 1) * pagesize + 1,
-						curpage * pagesize);
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfsByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
 		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
 		for (int i = 0; i < ipocomcoflist.size(); i++) {
 			VIpoCommConf vipocomconf = new VIpoCommConf();
@@ -171,8 +182,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 
 	@Override
 	public List<VIpoCommConf> findIpoCommConfs() {
-		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
-				.findAllIpoCommConfs();
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfs();
 		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
 		for (int i = 0; i < ipocomcoflist.size(); i++) {
 			VIpoCommConf vipocomconf = new VIpoCommConf();
@@ -188,8 +198,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		if (example != null) {
 			BeanUtils.copyProperties(example, record);
 		}
-		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
-				.selectCommodityByExample(record);
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.selectCommodityByExample(record);
 		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
 		for (int i = 0; i < ipocomcoflist.size(); i++) {
 			VIpoCommConf vipocomconf = new VIpoCommConf();
@@ -200,8 +209,7 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 	}
 
 	@Override
-	public List<VIpoCommConf> findIpoCommConfsByExample(String page,
-			String rows, VIpoCommConf example) {
+	public List<VIpoCommConf> findIpoCommConfsByExample(String page, String rows, VIpoCommConf example) {
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
@@ -210,9 +218,8 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		if (example != null) {
 			BeanUtils.copyProperties(example, record);
 		}
-		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
-				.findAllIpoCommConfsByExample((curpage - 1) * pagesize + 1,
-						curpage * pagesize, record);
+		List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper.findAllIpoCommConfsByExample((curpage - 1) * pagesize + 1, curpage * pagesize,
+				record);
 		List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
 		for (int i = 0; i < ipocomcoflist.size(); i++) {
 			VIpoCommConf vipocomconf = new VIpoCommConf();
