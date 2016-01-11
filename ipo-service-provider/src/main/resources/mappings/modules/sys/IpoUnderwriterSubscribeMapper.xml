@@ -19,7 +19,7 @@
   </delete>
   
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
-  	 <selectKey resultType="Integer" order="BEFORE" keyProperty="subscribeid">
+  	 <selectKey resultType="Long" order="BEFORE" keyProperty="subscribeid">
 	SELECT SEQ_IPO_UNDERWRITER_SUBSCRIBE.NEXTVAL FROM dual
 	</selectKey>
     insert into IPO_UNDERWRITER_SUBSCRIBE (SUBSCRIBEID, UNDERWRITERID, COMMODITYID, 

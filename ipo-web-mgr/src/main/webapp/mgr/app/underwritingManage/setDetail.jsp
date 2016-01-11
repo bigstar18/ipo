@@ -57,7 +57,7 @@ function add(){
                                     	   }
                                        },  
                                        error: function(data) {  
-                                           alert("系统异常，请联系管理员");  
+                                           alert("系统异常，请联系管理员！");  
                                        }  
                                    }) 
         			           }

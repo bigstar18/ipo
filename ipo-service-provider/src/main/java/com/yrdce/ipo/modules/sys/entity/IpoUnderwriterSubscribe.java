@@ -10,7 +10,7 @@ import java.util.Date;
  *
  */
 public class IpoUnderwriterSubscribe {
-	private BigDecimal subscribeid;
+	private Long subscribeid;
 
 	private String underwriterid;// 承销商ID
 
@@ -36,11 +36,11 @@ public class IpoUnderwriterSubscribe {
 
 	private BigDecimal lBalance;// 冻结后的余额
 
-	public BigDecimal getSubscribeid() {
+	public Long getSubscribeid() {
 		return subscribeid;
 	}
 
-	public void setSubscribeid(BigDecimal subscribeid) {
+	public void setSubscribeid(Long subscribeid) {
 		this.subscribeid = subscribeid;
 	}
 
