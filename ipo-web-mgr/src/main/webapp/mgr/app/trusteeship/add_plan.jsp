@@ -16,14 +16,20 @@
 			legend{font-weight:bold;}
 		</style>
 		<script type="text/javascript"> 
+		
 			function save(){
 				 if(dataForm.commodityId.value==""){
 					alert('请选择商品');return ;
 				 };
-				 if(dataForm.plan.value==""){
+				 var planStartDateVal= $("#planStartDate").datebox("getValue");
+				 var planEndDateVal= $("#planEndDate").datebox("getValue");
+				 if(planStartDateVal==""||planEndDateVal==""){
 					alert('托管计划不能为空!');return ;
-						
 				 };
+				 if(parseInt(planStartDateVal)>parseInt(planEndDateVal)){
+					 alert('托管开始日期不能大于结束日期!');return ;
+				 };
+				 dataForm.plan.value=planStartDateVal+'-'+planEndDateVal;
 				 if(dataForm.purchaseRate.value==""){
 					alert('申购发行比例不能为空!');return ;
 				 };
@@ -50,11 +56,20 @@
 		  		});  
 		    	  
 		      }
-
- 	
+             
+			//修改日期格式
+			function myformatter(date){
+				 var y = date.getFullYear();
+				 var m = date.getMonth()+1;
+				 var d = date.getDate();
+				 return y+''+(m<10?('0'+m):m)+''+(d<10?('0'+d):d);
+			};
+ 	        
+			
+			
        </script>
     </head>
-<body leftmargin="14" topmargin="0">
+<body leftmargin="14" topmargin="0" >
 <div class="warning">
 		<div class="title font_orange_14b">温馨提示 : <font style="color: red">*号为必填项</font></div>
 	</div>
@@ -79,7 +94,9 @@
             						</tr>
             						<tr style="height: 30px">   
         								<td align="right" >托管计划:&nbsp;&nbsp;</td>
-            							<td> <input name="plan" type="text" size="28" style="height: 24px;font-size:12px;" maxlength="25"/>  
+            							<td> 
+            								<input id="planStartDate"  class="easyui-datebox" style="width:81px" editable="false" data-options="formatter:myformatter">-<input id="planEndDate"  class="easyui-datebox" style="width:81px" editable="false" data-options="formatter:myformatter">
+            							    <input name="plan" type="hidden" size="28" style="height: 24px;font-size:12px;" maxlength="25" value=""/>  
 			  								<font style="color:red">*</font>例如:20100101-20101231
             							</td> 
         							</tr>
@@ -112,7 +129,7 @@
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">
-								    <input type="button" value="添加" onclick="save()" class="anniu_btn"   />&nbsp;&nbsp;
+								    <input type="button" value="保存" onclick="save()" class="anniu_btn"   />&nbsp;&nbsp;
 									<input type="button" value="返回" onclick="window.history.go(-1)" class="anniu_btn"   />
 								</div>
 							</td>

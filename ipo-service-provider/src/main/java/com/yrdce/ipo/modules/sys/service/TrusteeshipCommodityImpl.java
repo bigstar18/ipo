@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,20 +60,34 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 */
 	public List<TrusteeshipCommodity> queryPlanForPage(String pageNoStr,
 			String pageSizeStr, TrusteeshipCommodity commodity) {
-
+	    
 		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
 		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
 		List<IpoTrusteeshipCommodity> dbList = shipCommodityMapper
 				.queryApplyForPage(startIndex, endIndex, commodity);
 		List<TrusteeshipCommodity> dataList = new ArrayList<TrusteeshipCommodity>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	    int today=Integer.parseInt(sdf.format(new Date()));
+	    int planStartDate=0;
+	    int planEndDate=0;
 		for (IpoTrusteeshipCommodity item : dbList) {
 			TrusteeshipCommodity entity = new TrusteeshipCommodity();
 			BeanUtils.copyProperties(item, entity);
+			planStartDate=Integer.parseInt(item.getPlan().substring(0, 8));
+			planEndDate=Integer.parseInt(item.getPlan().substring(9));
+			if(today>planEndDate){
+				entity.setState(TrusteeshipConstant.PlanState.END.getCode());
+			}else if(today<planStartDate){
+				entity.setState(TrusteeshipConstant.PlanState.NOT_START.getCode());
+			}else{
+				entity.setState(TrusteeshipConstant.PlanState.STARTING.getCode());
+			}; 
 			dataList.add(entity);
 		}
 		return dataList;
 	}
 
+	
 	/**
 	 * 查询可申购的托管计划数量
 	 * 
@@ -321,4 +336,5 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return dbShip;
 	}
 
+	 
 }

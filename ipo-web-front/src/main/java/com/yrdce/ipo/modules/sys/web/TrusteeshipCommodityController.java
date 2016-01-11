@@ -54,6 +54,8 @@ public class TrusteeshipCommodityController {
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setCommodityName(request.getParameter("commodityName"));
+		//进行中的计划 
+		commodity.setState(TrusteeshipConstant.PlanState.STARTING.getCode());
 		long count=trusteeshipCommodityService.queryPlanForCount(commodity);
 		List<TrusteeshipCommodity> dataList=new ArrayList<TrusteeshipCommodity>();
 		if(count>0){

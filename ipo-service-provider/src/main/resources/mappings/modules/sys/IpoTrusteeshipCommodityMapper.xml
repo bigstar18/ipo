@@ -33,6 +33,9 @@
 			<if test="commodity.commodityName!=null and commodity.commodityName!='' ">
 				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
 			</if>
+			<if test="commodity.state==2 ">
+			    and to_char(sysdate,'yyyymmdd') >=substr(tc.plan, 1,8) and substr(tc.plan,10) >=to_char(sysdate,'yyyymmdd')	 
+	  		</if>
 			and #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
   </select>
@@ -49,6 +52,10 @@
 	  <if test="commodity.commodityName!=null and commodity.commodityName!='' ">
 				and conf.commodityname like '%'||#{commodity.commodityName}||'%' 
 	  </if>
+	  <if test="commodity.state==2 ">
+			and to_char(sysdate,'yyyymmdd') >=substr(tc.plan, 1,8) and substr(tc.plan,10) >=to_char(sysdate,'yyyymmdd')	 
+	  </if>
+	  
   </select>
   
   <update id="deleteById" parameterType="map">

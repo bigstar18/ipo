@@ -98,7 +98,10 @@ public class OrderServiceImpl implements OrderService {
 		return counts;
 
 	}
-
+	
+    /**
+     * 查询已冻结资金的订单 
+     */
 	@Override
 	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception {
 		List<Order> result = new ArrayList<Order>();

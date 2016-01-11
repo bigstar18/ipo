@@ -69,9 +69,10 @@
           width : 200,
           align: 'center',
           formatter: function(value, row, index) {
-              return "<a href=\"#\" onclick=\"edit("+row.id+")\">" + "修改" + "</a>&nbsp;&nbsp;"+
-                     "<a href=\"#\" onclick=\"deletePlan("+row.id+")\">"+"删除" + "</a>"
-                    ;
+        	  if(row.state=='1'){
+        		  return "<a href=\"#\" onclick=\"edit("+row.id+")\">" + "修改" + "</a>&nbsp;&nbsp;"+
+                   "<a href=\"#\" onclick=\"deletePlan("+row.id+")\">"+"删除" + "</a>";
+        	  }
             }
         }]
       ]

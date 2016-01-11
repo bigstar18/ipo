@@ -116,7 +116,10 @@ public class DistributionServiceImpl implements DistributionService {
 		}
 		return distributions2;
 	}
-
+	
+    /**
+     * 查询未结算的中签记录
+     */
 	@Override // hxx
 	public List<Distribution> queryUnsettleOrdersByCommId(String commId) throws Exception {
 		List<IpoDistribution> distributions = ipoDistributionMapper.queryUnsettledByCommoId(commId);

@@ -39,7 +39,32 @@ public interface TrusteeshipConstant {
 	
 	
 	
-	
+   //托管计划状态
+	public static enum PlanState{
+		NOT_START(1,"未生效"),
+		STARTING(2,"生效"),
+		END(3,"结束");
+		private int code;
+		private String name;
+		private PlanState(int code,String name){
+			this.code=code;
+			this.name=name;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getName() {
+			return name;
+		}
+		public static String getName(int code){
+			for(State item:State.values()){
+				if (item.getCode() == code) {  
+	                return item.getName();  
+	            }  
+			}
+			return null;  
+		}
+	}
 	
 	
 }

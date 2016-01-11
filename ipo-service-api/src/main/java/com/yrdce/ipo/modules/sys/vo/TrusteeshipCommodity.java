@@ -19,6 +19,10 @@ public class TrusteeshipCommodity implements Serializable {
 	 */
 	private String plan;
 	/**
+	 * 状态 1:未生效,2:生效,3:结束
+	 */
+	private int state; 
+	/**
 	 * 商品名称
 	 */
 	private String commodityName;
@@ -166,6 +170,14 @@ public class TrusteeshipCommodity implements Serializable {
 
 	public void setListingChargeRate(BigDecimal listingChargeRate) {
 		this.listingChargeRate = listingChargeRate;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 	
