@@ -1,10 +1,14 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,7 +72,7 @@ public class UnderwriterSetController {
 				ResponseResult result = new ResponseResult();
 				result.setTotal(totalnums);
 				result.setRows(list);
-				log.info(JSON.json(result));
+				log.debug(JSON.json(result));
 				return JSON.json(result);
 			}
 			return null;
@@ -117,8 +121,14 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/addSet", method = RequestMethod.POST)
 	@ResponseBody
-	public String addSet(UnderwriterSubscribe example) throws IOException {
+	public String addSet(UnderwriterSubscribe example, HttpSession session)
+			throws IOException {
 		if (example != null) {
+			example.setDeleteFlag((short) 0);
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			example.setCreateUser(userId);
+			example.setCreateDate(new Date());
 			int num = underwritersubscribeService.insertInfo(example);
 			if (num == 1) {
 				return "true";

@@ -59,7 +59,7 @@ public class PublisherController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
-			log.info(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -59,7 +59,7 @@ function add(){
                                        error: function(data) {  
                                            alert("系统异常，请联系管理员！");  
                                        }  
-                                   }) 
+                                   }) ;
         			           }
                                if(data=='2'){
                             	   alert("系统内部异常,请联系管理员")
