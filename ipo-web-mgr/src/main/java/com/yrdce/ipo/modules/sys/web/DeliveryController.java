@@ -327,7 +327,6 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
@@ -351,7 +350,6 @@ public class DeliveryController {
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
@@ -373,9 +371,8 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("撤销审核单");
 		try {
-			// String userId = ((UserManageVO)
-			// session.getAttribute("CurrentUser")).getUserID();
-			String userId = "121";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();
