@@ -177,7 +177,7 @@ function doSearch(){
 					</select>
 			发售日期：<input type="text" id="starttime" name="starttime"></input> 
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 
-			<input type="button" value="查询" onclick="doSearch()"/>				
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>			
 		</div> 
 	</div>
 	</div>
