@@ -94,7 +94,7 @@
  select nvl(sum(t.holdqty),0) from T_FirmHoldSum t where t.commodityid = #{commodityid,jdbcType=VARCHAR}
  </select>
  
- <select id="selectPositionList" resultType="com.yrdce.ipo.modules.sys.entity.TFirmholdsum" parameterType="java.lang.String">
+ <select id="selectPositionList" resultType="com.yrdce.ipo.modules.sys.entity.TFirmHoldSum" parameterType="java.lang.String">
  select * from T_FirmHoldSum t where COMMODITYID = #{commodityid,jdbcType=VARCHAR} 
  </select>
  

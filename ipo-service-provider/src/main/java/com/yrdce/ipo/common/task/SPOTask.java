@@ -81,7 +81,7 @@ public class SPOTask {
 				// 现货持仓信息
 				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
 				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
-					String firmid = tFirmholdsums.getFirmid();
+					String firmid = tFirmholdsums.getFirmId();
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
 					double position = tFirmholdsums.getHoldqty();
 					logger.info(">>>>>>>>>>>>>>>>>>position:" + position);

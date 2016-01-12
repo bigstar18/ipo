@@ -221,6 +221,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			long num = position + quatity;
 			// 更新交易商的持仓量
 			ipoPositionMapper.updatePosition(firmid, commid, num);
+		} else if (status1 == 9) {
+
 		}
 		// 跟新订单状态
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
