@@ -1,9 +1,12 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
@@ -53,6 +57,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
+	@Autowired
+	private FFirmfundsMapper fundsMapper;
 
 	@Override
 	// 获得交易商持仓信息
@@ -206,7 +212,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 撤销申请(状态修改)
 	@Override
 	@Transactional
-	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception {
+	public String updateRevocationStatus(String deliveryorderid, String status, String userid) throws Exception {
 		int status1 = Integer.parseInt(status);
 		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
 		if (status1 == 10) {
@@ -222,7 +228,25 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			// 更新交易商的持仓量
 			ipoPositionMapper.updatePosition(firmid, commid, num);
 		} else if (status1 == 9) {
-
+			IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
+			BigDecimal cost = ipoExpress.getCost();
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("monery", "");
+			param.put("userid", userid);
+			param.put("lock", 0);
+			fundsMapper.getMonery(param);
+			BigDecimal monery = (BigDecimal) param.get("monery");
+			if (monery.compareTo(cost) != -1) {
+				float mony = cost.floatValue();
+				Map<String, Object> param1 = new HashMap<String, Object>();
+				param.put("monery", "");
+				param.put("userid", userid);
+				param.put("amount", mony);
+				param.put("moduleid", "40");
+				fundsMapper.getfrozen(param);
+			} else {
+				return "error";
+			}
 		}
 		// 跟新订单状态
 		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);

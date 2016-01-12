@@ -196,10 +196,12 @@ public class SettlementDeliveryController {
 	// 提货单状态修改(撤销提货、提货确认)
 	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status) {
+	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status,
+			HttpSession session) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status);
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status, user.getUserID());
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -39,7 +39,7 @@ public interface SettlementDeliveryService {
 	public List<DeliveryOrder> getRevocationList(String page, String rows, Paging paging) throws Exception;
 
 	// 撤销提货
-	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception;
+	public String updateRevocationStatus(String deliveryorderid, String status, String userid) throws Exception;
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception;

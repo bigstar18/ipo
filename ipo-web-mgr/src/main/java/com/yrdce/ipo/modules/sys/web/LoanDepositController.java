@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,11 @@ public class LoanDepositController {
 	public String getAllInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			@RequestParam(value = "underwriterid", required = false) String underwriterid) {
 		try {
-			List<UnderwriterSubscribe> clist;
 			if (underwriterid == null) {
 				underwriterid = "no";
 			}
-			clist = loanDepositService.GetAllInfo(page, rows, underwriterid);
+			List<UnderwriterSubscribe> clist = loanDepositService.GetAllInfo(page, rows, underwriterid);
+			List<UnderwriterSubscribe> clist1 = new ArrayList<UnderwriterSubscribe>();
 			for (UnderwriterSubscribe under : clist) {
 				BigDecimal amount = under.getAmount();
 				logger.info("冻结金额：" + amount);
@@ -49,10 +50,11 @@ public class LoanDepositController {
 				logger.info("用户金额：" + UserBalance);
 				BigDecimal lBalance = UserBalance.subtract(amount);
 				under.setlBalance(lBalance);
+				clist1.add(under);
 			}
 			int totalnum = loanDepositService.getpage(underwriterid);
 			ResponseResult result = new ResponseResult();
-			result.setRows(clist);
+			result.setRows(clist1);
 			result.setTotal(totalnum);
 			return JSON.json(result);
 		} catch (Exception e) {
