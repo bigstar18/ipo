@@ -106,10 +106,10 @@ function getAllInfo(){
             	 switch(value)
             	 {
             	 case 1:
-            	  return "以配售"
+            	  return "未配售"
             	   break;
             	 case 2:
-            	   	return "未配售"
+            	   	return "已配售"
             	   break;
             	 }
                  }
