@@ -69,7 +69,7 @@ public class UnderwriterSetController {
 		try {
 			if (example != null) {
 				example.setDeleteFlag((short) 0);
-				log.info(example.toString());
+				log.debug(example.toString());
 				List<UnderwriterSubscribe> list = underwritersubscribeService
 						.getInfosByPage(page, rows, example);
 				int totalnums = underwritersubscribeService

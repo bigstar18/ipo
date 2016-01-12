@@ -327,7 +327,6 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
@@ -351,7 +350,6 @@ public class DeliveryController {
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// String userId = "111";
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
 			return "true";
 		} catch (Exception e) {
