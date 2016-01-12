@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
+import com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
@@ -38,6 +39,8 @@ public class TrusteeshipCommodityController {
 	private TrusteeshipCommodityService trusteeshipCommodityService;
 	@Autowired
 	private BiWarehouseService biWarehouseService;
+	@Autowired
+	private TrusteeWarehouseService trusteeshipWarehouseService;
 	
 	/**
 	 * 查询可申购的托管计划
@@ -69,6 +72,19 @@ public class TrusteeshipCommodityController {
 	
 	
 	
+	/**
+	 * 跳转到新增申请界面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addApply")
+	public String addApply(HttpServletRequest request,Model model){
+		String commodityId=request.getParameter("commodityId");
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		model.addAttribute("trusteeWarehouseList", trusteeshipWarehouseService.getTrusteeshipWarehouseByCommId(commodityId));
+		return "app/trusteeship/add_apply";
+	}
 	
 	/**
 	 * 新增商户申购的托管商品
@@ -84,6 +100,7 @@ public class TrusteeshipCommodityController {
 		trusteeship.setApplyAmount(Long.valueOf(request.getParameter("applyAmount")));
 		trusteeship.setCommodityId(request.getParameter("commodityId"));
 		trusteeship.setTrusteeshipCommodityId(Long.valueOf(request.getParameter("trusteeshipCommodityId")));
+		trusteeship.setWarehouseId(Long.valueOf(request.getParameter("warehouseId")));
 		trusteeship.setPrice(new BigDecimal(request.getParameter("price")));
 		trusteeship.setCreateUser(getloginUserId(request));
 		try {
@@ -109,6 +126,8 @@ public class TrusteeshipCommodityController {
 		model.addAttribute("stateList", TrusteeshipConstant.State.values());
 		return "app/trusteeship/apply";
 	}
+	
+	
 	
 	
 	/**
@@ -158,20 +177,23 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/cancelApply")
 	@ResponseBody
-	public boolean cancelApply(HttpServletRequest request,HttpServletResponse response){
+	public String cancelApply(HttpServletRequest request,HttpServletResponse response){
 		try {
+			Long id=Long.valueOf(request.getParameter("id"));
 			Trusteeship ship = new Trusteeship();
-			ship.setId(Long.valueOf(request.getParameter("id")));
+			ship.setId(id);
 			ship.setUpdateUser(getloginUserId(request));
+			Trusteeship dbTrusteeship =trusteeshipCommodityService.findTrusteeshipById(id);
+			if(dbTrusteeship.getState()!=TrusteeshipConstant.State.APPLY.getCode()){
+				return "001";
+			};
 			trusteeshipCommodityService.cancelApply(ship);
 		} catch (Exception e) {
 			logger.error("cancelApply error:"+e);
-		   return false;
+		   return "error";
 		}
-		return true;
+		return "success";
 	}
-	
-	
 	
 	
 	/**

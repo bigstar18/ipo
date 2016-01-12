@@ -42,6 +42,7 @@
 		  		    success : function(data, stats) {  
 		  	             if(data==true||data=="true"){
 		  	            	 alert('保存成功');
+		  	            	 back();
 		  	             }else{
 		  	            	 alert('保存失败');
 		  	             }
@@ -64,6 +65,10 @@
 				var planVal=dataForm.plan.value;
 				$("#planStartDate").datebox("setValue",planVal.substr(0,8));
 				$("#planEndDate").datebox("setValue",planVal.substr(9))
+			};
+			function back(){
+				var url_='<%=basePath%>/mgr/app/trusteeship/plan.jsp';
+				window.location.href=url_; 
 			}
 			
        </script>
@@ -131,8 +136,8 @@
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">
-								    <input type="button" value="保存" onclick="save()" class="anniu_btn"   />&nbsp;&nbsp;
-									<input type="button" value="返回" onclick="window.history.go(-1)" class="anniu_btn"   />
+								    <input type="button" value="保存" onclick="save();" class="anniu_btn"   />&nbsp;&nbsp;
+									<input type="button" value="返回" onclick="back();" class="anniu_btn"   />
 								</div>
 							</td>
 						</tr>

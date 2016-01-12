@@ -107,7 +107,10 @@ public class IpoTrusteeship implements Serializable {
 	 * 删除标记 0:有效 1:无效
 	 */
 	private int deleteFlag;
-
+	/**
+	 * 仓库id
+	 */
+	private Long warehouseId;
 	/**
 	 * 仓库名称
 	 */
@@ -310,6 +313,14 @@ public class IpoTrusteeship implements Serializable {
 
 	public void setCreateUserMobile(String createUserMobile) {
 		this.createUserMobile = createUserMobile;
+	}
+
+	public Long getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(Long warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 	
     

@@ -44,4 +44,29 @@ public class DateUtil {
 		String dayAfter = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
 		return dayAfter;
 	}
+	
+	
+	public static Date dayOffset(Date date,int offset){
+		  Calendar calendar = Calendar.getInstance();
+		  calendar.setTime(date);
+		  calendar.add(Calendar.DATE, offset);
+		  return calendar.getTime();
+	}
+	
+	
+	public static Date monthOffset(Date date,int offset){
+		  Calendar calendar = Calendar.getInstance();
+		  calendar.setTime(date);
+		  calendar.add(Calendar.MONTH, offset);
+		  return calendar.getTime();
+	}
+	
+	public static Date hourOffset(Date date,int offset){
+		  Calendar calendar = Calendar.getInstance();
+		  calendar.setTime(date);
+		  calendar.add(Calendar.HOUR, offset);
+		  return calendar.getTime();
+	}
+	
+	
 }

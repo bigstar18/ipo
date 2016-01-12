@@ -100,7 +100,7 @@
   });
   
   function add(id,commodityId,price,counts,listingChargeRate){
-	  var url_='add_apply.jsp?id='+id+'&commodityId='+commodityId+'&price='+price+
+	  var url_='${root}/trusteeshipCommodityController/addApply?id='+id+'&commodityId='+commodityId+'&price='+price+
 			   '&counts='+counts+'&listingChargeRate='+listingChargeRate;
 	  openCenterWindow(url_,'add_win',650,350);
   }

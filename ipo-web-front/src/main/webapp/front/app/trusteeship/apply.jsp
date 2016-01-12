@@ -60,7 +60,9 @@
           {field: 'auditingDate',title: '审核时间',width: '10%',align: 'center'},
       	  {field: 'oper',title: '操作',width: '6%',align: 'center',
              formatter: function(value, row, index) {
-              return  "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
+            	 if(row.state=='1'){
+            		 return  "<a href=\"#\" onclick=\"canel("+row.id+","+row.state+")\">" + "撤销" + "</a>";
+            	 }
              }
           }
        ]
@@ -75,20 +77,18 @@
   });
   
   function canel(id,state){
-	  if(state!=1){
-		  alert('请选择状态为申请的记录');
-		  return false;
-	  };
 	  $.ajax({  
 		    url: '${root}/trusteeshipCommodityController/cancelApply?t='+Math.random(),  
 		    data:{"id":id},  
-		    type: 'POST',dataType: 'json',  
+		    type: 'POST',dataType: 'text',  
 		    success : function(data, stats) {  
-	             if(data==true||data=="true"){
+	             if(data=="success"){
 	            	 alert('撤销成功');
 	            	 doSearch();
-	             }else{
+	             }else if(data=="error"){
 	            	 alert('撤销失败');
+	             }else{
+	            	 alert('请刷新页面后重新操作');
 	             }
 	        },
 	  	    error: function (jqXHR, textStatus, errorThrown) {

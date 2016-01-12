@@ -20,6 +20,7 @@
     <result column="state" property="state"  />
     <result column="create_date" property="createDate"  />
     <result column="auditing_date" property="auditingDate"  />
+    <result column="warehouse_id" property="warehouseId"  />
     <result column="warehousename" property="warehouseName"  />
     <result column="apply_amount" property="applyAmount"  />
     <result column="effective_amount" property="effectiveAmount"  />
@@ -37,27 +38,27 @@
 		</selectKey>
        insert into ipo_trusteeship(
           id, apply_amount,trusteeship_commodity_id,state, price,create_user, create_date,   
-	      commodity_id,instorage_amount,effective_amount,position_amount,listing_charge
+	      commodity_id,instorage_amount,effective_amount,position_amount,listing_charge,warehouse_id
  	   )values (
  	      #{id,jdbcType=INTEGER}, #{applyAmount},#{trusteeshipCommodityId}, #{state}, #{price},  
           #{createUser},#{createDate,jdbcType=TIMESTAMP}, #{commodityId},#{instorageAmount},
-          #{effectiveAmount},#{positionAmount},#{listingCharge}
+          #{effectiveAmount},#{positionAmount},#{listingCharge},#{warehouseId}
        )
   </insert>
    
    
    <select id="queryApplyForPage" resultMap="IpoTrusteeshipResultMap"  parameterType="map" >
        select * from (
+           select pg.*,rownum as row_num from (
 	        select ship.id,ship.commodity_id,comm.commodityname,ship.create_user,firm.name as create_user_name,
 	               to_char(firm.mobile) as create_user_mobile,ship.listing_charge,
 	               ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
-				   trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,biware.warehousename,
-				   rownum as row_num
+				   trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,
+				   ship.warehouse_id,biware.warehousename
 			from ipo_trusteeship ship 
 			left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
-			left join ipo_trusteeship_warehouse  truware on (ship.commodity_id=truware.commodity_id)
-			left join bi_warehouse biware on (truware.warehouse_id=biware.id)
+			left join bi_warehouse biware on (ship.warehouse_id=biware.id)
 			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 			<if test="ship.commodityId!=null and ship.commodityId!='' ">
@@ -73,7 +74,7 @@
 				and  ship.create_user=#{ship.createUser} 
 			</if>
 			<if test="ship.warehouseId>0 ">
-				and  truware.warehouse_id=#{ship.warehouseId} 
+				and  ship.warehouse_id=#{ship.warehouseId} 
 		    </if>
 		    <if test="ship.beginCreateDate!=null and ship.beginCreateDate!='' ">
 				and ship.create_date>=to_date(#{ship.beginCreateDate},'mm/dd/yyyy')  
@@ -87,7 +88,8 @@
 			 <if test="ship.endAuditingDate!=null and ship.endAuditingDate!='' ">
 				and to_date(#{ship.endAuditingDate},'mm/dd/yyyy')>= ship.auditing_date
 			</if>
-			and #{endIndex} >=rownum
+			order by ship.create_date desc
+			) pg where #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
 		 
   </select>
@@ -97,8 +99,7 @@
 			from ipo_trusteeship ship 
 			left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
-			left join ipo_trusteeship_warehouse  truware on (ship.commodity_id=truware.commodity_id)
-			left join bi_warehouse biware on (truware.warehouse_id=biware.id)
+			left join bi_warehouse biware on (ship.warehouse_id=biware.id)
 			left join m_firm firm on (ship.create_user=firm.firmid)
 			where ship.delete_flag=0
 		<if test="ship.commodityId!=null and ship.commodityId!='' ">
@@ -114,7 +115,7 @@
 				and  ship.create_user=#{ship.createUser} 
 		</if>
 		<if test="ship.warehouseId>0 ">
-			and  truware.warehouse_id=#{ship.warehouseId} 
+			and  ship.warehouse_id=#{ship.warehouseId} 
 	    </if>
 	    <if test="ship.beginCreateDate!=null and ship.beginCreateDate!='' ">
 			and ship.create_date>=to_date(#{ship.beginCreateDate},'mm/dd/yyyy')  
@@ -144,7 +145,7 @@
   <select id="get" resultMap="IpoTrusteeshipResultMap"  parameterType="java.lang.Long" >
        select id, apply_amount, instorage_amount, effective_amount, 
           position_amount, trusteeship_commodity_id, state, price, publish_charge, delay_charge, listing_charge, 
-          auditing_date, create_user, create_date, update_user, update_date, delete_flag, commodity_id 
+          auditing_date, create_user, create_date, update_user, update_date, delete_flag, commodity_id,warehouse_id 
        from ipo_trusteeship
        where id=#{id}
   </select>

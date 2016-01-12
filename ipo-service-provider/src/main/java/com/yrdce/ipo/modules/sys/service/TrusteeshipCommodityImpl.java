@@ -317,6 +317,19 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	}
 
 	/**
+	 * 查找申请记录
+	 * @param id
+	 * @return
+	 */
+	public Trusteeship findTrusteeshipById(Long id){
+		IpoTrusteeship dbShip = shipMapper.get(id);
+		Trusteeship ship = new Trusteeship();
+		BeanUtils.copyProperties(dbShip, ship);
+		return ship;
+	}
+	
+	
+	/**
 	 * 保存上一次的操作记录
 	 * 
 	 * @param id

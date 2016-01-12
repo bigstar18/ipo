@@ -19,6 +19,10 @@
     	  if(parseInt(dataForm.applyAmount.value)>parseInt(dataForm.counts.value)){
     		  alert('申购数量不能大于发行数量!');return false;
     	  };
+    	  if(dataForm.warehouseId.value=="-1"){
+    		  alert('请选择托管仓库!');return false;
+    	  };
+    	  
     	  $.ajax({  
   		    url: "${root}/trusteeshipCommodityController/saveApply",  
   		    data:$('#dataForm').serialize(),  
@@ -26,7 +30,7 @@
   		    success : function(data, stats) {  
   	             if(data==true||data=="true"){
   	            	 alert('保存成功');
-  	            	 window.close();
+  	            	 closeWin();
   	             }else{
   	            	 alert('保存失败');
   	             }
@@ -38,13 +42,16 @@
     	  
       }
   
+      function closeWin(){
+		 window.close();
+	  }
   
   </script>
 </head>
 
  <body >
     
-    <div id="tb" style="padding:15px;height:auto" >
+    <div id="tb" style="padding:15px;height:auto; " align="center">
 	    <div>
 		 <form   name="dataForm" id="dataForm">
 		      <input type="hidden" name="trusteeshipCommodityId" value="${param.id}">
@@ -67,9 +74,27 @@
                        <font style="color:red">*</font>
                    </td>   
 		        </tr>
+		         <tr>
+		           <td align="right">托管仓库:</td>
+		           <td  > &nbsp;      
+		               <select style="width:130px;" name="warehouseId">
+			            <option value="-1">-----------全部-----------</option>
+			            <c:forEach items="${warehouseList }" var="item">
+			                <c:forEach items="${trusteeWarehouseList }" var="trusteeItem">
+			                  <c:if test="${ item.id eq trusteeItem}">
+					            <option value="${item.id }">${item.warehousename}</option>
+					          </c:if>
+					        </c:forEach>
+					    </c:forEach>
+			          </select>
+                       <font style="color:red">*</font>
+                   </td>   
+		        </tr>
+		   
 		        <tr >
 		           <td colspan="4" align="center" style="padding-top:30px;" > 
 		              <a href="#" class="easyui-linkbutton" iconCls="icon-save" id="view" onclick="save()">保存</a>
+		              <a href="#" class="easyui-linkbutton" iconCls="icon-no" id="view" onclick="closeWin()">关闭</a>
 		           </td>
 		        </tr>
 		      </table>

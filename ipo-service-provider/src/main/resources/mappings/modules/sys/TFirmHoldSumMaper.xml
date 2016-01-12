@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper" >
+
+ <resultMap id="TFirmHoldSumResultMap" type="com.yrdce.ipo.modules.sys.entity.TFirmHoldSum" >
+    <result column="firmid" property="firmId"  />
+    <result column="commodityid" property="commodityId"  />
+    <result column="bs_flag" property="bsFlag"  />
+    <result column="holdqty" property="holdqty"  />
+    <result column="holdfunds" property="holdFunds"  />
+    <result column="floatingloss" property="floatingLoss"  />
+    <result column="evenprice" property="evenPrice"  />
+    <result column="holdmargin" property="holdMargin"  />
+    <result column="gageqty" property="gageqty"  />
+    <result column="holdassure" property="holdAssure"  />
+  </resultMap>
+  
+  
+  <select id="queryForList" resultMap="TFirmHoldSumResultMap"  parameterType="map" >
+         select t.firmid, t.commodityid, t.bs_flag, t.holdqty, t.holdfunds, t.floatingloss, t.evenprice,
+         		t.holdmargin, t.gageqty, t.holdassure 
+ 		 from t_firmholdsum t where 1=1
+		 <if test="param.firmId!=null and param.firmId!='' ">
+		   and t.firmid=#{param.firmId}
+	     </if>
+         <if test="param.bsFlag>0">
+		   and t.bs_flag=#{param.bsFlag}
+	     </if>
+	     <if test="param.commodityId!=null and param.commodityId!='' ">
+		   and t.commodityid=#{param.commodityId}
+	    </if>
+  </select>
+  
+  <select id="queryForCount" resultType="java.lang.Long"    parameterType="map" >
+     select count(1) as count_ from T_FirmHoldSum t where 1=1 
+      
+     <if test="param.firmId!=null and param.firmId!='' ">
+		   t.firmid=#{param.firmId}
+	 </if>
+     <if test="param.bsFlag>0">
+		  and t.bs_flag=#{param.bsFlag}
+	 </if>
+	 <if test="param.commodityId!=null and param.commodityId!='' ">
+		  and t.commodityid=#{param.commodityId}
+	 </if>
+  </select>
+  
+  
+  
+  
+   
+  
+</mapper>

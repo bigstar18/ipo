@@ -149,5 +149,11 @@ public interface TrusteeshipCommodityService {
 	 * @param ship
 	 */
 	public void saveTurnToPosition(Trusteeship ship) throws Exception;
+	/**
+	 * 查找申请记录
+	 * @param id
+	 * @return
+	 */
+	public Trusteeship findTrusteeshipById(Long id);
 
 }

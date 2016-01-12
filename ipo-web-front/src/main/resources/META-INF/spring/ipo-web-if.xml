@@ -37,6 +37,7 @@
     <dubbo:reference id="dataItemService" interface="com.yrdce.ipo.modules.sys.service.DataItemService" />
     <dubbo:reference id="deliveryOrderService" interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" />
     <dubbo:reference id="pickupservice" interface="com.yrdce.ipo.modules.sys.service.PickUpService" />
+    <dubbo:reference id="trusteeshipWarehouseService" interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" />
     
     
     
