@@ -31,7 +31,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
-import com.yrdce.ipo.modules.sys.entity.TFirmholdsum;
+import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 
 /**
  * 定时任务相关的 service
@@ -348,8 +348,8 @@ public class TaskServiceImpl implements TaskService {
 				int sum = ipoPositionMapper.selectSumByComm(commodityid);
 				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
-				List<TFirmholdsum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
-				for (TFirmholdsum tFirmholdsums : tFirmholdsumslist) {
+				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
 					String firmid = tFirmholdsums.getFirmid();
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
 					double position = tFirmholdsums.getHoldqty();

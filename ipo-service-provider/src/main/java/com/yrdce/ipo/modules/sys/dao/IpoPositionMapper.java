@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
-import com.yrdce.ipo.modules.sys.entity.TFirmholdsum;
+import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 
 @MyBatisDao
 public interface IpoPositionMapper {
@@ -35,6 +35,6 @@ public interface IpoPositionMapper {
 	int selectSumByComm(@Param("commodityid") String commodityid);
 
 	//// 现货持仓信息
-	List<TFirmholdsum> selectPositionList(String commodityid);
+	List<TFirmHoldSum> selectPositionList(String commodityid);
 
 }

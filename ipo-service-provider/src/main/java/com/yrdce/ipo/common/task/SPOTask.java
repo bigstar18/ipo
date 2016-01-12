@@ -15,7 +15,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
-import com.yrdce.ipo.modules.sys.entity.TFirmholdsum;
+import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 
 /**
  * 增发状态定时任务
@@ -79,8 +79,8 @@ public class SPOTask {
 				int sum = ipoPositionMapper.selectSumByComm(commodityid);
 				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
-				List<TFirmholdsum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
-				for (TFirmholdsum tFirmholdsums : tFirmholdsumslist) {
+				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
 					String firmid = tFirmholdsums.getFirmid();
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
 					double position = tFirmholdsums.getHoldqty();
