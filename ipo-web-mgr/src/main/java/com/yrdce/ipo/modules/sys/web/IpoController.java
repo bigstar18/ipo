@@ -269,7 +269,7 @@ public class IpoController {
 			log.info("跳转至修改页面");
 			VIpoABreed vbreed = vIpoABreedService.getIpoABreed(Long
 					.parseLong(breedid));
-			log.info(vbreed.toString());
+			log.debug(vbreed.toString());
 			Mlist = mBreedservice.findAll();
 			request.setAttribute("Mlist", Mlist);
 			request.setAttribute("entity", vbreed);
@@ -292,7 +292,7 @@ public class IpoController {
 		try {
 			VIpoABreed ipobreed = vIpoABreedService.getIpoABreed(Long
 					.parseLong(breedid));
-			log.info(ipobreed + "");
+			log.debug(ipobreed + "");
 			Blist = brBrokerService.findAllPublisher();
 			Tlist = tCommodityService.findAllTCommodity();
 			request.setAttribute("entity", ipobreed);
@@ -343,7 +343,7 @@ public class IpoController {
 				Tlist = tCommodityService.findAllTCommodity();
 				MBreed breed = mBreedservice.getMBreed(Long.parseLong(breedid));
 				String breedname = breed.getBreedname();
-				log.info(ipocomm + "");
+				log.debug(ipocomm + "");
 				request.setAttribute("entity", ipocomm);
 				request.setAttribute("breedname", breedname);
 				request.setAttribute("Tlist", Tlist);
@@ -369,7 +369,7 @@ public class IpoController {
 		DeliveryOrder deorder = deliveryorderservice
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 		if (deorder != null) {
-			log.info(deorder.toString());
+			log.debug(deorder.toString());
 			String deliveryDate = formatDate(deorder.getDeliveryDate());
 			String applyDate = formatDate(deorder.getApplyDate());
 			IpoWarehouseStock stock = warehouseStockService
@@ -384,14 +384,14 @@ public class IpoController {
 			String methodId = deorder.getMethodId() + "";
 			if (deorder.getDeliveryMethod().equals("自提")) {
 				Pickup pickup = deliveryorderservice.getPickUpDetail(methodId);
-				log.info(pickup.toString());
+				log.debug(pickup.toString());
 				request.setAttribute("detail", pickup);
 				request.setAttribute("flag", "pickup");
 			}
 			if (deorder.getDeliveryMethod().equals("在线配送")) {
 				Express express = deliveryorderservice
 						.getExpressDetail(methodId);
-				log.info(express.toString());
+				log.debug(express.toString());
 				request.setAttribute("detail", express);
 				request.setAttribute("flag", "express");
 			}

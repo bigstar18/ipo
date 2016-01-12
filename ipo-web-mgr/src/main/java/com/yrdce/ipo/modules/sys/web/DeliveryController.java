@@ -240,7 +240,7 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
 		log.info("分页查询入库单");
-		log.info(storage.toString());
+		log.debug(storage.toString());
 		try {
 			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
 					page, rows, storage);
@@ -296,7 +296,7 @@ public class DeliveryController {
 			throws IOException {
 		log.info("模糊查询提货单");
 		try {
-			log.info(record.toString());
+			log.debug(record.toString());
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
@@ -395,7 +395,7 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, OutboundExtended outbound)
 			throws IOException {
 		log.info("分页查询出库单");
-		log.info(outbound.toString());
+		log.debug(outbound.toString());
 		try {
 			List<OutboundExtended> tlist = outboundService.getAllOutboundInfo(
 					page, rows, outbound);
@@ -426,7 +426,7 @@ public class DeliveryController {
 		log.info("分页查询库存列表");
 		try {
 			if (stock != null) {
-				log.info(stock.toString());
+				log.debug(stock.toString());
 				if (stock.getWarehouseid() != null) {
 					if (stock.getWarehouseid().equals("")) {
 						stock.setWarehouseid(null);
