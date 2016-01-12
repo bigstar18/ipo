@@ -64,9 +64,14 @@
            width : 200,
            align: 'center'
         },{
+            field: 'purchaseRate',
+            title: '申购发行比例(%)',
+            width : 200,
+            align: 'center'
+         },{
           field: 'oper',
           title: '操作',
-          width : 200,
+          width : 150,
           align: 'center',
           formatter: function(value, row, index) {
         	  if(row.state=='1'){

@@ -23,7 +23,7 @@
   <select id="queryApplyForPage" resultMap="IpoTrusteeshipCommodityResultMap"  parameterType="map" >
        select * from (
 	        select tc.id,tc.plan,tc.commodity_id,conf.commodityname,conf.price,conf.counts,
-	        tc.listing_charge_rate,rownum as row_num  
+	        tc.listing_charge_rate,tc.purchase_rate,rownum as row_num  
 			from ipo_trusteeship_commodity tc
 			left join ipo_commodity_sale conf on (tc.commodity_id=conf.commodityid)
 			where tc.delete_flag=0 
