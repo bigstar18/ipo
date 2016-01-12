@@ -127,7 +127,7 @@ public class SPOController {
 			responseResult.setRows(tempList);
 			responseResult.setTotal(counts);
 			String resultJson = JSON.json(responseResult);
-			System.out.println(resultJson);
+			// System.out.println(resultJson);
 			return resultJson;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -149,7 +149,7 @@ public class SPOController {
 			responseResult.setRows(tempList);
 			responseResult.setTotal(counts);
 			String resultJson = JSON.json(responseResult);
-			System.out.println(resultJson);
+			// System.out.println(resultJson);
 			return resultJson;
 		} catch (Exception e) {
 			// TODO: handle exception

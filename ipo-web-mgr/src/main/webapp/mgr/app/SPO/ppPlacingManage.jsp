@@ -24,7 +24,7 @@ function getAllInfo(){
          iconCls:'icon-ok', 
          method:"get",
          height:400,
-         pageSize:5,  
+         pageSize:10,  
          pageList:[5,10,15],  
          nowrap:true,  
          singleSelect:true,
@@ -69,11 +69,6 @@ function getAllInfo(){
              width : 200, 
              align: "center",
              title : '承销商代码'
-         },{  
-             field : 'test6',  
-             width : 200, 
-             align: "center",
-             title : '买卖方向'
          },{  
              field : 'rationcounts',  
              width : 200, 

@@ -246,6 +246,7 @@ public class SPOServiceImpl implements SPOService {
 		int sum = 0;
 		String spoid = spoRationList.get(0).getSpoid();
 		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		BigDecimal price = ipoSPOComm.getSpoPrice();
 		long counts = ipoSPOComm.getSpoCounts();
 		for (SpoRation spoRation : spoRationList) {
 			IpoSpoRation ipoSpoRation = new IpoSpoRation();
@@ -263,7 +264,11 @@ public class SPOServiceImpl implements SPOService {
 				logger.info("插入承销商配售比例：" + proportion);
 				double pro = proportion.doubleValue();
 				long sumparam = (long) (counts * (pro / 100));
+				BigDecimal priceparam = new BigDecimal(sumparam);
+				BigDecimal rationloan = price.multiply(priceparam);
+				ipoSpoRation.setRationloan(rationloan);
 				ipoSpoRation.setRationcounts(sumparam);
+				ipoSpoRation.setOperationdate(new Date());
 				logger.info("插入承销商配售总数：" + sumparam);
 				sum += sumparam;
 				result += ipoSpoRationMapper.insert(ipoSpoRation);
@@ -273,7 +278,11 @@ public class SPOServiceImpl implements SPOService {
 				logger.info("更新承销商配售比例：" + proportion);
 				double pro = proportion.doubleValue();
 				long sumparam = (long) (counts * (pro / 100));
+				BigDecimal priceparam = new BigDecimal(sumparam);
+				BigDecimal rationloan = price.multiply(priceparam);
+				ipoSpoRation.setRationloan(rationloan);
 				spoRation.setRationcounts(sumparam);
+				ipoSpoRation.setOperationdate(new Date());
 				logger.info("更新承销商配售总数：" + sumparam);
 				sum += sumparam;
 				result += ipoSpoRationMapper.updateByPrimaryKey(ipoSpoRation);

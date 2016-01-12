@@ -22,7 +22,7 @@ function getAllInfo(){
          iconCls:'icon-ok',
          method:"get",
          height:400,
-         pageSize:5,
+         pageSize:10,
          pageList:[5,10,15],
          nowrap:true,
          singleSelect:true,
@@ -387,7 +387,8 @@ function ration(spoId) {
 									增发状态：<select id="rationSatep" style="width:150px">
 												<option value="">全部</option>
 												<option value="5">未增发</option>
-												<option value="2">已增发</option>
+												<option value="4">未到增发日期</option>
+												<option value="2">增发成功</option>
 												<option value="3">增发失败</option>
 											</select>
 											&nbsp
