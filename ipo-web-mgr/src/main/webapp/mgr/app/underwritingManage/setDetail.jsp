@@ -102,7 +102,7 @@ function onlyNumberInput(){
 	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
 	        <tr>
-	        	<td align="right" style="font-size:15px" width="20%">承销会员编号：</td>
+	        	<td align="right" style="font-size:15px" width="50%">承销会员编号：</td>
 	            <td align="left" width="60%">
 	                   <input style="width:150px;" id="underwriterid" name="underwriterid"/>
 	                   <span class="required">*</span>  
@@ -111,7 +111,7 @@ function onlyNumberInput(){
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
 	        	<td align="left" width="60%">
-	        	<select id="commodityid" name="commodityid" style="width:100" >
+	        	<select id="commodityid" name="commodityid" style="width:150px" >
 						<option value="">请选择</option>
                          <c:forEach var="commodity" items="${commList}">
                          <option value="${commodity.commodityid}">${commodity.commodityid}${commodity.commodityname}</option>

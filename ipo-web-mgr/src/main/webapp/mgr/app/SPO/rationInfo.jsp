@@ -5,7 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>增发商品管理</title>
-
+<style type="text/css">
+#tb td{font-size:12px}
+</style>
 
 <script type="text/javascript">
 
@@ -351,82 +353,76 @@ function ration(spoId) {
 <body>
 
  <input type="hidden" id="hidSpoId" value=""/>
-
-
-
-<div id="main_body">
-<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td>
-                <br />
 <div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800%;height:600%;padding:5px;">
 </div>
 
 <div id="dd1" title="分配及查询"  class="easyui-window"  closed="true" style="width:800%;height:750%;padding:5px;">
 </div>
 
-			<div class="">
+
+
+<div id="main_body">
+<div id="tb" style="padding:5px;height:auto">
+	<form name="frm" action="" >
+		<table>
+			<tr>
+				<td>
+					商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc;height:20px;width:145px">
+							&nbsp
+							&nbsp
+					配售类型: <select id="rationTypep" style="width:150px">
+								<option value="">全部</option>
+								<option value="1">比例配售</option>
+								<option value="2">定向配售</option>
+							</select>
+							&nbsp
+							&nbsp
+					增发状态：<select id="rationSatep" style="width:150px">
+								<option value="">全部</option>
+								<option value="5">未增发</option>
+								<option value="4">未到增发日期</option>
+								<option value="2">增发成功</option>
+								<option value="3">增发失败</option>
+							</select>
+							&nbsp
+							&nbsp
+						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+							&nbsp
+							&nbsp
+							&nbsp
+							&nbsp
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+
+						登记日期: <input id="registerDate" class="easyui-datebox" style="width:146px" editable="false" data-options="formatter:myformatter,parser:myparser">
+						&nbsp
+						&nbsp
+						增发日期: <input id="spoDate" class="easyui-datebox" style="width:149px" editable="false" data-options="formatter:myformatter,parser:myparser">
+						&nbsp
+						&nbsp
+						上市日期：<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
+							&nbsp
+							&nbsp
+							<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>
+				</td>
+			</tr>
+
+		</table>
+
+	</form>
+</div>
+<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <br />
 				<table id="depositInfo">
 				</table>
-					<div id="tb" style="padding:5px;height:auto">
-					<div>
-					<form name="frm" action="" >
-						<table>
-							<tr>
-								<td>
-									商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc;height:18px">
-											&nbsp
-											&nbsp
-									配售类型: <select id="rationTypep" style="width:150px">
-												<option value="">全部</option>
-												<option value="1">比例配售</option>
-												<option value="2">定向配售</option>
-											</select>
-											&nbsp
-											&nbsp
-									增发状态：<select id="rationSatep" style="width:150px">
-												<option value="">全部</option>
-												<option value="5">未增发</option>
-												<option value="4">未到增发日期</option>
-												<option value="2">增发成功</option>
-												<option value="3">增发失败</option>
-											</select>
-											&nbsp
-											&nbsp
-										<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-											&nbsp
-											&nbsp
-											&nbsp
-											&nbsp
-										<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="OpenFrame()">添加</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-
-										登记日期: <input id="registerDate" class="easyui-datebox" style="width:146px" editable="false" data-options="formatter:myformatter,parser:myparser">
-										&nbsp
-										&nbsp
-										增发日期: <input id="spoDate" class="easyui-datebox" style="width:149px" editable="false" data-options="formatter:myformatter,parser:myparser">
-										&nbsp
-										&nbsp
-										上市日期：<input id="ipoDate" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
-											&nbsp
-											&nbsp
-											<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>
-								</td>
-							</tr>
-
-						</table>
-
-					</form>
-					</div>
-				</div>
-
-			</div>
             </td>
         </tr>
-    </table>
+</table>
 
 
 </div>

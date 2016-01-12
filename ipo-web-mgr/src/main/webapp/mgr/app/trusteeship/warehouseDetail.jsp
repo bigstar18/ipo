@@ -177,7 +177,7 @@ function returntoList(){
 	        	<td style="font-size:15px" align="right">仓库：</td>
 	        	<td>
 	        	<c:forEach var="warehouse" items="${allWarehouse }" varStatus="status">
-                     <div style="float:left;white-space:nowrap;display:inline-block;width:120px">
+                     <div style="float:left;white-space:nowrap;display:inline-block;width:150px">
 						<input type="checkbox" name="warehouse" style="float:left" class="NormalInput" value="${warehouse.id }"/>
 						<label  style="padding-left:2px;padding-right:5px;padding-top:2px" class="hand">
 						<c:out value="${warehouse.warehousename }"/>

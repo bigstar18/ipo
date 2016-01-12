@@ -68,7 +68,7 @@ function onlyNumberInput(){
 	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
 	        <tr>
-	        	<td align="right" style="font-size:15px" width="20%">承销会员编号：</td>
+	        	<td align="right" style="font-size:15px" width="45%">承销会员编号：</td>
 	            <td align="left" width="60%">
 	                   <input style="width:150px;" id="underwriterid" name="underwriterid" value="${underwriterId }"/>
 	                    <input type="hidden" id="subscribeid" name="subscribeid" value="${subscribeid }"/>
@@ -83,13 +83,20 @@ function onlyNumberInput(){
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr> 
+	        </table>
+	        <br>
+	        <table style="width:85%">
 	         <tr>
-        		<td align="right" width="20%">备注：</td>
-	      		<td>
-	      		<textarea id="remark" name="remark" style="width: 675px;" rows="3"></textarea>
+        		<td align="right" width="15%">备注：</td>
+	      		<td style="width:100%;">
+	      		<textarea id="remark" name="remark" style="width:100%;" rows="4"></textarea>
 				</td>
 			</tr>  
-		  	<tr>
+		  
+	    </table>
+	    <br>
+	    <table style="width:100%">
+	    	<tr>
 				<td align="right">
 					<input type="button" value="添加" onclick="add()"/>
 		    	</td>
