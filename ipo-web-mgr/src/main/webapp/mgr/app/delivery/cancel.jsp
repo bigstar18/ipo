@@ -107,7 +107,9 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
+            	if(row.approvalStatus<10&&row.approvalStatus!=3&&row.approvalStatus!=7){
         	    return "<input type=\"button\" onclick=\"cancel('"+row.deliveryorderId+"')\" value=\"撤销\"/>";
+            	}
         }
          }
         ]],  
