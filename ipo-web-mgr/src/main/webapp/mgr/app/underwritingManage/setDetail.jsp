@@ -87,6 +87,10 @@ function onlyNumberInput(){
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 :  承销设置</div>
+		<div class="content" style="color: red"> 添加承销商认购的商品、数量及费用信息。</div>
+	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>

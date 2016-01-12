@@ -146,6 +146,10 @@ function returntoList(){
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 : 托管仓库设置 </div>
+		<div class="content" style="color: red">（温馨提示：必须为商品绑定至少一个仓库）  </div>
+	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>
@@ -154,7 +158,7 @@ function returntoList(){
 	                 <legend class="common"><b><c:if test="${crud == 'update'}">更新</c:if><c:if test="${crud == 'create'}">增加</c:if>托管仓库</b></legend>
 		<table border="0" align="center" cellpadding="5" cellspacing="5" class="common" width="100%">
 			<tr>
-	           	<td align="center" colspan="2" style="color:red">（温馨提示：必须为商品绑定至少一个仓库）</td>
+	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
 	        <tr>
 	        	<td align="right" style="font-size:15px" width="20%">托管商品：</td>

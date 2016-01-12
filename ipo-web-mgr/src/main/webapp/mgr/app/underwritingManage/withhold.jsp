@@ -53,6 +53,10 @@ function onlyNumberInput(){
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 :  承销设置</div>
+		<div class="content" style="color: red"> 可分多次扣除承销商的认购货款。</div>
+	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>
