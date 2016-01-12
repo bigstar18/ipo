@@ -17,7 +17,7 @@
 	      height:430,
 	      loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
 	      iconCls: 'icon-ok', //它将显示一个背景图片
-	      fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+	      fitColumns: false, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
 	      nowrap: true, //设置为 true，则把数据显示在一行里。设置为 true 可提高加载性能。
 	      singleSelect: true, //设置为 true，则只允许选中一行。
 	      striped: true, //设置为 true，则把行条纹化。（即奇偶行使用不同背景色）
