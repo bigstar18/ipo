@@ -131,7 +131,7 @@ function getAllInfo(){
              title : '操作',
              formatter:function(value,row){
             	 if(row.outboundstate==1){
-     	      	   return "<a href=\"#\" onclick=\"audit('"+row.outboundorderid+"',2)\">通过</a>  <a href=\"#\" onclick=\"audit('"+row.outboundorderid+"',3)\">驳回</a>";
+     	      	   return "<a href=\"#\" onclick=\"audit('"+row.deliveryorderid+"','"+row.outboundorderid+"',2)\">通过</a>  <a href=\"#\" onclick=\"audit('"+row.deliveryorderid+"','"+row.outboundorderid+"',3)\">驳回</a>";
             	 }else if(row.outboundstate==2){
             		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"','"+row.outboundorderid+"')\">已出库</a>";
             	 }else{
@@ -180,13 +180,14 @@ function confirmOut(deliveryorderid,outboundorderid){
 }
 
 //出库单审核
-function audit(outboundorderid,outboundstate){
+function audit(deliveryorderid,outboundorderid,outboundstate){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/OutBoundController/updateOutBoundInfo",
 		data:{
 			outboundstate:outboundstate,
-			outboundorderid:outboundorderid
+			outboundorderid:outboundorderid,
+			deliveryorderid,deliveryorderid
 		},
 		success:function(data){
 			switch(data){

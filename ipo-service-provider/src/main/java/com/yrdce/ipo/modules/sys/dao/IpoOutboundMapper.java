@@ -22,13 +22,14 @@ public interface IpoOutboundMapper {
 
 	List<IpoOutbound> getInfoByType();
 
-	List<IpoOutboundExtended> findOutboundsByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+	List<IpoOutboundExtended> findOutboundsByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("record") IpoOutboundExtended record);
 
 	int getTotalNum(IpoOutboundExtended record);
-	
+
 	int updateOutBoundInfo(IpoOutbound ipoOutbound);
-	int updateOutBoundState(@Param("outboundstate")Integer outboundstate,@Param("outboundorderid")String outboundorderid);
+
+	int updateOutBoundState(@Param("outboundstate") Integer outboundstate,
+			@Param("outboundorderid") String outboundorderid);
 
 }

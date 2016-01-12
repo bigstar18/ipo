@@ -16,6 +16,8 @@ import com.yrdce.ipo.modules.sys.entity.IpoOutbound;
 import com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
+import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
+import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 
 /**
  * @author chenjing
@@ -27,6 +29,9 @@ public class OutboundServiceImpl implements OutboundService {
 	private IpoOutboundMapper ipoOutboundMapper;
 	@Autowired
 	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
+
+	@Autowired
+	private IpoWarehouseStockMapper ipoWarehouseStockMapper;
 
 	@Override
 	public List<OutboundExtended> getAllOutboundInfo(String page, String rows, OutboundExtended record) {
@@ -96,6 +101,17 @@ public class OutboundServiceImpl implements OutboundService {
 				deliveryorder.setApprovalStatus(6);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			} else if (ipoOutbound.getOutboundstate() == 3) {
+				IpoDeliveryorder deliveryorderInfo = ipoDeliveryorderMapper
+						.selectByPrimaryKey(outbound.getDeliveryorderid());
+				String tempCommId = deliveryorderInfo.getCommodityId();
+				String wareHouseId = deliveryorderInfo.getWarehouseId();
+				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper.selectByCommoId(tempCommId,
+						Long.parseLong(wareHouseId));
+				long forzennum = ipoWarehouseStock.getForzennum() - deliveryorderInfo.getDeliveryQuatity();
+				long availablenum = ipoWarehouseStock.getAvailablenum() + deliveryorderInfo.getDeliveryQuatity();
+				ipoWarehouseStock.setAvailablenum(availablenum);
+				ipoWarehouseStock.setForzennum(forzennum);
+				ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
 				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
 				deliveryorder.setApprovalStatus(7);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);

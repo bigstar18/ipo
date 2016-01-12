@@ -97,7 +97,9 @@ public class OutBoundController {
 		try {
 			log.info("出库单审核");
 			String auditorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			long wareHouseId = ipoStorageService.getWarehousePrimary(auditorid);
 			outbound.setAuditorid(auditorid);
+			outbound.setWarehouseid(String.valueOf(wareHouseId));
 			int result = outboundService.updateOutBoundInfo(outbound);
 			if (result > 0) {
 				return "success";
