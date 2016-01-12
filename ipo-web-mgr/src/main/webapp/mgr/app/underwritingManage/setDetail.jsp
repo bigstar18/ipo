@@ -87,6 +87,10 @@ function onlyNumberInput(){
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 :  承销设置</div>
+		<div class="content" style="color: red"> 添加承销商认购的商品、数量及费用信息。</div>
+	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>
@@ -98,7 +102,7 @@ function onlyNumberInput(){
 	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
 	        <tr>
-	        	<td align="right" style="font-size:15px" width="20%">承销会员编号：</td>
+	        	<td align="right" style="font-size:15px" width="50%">承销会员编号：</td>
 	            <td align="left" width="60%">
 	                   <input style="width:150px;" id="underwriterid" name="underwriterid"/>
 	                   <span class="required">*</span>  
@@ -107,7 +111,7 @@ function onlyNumberInput(){
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
 	        	<td align="left" width="60%">
-	        	<select id="commodityid" name="commodityid" style="width:100" >
+	        	<select id="commodityid" name="commodityid" style="width:150px" >
 						<option value="">请选择</option>
                          <c:forEach var="commodity" items="${commList}">
                          <option value="${commodity.commodityid}">${commodity.commodityid}${commodity.commodityname}</option>

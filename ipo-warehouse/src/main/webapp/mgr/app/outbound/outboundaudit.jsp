@@ -187,7 +187,7 @@ function audit(deliveryorderid,outboundorderid,outboundstate){
 		data:{
 			outboundstate:outboundstate,
 			outboundorderid:outboundorderid,
-			deliveryorderid,deliveryorderid
+			deliveryorderid:deliveryorderid
 		},
 		success:function(data){
 			switch(data){

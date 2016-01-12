@@ -19,9 +19,6 @@ $(document).ready(function() {
         striped:true,  
         collapsible:false,  
         url:  getRootPath () + "/DeliveryController/QueryByConditions?randnum=" +Math.floor(Math.random()*1000000),
-        queryParams:{
-        	approvalStatus:'1'
-        },
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
         columns : [ [ {
@@ -110,7 +107,9 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
+            	if(row.approvalStatus<9&&row.approvalStatus!=3&&row.approvalStatus!=7){
         	    return "<input type=\"button\" onclick=\"cancel('"+row.deliveryorderId+"')\" value=\"撤销\"/>";
+            	}
         }
          }
         ]],  
@@ -179,7 +178,6 @@ function doSearch(){
 	 $('#dg').datagrid('load',{
 			deliveryorderId: $('#deliveryorderId').val(),
 			applyDate: $('#applyDate').datebox('getValue'),
-			approvalStatus: '1',
 			dealerId: $('#dealerId').val()
 		});                   
 }
@@ -205,8 +203,8 @@ function clearInfo(){
 			提货单号：<input type="text" id="deliveryorderId" name="deliveryorderId" />
 			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
-			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clearInfo()"/>			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>				
 		</div> 
 	</div>
 	</td>

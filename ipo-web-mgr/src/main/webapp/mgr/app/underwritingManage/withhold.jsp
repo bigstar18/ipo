@@ -53,6 +53,10 @@ function onlyNumberInput(){
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
+<div class="warning">
+		<div class="title font_orange_14b">温馨提示 :  承销设置</div>
+		<div class="content" style="color: red"> 可分多次扣除承销商的认购货款。</div>
+	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>
@@ -64,7 +68,7 @@ function onlyNumberInput(){
 	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
 	        <tr>
-	        	<td align="right" style="font-size:15px" width="20%">承销会员编号：</td>
+	        	<td align="right" style="font-size:15px" width="45%">承销会员编号：</td>
 	            <td align="left" width="60%">
 	                   <input style="width:150px;" id="underwriterid" name="underwriterid" value="${underwriterId }"/>
 	                    <input type="hidden" id="subscribeid" name="subscribeid" value="${subscribeid }"/>
@@ -79,13 +83,20 @@ function onlyNumberInput(){
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr> 
+	        </table>
+	        <br>
+	        <table style="width:85%">
 	         <tr>
-        		<td align="right" width="20%">备注：</td>
-	      		<td>
-	      		<textarea id="remark" name="remark" style="width: 675px;" rows="3"></textarea>
+        		<td align="right" width="15%">备注：</td>
+	      		<td style="width:100%;">
+	      		<textarea id="remark" name="remark" style="width:100%;" rows="4"></textarea>
 				</td>
 			</tr>  
-		  	<tr>
+		  
+	    </table>
+	    <br>
+	    <table style="width:100%">
+	    	<tr>
 				<td align="right">
 					<input type="button" value="添加" onclick="add()"/>
 		    	</td>

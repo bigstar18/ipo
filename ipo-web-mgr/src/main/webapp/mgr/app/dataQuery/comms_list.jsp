@@ -150,7 +150,13 @@ function doSearch(){
 	});
 }
 
-
+function clearInfo(){
+	$("#commodityid").val("");
+	$("#commodityname").val("");
+	$("#status").val("");
+	$("#starttime").datebox("setValue","");
+	$("#endtime").datebox("setValue","");
+	}
 </script>
 </head>
 <body>
@@ -177,7 +183,8 @@ function doSearch(){
 					</select>
 			发售日期：<input type="text" id="starttime" name="starttime"></input> 
 			截止日期：<input type="text" id="endtime" name="endtime"></input> 
-			<input type="button" value="查询" onclick="doSearch()"/>				
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>	
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>		
 		</div> 
 	</div>
 	</div>

@@ -98,6 +98,12 @@ function withhold(id,underwriterId){
 	document.location.href = '<%=request.getContextPath()%>/UnderwriterSetController/withhold?subscribeid='+id+'&&underwriterId='+underwriterId+'&&randnum='+Math.floor(Math.random()*1000000);
 
 }
+
+function addInfo(){
+	document.location.href = '<%=request.getContextPath()%>/UnderwriterSetController/addInfo?&&randnum='+Math.floor(Math.random()*1000000);
+
+}
+
 function doSearch(){
 $('#dg').datagrid('load',{
 	commodityid: $('#commodityid').val(),
@@ -122,7 +128,7 @@ $("#underwriterid").val("");
 				 <div id="tb" style="padding:5px;height:auto">
 					<div>
 					   <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addInfo()">添加</a>
-					   <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a>
+					   <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a><br/>
 						商品代码：<input type="text" id="commodityid" name="commodityid" />
 						承销会员编码：<input type="text" id="underwriterid" name="underwriterid"></input>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>

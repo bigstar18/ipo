@@ -29,8 +29,8 @@
 					<option value="自提">自提</option>
 					<option value="在线配送">在线配送</option>
 					</select>
-			<input type="button" value="查询" onclick="doSearch()"/>		
-			<input type="button" value="重置" onclick="clearInfo()"/>			
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>					
 		</div>  
 	</div>
 	</div>

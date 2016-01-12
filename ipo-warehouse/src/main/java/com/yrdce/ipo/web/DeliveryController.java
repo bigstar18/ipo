@@ -128,7 +128,7 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
 		log.info("分页查询入库单");
-		log.info(storage.toString());
+		log.debug(storage.toString());
 		try {
 			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
 					page, rows, storage);
@@ -220,7 +220,7 @@ public class DeliveryController {
 			@RequestParam("rows") String rows, IpoWarehouseStock stock,
 			HttpSession session) throws IOException {
 		log.info("分页查询库存列表");
-		log.info(stock.toString());
+		log.debug(stock.toString());
 		try {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
@@ -254,7 +254,7 @@ public class DeliveryController {
 			throws IOException {
 		log.info("模糊查询提货单");
 		try {
-			log.info(record.toString());
+			log.debug(record.toString());
 			record.setDeliveryMethod("在线配送");
 			record.setApprovalStatus(6);
 			List<DeliveryOrder> dlist = deliveryorderservice
@@ -288,7 +288,7 @@ public class DeliveryController {
 			DeliveryOrder record = deliveryorderservice
 					.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (record != null) {
-				log.info(record.toString());
+				log.debug(record.toString());
 				String deliveryDate = formatDate(record.getDeliveryDate());
 				String applyDate = formatDate(record.getApplyDate());
 				String approveDate = formatDate(record.getApproveDate());
@@ -300,7 +300,7 @@ public class DeliveryController {
 				request.setAttribute("entity", record);
 				Express express = deliveryorderservice.getExpressDetail(record
 						.getMethodId());
-				log.info(express.toString());
+				log.debug(express.toString());
 				request.setAttribute("detail", express);
 			}
 			return "app/expressFeeSet/detail";
@@ -328,7 +328,7 @@ public class DeliveryController {
 			throws IOException {
 		log.info("设置配送费用");
 		try {
-			log.info(detail.getCost().toString());
+			log.debug(detail.getCost().toString());
 			deorder.setApprovalStatus(8);// 8、已设置配置费用
 			return deliveryorderservice.setExpressFee(deorder, detail);
 		} catch (Exception e) {

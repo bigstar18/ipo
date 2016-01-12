@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoOutbound;
 import com.yrdce.ipo.modules.sys.entity.IpoOutboundExtended;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
@@ -32,6 +34,8 @@ public class OutboundServiceImpl implements OutboundService {
 
 	@Autowired
 	private IpoWarehouseStockMapper ipoWarehouseStockMapper;
+	@Autowired
+	private IpoPositionMapper ipoPositionMapper;
 
 	@Override
 	public List<OutboundExtended> getAllOutboundInfo(String page, String rows, OutboundExtended record) {
@@ -105,6 +109,11 @@ public class OutboundServiceImpl implements OutboundService {
 						.selectByPrimaryKey(outbound.getDeliveryorderid());
 				String tempCommId = deliveryorderInfo.getCommodityId();
 				String wareHouseId = deliveryorderInfo.getWarehouseId();
+				String firmId = deliveryorderInfo.getDealerId();
+				IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmId, tempCommId);
+				long position = ipoPosition.getPosition();
+				long num = position + deliveryorderInfo.getDeliveryQuatity();
+				ipoPositionMapper.updatePosition(firmId, tempCommId, num);
 				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper.selectByCommoId(tempCommId,
 						Long.parseLong(wareHouseId));
 				long forzennum = ipoWarehouseStock.getForzennum() - deliveryorderInfo.getDeliveryQuatity();
