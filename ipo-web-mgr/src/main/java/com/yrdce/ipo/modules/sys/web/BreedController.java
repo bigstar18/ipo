@@ -160,7 +160,7 @@ public class BreedController {
 	@ResponseBody
 	public String addBreed(VIpoABreed vipoabreed) throws IOException {
 		log.info("增加一个品种");
-		log.info(vipoabreed.toString());
+		log.debug(vipoabreed.toString());
 		try {
 			int num = vIpoABreedService.addBreed(vipoabreed);
 			if (num != 0) {
@@ -358,7 +358,7 @@ public class BreedController {
 				ipocomm.setDeliveryProp((short) 2);// 表示未配置交收属性
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				ipocomm.setNonissuereg(new BigDecimal(1));
-				log.info(ipocomm.toString());
+				log.debug(ipocomm.toString());
 				return ipoCommConfService.addCommodity(ipocomm);
 			}
 			return "false";
@@ -381,7 +381,7 @@ public class BreedController {
 		log.info("修改商品");
 		try {
 			if (ipocomm != null) {
-				log.info(ipocomm.toString());
+				log.debug(ipocomm.toString());
 				return ipoCommConfService.updateCommodity(ipocomm);
 			}
 			return "false";
