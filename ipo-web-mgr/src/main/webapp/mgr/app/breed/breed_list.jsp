@@ -155,6 +155,10 @@ function getCommBelonged(breedid) {
 	document.location.href = Url;
 }
 
+
+function clearInfo(){
+	$("#breedname").val("");
+	}
 </script>
 </head>
 <body>
@@ -172,9 +176,10 @@ function getCommBelonged(breedid) {
 		</div>
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post"  onsubmit="return false;">
-			品种名称: <input id="breedname" name="breedname" class="easyui-textbox" style="width:130px">
+			品种名称: <input id="breedname" name="breedname" class="easyui-textbox" style="width:150px">
 			<input type="hidden">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>		
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>			
 		</form> 
 		</div>
 	</div>

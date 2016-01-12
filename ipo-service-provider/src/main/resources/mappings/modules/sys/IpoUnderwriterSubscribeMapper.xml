@@ -114,7 +114,7 @@
    SELECT A.* FROM( SELECT T.*,ROWNUM TNO FROM(SELECT C.PUBMEMBERID,S.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
     ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 
        <if test="record.pubmemberid != null" >
-       and S.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
+       and C.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
       </if>
        ORDER BY C.PUBMEMBERID)T) A   WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
     </select>
