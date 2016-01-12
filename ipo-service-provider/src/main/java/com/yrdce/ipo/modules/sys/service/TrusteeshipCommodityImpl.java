@@ -49,7 +49,8 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	private IpoPositionMapper positionMapper;
 	@Autowired
 	private IpoCommodityConfMapper commodityConfMapper;
-
+	@Autowired
+	private IpoPositionMapper ipoPositionMapper;
 	/**
 	 * 分页查询查询托管商品计划
 	 * 
@@ -295,16 +296,22 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		ship.setUpdateDate(new Date());
 		shipMapper.updateApplyState(ship);
 		// 保存持仓信息
-		IpoPosition position = new IpoPosition();
-		position.setCommodityid(dbShip.getCommodityId());
-		position.setFirmid(dbShip.getCreateUser());
-		position.setPosition(dbShip.getPositionAmount());
-		position.setCommodityname(dbCommodityConf.getCommodityname());
-		position.setPositionUnit(dbCommodityConf.getContractfactorname());
-		if (dbShip.getPrice() != null) {
-			position.setPositionPrice(dbShip.getPrice());
+		IpoPosition dbPosition = ipoPositionMapper.selectPosition(dbShip.getCreateUser(), dbShip.getCommodityId());
+		if (dbPosition != null) {
+			 long amount=dbPosition.getPosition()+dbShip.getPositionAmount();
+			 ipoPositionMapper.updatePosition(dbShip.getCreateUser(), dbShip.getCommodityId(), amount);
+		} else {
+			IpoPosition position = new IpoPosition();
+			position.setCommodityid(dbShip.getCommodityId());
+			position.setFirmid(dbShip.getCreateUser());
+			position.setPosition(dbShip.getPositionAmount());
+			position.setCommodityname(dbCommodityConf.getCommodityname());
+			position.setPositionUnit(dbCommodityConf.getContractfactorname());
+			if (dbShip.getPrice() != null) {
+				position.setPositionPrice(dbShip.getPrice());
+			}
+			positionMapper.insert(position);
 		}
-		positionMapper.insert(position);
 	}
 
 	/**
