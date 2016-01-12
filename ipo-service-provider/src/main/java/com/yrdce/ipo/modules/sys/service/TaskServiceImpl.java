@@ -19,6 +19,8 @@ import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
@@ -27,6 +29,9 @@ import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
+import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
+import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
+import com.yrdce.ipo.modules.sys.entity.TFirmholdsum;
 
 /**
  * 定时任务相关的 service
@@ -58,6 +63,11 @@ public class TaskServiceImpl implements TaskService {
 	private IpoCommodityMapper commodityMapper;
 	@Autowired
 	private IpoOrderMapper ipoOrderMapper;
+
+	@Autowired
+	private IpoSpoRationMapper ipoSpoRationMapper;
+	@Autowired
+	private IpoSpoCommoditymanmaagementMapper ipoSPOCommMapper;
 
 	/**
 	 * 配号
@@ -260,9 +270,13 @@ public class TaskServiceImpl implements TaskService {
 		String commid = comm.getCommodityid();
 		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid, commid);
 		if (ipoPosition != null) {
-			long price = ipoPosition.getPositionPrice();
-			long num = comm.getPrice().longValue();
-			long sum = price + num;
+			long position = ipoPosition.getPosition();
+			BigDecimal unit = commodityConf.getUnits();
+			logger.info("配售单位" + unit);
+			BigDecimal counts = new BigDecimal(dst.getZcounts());
+			logger.info("中签数量：" + counts);
+			long num = (unit.multiply(counts)).intValue();
+			long sum = position + num;
 			ipoPositionMapper.updatePosition(userid, commid, sum);
 		} else {
 			String commUnit = commodityConf.getContractfactorname();
@@ -276,8 +290,9 @@ public class TaskServiceImpl implements TaskService {
 			record.setPosition(num);
 			record.setCommodityid(dst.getCommodityid());
 			record.setCommodityname(dst.getCommodityname());
-			record.setPositionPrice(comm.getPrice().longValue());
+			record.setPositionPrice(comm.getPrice());
 			record.setPositionUnit(commUnit);
+			record.setOperationTime(new Date());
 			ipoPositionMapper.insert(record);
 		}
 		logger.info("转持仓结束");
@@ -306,6 +321,57 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	public void ipoTransferGoodsPosition(String commodityid) throws Exception {
 		ipoPositionMapper.transferGoodsPosition(commodityid);
+	}
+
+	/**
+	 * 比例增发散户的配售
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@Transactional
+	public void placing() throws Exception {
+		logger.info("散户增发定时任务启动");
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1");
+		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
+			String spoid = ipospocomm.getSpoId();
+			logger.info(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
+			int sate = ipospocomm.getSpoSate();//
+			if (sate == 1) {
+				// 获得增发商品id
+				String commodityid = ipospocomm.getCommunityId();
+				logger.info(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
+				// 获得未增发的量
+				long otration = ipospocomm.getNotRationCounts();
+				logger.info(">>>>>>>>>>>>>>>>>>otration:" + otration);
+				// 商品在持仓中的总量(现货持仓)
+				int sum = ipoPositionMapper.selectSumByComm(commodityid);
+				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
+				// 现货持仓信息
+				List<TFirmholdsum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				for (TFirmholdsum tFirmholdsums : tFirmholdsumslist) {
+					String firmid = tFirmholdsums.getFirmid();
+					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
+					double position = tFirmholdsums.getHoldqty();
+					logger.info(">>>>>>>>>>>>>>>>>>position:" + position);
+					double value = position / (double) sum;
+					logger.info(">>>>>>>>>>>>>>>>>>value:" + value);
+					// 增发量
+					long num = (long) (otration * value);
+					IpoSpoRation ipoSpoRation = new IpoSpoRation();
+					ipoSpoRation.setSpoid(spoid);
+					ipoSpoRation.setRationcounts(num);
+					ipoSpoRation.setFirmid(firmid);
+					ipoSpoRation.setOperationdate(new Date());
+					String firmname = ipoSpoRationMapper.selectFirmname(firmid);
+					ipoSpoRation.setFirmname(firmname);
+					ipoSpoRation.setRationSate(1);
+					ipoSpoRationMapper.insert(ipoSpoRation);
+					ipoSPOCommMapper.updateByStatus(5, spoid);
+					logger.info("散户增发定时任务结束");
+				}
+			}
+		}
 	}
 
 }

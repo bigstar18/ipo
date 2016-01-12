@@ -295,7 +295,7 @@
 		)
 	</select>
 
-	<select id=querySubjectCommoCount parameterType="String" resultType="java.lang.Integer">
+	<select id="querySubjectCommoCount" parameterType="String" resultType="java.lang.Integer">
 		select count(*) from f_account where code=#{subject}
 	</select>
 	<update id="addFeeSubject" parameterType="map">
