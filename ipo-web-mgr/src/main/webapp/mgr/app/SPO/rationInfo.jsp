@@ -205,9 +205,10 @@ function getAllInfo(){
              align: "center",
              title : '操作',
              formatter: function(value,row){
+            	 var s = "<a href='#' onclick='orderBalance(\""+row.spoId+"\")'>配售</a>";
             	 switch(row.spoSate){
             	 case 1:
-            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>"+ "    "+s;
             		 break;
             	 case 2:
             		 return "----";
@@ -219,9 +220,10 @@ function getAllInfo(){
             		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>";
             		 break;
             	 case 5:
-            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>"+"  "+s;
             		 
             	 }
+            	 
 
        	 	}
          }]],
@@ -347,6 +349,26 @@ function ration(spoId) {
     $('#dd').append("<iframe style='width:100%;height:100%' src='../SPO/distributionAndSelect.jsp'></iframe>");
     $('#dd').window('open');
 }
+
+function orderBalance(spoid){
+	if(!sure("是否确认配售？"))
+		return;
+	$.ajax({
+		type:"get",
+		url:"<%=request.getContextPath()%>/SPOController/orderBalance",
+		success:function(data){
+        	if(data=="success"){
+        		alert("配售成功！");
+        	}
+        	else if(data=="error")
+        		alert("配售失败 ");
+         }
+	});
+}
+
+
+
+
 
 </script>
 </head>

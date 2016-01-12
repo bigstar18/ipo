@@ -200,7 +200,7 @@
           $('#warehouseName').html(responseStr[1].warehouseName);
           $('#deliveryQuatity').html(responseStr[1].deliveryQuatity);
           $('#unit').html(responseStr[1].unit);
-          $('#deliveryDate').html(responseStr[1].deliveryDate);
+          $('#deliveryDate').html(responseStr[1].deliveryDate.split(' ')[0]);
           $('#remarks').html(responseStr[1].remarks);
 
 
@@ -212,7 +212,7 @@
 
           $('#address').html(responseStr[0].address);
           $('#cost').html(responseStr[0].cost);
-          $('#expressDate').html(responseStr[0].expressDate);
+          $('#expressDate').html(responseStr[1].deliveryDate.split(' ')[0]);
           $('#receiver').html(responseStr[0].receiver);
           $('#tel').html(responseStr[0].tel);
         },

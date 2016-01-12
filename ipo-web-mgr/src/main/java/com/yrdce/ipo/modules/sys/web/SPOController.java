@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.SPOService;
+import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
@@ -28,6 +29,9 @@ public class SPOController {
 	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SPOController.class);
 	@Autowired
 	private SPOService spoService;
+
+	@Autowired
+	private TaskService taskService;
 
 	// 添加增发商品信息
 	@RequestMapping(value = "/insertSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
@@ -328,5 +332,18 @@ public class SPOController {
 			logger.info("承销商配售信息修改", e);
 			return "error";
 		}
+	}
+
+	// 散户手动配
+	@RequestMapping(value = "/orderBalance")
+	@ResponseBody
+	public boolean orderBalance() {
+		try {
+			taskService.placing();
+		} catch (Exception e) {
+			logger.error("orderBalance error:", e);
+			return false;
+		}
+		return true;
 	}
 }

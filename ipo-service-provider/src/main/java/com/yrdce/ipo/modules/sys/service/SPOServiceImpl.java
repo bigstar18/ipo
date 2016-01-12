@@ -16,10 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
@@ -43,6 +47,10 @@ public class SPOServiceImpl implements SPOService {
 	private IpoSpoRationMapper ipoSpoRationMapper;
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+	@Autowired
+	private IpoPositionMapper ipoPositionMapper;
+	@Autowired
+	private IpoCommodityConfMapper ipoCommMapper;
 
 	@Override
 	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
@@ -359,10 +367,15 @@ public class SPOServiceImpl implements SPOService {
 		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
 		// 增发价格
 		BigDecimal price = ipoSpoComm.getPositionsPrice();
+		// 商品代码
+		String commid = ipoSpoComm.getCommunityId();
+
 		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
 		for (IpoSpoRation ipoSpoRation : list2) {
 			// 承销商id
 			String salesid = ipoSpoRation.getSalesid();
+
+			String userid = ipoSpoRation.getFirmid();
 			if (salesid != null) {
 				// 交易商id
 				String firmid = ipoSpoRation.getFirmid();
@@ -380,9 +393,29 @@ public class SPOServiceImpl implements SPOService {
 				param.put("moduleid", "40");
 				fundsMapper.getfrozen(param);
 			}
+			logger.info("调用转持仓");
+			long countsparam = ipoSpoRation.getRationcounts();
+			this.transferPosition(userid, commid, countsparam, price);
 		}
 		logger.info("增发状态更新成功");
 		return ipoSPOCommMapper.updateByStatus(rationSate, spoid);
+	}
+
+	private void transferPosition(String userid, String commid, Long position, BigDecimal price) throws Exception {
+		logger.info("转持仓开始");
+		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
+		String commUnit = ipoCommodityConf.getContractfactorname();
+		String commodityname = ipoCommodityConf.getCommodityname();
+		IpoPosition record = new IpoPosition();
+		record.setFirmid(userid);
+		record.setPosition(position);
+		record.setCommodityid(commid);
+		record.setCommodityname(commodityname);
+		record.setPositionPrice(price);
+		record.setPositionUnit(commUnit);
+		record.setOperationTime(new Date());
+		ipoPositionMapper.insert(record);
+		logger.info("转持仓结束");
 	}
 
 	// 修改增发商品

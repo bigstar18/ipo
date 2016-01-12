@@ -58,36 +58,34 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 * @param commodity
 	 * @return
 	 */
-	public List<TrusteeshipCommodity> queryPlanForPage(String pageNoStr,
-			String pageSizeStr, TrusteeshipCommodity commodity) {
-	    
+	public List<TrusteeshipCommodity> queryPlanForPage(String pageNoStr, String pageSizeStr, TrusteeshipCommodity commodity) {
+
 		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
 		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
-		List<IpoTrusteeshipCommodity> dbList = shipCommodityMapper
-				.queryApplyForPage(startIndex, endIndex, commodity);
+		List<IpoTrusteeshipCommodity> dbList = shipCommodityMapper.queryApplyForPage(startIndex, endIndex, commodity);
 		List<TrusteeshipCommodity> dataList = new ArrayList<TrusteeshipCommodity>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	    int today=Integer.parseInt(sdf.format(new Date()));
-	    int planStartDate=0;
-	    int planEndDate=0;
+		int today = Integer.parseInt(sdf.format(new Date()));
+		int planStartDate = 0;
+		int planEndDate = 0;
 		for (IpoTrusteeshipCommodity item : dbList) {
 			TrusteeshipCommodity entity = new TrusteeshipCommodity();
 			BeanUtils.copyProperties(item, entity);
-			planStartDate=Integer.parseInt(item.getPlan().substring(0, 8));
-			planEndDate=Integer.parseInt(item.getPlan().substring(9));
-			if(today>planEndDate){
+			planStartDate = Integer.parseInt(item.getPlan().substring(0, 8));
+			planEndDate = Integer.parseInt(item.getPlan().substring(9));
+			if (today > planEndDate) {
 				entity.setState(TrusteeshipConstant.PlanState.END.getCode());
-			}else if(today<planStartDate){
+			} else if (today < planStartDate) {
 				entity.setState(TrusteeshipConstant.PlanState.NOT_START.getCode());
-			}else{
+			} else {
 				entity.setState(TrusteeshipConstant.PlanState.STARTING.getCode());
-			}; 
+			}
+			;
 			dataList.add(entity);
 		}
 		return dataList;
 	}
 
-	
 	/**
 	 * 查询可申购的托管计划数量
 	 * 
@@ -137,8 +135,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 */
 	public TrusteeshipCommodity findPlanById(Long id) {
 
-		IpoTrusteeshipCommodity dbShipCommodity = shipCommodityMapper
-				.findById(id);
+		IpoTrusteeshipCommodity dbShipCommodity = shipCommodityMapper.findById(id);
 		TrusteeshipCommodity entity = new TrusteeshipCommodity();
 		BeanUtils.copyProperties(dbShipCommodity, entity);
 		return entity;
@@ -154,7 +151,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	public int saveApply(Trusteeship trusteeship) {
 		Long planId = trusteeship.getTrusteeshipCommodityId();
 		IpoTrusteeshipCommodity shipCommodity = shipCommodityMapper.findById(planId);
-		//发行比例
+		// 发行比例
 		BigDecimal purchaseRate = shipCommodity.getPurchaseRate();
 		Long applyAmount = trusteeship.getApplyAmount();
 		// 约定入库数量等于申请数量，只能全部审核通过或全部审核不通过
@@ -162,37 +159,32 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		trusteeship.setInstorageAmount(instorageAmount);
 		trusteeship.setCreateDate(new Date());
 		trusteeship.setState(TrusteeshipConstant.State.APPLY.getCode());
-		Long effectiveAmount = new BigDecimal(instorageAmount).multiply(purchaseRate)
-				.divide(new BigDecimal(100)).longValue();
-		//挂牌费=入库数量*发行价格*挂牌费比例
+		Long effectiveAmount = new BigDecimal(instorageAmount).multiply(purchaseRate).divide(new BigDecimal(100)).longValue();
+		// 挂牌费=入库数量*发行价格*挂牌费比例
 		BigDecimal listingChargeRate = shipCommodity.getListingChargeRate();
-		if(listingChargeRate!=null){
-		   BigDecimal listingCharge =  new BigDecimal(instorageAmount).multiply(trusteeship.getPrice())
-					.multiply(listingChargeRate).divide(new BigDecimal(100));
-		   trusteeship.setListingCharge(listingCharge);
+		if (listingChargeRate != null) {
+			BigDecimal listingCharge = new BigDecimal(instorageAmount).multiply(trusteeship.getPrice()).multiply(listingChargeRate)
+					.divide(new BigDecimal(100));
+			trusteeship.setListingCharge(listingCharge);
 		}
 		trusteeship.setEffectiveAmount(effectiveAmount);
 		trusteeship.setPositionAmount(instorageAmount - effectiveAmount);
-        
-		
+
 		return shipMapper.insertApply(trusteeship);
 	}
 
 	/**
 	 * 查询商户提交的申请
 	 */
-	public List<Trusteeship> queryApplyForPage(String pageNoStr,
-			String pageSizeStr, Trusteeship ship) {
+	public List<Trusteeship> queryApplyForPage(String pageNoStr, String pageSizeStr, Trusteeship ship) {
 		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
 		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
-		List<IpoTrusteeship> dbList = shipMapper.queryApplyForPage(startIndex,
-				endIndex, ship);
+		List<IpoTrusteeship> dbList = shipMapper.queryApplyForPage(startIndex, endIndex, ship);
 		List<Trusteeship> dataList = new ArrayList<Trusteeship>();
 		for (IpoTrusteeship item : dbList) {
 			Trusteeship entity = new Trusteeship();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(TrusteeshipConstant.State.getName(item
-					.getState()));
+			entity.setStateName(TrusteeshipConstant.State.getName(item.getState()));
 			dataList.add(entity);
 		}
 		return dataList;
@@ -297,8 +289,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		// 保存操作前的状态
 		IpoTrusteeship dbShip = saveHis(ship.getId(), ship.getUpdateUser());
 		// 商品信息
-		IpoCommodityConf dbCommodityConf = commodityConfMapper
-				.findIpoCommConfByCommid(dbShip.getCommodityId());
+		IpoCommodityConf dbCommodityConf = commodityConfMapper.findIpoCommConfByCommid(dbShip.getCommodityId());
 		// 更新状态
 		ship.setState(TrusteeshipConstant.State.INCREASE.getCode());
 		ship.setUpdateDate(new Date());
@@ -311,7 +302,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		position.setCommodityname(dbCommodityConf.getCommodityname());
 		position.setPositionUnit(dbCommodityConf.getContractfactorname());
 		if (dbShip.getPrice() != null) {
-			position.setPositionPrice(dbShip.getPrice().longValue());
+			position.setPositionPrice(dbShip.getPrice());
 		}
 		positionMapper.insert(position);
 	}
@@ -349,5 +340,4 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return dbShip;
 	}
 
-	 
 }

@@ -13,9 +13,9 @@ import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
+import com.yrdce.ipo.modules.sys.entity.TFirmholdsum;
 
 /**
  * 增发状态定时任务
@@ -67,13 +67,7 @@ public class SPOTask {
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 			String spoid = ipospocomm.getSpoId();
 			logger.info(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
-			int sate = ipospocomm.getSpoSate();// 状态3为未配售
-			// Date spodate = ipospocomm.getSpoDate();
-			// logger.info(">>>>>>>>>>>>>>>>>>spodate:" + spodate);
-			// String nowtime = sdf.format(new Date());
-			// String spodateparam = sdf.format(spodate);
-			// 判断是否到增发日期
-			// if (nowtime.equals(spodateparam)) {
+			int sate = ipospocomm.getSpoSate();//
 			if (sate == 1) {
 				// 获得增发商品id
 				String commodityid = ipospocomm.getCommunityId();
@@ -81,14 +75,15 @@ public class SPOTask {
 				// 获得未增发的量
 				long otration = ipospocomm.getNotRationCounts();
 				logger.info(">>>>>>>>>>>>>>>>>>otration:" + otration);
-				// 商品在持仓中的总量
+				// 商品在持仓中的总量(现货持仓)
 				int sum = ipoPositionMapper.selectSumByComm(commodityid);
 				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
-				List<IpoPosition> ipoPositionslist = ipoPositionMapper.selectPositionList(commodityid);
-				for (IpoPosition ipoPosition : ipoPositionslist) {
-					String firmid = ipoPosition.getFirmid();
+				// 现货持仓信息
+				List<TFirmholdsum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				for (TFirmholdsum tFirmholdsums : tFirmholdsumslist) {
+					String firmid = tFirmholdsums.getFirmid();
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
-					double position = ipoPosition.getPosition();
+					double position = tFirmholdsums.getHoldqty();
 					logger.info(">>>>>>>>>>>>>>>>>>position:" + position);
 					double value = position / (double) sum;
 					logger.info(">>>>>>>>>>>>>>>>>>value:" + value);

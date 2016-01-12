@@ -11,11 +11,12 @@
     <result column="POSITION_UNIT" property="positionUnit" jdbcType="VARCHAR" />
     <result column="REDUCTION_NUM" property="reductionNum" jdbcType="DECIMAL" />
     <result column="REDUCTION_DATE" property="reductionDate" jdbcType="DATE" />
+    <result column="OPERATION_TIME" property="operationTime" jdbcType="DATE" />
   </resultMap>
   
   <sql id="Base_Column_List" >
   POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
-    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE,OPERATION_TIME
   </sql>
   
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
@@ -28,11 +29,11 @@
 	</selectKey>
     insert into IPO_POSITION (POSITIONID, FIRMID, POSITION, 
       COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
-      POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+      POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE,OPERATION_TIME
       )
     values (#{positionid,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{position,jdbcType=DECIMAL}, 
       #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{positionPrice,jdbcType=DECIMAL}, 
-      #{positionUnit,jdbcType=VARCHAR}, #{reductionNum,jdbcType=DECIMAL}, #{reductionDate,jdbcType=DATE}
+      #{positionUnit,jdbcType=VARCHAR}, #{reductionNum,jdbcType=DECIMAL}, #{reductionDate,jdbcType=DATE},#{operationTime,jdbcType=DATE}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPosition" >
@@ -44,12 +45,13 @@
       POSITION_PRICE = #{positionPrice,jdbcType=DECIMAL},
       POSITION_UNIT = #{positionUnit,jdbcType=VARCHAR},
       REDUCTION_NUM = #{reductionNum,jdbcType=DECIMAL},
-      REDUCTION_DATE = #{reductionDate,jdbcType=DATE}
+      REDUCTION_DATE = #{reductionDate,jdbcType=DATE},
+      OPERATION_TIME = #{operationTime,jdbcType=DATE}
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select POSITIONID, FIRMID, POSITION, COMMODITYID, COMMODITYNAME, POSITION_PRICE, 
-    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE
+    POSITION_UNIT, REDUCTION_NUM, REDUCTION_DATE,OPERATION_TIME
     from IPO_POSITION
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </select>
@@ -89,12 +91,11 @@
   </select>
   
  <select id="selectSumByComm" resultType="java.lang.Integer" parameterType="java.lang.String">
- select sum(p.position) from ipo_position p where p.commodityid = #{commodityid,jdbcType=VARCHAR}
+ select nvl(sum(t.holdqty),0) from T_FirmHoldSum t where t.commodityid = #{commodityid,jdbcType=VARCHAR}
  </select>
  
- <select id="selectPositionList" resultMap="BaseResultMap" parameterType="java.lang.String">
- select <include refid="Base_Column_List"/> from IPO_POSITION 
-  where COMMODITYID = #{commodityid,jdbcType=VARCHAR} 
+ <select id="selectPositionList" resultType="com.yrdce.ipo.modules.sys.entity.TFirmholdsum" parameterType="java.lang.String">
+ select * from T_FirmHoldSum t where COMMODITYID = #{commodityid,jdbcType=VARCHAR} 
  </select>
  
   <select id="transferGoodsPosition" statementType="CALLABLE" parameterType="java.util.HashMap">

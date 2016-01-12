@@ -14,13 +14,15 @@ public class IpoPosition {
 
 	private String commodityname;
 
-	private Long positionPrice;
+	private BigDecimal positionPrice;
 
 	private String positionUnit;
 
 	private BigDecimal reductionNum;
 
 	private Date reductionDate;
+
+	private Date operationTime;
 
 	private String warehouseName;
 
@@ -66,11 +68,11 @@ public class IpoPosition {
 		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
-	public Long getPositionPrice() {
+	public BigDecimal getPositionPrice() {
 		return positionPrice;
 	}
 
-	public void setPositionPrice(Long positionPrice) {
+	public void setPositionPrice(BigDecimal positionPrice) {
 		this.positionPrice = positionPrice;
 	}
 
@@ -96,6 +98,14 @@ public class IpoPosition {
 
 	public void setReductionDate(Date reductionDate) {
 		this.reductionDate = reductionDate;
+	}
+
+	public Date getOperationTime() {
+		return operationTime;
+	}
+
+	public void setOperationTime(Date operationTime) {
+		this.operationTime = operationTime;
 	}
 
 	public String getWarehouseName() {
