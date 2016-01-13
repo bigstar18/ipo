@@ -290,9 +290,9 @@ public class SystemManager {
 			purchaseSettle();
 			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
             //仓库日租金,日保险,日托管费
-			warehouseDayRentSettle();
-			warehouseDayInsuranceSettle();
-			warehouseDayTrusteeSettle();
+			//warehouseDayRentSettle();
+			//warehouseDayInsuranceSettle();
+			//warehouseDayTrusteeSettle();
 			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
 			updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
 			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
