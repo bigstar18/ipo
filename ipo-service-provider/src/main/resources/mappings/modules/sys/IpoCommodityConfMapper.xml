@@ -300,7 +300,7 @@
 	</select>
 	<update id="addFeeSubject" parameterType="map">
 		insert into f_account(Code,Name,accountLevel,dCFlag)
-		select #{parentSubject,jdbcType=VARCHAR}||#{commoId,jdbcType=VARCHAR},name||#{commoId,jdbcType=VARCHAR},3,'C' from f_account where code=#{parentSubject,jdbcType=VARCHAR};
+		select #{parentSubject,jdbcType=VARCHAR}||#{commoId,jdbcType=VARCHAR},name||#{commoId,jdbcType=VARCHAR},3,'C' from f_account where code=#{parentSubject,jdbcType=VARCHAR}
 	</update>
 
 </mapper>

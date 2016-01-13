@@ -3,7 +3,7 @@ create or replace procedure SP_I_TransferGoodsPosition(
 ) as
 
 v_count           number; --数量
-v_UNITS           number; --发售单位
+v_UNITS           number; --交易单位
 v_PRICE           number; --发行价
 v_TradeNo         number;
 v_HoldNo          number;
@@ -15,10 +15,12 @@ v_Assure          number default 0;  --持仓担保金
 v_mapper_commodityid  VARCHAR2(40); --对应的现货系统商品编号
 begin
      -- 查询商品的信息
-     select conf.UNITS,conf.mapperid 
-     into   v_UNITS,v_mapper_commodityid 
+     select conf.mapperid 
+     into   v_mapper_commodityid 
      from ipo_commodity_conf  conf where conf.commodityid=p_commodityid;
    
+    -- 查询现货系统对应的交易单位
+    select t.contractfactor into v_UNITS from t_commodity  t where t.commodityid=v_mapper_commodityid; 
       
      -- 循环处理持仓记录
      for row_ in (select * from ipo_position where commodityid=p_commodityid) 
