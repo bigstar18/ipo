@@ -299,8 +299,13 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("产品发行查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/commPubQuery.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("发行货款跟踪,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/paymentTracking.jsp");
+									M01.add(M0101);</SCRIPT>			
+									
+						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("承销会员查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/underwriterQuery.jsp");
 									M01.add(M0101);</SCRIPT>
+									
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-         title:'承销会员查询',  
+         title:'发行货款跟踪',  
          iconCls:'icon-ok', 
          method:"post",
          height:400,
@@ -11,7 +11,7 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/PublisherController/findUnderwriters" ,  
+         url:  getRootPath () + "/PublisherController/findAllCommsByExample" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [  {
@@ -29,16 +29,28 @@ $(document).ready(function() {
              width : 200,  
              align: "center",
              title : '商品名称'
-         } , {
-        	 field : 'underwriterid',  
+         } ,{
+        	 field : 'listingdate',  
              width : 200,  
              align: "center",
-             title : '承销会员代码'
+             title : '摇号日期',
+             formatter: function(value,row){
+                  return value.substr(0,10);
+          } 
          },{
-        	 field : 'underwritername',  
+        	 field : 'commodityname',  
              width : 200,  
              align: "center",
-             title : '承销会员名称'
+             title : '应付货款'
+         } , {
+        	 field : 'status',  
+             width : 200,  
+             align: "center",
+             title : '状态',
+             formatter:function(value){
+            	 if(value=='1') return "已付款";
+            	 if(value=='2') return "未付款";
+           }
          }
          ]],  
          pagination : true 
@@ -53,12 +65,12 @@ $(document).ready(function() {
 	
  function doSearch(){
 	$('#dg').datagrid('load',{
-		pubmemberid:$("#pubmemberid").val()
+		commodityid:$("#commodityid").val()
 	});
 }
 
 
 function clearInfo(){
-	$("#pubmemberid").val("");
+	$("#commodityid").val("");
 }
 
