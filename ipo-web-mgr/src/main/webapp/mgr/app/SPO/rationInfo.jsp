@@ -189,7 +189,7 @@ function getAllInfo(){
              align: "center",
              title : '分配承销商配售比例',
              formatter: function(value,row){
-                 return "<a href='#' onclick='ration(\""+row.spoId+"\")'>分配及查询</a>";
+                 return "<a href='#' onclick='ration(\""+row.spoId+"\",\""+row.spoSate+"\")'>分配及查询</a>";
        	 	 }
          },{
              field : 'prePlacement',
@@ -342,9 +342,11 @@ function OpenFrame(spoId) {
     $('#dd').window('open');
 }
 
-function ration(spoId) {
+function ration(spoId,spoSate) {
 	$("#hidSpoId").val("");
 	$("#hidSpoId").val(spoId);
+	$("#spoType").val("");
+	$("#spoType").val(spoSate);
 	$('#dd').empty();
     $('#dd').append("<iframe style='width:100%;height:100%' src='../SPO/distributionAndSelect.jsp'></iframe>");
     $('#dd').window('open');
@@ -374,6 +376,7 @@ function orderBalance(spoid){
 </head>
 <body>
 
+ <input type="hidden" id="spoType" value=""/>
  <input type="hidden" id="hidSpoId" value=""/>
 <div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800%;height:600%;padding:5px;">
 </div>
