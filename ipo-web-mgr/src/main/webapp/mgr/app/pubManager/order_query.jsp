@@ -79,6 +79,10 @@ function doSearch(){
 		userid: $('#userid').val()
 	});
 }
+
+function clearInfo(){
+	$("#userid").val("");
+	} 
 </script>
 </head>
 <body>
@@ -96,8 +100,8 @@ function doSearch(){
 									method="post">
 									交易商代码: <input id="userid" name="userid" class="easyui-textbox"
 										style="border: 1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'> 
-										<a href="#" class="easyui-linkbutton" iconCls="icon-search"
-										id="view" onclick="doSearch()">查询</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+										<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
 								</form>
 							</div>
 						</div>

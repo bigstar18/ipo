@@ -195,7 +195,10 @@ function doSearch(){
 		commodityid: $('#commid').val()
 	});
 }
-    
+
+function clearInfo(){
+	$("#commid").val("");
+	}    
 
 </script>
 </head>
@@ -212,7 +215,8 @@ function doSearch(){
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/QueryController/commodityInfo" method="post">
 		商品代码: <input id="commid" name="userid" class="easyui-textbox" style="border:1px solid #ccc" onkeydown='if(event.keyCode==13) return false;'>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>	
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>				
 		</form> 
 		</div>
 	</div>

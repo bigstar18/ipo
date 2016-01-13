@@ -115,12 +115,17 @@
       	deliveryorderId:$('#deliveryorderId').val()
       	});
       }
+    
+    function clearInfo(){
+    	$("#deliveryorderId").val("");
+    	}
     </script>
   <div id="tb" style="padding:5px;height:auto">
     <div>
       提货单号：
       <input type="text" id="deliveryorderId"/>
-      <input type="button" value="查询" onclick="doSearch()" />
+      <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+      <a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
     </div>
   </div>
   </div>

@@ -71,8 +71,10 @@ function doSearch(){
 		underwriterid:$("#underwriterid").val()
 	});
 }
-    
-
+  
+function clearInfo(){
+	$("#underwriterid").val("");
+	}
 </script>
 </head>
 <body>
@@ -89,8 +91,7 @@ function doSearch(){
 					<form name="frm" action="" >
 					承销会员编号: <input id="underwriterid" name="underwriterid" class="easyui-textbox" style="border:1px solid #ccc" >
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-						<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" >重置</a> -->
-						<!-- <button type="reset" class="easyui-linkbutton" iconCls="icon-reload" id="view" style="border:1px solid #ccc">重置</button> -->					
+						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
 					</form> 
 					</div>
 				</div>
