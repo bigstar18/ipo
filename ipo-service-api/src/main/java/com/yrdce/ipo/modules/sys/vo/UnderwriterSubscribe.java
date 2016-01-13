@@ -37,7 +37,7 @@ public class UnderwriterSubscribe {
 
 	private BigDecimal userBalance;// 可用资金
 
-	private BigDecimal lBalance;// 冻结后的资金
+	private BigDecimal balance;// 冻结后的资金
 
 	public Long getSubscribeid() {
 		return subscribeid;
@@ -52,8 +52,7 @@ public class UnderwriterSubscribe {
 	}
 
 	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid == null ? null : underwriterid
-				.trim();
+		this.underwriterid = underwriterid == null ? null : underwriterid.trim();
 	}
 
 	public String getCommodityid() {
@@ -136,11 +135,11 @@ public class UnderwriterSubscribe {
 		this.userBalance = userBalance;
 	}
 
-	public BigDecimal getlBalance() {
-		return lBalance;
+	public BigDecimal getBalance() {
+		return balance;
 	}
 
-	public void setlBalance(BigDecimal lBalance) {
-		this.lBalance = lBalance;
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 }

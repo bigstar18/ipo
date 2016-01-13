@@ -44,12 +44,24 @@ public class LoanDepositController {
 			List<UnderwriterSubscribe> clist = loanDepositService.GetAllInfo(page, rows, underwriterid);
 			List<UnderwriterSubscribe> clist1 = new ArrayList<UnderwriterSubscribe>();
 			for (UnderwriterSubscribe under : clist) {
+				String a = under.getUnderwriterid();
+				logger.info("主键id：" + a);
 				BigDecimal amount = under.getAmount();
+				if (amount == null) {
+					amount = new BigDecimal(0);
+					under.setAmount(new BigDecimal(0));
+				}
 				logger.info("冻结金额：" + amount);
 				BigDecimal UserBalance = under.getUserBalance();
+				if (UserBalance == null) {
+					UserBalance = new BigDecimal(0);
+					under.setUserBalance(new BigDecimal(0));
+				}
 				logger.info("用户金额：" + UserBalance);
-				BigDecimal lBalance = UserBalance.subtract(amount);
-				under.setlBalance(lBalance);
+				BigDecimal balance = UserBalance.subtract(amount);
+				logger.info("用户金额：" + balance);
+				under.setBalance(balance);
+				logger.info(under.getBalance() + "");
 				clist1.add(under);
 			}
 			int totalnum = loanDepositService.getpage(underwriterid);

@@ -44,7 +44,7 @@ function getAllInfo(){
              align: "center",
              title : '冻结预付款'  
          }, {  
-             field : 'lBalance',  
+             field : 'balance',  
              width : 200, 
              align: "center",
              title : '冻结后余额'

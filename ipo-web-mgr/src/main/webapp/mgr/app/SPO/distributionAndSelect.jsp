@@ -102,7 +102,12 @@ $(document).ready(function(){
         }},
         '-',
         { text: '保存', iconCls: 'icon-save', handler: function () {
-            $("#tt").datagrid("endEdit", editRow);
+        	$("#tt").datagrid("endEdit", editRow);
+        	var spoState=parent.$("#spoType").val();
+        	if(spoState!='4'){
+        		alert("已到增发日期，该配售方案已被采用，不能再次修改！");
+        		return;
+        	}
             var rows = $('#tt').datagrid('getChecked');
             if(rows.length==0){
             	alert("至少请勾选一条分配信息");
@@ -126,6 +131,9 @@ $(document).ready(function(){
 	        		rows[temp].rationid='0';
 	        	}
 	        	counts=Number(counts)+Number(rows[temp].salesAllocationratio);
+	        	if(rows[temp].operationdate!=null){
+	        		rows[temp].operationdate=null;
+	        	}
 	        }
      	   	if(counts>100){
      	   		alert("所分配的比例总和不能大于100");
