@@ -1,7 +1,14 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -134,4 +141,50 @@ public class PublisherController {
 			return "error";
 		}
 	}
+
+	/**
+	 * 跳转到货款跟踪录入视图
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addInfo", method = RequestMethod.GET)
+	public String addInfo(PubpaymentTrack patmentTrack,
+			HttpServletRequest request, HttpServletResponse response) {
+		List<VIpoCommConf> commlist = ipoCommConfService.findIpoCommConfs();
+		request.setAttribute("commlist", commlist);
+		return "app/publisherQuery/setDetail";
+	}
+
+	/**
+	 * 增加发行货款跟踪信息
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addPaymentTrack", method = RequestMethod.POST)
+	@ResponseBody
+	public String addPaymentTrack(PubpaymentTrack example, HttpSession session)
+			throws IOException {
+		log.info("增加发行货款跟踪信息");
+		try {
+			log.debug(example.toString());
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			example.setDeleteflag((short) 0);
+			example.setCreateperson(userId);
+			example.setCreatedate(new Date());
+			int num = paymenttrackservice.insertTrack(example);
+			if (num == 1) {
+				return "true";
+			}
+			return "false";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
 }

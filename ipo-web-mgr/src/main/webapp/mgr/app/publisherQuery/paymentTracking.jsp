@@ -15,8 +15,8 @@
 				<table id="dg" width="100%"></table>
 				 <div id="tb" style="padding:5px;height:auto">
 					 <div>
-					  <!--   <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addInfo()">添加</a>
-					   <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a><br/> -->
+					 <a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addInfo()">添加</a>
+					  <!--  <a href="#" class="easyui-linkbutton" iconCls="icon-remove" id="view" onclick="deleteList()">删除</a> --><br/>
 						商品代码：<input type="text" id="commodityid" name="commodityid" />
 						状态：<select id="status" name="status" style="width:80">
 						   <option value="">请选择</option>

@@ -21,6 +21,9 @@
     where TRACKID = #{trackid,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack" >
+  	 <selectKey resultType="Long" order="BEFORE" keyProperty="trackid">
+	SELECT SEQ_IPO_PUBPAYMENT_TRACK.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_PUBPAYMENT_TRACK (TRACKID, COMMODITYID, PAYABLES, 
       STATUS, CREATEPERSON, CREATEDATE, 
       UPDATEPERSON, UPDATEDATE, DELETEFLAG

@@ -76,3 +76,7 @@ function clearInfo(){
 	$("#status").val("");
 }
 
+function addInfo(){
+	document.location.href = getRootPath ()+ '/PublisherController/addInfo?&&randnum='+Math.floor(Math.random()*1000000);
+
+}
