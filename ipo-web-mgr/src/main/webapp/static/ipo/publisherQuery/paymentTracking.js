@@ -11,35 +11,35 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/PublisherController/findAllCommsByExample" ,  
+         url:  getRootPath () + "/PublisherController/findPaymentTrack" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [  {
         	 field : 'pubmemberid',  
-             width : 200,  
+             width : 250,  
              align: "center",
              title : '发行会员代码'
          }, {
         	 field : 'commodityid',  
-             width : 200,  
+             width : 250,  
              align: "center",
              title : '商品代码'
          }, {
         	 field : 'commodityname',  
-             width : 200,  
+             width : 280,  
              align: "center",
              title : '商品名称'
          } ,{
-        	 field : 'listingdate',  
-             width : 200,  
+        	 field : 'endtime',  
+             width : 280,  
              align: "center",
              title : '摇号日期',
              formatter: function(value,row){
-                  return value.substr(0,10);
+             	return value.substr(0,10);
           } 
          },{
-        	 field : 'commodityname',  
-             width : 200,  
+        	 field : 'payables',  
+             width : 250,  
              align: "center",
              title : '应付货款'
          } , {
@@ -48,8 +48,8 @@ $(document).ready(function() {
              align: "center",
              title : '状态',
              formatter:function(value){
-            	 if(value=='1') return "已付款";
-            	 if(value=='2') return "未付款";
+            	 if(value=='1') return "未付款";
+            	 if(value=='2') return "已付款";
            }
          }
          ]],  
@@ -65,12 +65,14 @@ $(document).ready(function() {
 	
  function doSearch(){
 	$('#dg').datagrid('load',{
-		commodityid:$("#commodityid").val()
+		commodityid:$("#commodityid").val(),
+		status:$("#status").val()
 	});
 }
 
 
 function clearInfo(){
 	$("#commodityid").val("");
+	$("#status").val("");
 }
 

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
@@ -35,6 +37,9 @@ public class PublisherController {
 
 	@Autowired
 	private UnderwriterSubscribeService underwritersubscribeService;
+
+	@Autowired
+	private PubpaymentTrackService paymenttrackservice;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -101,4 +106,32 @@ public class PublisherController {
 		}
 	}
 
+	/**
+	 * 发行货款跟踪查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/findPaymentTrack", method = RequestMethod.POST)
+	@ResponseBody
+	public String findPaymentTrack(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, PubpaymentTrack example)
+			throws IOException {
+		log.info("查询发行商应付货款跟踪");
+		try {
+			log.debug(example.toString());
+			List<PubpaymentTrack> paymentlist = paymenttrackservice
+					.getTrackInfoByPage(page, rows, example);
+			int totalnum = paymenttrackservice.getTrackNum(example);
+			ResponseResult result = new ResponseResult();
+			result.setRows(paymentlist);
+			result.setTotal(totalnum);
+			log.debug(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
 }

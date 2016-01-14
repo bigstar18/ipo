@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoPubpaymentTrackMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack" >
+    <id column="TRACKID" property="trackid" jdbcType="DECIMAL" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+    <result column="ENDTIME" property="endtime" jdbcType="DATE" />
+    <result column="TRADEDAYS" property="tradedays" jdbcType="DECIMAL" />
+    <result column="PAYABLES" property="payables" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATEPERSON" property="createperson" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="UPDATEPERSON" property="updateperson" jdbcType="VARCHAR" />
+    <result column="UPDATEDATE" property="updatedate" jdbcType="DATE" />
+    <result column="DELETEFLAG" property="deleteflag" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from IPO_PUBPAYMENT_TRACK
+    where TRACKID = #{trackid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack" >
+    insert into IPO_PUBPAYMENT_TRACK (TRACKID, COMMODITYID, PAYABLES, 
+      STATUS, CREATEPERSON, CREATEDATE, 
+      UPDATEPERSON, UPDATEDATE, DELETEFLAG
+      )
+    values (#{trackid,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{payables,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{createperson,jdbcType=VARCHAR}, #{createdate,jdbcType=DATE}, 
+      #{updateperson,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}, #{deleteflag,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack" >
+    update IPO_PUBPAYMENT_TRACK
+    set COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      PAYABLES = #{payables,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATEPERSON = #{createperson,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=DATE},
+      UPDATEPERSON = #{updateperson,jdbcType=VARCHAR},
+      UPDATEDATE = #{updatedate,jdbcType=DATE},
+      DELETEFLAG = #{deleteflag,jdbcType=DECIMAL}
+    where TRACKID = #{trackid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select TRACKID, COMMODITYID, PAYABLES, STATUS, CREATEPERSON, CREATEDATE, UPDATEPERSON, 
+    UPDATEDATE, DELETEFLAG
+    from IPO_PUBPAYMENT_TRACK
+    where TRACKID = #{trackid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select TRACKID, COMMODITYID, PAYABLES, STATUS, CREATEPERSON, CREATEDATE, UPDATEPERSON, 
+    UPDATEDATE, DELETEFLAG
+    from IPO_PUBPAYMENT_TRACK
+  </select>
+   <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+    SELECT G.* FROM (SELECT A.*,ROWNUM TNO FROM (SELECT T.*, C.COMMODITYNAME, C.PUBMEMBERID, C.ENDTIME, C.TRADEDAYS
+    FROM IPO_PUBPAYMENT_TRACK T  LEFT JOIN IPO_COMMODITY_CONF C
+    ON T.COMMODITYID = C.COMMODITYID ORDER BY C.PUBMEMBERID)A WHERE A.DELETEFLAG=0 
+      <if test="record.commodityid != null" >
+       and A.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
+      </if>
+       <if test="record.status != null" >
+       and A.STATUS = #{record.status,jdbcType=DECIMAL}
+      </if>
+     )G WHERE G.TNO between #{beginnum} and #{endnum}
+  </select>
+  <select id="getTarckNum" resultType="Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack">
+   SELECT count(*) FROM (SELECT T.*, C.COMMODITYNAME, C.PUBMEMBERID, C.ENDTIME, C.TRADEDAYS
+    FROM IPO_PUBPAYMENT_TRACK T  LEFT JOIN IPO_COMMODITY_CONF C
+    ON T.COMMODITYID = C.COMMODITYID ORDER BY C.PUBMEMBERID)A WHERE A.DELETEFLAG=0 
+      <if test="record.commodityid != null" >
+       and A.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
+      </if>
+     <if test="record.status != null" >
+       and A.STATUS = #{record.status,jdbcType=DECIMAL}
+      </if>
+  </select> 
+</mapper>
