@@ -137,7 +137,8 @@ function setSortName(value) {
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">认购价格：</td>
 	        	<td align="left" width="60%">
-	        	 <input style="width:150px;" id="subscribeprice" name="subscribeprice"  onkeypress="return onlyNumberInput()"/>
+	        	 <input style="width:150px;" id="subscribeprice" name="subscribeprice"  
+	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr> 
