@@ -18,7 +18,13 @@
 function add(){
 	var flag= $('#frm').form('validate');
 	if(flag==true){
-             $.ajax({ 
+		$.ajax({  
+			type: "post",  
+            url: "<%=request.getContextPath()%>/PublisherController/checkFundsAvailable",       
+            data:  {"underwriterid":$("#underwriterid").val(),"amount":$("#amount").val()}       ,      
+            success: function(data) { 
+		              if(data=='true') {
+            	                $.ajax({ 
                             		   cache:false,
                                        type: "post",  
                                        url: "<%=request.getContextPath()%>/UnderwriterSetController/deductMoney",       
@@ -34,20 +40,22 @@ function add(){
                                        error: function(data) {  
                                            alert("系统异常，请联系管理员！");  
                                        }  
-                                   }) ;
-        			        }            
+                                   }) ;}
+		              if(data=='false'){
+		            	  alert("资金不足！");
+		              }
+            },  
+            error: function(data) {  
+                alert("请求失败，无法扣款！");  
+            }  
+        }) ;
+	}            
 }
 		
 
 function returntoList(){
 	var backUrl="<%=request.getContextPath()%>/mgr/app/underwritingManage/underwritingSet.jsp";
 	document.location.href = backUrl;
-}
-
-function onlyNumberInput(){
-	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
-		    event.returnValue=false;
-	 }
 }
 			
 </script>

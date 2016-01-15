@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
+import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -47,6 +49,9 @@ public class PublisherController {
 
 	@Autowired
 	private PubpaymentTrackService paymenttrackservice;
+
+	@Autowired
+	private SPOService spoService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -185,6 +190,22 @@ public class PublisherController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	/**
+	 * 判断可用资金
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkFundsAvailable", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkFundsAvailable(
+			@RequestParam("underwriterid") String underwriterid,
+			@RequestParam("amount") String amount) {
+		String dealId = spoService.getFirmid(underwriterid);
+		return spoService.checkFundsAvailable(dealId, new BigDecimal(amount));
 	}
 
 }

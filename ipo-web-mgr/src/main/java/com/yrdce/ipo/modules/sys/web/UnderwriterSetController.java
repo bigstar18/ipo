@@ -197,6 +197,7 @@ public class UnderwriterSetController {
 			throws IOException {
 		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID();
+		// String userId = "chenj";
 		deposit.setCreateDate(new Date());
 		deposit.setCreateUser(userId);
 		deposit.setDeleteFlag((short) 0);
