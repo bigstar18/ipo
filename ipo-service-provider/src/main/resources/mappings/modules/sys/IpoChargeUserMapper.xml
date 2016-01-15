@@ -33,6 +33,18 @@
 				  <if test="param.chargeName!=null and param.chargeName!='' ">
 			        and c.name like '%'||#{param.chargeName}||'%' 
 		          </if>
+		          <if test="param.businessCode!=null and param.businessCode!='' ">
+					and r.business_code=#{param.businessCode}
+				  </if>
+				  <if test="param.roleCode!=null and param.roleCode!='' ">
+					and r.role_code=#{param.roleCode}
+				  </if>
+				  <if test="param.chargeId!=null and param.chargeId!='' ">
+					and r.charge_id=#{param.chargeId}
+				  </if>
+			      <if test="param.userId!=null and param.userId!='' ">
+					and r.user_id=#{param.userId}
+				  </if>
 			) pg where  #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
   </select>
@@ -44,9 +56,20 @@
 	    left join ipo_charge_item p on (c.parent_id=p.id)
 	    where r.delete_flag=0
 	   <if test="param.chargeName!=null and param.chargeName!='' ">
-		and c.name like '%'||#{param.chargeName}||'%' 
+		  and c.name like '%'||#{param.chargeName}||'%' 
 	   </if>
-      
+       <if test="param.businessCode!=null and param.businessCode!='' ">
+		  and r.business_code=#{param.businessCode}
+	   </if>
+	   <if test="param.roleCode!=null and param.roleCode!='' ">
+		  and r.role_code=#{param.roleCode}
+	   </if>
+	   <if test="param.chargeId!=null and param.chargeId!='' ">
+		  and r.charge_id=#{param.chargeId}
+	   </if>
+       <if test="param.userId!=null and param.userId!='' ">
+		  and r.user_id=#{param.userId}
+	   </if>
   </select>
   
   

@@ -74,7 +74,7 @@
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 									<tr style="height: 20px">   
         								<td align="right" >费用名称:&nbsp;&nbsp;</td>
-            							<td> <input name="name" type="text" size="28" style="height: 24px;" maxlength="50" value="${entity.name }"/>
+            							<td> <input name="name" type="text" size="28" readonly="readonly" style="height: 24px;" maxlength="50" value="${entity.name }"/>
             							     <font style="color:red">*</font> 
             							</td> 
         							</tr>

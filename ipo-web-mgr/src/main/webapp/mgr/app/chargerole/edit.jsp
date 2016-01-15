@@ -11,7 +11,7 @@
 		<style type="text/css">input {line-height: 14px;}    td {padding-bottom: 3px;}</style>
         <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
-		<title>添加一般费用配置</title>
+		<title>修改一般费用配置</title>
 		<style type="text/css">
 			legend{font-weight:bold;}
 		</style>
@@ -32,6 +32,9 @@
 				 if(dataForm.amount.value==""){
 					 alert('金额不能为空!');return ;
 				 };
+				 $("#businessCode").removeAttr("disabled");
+				 $("#roleCode").removeAttr("disabled");
+				 $("#chargeId").removeAttr("disabled");
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/chargeRoleController/update",  
 		  		    data:$('#dataForm').serialize(),  
@@ -48,6 +51,10 @@
 			              alert('系统异常!');
 			        }
 		  		});  
+		    	  
+		    	  $("#businessCode").attr("disabled","disabled");
+		    	  $("#roleCode").attr("disabled","disabled");
+		    	  $("#chargeId").attr("disabled","disabled");
 		    	  
 		      };
 
@@ -83,7 +90,7 @@
 									<tr style="height: 20px">   
         								<td align="right" >绑定业务:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="businessCode" style="width:181px;">
+            							    <select id="businessCode" name="businessCode" style="width:181px;"  disabled="disabled">
             							      <option value="0">请选择业务</option>
             							      <c:forEach items="${businessList }" var="item">
             							      
@@ -98,7 +105,7 @@
 									<tr style="height: 30px">
         	  							<td align="right" >绑定角色:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="roleCode" style="width:181px;">
+            							    <select id="roleCode" name="roleCode" style="width:181px;" disabled="disabled">
             							      <option value="0">请选择角色</option>
             							      <c:forEach items="${roleList }" var="item">
             							        <option value="${item.code }"
@@ -112,7 +119,7 @@
             						<tr style="height: 30px">   
         								<td align="right" >绑定费用:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="chargeId" style="width:180px;">
+            							    <select id="chargeId" name="chargeId" style="width:180px;" disabled="disabled">
             							      <option value="">请选择费用</option>
             							      <c:forEach items="${leafChargeList }" var="item">
             							        <option value="${item.id }"

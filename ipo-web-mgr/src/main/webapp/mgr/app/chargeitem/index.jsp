@@ -43,8 +43,8 @@
 	          {field: 'remark',title: '备注',width: '300',align: 'center'},
 	          {field: 'oper',title: '操作',width : '200',align: 'center',
 	              formatter: function(value, row, index) {
-	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;"+
-	                         "<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";
+	                  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;";
+	                        // +"<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";
 	              }
 	          }
 	       ]
@@ -123,7 +123,9 @@
 		      <input type="hidden" id="parentId" value="0" />
 			       费用名称：<input type="text" id="name" size="20"/>&nbsp;&nbsp;&nbsp;
 		      <a href="#" class="easyui-linkbutton" iconCls="icon-search"   onclick="doSearch()">查询</a>	
-		      <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add();" id="add">添加</a>				
+		      <!--  
+		      <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add();" id="add">添加</a>	
+		      -->			
 		</form> 
 		</div>
 	</div>

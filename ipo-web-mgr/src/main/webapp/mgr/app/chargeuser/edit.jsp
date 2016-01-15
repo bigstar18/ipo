@@ -32,6 +32,9 @@
 				 if(dataForm.amount.value==""){
 					 alert('金额不能为空!');return ;
 				 };
+				 $("#businessCode").removeAttr("disabled");
+				 $("#roleCode").removeAttr("disabled");
+				 $("#chargeId").removeAttr("disabled");
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/chargeUserController/update",  
 		  		    data:$('#dataForm').serialize(),  
@@ -48,7 +51,9 @@
 			              alert('系统异常!');
 			        }
 		  		});  
-		    	  
+		    	  $("#businessCode").attr("disabled","disabled");
+		    	  $("#roleCode").attr("disabled","disabled");
+		    	  $("#chargeId").attr("disabled","disabled");
 		      };
 
 		      function closeWion(){
@@ -83,7 +88,7 @@
 									<tr style="height: 20px">   
         								<td align="right" >绑定业务:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="businessCode" style="width:181px;">
+            							    <select id="businessCode" name="businessCode" style="width:181px;" disabled="disabled">
             							      <option value="0">请选择业务</option>
             							      <c:forEach items="${businessList }" var="item">
             							      
@@ -98,7 +103,7 @@
 									<tr style="height: 30px">
         	  							<td align="right" >绑定角色:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="roleCode" style="width:181px;">
+            							    <select id="roleCode" name="roleCode" style="width:181px;" disabled="disabled">
             							      <option value="0">请选择角色</option>
             							      <c:forEach items="${roleList }" var="item">
             							        <option value="${item.code }"
@@ -112,7 +117,7 @@
             						<tr style="height: 30px">   
         								<td align="right" >绑定费用:&nbsp;&nbsp;</td>
             							<td> 
-            							    <select name="chargeId" style="width:180px;">
+            							    <select id="chargeId" name="chargeId" style="width:180px;" disabled="disabled">
             							      <option value="">请选择费用</option>
             							      <c:forEach items="${leafChargeList }" var="item">
             							        <option value="${item.id }"
@@ -125,7 +130,7 @@
         							</tr>
         							<tr style="height: 20px">   
         								<td align="right" >绑定用户:&nbsp;&nbsp;</td>
-            							<td> <input name="userId" type="text" size="26" style="height: 24px;" maxlength="32" value="${entity.userId }"/>
+            							<td> <input name="userId" type="text" size="26" style="height: 24px;" maxlength="32" readonly="readonly" value="${entity.userId }"/>
 			  								 <font style="color:red">*</font> 
             							</td> 
         							</tr>

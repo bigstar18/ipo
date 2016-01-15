@@ -48,8 +48,8 @@
 	          {field: 'remark',title: '备注',width: '300',align: 'center'},
 	          {field: 'oper',title: '操作',width : 200,align: 'center',
 	              formatter: function(value, row, index) {
-	            	  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;"+
-                      "<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";
+	            	  return "<a href=\"#\" onclick=\"edit('"+row.id+"')\">" + "修改" + "</a>&nbsp;&nbsp;";
+                      //+"<a href=\"#\" onclick=\"deleteById('"+row.id+"')\">" + "删除" + "</a>";
 	              }
 	          }
 	       ]

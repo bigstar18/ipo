@@ -35,13 +35,15 @@
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/chargeRoleController/save",  
 		  		    data:$('#dataForm').serialize(),  
-		  		    type: 'POST',dataType: 'json',  
+		  		    type: 'POST',dataType: 'text',  
 		  		    success : function(data, stats) {  
-		  	             if(data==true||data=="true"){
+		  	             if(data=="success"){
 		  	            	 alert('保存成功');
 		  	            	 closeWion();
-		  	             }else{
+		  	             }else if(data=="error"){
 		  	            	 alert('保存失败');
+		  	             }else if(data=="001"){
+		  	            	alert('绑定的业务,角色,费用已经存在,请勿重复添加');
 		  	             }
 		  	        },
 			  	    error: function (jqXHR, textStatus, errorThrown) {
@@ -83,7 +85,7 @@
         								<td align="right" >绑定业务:&nbsp;&nbsp;</td>
             							<td> 
             							    <select name="businessCode" style="width:181px;">
-            							      <option value="0">请选择业务</option>
+            							      <option value="">请选择业务</option>
             							      <c:forEach items="${businessList }" var="item">
             							        <option value="${item.code }">${item.value}</option>
             							      </c:forEach>
@@ -95,7 +97,7 @@
         	  							<td align="right" >绑定角色:&nbsp;&nbsp;</td>
             							<td> 
             							    <select name="roleCode" style="width:181px;">
-            							      <option value="0">请选择角色</option>
+            							      <option value="">请选择角色</option>
             							      <c:forEach items="${roleList }" var="item">
             							        <option value="${item.code }">${item.value}</option>
             							      </c:forEach>

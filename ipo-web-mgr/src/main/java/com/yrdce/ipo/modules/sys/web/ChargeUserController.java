@@ -114,16 +114,20 @@ public class ChargeUserController {
 	 */
 	@RequestMapping(value = "/save")
 	@ResponseBody
-	public boolean save(HttpServletRequest request,ChargeUser chargeUser) 
+	public String save(HttpServletRequest request,ChargeUser chargeUser) 
 			throws Exception {
 		try {
+			long count=chargeUserService.queryForCount(chargeUser);
+			if(count>0){
+				return "001";
+			}
 			chargeUser.setCreateUser(getloginUserId(request));
 			chargeUserService.save(chargeUser);
 		} catch (Exception e) {
 			logger.error("save error:"+e);
-			return false;
+			return "error";
 		}
-		return true;
+		return "success";
 	}
 	
 	/**
