@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
-   
+<%
+   String parentName=request.getParameter("name");  
+   if(parentName!=null){
+	   parentName=new String(parentName.getBytes("ISO-8859-1"),"UTF-8");
+   }
+%> 
  
 <html>
 <head>
@@ -32,7 +37,7 @@
 	      pageSize: 10, //当设置了 pagination 属性时，初始化页面尺寸。
 	      pageList: [5, 10, 15, 20], //当设置了 pagination 属性时，初始化页面尺寸的选择列表。
 	      toolbar: "#tb", //数据网格（datagrid）面板的头部工具栏。
-	      title: '${param.name}', //列的标题文本。
+	      title: '<%=parentName%>', //列的标题文本。
 	      remoteSort: false, //定义是否从服务器排序数据。
 	      columns: [
 	        [
