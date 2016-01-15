@@ -137,13 +137,13 @@ body {
 			<!-- </form> -->
 		</div>
 	</div>
-	<!-- <table border="0" width="700" align="center" class="tips">
+	<table border="0" width="700" align="center" class="tips">
     <tbody>
       <tr>
         <td align="center" style="color: red">提示：提货单注册后过了提货日期则不能提货，需注销提货单后重新注册</td>
       </tr>
     </tbody>
-  </table> -->
+  </table>
 	<script type="text/javascript">
 	$ (function ()
 			{

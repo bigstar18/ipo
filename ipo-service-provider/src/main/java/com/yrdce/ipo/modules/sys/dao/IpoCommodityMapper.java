@@ -39,7 +39,7 @@ public interface IpoCommodityMapper {
 
 	IpoCommodity selectByPrimaryKey(int id);
 
-	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息
+	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息(有时间限制)
 
 	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
 
@@ -66,7 +66,7 @@ public interface IpoCommodityMapper {
 
 	int selectByCommodityid(String commodityid);
 
-	IpoCommodity getSelectByComid(String comid);
+	IpoCommodity getSelectByComid(String comid);// 调用此方法需要将comid转大写
 
 	IpoCommodity queryByComid(String comid);
 

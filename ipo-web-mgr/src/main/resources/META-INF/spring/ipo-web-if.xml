@@ -56,6 +56,7 @@
     <dubbo:reference id="underwritersubscribeService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService" />
     <dubbo:reference id="depositService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterDepositService" />
     <dubbo:reference id="paymenttrackservice" interface="com.yrdce.ipo.modules.sys.service.PubpaymentTrackService" />
+    <dubbo:reference id="underwritingQueryService" interface="com.yrdce.ipo.modules.sys.service.UnderwritingQueryService" />
 
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->

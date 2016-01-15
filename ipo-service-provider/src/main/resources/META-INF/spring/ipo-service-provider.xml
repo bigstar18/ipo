@@ -62,6 +62,7 @@
    	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.UnderwriterDepositService" ref="depositService" protocol="dubbo" />
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.FirmHoldSumService" ref="firmHoldSumService" protocol="dubbo" />
     <dubbo:service interface="com.yrdce.ipo.modules.sys.service.PubpaymentTrackService" ref="paymenttrackservice" protocol="dubbo" />
+    <dubbo:service interface="com.yrdce.ipo.modules.sys.service.UnderwritingQueryService" ref="underwritingQueryService" protocol="dubbo" />
 	
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="displayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -96,7 +97,8 @@
 	<bean id="underwritersubscribeService" class="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeServiceImpl" />
 	<bean id="depositService" class="com.yrdce.ipo.modules.sys.service.UnderwriterDepositServiceImpl" />
     <bean id="firmHoldSumService" class="com.yrdce.ipo.modules.sys.service.FirmHoldSumServiceImpl" />
-     <bean id="paymenttrackservice" class="com.yrdce.ipo.modules.sys.service.PubpaymentTrackServiceImpl" />
+    <bean id="paymenttrackservice" class="com.yrdce.ipo.modules.sys.service.PubpaymentTrackServiceImpl" />
+    <bean id="underwritingQueryService" class="com.yrdce.ipo.modules.sys.service.UnderwritingQueryServiceImpl" />
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 	读写分离：
