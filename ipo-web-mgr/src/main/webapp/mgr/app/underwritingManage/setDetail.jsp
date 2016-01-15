@@ -28,6 +28,10 @@ function add(){
 		alert("认购数量不可为空");
 		return;
 	}
+	if($("#subscribeprice").val()==''){
+		alert("认购价格不可为空");
+		return;
+	}
 	if($("#proportion").val()==''){
 		alert("占承销会员手续费总和的比例不可为空");
 		return;
@@ -83,6 +87,16 @@ function onlyNumberInput(){
 		    event.returnValue=false;
 	 }
 }
+
+function setSortName(value) {
+	var commList =<%=request.getAttribute("commlist") %>; 
+	 for(var o in commList){  
+	        if (value == commList[o].commodityid ) {
+				$("#subscribeprice").val(commList[o].price);
+				break;
+		}
+	 }  
+}
 			
 </script>
 </head>
@@ -111,20 +125,28 @@ function onlyNumberInput(){
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
 	        	<td align="left" width="60%">
-	        	<select id="commodityid" name="commodityid" style="width:150px" >
+	        	<select id="commodityid" name="commodityid" style="width:150px" onchange="setSortName(this.value)">
 						<option value="">请选择</option>
                          <c:forEach var="commodity" items="${commList}">
                          <option value="${commodity.commodityid}">${commodity.commodityid}${commodity.commodityname}</option>
                           </c:forEach>
-				</select><span class="required">*</span>
+				</select>
+				<span class="required">*</span>
 	        	</td>
 	        </tr>  
+	        <tr>
+	        	<td style="font-size:15px" align="right" width="20%">认购价格：</td>
+	        	<td align="left" width="60%">
+	        	 <input style="width:150px;" id="subscribeprice" name="subscribeprice"  onkeypress="return onlyNumberInput()"/>
+	                   <span class="required">*</span>
+	        	</td>
+	        </tr> 
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">认购数量：</td>
 	        	<td align="left" width="60%">
 	        	 <input style="width:150px;" id="subscribecounts" name="subscribecounts"
 	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0"/>
-	                   <span class="required">*</span>
+	        	  <span class="required">*</span>
 	        	</td>
 	        </tr> 
 	        <tr>

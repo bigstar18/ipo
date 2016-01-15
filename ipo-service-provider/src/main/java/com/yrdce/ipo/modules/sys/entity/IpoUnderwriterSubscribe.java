@@ -30,6 +30,8 @@ public class IpoUnderwriterSubscribe {
 
 	private Date updateDate;// 修改时间
 
+	private BigDecimal subscribeprice;// 认购价格
+
 	private BigDecimal amount;// 认购金额
 
 	private BigDecimal userBalance;// 用户可用资金
@@ -139,4 +141,13 @@ public class IpoUnderwriterSubscribe {
 	public void setlBalance(BigDecimal lBalance) {
 		this.lBalance = lBalance;
 	}
+
+	public BigDecimal getSubscribeprice() {
+		return subscribeprice;
+	}
+
+	public void setSubscribeprice(BigDecimal subscribeprice) {
+		this.subscribeprice = subscribeprice;
+	}
+
 }

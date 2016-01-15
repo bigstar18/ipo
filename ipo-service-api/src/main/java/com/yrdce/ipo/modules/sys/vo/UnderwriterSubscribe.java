@@ -33,6 +33,8 @@ public class UnderwriterSubscribe {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;// 修改时间
 
+	private BigDecimal subscribeprice;// 认购价格
+
 	private BigDecimal amount;// 认购货款
 
 	private BigDecimal userBalance;// 可用资金
@@ -52,11 +54,20 @@ public class UnderwriterSubscribe {
 	}
 
 	public void setUnderwriterid(String underwriterid) {
-		this.underwriterid = underwriterid == null ? null : underwriterid.trim();
+		this.underwriterid = underwriterid == null ? null : underwriterid
+				.trim();
 	}
 
 	public String getCommodityid() {
 		return commodityid;
+	}
+
+	public BigDecimal getSubscribeprice() {
+		return subscribeprice;
+	}
+
+	public void setSubscribeprice(BigDecimal subscribeprice) {
+		this.subscribeprice = subscribeprice;
 	}
 
 	public void setCommodityid(String commodityid) {

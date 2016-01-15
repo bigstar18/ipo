@@ -12,6 +12,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="SUBSCRIBEPRICE" property="subscribeprice" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="UResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderWriters" >
     <id column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
@@ -33,11 +34,11 @@
     insert into IPO_UNDERWRITER_SUBSCRIBE (SUBSCRIBEID, UNDERWRITERID, COMMODITYID, 
       SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
       CREATE_USER, CREATE_DATE, UPDATE_USER, 
-      UPDATE_DATE)
+      UPDATE_DATE,SUBSCRIBEPRICE)
     values (#{subscribeid,jdbcType=DECIMAL}, #{underwriterid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{subscribecounts,jdbcType=DECIMAL}, #{proportion,jdbcType=DECIMAL}, #{deleteFlag,jdbcType=DECIMAL}, 
       #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=DATE})
+      #{updateDate,jdbcType=DATE},#{subscribeprice,jdbcType=DECIMAL})
   </insert>
   
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
@@ -50,20 +51,21 @@
       CREATE_USER = #{createUser,jdbcType=VARCHAR},
       CREATE_DATE = #{createDate,jdbcType=DATE},
       UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
-      UPDATE_DATE = #{updateDate,jdbcType=DATE}
+      UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      SUBSCRIBEPRICE = #{subscribeprice,jdbcType=DECIMAL}
     where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
   </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
-    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
     from IPO_UNDERWRITER_SUBSCRIBE
     where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
   </select>
   
   <select id="selectAll" resultMap="BaseResultMap" >
     select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
-    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
     from IPO_UNDERWRITER_SUBSCRIBE
   </select>
   

@@ -114,6 +114,7 @@ public class UnderwriterSetController {
 			HttpServletResponse response) throws IOException {
 		List<Commodity> commist = commodityService.findAll();
 		request.setAttribute("commList", commist);
+		request.setAttribute("commlist", JSON.json(commist));
 		return "app/underwritingManage/setDetail";
 	}
 
