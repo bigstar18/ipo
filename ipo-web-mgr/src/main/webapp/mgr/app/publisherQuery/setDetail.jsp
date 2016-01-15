@@ -26,6 +26,15 @@ function add(){
 	}
 	var flag= $('#frm').form('validate');
 	if(flag==true){
+		 $.ajax({  
+			 type: 'POST', 
+		      url: "<%=request.getContextPath()%>/PublisherController/checkExsitPaymentTrack",  
+		     data:{"commodityid":$("#commodityid").val()},  
+		     success : function(data, stats) { 
+			           if(data=='true'){
+			        	   alert("该商品的货款跟踪信息已存在！")
+			           }
+                       if(data=='false'){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
@@ -43,6 +52,9 @@ function add(){
                                            alert("系统异常，请联系管理员！");  
                                        }  
                                    }) ;
+                       }
+			        }    
+				}); 
         			        }    
 }
 		
@@ -50,12 +62,6 @@ function add(){
 function returntoList(){
 	var backUrl="<%=request.getContextPath()%>/mgr/app/publisherQuery/paymentTracking.jsp";
 	document.location.href = backUrl;
-}
-
-function onlyNumberInput(){
-	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
-		    event.returnValue=false;
-	 }
 }
 			
 </script>
