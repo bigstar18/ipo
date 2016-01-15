@@ -163,6 +163,31 @@ public class PublisherController {
 	}
 
 	/**
+	 * 判断商品货款跟踪信息是否已存在
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkExsitPaymentTrack", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkExsitPaymentTrack(
+			@RequestParam("commodityid") String commodityid) throws IOException {
+		PubpaymentTrack example = new PubpaymentTrack();
+		example.setDeleteflag((short) 0);
+		int totalnum = paymenttrackservice.getTrackNum(example);
+		List<PubpaymentTrack> paymentlist = paymenttrackservice
+				.getTrackInfoByPage(1 + "", totalnum + "", example);
+		for (PubpaymentTrack temp : paymentlist) {
+			if (commodityid.equals(temp.getCommodityid())) {
+				return "true";
+			}
+		}
+		return "false";
+
+	}
+
+	/**
 	 * 增加发行货款跟踪信息
 	 * 
 	 * @param
@@ -193,7 +218,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 判断可用资金
+	 * 判断承销商可用资金能否支付认购数量的商品
 	 * 
 	 * @param
 	 * @return
