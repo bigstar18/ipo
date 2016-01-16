@@ -47,8 +47,8 @@ public class UnderwritingQueryServiceImpl implements UnderwritingQueryService {
 			String commodityid = ipoUnderwriterSubscribe.getCommodityid();
 			IpoCommodity ipoCommodity = ipoCommodityMapper.queryByComid(commodityid);
 			UnderwritingQuery underwritingQuery = new UnderwritingQuery();
-			underwritingQuery.setCommodityname(ipoCommodity.getCommodityname());
 			BeanUtils.copyProperties(ipoUnderwriterSubscribe, underwritingQuery);
+			underwritingQuery.setCommodityname(ipoCommodity.getCommodityname());
 			list2.add(underwritingQuery);
 		}
 		return list2;
