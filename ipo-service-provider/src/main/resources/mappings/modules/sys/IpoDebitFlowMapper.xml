@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper" >
+  
+  
+  <resultMap id="IpoDebitFlowResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDebitFlow" >
+    <result column="id" property="id"  />
+    <result column="business_type" property="businessType"  />
+    <result column="charge_type" property="chargeType"  />
+    <result column="commodity_id" property="commodityId"  />
+    <result column="order_id" property="orderId"  />
+    <result column="debit_state" property="debitState"  />
+    <result column="payer" property="payer"  />
+    <result column="amount" property="amount"  />
+    <result column="debit_mode" property="debitMode"  />
+    <result column="debit_channel" property="debitChannel"  />
+    <result column="debit_date" property="debitDate"  />
+    <result column="remark" property="remark"  />
+    <result column="buy_back_flag" property="buyBackFlag"  />
+    <result column="create_user" property="createUser"  />
+    <result column="create_date" property="createDate"  />
+    <result column="update_user" property="updateUser"  />
+    <result column="update_date" property="updateDate"  />
+  </resultMap>
+  
+   
+   
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.vo.DebitFlow" >
+	    <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+	   select seq_ipo_debitflow.nextval from dual
+		</selectKey>
+       insert into ipo_debitflow
+  		( id, business_type, charge_type, commodity_id, order_id, 
+  		  debit_state,payer, amount,debit_mode, debit_channel, debit_date,  
+  		  remark,create_user, create_date)
+	   values
+        (  #{id,jdbcType=INTEGER},#{businessType},#{chargeType},#{commodityId},#{orderId},
+           #{debitState},#{payer},#{amount},#{debitMode},#{debitChannel},#{debitDate,jdbcType=TIMESTAMP},
+           #{remark},#{createUser},#{createDate,jdbcType=TIMESTAMP}
+        )
+   </insert>
+   
+   <select id="queryForList" resultMap="IpoDebitFlowResultMap"  parameterType="map" >
+	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.debit_state, 
+	        de.payer, de.amount, de.debit_mode, de.debit_channel, de.debit_date, de.remark, de.buy_back_flag,
+	        de.create_user, de.create_date, de.update_user, de.update_date 
+	        from ipo_debitflow de where 1=1
+	        <if test="param.buyBackFlag >=0 ">
+				 and  de.buy_back_flag=#{param.buyBackFlag}
+			</if>
+			<if test="param.businessType!=null and param.businessType!='' ">
+				 and  de.business_type=#{param.businessType}
+			</if>
+			<if test="param.chargeType!=null and param.chargeType!='' ">
+				 and  de.charge_type=#{param.chargeType}
+			</if>
+			<if test="param.commodityId!=null and param.commodityId!='' ">
+				 and  de.commodity_id=#{param.commodityId}
+			</if> 
+			<if test="param.debitState >0 ">
+				 and  de.debit_state=#{param.debitState}
+			</if>
+			<if test="param.debitMode >0 ">
+				 and  de.debit_mode=#{param.debitMode}
+			</if>
+			<if test="param.payer!=null and param.payer!='' ">
+				 and  de.payer=#{param.payer}
+			</if>
+			order by de.create_date desc
+  </select>
+  
+</mapper>
