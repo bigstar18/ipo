@@ -3,7 +3,6 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,7 @@ public class ChargeUserServiceImpl implements ChargeUserService {
 	@Autowired
 	private IpoChargeUserMapper chargeUserMapper;
 	
-	@Autowired
-	private DataItemService dataItemService;
+	 
 	
 	/**
 	 *  分页查询特殊费用配置
@@ -35,18 +33,13 @@ public class ChargeUserServiceImpl implements ChargeUserService {
 		 
 		int startIndex=PageUtil.getStartIndex(pageNo, pageSize); 
 		int endIndex=PageUtil.getEndIndex(pageNo, pageSize);
-		//业务常量
-		Map<String,String> businessMap =dataItemService.queryForMap(ChargeConstant.BUSINESS);
-		//角色常量
-		Map<String,String> UserMap =dataItemService.queryForMap(ChargeConstant.ROLE);
 		List<IpoChargeUser> dbList=chargeUserMapper.queryForPage(startIndex, endIndex, chargeUser);
-		 
 		List<ChargeUser> dataList=new ArrayList<ChargeUser>();
 		for(IpoChargeUser item :dbList){
 			ChargeUser entity=new ChargeUser();
 			BeanUtils.copyProperties(item, entity);
-			entity.setBusinessName(businessMap.get(item.getBusinessCode()));
-			entity.setRoleCodeName(UserMap.get(item.getRoleCode()));
+			entity.setBusinessName(ChargeConstant.BusinessType.getName(item.getBusinessCode()));
+			entity.setRoleCodeName(ChargeConstant.RoleType.getName(item.getRoleCode()));
 			entity.setChargePatternName(ChargeConstant.Pattern.getName(item.getChargePattern()));
 			dataList.add(entity);
 		};

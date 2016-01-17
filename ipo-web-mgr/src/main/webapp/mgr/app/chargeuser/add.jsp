@@ -88,7 +88,7 @@
             							    <select name="businessCode" style="width:181px;">
             							      <option value="">请选择业务</option>
             							      <c:forEach items="${businessList }" var="item">
-            							        <option value="${item.code }">${item.value}</option>
+            							        <option value="${item.code }">${item.name}</option>
             							      </c:forEach>
             							    </select> 
             							     <font style="color:red">*</font> 
@@ -100,7 +100,7 @@
             							    <select name="roleCode" style="width:181px;">
             							      <option value="">请选择角色</option>
             							      <c:forEach items="${roleList }" var="item">
-            							        <option value="${item.code }">${item.value}</option>
+            							        <option value="${item.code }">${item.name}</option>
             							      </c:forEach>
             							    </select> 
 			  								<font style="color:red">如果未选择一级费用，则表示此次待添加的费用将被列为一级费用</font>  

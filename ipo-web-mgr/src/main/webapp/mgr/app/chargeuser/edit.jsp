@@ -94,7 +94,7 @@
             							      
             							        <option value="${item.code }"
             							           <c:if test="${item.code eq entity.businessCode }" >selected</c:if>
-            							        >${item.value}</option>
+            							        >${item.name}</option>
             							      </c:forEach>
             							    </select> 
             							     <font style="color:red">*</font> 
@@ -108,7 +108,7 @@
             							      <c:forEach items="${roleList }" var="item">
             							        <option value="${item.code }"
             							          <c:if test="${item.code eq entity.roleCode }" >selected</c:if>
-            							        >${item.value}</option>
+            							        >${item.name}</option>
             							      </c:forEach>
             							    </select> 
 			  								<font style="color:red">如果未选择一级费用，则表示此次待特殊的费用将被列为一级费用</font>  

@@ -20,7 +20,6 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.ChargeItemService;
 import com.yrdce.ipo.modules.sys.service.ChargeUserService;
-import com.yrdce.ipo.modules.sys.service.DataItemService;
 import com.yrdce.ipo.modules.sys.vo.ChargeUser;
 import com.yrdce.ipo.modules.sys.vo.DataItem;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -40,8 +39,7 @@ public class ChargeUserController {
 	private ChargeUserService chargeUserService;
 	@Autowired
 	private ChargeItemService chargeItemService;
-	@Autowired
-	private DataItemService dataItemService;
+	 
 	
 	
 	/**
@@ -61,7 +59,6 @@ public class ChargeUserController {
 		ChargeUser chargeUser = new ChargeUser();
 		String chargeName=request.getParameter("chargeName");
 		if(chargeName!=null&&!chargeName.equals("")){
-			//chargeName=new String(chargeName.getBytes("ISO-8859-1"),"UTF-8");
 			chargeUser.setChargeName(chargeName);
 		};
 		long count=chargeUserService.queryForCount(chargeUser);
@@ -93,10 +90,9 @@ public class ChargeUserController {
 		DataItem dataItem = new DataItem();
 		dataItem.setType(ChargeConstant.BUSINESS);
 		//业务
-		model.addAttribute("businessList", dataItemService.queryForList(dataItem));
-		dataItem.setType(ChargeConstant.ROLE);
+		model.addAttribute("businessList", ChargeConstant.BusinessType.values());
 		//角色
-		model.addAttribute("roleList", dataItemService.queryForList(dataItem));
+		model.addAttribute("roleList", ChargeConstant.RoleType.values());
 		//费用
 		model.addAttribute("leafChargeList", chargeItemService.queryLeafForList());
 		//费用模式
@@ -143,10 +139,9 @@ public class ChargeUserController {
 		DataItem dataItem = new DataItem();
 		dataItem.setType(ChargeConstant.BUSINESS);
 		//业务
-		model.addAttribute("businessList", dataItemService.queryForList(dataItem));
-		dataItem.setType(ChargeConstant.ROLE);
+		model.addAttribute("businessList", ChargeConstant.BusinessType.values());
 		//角色
-		model.addAttribute("roleList", dataItemService.queryForList(dataItem));
+		model.addAttribute("roleList", ChargeConstant.RoleType.values());
 		//费用
 		model.addAttribute("leafChargeList", chargeItemService.queryLeafForList());
 		//费用模式
