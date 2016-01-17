@@ -23,5 +23,6 @@ hs_err_pid*
 /target/
 /logs/
 /temp/
+/doc/jeesite/
 
 #/ipo-web-utils/
