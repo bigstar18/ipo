@@ -47,7 +47,50 @@ public interface ChargeConstant {
 			return null;
 		}
 	}
+	
+	
+    // 费用类型
+	public static enum ChargeType {
+		HANDLING("001", "手续费"),
+		GOODS("002", "货款"),
+		CHANGE_OWNER("003", "过户费"),
+		WAREHOUSING("004001", "仓储费"),
+		INSURANCE("004002", "保险费"),
+		TRUSTEE("004003", "托管费"),
+		BILL("004004", "提货单费"),
+		CARRIAGE("004005", "运费"),
+		register("004006", "注册费"),
+		cancel("004007", "注销费"),
+		Listing("005", "挂牌费"),
+		COMMISSION("006", "佣金"),
+		OTHER("007", "其他费")
+		;
+		 
+		private String code;
+		private String name;
 
+		private ChargeType(String code, String name) {
+			this.code = code;
+			this.name = name;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public static String getName(String code) {
+			for (ChargeType item : ChargeType.values()) {
+				if (item.getCode().equals(code) ){
+					return item.getName();
+				}
+			}
+			return null;
+		}
+	}
 	
 	//角色类型
 	public static enum RoleType {
