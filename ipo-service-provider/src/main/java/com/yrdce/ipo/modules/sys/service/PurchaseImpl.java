@@ -14,13 +14,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 
 /**
  * 申购服务
@@ -50,6 +53,8 @@ public class PurchaseImpl implements Purchase {
 	private SystemService system;
 	@Autowired
 	private IpoCommodityConfMapper ipoCommConfMapper;
+	@Autowired
+	private IpoDebitFlowMapper ipoDebitFlowMapper;
 
 	private ThreadLocal<String> applyUser = new ThreadLocal<String>();
 
@@ -121,8 +126,8 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal allMonery = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
-					short mode = ipoCommodityConf.getTradealgr();
-					BigDecimal val = ipoCommodityConf.getBuy();
+					short mode = ipoCommodityConf.getPublishalgr();
+					BigDecimal val = ipoCommodityConf.getDealerpubcharatio();
 					BigDecimal fee = new BigDecimal(0);
 					if (mode == 1) {
 						BigDecimal valparam = val.divide(new BigDecimal("100"));
@@ -162,6 +167,20 @@ public class PurchaseImpl implements Purchase {
 							ipoOrder.setFrozencounterfee(fee);
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
+							DebitFlow debitFlow = new DebitFlow();
+							debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+							debitFlow.setChargeType(ChargeConstant.Type.DISPOSABLE.getName());
+							debitFlow.setCommodityId(sId);
+							debitFlow.setOrderId(primaryKey);
+							debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+							debitFlow.setPayer(userId);
+							debitFlow.setAmount(allMonery);
+							debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+							debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+							debitFlow.setBuyBackFlag(0);
+							debitFlow.setCreateUser(userId);
+							debitFlow.setCreateDate(new Date());
+							ipoDebitFlowMapper.insert(debitFlow);
 							result = SECCESS;
 						} else {
 							result = LACK_OF_FUNDS;
