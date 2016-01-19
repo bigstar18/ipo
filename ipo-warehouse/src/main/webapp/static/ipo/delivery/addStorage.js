@@ -11,6 +11,7 @@ $('#commodityid').combobox({
 	$("#listingdate").val(param.listingdate.substr(0,10));
 	$("#deliverystartday").val(param.deliverystartday.substr(0,10));
 	$("#deliunittocontract").val(param.deliunittocontract);
+	$("#contractfactor").val(param.contractfactor);
 	$("#storagenum").val("");
 	}
 });  
@@ -28,8 +29,9 @@ function checkCommodity(){
 function getStorageCounts(){
 	var multiple=$("#deliunittocontract").val();
 	var storagenum=$("#storagenum").val();
-	if(multiple!=""&&storagenum!=""){
-		var counts=multiple * storagenum;
+	var contractfactor=$("#contractfactor").val();
+	if(multiple!=""&&storagenum!=""&&contractfactor!=''){
+		var counts=parseFloat(multiple) *parseFloat( storagenum) * parseFloat(contractfactor);
 		$("#storagecounts").val(counts);
 	}
 }
