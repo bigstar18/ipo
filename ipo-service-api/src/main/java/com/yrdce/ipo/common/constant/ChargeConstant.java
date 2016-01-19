@@ -20,7 +20,8 @@ public interface ChargeConstant {
 	//业务类型
 	public static enum BusinessType {
 		UNDERWRITE("001", "承销业务"), PUBLISH("002", "发行业务"),
-		MEMBER("003", "经济业务"),INCREASE_PUBLISH("004", "增发业务");
+		MEMBER("003", "经济业务"),INCREASE_PUBLISH("004", "增发业务"),
+		DELIVERY("005", "交收业务");
 		
 		private String code;
 		private String name;
