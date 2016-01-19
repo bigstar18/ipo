@@ -83,6 +83,7 @@
             							<td width="110">
             								 <input id="endnum" type="text" name="endnum" style="background-color: white;"/>
 										 <input id="deliunittocontract" name="deliunittocontract" type="hidden"/>
+										  <input id="contractfactor" name="contractfactor" type="hidden"/>
 										</td>
 							        </tr> 
 								</table >
