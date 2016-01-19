@@ -21,7 +21,8 @@ public interface ChargeConstant {
 	public static enum BusinessType {
 		UNDERWRITE("001", "承销业务"), PUBLISH("002", "发行业务"),
 		MEMBER("003", "经济业务"),INCREASE_PUBLISH("004", "增发业务"),
-		DELIVERY("005", "交收业务");
+		DELIVERY("005", "交收业务"),PURCHASE("006", "申购业务"),
+		TRUSTEESHIP("007", "库转交易业务");
 		
 		private String code;
 		private String name;
@@ -60,9 +61,9 @@ public interface ChargeConstant {
 		TRUSTEE("004003", "托管费"),
 		BILL("004004", "提货单费"),
 		CARRIAGE("004005", "运费"),
-		register("004006", "注册费"),
-		cancel("004007", "注销费"),
-		Listing("005", "挂牌费"),
+		REGISTER("004006", "注册费"),
+		CANCEL("004007", "注销费"),
+		LISTING("005", "挂牌费"),
 		COMMISSION("006", "佣金"),
 		OTHER("007", "其他费")
 		;
