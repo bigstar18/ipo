@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
@@ -52,6 +54,9 @@ public class PublisherController {
 
 	@Autowired
 	private SPOService spoService;
+
+	@Autowired
+	private PublisherPositionService publisherpositionService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -231,6 +236,34 @@ public class PublisherController {
 			@RequestParam("amount") String amount) {
 		String dealId = spoService.getFirmid(underwriterid);
 		return spoService.checkFundsAvailable(dealId, new BigDecimal(amount));
+	}
+
+	/**
+	 * 发行会员转持仓
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/transferPosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String transferPosition(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, PublisherPosition example)
+			throws IOException {
+		log.info("查询发行会员转持仓信息");
+		try {
+			List<PublisherPosition> comlist = publisherpositionService
+					.getInfoByPage(page, rows, example);
+			int totalnum = publisherpositionService.getPubPositionNum(example);
+			ResponseResult result = new ResponseResult();
+			result.setRows(comlist);
+			result.setTotal(totalnum);
+			log.debug(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 }

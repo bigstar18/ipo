@@ -30,8 +30,6 @@
  	        return date;//new Date(str) IE8不兼容
  	      }
 
-
-
 $(function () {
 	     $("#listingdate").datebox({
 	    	 editable: false,

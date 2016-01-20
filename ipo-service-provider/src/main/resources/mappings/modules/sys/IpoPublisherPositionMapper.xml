@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoPublisherPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
+    <id column="POSITIONID" property="positionid" jdbcType="DECIMAL" />
+    <result column="PUBLISHERID" property="publisherid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="TOTALVALUE" property="totalvalue" jdbcType="DECIMAL" />
+    <result column="PUBPOSITION" property="pubposition" jdbcType="DECIMAL" />
+    <result column="SALECOUNTS" property="salecounts" jdbcType="DECIMAL" />
+    <result column="TOTALCOUNTS" property="totalcounts" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="UPDATER" property="updater" jdbcType="VARCHAR" />
+    <result column="UPDATEDATE" property="updatedate" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_PUBLISHER_POSITION
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
+    insert into IPO_PUBLISHER_POSITION (POSITIONID, PUBLISHERID, COMMODITYID, 
+      TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+      TOTALCOUNTS, STATUS, CREATER, 
+      CREATEDATE, UPDATER, UPDATEDATE
+      )
+    values (#{positionid,jdbcType=DECIMAL}, #{publisherid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{totalvalue,jdbcType=DECIMAL}, #{pubposition,jdbcType=DECIMAL}, #{salecounts,jdbcType=DECIMAL}, 
+      #{totalcounts,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{creater,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=DATE}, #{updater,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
+    update IPO_PUBLISHER_POSITION
+    set PUBLISHERID = #{publisherid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      TOTALVALUE = #{totalvalue,jdbcType=DECIMAL},
+      PUBPOSITION = #{pubposition,jdbcType=DECIMAL},
+      SALECOUNTS = #{salecounts,jdbcType=DECIMAL},
+      TOTALCOUNTS = #{totalcounts,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=DATE},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      UPDATEDATE = #{updatedate,jdbcType=DATE}
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE
+    from IPO_PUBLISHER_POSITION
+    where POSITIONID = #{positionid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE
+    from IPO_PUBLISHER_POSITION
+  </select>
+  
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
+  	SELECT A.*  FROM (SELECT T.*,ROWNUM TNO FROM IPO_PUBLISHER_POSITION T WHERE 1=1
+  	<if test="record.commodityid != null" >
+  	AND  T.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
+  	</if>
+  	 )A WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
+  </select>
+   <select id="getTotalNum" resultType="Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition">
+     SELECT count(*) FROM IPO_PUBLISHER_POSITION T WHERE 1=1 
+      <if test="record.commodityid != null" >
+      and T.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
+      </if>
+  </select> 
+  
+  
+  
+</mapper>

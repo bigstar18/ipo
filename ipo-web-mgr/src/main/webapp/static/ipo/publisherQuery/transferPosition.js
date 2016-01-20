@@ -11,7 +11,7 @@ $(document).ready(function() {
          nowrap:true,  
          striped:true,  
          collapsible:false,  
-         url:  getRootPath () + "/PublisherController/findPaymentTrack" ,  
+         url:  getRootPath () + "/PublisherController/transferPosition" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
          columns : [ [  {
