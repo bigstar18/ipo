@@ -83,7 +83,7 @@ public class TrusteeshipCommodityController {
 			
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setId(Long.valueOf(request.getParameter("id")));
-		commodity.setUpdateUser(getloginUserId(request));
+		commodity.setUpdateUser(getLoginUserId(request));
 		try {
 			trusteeshipCommodityService.deletePlan(commodity);
 		} catch (Exception e) {
@@ -127,7 +127,7 @@ public class TrusteeshipCommodityController {
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
 		commodity.setListingChargeRate(new BigDecimal(request.getParameter("listingChargeRate")));
 		commodity.setRemark(request.getParameter("remark"));
-		commodity.setCreateUser(getloginUserId(request));
+		commodity.setCreateUser(getLoginUserId(request));
 		try {
 			trusteeshipCommodityService.savePlan(commodity);
 		} catch (Exception e) {
@@ -177,7 +177,7 @@ public class TrusteeshipCommodityController {
 		commodity.setPurchaseRate(new BigDecimal(request.getParameter("purchaseRate")));
 		commodity.setListingChargeRate(new BigDecimal(request.getParameter("listingChargeRate")));
 		commodity.setRemark(request.getParameter("remark"));
-		commodity.setUpdateUser(getloginUserId(request));
+		commodity.setUpdateUser(getLoginUserId(request));
 		try {
 			trusteeshipCommodityService.updatePlan(commodity);
 		} catch (Exception e) {
@@ -255,7 +255,7 @@ public class TrusteeshipCommodityController {
 		try {
 			Trusteeship ship = new Trusteeship();
 			ship.setId(Long.valueOf(request.getParameter("id")));
-			ship.setUpdateUser(getloginUserId(request));
+			ship.setUpdateUser(getLoginUserId(request));
 			trusteeshipCommodityService.marketAuditPass(ship);
 		} catch (Exception e) {
 			logger.error("marketAuditPass error:"+e);
@@ -276,7 +276,7 @@ public class TrusteeshipCommodityController {
 		try {
 			Trusteeship ship = new Trusteeship();
 			ship.setId(Long.valueOf(request.getParameter("id")));
-			ship.setUpdateUser(getloginUserId(request));
+			ship.setUpdateUser(getLoginUserId(request));
 			trusteeshipCommodityService.marketAuditNoPass(ship);
 		} catch (Exception e) {
 			logger.error("marketAuditNoPass error:"+e);
@@ -312,7 +312,7 @@ public class TrusteeshipCommodityController {
 		try {
 			Trusteeship ship = new Trusteeship();
 			ship.setId(Long.valueOf(request.getParameter("id")));
-			ship.setUpdateUser(getloginUserId(request));
+			ship.setUpdateUser(getLoginUserId(request));
 			trusteeshipCommodityService.saveTurnToPosition(ship);
 		} catch (Exception e) {
 			logger.error("saveTurnToPosition error:"+e);
@@ -325,7 +325,7 @@ public class TrusteeshipCommodityController {
 	
 	
 	
-	private String getloginUserId(HttpServletRequest request){
+	private String getLoginUserId(HttpServletRequest request){
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if(user!=null){
 			return user.getUserID();

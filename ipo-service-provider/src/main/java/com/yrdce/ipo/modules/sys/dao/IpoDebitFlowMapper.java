@@ -28,7 +28,11 @@ public interface IpoDebitFlowMapper {
 	 */
 	public List<IpoDebitFlow> queryForList(@Param("param")DebitFlow debitFlow);
 	
-	
+	/**
+	 * 更新状态
+	 * @param debitFlow
+	 */
+	public void updateState(DebitFlow debitFlow);
 	
 	
 }
