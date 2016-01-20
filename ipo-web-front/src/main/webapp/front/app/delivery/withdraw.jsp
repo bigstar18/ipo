@@ -35,7 +35,7 @@ input {
 }
 
 body {
-	height: 600px;
+	height: 700px;
 }
 </style>
 <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
@@ -94,8 +94,12 @@ body {
 						<td><input id="punit" type="text" name="positionUnit" style="width: 150px;" readonly="readonly"><b>*</b></td>
 					</tr>
 					<tr>
+						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;交割件数： </span></td>
+						<td><input id="pickcount" class="btnreset" type="number" placeholder="您希望交割的件数" name="deliveryQuatity" value="" onkeydown="onlyNum();" style="ime-mode: Disabled; width: 150px;"><b>*</b></td>
+					</tr>
+					<tr>
 						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;交割数量： </span></td>
-						<td><input id="dcount" class="btnreset" type="number" placeholder="您持仓数量内的正整数" name="deliveryQuatity" value="" onkeydown="onlyNum();" style="ime-mode: Disabled; width: 150px;"><b>*</b></td>
+						<td><input id="dcount" class="btnreset" type="number" placeholder="换算后您的持仓数量" name="deliveryQuatity" value="" onkeydown="onlyNum();" style="ime-mode: Disabled; width: 150px;" readonly="readonly"><b>*</b></td>
 					</tr>
 					<tr>
 						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;提货日期： </span></td>
@@ -231,6 +235,14 @@ body {
 				});
 			}
 
+
+			$('#pickcount').change (function ()
+			{
+				$('#dcount').val($('#pickcount').val() * 5);
+				console.log($('#ddate').datebox ('getValue'));
+			});
+
+
 			$ ('.pickup').change (function ()
 			{
 				var value = $ (".pickup").find ("option:selected").val ();
@@ -256,6 +268,12 @@ body {
 
 				if (value == '1')
 				{
+					var d1 = new Date($('#ddate').datebox ('getValue').replace(/\-/g, "\/"));
+					var d2 = new Date($('#ddate').replace(/\-/g, "\/"));
+          if (d1 < d2)
+          {
+            alert('');
+          }
           if ($ ('#telNum').val () != '')
           {
             $ ('#telNum').val ('');
@@ -271,6 +289,9 @@ body {
 					if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
+						$ ('#dcount').attr ('placeholder', '交割数量需小于持仓数量');
+						$ ('#pickcount').css ('background', '#EEEE00');
+						$ ('#pickcount').attr ('placeholder', '请重新填写');
 						return false;
 					}
 					if ($ ('.textbox-text').val () == '')
@@ -297,6 +318,12 @@ body {
 				}
 				if (value == '2')
 				{
+					var d1 = new Date($('#ddate').datebox ('getValue').replace(/\-/g, "\/"));
+					var d2 = new Date($('#ddate').replace(/\-/g, "\/"));
+          if (d1 < d2)
+          {
+            alert('');
+          }
 					if ($ ('#cardNum').val () != '')
 					{
 						$ ('#cardNum').val ('');
@@ -304,6 +331,9 @@ body {
 					if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) < 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
+						$ ('#dcount').attr ('placeholder', '交割数量需小于持仓数量');
+						$ ('#pickcount').css ('background', '#EEEE00');
+						$ ('#pickcount').attr ('placeholder', '请重新填写');
 						return false;
 					}
 					if ($ ('.textbox-text').val () == '')
