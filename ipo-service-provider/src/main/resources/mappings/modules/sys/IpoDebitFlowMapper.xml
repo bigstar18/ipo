@@ -69,4 +69,12 @@
 			order by de.create_date desc
   </select>
   
+  
+  <update id="updateState" parameterType="com.yrdce.ipo.modules.sys.vo.DebitFlow">
+		  update ipo_debitflow t set t.debit_state=#{debitState},t.update_user=#{updateUser},
+		     t.update_date=#{updateDate,jdbcType=TIMESTAMP}
+          where t.id=#{id}
+  </update>
+  
+  
 </mapper>

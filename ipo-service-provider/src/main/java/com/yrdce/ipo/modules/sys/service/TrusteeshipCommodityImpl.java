@@ -167,7 +167,18 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 			BigDecimal listingCharge = new BigDecimal(instorageAmount).multiply(trusteeship.getPrice()).multiply(listingChargeRate)
 					.divide(new BigDecimal(100));
 			trusteeship.setListingCharge(listingCharge);
-		}
+		};
+		IpoCommodityConf commConf = commodityConfMapper.findIpoCommConfByCommid(trusteeship.getCommodityId());
+		//发行手续费算法(1、按百分比  2、按绝对值)
+		Short publishalgr=commConf.getPublishalgr();
+		BigDecimal publishCharge=new BigDecimal(0);
+		if(publishalgr==2){
+			publishCharge=commConf.getPublishercharatio();
+		}else{
+			publishCharge=commConf.getPrice().multiply(new BigDecimal(instorageAmount)).
+					multiply(commConf.getPublishercharatio()).divide(new BigDecimal(100));
+		};
+		trusteeship.setPublishCharge(publishCharge);
 		trusteeship.setEffectiveAmount(effectiveAmount);
 		trusteeship.setPositionAmount(instorageAmount - effectiveAmount);
 

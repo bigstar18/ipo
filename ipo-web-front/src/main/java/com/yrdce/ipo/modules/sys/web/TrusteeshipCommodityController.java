@@ -102,7 +102,7 @@ public class TrusteeshipCommodityController {
 		trusteeship.setTrusteeshipCommodityId(Long.valueOf(request.getParameter("trusteeshipCommodityId")));
 		trusteeship.setWarehouseId(Long.valueOf(request.getParameter("warehouseId")));
 		trusteeship.setPrice(new BigDecimal(request.getParameter("price")));
-		trusteeship.setCreateUser(getloginUserId(request));
+		trusteeship.setCreateUser(getLoginUserId(request));
 		try {
 			trusteeshipCommodityService.saveApply(trusteeship);
 		} catch (Exception e) {
@@ -156,7 +156,7 @@ public class TrusteeshipCommodityController {
 		ship.setEndCreateDate(request.getParameter("endCreateDate"));
 		ship.setBeginAuditingDate(request.getParameter("beginAuditingDate"));
 		ship.setEndAuditingDate(request.getParameter("endAuditingDate"));
-		ship.setCreateUser(getloginUserId(request));
+		ship.setCreateUser(getLoginUserId(request));
 		long count=trusteeshipCommodityService.queryApplyForCount(ship);
 		List<Trusteeship> dataList=new ArrayList<Trusteeship>();
 		if(count>0){
@@ -182,7 +182,7 @@ public class TrusteeshipCommodityController {
 			Long id=Long.valueOf(request.getParameter("id"));
 			Trusteeship ship = new Trusteeship();
 			ship.setId(id);
-			ship.setUpdateUser(getloginUserId(request));
+			ship.setUpdateUser(getLoginUserId(request));
 			Trusteeship dbTrusteeship =trusteeshipCommodityService.findTrusteeshipById(id);
 			if(dbTrusteeship.getState()!=TrusteeshipConstant.State.APPLY.getCode()){
 				return "001";
@@ -214,7 +214,7 @@ public class TrusteeshipCommodityController {
 	}
 	
 	
-	private String getloginUserId(HttpServletRequest request){
+	private String getLoginUserId(HttpServletRequest request){
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if(user!=null){
 			return user.getUserID();

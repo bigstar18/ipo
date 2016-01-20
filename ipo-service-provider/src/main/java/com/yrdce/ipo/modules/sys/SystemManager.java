@@ -25,10 +25,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.yrdce.ipo.common.utils.DateUtil;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
+import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
@@ -38,8 +40,8 @@ import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.Purchase;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
-import com.yrdce.ipo.modules.sys.vo.FirmHoldSum;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
@@ -117,6 +119,9 @@ public class SystemManager {
 	@Autowired
 	@Qualifier("firmHoldSumService")
 	private FirmHoldSumService firmHoldSumService;
+	
+	@Autowired
+	private IpoDebitFlowMapper debitFlowMapper;
 	
 	public String getStatus() {
 		return status;
@@ -269,16 +274,6 @@ public class SystemManager {
 	// T_H_FirmMargin 历史交易商特殊保证金表
 	// T_H_FirmFee 历史交易商特殊手续费表
 	public void settle() throws Exception {
-		// 结算开始
-		// 收付当日货款、手续费和盈亏
-		// 增发操作
-		// 更新交易商资金
-		// 收卖出杂费
-		// 导入历史数据
-		// 释放冻结数据
-		// 返佣操作
-		// 交收处理
-		// 结算完成
 
 		if (!STATUS_MARKET_CLOSE.equals(status))
 			throw new Exception("交易服务器没有闭市操作，不能结算！");
@@ -289,17 +284,31 @@ public class SystemManager {
 			// 收付当日货款、手续费
 			purchaseSettle();
 			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
-            //仓库日租金,日保险,日托管费
-			//warehouseDayRentSettle();
-			//warehouseDayInsuranceSettle();
-			//warehouseDayTrusteeSettle();
+			//扣发行手续费,扣款对象:发行商
+			publishHandlingSettle();
 			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
+			//扣增发的货款,扣款对象:交易商(散户+承销商)
+			increasePublishGoodsSettle();
+			//扣增发的手续费,扣款对象:交易商(散户+承销商)
+			increasePublishHandlingSettle();
 			updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
+			//扣发售的货款 ,扣款对象:交易商(散户+承销商)
+			purchaseGoodsSettle();
+			//扣发售的手续费,扣款对象:交易商(散户+承销商)
+			purchaseHandlingSettle();
 			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
+			//扣过户费,扣款对象:交易商(散户)
+			changeOwnerSettle();
+			//扣提单费,扣款对象:交易商(散户)
+			billSettle();
+			//扣仓储费,扣款对象:发行商,托管商品的散户
+			warehouseRentSettle();
+			//扣仓库保险费,扣款对象:发行商,托管商品的散户
+			warehouseInsuranceSettle();
+			//扣仓库托管费,扣款对象:发行商,托管商品的散户
+			warehouseTrusteeSettle();
 			updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
-
-			// TODO
-			// updateSysStatus(tradeDate, STATUS_MARKET_SETTLED, null, "");
+			 
 			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
 		} catch (Throwable e) {
 			updateSysStatusLock(STATUS_MARKET_SETTLING, STATUS_MARKET_CLOSE, null, "已闭市");
@@ -308,107 +317,103 @@ public class SystemManager {
 	}
 
 	
-	
-	//仓库日租金结算
-	public void warehouseDayRentSettle()throws Exception {
-		List<VIpoCommConf> commList = commConfService.findIpoCommConfs();
-		if(commList==null||commList.isEmpty()){
-			logger.info("仓库日租金结算：ipo商品配置查询记录数为空");
-			return;
-		}
-		for(VIpoCommConf commConf:commList){
-			//仓储日租金收取起始日期
-			Date startday=commConf.getWarehousestartday();
-			//仓储日租金
-			BigDecimal dayRent=commConf.getWarehousedailyrent();
-			//对应现货系统中的商品编号
-			String mapperid=commConf.getMapperid();
-			Date today=sdf.parse(sdf.format(new Date()));
-			if(today.getTime()<=startday.getTime()){
-				continue;
-			}
-			FirmHoldSum firmHoldSum = new FirmHoldSum(null,mapperid,1);
-			List<FirmHoldSum> firmHoldList =firmHoldSumService.queryForList(firmHoldSum);
-			if(firmHoldList==null||firmHoldList.isEmpty()){
-				logger.info("仓库日租金结算：ipo商品[{}]当日没有持仓记录",commConf.getCommodityid());
-				continue;
-			}
-			for(FirmHoldSum item:firmHoldList){
-				String firmId=item.getFirmId();
-				BigDecimal leaveFunds=updateFundsFull(firmId, "40003", dayRent, mapperid);
-				logger.info("仓库日租金结算：ipo商品[{}],持仓金额由[{}]变为[{}]",commConf.getCommodityid(),item.getHoldFunds(),leaveFunds.longValue());
-			}
-		}
-		
+	//发行手续费结算 
+	public void publishHandlingSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.PUBLISH.getCode();
+		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","发行手续费结算");
 	}
 	
-	//仓库日保险费结算
-	public void warehouseDayInsuranceSettle()throws Exception {
-		List<VIpoCommConf> commList = commConfService.findIpoCommConfs();
-		if(commList==null||commList.isEmpty()){
-			logger.info("仓库日保险费结算：ipo商品配置查询记录数为空");
-			return;
-		}
-		for(VIpoCommConf commConf:commList){
-			//仓储日保险费收取起始日期
-			Date startday=commConf.getInsurancestartday();
-			//仓储日保险费
-			BigDecimal dayRent=commConf.getInsurancedailyrent();
-			//对应现货系统中的商品编号
-			String mapperid=commConf.getMapperid();
-			Date today=sdf.parse(sdf.format(new Date()));
-			if(today.getTime()<=startday.getTime()){
-				continue;
-			}
-			FirmHoldSum firmHoldSum = new FirmHoldSum(null,mapperid,1);
-			List<FirmHoldSum> firmHoldList =firmHoldSumService.queryForList(firmHoldSum);
-			if(firmHoldList==null||firmHoldList.isEmpty()){
-				logger.info("仓库日保险费结算：ipo商品[{}]当日没有持仓记录",commConf.getCommodityid());
-				continue;
-			};
-			for(FirmHoldSum item:firmHoldList){
-				String firmId=item.getFirmId();
-				BigDecimal leaveFunds=updateFundsFull(firmId, "40004", dayRent, mapperid);
-				logger.info("仓库日保险费结算：ipo商品[{}],持仓金额由[{}]变为[{}]",commConf.getCommodityid(),item.getHoldFunds(),leaveFunds);
-			}
-		}
-		
+	 //增发货款结算 
+	public void increasePublishGoodsSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
+		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","增发货款结算 ");
+	}
+   //增发手续费结算 
+	public void increasePublishHandlingSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
+		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","增发手续费结算");
+	}
+	 //申购货款结算 
+	public void purchaseGoodsSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
+		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","申购货款结算 ");
+	}
+	 //申购手续费结算 
+	public void purchaseHandlingSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
+		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","申购手续费结算");
 	}
 	
-	//仓库日托管结算
-	public void warehouseDayTrusteeSettle()throws Exception {
-		List<VIpoCommConf> commList = commConfService.findIpoCommConfs();
-		if(commList==null||commList.isEmpty()){
-			logger.info("仓库日托管费结算：ipo商品配置查询记录数为空");
+	//过户费结算
+	public void changeOwnerSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType=ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","过户费结算");
+	}
+	//提单费结算
+	public void billSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType=ChargeConstant.ChargeType.BILL.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","提单费结算");
+	}
+	//仓储费结算
+	public void warehouseRentSettle()throws Exception {
+		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType=ChargeConstant.ChargeType.WAREHOUSING.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","仓储费结算");
+	}
+	
+	//仓库保险费结算
+	public void warehouseInsuranceSettle()throws Exception {
+		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType=ChargeConstant.ChargeType.INSURANCE.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","仓库保险费结算");
+	}
+	//仓库托管费结算
+	public void warehouseTrusteeSettle()throws Exception {
+		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType=ChargeConstant.ChargeType.TRUSTEE.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","仓库保险费结算");
+	}
+	
+	public void debitFlowSettle(String businessType ,String chargeType ,String opCode,String opName) throws Exception{
+		DebitFlow param = new DebitFlow();
+		param.setBusinessType(businessType);
+		param.setChargeType(chargeType);
+		param.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+		param.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+		List<IpoDebitFlow> debitFlowList=debitFlowMapper.queryForList(param);
+		if(debitFlowList==null||debitFlowList.isEmpty()){
+			logger.info("{}:扣款流水查询记录数为空",opName);
 			return;
 		}
-		for(VIpoCommConf commConf:commList){
-			Date listingdate=commConf.getListingdate();
-			int freetrustee = commConf.getFreetrusteedays();
-			//仓储日托管费收取起始日期
-			Date startday=DateUtil.dayOffset(listingdate, freetrustee);
-			//仓储日托管费
-			BigDecimal dayRent=commConf.getTrusteedailyrent();
-			//对应现货系统中的商品编号
-			String mapperid=commConf.getMapperid();
-			Date today=sdf.parse(sdf.format(new Date()));
-			if(today.getTime()<=startday.getTime()){
-				continue;
-			}
-			FirmHoldSum firmHoldSum = new FirmHoldSum(null,mapperid,1);
-			List<FirmHoldSum> firmHoldList =firmHoldSumService.queryForList(firmHoldSum);
-			if(firmHoldList==null||firmHoldList.isEmpty()){
-				logger.info("仓库日托管费结算：ipo商品[{}]当日没有持仓记录",commConf.getCommodityid());
-				continue;
-			};
-			for(FirmHoldSum item:firmHoldList){
-				String firmId=item.getFirmId();
-				BigDecimal leaveFunds=updateFundsFull(firmId, "40005", dayRent, mapperid);
-				logger.info("仓库日托管费结算：ipo商品[{}],持仓金额由[{}]变为[{}]",commConf.getCommodityid(),item.getHoldFunds(),leaveFunds);
-			}
+		for(IpoDebitFlow item:debitFlowList){
+			 String firmId=item.getPayer();
+			 String commodityId=item.getCommodityId();
+			 BigDecimal amount=item.getAmount();
+			 if (firmId == null || firmId.isEmpty()) {
+				throw new Exception(opName+"：被扣款人不存在");
+			 }
+			 // 解冻资金
+			 purchase.frozen(firmId, amount.negate());
+			 // 扣除资金
+			 updateFundsFull(firmId, opCode, amount, commodityId);
+			 DebitFlow debitFlow = new DebitFlow();
+			 debitFlow.setId(item.getId());
+			 debitFlow.setUpdateDate(new Date());
+			 debitFlow.setUpdateUser("admin");
+			 debitFlow.setDebitState(ChargeConstant.DebitState.PAY_SUCCESS.getCode());
+			 debitFlowMapper.updateState(debitFlow);
+			 logger.info("{}：商品={}，被扣款人={}，金额={}",opName, commodityId, firmId, amount.toString());
 		}
-		
 	}
+	 
+	
 	
 	
 	
