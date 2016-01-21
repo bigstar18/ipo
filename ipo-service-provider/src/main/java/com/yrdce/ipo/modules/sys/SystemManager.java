@@ -548,7 +548,7 @@ public class SystemManager {
 	@Transactional
 	public BigDecimal updateFundsFull(String userId, String opCode, BigDecimal amount, String commoId) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
+		param.put("money", "");
 		param.put("userid", userId);
 		param.put("oprcode", opCode);
 		param.put("amount", amount.doubleValue());
@@ -559,8 +559,8 @@ public class SystemManager {
 
 		mapper.updateFundsFull(param);
 
-		BigDecimal monery = (BigDecimal) (param.get("monery"));
-		return monery;
+		BigDecimal money = (BigDecimal) (param.get("money"));
+		return money;
 	}
 
 	@PostConstruct

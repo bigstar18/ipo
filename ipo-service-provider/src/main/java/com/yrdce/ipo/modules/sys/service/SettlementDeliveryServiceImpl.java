@@ -231,15 +231,15 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
 			BigDecimal cost = ipoExpress.getCost();
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("monery", "");
+			param.put("money", "");
 			param.put("userid", userid);
 			param.put("lock", 0);
 			fundsMapper.getMonery(param);
-			BigDecimal monery = (BigDecimal) param.get("monery");
-			if (monery.compareTo(cost) != -1) {
+			BigDecimal money = (BigDecimal) param.get("money");
+			if (money.compareTo(cost) != -1) {
 				float mony = cost.floatValue();
 				Map<String, Object> param1 = new HashMap<String, Object>();
-				param.put("monery", "");
+				param.put("money", "");
 				param.put("userid", userid);
 				param.put("amount", mony);
 				param.put("moduleid", "40");

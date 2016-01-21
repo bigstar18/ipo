@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -46,4 +47,7 @@ public interface IpoSpoRationMapper {
 
 	// 根据id查询信息（关联增发价格）
 	IpoSpoRation select(Long rationid);
+
+	// 更新服务费
+	int updateServicefee(@Param("servicefee") BigDecimal servicefee, @Param("rationId") long rationId);
 }

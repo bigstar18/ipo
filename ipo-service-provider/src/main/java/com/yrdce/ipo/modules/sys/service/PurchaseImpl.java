@@ -62,7 +62,7 @@ public class PurchaseImpl implements Purchase {
 	public boolean isInDates(String sId) {
 		logger.info("查询商品一列信息");
 		IpoCommodity c = ipoComMapper.selectByComid(sId);
-		logger.info("获取开始时间");
+		logger.debug("获取开始时间");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// 获取开售日期
 		Date ftimeStart1 = c.getStarttime();
@@ -76,7 +76,7 @@ public class PurchaseImpl implements Purchase {
 		Date times = new Date();
 		String time = sdf.format(times).replaceAll("-", "");
 		int now = Integer.parseInt(time);
-		logger.info(">>>>>>>>>>>>" + "start:" + start + " " + "end:" + end + " " + "now:" + now);
+		logger.debug(">>>>>>>>>>>>" + "start:" + start + " " + "end:" + end + " " + "now:" + now);
 		if (now >= start && now <= end) {
 			return true;
 		}
@@ -100,7 +100,6 @@ public class PurchaseImpl implements Purchase {
 				logger.info("进入时间判断");
 				if (this.repeat(userId, sId)) {
 					logger.info("进入重复申购");
-					// TODO Auto-generated method stub
 					// 获取商品信息
 					logger.info("获取商品信息");
 					IpoCommodity commodity = ipoComMapper.selectByComid(ID);
@@ -115,34 +114,34 @@ public class PurchaseImpl implements Purchase {
 					// 获取客户可用资金
 					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("monery", "");
+					param.put("money", "");
 					param.put("userid", userId);
 					param.put("lock", 0);
 					fundsMapper.getMonery(param);
-					BigDecimal monery = (BigDecimal) param.get("monery");
+					BigDecimal money = (BigDecimal) param.get("money");
 					// int类型转换
 					BigDecimal num = new BigDecimal(counts);
 					// 申购消费总额
-					BigDecimal allMonery = num.multiply(price);
+					BigDecimal allMoney = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
-					short mode = ipoCommodityConf.getPublishalgr();
-					BigDecimal val = ipoCommodityConf.getDealerpubcharatio();
+					short mode = ipoCommodityConf.getTradealgr();
+					BigDecimal val = ipoCommodityConf.getBuy();
 					BigDecimal fee = new BigDecimal(0);
 					if (mode == 1) {
 						BigDecimal valparam = val.divide(new BigDecimal("100"));
-						fee = allMonery.multiply(valparam);
-						logger.info("比例手续费：" + fee);
+						fee = allMoney.multiply(valparam);
+						logger.debug("比例手续费：" + fee);
 					} else {
 						fee = num.multiply(val);
-						logger.info("绝对值手续费：" + fee);
+						logger.debug("绝对值手续费：" + fee);
 					}
-					BigDecimal cost = allMonery.add(fee);
-					logger.info("总值：" + cost);
+					BigDecimal cost = allMoney.add(fee);
+					logger.debug("总值：" + cost);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断
-						if (monery.compareTo(cost) != -1) {
+						if (money.compareTo(cost) != -1) {
 							logger.info("进入资金判断");
 							// 查询主键值
 							long sequence = ipoOrderMapper.sequence();
@@ -167,19 +166,24 @@ public class PurchaseImpl implements Purchase {
 							ipoOrder.setFrozencounterfee(fee);
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
+							// 货款流水
 							DebitFlow debitFlow = new DebitFlow();
 							debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
-							debitFlow.setChargeType(ChargeConstant.Type.DISPOSABLE.getName());
+							debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
 							debitFlow.setCommodityId(sId);
 							debitFlow.setOrderId(primaryKey);
 							debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
 							debitFlow.setPayer(userId);
-							debitFlow.setAmount(allMonery);
+							debitFlow.setAmount(allMoney);
 							debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
 							debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
 							debitFlow.setBuyBackFlag(0);
 							debitFlow.setCreateUser(userId);
 							debitFlow.setCreateDate(new Date());
+							ipoDebitFlowMapper.insert(debitFlow);
+							// 手续费流水
+							debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
+							debitFlow.setAmount(fee);
 							ipoDebitFlowMapper.insert(debitFlow);
 							result = SECCESS;
 						} else {
@@ -203,18 +207,18 @@ public class PurchaseImpl implements Purchase {
 	}
 
 	// 冻结资金
-	public BigDecimal frozen(String userId, BigDecimal allMonery) {
+	public BigDecimal frozen(String userId, BigDecimal allMoney) {
 		logger.info("调用冻结资金函数");
-		float mony = allMonery.floatValue();
+		float mony = allMoney.floatValue();
 
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
+		param.put("money", "");
 		param.put("userid", userId);
 		param.put("amount", mony);
 		param.put("moduleid", "40");
 		fundsMapper.getfrozen(param);
-		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
-		return monery;
+		BigDecimal money = new BigDecimal((Double) (param.get("money")));
+		return money;
 
 	}
 

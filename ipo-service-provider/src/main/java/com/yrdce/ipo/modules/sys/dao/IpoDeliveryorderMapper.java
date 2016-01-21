@@ -42,42 +42,157 @@ public interface IpoDeliveryorderMapper {
 	// sequence序列，拼接提货单号
 	int sequence();
 
-	// 自提打印列表
+	/**
+	 * @Title: selectByPickup
+	 * @Description: 自提打印列表
+	 * @param @param
+	 *            beginnum
+	 * @param @param
+	 *            endnum
+	 * @param @param
+	 *            paging
+	 */
 	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
-	// 自提打印详细
+	/**
+	 * @Title: selectByPickUp
+	 * @Description: 自提打印详细
+	 * @param @param
+	 *            methodid 提货方式id
+	 */
 	IpoPickupExtended selectByPickUp(String methodid);
 
-	// 总页数
+	/**
+	 * @Title: selectCounts
+	 * @Description: 总页数
+	 * @param @param
+	 *            paging
+	 * @param @param
+	 *            deliveryMethod
+	 * @param @return
+	 *            总页数
+	 */
 	int selectCounts(@Param("paging") Paging paging, @Param("deliveryMethod") String deliveryMethod);
 
-	// 撤销提货
+	/**
+	 * @Title: selectRevocation
+	 * @Description: 订单列表（用于撤销提货页面数据展示）
+	 * @param @param
+	 *            beginnum
+	 * @param @param
+	 *            endnum
+	 * @param @param
+	 *            paging
+	 * @param @return
+	 *            订单列表
+	 */
 	List<IpoDeliveryorder> selectRevocation(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
-	// 订单总页数
+	/**
+	 * @Title: allCounts
+	 * @Description: 订单总页数
+	 * @param @param
+	 *            paging
+	 */
 	int allCounts(@Param("paging") Paging paging);
 
-	// 在线配送列表
+	//
+	/**
+	 * @Title: selectByExpress
+	 * @Description: 在线配送列表
+	 * @param @param
+	 *            beginnum
+	 * @param @param
+	 *            endnum
+	 * @param @param
+	 *            paging
+	 */
 	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
-	// 更新申请单状态
+	/**
+	 * @Title: updateByStatus
+	 * @Description: 更新申请单状态
+	 * @param @param
+	 *            deliveryorderId 订单号
+	 * @param @param
+	 *            approvalStatus 状态值
+	 * @param @return
+	 *            成功条数
+	 */
 	int updateByStatus(@Param("deliveryorderId") String deliveryorderId, @Param("approvalStatus") int approvalStatus);
 
+	/**
+	 * @Title: updateStatus
+	 * @Description: 根据订单号修改状态
+	 * @param @param
+	 *            deliveryorder 订单号
+	 * @param @return
+	 *            成功条数
+	 */
 	int updateStatus(IpoDeliveryorder deliveryorder);
 
-	// 根据用户ID查询申请主表（提货查询）
+	/**
+	 * @Title: selectByUserid
+	 * @Description: 根据用户ID查询申请主表（提货查询） 分页
+	 * @param @param
+	 *            beginnum
+	 * @param @param
+	 *            endnum
+	 * @param @param
+	 *            paging
+	 * @param @return
+	 *            订单集合
+	 */
 	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
-	// 根据提货单号 密码 查提货信息
+	/**
+	 * @Title: getPickupDeliveryInfo
+	 * @Description: 根据提货单号 密码 查提货信息
+	 * @param @param
+	 *            delivery 提货单号
+	 * @param @return
+	 *            自提订单数据
+	 */
 	IpoDeliveryorder getPickupDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
 
-	// 根据提货单号查 配送单信息
+	/**
+	 * @Title: getExpressDeliveryInfo
+	 * @Description: 根据提货单号查 配送单信息
+	 * @param @param
+	 *            delivery 提货单号
+	 * @param @return
+	 *            配送订单数据
+	 */
 	IpoDeliveryorder getExpressDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
 
-	// 根据用户id查询用户名
+	/**
+	 * @Title: selectByFrim
+	 * @Description: 根据用户id查询用户名
+	 * @param @param
+	 *            dealerId 用户id
+	 * @param @return
+	 *            用户名
+	 */
 	String selectByFrim(String dealerId);
 
-	// 根据提货方式和提货关联ID查找申请主表信息
+	/**
+	 * @Title: selectByMethodAndId
+	 * @Description: 根据提货方式和提货关联ID查找申请主表信息
+	 * @param @param
+	 *            method 提货方式
+	 * @param @param
+	 *            id 提货方式id
+	 * @param @return
+	 *            订单集合
+	 */
 	IpoDeliveryorder selectByMethodAndId(@Param("deliveryMethod") String method, @Param("methodId") String id);
+
+	/**
+	 * @Title: selectAllByStatus
+	 * @Description: 查询出库状态前的所有订单
+	 * @param @return
+	 *            订单集合
+	 */
+	List<IpoDeliveryorder> selectAllByStatus();
 
 }

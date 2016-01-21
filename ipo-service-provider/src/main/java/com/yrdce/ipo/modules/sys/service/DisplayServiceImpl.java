@@ -35,29 +35,29 @@ public class DisplayServiceImpl implements DisplayService {
 	public String userInfo(String userId) {
 		// 获取可用资金
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
+		param.put("money", "");
 		param.put("userid", userId);
 		funds.getMonery(param);
-		BigDecimal monery = (BigDecimal) param.get("monery");
-		String monery1 = monery + "";
-		return monery1;
+		BigDecimal money = (BigDecimal) param.get("money");
+		String money1 = money + "";
+		return money1;
 	}
 
-	public Integer display(String sId, String monery1) {
+	public Integer display(String sId, String money1) {
 
-		if (sId != null && monery1 != null) {
+		if (sId != null && money1 != null) {
 			String ID = sId.toUpperCase();
-			BigDecimal monery = new BigDecimal(monery1);
+			BigDecimal money = new BigDecimal(money1);
 			// 获得商品名称
 			IpoCommodity com = commodity.selectByComid(ID);
 			if (com != null) {
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
-				BigDecimal sum = this.getFee(sId, monery, price);
+				BigDecimal sum = this.getFee(sId, money, price);
 				logger.info("比例单价：" + sum);
-				logger.info("总金额：" + monery);
+				logger.info("总金额：" + money);
 				// 计算可购买多少
-				Integer number = (monery.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
+				Integer number = (money.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
 				return number;
 			} else {
 				return null;
@@ -67,7 +67,7 @@ public class DisplayServiceImpl implements DisplayService {
 		}
 	}
 
-	public BigDecimal getFee(String sid, BigDecimal monery, BigDecimal price) {
+	public BigDecimal getFee(String sid, BigDecimal money, BigDecimal price) {
 		// 获取算法方式，比例值 1：百分比 2：绝对值
 		IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sid);
 		short mode = ipoCommodityConf.getTradealgr();

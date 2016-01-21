@@ -4,6 +4,6 @@ public interface DisplayService {
 
 	public String userInfo(String userid);
 
-	public Integer display(String sid, String monery1);
+	public Integer display(String sid, String money1);
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
     <id column="SPO_ID" property="spoId" jdbcType="VARCHAR" />
-    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="COMMODITYID_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="SPO_COUNTS" property="spoCounts" jdbcType="DECIMAL" />
     <result column="SPO_PRICE" property="spoPrice" jdbcType="DECIMAL" />
     <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
@@ -22,7 +22,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, SPO_SATE,RATION_TYPE,NOT_RATION_COUNTS,
+    SPO_ID, COMMODITYID_ID, SPO_COUNTS, SPO_PRICE, REGISTER_DATE, SPO_DATE, IPO_DATE, SPO_SATE,RATION_TYPE,NOT_RATION_COUNTS,
     SUCCESS_RATION_COUNTS,MIN_RATION_COUNTS,MIN_RATION_PROPORTION,REBATE,BE_LISTED,PRE_PLACEMENT,POSITIONS_PRICE
   </sql>
   
@@ -32,13 +32,13 @@
   </delete>
 
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
-    insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
+    insert into IPO_SPO_COMMODITYMANMAAGEMENT (SPO_ID, COMMODITYID_ID, SPO_COUNTS, 
       SPO_PRICE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, SPO_SATE, RATION_TYPE, 
       NOT_RATION_COUNTS, SUCCESS_RATION_COUNTS, MIN_RATION_COUNTS, 
       MIN_RATION_PROPORTION, REBATE, BE_LISTED, 
       PRE_PLACEMENT, POSITIONS_PRICE)
-    values (to_char(SEQ_IPO_SPO_COMM.NEXTVAL), #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
+    values (to_char(SEQ_IPO_SPO_COMM.NEXTVAL), #{commodityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
       #{spoPrice,jdbcType=DECIMAL}, #{registerDate,jdbcType=DATE}, #{spoDate,jdbcType=DATE}, 
       #{ipoDate,jdbcType=DATE}, #{spoSate,jdbcType=DECIMAL}, #{rationType,jdbcType=VARCHAR}, 
       #{notRationCounts,jdbcType=DECIMAL}, #{successRationCounts,jdbcType=DECIMAL}, #{minRationCounts,jdbcType=DECIMAL}, 
@@ -47,7 +47,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement" >
     update IPO_SPO_COMMODITYMANMAAGEMENT
-    set COMMUNITY_ID = #{communityId,jdbcType=VARCHAR},
+    set COMMODITYID_ID = #{commodityId,jdbcType=VARCHAR},
       SPO_COUNTS = #{spoCounts,jdbcType=DECIMAL},
       SPO_PRICE = #{spoPrice,jdbcType=DECIMAL},
       REGISTER_DATE = #{registerDate,jdbcType=DATE},
@@ -74,8 +74,8 @@
   select * from (
     select <include refid="Base_Column_List" />,rownum TNO from IPO_SPO_COMMODITYMANMAAGEMENT
     where 1=1
-    <if test="Spo.communityId != null and Spo.communityId!=''">
-	and COMMUNITY_ID = #{Spo.communityId,jdbcType=VARCHAR}  
+    <if test="Spo.commodityId != null and Spo.commodityId!=''">
+	and COMMODITYID_ID = #{Spo.commodityId,jdbcType=VARCHAR}  
     </if>
     <if test="Spo.rationType != null and Spo.rationType!=''">
     and RATION_TYPE = #{Spo.rationType,jdbcType=VARCHAR}
@@ -101,8 +101,8 @@
   <select id="counts" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement">
   select count(0) from IPO_SPO_COMMODITYMANMAAGEMENT 
    where 1=1
-    <if test="Spo.communityId != null and Spo.communityId!=''">
-	and COMMUNITY_ID = #{Spo.communityId,jdbcType=VARCHAR}  
+    <if test="Spo.commodityId != null and Spo.commodityId!=''">
+	and COMMODITYID_ID = #{Spo.commodityId,jdbcType=VARCHAR}  
     </if>
     <if test="Spo.rationType != null and Spo.rationType!=''">
     and RATION_TYPE = #{Spo.rationType,jdbcType=VARCHAR}
@@ -132,7 +132,7 @@
   
   <update id="updateByComm" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement">
   update IPO_SPO_COMMODITYMANMAAGEMENT
-    set COMMUNITY_ID = #{communityId,jdbcType=VARCHAR},
+    set COMMODITYID_ID = #{commodityId,jdbcType=VARCHAR},
       SPO_COUNTS = #{spoCounts,jdbcType=DECIMAL},
       SPO_PRICE = #{spoPrice,jdbcType=DECIMAL},
       REGISTER_DATE = #{registerDate,jdbcType=DATE},
@@ -145,14 +145,22 @@
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </update>
   
-  <select id="select" resultMap="BaseResultMap">
+  <select id="select" resultMap="BaseResultMap" parameterType="map">
   select <include refid="Base_Column_List" /> from IPO_SPO_COMMODITYMANMAAGEMENT spocom
   where 1=1
   <if test="rationtype != null">
 	and RATION_TYPE = #{rationtype,jdbcType=VARCHAR}
   </if>
+  <if test="ipoDate != null">
+  	<![CDATA[ 
+		and to_char(IPO_DATE,'yyyymmdd') <=to_char(#{ipoDate,jdbcType=DATE},'yyyymmdd')
+	]]>
+  </if>
+  <if test="spoSate != null">
+  	and SPO_SATE != #{spoSate,jdbcType=DECIMAL}
+  </if>
   </select>
-  
+   
   <update id="updatePlscingNum" parameterType="map">
   	update IPO_SPO_COMMODITYMANMAAGEMENT
     set NOT_RATION_COUNTS = #{notRationCounts,jdbcType=DECIMAL},

@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +27,8 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
 
-	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype);
+	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype, @Param("ipoDate") Date ipoDate,
+			@Param("spoSate") Integer spoSate);
 
 	int updateByCounts(@Param("spoId") String spoId, @Param("notRationCounts") long notRationCounts,
 			@Param("successRationCounts") long successRationCounts);

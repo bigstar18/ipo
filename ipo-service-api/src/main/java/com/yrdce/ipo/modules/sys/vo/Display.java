@@ -11,7 +11,7 @@ public class Display implements Serializable {
 	private Integer id;
 	private String sid;
 	private String name;
-	private BigDecimal monery;
+	private BigDecimal money;
 	private int number;
 	private int units;
 	private BigDecimal price;
@@ -81,11 +81,11 @@ public class Display implements Serializable {
 	}
 
 	public BigDecimal getMonery() {
-		return monery;
+		return money;
 	}
 
-	public void setMonery(BigDecimal monery) {
-		this.monery = monery;
+	public void setMonery(BigDecimal money) {
+		this.money = money;
 	}
 
 	public int getNumber() {

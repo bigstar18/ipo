@@ -40,7 +40,7 @@ public class UnderwriterDepositServiceImpl implements UnderwriterDepositService 
 			BigDecimal subId = new BigDecimal(example.getSubscribeid());
 			int num = depositmapper.insert(record);
 			Map<String, Object> param1 = new HashMap<String, Object>();
-			param1.put("monery", "");
+			param1.put("money", "");
 			param1.put("userid", ipoSpoRationMapper
 					.firmidBySales(subscribeMapper.selectByPrimaryKey(subId)
 							.getUnderwriterid()));

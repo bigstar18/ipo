@@ -97,7 +97,7 @@ public class SPOController {
 			// logger.info(rationType);
 			// logger.info(rationSate);
 			// if (!communityId.equals("")) {
-			// spoComm.setCommunityId(communityId);
+			// spoComm.setCommodityid(communityId);
 			// }
 			// if (!registerDate.equals("")) {
 			// Date date = sdf.parse(registerDate);

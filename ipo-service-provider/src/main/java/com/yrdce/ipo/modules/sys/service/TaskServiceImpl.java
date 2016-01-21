@@ -49,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 	@Autowired
 	private IpoOrderMapper order;
 	@Autowired
@@ -343,14 +343,14 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	public void placing() throws Exception {
 		logger.info("散户增发定时任务启动");
-		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1");
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1", null, null);
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 			String spoid = ipospocomm.getSpoId();
 			logger.info(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
 			int sate = ipospocomm.getSpoSate();//
 			if (sate == 1) {
 				// 获得增发商品id
-				String commodityid = ipospocomm.getCommunityId();
+				String commodityid = ipospocomm.getCommodityid();
 				logger.info(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
 				// 获得未增发的量
 				long otration = ipospocomm.getNotRationCounts();
@@ -384,46 +384,46 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 	}
-	
-	
-    /**
-     * 在上市日期那天扣除发行商的手续费
-     */
-	public void savePublishHandling()throws Exception {
+
+	/**
+	 * 在上市日期那天扣除发行商的手续费
+	 */
+	public void savePublishHandling() throws Exception {
 		List<IpoCommodityConf> commList = commodityConfMapper.findAllIpoCommConfs();
-		if(commList==null||commList.isEmpty()){
+		if (commList == null || commList.isEmpty()) {
 			return;
-		};
-		Date listingDate=null;//上市日期
-		for(IpoCommodityConf commConf:commList){
-			listingDate=commConf.getListingdate();
-			if(!sdf.format(new Date()).equals(sdf.format(listingDate))){
+		}
+		;
+		Date listingDate = null;// 上市日期
+		for (IpoCommodityConf commConf : commList) {
+			listingDate = commConf.getListingdate();
+			if (!sdf.format(new Date()).equals(sdf.format(listingDate))) {
 				continue;
 			}
 			savePublishHandling(commConf);
 		}
 	}
-	
+
 	/**
 	 * 在上市日期那天扣除发行商的手续费
+	 * 
 	 * @param commConf
 	 * @throws Exception
 	 */
 	@Transactional
-	public void savePublishHandling(IpoCommodityConf commConf)throws Exception{
-		String commodityId=commConf.getCommodityid();
-		//发行手续费算法(1、按百分比  2、按绝对值)
-		Short publishalgr=commConf.getPublishalgr();
-		BigDecimal amount=new BigDecimal(0);
-		if(publishalgr==2){
-			amount=commConf.getPublishercharatio();
-		}else{
-			amount=commConf.getPrice().multiply(commConf.getCounts()).
-					multiply(commConf.getPublishercharatio()).
-					divide(new BigDecimal(100));
-		};
+	public void savePublishHandling(IpoCommodityConf commConf) throws Exception {
+		String commodityId = commConf.getCommodityid();
+		// 发行手续费算法(1、按百分比 2、按绝对值)
+		Short publishalgr = commConf.getPublishalgr();
+		BigDecimal amount = new BigDecimal(0);
+		if (publishalgr == 2) {
+			amount = commConf.getPublishercharatio();
+		} else {
+			amount = commConf.getPrice().multiply(commConf.getCounts()).multiply(commConf.getPublishercharatio()).divide(new BigDecimal(100));
+		}
+		;
 		BrBroker broker = brBrokerMapper.selectById(commConf.getPubmemberid());
-		String firmId=broker.getFirmid();
+		String firmId = broker.getFirmid();
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setAmount(amount);
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
@@ -437,9 +437,5 @@ public class TaskServiceImpl implements TaskService {
 		debitFlow.setCreateDate(new Date());
 		debitFlowMapper.insert(debitFlow);
 	}
-	
-	
-	
-		
 
 }

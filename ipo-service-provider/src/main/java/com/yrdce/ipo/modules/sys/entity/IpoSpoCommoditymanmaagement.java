@@ -6,7 +6,7 @@ import java.util.Date;
 public class IpoSpoCommoditymanmaagement {
 	private String spoId;
 
-	private String communityId;
+	private String commodityId;
 
 	private Long spoCounts;
 
@@ -76,12 +76,12 @@ public class IpoSpoCommoditymanmaagement {
 		this.spoId = spoId == null ? null : spoId.trim();
 	}
 
-	public String getCommunityId() {
-		return communityId;
+	public String getCommodityid() {
+		return commodityId;
 	}
 
-	public void setCommunityId(String communityId) {
-		this.communityId = communityId == null ? null : communityId.trim();
+	public void setCommodityid(String commodityId) {
+		this.commodityId = commodityId == null ? null : commodityId.trim();
 	}
 
 	public Long getSpoCounts() {

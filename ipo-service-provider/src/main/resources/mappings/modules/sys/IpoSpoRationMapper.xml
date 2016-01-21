@@ -175,4 +175,9 @@
   <select id="selectInfoBySPOid" resultMap="BaseResultMap" parameterType="java.lang.String">
 	select <include refid="Base_Column_List"/> from IPO_SPO_RATION where SPOID = #{spoid,jdbcType=VARCHAR}
   </select>
+  
+  <update id="updateServicefee" parameterType="map">
+  	update IPO_SPO_RATION
+    set SERVICEFEE = #{servicefee,jdbcType=DECIMAL} where RATIONID = #{rationId,jdbcType=DECIMAL}
+  </update>
 </mapper>

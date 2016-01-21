@@ -164,11 +164,11 @@ public class IpoSpoRation {
 		this.salesid = salesid == null ? null : salesid.trim();
 	}
 
-	public String getCommunityId() {
+	public String getCommodityid() {
 		return communityId;
 	}
 
-	public void setCommunityId(String communityId) {
+	public void setCommodityid(String communityId) {
 		this.communityId = communityId;
 	}
 

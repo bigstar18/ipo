@@ -59,11 +59,11 @@ public class IpoSpo {
         this.spoId = spoId == null ? null : spoId.trim();
     }
 
-    public String getCommunityId() {
+    public String getCommodityid() {
         return communityId;
     }
 
-    public void setCommunityId(String communityId) {
+    public void setCommodityid(String communityId) {
         this.communityId = communityId == null ? null : communityId.trim();
     }
 
