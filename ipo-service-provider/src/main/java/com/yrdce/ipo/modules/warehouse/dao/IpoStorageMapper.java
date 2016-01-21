@@ -25,6 +25,8 @@ public interface IpoStorageMapper {
 
 	IpoStorage getStorageByPrimary(String storageid);
 
+	IpoStorageExtended getStorageByStorageId(String storageid);
+
 	int updateStorageState(@Param("storageid") String storageid,
 			@Param("checker") String checker, @Param("state") String state);
 

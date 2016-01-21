@@ -33,6 +33,8 @@
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
     <result column="PUBLISHERNAME" property="publishername" jdbcType="VARCHAR" />
+    <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+    <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
   </resultMap>
   
   <sql id="Base_Column_My" >
@@ -49,7 +51,7 @@
   
   <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
    select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
-    from (select t.*, c.commodityname, c.pubmemberid from ipo_storage t  left join ipo_commodity_conf c
+    from (select t.*, c.commodityname, c.pubmemberid,c.counts,c.contractfactor from ipo_storage t  left join ipo_commodity_conf c
     on t.commodityid = c.commodityid) a left join br_broker b
     on a.pubmemberid = b.brokerid order by a.storageid) g where 1=1
        <if test="record.storageid != null" >
@@ -110,7 +112,12 @@
        <select id="getWarehousePrimaryKey" resultType="Long" parameterType="String">
       SELECT B.ID  FROM BI_WAREHOUSE B WHERE B.WAREHOUSEID=(SELECT U.WAREHOUSEID  FROM W_USER U WHERE U.USERID=#{userId,jdbcType=VARCHAR}) 
       </select>
+       <select id="getStorageByStorageId" resultType="com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended" parameterType="String">
+     SELECT t.* ,c.commodityname,c.pubmemberid,c.counts,c.contractfactor,b.name publishername  from IPO_STORAGE t left join ipo_commodity_conf c
+     on t.commodityid = c.commodityid left join br_broker b on c.pubmemberid = b.brokerid where STORAGEID=#{storageid,jdbcType=VARCHAR}
+      </select>
+      
        <select id="getStorageByPrimary" resultType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" parameterType="String">
-     SELECT <include refid="Base_Column_List" /> from IPO_STORAGE where STORAGEID=#{storageid,jdbcType=VARCHAR}
+     SELECT <include refid="Base_Column_List" /> from IPO_STORAGE  where STORAGEID=#{storageid,jdbcType=VARCHAR}
       </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class OutboundServiceImpl implements OutboundService {
 	private IpoPositionMapper ipoPositionMapper;
 
 	@Override
-	public List<OutboundExtended> getAllOutboundInfo(String page, String rows, OutboundExtended record) {
+	public List<OutboundExtended> getAllOutboundInfo(String page, String rows,
+			OutboundExtended record) {
 		Log.info("分页查询出库单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -55,8 +57,9 @@ public class OutboundServiceImpl implements OutboundService {
 				}
 			}
 			Log.info("调用后台服务" + example.toString());
-			List<IpoOutboundExtended> storageslist = ipoOutboundMapper.findOutboundsByPage((curpage - 1) * pagesize + 1,
-					curpage * pagesize, example);
+			List<IpoOutboundExtended> storageslist = ipoOutboundMapper
+					.findOutboundsByPage((curpage - 1) * pagesize + 1, curpage
+							* pagesize, example);
 			List<OutboundExtended> storageslist2 = new ArrayList<OutboundExtended>();
 			for (int i = 0; i < storageslist.size(); i++) {
 				OutboundExtended temp = new OutboundExtended();
@@ -101,7 +104,8 @@ public class OutboundServiceImpl implements OutboundService {
 			ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
 			Log.info("修改出库单状态" + ipoOutbound.getOutboundstate());
 			if (ipoOutbound.getOutboundstate() == 2) {
-				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
+				deliveryorder.setDeliveryorderId(ipoOutbound
+						.getOutboundorderid());
 				deliveryorder.setApprovalStatus(6);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			} else if (ipoOutbound.getOutboundstate() == 3) {
@@ -110,18 +114,26 @@ public class OutboundServiceImpl implements OutboundService {
 				String tempCommId = deliveryorderInfo.getCommodityId();
 				String wareHouseId = deliveryorderInfo.getWarehouseId();
 				String firmId = deliveryorderInfo.getDealerId();
-				IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmId, tempCommId);
+				IpoPosition ipoPosition = ipoPositionMapper.selectPosition(
+						firmId, tempCommId);
 				long position = ipoPosition.getPosition();
 				long num = position + deliveryorderInfo.getDeliveryQuatity();
 				ipoPositionMapper.updatePosition(firmId, tempCommId, num);
-				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper.selectByCommoId(tempCommId,
-						Long.parseLong(wareHouseId));
-				long forzennum = ipoWarehouseStock.getForzennum() - deliveryorderInfo.getDeliveryQuatity();
-				long availablenum = ipoWarehouseStock.getAvailablenum() + deliveryorderInfo.getDeliveryQuatity();
+				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
+						.selectByCommoId(tempCommId,
+								Long.parseLong(wareHouseId));
+				BigDecimal forzennum = ipoWarehouseStock.getForzennum()
+						.subtract(
+								new BigDecimal(deliveryorderInfo
+										.getDeliveryQuatity()));
+				BigDecimal availablenum = ipoWarehouseStock.getAvailablenum()
+						.add(new BigDecimal(deliveryorderInfo
+								.getDeliveryQuatity()));
 				ipoWarehouseStock.setAvailablenum(availablenum);
 				ipoWarehouseStock.setForzennum(forzennum);
 				ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
-				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
+				deliveryorder.setDeliveryorderId(ipoOutbound
+						.getOutboundorderid());
 				deliveryorder.setApprovalStatus(7);
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}
@@ -152,14 +164,16 @@ public class OutboundServiceImpl implements OutboundService {
 	@Override
 	public int updateOutBoundState(Integer outboundstate, String outboundorderid) {
 		// TODO Auto-generated method stub
-		return ipoOutboundMapper.updateOutBoundState(outboundstate, outboundorderid);
+		return ipoOutboundMapper.updateOutBoundState(outboundstate,
+				outboundorderid);
 	}
 
 	@Override
 	public Outbound getOutboundOrder(String outboundOrderId) {
 		// TODO Auto-generated method stub
 		Outbound outbound = null;
-		IpoOutbound ipoOutbound = ipoOutboundMapper.selectByPrimaryKey(outboundOrderId);
+		IpoOutbound ipoOutbound = ipoOutboundMapper
+				.selectByPrimaryKey(outboundOrderId);
 		Log.info("ipoOutbound.id[" + outboundOrderId + "]:" + ipoOutbound);
 		if (ipoOutbound != null) {
 			outbound = new Outbound();

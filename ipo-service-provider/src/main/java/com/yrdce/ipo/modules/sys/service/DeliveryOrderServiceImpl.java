@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -144,10 +145,12 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 							.selectByCommoId(commid,
 									Long.parseLong(deorder.getWarehouseId()));
 					if (stock != null) {
-						Long frozennum = stock.getForzennum();
-						Long available = stock.getAvailablenum();
-						Long newfrozen = frozennum + quantity;
-						Long newavailble = available - quantity;
+						BigDecimal frozennum = stock.getForzennum();
+						BigDecimal available = stock.getAvailablenum();
+						BigDecimal newfrozen = frozennum.add(new BigDecimal(
+								quantity));
+						BigDecimal newavailble = available
+								.subtract(new BigDecimal(quantity));
 						stock.setForzennum(newfrozen);
 						stock.setAvailablenum(newavailble);
 						ipoWarehouseStockMapper.updateInfo(stock);
@@ -195,10 +198,12 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 							.selectByCommoId(commid,
 									Long.parseLong(deorder.getWarehouseId()));
 					if (stock != null) {
-						Long frozennum = stock.getForzennum();
-						Long available = stock.getAvailablenum();
-						Long newfrozen = frozennum + quantity;
-						Long newavailble = available - quantity;
+						BigDecimal frozennum = stock.getForzennum();
+						BigDecimal available = stock.getAvailablenum();
+						BigDecimal newfrozen = frozennum.add(new BigDecimal(
+								quantity));
+						BigDecimal newavailble = available
+								.subtract(new BigDecimal(quantity));
 						stock.setForzennum(newfrozen);
 						stock.setAvailablenum(newavailble);
 						log.info("冻结数量：" + stock.getForzennum() + "有效数量："
@@ -300,10 +305,12 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 								.selectByCommoId(commid, Long.parseLong(deorder
 										.getWarehouseId()));
 						if (stock != null) {
-							Long frozennum = stock.getForzennum();
-							Long available = stock.getAvailablenum();
-							Long newfrozen = frozennum - quatity;
-							Long newavailble = available + quatity;
+							BigDecimal frozennum = stock.getForzennum();
+							BigDecimal available = stock.getAvailablenum();
+							BigDecimal newfrozen = frozennum
+									.subtract(new BigDecimal(quatity));
+							BigDecimal newavailble = available
+									.add(new BigDecimal(quatity));
 							stock.setForzennum(newfrozen);
 							stock.setAvailablenum(newavailble);
 							log.info("冻结数量：" + stock.getForzennum() + "有效数量："
@@ -425,10 +432,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			String wareHouseId = deliveryorderInfo.getWarehouseId();
 			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
 					.selectByCommoId(tempCommId, Long.parseLong(wareHouseId));
-			long forzennum = ipoWarehouseStock.getForzennum()
-					- deliveryorderInfo.getDeliveryQuatity();
-			long outboundnum = ipoWarehouseStock.getOutboundnum()
-					+ deliveryorderInfo.getDeliveryQuatity();
+			BigDecimal forzennum = ipoWarehouseStock.getForzennum().subtract(
+					new BigDecimal(deliveryorderInfo.getDeliveryQuatity()));
+			BigDecimal outboundnum = ipoWarehouseStock.getOutboundnum().add(
+					new BigDecimal(deliveryorderInfo.getDeliveryQuatity()));
 			ipoWarehouseStock.setForzennum(forzennum);
 			ipoWarehouseStock.setOutboundnum(outboundnum);
 			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);

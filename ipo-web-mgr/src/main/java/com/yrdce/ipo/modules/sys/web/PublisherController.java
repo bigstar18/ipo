@@ -19,16 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
-import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
+import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 
 /**
  * 发行会员查询Controller
@@ -47,6 +49,9 @@ public class PublisherController {
 	private IpoCommConfService ipoCommConfService;
 
 	@Autowired
+	private IpoStorageService ipoStorageService;
+
+	@Autowired
 	private UnderwriterSubscribeService underwritersubscribeService;
 
 	@Autowired
@@ -57,6 +62,9 @@ public class PublisherController {
 
 	@Autowired
 	private PublisherPositionService publisherpositionService;
+
+	@Autowired
+	private BrBrokerService brBrokerService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -248,16 +256,18 @@ public class PublisherController {
 	@RequestMapping(value = "/transferPosition", method = RequestMethod.POST)
 	@ResponseBody
 	public String transferPosition(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, PublisherPosition example)
+			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
-		log.info("查询发行会员转持仓信息");
+		log.info("分页查询转持仓信息");
+		log.debug(storage.toString());
 		try {
-			List<PublisherPosition> comlist = publisherpositionService
-					.getInfoByPage(page, rows, example);
-			int totalnum = publisherpositionService.getPubPositionNum(example);
+			storage.setStoragestate(4);
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
+					page, rows, storage);
+			int totalnums = ipoStorageService.getTotalNum(storage);
 			ResponseResult result = new ResponseResult();
-			result.setRows(comlist);
-			result.setTotal(totalnum);
+			result.setTotal(totalnums);
+			result.setRows(tlist);
 			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
@@ -266,4 +276,21 @@ public class PublisherController {
 		}
 	}
 
+	/**
+	 * 跳转到转持仓视图
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addTransferPosition", method = RequestMethod.GET)
+	public String addTransferPosition(
+			@RequestParam("storageid") String storageid,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		VIpoStorageExtended storage = ipoStorageService
+				.getStorageByStorageId(storageid);
+		request.setAttribute("entity", storage);
+		return "app/publisherQuery/addTransferPosition";
+	}
 }

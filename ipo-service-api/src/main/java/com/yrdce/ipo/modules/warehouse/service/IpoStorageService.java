@@ -32,4 +32,7 @@ public interface IpoStorageService {
 	// 审核入库单
 	Integer checkStorage(String storageId, String result, String checker);
 
+	// 根据入库单ID获取入库单
+	VIpoStorageExtended getStorageByStorageId(String storageId);
+
 }

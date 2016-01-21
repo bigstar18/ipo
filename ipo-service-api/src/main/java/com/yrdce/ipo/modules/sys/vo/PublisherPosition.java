@@ -17,7 +17,11 @@ public class PublisherPosition implements Serializable {
 
 	private String publisherid;// 发行会员代码
 
+	private String publishername;// 发行会员名称
+
 	private String commodityid;// 商品代码
+
+	private String commodityname;// 商品名称
 
 	private BigDecimal totalvalue;// 总市值
 
@@ -135,15 +139,32 @@ public class PublisherPosition implements Serializable {
 		this.updatedate = updatedate;
 	}
 
+	public String getPublishername() {
+		return publishername;
+	}
+
+	public void setPublishername(String publishername) {
+		this.publishername = publishername;
+	}
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
+	}
+
 	@Override
 	public String toString() {
 		return "PublisherPosition [positionid=" + positionid + ", publisherid="
-				+ publisherid + ", commodityid=" + commodityid
-				+ ", totalvalue=" + totalvalue + ", pubposition=" + pubposition
-				+ ", salecounts=" + salecounts + ", totalcounts=" + totalcounts
-				+ ", status=" + status + ", creater=" + creater
-				+ ", createdate=" + createdate + ", updater=" + updater
-				+ ", updatedate=" + updatedate + "]";
+				+ publisherid + ", publishername=" + publishername
+				+ ", commodityid=" + commodityid + ", commodityname="
+				+ commodityname + ", totalvalue=" + totalvalue
+				+ ", pubposition=" + pubposition + ", salecounts=" + salecounts
+				+ ", totalcounts=" + totalcounts + ", status=" + status
+				+ ", creater=" + creater + ", createdate=" + createdate
+				+ ", updater=" + updater + ", updatedate=" + updatedate + "]";
 	}
 
 }

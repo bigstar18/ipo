@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.warehouse.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +11,7 @@ public class VIpoStorageExtended implements Serializable {
 
 	private String commodityid;
 
-	private Long storagenum;
+	private BigDecimal storagenum;
 
 	private String startnum;
 
@@ -31,13 +32,33 @@ public class VIpoStorageExtended implements Serializable {
 
 	private String mapperbillid;
 
-	private Long storagecounts;
+	private BigDecimal storagecounts;
 
 	private String commodityname;
 
 	private String pubmemberid;
 
 	private String publishername;
+
+	private BigDecimal counts;// 发行数量
+
+	private BigDecimal contractfactor;// 申购单位
+
+	public BigDecimal getContractfactor() {
+		return contractfactor;
+	}
+
+	public void setContractfactor(BigDecimal contractfactor) {
+		this.contractfactor = contractfactor;
+	}
+
+	public BigDecimal getCounts() {
+		return counts;
+	}
+
+	public void setCounts(BigDecimal counts) {
+		this.counts = counts;
+	}
 
 	public String getCommodityname() {
 		return commodityname;
@@ -79,12 +100,16 @@ public class VIpoStorageExtended implements Serializable {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
 	}
 
-	public Long getStoragenum() {
+	public BigDecimal getStoragenum() {
 		return storagenum;
 	}
 
-	public void setStoragenum(Long storagenum) {
+	public void setStoragenum(BigDecimal storagenum) {
 		this.storagenum = storagenum;
+	}
+
+	public void setStoragecounts(BigDecimal storagecounts) {
+		this.storagecounts = storagecounts;
 	}
 
 	public String getStartnum() {
@@ -161,14 +186,6 @@ public class VIpoStorageExtended implements Serializable {
 		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
 	}
 
-	public Long getStoragecounts() {
-		return storagecounts;
-	}
-
-	public void setStoragecounts(Long storagecounts) {
-		this.storagecounts = storagecounts;
-	}
-
 	@Override
 	public String toString() {
 		return "VIpoStorageExtended [storageid=" + storageid + ", commodityid="
@@ -180,7 +197,9 @@ public class VIpoStorageExtended implements Serializable {
 				+ ", warehouseid=" + warehouseid + ", mapperbillid="
 				+ mapperbillid + ", storagecounts=" + storagecounts
 				+ ", commodityname=" + commodityname + ", pubmemberid="
-				+ pubmemberid + ", publishername=" + publishername + "]";
+				+ pubmemberid + ", publishername=" + publishername
+				+ ", counts=" + counts + ", contractfactor=" + contractfactor
+				+ "]";
 	}
 
 }

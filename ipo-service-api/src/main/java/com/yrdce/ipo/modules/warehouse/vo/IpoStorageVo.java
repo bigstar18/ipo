@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.warehouse.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +20,7 @@ public class IpoStorageVo implements Serializable {
 
 	private String commodityid;
 
-	private Long storagenum;
+	private BigDecimal storagenum;
 
 	private String startnum;
 
@@ -40,7 +41,7 @@ public class IpoStorageVo implements Serializable {
 
 	private String mapperbillid;
 
-	private Long storagecounts;
+	private BigDecimal storagecounts;
 
 	public String getStorageid() {
 		return storageid;
@@ -58,12 +59,16 @@ public class IpoStorageVo implements Serializable {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
 	}
 
-	public Long getStoragenum() {
+	public BigDecimal getStoragenum() {
 		return storagenum;
 	}
 
-	public void setStoragenum(Long storagenum) {
+	public void setStoragenum(BigDecimal storagenum) {
 		this.storagenum = storagenum;
+	}
+
+	public void setStoragecounts(BigDecimal storagecounts) {
+		this.storagecounts = storagecounts;
 	}
 
 	public String getStartnum() {
@@ -138,14 +143,6 @@ public class IpoStorageVo implements Serializable {
 
 	public void setMapperbillid(String mapperbillid) {
 		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
-	}
-
-	public Long getStoragecounts() {
-		return storagecounts;
-	}
-
-	public void setStoragecounts(Long storagecounts) {
-		this.storagecounts = storagecounts;
 	}
 
 	@Override

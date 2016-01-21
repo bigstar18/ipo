@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.warehouse.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoStorageExtended {
@@ -7,7 +8,7 @@ public class IpoStorageExtended {
 
 	private String commodityid;
 
-	private Long storagenum;
+	private BigDecimal storagenum;
 
 	private String startnum;
 
@@ -27,13 +28,33 @@ public class IpoStorageExtended {
 
 	private String mapperbillid;
 
-	private Long storagecounts;
+	private BigDecimal storagecounts;
 
 	private String commodityname;
 
 	private String pubmemberid;
 
 	private String publishername;
+
+	private BigDecimal counts;// 发行数量
+
+	private BigDecimal contractfactor;// 申购单位
+
+	public BigDecimal getCounts() {
+		return counts;
+	}
+
+	public void setCounts(BigDecimal counts) {
+		this.counts = counts;
+	}
+
+	public BigDecimal getContractfactor() {
+		return contractfactor;
+	}
+
+	public void setContractfactor(BigDecimal contractfactor) {
+		this.contractfactor = contractfactor;
+	}
 
 	public String getCommodityname() {
 		return commodityname;
@@ -73,14 +94,6 @@ public class IpoStorageExtended {
 
 	public void setCommodityid(String commodityid) {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
-	}
-
-	public Long getStoragenum() {
-		return storagenum;
-	}
-
-	public void setStoragenum(Long storagenum) {
-		this.storagenum = storagenum;
 	}
 
 	public String getStartnum() {
@@ -157,11 +170,19 @@ public class IpoStorageExtended {
 		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
 	}
 
-	public Long getStoragecounts() {
+	public BigDecimal getStoragenum() {
+		return storagenum;
+	}
+
+	public void setStoragenum(BigDecimal storagenum) {
+		this.storagenum = storagenum;
+	}
+
+	public BigDecimal getStoragecounts() {
 		return storagecounts;
 	}
 
-	public void setStoragecounts(Long storagecounts) {
+	public void setStoragecounts(BigDecimal storagecounts) {
 		this.storagecounts = storagecounts;
 	}
 

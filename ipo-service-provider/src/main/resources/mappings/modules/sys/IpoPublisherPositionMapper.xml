@@ -4,7 +4,9 @@
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
     <id column="POSITIONID" property="positionid" jdbcType="DECIMAL" />
     <result column="PUBLISHERID" property="publisherid" jdbcType="VARCHAR" />
+    <result column="PUBLISHERNAME" property="publishername" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="TOTALVALUE" property="totalvalue" jdbcType="DECIMAL" />
     <result column="PUBPOSITION" property="pubposition" jdbcType="DECIMAL" />
     <result column="SALECOUNTS" property="salecounts" jdbcType="DECIMAL" />
@@ -59,7 +61,8 @@
   </select>
   
   <select id="selectByPage" resultMap="BaseResultMap" parameterType="map">
-  	SELECT A.*  FROM (SELECT T.*,ROWNUM TNO FROM IPO_PUBLISHER_POSITION T WHERE 1=1
+  	SELECT A.*  FROM (SELECT T.*,B.NAME PUBLISHERNAME,C.COMMODITYNAME,ROWNUM TNO FROM IPO_PUBLISHER_POSITION T 
+     LEFT JOIN BR_BROKER B ON T.PUBLISHERID=B.BROKERID LEFT JOIN IPO_COMMODITY_CONF C ON T.COMMODITYID = C.COMMODITYID WHERE 1=1
   	<if test="record.commodityid != null" >
   	AND  T.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
   	</if>

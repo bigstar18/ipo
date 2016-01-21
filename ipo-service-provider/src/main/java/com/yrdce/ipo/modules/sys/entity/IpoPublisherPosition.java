@@ -14,7 +14,11 @@ public class IpoPublisherPosition {
 
 	private String publisherid;// 发行会员代码
 
+	private String publishername;// 发行会员名称
+
 	private String commodityid;// 商品代码
+
+	private String commodityname;// 商品名称
 
 	private BigDecimal totalvalue;// 总市值
 
@@ -129,4 +133,21 @@ public class IpoPublisherPosition {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
+
+	public String getPublishername() {
+		return publishername;
+	}
+
+	public void setPublishername(String publishername) {
+		this.publishername = publishername;
+	}
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
+	}
+
 }

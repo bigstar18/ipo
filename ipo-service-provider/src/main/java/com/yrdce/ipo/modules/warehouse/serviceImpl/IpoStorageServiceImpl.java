@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.warehouse.serviceImpl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,8 +106,8 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 						.getStorageByPrimary(storageId);
 				record.setCommodityid(example.getCommodityid());
 				record.setStoragenum(example.getStoragecounts());
-				record.setForzennum((long) 0);
-				record.setOutboundnum((long) 0);
+				record.setForzennum(new BigDecimal(0));
+				record.setOutboundnum(new BigDecimal(0));
 				record.setAvailablenum(example.getStoragecounts());
 				record.setWarehouseid(example.getWarehouseid());
 				ipowarehousestockmapper.insert(record);
@@ -131,6 +132,19 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 	public Long getWarehousePrimary(String userID) {
 
 		return ipoStorageMapper.getWarehousePrimaryKey(userID);
+	}
+
+	@Override
+	public VIpoStorageExtended getStorageByStorageId(String storageId) {
+		IpoStorageExtended example = ipoStorageMapper
+				.getStorageByStorageId(storageId);
+		if (example != null) {
+			VIpoStorageExtended storage = new VIpoStorageExtended();
+			BeanUtils.copyProperties(example, storage);
+			return storage;
+		}
+		return null;
+
 	}
 
 }

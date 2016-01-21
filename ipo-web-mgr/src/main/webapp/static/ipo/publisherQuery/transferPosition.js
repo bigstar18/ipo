@@ -20,6 +20,11 @@ $(document).ready(function() {
              align: "center",
              title : '发行会员代码'
          }, {
+        	 field : 'publishername',  
+             width : 250,  
+             align: "center",
+             title : '发行会员名称'
+         },{
         	 field : 'commodityid',  
              width : 250,  
              align: "center",
@@ -30,26 +35,36 @@ $(document).ready(function() {
              align: "center",
              title : '商品名称'
          } ,{
-        	 field : 'endtime',  
+        	 field : 'storagecounts',  
              width : 280,  
              align: "center",
-             title : '摇号日期',
-             formatter: function(value,row){
-             	return value.substr(0,10);
-          } 
+             title : '入库数量'
          },{
-        	 field : 'payables',  
+        	 field : 'storagedate',  
              width : 250,  
              align: "center",
-             title : '应付货款'
-         } , {
+             title : '入库日期',
+             formatter:function(value){
+             	return value.substr(0,10);
+             }
+         },{
         	 field : 'status',  
-             width : 200,  
+             width : 250,  
              align: "center",
              title : '状态',
              formatter:function(value){
-            	 if(value=='1') return "未付款";
-            	 if(value=='2') return "已付款";
+            	 if(value=='1') return "新增";
+            	 if(value=='2') return "已冻结费用";
+            	 if(value=='3') return "已扣费";
+            	 if(value=='4') return "已转持仓";
+           }
+         } , {
+        	 field : 'operator',  
+             width : 200,  
+             align: "center",
+             title : '操作',
+             formatter:function(value,row){
+                 return "<input type=\"button\" onclick=\"transfer('"+row.storageid+"')\" value=\"转持仓\"/>";
            }
          }
          ]],  
@@ -74,7 +89,7 @@ function clearInfo(){
 	$("#commodityid").val("");
 }
 
-function addInfo(){
-	document.location.href = getRootPath ()+ '/PublisherController/addInfo?&&randnum='+Math.floor(Math.random()*1000000);
+function transfer(value){
+	document.location.href = getRootPath ()+ '/PublisherController/addTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000);
 
 }
