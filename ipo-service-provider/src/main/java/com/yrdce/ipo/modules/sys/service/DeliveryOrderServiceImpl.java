@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -139,18 +138,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
 					// ipopickupmapper.updateByPrimaryKey(ipopickup);
-					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
+					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
 							.selectByCommoId(commid,
 									Long.parseLong(deorder.getWarehouseId()));
 					if (stock != null) {
-						BigDecimal frozennum = stock.getForzennum();
-						BigDecimal available = stock.getAvailablenum();
-						BigDecimal newfrozen = frozennum.add(new BigDecimal(
-								quantity));
-						BigDecimal newavailble = available
-								.subtract(new BigDecimal(quantity));
+						long frozennum = stock.getForzennum();
+						long available = stock.getAvailablenum();
+						long newfrozen = frozennum + quantity;
+						long newavailble = available - quantity;
 						stock.setForzennum(newfrozen);
 						stock.setAvailablenum(newavailble);
 						ipoWarehouseStockMapper.updateInfo(stock);
@@ -192,18 +189,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				deorder.setApprovers(managerId);
 				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus() == 2) {
-					Long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
+					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
 							.selectByCommoId(commid,
 									Long.parseLong(deorder.getWarehouseId()));
 					if (stock != null) {
-						BigDecimal frozennum = stock.getForzennum();
-						BigDecimal available = stock.getAvailablenum();
-						BigDecimal newfrozen = frozennum.add(new BigDecimal(
-								quantity));
-						BigDecimal newavailble = available
-								.subtract(new BigDecimal(quantity));
+						long frozennum = stock.getForzennum();
+						long available = stock.getAvailablenum();
+						long newfrozen = frozennum + quantity;
+						long newavailble = available - quantity;
 						stock.setForzennum(newfrozen);
 						stock.setAvailablenum(newavailble);
 						log.info("冻结数量：" + stock.getForzennum() + "有效数量："
@@ -305,12 +300,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 								.selectByCommoId(commid, Long.parseLong(deorder
 										.getWarehouseId()));
 						if (stock != null) {
-							BigDecimal frozennum = stock.getForzennum();
-							BigDecimal available = stock.getAvailablenum();
-							BigDecimal newfrozen = frozennum
-									.subtract(new BigDecimal(quatity));
-							BigDecimal newavailble = available
-									.add(new BigDecimal(quatity));
+							long frozennum = stock.getForzennum();
+							long available = stock.getAvailablenum();
+							long newfrozen = frozennum - quatity;
+							long newavailble = available + quatity;
 							stock.setForzennum(newfrozen);
 							stock.setAvailablenum(newavailble);
 							log.info("冻结数量：" + stock.getForzennum() + "有效数量："
@@ -432,10 +425,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			String wareHouseId = deliveryorderInfo.getWarehouseId();
 			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
 					.selectByCommoId(tempCommId, Long.parseLong(wareHouseId));
-			BigDecimal forzennum = ipoWarehouseStock.getForzennum().subtract(
-					new BigDecimal(deliveryorderInfo.getDeliveryQuatity()));
-			BigDecimal outboundnum = ipoWarehouseStock.getOutboundnum().add(
-					new BigDecimal(deliveryorderInfo.getDeliveryQuatity()));
+			long forzennum = ipoWarehouseStock.getForzennum()
+					- deliveryorderInfo.getDeliveryQuatity();
+			long outboundnum = ipoWarehouseStock.getOutboundnum()
+					+ deliveryorderInfo.getDeliveryQuatity();
 			ipoWarehouseStock.setForzennum(forzennum);
 			ipoWarehouseStock.setOutboundnum(outboundnum);
 			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);

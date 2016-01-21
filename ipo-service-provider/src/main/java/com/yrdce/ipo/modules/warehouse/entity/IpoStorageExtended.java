@@ -8,7 +8,7 @@ public class IpoStorageExtended {
 
 	private String commodityid;
 
-	private BigDecimal storagenum;
+	private Long storagenum;
 
 	private String startnum;
 
@@ -28,7 +28,7 @@ public class IpoStorageExtended {
 
 	private String mapperbillid;
 
-	private BigDecimal storagecounts;
+	private Long storagecounts;
 
 	private String commodityname;
 
@@ -170,19 +170,19 @@ public class IpoStorageExtended {
 		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
 	}
 
-	public BigDecimal getStoragenum() {
+	public Long getStoragenum() {
 		return storagenum;
 	}
 
-	public void setStoragenum(BigDecimal storagenum) {
+	public void setStoragenum(Long storagenum) {
 		this.storagenum = storagenum;
 	}
 
-	public BigDecimal getStoragecounts() {
+	public Long getStoragecounts() {
 		return storagecounts;
 	}
 
-	public void setStoragecounts(BigDecimal storagecounts) {
+	public void setStoragecounts(Long storagecounts) {
 		this.storagecounts = storagecounts;
 	}
 

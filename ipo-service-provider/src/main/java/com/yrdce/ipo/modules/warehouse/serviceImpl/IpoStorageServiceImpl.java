@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.warehouse.serviceImpl;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,8 +105,8 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 						.getStorageByPrimary(storageId);
 				record.setCommodityid(example.getCommodityid());
 				record.setStoragenum(example.getStoragecounts());
-				record.setForzennum(new BigDecimal(0));
-				record.setOutboundnum(new BigDecimal(0));
+				record.setForzennum((long) 0);
+				record.setOutboundnum((long) 0);
 				record.setAvailablenum(example.getStoragecounts());
 				record.setWarehouseid(example.getWarehouseid());
 				ipowarehousestockmapper.insert(record);

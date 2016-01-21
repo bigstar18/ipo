@@ -65,7 +65,8 @@ public class IpoPosition {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
+		this.commodityname = commodityname == null ? null : commodityname
+				.trim();
 	}
 
 	public BigDecimal getPositionPrice() {

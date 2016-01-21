@@ -1,19 +1,17 @@
 package com.yrdce.ipo.modules.warehouse.entity;
 
-import java.math.BigDecimal;
-
 public class WarehouseStock {
 	private String stockid;
 
 	private String commodityid;
 
-	private BigDecimal storagenum;
+	private Long storagenum;
 
-	private BigDecimal forzennum;
+	private Long forzennum;
 
-	private BigDecimal availablenum;
+	private Long availablenum;
 
-	private BigDecimal outboundnum;
+	private Long outboundnum;
 
 	private Long warehouseid;
 
@@ -33,35 +31,35 @@ public class WarehouseStock {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
 	}
 
-	public BigDecimal getStoragenum() {
+	public Long getStoragenum() {
 		return storagenum;
 	}
 
-	public void setStoragenum(BigDecimal storagenum) {
+	public void setStoragenum(Long storagenum) {
 		this.storagenum = storagenum;
 	}
 
-	public BigDecimal getForzennum() {
+	public Long getForzennum() {
 		return forzennum;
 	}
 
-	public void setForzennum(BigDecimal forzennum) {
+	public void setForzennum(Long forzennum) {
 		this.forzennum = forzennum;
 	}
 
-	public BigDecimal getAvailablenum() {
+	public Long getAvailablenum() {
 		return availablenum;
 	}
 
-	public void setAvailablenum(BigDecimal availablenum) {
+	public void setAvailablenum(Long availablenum) {
 		this.availablenum = availablenum;
 	}
 
-	public BigDecimal getOutboundnum() {
+	public Long getOutboundnum() {
 		return outboundnum;
 	}
 
-	public void setOutboundnum(BigDecimal outboundnum) {
+	public void setOutboundnum(Long outboundnum) {
 		this.outboundnum = outboundnum;
 	}
 

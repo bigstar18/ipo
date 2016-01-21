@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,13 +121,10 @@ public class OutboundServiceImpl implements OutboundService {
 				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
 						.selectByCommoId(tempCommId,
 								Long.parseLong(wareHouseId));
-				BigDecimal forzennum = ipoWarehouseStock.getForzennum()
-						.subtract(
-								new BigDecimal(deliveryorderInfo
-										.getDeliveryQuatity()));
-				BigDecimal availablenum = ipoWarehouseStock.getAvailablenum()
-						.add(new BigDecimal(deliveryorderInfo
-								.getDeliveryQuatity()));
+				long forzennum = ipoWarehouseStock.getForzennum()
+						- deliveryorderInfo.getDeliveryQuatity();
+				long availablenum = ipoWarehouseStock.getAvailablenum()
+						+ deliveryorderInfo.getDeliveryQuatity();
 				ipoWarehouseStock.setAvailablenum(availablenum);
 				ipoWarehouseStock.setForzennum(forzennum);
 				ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);

@@ -23,9 +23,12 @@ public interface IpoPositionMapper {
 
 	List<IpoPosition> selectByFirmid(String firmid);
 
-	int updatePosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid, @Param("position") long position);
+	int updatePosition(@Param("firmid") String firmid,
+			@Param("commodityid") String commodityid,
+			@Param("position") long position);
 
-	IpoPosition selectPosition(@Param("firmid") String firmid, @Param("commodityid") String commodityid);
+	IpoPosition selectPosition(@Param("firmid") String firmid,
+			@Param("commodityid") String commodityid);
 
 	List<IpoPosition> queryForList(@Param("param") IpoPosition position);
 
@@ -34,7 +37,7 @@ public interface IpoPositionMapper {
 	// 商品在持仓中的总量(现货持仓)
 	int selectSumByComm(@Param("commodityid") String commodityid);
 
-	//// 现货持仓信息
+	// // 现货持仓信息
 	List<TFirmHoldSum> selectPositionList(String commodityid);
 
 }

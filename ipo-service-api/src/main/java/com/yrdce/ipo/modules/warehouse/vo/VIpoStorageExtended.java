@@ -11,7 +11,7 @@ public class VIpoStorageExtended implements Serializable {
 
 	private String commodityid;
 
-	private BigDecimal storagenum;
+	private Long storagenum;
 
 	private String startnum;
 
@@ -32,7 +32,7 @@ public class VIpoStorageExtended implements Serializable {
 
 	private String mapperbillid;
 
-	private BigDecimal storagecounts;
+	private Long storagecounts;
 
 	private String commodityname;
 
@@ -98,18 +98,6 @@ public class VIpoStorageExtended implements Serializable {
 
 	public void setCommodityid(String commodityid) {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
-	}
-
-	public BigDecimal getStoragenum() {
-		return storagenum;
-	}
-
-	public void setStoragenum(BigDecimal storagenum) {
-		this.storagenum = storagenum;
-	}
-
-	public void setStoragecounts(BigDecimal storagecounts) {
-		this.storagecounts = storagecounts;
 	}
 
 	public String getStartnum() {
@@ -184,6 +172,22 @@ public class VIpoStorageExtended implements Serializable {
 
 	public void setMapperbillid(String mapperbillid) {
 		this.mapperbillid = mapperbillid == null ? null : mapperbillid.trim();
+	}
+
+	public Long getStoragenum() {
+		return storagenum;
+	}
+
+	public void setStoragenum(Long storagenum) {
+		this.storagenum = storagenum;
+	}
+
+	public Long getStoragecounts() {
+		return storagecounts;
+	}
+
+	public void setStoragecounts(Long storagecounts) {
+		this.storagecounts = storagecounts;
 	}
 
 	@Override

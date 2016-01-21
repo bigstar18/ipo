@@ -1,6 +1,5 @@
 package com.yrdce.ipo.modules.warehouse.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoStorage {
@@ -8,7 +7,7 @@ public class IpoStorage {
 
 	private String commodityid;
 
-	private BigDecimal storagenum;// 入库件数
+	private Long storagenum;// 入库件数
 
 	private String startnum;
 
@@ -28,7 +27,7 @@ public class IpoStorage {
 
 	private String mapperbillid;
 
-	private BigDecimal storagecounts;// 入库数量
+	private Long storagecounts;// 入库数量
 
 	public String getStorageid() {
 		return storageid;
@@ -46,19 +45,19 @@ public class IpoStorage {
 		this.commodityid = commodityid == null ? null : commodityid.trim();
 	}
 
-	public BigDecimal getStoragenum() {
+	public Long getStoragenum() {
 		return storagenum;
 	}
 
-	public void setStoragenum(BigDecimal storagenum) {
+	public void setStoragenum(Long storagenum) {
 		this.storagenum = storagenum;
 	}
 
-	public BigDecimal getStoragecounts() {
+	public Long getStoragecounts() {
 		return storagecounts;
 	}
 
-	public void setStoragecounts(BigDecimal storagecounts) {
+	public void setStoragecounts(Long storagecounts) {
 		this.storagecounts = storagecounts;
 	}
 
