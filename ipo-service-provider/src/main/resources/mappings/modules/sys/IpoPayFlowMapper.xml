@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper" >
+  
+  
+  <resultMap id="IpoPayFlowResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPayFlow" >
+    <result column="id" property="id"  />
+    <result column="business_type" property="businessType"  />
+    <result column="charge_type" property="chargeType"  />
+    <result column="commodity_id" property="commodityId"  />
+    <result column="order_id" property="orderId"  />
+    <result column="pay_state" property="payState"  />
+    <result column="payee" property="payee"  />
+    <result column="amount" property="amount"  />
+    <result column="pay_mode" property="payMode"  />
+    <result column="pay_channel" property="payChannel"  />
+    <result column="pay_date" property="payDate"  />
+    <result column="remark" property="remark"  />
+    <result column="buy_back_flag" property="buyBackFlag"  />
+    <result column="create_user" property="createUser"  />
+    <result column="create_date" property="createDate"  />
+    <result column="update_user" property="updateUser"  />
+    <result column="update_date" property="updateDate"  />
+  </resultMap>
+  
+   
+   
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.vo.PayFlow" >
+	    <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+	   select seq_ipo_payflow.nextval from dual
+		</selectKey>
+       insert into ipo_payflow
+  		( id, business_type, charge_type, commodity_id, order_id, 
+  		  pay_state,payee, amount,pay_mode, pay_channel, pay_date,  
+  		  remark,create_user, create_date)
+	   values
+        (  #{id,jdbcType=INTEGER},#{businessType},#{chargeType},#{commodityId},#{orderId},
+           #{payState},#{payee},#{amount},#{payMode},#{payChannel},#{payDate,jdbcType=TIMESTAMP},
+           #{remark},#{createUser},#{createDate,jdbcType=TIMESTAMP}
+        )
+   </insert>
+   
+   <select id="queryPublishGoodsForPage" resultMap="IpoPayFlowResultMap"  parameterType="map" >
+    select * from (
+           select pg.*,rownum as row_num from (
+	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
+	        de.payee, de.amount, de.pay_mode, de.pay_channel, de.pay_date, de.remark, de.buy_back_flag,
+	        de.create_user, de.create_date, de.update_user, de.update_date 
+	        from ipo_payflow de where 1=1
+	        <if test="param.buyBackFlag >=0 ">
+				 and  de.buy_back_flag=#{param.buyBackFlag}
+			</if>
+			<if test="param.businessType!=null and param.businessType!='' ">
+				 and  de.business_type=#{param.businessType}
+			</if>
+			<if test="param.chargeType!=null and param.chargeType!='' ">
+				 and  de.charge_type=#{param.chargeType}
+			</if>
+			<if test="param.commodityId!=null and param.commodityId!='' ">
+				 and  de.commodity_id=#{param.commodityId}
+			</if> 
+			<if test="param.payState >0 ">
+				 and  de.pay_state=#{param.payState}
+			</if>
+			<if test="param.payMode >0 ">
+				 and  de.pay_mode=#{param.payMode}
+			</if>
+			<if test="param.payee!=null and param.payee!='' ">
+				 and  de.payee=#{param.payee}
+			</if>
+			order by de.create_date desc
+			) pg where #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
+  </select>
+  
+   <select id="queryPublishGoodsForCount" resultType="java.lang.Long"  parameterType="map" >
+        select count(de.id) as count_  
+        from ipo_payflow de where 1=1
+        <if test="param.buyBackFlag >=0 ">
+			 and  de.buy_back_flag=#{param.buyBackFlag}
+		</if>
+		<if test="param.businessType!=null and param.businessType!='' ">
+			 and  de.business_type=#{param.businessType}
+		</if>
+		<if test="param.chargeType!=null and param.chargeType!='' ">
+			 and  de.charge_type=#{param.chargeType}
+		</if>
+		<if test="param.commodityId!=null and param.commodityId!='' ">
+			 and  de.commodity_id=#{param.commodityId}
+		</if> 
+		<if test="param.payState >0 ">
+			 and  de.pay_state=#{param.payState}
+		</if>
+		<if test="param.payMode >0 ">
+			 and  de.pay_mode=#{param.payMode}
+		</if>
+		<if test="param.payee!=null and param.payee!='' ">
+				 and  de.payee=#{param.payee}
+		</if>
+		 
+  </select>
+  
+  <update id="updateState" parameterType="com.yrdce.ipo.modules.sys.vo.PayFlow">
+		  update ipo_payflow t set t.pay_state=#{payState},t.update_user=#{updateUser},
+		     t.pay_date=#{payDate,jdbcType=TIMESTAMP},t.update_date=#{updateDate,jdbcType=TIMESTAMP}
+          where t.id=#{id}
+  </update>
+  
+  
+  <select id="findById" resultMap="IpoPayFlowResultMap"  parameterType="java.lang.Long" >
+       select id, business_type, charge_type, commodity_id, order_id, pay_state, payee, amount, pay_mode,   
+              pay_channel,pay_date,remark, buy_back_flag, create_user, create_date, update_user, update_date 
+  	   from ipo_payflow
+       where id=#{id}
+  </select>
+  
+  
+  
+</mapper>
