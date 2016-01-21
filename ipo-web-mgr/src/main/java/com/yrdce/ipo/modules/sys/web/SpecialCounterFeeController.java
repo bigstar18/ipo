@@ -98,4 +98,39 @@ public class SpecialCounterFeeController {
 			return false;
 		}
 	}
+
+	// 根据id查询信息
+	@RequestMapping(value = "/selectInfoById")
+	@ResponseBody
+	public String selectInfoById(@RequestParam("id") String id) {
+		try {
+			Specialcounterfee specialcounterfee = specialCounterFeeService.selectInfoById(id);
+			String result = JSON.json(specialcounterfee);
+			logger.info(result);
+			return result;
+		} catch (Exception e) {
+			logger.error("根据id查询信息异常", e);
+			return "error";
+		}
+	}
+
+	// 修改特殊手续费信息
+	@RequestMapping(value = "/updateInfoById")
+	@ResponseBody
+	public String updateInfoById(Specialcounterfee specialcounterfee) {
+		try {
+			logger.info("跟新特殊手续费信息");
+			int result = specialCounterFeeService.updateInfoById(specialcounterfee);
+			if (result > 0) {
+				return "success";
+			} else {
+				return "fail";
+			}
+
+		} catch (Exception e) {
+			logger.error("跟新特殊手续费信息", e);
+			return "error";
+		}
+
+	}
 }

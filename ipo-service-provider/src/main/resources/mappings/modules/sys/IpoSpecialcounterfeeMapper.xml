@@ -33,7 +33,7 @@
       TRADEALGR = #{tradealgr,jdbcType=DECIMAL},
       BUY = #{buy,jdbcType=DECIMAL},
       SELL = #{sell,jdbcType=DECIMAL},
-      UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
+      UPDATEDATE = sysdate,
       USERID = #{userid,jdbcType=VARCHAR},
       COUNTERFEETYPE = #{counterfeetype,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}

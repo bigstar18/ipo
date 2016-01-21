@@ -14,4 +14,8 @@ public interface SpecialCounterFeeService {
 	public int deleteInfoById(String id);
 
 	public int isFirm(String firmid);
+
+	public Specialcounterfee selectInfoById(String id) throws Exception;
+
+	public int updateInfoById(Specialcounterfee specialcounterfee) throws Exception;
 }

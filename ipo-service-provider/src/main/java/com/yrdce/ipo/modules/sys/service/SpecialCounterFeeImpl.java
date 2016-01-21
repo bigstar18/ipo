@@ -63,4 +63,25 @@ public class SpecialCounterFeeImpl implements SpecialCounterFeeService {
 		return ipoSpecialcounterfeeMapper.isFirm(firmid);
 	}
 
+	@Override
+	public Specialcounterfee selectInfoById(String id) throws Exception {
+		IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectByPrimaryKey(id);
+		Specialcounterfee specialcounterfee = null;
+		if (ipoSpecialcounterfee != null) {
+			specialcounterfee = new Specialcounterfee();
+			BeanUtils.copyProperties(ipoSpecialcounterfee, specialcounterfee);
+		}
+		return specialcounterfee;
+	}
+
+	@Override
+	public int updateInfoById(Specialcounterfee specialcounterfee) throws Exception {
+		if (specialcounterfee != null) {
+			IpoSpecialcounterfee ipoSpecialcounterfee = new IpoSpecialcounterfee();
+			BeanUtils.copyProperties(specialcounterfee, ipoSpecialcounterfee);
+			return ipoSpecialcounterfeeMapper.updateByPrimaryKey(ipoSpecialcounterfee);
+		}
+		return 0;
+	}
+
 }

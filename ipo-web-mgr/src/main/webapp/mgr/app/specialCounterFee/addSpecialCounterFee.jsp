@@ -47,6 +47,7 @@
 				<select id="commodityId" style="width:184px;height:21px">
 					<option value="">请选择</option>
 				</select>
+				<input id="commodityId2" readonly="readonly" style="width:180px;height:18px;display:none;">
 				</td>
 			</tr>
 			<tr>
@@ -77,7 +78,7 @@
 				买：
 				</td>
 				<td align='left'>
-				<input id="buy" type="text" style="width:180px;height:18px">
+				<input id="buy" type="text" onblur="isNum(this)" style="width:180px;height:18px">
 				</td>
 			</tr>
 			<tr>
@@ -85,7 +86,7 @@
 				卖：
 				</td>
 				<td align='left'>
-				<input id="sell" type="text" style="width:180px;height:18px">
+				<input id="sell" type="text" onblur="isNum(this)" style="width:180px;height:18px">
 				</td>
 			</tr>
 		</table>
@@ -93,7 +94,7 @@
 		<table width="100%" style="margin-top:15px">
 			<tr >
 				<td align="center">
-					<input type="button" class="btn_sec" id="add" onclick="doAddInfo()" value="添加">
+					<input type="button" class="btn_sec" id="add" onclick="addOrUpdate()" value="添加">
 				    <input type="button" class="btn_sec" id="close" onclick="doClose()" value="关闭">
 				</td>
 			</tr>
@@ -103,8 +104,32 @@
 
 <script type="text/javascript">
 	var reg =  /.*\((.*)\)/;//正则获取括号中的内容
+	var num = /^\d+(\.{0,1}\d+){0,1}$/ ;//正则非负数
+	var zeroToHundred = /^(\d{1,2}(\.{1}\d+)?|100)$/;//正则表达式，0~100的数；
+	function isNum(obj){
+		if(!num.test(String($(obj).val()))){
+			alert("请输入非负数！");
+			$(obj).val("");
+			return;
+		}
+		if($("#tradealgr").val()==1&&!zeroToHundred.test(String($(obj).val()))){
+			alert("手续费算法为百分比时不得收费值不得大于100");
+			$(obj).val("");
+			return;
+		}
+		
+	}
+	
 	$(document).ready(function(){
-		getIPOCommInfo();
+		var id = parent.$("#id").val();
+		if(id!=''){
+			$("#commodityId").hide();
+			$("#commodityId2").show();
+			getInfo(id);
+		}else{
+			getCommInfo();
+		}
+		
 	});
 	
 	function isFirm(){
@@ -130,6 +155,80 @@
 		});
 	}
 
+	
+	function addOrUpdate(){
+		var id = parent.$("#id").val();
+		var firmId = $("#firmId").val();
+		var tradealgr = $("#tradealgr").val();
+		var commonityId = $("#commodityId").val();
+		var counterfeetype = $("#counterFeeType").val();
+		var buy = $("#buy").val();
+		var sell = $("#sell").val();
+		var name = $("#add").val();
+		
+		if(firmId==""){
+			alert("请输入交易商代码");
+			return;
+		}
+		if(tradealgr==""){
+			alert("请选择手续费算法");
+			return;
+		}
+		if(counterfeetype==""){
+			alert("请选择手续费种类");
+			return;
+		}
+		if(buy==""||sell==""){
+			alert("手续费不可为空");
+			return;
+		}
+		if(name=="修改"){
+
+			doUpdateInfo();
+		}else{
+			if(commonityId==""){
+				alert("请选择商品");
+				return;
+			}
+			doAddInfo();
+		}
+		
+		
+	}
+	function doUpdateInfo(){
+		var id = parent.$("#id").val();
+		var firmId = $("#firmId").val();
+		var commonityId = $("#commodityId2").val();
+		var tradealgr = $("#tradealgr").val();
+		var counterfeetype = $("#counterFeeType").val();
+		var buy = $("#buy").val();
+		var sell = $("#sell").val();
+		$.ajax({
+			type:"POST",
+			url:"<%=request.getContextPath()%>/SpecialCounterFeeController/updateInfoById",
+			data:{
+				id:id,
+				firmid:firmId,
+				commodityid:commonityId,
+				tradealgr:tradealgr,
+				counterfeetype:counterfeetype,
+				buy:buy,
+				sell:sell
+			},
+			success:function(data){
+				if(data=="success"){
+					alert("修改成功！");
+					doClose();
+					parent.getAllInfo();
+				}else if(data=="fail"){
+					alert("修改失败！");
+				}else{
+					alert("系统异常！");
+				}
+			}
+			
+		});
+	}
 	function doAddInfo(){
 		var firmId = $("#firmId").val();
 		var commonityId = $("#commodityId").val().match(reg)[1];
@@ -165,9 +264,10 @@
 	}
 
 	function doClose(){
+		parent.$("#id").val("");
 		parent.$("#dd").window("close");
 	}
-	function getIPOCommInfo(){
+	function getCommInfo(){
 		$.ajax({
 			type:"GET",
 			url:"<%=request.getContextPath()%>/SPOController/getIPOCommonity",
@@ -184,6 +284,29 @@
 	        	else if(data=="error")
 	        		alert("初始化，请稍后再试");
 	         } 
+		});
+	}
+	
+	
+	//获取特殊手续费修改的基本信息
+	function getInfo(id){
+		$.ajax({
+			type:"GET",
+			url:"<%=request.getContextPath()%>/SpecialCounterFeeController/selectInfoById?randnum="+Math.floor(Math.random()*1000000),
+			data:{id:id},
+			dataType: "json", 
+			success:function(data){
+				if(data!="error"&&data!=""){
+					$("#firmId").val(data.firmid);
+					$("#commodityId2").val(data.commodityid);
+					$("#tradealgr ").get(0).selectedIndex=data.tradealgr;
+					$("#counterFeeType").get(0).selectedIndex=data.counterfeetype;
+					$("#buy").val(data.buy);
+					$("#sell").val(data.sell);
+					$("#add").val("修改");
+				}
+			}
+			
 		});
 	}
 </script>
