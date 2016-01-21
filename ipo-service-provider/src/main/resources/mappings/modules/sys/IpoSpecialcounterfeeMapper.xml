@@ -2,28 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee" >
-    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="TRADEALGR" property="tradealgr" jdbcType="DECIMAL" />
     <result column="BUY" property="buy" jdbcType="DECIMAL" />
     <result column="SELL" property="sell" jdbcType="DECIMAL" />
-    <result column="UPDATEDATE" property="updatedate" jdbcType="DATE" />
+    <result column="UPDATEDATE" property="updatedate" jdbcType="TIMESTAMP" />
     <result column="USERID" property="userid" jdbcType="VARCHAR" />
     <result column="COUNTERFEETYPE" property="counterfeetype" jdbcType="DECIMAL" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_SPECIALCOUNTERFEE
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee" >
     insert into IPO_SPECIALCOUNTERFEE (ID, FIRMID, COMMODITYID, 
       TRADEALGR, BUY, SELL, 
       UPDATEDATE, USERID, COUNTERFEETYPE
       )
-    values (#{id,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{tradealgr,jdbcType=DECIMAL}, #{buy,jdbcType=DECIMAL}, #{sell,jdbcType=DECIMAL}, 
-      #{updatedate,jdbcType=DATE}, #{userid,jdbcType=VARCHAR}, #{counterfeetype,jdbcType=DECIMAL}
+      sysdate, #{userid,jdbcType=VARCHAR}, #{counterfeetype,jdbcType=DECIMAL}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee" >
@@ -33,18 +33,31 @@
       TRADEALGR = #{tradealgr,jdbcType=DECIMAL},
       BUY = #{buy,jdbcType=DECIMAL},
       SELL = #{sell,jdbcType=DECIMAL},
-      UPDATEDATE = #{updatedate,jdbcType=DATE},
+      UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
       USERID = #{userid,jdbcType=VARCHAR},
       COUNTERFEETYPE = #{counterfeetype,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
     from IPO_SPECIALCOUNTERFEE
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
-    from IPO_SPECIALCOUNTERFEE
+    from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1 order by t.ID)a 
+    where a.TNO between  #{beginnum} and  #{endnum}
   </select>
+  <select id="selectCounts" resultType="java.lang.Integer">
+  	select count(0)
+    from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1 order by t.ID)
+  </select>
+   <select id="sequence" resultType="java.lang.Integer">
+	SELECT SEQ_IPO_SPECIALCOUNTERFEE.NEXTVAL FROM dual
+   </select>
+   <select id="isFirm" resultType="java.lang.Integer" parameterType="java.lang.String">
+   	select count(0) from m_firm where firmid=#{firmid}
+   </select>
+  
+  
 </mapper>
