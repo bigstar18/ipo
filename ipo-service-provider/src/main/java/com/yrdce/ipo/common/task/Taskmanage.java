@@ -50,4 +50,13 @@ public class Taskmanage extends TimerTask {
 			logger.error("ipo 转持仓失败:",e);
 		}
 	}
+	
+	public void savePublishHandling(){
+		try {
+			taskService.savePublishHandling();
+		} catch (Exception e) {
+			logger.error("扣除发行商的手续费失败:",e);
+		}
+	}
+	
 }

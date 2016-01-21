@@ -1,27 +1,20 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 
 @MyBatisDao
 public interface IpoSpecialcounterfeeMapper {
-	int deleteByPrimaryKey(String id);
+	int deleteByPrimaryKey(BigDecimal id);
 
 	int insert(IpoSpecialcounterfee record);
 
-	IpoSpecialcounterfee selectByPrimaryKey(String id);
+	IpoSpecialcounterfee selectByPrimaryKey(BigDecimal id);
 
-	List<IpoSpecialcounterfee> selectAll(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoSpecialcounterfee> selectAll();
 
 	int updateByPrimaryKey(IpoSpecialcounterfee record);
-
-	int sequence();
-
-	int selectCounts();
-
-	int isFirm(@Param("firmid") String firmid);
 }

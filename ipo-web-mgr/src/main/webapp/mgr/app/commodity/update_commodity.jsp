@@ -174,6 +174,13 @@ function updateComm(){
 	var pubmemberid=$("#pubmemberid").val();
 	var flag= $('#frm').form('validate');
 	if(curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){ 
+		var units=$("#units").val();
+		var contractfactor=$("#contractfactor").val();
+		var counts=$("#counts").val();
+		if(counts%contractfactor!=0||counts%units!=0){
+			alert("发行量必须为发售单位和交易单位的整数倍！")
+			return;
+		}
 		 $.ajax({ 
 			 cache:false,
              type: "POST",  
