@@ -27,6 +27,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
+import com.yrdce.ipo.throwable.BalanceNotEnoughException;
 
 /**
  * 托管商品
@@ -251,17 +252,19 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/marketAuditPass")
 	@ResponseBody
-	public boolean marketAuditPass(HttpServletRequest request,HttpServletResponse response){
+	public String  marketAuditPass(HttpServletRequest request,HttpServletResponse response){
 		try {
 			Trusteeship ship = new Trusteeship();
 			ship.setId(Long.valueOf(request.getParameter("id")));
 			ship.setUpdateUser(getLoginUserId(request));
 			trusteeshipCommodityService.marketAuditPass(ship);
-		} catch (Exception e) {
+		}catch (BalanceNotEnoughException be) {
+		   return "001";
+		}catch (Exception e) {
 			logger.error("marketAuditPass error:"+e);
-		   return false;
+		   return "error";
 		}
-		return true;
+		return "success";
 	}
 	
 	/**

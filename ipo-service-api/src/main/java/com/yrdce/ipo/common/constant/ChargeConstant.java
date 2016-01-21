@@ -204,6 +204,31 @@ public interface ChargeConstant {
 			return null;
 		}
 	}
+	//付款模式
+	public static enum PayMode {
+		ONLINE(1, "线上"), OFFLINE(2, "线下");
+		private int code;
+		private String name;
+
+		private PayMode(int code, String name) {
+			this.code = code;
+			this.name = name;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getName() {
+			return name;
+		}
+		public static String getName(int code) {
+			for (PayMode item : PayMode.values()) {
+				if (item.getCode() == code) {
+					return item.getName();
+				}
+			}
+			return null;
+		}
+	}
 	
 	//扣款渠道
 	public static enum DebitChannel {
@@ -225,6 +250,33 @@ public interface ChargeConstant {
 		}
 		public static String getName(int code) {
 			for (DebitChannel item : DebitChannel.values()) {
+				if (item.getCode() == code) {
+					return item.getName();
+				}
+			}
+			return null;
+		}
+	}
+	//付款渠道
+	public static enum PayChannel {
+		DEPOSIT(1, "保证金"), CASH(2, "现金"),
+		CARD(3, "刷卡"), ALIPAY(4, "支付宝"),
+		WECHAT(5, "微信");
+		private int code;
+		private String name;
+		
+		private PayChannel(int code, String name) {
+			this.code = code;
+			this.name = name;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getName() {
+			return name;
+		}
+		public static String getName(int code) {
+			for (PayChannel item : PayChannel.values()) {
 				if (item.getCode() == code) {
 					return item.getName();
 				}
@@ -260,5 +312,31 @@ public interface ChargeConstant {
 		}
 	}
 	
-	
+	// 扣款状态
+	public static enum PayState {
+		UNPAY(1,"未付款"),PAY_SUCCESS(2, "冻结成功");
+		private int code;
+		private String name;
+
+		private PayState(int code, String name) {
+			this.code = code;
+			this.name = name;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getName() {
+			return name;
+		}
+		public static String getName(int code) {
+			for (PayState item : PayState.values()) {
+				if (item.getCode() == code) {
+					return item.getName();
+				}
+			}
+			return null;
+		}
+	}
+		
+		
 }

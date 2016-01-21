@@ -10,21 +10,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.common.utils.Selection;
-import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBallotNoInfoMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
-import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
@@ -36,7 +32,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
-import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 
 /**
  * 定时任务相关的 service
@@ -75,10 +70,7 @@ public class TaskServiceImpl implements TaskService {
 	private IpoSpoRationMapper ipoSpoRationMapper;
 	@Autowired
 	private IpoSpoCommoditymanmaagementMapper ipoSPOCommMapper;
-	@Autowired
-	private BrBrokerMapper brBrokerMapper;
-	@Autowired
-	private IpoDebitFlowMapper debitFlowMapper;
+	 
 
 	/**
 	 * 配号
@@ -384,58 +376,6 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 	}
-
-	/**
-	 * 在上市日期那天扣除发行商的手续费
-	 */
-	public void savePublishHandling() throws Exception {
-		List<IpoCommodityConf> commList = commodityConfMapper.findAllIpoCommConfs();
-		if (commList == null || commList.isEmpty()) {
-			return;
-		}
-		;
-		Date listingDate = null;// 上市日期
-		for (IpoCommodityConf commConf : commList) {
-			listingDate = commConf.getListingdate();
-			if (!sdf.format(new Date()).equals(sdf.format(listingDate))) {
-				continue;
-			}
-			savePublishHandling(commConf);
-		}
-	}
-
-	/**
-	 * 在上市日期那天扣除发行商的手续费
-	 * 
-	 * @param commConf
-	 * @throws Exception
-	 */
-	@Transactional
-	public void savePublishHandling(IpoCommodityConf commConf) throws Exception {
-		String commodityId = commConf.getCommodityid();
-		// 发行手续费算法(1、按百分比 2、按绝对值)
-		Short publishalgr = commConf.getPublishalgr();
-		BigDecimal amount = new BigDecimal(0);
-		if (publishalgr == 2) {
-			amount = commConf.getPublishercharatio();
-		} else {
-			amount = commConf.getPrice().multiply(commConf.getCounts()).multiply(commConf.getPublishercharatio()).divide(new BigDecimal(100));
-		}
-		;
-		BrBroker broker = brBrokerMapper.selectById(commConf.getPubmemberid());
-		String firmId = broker.getFirmid();
-		DebitFlow debitFlow = new DebitFlow();
-		debitFlow.setAmount(amount);
-		debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
-		debitFlow.setCommodityId(commodityId);
-		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
-		debitFlow.setPayer(firmId);
-		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
-		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
-		debitFlow.setCreateUser("job");
-		debitFlow.setCreateDate(new Date());
-		debitFlowMapper.insert(debitFlow);
-	}
+ 
 
 }

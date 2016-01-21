@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,20 +16,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
+import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipHisMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipMapper;
+import com.yrdce.ipo.modules.sys.entity.FFirmfunds;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeship;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipHis;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
+import com.yrdce.ipo.throwable.BalanceNotEnoughException;
 
 /**
  * 托管商品 service
@@ -51,6 +61,13 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
+	@Autowired
+	private IpoPayFlowMapper  payFlowMapper;
+	@Autowired
+	private IpoDebitFlowMapper  debitFlowMapper;
+	@Autowired
+	private FFirmfundsMapper firmfundsMapper;
+	 
 	/**
 	 * 分页查询查询托管商品计划
 	 * 
@@ -226,11 +243,30 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 */
 	@Transactional
 	public void marketAuditPass(Trusteeship ship) throws Exception {
-		saveHis(ship.getId(), ship.getUpdateUser());
+		IpoTrusteeship dbShip =saveHis(ship.getId(), ship.getUpdateUser());
+		BigDecimal publishCharge=dbShip.getPublishCharge();
+		//验证资金是否充足
+		validateBalance(dbShip.getCreateUser(),publishCharge);
 		ship.setState(TrusteeshipConstant.State.MARKET_PASS.getCode());
 		ship.setUpdateDate(new Date());
 		ship.setAuditingDate(new Date());
 		shipMapper.updateApplyState(ship);
+		//冻结费用
+		frozen(dbShip.getCreateUser(),publishCharge);
+		//计算手续费
+		DebitFlow debitFlow = new DebitFlow();
+		debitFlow.setAmount(publishCharge);
+		debitFlow.setBusinessType(ChargeConstant.BusinessType.TRUSTEESHIP.getCode());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
+		debitFlow.setCommodityId(dbShip.getCommodityId());
+		debitFlow.setOrderId(String.valueOf(dbShip.getId()));
+		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+		debitFlow.setPayer(dbShip.getCreateUser());
+		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+		debitFlow.setCreateUser(ship.getUpdateUser());
+		debitFlow.setCreateDate(new Date());
+		debitFlowMapper.insert(debitFlow);
 	}
 
 	/**
@@ -323,6 +359,23 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 			}
 			positionMapper.insert(position);
 		}
+		
+		//计算托管商品的货款
+		Long effective=dbShip.getEffectiveAmount();
+		BigDecimal amount=dbShip.getPrice().multiply(new BigDecimal(effective));
+		PayFlow payFlow=new PayFlow();
+		payFlow.setAmount(amount);
+		payFlow.setBusinessType(ChargeConstant.BusinessType.TRUSTEESHIP.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		payFlow.setCommodityId(dbShip.getCommodityId());
+		payFlow.setOrderId(String.valueOf(ship.getId()));
+		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
+		payFlow.setPayee(ship.getCreateUser());
+		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
+		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
+		payFlow.setCreateUser(ship.getUpdateUser());
+		payFlow.setCreateDate(new Date());
+		payFlowMapper.insert(payFlow);
 	}
 
 	/**
@@ -358,4 +411,34 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return dbShip;
 	}
 
+	
+	
+	// 判断余额是否充足
+    private void validateBalance(String firmId, BigDecimal charge) throws Exception{
+		FFirmfunds firmfunds= firmfundsMapper.selectByPrimaryKey(firmId);
+		if(firmfunds==null){
+			throw new BalanceNotEnoughException();
+		};
+		BigDecimal balance=firmfunds.getBalance();
+		BigDecimal frozenfunds=firmfunds.getFrozenfunds();
+		BigDecimal difference=balance.subtract(frozenfunds).subtract(charge);
+		if(difference.doubleValue()<=0){
+			throw new BalanceNotEnoughException();
+		};
+	}
+	
+	// 冻结资金
+	private  BigDecimal frozen(String userId, BigDecimal allMonery) {
+		float mony = allMonery.floatValue();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("monery", "");
+		param.put("userid", userId);
+		param.put("amount", mony);
+		param.put("moduleid", "40");
+		firmfundsMapper.getfrozen(param);
+		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
+		return monery;
+	}
+		
+		
 }

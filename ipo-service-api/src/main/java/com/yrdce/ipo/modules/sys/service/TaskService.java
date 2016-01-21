@@ -73,11 +73,6 @@ public interface TaskService {
 	// 增发散户配售
 	public void placing() throws Exception;
 
-	/**
-	 * 在上市日期那天扣除发行商的手续费
-	 * @throws Exception
-	 */
-	public void savePublishHandling()throws Exception ;
 	
 	
 }

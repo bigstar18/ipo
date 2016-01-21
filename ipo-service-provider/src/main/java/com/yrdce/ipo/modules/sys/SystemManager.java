@@ -286,6 +286,8 @@ public class SystemManager {
 			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
 			//扣发行手续费,扣款对象:发行商
 			publishHandlingSettle();
+			//扣托管商品的手续费,扣款对象:散户
+			trusteeshipHandlingSettle();
 			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
 			//扣增发的货款,扣款对象:交易商(散户+承销商)
 			increasePublishGoodsSettle();
@@ -323,7 +325,12 @@ public class SystemManager {
 		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
 		debitFlowSettle(businessType,chargeType,"40004","发行手续费结算");
 	}
-	
+	//散户托管商品的手续费
+	public void trusteeshipHandlingSettle()throws Exception{
+		String businessType=ChargeConstant.BusinessType.TRUSTEESHIP.getCode();
+		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType,chargeType,"40004","托管手续费结算");
+	}
 	 //增发货款结算 
 	public void increasePublishGoodsSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();

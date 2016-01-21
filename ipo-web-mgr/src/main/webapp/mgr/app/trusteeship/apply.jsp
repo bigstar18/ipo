@@ -81,13 +81,15 @@
 		 $.ajax({  
 	  		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/marketAuditPass",  
 	  		    data:{"id":id},  
-	  		    type: 'POST',dataType: 'json',  
+	  		    type: 'POST',dataType: 'text',  
 	  		    success : function(data, stats) {  
-	  	             if(data==true||data=="true"){
+	  	             if(data=="success"){
 	  	            	 alert('审核成功');
 	  	            	 doSearch();
-	  	             }else{
+	  	             }else if(data=="error"){
 	  	            	 alert('审核失败');
+	  	             }else if(data=="001"){
+	  	            	 alert('账户余额不足,扣费失败!');
 	  	             }
 	  	        },
 		  	    error: function (jqXHR, textStatus, errorThrown) {
