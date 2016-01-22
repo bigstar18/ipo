@@ -237,11 +237,11 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			fundsMapper.getMonery(param);
 			BigDecimal money = (BigDecimal) param.get("money");
 			if (money.compareTo(cost) != -1) {
-				float mony = cost.floatValue();
+				float amount = cost.floatValue();
 				Map<String, Object> param1 = new HashMap<String, Object>();
 				param.put("money", "");
 				param.put("userid", userid);
-				param.put("amount", mony);
+				param.put("amount", amount);
 				param.put("moduleid", "40");
 				fundsMapper.getfrozen(param);
 			} else {

@@ -347,7 +347,7 @@
 	from IPO_DISTRIBUTION d left join IPO_ORDER o on d.userid=o.userid and d.commodityid=o.commodityid
 	where d.userid=#{userid,jdbcType=VARCHAR}
 	<if test="ptime != null">
-	and to_char(PTIME,'yyyy-MM-dd') != #{ptime,jdbcType=VARCHAR}
+	 and to_char(PTIME, 'yyyy-MM-dd') not in (#{ptime,jdbcType=VARCHAR},to_char(sysdate,'yyyy-MM-dd'))
 	</if>
 	)t
 	) a where a.TNO between #{beginnum} and  #{endnum}

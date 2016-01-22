@@ -70,7 +70,6 @@ public class TaskServiceImpl implements TaskService {
 	private IpoSpoRationMapper ipoSpoRationMapper;
 	@Autowired
 	private IpoSpoCommoditymanmaagementMapper ipoSPOCommMapper;
-	 
 
 	/**
 	 * 配号
@@ -274,7 +273,7 @@ public class TaskServiceImpl implements TaskService {
 		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid, commid);
 		if (ipoPosition != null) {
 			long position = ipoPosition.getPosition();
-			BigDecimal unit = commodityConf.getUnits();
+			BigDecimal unit = new BigDecimal(commodityConf.getUnits());
 			logger.info("配售单位" + unit);
 			BigDecimal counts = new BigDecimal(dst.getZcounts());
 			logger.info("中签数量：" + counts);
@@ -283,7 +282,7 @@ public class TaskServiceImpl implements TaskService {
 			ipoPositionMapper.updatePosition(userid, commid, sum);
 		} else {
 			String commUnit = commodityConf.getContractfactorname();
-			BigDecimal unit = commodityConf.getUnits();
+			BigDecimal unit = new BigDecimal(commodityConf.getUnits());
 			logger.info("配售单位" + unit);
 			BigDecimal counts = new BigDecimal(dst.getZcounts());
 			logger.info("中签数量：" + counts);
@@ -376,6 +375,5 @@ public class TaskServiceImpl implements TaskService {
 			}
 		}
 	}
- 
 
 }

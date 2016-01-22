@@ -18,7 +18,7 @@
 $(document).ready(function() {
 	
 	 $('#tt').datagrid({  
-         title:'申购记录',  
+         title:'申购成交',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,
@@ -61,8 +61,13 @@ $(document).ready(function() {
 			field : 'frozenfunds',
 			width : 200,
 			align: "center",
-			title : '资金冻结'
-		 }]],  
+			title : '货款资金'
+		 },{
+			field : 'frozencounterfee',
+			width : 200,
+			align: "center",
+			title : '手续费资金'
+			 }]],  
          pagination : true 
      });  
 	

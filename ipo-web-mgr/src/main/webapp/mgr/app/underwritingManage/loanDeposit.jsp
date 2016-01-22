@@ -3,7 +3,7 @@
 <html>
 <head>
 
-<title>承销贷款押金</title>
+<title>承销货款押金</title>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -15,7 +15,7 @@ $(document).ready(function() {
 function getAllInfo(){
 	 $('#name').val("");
 	 $('#depositInfo').datagrid({  
-         title:'承销贷款押金',  
+         title:'承销货款押金',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,

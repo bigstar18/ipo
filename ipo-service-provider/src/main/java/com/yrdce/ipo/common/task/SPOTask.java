@@ -3,7 +3,9 @@ package com.yrdce.ipo.common.task;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,9 @@ public class SPOTask {
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
-	private FFirmfundsMapper fundsMapper;
-	@Autowired
 	private IpoCommodityConfMapper ipoCommConfMapper;
+	@Autowired
+	private FFirmfundsMapper fundsMapper;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -104,13 +106,13 @@ public class SPOTask {
 					BigDecimal counts1 = new BigDecimal(num);
 					logger.debug("数量counts1：" + counts1);
 					// 货款
-					BigDecimal monery = price.multiply(counts1);
-					logger.debug("商品费用Monery：" + monery);
+					BigDecimal money = price.multiply(counts1);
+					logger.debug("商品费用Monery：" + money);
 					// 服务费
 					BigDecimal fee = new BigDecimal(0);
 					if (mode == 1) {
 						BigDecimal valparam = val.divide(new BigDecimal("100"));
-						fee = monery.multiply(valparam);
+						fee = money.multiply(valparam);
 						logger.debug("比例手续费：" + fee);
 					} else {
 						fee = counts1.multiply(val);
@@ -126,7 +128,7 @@ public class SPOTask {
 					ipoSpoRation.setFirmname(firmname);
 					ipoSpoRation.setRationSate(1);
 					ipoSpoRation.setServicefee(fee);
-					ipoSpoRation.setRationloan(monery);
+					ipoSpoRation.setRationloan(money);
 					ipoSpoRationMapper.insert(ipoSpoRation);
 					logger.info("散户增发定时任务结束");
 				}
@@ -136,6 +138,7 @@ public class SPOTask {
 	}
 
 	// 小于最小配售数量，自动增发失败
+	@Transactional
 	public void automaticFail() {
 		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1", new Date(), 3);
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
@@ -144,6 +147,20 @@ public class SPOTask {
 			long mincounts = ipospocomm.getMinRationCounts();
 			if (notcounts > mincounts) {
 				ipoSpoRationMapper.updateByStatus(3, spoid);
+				List<IpoSpoRation> list2 = ipoSpoRationMapper.selectBySPOid(spoid);
+				for (IpoSpoRation ipoSpoRation : list2) {
+					String firmid = ipoSpoRation.getFirmid();
+					BigDecimal rationLoan = ipoSpoRation.getRationloan();
+					BigDecimal serviceFee = ipoSpoRation.getServicefee();
+					BigDecimal all = rationLoan.add(serviceFee);
+					float allmoney = 0 - all.floatValue();
+					Map<String, Object> param = new HashMap<String, Object>();
+					param.put("money", "");
+					param.put("userid", firmid);
+					param.put("amount", allmoney);
+					param.put("moduleid", "40");
+					fundsMapper.getfrozen(param);
+				}
 			}
 		}
 	}

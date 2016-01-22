@@ -62,12 +62,12 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
-	private IpoPayFlowMapper  payFlowMapper;
+	private IpoPayFlowMapper payFlowMapper;
 	@Autowired
-	private IpoDebitFlowMapper  debitFlowMapper;
+	private IpoDebitFlowMapper debitFlowMapper;
 	@Autowired
 	private FFirmfundsMapper firmfundsMapper;
-	 
+
 	/**
 	 * 分页查询查询托管商品计划
 	 * 
@@ -184,17 +184,19 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 			BigDecimal listingCharge = new BigDecimal(instorageAmount).multiply(trusteeship.getPrice()).multiply(listingChargeRate)
 					.divide(new BigDecimal(100));
 			trusteeship.setListingCharge(listingCharge);
-		};
+		}
+		;
 		IpoCommodityConf commConf = commodityConfMapper.findIpoCommConfByCommid(trusteeship.getCommodityId());
 		//发行手续费算法(1、按百分比  2、按绝对值)
-		Short publishalgr=commConf.getPublishalgr();
-		BigDecimal publishCharge=new BigDecimal(0);
-		if(publishalgr==2){
-			publishCharge=commConf.getPublishercharatio();
-		}else{
-			publishCharge=commConf.getPrice().multiply(new BigDecimal(instorageAmount)).
-					multiply(commConf.getPublishercharatio()).divide(new BigDecimal(100));
-		};
+		Short publishalgr = commConf.getPublishalgr();
+		BigDecimal publishCharge = new BigDecimal(0);
+		if (publishalgr == 2) {
+			publishCharge = commConf.getPublishercharatio();
+		} else {
+			publishCharge = commConf.getPrice().multiply(new BigDecimal(instorageAmount)).multiply(commConf.getPublishercharatio())
+					.divide(new BigDecimal(100));
+		}
+		;
 		trusteeship.setPublishCharge(publishCharge);
 		trusteeship.setEffectiveAmount(effectiveAmount);
 		trusteeship.setPositionAmount(instorageAmount - effectiveAmount);
@@ -243,16 +245,16 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 */
 	@Transactional
 	public void marketAuditPass(Trusteeship ship) throws Exception {
-		IpoTrusteeship dbShip =saveHis(ship.getId(), ship.getUpdateUser());
-		BigDecimal publishCharge=dbShip.getPublishCharge();
+		IpoTrusteeship dbShip = saveHis(ship.getId(), ship.getUpdateUser());
+		BigDecimal publishCharge = dbShip.getPublishCharge();
 		//验证资金是否充足
-		validateBalance(dbShip.getCreateUser(),publishCharge);
+		validateBalance(dbShip.getCreateUser(), publishCharge);
 		ship.setState(TrusteeshipConstant.State.MARKET_PASS.getCode());
 		ship.setUpdateDate(new Date());
 		ship.setAuditingDate(new Date());
 		shipMapper.updateApplyState(ship);
 		//冻结费用
-		frozen(dbShip.getCreateUser(),publishCharge);
+		frozen(dbShip.getCreateUser(), publishCharge);
 		//计算手续费
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setAmount(publishCharge);
@@ -345,8 +347,8 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		// 保存持仓信息
 		IpoPosition dbPosition = ipoPositionMapper.selectPosition(dbShip.getCreateUser(), dbShip.getCommodityId());
 		if (dbPosition != null) {
-			 long amount=dbPosition.getPosition()+dbShip.getPositionAmount();
-			 ipoPositionMapper.updatePosition(dbShip.getCreateUser(), dbShip.getCommodityId(), amount);
+			long amount = dbPosition.getPosition() + dbShip.getPositionAmount();
+			ipoPositionMapper.updatePosition(dbShip.getCreateUser(), dbShip.getCommodityId(), amount);
 		} else {
 			IpoPosition position = new IpoPosition();
 			position.setCommodityid(dbShip.getCommodityId());
@@ -359,11 +361,11 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 			}
 			positionMapper.insert(position);
 		}
-		
+
 		//计算托管商品的货款
-		Long effective=dbShip.getEffectiveAmount();
-		BigDecimal amount=dbShip.getPrice().multiply(new BigDecimal(effective));
-		PayFlow payFlow=new PayFlow();
+		Long effective = dbShip.getEffectiveAmount();
+		BigDecimal amount = dbShip.getPrice().multiply(new BigDecimal(effective));
+		PayFlow payFlow = new PayFlow();
 		payFlow.setAmount(amount);
 		payFlow.setBusinessType(ChargeConstant.BusinessType.TRUSTEESHIP.getCode());
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
@@ -383,14 +385,13 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	 * @param id
 	 * @return
 	 */
-	public Trusteeship findTrusteeshipById(Long id){
+	public Trusteeship findTrusteeshipById(Long id) {
 		IpoTrusteeship dbShip = shipMapper.get(id);
 		Trusteeship ship = new Trusteeship();
 		BeanUtils.copyProperties(dbShip, ship);
 		return ship;
 	}
-	
-	
+
 	/**
 	 * 保存上一次的操作记录
 	 * 
@@ -411,34 +412,33 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return dbShip;
 	}
 
-	
-	
 	// 判断余额是否充足
-    private void validateBalance(String firmId, BigDecimal charge) throws Exception{
-		FFirmfunds firmfunds= firmfundsMapper.selectByPrimaryKey(firmId);
-		if(firmfunds==null){
+	private void validateBalance(String firmId, BigDecimal charge) throws Exception {
+		FFirmfunds firmfunds = firmfundsMapper.selectByPrimaryKey(firmId);
+		if (firmfunds == null) {
 			throw new BalanceNotEnoughException();
-		};
-		BigDecimal balance=firmfunds.getBalance();
-		BigDecimal frozenfunds=firmfunds.getFrozenfunds();
-		BigDecimal difference=balance.subtract(frozenfunds).subtract(charge);
-		if(difference.doubleValue()<=0){
+		}
+		;
+		BigDecimal balance = firmfunds.getBalance();
+		BigDecimal frozenfunds = firmfunds.getFrozenfunds();
+		BigDecimal difference = balance.subtract(frozenfunds).subtract(charge);
+		if (difference.doubleValue() <= 0) {
 			throw new BalanceNotEnoughException();
-		};
+		}
+		;
 	}
-	
+
 	// 冻结资金
-	private  BigDecimal frozen(String userId, BigDecimal allMonery) {
+	private BigDecimal frozen(String userId, BigDecimal allMonery) {
 		float mony = allMonery.floatValue();
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
+		param.put("money", "");
 		param.put("userid", userId);
 		param.put("amount", mony);
 		param.put("moduleid", "40");
 		firmfundsMapper.getfrozen(param);
-		BigDecimal monery = new BigDecimal((Double) (param.get("monery")));
-		return monery;
+		BigDecimal money = new BigDecimal((Double) (param.get("money")));
+		return money;
 	}
-		
-		
+
 }

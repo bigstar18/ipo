@@ -10,15 +10,15 @@ public class IpoCommodityConf {
 
 	private BigDecimal price;
 
-	private BigDecimal units;
+	private long units;
 
-	private BigDecimal counts;
+	private long counts;
 
 	private Date starttime;
 
 	private Date endtime;
 
-	private BigDecimal maxapplynum;
+	private long maxapplynum;
 
 	private BigDecimal status;
 
@@ -127,8 +127,7 @@ public class IpoCommodityConf {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public BigDecimal getPrice() {
@@ -139,19 +138,19 @@ public class IpoCommodityConf {
 		this.price = price;
 	}
 
-	public BigDecimal getUnits() {
+	public long getUnits() {
 		return units;
 	}
 
-	public void setUnits(BigDecimal units) {
+	public void setUnits(long units) {
 		this.units = units;
 	}
 
-	public BigDecimal getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(BigDecimal counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
 	}
 
@@ -179,11 +178,11 @@ public class IpoCommodityConf {
 		this.endtime = endtime;
 	}
 
-	public BigDecimal getMaxapplynum() {
+	public long getMaxapplynum() {
 		return maxapplynum;
 	}
 
-	public void setMaxapplynum(BigDecimal maxapplynum) {
+	public void setMaxapplynum(long maxapplynum) {
 		this.maxapplynum = maxapplynum;
 	}
 
@@ -336,8 +335,7 @@ public class IpoCommodityConf {
 	}
 
 	public void setContractfactorname(String contractfactorname) {
-		this.contractfactorname = contractfactorname == null ? null
-				: contractfactorname.trim();
+		this.contractfactorname = contractfactorname == null ? null : contractfactorname.trim();
 	}
 
 	public String getMapperid() {

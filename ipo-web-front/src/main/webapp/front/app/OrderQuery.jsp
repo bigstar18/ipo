@@ -35,7 +35,8 @@
 						<th data-options="field:'commodityname',align: 'center',width:180">商品名称</th>
 						<th data-options="field:'counts',align: 'center',width:200">已申购数量</th>
 						<th data-options="field:'createtime',align: 'center',width:200,formatter:dateconvertfunc">申购时间</th>
-						<th data-options="field:'frozenfunds',align: 'center',width:200">资金冻结</th>
+						<th data-options="field:'frozenfunds',align: 'center',width:200">货款冻结</th>
+						<th data-options="field:'frozencounterfee',align: 'center',width:200">手续费冻结</th>
             </tr>
         </thead>
     </table>

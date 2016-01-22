@@ -32,19 +32,17 @@ public class PayFlowServiceImpl implements PayFlowService {
 	@Autowired
 	private IpoSysStatusMapper mapper;
 
-	
 	/**
 	 * 分页查询发行货款费用
 	 * @param PayFlow
 	 * @return
 	 */
-	public List<PayFlow> queryPublishGoodsForPage(String pageNo,String pageSize, PayFlow payFlow){
+	public List<PayFlow> queryPublishGoodsForPage(String pageNo, String pageSize, PayFlow payFlow) {
 		int startIndex = PageUtil.getStartIndex(pageNo, pageSize);
 		int endIndex = PageUtil.getEndIndex(pageNo, pageSize);
 		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
-		List<IpoPayFlow> dbList = payFlowMapper.queryPublishGoodsForPage(
-				startIndex, endIndex, payFlow);
+		List<IpoPayFlow> dbList = payFlowMapper.queryPublishGoodsForPage(startIndex, endIndex, payFlow);
 		List<PayFlow> dataList = new ArrayList<PayFlow>();
 		for (IpoPayFlow item : dbList) {
 			PayFlow entity = new PayFlow();
@@ -54,7 +52,7 @@ public class PayFlowServiceImpl implements PayFlowService {
 		;
 		return dataList;
 	}
-	
+
 	/**
 	 * 查询发行货款费用数量
 	 * @param PayFlow
@@ -65,9 +63,6 @@ public class PayFlowServiceImpl implements PayFlowService {
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
 		return payFlowMapper.queryPublishGoodsForCount(payFlow);
 	}
-	
-	
-	
 
 	/**
 	 * 付款
@@ -87,10 +82,9 @@ public class PayFlowServiceImpl implements PayFlowService {
 
 	}
 
-	private BigDecimal updateFundsFull(String userId, String opCode,
-			BigDecimal amount, String commoId) {
+	private BigDecimal updateFundsFull(String userId, String opCode, BigDecimal amount, String commoId) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("monery", "");
+		param.put("money", "");
 		param.put("userid", userId);
 		param.put("oprcode", opCode);
 		param.put("amount", amount.doubleValue());
@@ -99,8 +93,8 @@ public class PayFlowServiceImpl implements PayFlowService {
 		param.put("appendAmount", null);
 		param.put("voucherNo", null);
 		mapper.updateFundsFull(param);
-		BigDecimal monery = (BigDecimal) (param.get("monery"));
-		return monery;
+		BigDecimal money = (BigDecimal) (param.get("money"));
+		return money;
 	}
 
 }

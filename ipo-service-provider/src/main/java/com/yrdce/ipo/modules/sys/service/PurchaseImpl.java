@@ -20,10 +20,12 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 
 /**
  * 申购服务
@@ -55,6 +57,8 @@ public class PurchaseImpl implements Purchase {
 	private IpoCommodityConfMapper ipoCommConfMapper;
 	@Autowired
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
+	@Autowired
+	private IpoPayFlowMapper ipoPayFlowMapper;
 
 	private ThreadLocal<String> applyUser = new ThreadLocal<String>();
 
@@ -102,15 +106,20 @@ public class PurchaseImpl implements Purchase {
 					logger.info("进入重复申购");
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodity commodity = ipoComMapper.selectByComid(ID);
+					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
+					//IpoCommodity commodity = ipoComMapper.selectByComid(ID);
 					// 获取商品名称
-					String name = commodity.getCommodityname();
+					//String name = commodity.getCommodityname();
+					String name = ipoCommodityConf.getCommodityname();
 					// 商品单价
-					BigDecimal price = commodity.getPrice();
+					//BigDecimal price = commodity.getPrice();
+					BigDecimal price = ipoCommodityConf.getPrice();
 					// 获取申购额度
-					long e = commodity.getPurchaseCredits();
+					//long e = commodity.getPurchaseCredits();
+					long e = ipoCommodityConf.getMaxapplynum();
 					// 发售单位
-					int units = commodity.getUnits();
+					//int units = commodity.getUnits();
+					String pubmemberid = ipoCommodityConf.getPubmemberid();
 					// 获取客户可用资金
 					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
@@ -124,7 +133,7 @@ public class PurchaseImpl implements Purchase {
 					// 申购消费总额
 					BigDecimal allMoney = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
-					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
+					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
 					short mode = ipoCommodityConf.getTradealgr();
 					BigDecimal val = ipoCommodityConf.getBuy();
 					BigDecimal fee = new BigDecimal(0);
@@ -137,7 +146,6 @@ public class PurchaseImpl implements Purchase {
 						logger.debug("绝对值手续费：" + fee);
 					}
 					BigDecimal cost = allMoney.add(fee);
-					logger.debug("总值：" + cost);
 					// 申购额度判断
 					if (counts <= e) {
 						// 申购资金判断
@@ -158,7 +166,7 @@ public class PurchaseImpl implements Purchase {
 							ipoOrder.setCommodityname(name);
 							ipoOrder.setCounts(counts);
 							ipoOrder.setCreatetime(date);
-							ipoOrder.setFrozenfunds(cost);
+							ipoOrder.setFrozenfunds(allMoney);
 							ipoOrder.setFrozenst(0);
 							ipoOrder.setCommodity_id(id);
 							ipoOrder.setBuy(val);
@@ -167,24 +175,7 @@ public class PurchaseImpl implements Purchase {
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
 							// 货款流水
-							DebitFlow debitFlow = new DebitFlow();
-							debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
-							debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
-							debitFlow.setCommodityId(sId);
-							debitFlow.setOrderId(primaryKey);
-							debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
-							debitFlow.setPayer(userId);
-							debitFlow.setAmount(allMoney);
-							debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
-							debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
-							debitFlow.setBuyBackFlag(0);
-							debitFlow.setCreateUser(userId);
-							debitFlow.setCreateDate(new Date());
-							ipoDebitFlowMapper.insert(debitFlow);
-							// 手续费流水
-							debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
-							debitFlow.setAmount(fee);
-							ipoDebitFlowMapper.insert(debitFlow);
+							this.fundsFlow(sId, primaryKey, userId, allMoney, fee, pubmemberid);
 							result = SECCESS;
 						} else {
 							result = LACK_OF_FUNDS;
@@ -209,12 +200,12 @@ public class PurchaseImpl implements Purchase {
 	// 冻结资金
 	public BigDecimal frozen(String userId, BigDecimal allMoney) {
 		logger.info("调用冻结资金函数");
-		float mony = allMoney.floatValue();
+		float money = allMoney.floatValue();
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("money", "");
 		param.put("userid", userId);
-		param.put("amount", mony);
+		param.put("amount", money);
 		param.put("moduleid", "40");
 		fundsMapper.getfrozen(param);
 		BigDecimal money = new BigDecimal((Double) (param.get("money")));
@@ -233,4 +224,41 @@ public class PurchaseImpl implements Purchase {
 		}
 	}
 
+	//收付款流水
+	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee, String pubmemberid) {
+		// 货款流水
+		DebitFlow debitFlow = new DebitFlow();
+		debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
+		debitFlow.setCommodityId(commodityid);
+		debitFlow.setOrderId(id);
+		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+		debitFlow.setPayer(userid);
+		debitFlow.setAmount(money);
+		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+		debitFlow.setBuyBackFlag(0);
+		debitFlow.setCreateUser(userid);
+		debitFlow.setCreateDate(new Date());
+		ipoDebitFlowMapper.insert(debitFlow);
+		// 手续费流水
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
+		debitFlow.setAmount(fee);
+		ipoDebitFlowMapper.insert(debitFlow);
+
+		PayFlow payFlow = new PayFlow();
+		payFlow.setAmount(money);
+		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		payFlow.setCommodityId(commodityid);
+		payFlow.setOrderId(id);
+		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
+		payFlow.setPayee(pubmemberid);
+		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
+		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
+		payFlow.setCreateUser(userid);
+		payFlow.setCreateDate(new Date());
+		ipoPayFlowMapper.insert(payFlow);
+		return "success";
+	}
 }
