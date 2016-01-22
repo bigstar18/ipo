@@ -157,7 +157,8 @@ public class SPOServiceImpl implements SPOService {
 	@Override
 	public Map<String, String> getCommodityidByAll() throws Exception {
 		logger.info("获得商品名称以及商品代码");
-		List<IpoCommodityConf> list1 = ipoCommMapper.queryListingCommodity(null);
+		IpoCommodityConf examples = new IpoCommodityConf();
+		List<IpoCommodityConf> list1 = ipoCommMapper.queryListingCommodity(examples);
 		Map<String, String> map = new HashMap<String, String>();
 		for (IpoCommodityConf ipoCommodity : list1) {
 			String id = ipoCommodity.getCommodityid();
