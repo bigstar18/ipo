@@ -200,12 +200,12 @@ public class PurchaseImpl implements Purchase {
 	// 冻结资金
 	public BigDecimal frozen(String userId, BigDecimal allMoney) {
 		logger.info("调用冻结资金函数");
-		float money = allMoney.floatValue();
+		float amount = allMoney.floatValue();
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("money", "");
 		param.put("userid", userId);
-		param.put("amount", money);
+		param.put("amount", amount);
 		param.put("moduleid", "40");
 		fundsMapper.getfrozen(param);
 		BigDecimal money = new BigDecimal((Double) (param.get("money")));
