@@ -35,6 +35,18 @@ function doSearch(){
 				$("#deliveryMethod").val(data.deliveryMethod);
 				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
+				$("#deliveryperson").val(data.dealerName);
+				$("#idnum").val(data.idcardNum);
+				if(data.idcardNum!=null){
+					$("#idtype").val("身份证");
+					if (parseInt(data.idcardNum.substr(16, 1)) % 2 == 1) { 
+						$("#sex").val("男");
+						} else { 
+						$("#sex").val("女");
+						} 
+				}				
+				
+				
 				switch(data.approvalStatus){
 				case 1:
 					$("#approvalStatus").val("申请");
@@ -115,18 +127,6 @@ function doAdd(){
 	var sex=$("#sex").val();
 	var idtype = $("#idtype").val();
 	var idnum=$("#idnum").val();
-	if(deliveryperson==""){
-		alert("提货人不可为空！")
-		return;
-	}
-	if(sex==""){
-		alert("性别不可为空！");
-		return;
-	}
-	if(idtype==""){
-		alert("证件类型不可为空！");
-		return;
-	}
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/OutBoundController/addOutBoundOrder",
@@ -281,17 +281,18 @@ function validate(obj){
 											提货人：
 											</td>
 											<td align="left">
-											<input id="deliveryperson" style="width:160px;height:20px;">
+											<input id="deliveryperson" readonly="readonly" style="width:160px;height:20px;">
 											<span class="bj">*</span>
 											</td>
 											<td align="right">
 											性别：
 											</td>
 											<td align="left">
-											<select style="width:160px;height:20px;" id="sex">
-												<option value="男">男</option>
-												<option value="女">女</option>
-											</select>
+											<input id="sex" readonly="readonly" style="width:160px;height:20px;">
+<!-- 											<select style="width:160px;height:20px;" id="sex"> -->
+<!-- 												<option value="男">男</option> -->
+<!-- 												<option value="女">女</option> -->
+<!-- 											</select> -->
 											<span class="bj">*</span>
 											</td>
 										</tr>
@@ -301,18 +302,16 @@ function validate(obj){
 											证件类型：
 											</td>
 											<td align="left">
-											<input readonly="readonly" id="idtype"  style="width:160px;height:20px;" value="身份证">
+											<input readonly="readonly" id="idtype"  style="width:160px;height:20px;" value="">
 											</td>
 											<td align="right">
 											证件号码：
 											</td>
 											<td align="left">
-											<input onblur="validate(this)" id="idnum" style="width:160px;height:20px;">
+											<input onblur="validate(this)" readonly="readonly" id="idnum" style="width:160px;height:20px;">
 											<span class="bj">*</span>
 											</td>
 										</tr>
-										
-										
 							</table>
 							<table id="psInfo" class="table2_style" style="border-top:0;;display:none" align="center">
 									<tr> 
