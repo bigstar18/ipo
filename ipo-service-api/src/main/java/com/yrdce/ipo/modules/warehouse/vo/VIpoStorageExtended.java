@@ -44,6 +44,18 @@ public class VIpoStorageExtended implements Serializable {
 
 	private BigDecimal contractfactor;// 申购单位
 
+	private BigDecimal price;// 发行价格
+
+	private Integer transferstate;
+
+	public Integer getTransferstate() {
+		return transferstate;
+	}
+
+	public void setTransferstate(Integer transferstate) {
+		this.transferstate = transferstate;
+	}
+
 	public BigDecimal getContractfactor() {
 		return contractfactor;
 	}
@@ -190,6 +202,14 @@ public class VIpoStorageExtended implements Serializable {
 		this.storagecounts = storagecounts;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		return "VIpoStorageExtended [storageid=" + storageid + ", commodityid="
@@ -203,7 +223,7 @@ public class VIpoStorageExtended implements Serializable {
 				+ ", commodityname=" + commodityname + ", pubmemberid="
 				+ pubmemberid + ", publishername=" + publishername
 				+ ", counts=" + counts + ", contractfactor=" + contractfactor
-				+ "]";
+				+ ", price=" + price + "]";
 	}
 
 }

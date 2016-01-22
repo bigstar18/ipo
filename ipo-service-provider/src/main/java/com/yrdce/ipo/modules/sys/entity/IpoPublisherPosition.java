@@ -10,7 +10,7 @@ import java.util.Date;
  *
  */
 public class IpoPublisherPosition {
-	private BigDecimal positionid;
+	private Long positionid;
 
 	private String publisherid;// 发行会员代码
 
@@ -22,11 +22,11 @@ public class IpoPublisherPosition {
 
 	private BigDecimal totalvalue;// 总市值
 
-	private BigDecimal pubposition;// 转持仓
+	private Long pubposition;// 转持仓
 
-	private BigDecimal salecounts;// 转发售数量
+	private Long salecounts;// 转发售数量
 
-	private BigDecimal totalcounts;// 总数量
+	private Long totalcounts;// 总数量
 
 	private Short status;// 状态（1、新增 2、已冻结费用 3、已扣费 4、已转持仓）
 
@@ -38,12 +38,14 @@ public class IpoPublisherPosition {
 
 	private Date updatedate;
 
-	public BigDecimal getPositionid() {
-		return positionid;
+	private String storageid;
+
+	public String getStorageid() {
+		return storageid;
 	}
 
-	public void setPositionid(BigDecimal positionid) {
-		this.positionid = positionid;
+	public void setStorageid(String storageid) {
+		this.storageid = storageid;
 	}
 
 	public String getPublisherid() {
@@ -70,27 +72,35 @@ public class IpoPublisherPosition {
 		this.totalvalue = totalvalue;
 	}
 
-	public BigDecimal getPubposition() {
+	public Long getPositionid() {
+		return positionid;
+	}
+
+	public void setPositionid(Long positionid) {
+		this.positionid = positionid;
+	}
+
+	public Long getPubposition() {
 		return pubposition;
 	}
 
-	public void setPubposition(BigDecimal pubposition) {
+	public void setPubposition(Long pubposition) {
 		this.pubposition = pubposition;
 	}
 
-	public BigDecimal getSalecounts() {
+	public Long getSalecounts() {
 		return salecounts;
 	}
 
-	public void setSalecounts(BigDecimal salecounts) {
+	public void setSalecounts(Long salecounts) {
 		this.salecounts = salecounts;
 	}
 
-	public BigDecimal getTotalcounts() {
+	public Long getTotalcounts() {
 		return totalcounts;
 	}
 
-	public void setTotalcounts(BigDecimal totalcounts) {
+	public void setTotalcounts(Long totalcounts) {
 		this.totalcounts = totalcounts;
 	}
 

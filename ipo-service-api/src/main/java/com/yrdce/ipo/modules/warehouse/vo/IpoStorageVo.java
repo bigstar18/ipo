@@ -42,6 +42,16 @@ public class IpoStorageVo implements Serializable {
 
 	private Long storagecounts;
 
+	private Integer transferstate;
+
+	public Integer getTransferstate() {
+		return transferstate;
+	}
+
+	public void setTransferstate(Integer transferstate) {
+		this.transferstate = transferstate;
+	}
+
 	public String getStorageid() {
 		return storageid;
 	}

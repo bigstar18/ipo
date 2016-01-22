@@ -25,4 +25,8 @@ public interface IpoPublisherPositionMapper {
 			@Param("record") IpoPublisherPosition record);
 
 	int getTotalNum(@Param("record") IpoPublisherPosition record);
+
+	Long getSaleCounts(@Param("commodityid") String commodityid);
+
+	IpoPublisherPosition getInfoByStorageId(@Param("storageid") String storageid);
 }

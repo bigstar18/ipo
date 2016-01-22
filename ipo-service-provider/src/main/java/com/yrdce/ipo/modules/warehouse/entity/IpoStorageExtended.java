@@ -3,6 +3,10 @@ package com.yrdce.ipo.modules.warehouse.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author chenjing
+ *
+ */
 public class IpoStorageExtended {
 	private String storageid;
 
@@ -39,6 +43,26 @@ public class IpoStorageExtended {
 	private BigDecimal counts;// 发行数量
 
 	private BigDecimal contractfactor;// 申购单位
+
+	private BigDecimal price;// 发行价格
+
+	private Integer transferstate;
+
+	public Integer getTransferstate() {
+		return transferstate;
+	}
+
+	public void setTransferstate(Integer transferstate) {
+		this.transferstate = transferstate;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
 	public BigDecimal getCounts() {
 		return counts;

@@ -16,21 +16,25 @@
     <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
     <result column="UPDATER" property="updater" jdbcType="VARCHAR" />
     <result column="UPDATEDATE" property="updatedate" jdbcType="DATE" />
+    <result column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from IPO_PUBLISHER_POSITION
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
+  	 <selectKey resultType="Long" order="BEFORE" keyProperty="positionid">
+	SELECT SEQ_IPO_PUBLISHER_POSITION.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_PUBLISHER_POSITION (POSITIONID, PUBLISHERID, COMMODITYID, 
       TOTALVALUE, PUBPOSITION, SALECOUNTS, 
       TOTALCOUNTS, STATUS, CREATER, 
-      CREATEDATE, UPDATER, UPDATEDATE
+      CREATEDATE, UPDATER, UPDATEDATE,STORAGEID
       )
     values (#{positionid,jdbcType=DECIMAL}, #{publisherid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{totalvalue,jdbcType=DECIMAL}, #{pubposition,jdbcType=DECIMAL}, #{salecounts,jdbcType=DECIMAL}, 
       #{totalcounts,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{creater,jdbcType=VARCHAR}, 
-      #{createdate,jdbcType=DATE}, #{updater,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}
+      #{createdate,jdbcType=DATE}, #{updater,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}, #{storageid,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" >
@@ -45,18 +49,19 @@
       CREATER = #{creater,jdbcType=VARCHAR},
       CREATEDATE = #{createdate,jdbcType=DATE},
       UPDATER = #{updater,jdbcType=VARCHAR},
-      UPDATEDATE = #{updatedate,jdbcType=DATE}
+      UPDATEDATE = #{updatedate,jdbcType=DATE},
+      STORAGEID = #{storageid,jdbcType=VARCHAR}
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
-    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE
+    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID
     from IPO_PUBLISHER_POSITION
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
-    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE
+    TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID
     from IPO_PUBLISHER_POSITION
   </select>
   
@@ -74,7 +79,15 @@
       and T.COMMODITYID like concat('%',concat (#{record.commodityid,jdbcType=VARCHAR},'%'))
       </if>
   </select> 
-  
+   <select id="getSaleCounts" resultType="Long" parameterType="String">
+    select sum(t.salecounts) from ipo_publisher_position t where  t.commodityid=#{commodityid,jdbcType=VARCHAR}
+  </select> 
+    <select id="getInfoByStorageId" resultType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" parameterType="String">
+        select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+        TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID
+        from IPO_PUBLISHER_POSITION
+        where STORAGEID = #{storageid,jdbcType=VARCHAR}
+  </select> 
   
   
 </mapper>

@@ -29,6 +29,16 @@ public class IpoStorage {
 
 	private Long storagecounts;// 入库数量
 
+	private Integer transferstate;
+
+	public Integer getTransferstate() {
+		return transferstate;
+	}
+
+	public void setTransferstate(Integer transferstate) {
+		this.transferstate = transferstate;
+	}
+
 	public String getStorageid() {
 		return storageid;
 	}

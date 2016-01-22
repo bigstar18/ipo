@@ -16,45 +16,47 @@
 		</style>
 		<script type="text/javascript">
 function add(){
-	if($("#commodityid").val()==''){
-		alert("请选择商品");
-		return;
-	}
-	if($("#status").val()==''){
-		alert("请选择状态");
-		return;
-	}
 	var flag= $('#frm').form('validate');
 	if(flag==true){
+		var totalcounts=parseInt($("#totalcounts").val());
+		var counts=parseInt($("#counts").val());
+		var salecounts=parseInt($("#salecounts").val());
+		if(totalcounts<counts&&salecounts!=0){
+			alert("总入库量小于发行量，只能全部转持仓！");
+			$("#salecounts").val(0);
+			$("#pubposition").val(totalcounts);
+		}
+		if(confirm("确定添加本记录吗？")){
 		 $.ajax({  
 			 type: 'POST', 
-		      url: "<%=request.getContextPath()%>/PublisherController/checkExsitPaymentTrack",  
-		     data:{"commodityid":$("#commodityid").val()},  
+		     url: "<%=request.getContextPath()%>/PublisherController/checkSaleCounts",  
+		     data:{"salecounts":salecounts,"commodityid":$("#commodityid").val(),"counts":$("#counts").val()},
 		     success : function(data, stats) { 
-			           if(data=='true'){
-			        	   alert("该商品的货款跟踪信息已存在！")
+			           if(data=='false'){
+			        	   alert("发售数量已满，请全部转持仓");
+			        	   return ;
 			           }
-                       if(data=='false'){
+                       if(data=='true'){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
-                                       url: "<%=request.getContextPath()%>/PublisherController/addPaymentTrack",       
+                                       url: "<%=request.getContextPath()%>/PublisherController/addPublisherPosition",       
                                        data: $("#frm").serialize(),      
                                        success: function(data) { 
                                     	   if(data=='true'){
                                            alert("添加成功！"); 
                                            returntoList();
                                     	   }else{
-                                    		   alert("系统异常，请联系管理员");  
+                                    		   alert("添加失败！");  
                                     	   }
                                        },  
                                        error: function(data) {  
-                                           alert("系统异常，请联系管理员！");  
+                                           alert("请求失败！");  
                                        }  
                                    }) ;
                        }
 			        }    
-				}); 
+				}); }
         			        }    
 }
 		
@@ -64,7 +66,7 @@ function returntoList(){
 	document.location.href = backUrl;
 }
 	
-function setSortName(value) {
+<%-- function setSortName(value) {
 	var commList =<%=request.getAttribute("commList") %>; 
 	 for(var o in commList){  
 	        if (value == commList[o].commodityid ) {
@@ -81,9 +83,28 @@ function setSortName(value) {
 				break;
 		}
 	 }  
-}
+} --%>
 	
+function getPosition(){
+	
+	var totalcounts=parseInt($("#totalcounts").val());
+	if($("#salecounts").val()!='')
+	{
+		var salecounts=parseInt($("#salecounts").val());
+		$("#pubposition").val(totalcounts-salecounts);
+	}
+	
+}
 
+function getSaleCounts(){
+	var totalcounts=parseInt($("#totalcounts").val());
+	if($("#pubposition").val()!='')
+	{
+		var pubposition=parseInt($("#pubposition").val());
+		$("#salecounts").val(totalcounts-pubposition);
+	}
+	
+}
 
 </script>
 </head>
@@ -112,6 +133,7 @@ function setSortName(value) {
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
 	        	<td>
+	        	
 	        	<input type="text" id="commodityid" name="commodityid" value="${entity.commodityid }" readonly="readonly"/>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">商品名称：</td>
@@ -129,31 +151,44 @@ function setSortName(value) {
 	        	<input type="text" id="publishername" name="publishername" value="${entity.publishername }" readonly="readonly"/>
 	        	</td>
 	        </tr> 
+	         <tr>
+	        	<td style="font-size:15px" align="right" width="20%">发行数量：</td>
+	        	<td>
+	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
+	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%">入库单号：</td>
+	        	<td>
+	        	<input type="text" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
+	        	</td>
+	        </tr> 
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
-	        	<input type="text" id="totalcounts" name="totalcounts" value="${entity.storagecounts }" readonly="readonly"/>
+	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
 	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">总市值：</td>
+	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" value="${entity.commodityname }" readonly="readonly"/>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/>
 	        	</td>
 	        </tr>  
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
-	        	<input type="text" id="salecounts" name="salecounts"/><span class="required">*</span>
+	        	
+	        	<input type="text" onblur="getPosition()" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"/><span class="required">*</span>
+	        	<input type="text" onblur="getSaleCounts()" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="pubposition" name="pubposition"/><span class="required">*</span>
 	        	</td>
 	        </tr>  
 		  	<tr>
 				<td align="right">
-					<input type="button" value="添加" onclick="add()"/>
 		    	</td>
-		    	<td align="left"><input type="button" value="返回" onclick="returntoList()"/></td>
+		    	<td align="right"><input type="button" value="添加" onclick="add()"/></td>
+		    	<td align="left"><input type="button" value="返回" onclick="returntoList()"/>
+		    	</td>
+		    	<td align="right"></td>
 		 	</tr>
 	    </table>
 	</fieldset>

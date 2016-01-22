@@ -162,10 +162,7 @@
   </select>
   
   <select id="firmidBySales" resultType="java.lang.String">
-  select b.firmid from br_broker b 
-	left join br_brokertype btype 
-	on b.membertype = btype.borkertype 
-	where btype.brokername = '承销会员' and  b.brokerid =#{brokerid,jdbcType=VARCHAR}
+  select b.firmid from br_broker b where   b.brokerid =#{brokerid,jdbcType=VARCHAR}
   </select>
   
   <select id="selectFirmname" resultType="java.lang.String" parameterType="java.lang.String">

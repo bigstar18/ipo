@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
@@ -31,5 +32,40 @@ public interface PublisherPositionService {
 	 * @return
 	 */
 	public Integer insertPubPoition(PublisherPosition example);
+
+	/**
+	 * 获取已经转成功的发售总量
+	 * 
+	 * @param commodityid
+	 * @return
+	 */
+	public Long getSaleCounts(String commodityid);
+
+	/**
+	 * 根据入库单找转持仓单，获取发行商代码和发行手续费
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
+	public PublisherPosition getInfoByStorageId(String storageid);
+
+	/**
+	 * 冻结货款
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
+	public String frozenFunds(String publisherid, BigDecimal money);
+
+	/**
+	 * 更改状态
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
+	public String updateStatus(PublisherPosition example);
 
 }

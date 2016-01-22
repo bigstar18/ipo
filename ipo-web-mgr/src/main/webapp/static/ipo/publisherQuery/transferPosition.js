@@ -14,7 +14,12 @@ $(document).ready(function() {
          url:  getRootPath () + "/PublisherController/transferPosition" ,  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器   
-         columns : [ [  {
+         columns : [ [ {
+        	 field : 'storageid',  
+             width : 250,  
+             align: "center",
+             title : '入库单号'
+         }, {
         	 field : 'pubmemberid',  
              width : 250,  
              align: "center",
@@ -48,7 +53,7 @@ $(document).ready(function() {
              	return value.substr(0,10);
              }
          },{
-        	 field : 'status',  
+        	 field : 'transferstate',  
              width : 250,  
              align: "center",
              title : '状态',
@@ -57,6 +62,7 @@ $(document).ready(function() {
             	 if(value=='2') return "已冻结费用";
             	 if(value=='3') return "已扣费";
             	 if(value=='4') return "已转持仓";
+            	 return "未设置";
            }
          } , {
         	 field : 'operator',  
@@ -64,7 +70,11 @@ $(document).ready(function() {
              align: "center",
              title : '操作',
              formatter:function(value,row){
-                 return "<input type=\"button\" onclick=\"transfer('"+row.storageid+"')\" value=\"转持仓\"/>";
+             	if(row.transferstate==1) return "<input type=\"button\" onclick=\"forzen('"+row.storageid+"')\" value=\"冻结\"/>";
+             	if(row.transferstate==2) return "<input type=\"button\" onclick=\"ducut('"+row.storageid+"')\" value=\"扣费\"/>";
+             	if(row.transferstate==3) return "<input type=\"button\" onclick=\"transfer('"+row.storageid+"')\" value=\"转持仓\"/>";
+             	if(row.transferstate==4) return "";
+                return "<input type=\"button\" onclick=\"setInfo('"+row.storageid+"')\" value=\"设置\"/>";
            }
          }
          ]],  
@@ -89,7 +99,33 @@ function clearInfo(){
 	$("#commodityid").val("");
 }
 
-function transfer(value){
+function setInfo(value){
 	document.location.href = getRootPath ()+ '/PublisherController/addTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000);
 
 }
+
+
+function forzen(value){
+	                        $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: getRootPath ()+"/PublisherController/frozenFunds",       
+                                       data: {"storageid":value},      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("冻结成功！"); 
+                                    	   }else{
+                                    		   alert("冻结失败！");  
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("请求失败！");  
+                                       }  
+                                   }) ;
+}
+
+
+
+
+
+

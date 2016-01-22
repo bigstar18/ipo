@@ -15,6 +15,7 @@
     <result column="WAREHOUSEID" property="warehouseid" jdbcType="DECIMAL" />
     <result column="MAPPERBILLID" property="mapperbillid" jdbcType="VARCHAR" />
     <result column="STORAGECOUNTS" property="storagecounts" jdbcType="DECIMAL" />
+    <result column="TRANSFERSTATUS" property="transferstate" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="SResultMap" type="com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended" >
     <id column="STORAGEID" property="storageid" jdbcType="VARCHAR" />
@@ -35,6 +36,8 @@
     <result column="PUBLISHERNAME" property="publishername" jdbcType="VARCHAR" />
     <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
     <result column="CONTRACTFACTOR" property="contractfactor" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="TRANSFERSTATUS" property="transferstate" jdbcType="DECIMAL" />
   </resultMap>
   
   <sql id="Base_Column_My" >
@@ -45,13 +48,13 @@
      STORAGEID, COMMODITYID, STORAGENUM, 
       STARTNUM, ENDNUM, OPERATORID, 
       WAREHOUSEAUDITORID, MARKETAUDITORID, STORAGESTATE, 
-      STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS
+      STORAGEDATE, WAREHOUSEID, MAPPERBILLID,STORAGECOUNTS,TRANSFERSTATUS
   </sql>
   
   
   <select id="findStoragesByPage" resultMap="SResultMap" parameterType="map">
    select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
-    from (select t.*, c.commodityname, c.pubmemberid,c.counts,c.contractfactor from ipo_storage t  left join ipo_commodity_conf c
+    from (select t.*, c.commodityname, c.pubmemberid,c.counts,c.contractfactor,c.price from ipo_storage t  left join ipo_commodity_conf c
     on t.commodityid = c.commodityid) a left join br_broker b
     on a.pubmemberid = b.brokerid order by a.storageid) g where 1=1
        <if test="record.storageid != null" >
@@ -104,8 +107,25 @@
       #{startnum,jdbcType=VARCHAR}, #{endnum,jdbcType=VARCHAR}, #{operatorid,jdbcType=VARCHAR}, 
       #{warehouseauditorid,jdbcType=VARCHAR}, #{marketauditorid,jdbcType=VARCHAR}, #{storagestate,jdbcType=DECIMAL}, 
       #{storagedate,jdbcType=DATE}, #{warehouseid,jdbcType=DECIMAL}, #{mapperbillid,jdbcType=VARCHAR},#{storagecounts,jdbcType=VARCHAR}
-      )
+     , #{transferstate,jdbcType=DECIMAL} )
   </insert>
+   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorage" >
+    update IPO_STORAGE
+    set COMMODITYID= #{commodityid,jdbcType=VARCHAR},
+        STORAGENUM = #{storagenum,jdbcType=DECIMAL}, 
+        STARTNUM =#{startnum,jdbcType=VARCHAR}, 
+        ENDNUM= #{endnum,jdbcType=VARCHAR}, 
+        OPERATORID = #{operatorid,jdbcType=VARCHAR}, 
+        WAREHOUSEAUDITORID =#{warehouseauditorid,jdbcType=VARCHAR}, 
+        MARKETAUDITORID= #{marketauditorid,jdbcType=VARCHAR}, 
+        STORAGESTATE =#{storagestate,jdbcType=DECIMAL}, 
+        STORAGEDATE = #{storagedate,jdbcType=DATE}, 
+        WAREHOUSEID =#{warehouseid,jdbcType=DECIMAL}, 
+        MAPPERBILLID =#{mapperbillid,jdbcType=VARCHAR},
+        STORAGECOUNTS =#{storagecounts,jdbcType=VARCHAR}, 
+        TRANSFERSTATUS =#{transferstate,jdbcType=DECIMAL}
+     where STORAGEID = #{storageid,jdbcType=VARCHAR}
+  </update>
    <select id="getWarehouseId" resultType="String" parameterType="String">
      SELECT T.WAREHOUSEID FROM W_USER T WHERE T.USERID = #{userId,jdbcType=VARCHAR}
       </select>
@@ -113,7 +133,7 @@
       SELECT B.ID  FROM BI_WAREHOUSE B WHERE B.WAREHOUSEID=(SELECT U.WAREHOUSEID  FROM W_USER U WHERE U.USERID=#{userId,jdbcType=VARCHAR}) 
       </select>
        <select id="getStorageByStorageId" resultType="com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended" parameterType="String">
-     SELECT t.* ,c.commodityname,c.pubmemberid,c.counts,c.contractfactor,b.name publishername  from IPO_STORAGE t left join ipo_commodity_conf c
+     SELECT t.* ,c.commodityname,c.pubmemberid,c.counts,c.contractfactor,c.price,b.name publishername  from IPO_STORAGE t left join ipo_commodity_conf c
      on t.commodityid = c.commodityid left join br_broker b on c.pubmemberid = b.brokerid where STORAGEID=#{storageid,jdbcType=VARCHAR}
       </select>
       

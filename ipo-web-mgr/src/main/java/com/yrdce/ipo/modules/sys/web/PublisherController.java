@@ -25,6 +25,7 @@ import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
@@ -293,4 +294,88 @@ public class PublisherController {
 		request.setAttribute("entity", storage);
 		return "app/publisherQuery/addTransferPosition";
 	}
+
+	/**
+	 * 验证转发售量
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkSaleCounts", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkSaleCounts(
+			@RequestParam("salecounts") String salecounts,
+			@RequestParam("commodityid") String commodityid,
+			@RequestParam("counts") String counts) {
+		long lnum = publisherpositionService.getSaleCounts(commodityid);
+		long lcounts = Long.parseLong(counts);
+		long lsalecounts = Long.parseLong(salecounts);
+		if (lnum + lsalecounts > lcounts) {
+			return "false";// 发行量已满
+		}
+		return "true";
+	}
+
+	/**
+	 * 新增转持仓信息
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/addPublisherPosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String addPublisherPosition(PublisherPosition example,
+			HttpSession session) {
+		/*
+		 * String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+		 * .getUserID();
+		 */
+		example.setStatus((short) 1);
+		example.setCreater("cj");
+		example.setCreatedate(new Date());
+		int num = publisherpositionService.insertPubPoition(example);
+		if (num == 1) {
+			return "true";
+		}
+		return "false";
+	}
+
+	/**
+	 * 冻结
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/frozenFunds", method = RequestMethod.GET)
+	@ResponseBody
+	public String frozenFunds(@RequestParam("storageid") String storageid,
+			HttpServletRequest request, HttpServletResponse response) {
+		// 根据入库单找转持仓单，获取发行商代码和发行手续费
+		PublisherPosition record = publisherpositionService
+				.getInfoByStorageId(storageid);
+		VIpoCommConf commodity = ipoCommConfService
+				.getVIpoCommConfByCommid(record.getCommodityid());
+		Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
+		BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
+		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
+		if (publishalgr == 1) {// 百分比算法
+			totalValue.multiply(ratio);
+			totalValue.divide(new BigDecimal(100));
+		}
+		if (publishalgr == 2) {// 绝对值算法
+			totalValue.multiply(ratio);
+		}
+		String message = publisherpositionService.frozenFunds(
+				record.getPublisherid(), totalValue);
+		record.setStatus((short) 2);
+		String message2 = publisherpositionService.updateStatus(record);
+		if ("true".equals(message) && ("true").equals(message2)) {
+			return "true";
+		}
+		return "false";
+	}
+
 }
