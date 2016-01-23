@@ -3,22 +3,31 @@ package com.yrdce.ipo.modules.sys.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.ParseException;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderWriters;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 
 @Service
 public class UnderwriterSubscribeServiceImpl implements
-		UnderwriterSubscribeService {
+		UnderwriterSubscribeService,Observer {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private IpoUnderwriterSubscribeMapper underwriterSubscribrmapper;
 
@@ -109,6 +118,20 @@ public class UnderwriterSubscribeServiceImpl implements
 			return underwriterSubscribrmapper.getUnderwritersNum(record);
 		}
 		return 0;
+	}
+
+	
+	 
+	public void update(Observable observable, Object obj) {
+		 logger.info("监听财务结算消息内容为"+obj);
+		 String json=(String)obj;
+		 try {
+			DebitFlow debitFlow=(DebitFlow) JSON.parse(json);
+		} catch (ParseException e) {
+			 logger.error("监听财务结算消息内容json转换失败"+obj);
+			 throw new RuntimeException(e);
+		}
+		 
 	}
 
 }

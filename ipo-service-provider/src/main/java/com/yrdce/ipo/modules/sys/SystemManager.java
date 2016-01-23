@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
@@ -51,7 +54,7 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
  *         只能单机部署，多机的话考虑 redis
  */
 @Component
-public class SystemManager {
+public class SystemManager extends Observable{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	// statusMap.put("0", "初始化完成");
@@ -282,7 +285,7 @@ public class SystemManager {
 		try {
 			updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
 			// 收付当日货款、手续费
-			purchaseSettle();
+			//purchaseSettle();
 			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
 			//扣发行手续费,扣款对象:发行商
 			publishHandlingSettle();
@@ -411,12 +414,17 @@ public class SystemManager {
 			 // 扣除资金
 			 updateFundsFull(firmId, opCode, amount, commodityId);
 			 DebitFlow debitFlow = new DebitFlow();
-			 debitFlow.setId(item.getId());
+			 BeanUtils.copyProperties(item, debitFlow);
 			 debitFlow.setUpdateDate(new Date());
 			 debitFlow.setUpdateUser("admin");
 			 debitFlow.setDebitState(ChargeConstant.DebitState.PAY_SUCCESS.getCode());
 			 debitFlowMapper.updateState(debitFlow);
 			 logger.info("{}：商品={}，被扣款人={}，金额={}",opName, commodityId, firmId, amount.toString());
+			 //结算成功通知监听
+			 String objs=JSON.json(debitFlow);
+			 logger.info("{}:通知内容:{}",opName,objs);
+			 setChanged();
+			 notifyObservers(objs);
 		}
 	}
 	 
