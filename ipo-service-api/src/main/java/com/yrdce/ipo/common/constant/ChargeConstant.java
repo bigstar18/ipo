@@ -314,7 +314,7 @@ public interface ChargeConstant {
 	
 	// 扣款状态
 	public static enum PayState {
-		UNPAY(1,"未付款"),PAY_SUCCESS(2, "冻结成功");
+		UNPAY(1,"未付款"),PAY_SUCCESS(2, "已付款");
 		private int code;
 		private String name;
 

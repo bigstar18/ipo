@@ -28,6 +28,25 @@ public interface PayFlowService {
 	
 	
 	/**
+	 * 分页查询增发货款费用
+	 * @param PayFlow
+	 * @return
+	 */
+	public List<PayFlow> queryIncreasePublishGoodsForPage( String pageNo,String pageSize,PayFlow payFlow);
+	
+	/**
+	 * 查询增发货款费用数量
+	 * @param PayFlow
+	 * @return
+	 */
+	public long queryIncreasePublishGoodsForCount(PayFlow payFlow);
+	
+	
+	
+	
+	
+	
+	/**
 	 * 付款
 	 */
 	public void pay(PayFlow payFlow);
