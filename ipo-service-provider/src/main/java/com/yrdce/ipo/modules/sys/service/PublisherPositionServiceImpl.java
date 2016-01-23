@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPublisherPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
@@ -26,9 +36,14 @@ import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
  */
 @Service
 public class PublisherPositionServiceImpl implements PublisherPositionService {
+	@Autowired
+	private IpoCommodityConfMapper commconfmapper;
 
 	@Autowired
 	private IpoPublisherPositionMapper publisherPositionmapper;
+
+	@Autowired
+	private IpoPositionMapper ipoPositionMapper;
 
 	@Autowired
 	private IpoStorageMapper stroragemapper;
@@ -38,6 +53,12 @@ public class PublisherPositionServiceImpl implements PublisherPositionService {
 
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+
+	@Autowired
+	private IpoDebitFlowMapper debitFlowMapper;
+
+	@Autowired
+	private IpoPayFlowMapper payFlowMapper;
 
 	@Override
 	public List<PublisherPosition> getInfoByPage(String page, String rows,
@@ -139,9 +160,79 @@ public class PublisherPositionServiceImpl implements PublisherPositionService {
 		int num = publisherPositionmapper.updateByPrimaryKey(record);
 		IpoStorage storage = stroragemapper.getStorageByPrimary(record
 				.getStorageid());
-		storage.setTransferstate(2);// 已冻结
+		storage.setTransferstate(record.getStatus().intValue());
 		int snum = stroragemapper.updateByPrimaryKey(storage);
 		if (num == 1 && snum == 1) {
+			return "true";
+		}
+		return "false";
+	}
+
+	@Override
+	@Transactional
+	public void insertPoundage(PublisherPosition example, BigDecimal funds) {
+		// 手续费流水
+		DebitFlow debitFlow = new DebitFlow();
+		debitFlow.setAmount(funds);
+		debitFlow
+				.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
+		debitFlow.setCommodityId(example.getCommodityid());
+		debitFlow.setOrderId(String.valueOf(example.getPositionid()));
+		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS
+				.getCode());
+		debitFlow.setPayer(ipoSpoRationMapper.firmidBySales(example
+				.getPublisherid()));
+		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+		debitFlow
+				.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+		debitFlow.setCreateUser(example.getUpdater());
+		debitFlow.setCreateDate(new Date());
+		debitFlowMapper.insert(debitFlow);
+
+	}
+
+	@Override
+	@Transactional
+	public void insertLoan(PublisherPosition example, BigDecimal funds) {
+		// 货款流水
+		PayFlow payFlow = new PayFlow();
+		payFlow.setAmount(funds);
+		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		payFlow.setCommodityId(example.getCommodityid());
+		payFlow.setOrderId(String.valueOf(example.getPositionid()));
+		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
+		payFlow.setPayee(ipoSpoRationMapper.firmidBySales(example
+				.getPublisherid()));
+		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
+		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
+		payFlow.setCreateUser(example.getUpdater());
+		payFlow.setCreateDate(new Date());
+		payFlowMapper.insert(payFlow);
+
+	}
+
+	@Override
+	@Transactional
+	public String transferPosition(PublisherPosition example) {
+		String commid = example.getCommodityid();
+		IpoCommodityConf record = commconfmapper
+				.findIpoCommConfByCommid(commid);
+		String commUnit = record.getContractfactor().toString()
+				+ record.getContractfactorname() + "/批";
+		String commodityname = record.getCommodityname();
+		IpoPosition position = new IpoPosition();
+		position.setFirmid(ipoSpoRationMapper.firmidBySales(example
+				.getPublisherid()));
+		position.setPosition(example.getPubposition());
+		position.setCommodityid(commid);
+		position.setCommodityname(commodityname);
+		position.setPositionPrice(record.getPrice());
+		position.setPositionUnit(commUnit);
+		position.setOperationTime(new Date());
+		int num = ipoPositionMapper.insert(position);
+		if (num == 1) {
 			return "true";
 		}
 		return "false";

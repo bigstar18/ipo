@@ -328,12 +328,10 @@ public class PublisherController {
 	@ResponseBody
 	public String addPublisherPosition(PublisherPosition example,
 			HttpSession session) {
-		/*
-		 * String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-		 * .getUserID();
-		 */
+		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+				.getUserID();
 		example.setStatus((short) 1);
-		example.setCreater("cj");
+		example.setCreater(userId);
 		example.setCreatedate(new Date());
 		int num = publisherpositionService.insertPubPoition(example);
 		if (num == 1) {
@@ -349,10 +347,10 @@ public class PublisherController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/frozenFunds", method = RequestMethod.GET)
+	@RequestMapping(value = "/frozenFunds", method = RequestMethod.POST)
 	@ResponseBody
 	public String frozenFunds(@RequestParam("storageid") String storageid,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpSession session) {
 		// 根据入库单找转持仓单，获取发行商代码和发行手续费
 		PublisherPosition record = publisherpositionService
 				.getInfoByStorageId(storageid);
@@ -368,14 +366,44 @@ public class PublisherController {
 		if (publishalgr == 2) {// 绝对值算法
 			totalValue.multiply(ratio);
 		}
+		BigDecimal funds = new BigDecimal(record.getTotalcounts())
+				.multiply(commodity.getPrice());
 		String message = publisherpositionService.frozenFunds(
 				record.getPublisherid(), totalValue);
-		record.setStatus((short) 2);
-		String message2 = publisherpositionService.updateStatus(record);
-		if ("true".equals(message) && ("true").equals(message2)) {
+		if ("true".equals(message)) {
+			record.setStatus((short) 2);
+			record.setUpdatedate(new Date());
+			// record.setUpdater("cj");
+			record.setUpdater(((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID());
+			publisherpositionService.updateStatus(record);
+			publisherpositionService.insertPoundage(record, totalValue);
+			publisherpositionService.insertLoan(record, funds);
 			return "true";
 		}
 		return "false";
 	}
 
+	/**
+	 * 转持仓
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
+	@ResponseBody
+	public String transferPosition(@RequestParam("storageid") String storageid,
+			HttpSession session) {
+		// 根据入库单找转持仓单，获取转持仓数量
+		PublisherPosition record = publisherpositionService
+				.getInfoByStorageId(storageid);
+		record.setStatus((short) 4);
+		record.setUpdatedate(new Date());
+		// record.setUpdater("cj");
+		record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser"))
+				.getUserID());
+		return publisherpositionService.transferPosition(record);
+
+	}
 }

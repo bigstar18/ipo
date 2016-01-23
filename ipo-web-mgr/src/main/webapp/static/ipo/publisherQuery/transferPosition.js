@@ -71,7 +71,7 @@ $(document).ready(function() {
              title : '操作',
              formatter:function(value,row){
              	if(row.transferstate==1) return "<input type=\"button\" onclick=\"forzen('"+row.storageid+"')\" value=\"冻结\"/>";
-             	if(row.transferstate==2) return "<input type=\"button\" onclick=\"ducut('"+row.storageid+"')\" value=\"扣费\"/>";
+             	if(row.transferstate==2) return "";
              	if(row.transferstate==3) return "<input type=\"button\" onclick=\"transfer('"+row.storageid+"')\" value=\"转持仓\"/>";
              	if(row.transferstate==4) return "";
                 return "<input type=\"button\" onclick=\"setInfo('"+row.storageid+"')\" value=\"设置\"/>";
@@ -113,9 +113,13 @@ function forzen(value){
                                        data: {"storageid":value},      
                                        success: function(data) { 
                                     	   if(data=='true'){
-                                           alert("冻结成功！"); 
+                                           alert("冻结成功！");
+                                           $('#dg').datagrid('reload');
+                                    	   }else if(data=='false'){
+                                    		   alert("资金不足，冻结失败！");  
+                                    		   return;
                                     	   }else{
-                                    		   alert("冻结失败！");  
+                                    	   alert("后台异常！");
                                     	   }
                                        },  
                                        error: function(data) {  
@@ -125,7 +129,28 @@ function forzen(value){
 }
 
 
-
+function transfer(value){
+	                        $.ajax({ 
+                            		   cache:false,
+                                       type: "post",  
+                                       url: getRootPath ()+"/PublisherController/transfer",       
+                                       data: {"storageid":value},      
+                                       success: function(data) { 
+                                    	   if(data=='true'){
+                                           alert("转持仓成功！");
+                                           $('#dg').datagrid('reload');
+                                    	   }else if(data=='false'){
+                                    		   alert("转持仓失败！");  
+                                    		   return;
+                                    	   }else{
+                                    	   alert("后台异常！");
+                                    	   }
+                                       },  
+                                       error: function(data) {  
+                                           alert("请求失败！");  
+                                       }  
+                                   }) ;
+}
 
 
 
