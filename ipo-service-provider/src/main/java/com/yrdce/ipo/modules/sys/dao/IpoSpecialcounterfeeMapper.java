@@ -19,9 +19,11 @@ public interface IpoSpecialcounterfeeMapper {
 
 	int updateByPrimaryKey(IpoSpecialcounterfee record);
 
-	int selectCounts();
+	int selectCounts(IpoSpecialcounterfee record);
 
 	int sequence();
 
 	int isFirm(@Param("firmid") String firmid);
+
+	int selectCountsById(String id);
 }

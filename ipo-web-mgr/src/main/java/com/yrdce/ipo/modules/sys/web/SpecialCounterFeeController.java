@@ -44,11 +44,12 @@ public class SpecialCounterFeeController {
 	// 查询特殊收费
 	@RequestMapping(value = "/getSpecialCounterfeeInfo")
 	@ResponseBody
-	public String getSpecialCounterfeeInfo(@RequestParam("page") String page, @RequestParam("rows") String rows) {
+	public String getSpecialCounterfeeInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			Specialcounterfee specialcounterfee) {
 		try {
 			logger.info("查询特殊手续费");
 			List<Specialcounterfee> specialcounterfees = specialCounterFeeService.getSpecialcounterfeeInfo(page, rows);
-			int counts = specialCounterFeeService.getCounts();
+			int counts = specialCounterFeeService.getCounts(specialcounterfee);
 			ResponseResult responseResult = new ResponseResult();
 			responseResult.setRows(specialcounterfees);
 			responseResult.setTotal(counts);
@@ -112,6 +113,24 @@ public class SpecialCounterFeeController {
 			logger.error("根据id查询信息异常", e);
 			return "error";
 		}
+	}
+
+	// 验证该交易商是否设置过该费用
+	@RequestMapping(value = "/selectCountsById")
+	@ResponseBody
+	public boolean selectCountsById(Specialcounterfee specialcounterfee) {
+
+		try {
+			int counts = specialCounterFeeService.getCounts(specialcounterfee);
+			if (counts > 0) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			logger.error("验证该交易商是否设置过该费用异常", e);
+			return false;
+		}
+
 	}
 
 	// 修改特殊手续费信息

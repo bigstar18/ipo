@@ -9,7 +9,7 @@ public interface SpecialCounterFeeService {
 
 	public List<Specialcounterfee> getSpecialcounterfeeInfo(String page, String rows) throws Exception;
 
-	public int getCounts();
+	public int getCounts(Specialcounterfee specialcounterfee);
 
 	public int deleteInfoById(String id);
 
@@ -18,4 +18,6 @@ public interface SpecialCounterFeeService {
 	public Specialcounterfee selectInfoById(String id) throws Exception;
 
 	public int updateInfoById(Specialcounterfee specialcounterfee) throws Exception;
+
+	public int selectCountsById(String id) throws Exception;
 }

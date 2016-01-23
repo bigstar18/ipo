@@ -43,14 +43,30 @@
     from IPO_SPECIALCOUNTERFEE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectCountsById" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(0)
+    from IPO_SPECIALCOUNTERFEE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
-    from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1 order by t.ID)a 
+    from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1
+     order by t.ID)a 
     where a.TNO between  #{beginnum} and  #{endnum}
   </select>
-  <select id="selectCounts" resultType="java.lang.Integer">
-  	select count(0)
-    from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1 order by t.ID)
+  <select id="selectCounts" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee">
+  	 select count(0)
+  	 from IPO_SPECIALCOUNTERFEE t where 1=1 
+    <if test="firmid != null ">
+    	and t.FIRMID = #{firmid,jdbcType=VARCHAR}
+    </if>
+    <if test="counterfeetype != null ">
+    	and t.COUNTERFEETYPE = #{counterfeetype,jdbcType=DECIMAL}
+    </if>
+     <if test="commodityid != null ">
+    	and t.COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+    </if>
+   
   </select>
    <select id="sequence" resultType="java.lang.Integer">
 	SELECT SEQ_IPO_SPECIALCOUNTERFEE.NEXTVAL FROM dual
