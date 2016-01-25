@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class SpoCommoditymanmaagement {
 	private String spoId;
 
-	private String communityId;
+	private String commodityId;
 
 	private Long spoCounts;
 
@@ -80,12 +80,12 @@ public class SpoCommoditymanmaagement {
 		this.spoId = spoId == null ? null : spoId.trim();
 	}
 
-	public String getCommodityid() {
-		return communityId;
+	public String getCommodityId() {
+		return commodityId;
 	}
 
-	public void setCommodityid(String communityId) {
-		this.communityId = communityId == null ? null : communityId.trim();
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId == null ? null : commodityId.trim();
 	}
 
 	public Long getSpoCounts() {
