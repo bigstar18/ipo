@@ -16,15 +16,15 @@ public class IpoCommodity {
 
 	private BigDecimal price;// 发售价格
 
-	private int units;// 配售单位
+	private long units;// 配售单位
 
-	private int counts;// 发售总数
+	private long counts;// 发售总数
 
 	private Date starttime;// 发售日期
 
 	private Date endtime;// 截止日期
 
-	private int purchaseCredits;// 申购额度
+	private long purchaseCredits;// 申购额度
 
 	private int status;// 申购状态
 
@@ -44,14 +44,6 @@ public class IpoCommodity {
 		this.status = status;
 	}
 
-	public int getPurchaseCredits() {
-		return purchaseCredits;
-	}
-
-	public void setPurchaseCredits(int purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
-	}
-
 	public String getCommodityid() {
 		return commodityid;
 	}
@@ -65,7 +57,8 @@ public class IpoCommodity {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
+		this.commodityname = commodityname == null ? null : commodityname
+				.trim();
 	}
 
 	public BigDecimal getPrice() {
@@ -76,20 +69,28 @@ public class IpoCommodity {
 		this.price = price;
 	}
 
-	public int getUnits() {
+	public long getUnits() {
 		return units;
 	}
 
-	public void setUnits(int units) {
+	public void setUnits(long units) {
 		this.units = units;
 	}
 
-	public int getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(int counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
+	}
+
+	public long getPurchaseCredits() {
+		return purchaseCredits;
+	}
+
+	public void setPurchaseCredits(long purchaseCredits) {
+		this.purchaseCredits = purchaseCredits;
 	}
 
 	public Date getStarttime() {

@@ -347,7 +347,7 @@ public class PublisherController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/frozenFunds", method = RequestMethod.POST)
+	@RequestMapping(value = "/frozenFunds", method = RequestMethod.GET)
 	@ResponseBody
 	public String frozenFunds(@RequestParam("storageid") String storageid,
 			HttpSession session) {
@@ -391,7 +391,7 @@ public class PublisherController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
+	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
 	public String transferPosition(@RequestParam("storageid") String storageid,
 			HttpSession session) {

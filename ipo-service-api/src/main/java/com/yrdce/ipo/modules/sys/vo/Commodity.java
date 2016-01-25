@@ -43,12 +43,12 @@ public class Commodity implements Serializable {
 	@JsonProperty("units")
 	@XmlElement(name = "units")
 	@NotNull
-	private int units; // 配售单位
+	private long units; // 配售单位
 
 	@JsonProperty("counts")
 	@XmlElement(name = "counts")
 	@NotNull
-	private int counts;// 发售总数
+	private long counts;// 发售总数
 
 	@JsonProperty("starttime")
 	@XmlElement(name = "starttime")
@@ -70,7 +70,7 @@ public class Commodity implements Serializable {
 	@JsonProperty("purchaseCredits")
 	@XmlElement(name = "purchaseCredits")
 	@NotNull
-	private int purchaseCredits;// 申购额度
+	private long purchaseCredits;// 申购额度
 
 	@JsonProperty("ccounts")
 	@XmlElement(name = "ccounts")
@@ -137,14 +137,6 @@ public class Commodity implements Serializable {
 		this.price = price;
 	}
 
-	public int getUnits() {
-		return units;
-	}
-
-	public void setUnits(int units) {
-		this.units = units;
-	}
-
 	public Date getStarttime() {
 		return starttime;
 	}
@@ -161,20 +153,28 @@ public class Commodity implements Serializable {
 		this.endtime = endtime;
 	}
 
-	public int getPurchaseCredits() {
-		return purchaseCredits;
+	public long getUnits() {
+		return units;
 	}
 
-	public void setPurchaseCredits(int purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setUnits(long units) {
+		this.units = units;
 	}
 
-	public int getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(int counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
+	}
+
+	public long getPurchaseCredits() {
+		return purchaseCredits;
+	}
+
+	public void setPurchaseCredits(long purchaseCredits) {
+		this.purchaseCredits = purchaseCredits;
 	}
 
 	public int getStatus() {
