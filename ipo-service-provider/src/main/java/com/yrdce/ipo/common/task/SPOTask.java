@@ -80,7 +80,7 @@ public class SPOTask {
 			logger.debug("单价price：" + price);
 			if (sate == 1) {
 				// 获得增发商品id
-				String commodityid = ipospocomm.getCommodityid();
+				String commodityid = ipospocomm.getCommodityId();
 				logger.debug(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
 				// 手续费算法
 				IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);

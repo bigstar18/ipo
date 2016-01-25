@@ -28,6 +28,10 @@
     <result column="publish_charge" property="publishCharge"  />
     <result column="listing_charge" property="listingCharge"  />
     <result column="delete_flag" property="deleteFlag"  />
+    <result column="pay_goods_id" property="payGoodsId"  />
+    <result column="pay_goods_state" property="payGoodsState"  />
+    <result column="goods_charge" property="goodsCharge"  />
+    <result column="pay_date" property="payDate"  />
   </resultMap>
   
    
@@ -54,12 +58,14 @@
 	               to_char(firm.mobile) as create_user_mobile,ship.listing_charge,
 	               ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
 				   trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,
-				   ship.warehouse_id,biware.warehousename
+				   ship.warehouse_id,biware.warehousename,
+				   pay.id as pay_goods_id ,pay.pay_state as pay_goods_state,pay.amount as goods_charge,pay.pay_date
 			from ipo_trusteeship ship 
 			left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
 			left join bi_warehouse biware on (ship.warehouse_id=biware.id)
 			left join m_firm firm on (ship.create_user=firm.firmid)
+			left join ipo_payflow pay on (ship.id=pay.order_id and pay.business_type='007' and pay.charge_type='002')
 			where ship.delete_flag=0
 			<if test="ship.commodityId!=null and ship.commodityId!='' ">
 				 and ship.commodity_id like '%'||#{ship.commodityId}||'%' 
@@ -88,6 +94,9 @@
 			 <if test="ship.endAuditingDate!=null and ship.endAuditingDate!='' ">
 				and to_date(#{ship.endAuditingDate},'mm/dd/yyyy')>= ship.auditing_date
 			</if>
+			<if test="ship.payGoodsState>0 ">
+				 and pay.pay_state=#{ship.payGoodsState} 
+			</if>
 			order by ship.create_date desc
 			) pg where #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
@@ -101,6 +110,7 @@
 			left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
 			left join bi_warehouse biware on (ship.warehouse_id=biware.id)
 			left join m_firm firm on (ship.create_user=firm.firmid)
+			left join ipo_payflow pay on (ship.id=pay.order_id and pay.business_type='007' and pay.charge_type='002')
 			where ship.delete_flag=0
 		<if test="ship.commodityId!=null and ship.commodityId!='' ">
 			 and ship.commodity_id like '%'||#{ship.commodityId}||'%' 
@@ -129,7 +139,9 @@
 		 <if test="ship.endAuditingDate!=null and ship.endAuditingDate!='' ">
 			and to_date(#{ship.endAuditingDate},'mm/dd/yyyy')>=ship.auditing_date
 		</if>
-		 
+		<if test="ship.payGoodsState>0 ">
+			and pay.pay_state=#{ship.payGoodsState} 
+		</if> 
   </select>
    
   <update id="updateApplyState" parameterType="map">

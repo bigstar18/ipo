@@ -98,6 +98,7 @@ public class PurchaseImpl implements Purchase {
 		int result = SECCESS;
 
 		logger.info("进入申购方法");
+		//system.canSystemTrade()
 		if (system.canSystemTrade()) {
 			String ID = sId.toUpperCase();
 			if (this.isInDates(ID)) {

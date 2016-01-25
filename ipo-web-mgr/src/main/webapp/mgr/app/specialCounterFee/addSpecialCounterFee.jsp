@@ -165,7 +165,6 @@
 		var buy = $("#buy").val();
 		var sell = $("#sell").val();
 		var name = $("#add").val();
-		
 		if(firmId==""){
 			alert("请输入交易商代码");
 			return;
@@ -190,7 +189,7 @@
 				alert("请选择商品");
 				return;
 			}
-			doAddInfo();
+			selectCountsById();
 		}
 		
 		
@@ -229,6 +228,9 @@
 			
 		});
 	}
+	
+
+	
 	function doAddInfo(){
 		var firmId = $("#firmId").val();
 		var commonityId = $("#commodityId").val().match(reg)[1];
@@ -263,6 +265,29 @@
 		
 	}
 
+	function selectCountsById(){
+		var firmId = $("#firmId").val();
+		var counterfeetype = $("#counterFeeType").val();
+		var commonityId = $("#commodityId").val().match(reg)[1];
+		$.ajax({
+			type:"GET",
+			url:"<%=request.getContextPath()%>/SpecialCounterFeeController/selectCountsById?randnum="+Math.floor(Math.random()*1000000),
+			data:{
+				firmid:firmId,
+				counterfeetype:counterfeetype,
+				commodityid:commonityId
+			},
+			success:function(data){
+				if(data){
+					alert("该交易商这类特殊手续费已存在！");
+				}else{
+					doAddInfo();
+				}
+			}
+			
+		});
+	}
+	
 	function doClose(){
 		parent.$("#id").val("");
 		parent.$("#dd").window("close");

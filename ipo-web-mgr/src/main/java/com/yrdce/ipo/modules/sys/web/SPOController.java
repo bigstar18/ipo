@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
@@ -32,7 +36,12 @@ public class SPOController {
 
 	@Autowired
 	private TaskService taskService;
-
+	@Autowired
+	private PayFlowService payFlowService;
+	
+	
+	
+	
 	// 添加增发商品信息
 	@RequestMapping(value = "/insertSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -346,4 +355,64 @@ public class SPOController {
 		}
 		return true;
 	}
+	
+	
+	/**
+	 * 查询增发的货款记录
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryIncreasePublishGoods")
+	@ResponseBody
+	public String queryIncreasePublishGoods(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
+			HttpServletRequest request) throws Exception {
+		
+		PayFlow payFlow = new PayFlow();
+		payFlow.setPayee(request.getParameter("payee"));
+		payFlow.setCommodityId(request.getParameter("commodityId"));
+		long count=payFlowService.queryIncreasePublishGoodsForCount(payFlow);
+		List<PayFlow> dataList=new ArrayList<PayFlow>();
+		if(count>0){
+			dataList=payFlowService.queryIncreasePublishGoodsForPage(pageNo, pageSize, payFlow);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal( new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+	
+	
+	/**
+	 * 付款
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/pay")
+	@ResponseBody
+	public String pay(HttpServletRequest request)  {
+			
+		PayFlow payFlow = new PayFlow();
+		payFlow.setId(Long.valueOf(request.getParameter("id")));
+		payFlow.setUpdateUser(getLoginUserId(request));
+		try {
+			payFlowService.pay(payFlow);
+		} catch (Exception e) {
+			logger.error("pay error:"+e);
+			return "error";
+		}
+		return "success";
+	}
+	
+	
+	private String getLoginUserId(HttpServletRequest request){
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+		if(user!=null){
+			return user.getUserID();
+		}
+		return "nologin";
+	}
+	
 }

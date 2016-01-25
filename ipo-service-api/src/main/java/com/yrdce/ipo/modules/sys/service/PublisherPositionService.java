@@ -60,6 +60,22 @@ public interface PublisherPositionService {
 	public String frozenFunds(String publisherid, BigDecimal money);
 
 	/**
+	 * 新增手续费流水
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public void insertPoundage(PublisherPosition example, BigDecimal funds);
+
+	/**
+	 * 新增货款流水
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public void insertLoan(PublisherPosition example, BigDecimal funds);
+
+	/**
 	 * 更改状态
 	 * 
 	 * @param publisherid
@@ -67,5 +83,14 @@ public interface PublisherPositionService {
 	 * @return
 	 */
 	public String updateStatus(PublisherPosition example);
+
+	/**
+	 * 转IPO持仓
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
+	public String transferPosition(PublisherPosition example);
 
 }

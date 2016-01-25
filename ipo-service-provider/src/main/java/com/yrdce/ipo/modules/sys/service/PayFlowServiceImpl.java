@@ -42,7 +42,7 @@ public class PayFlowServiceImpl implements PayFlowService {
 		int endIndex = PageUtil.getEndIndex(pageNo, pageSize);
 		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
-		List<IpoPayFlow> dbList = payFlowMapper.queryPublishGoodsForPage(startIndex, endIndex, payFlow);
+		List<IpoPayFlow> dbList = payFlowMapper.queryForPage(startIndex, endIndex, payFlow);
 		List<PayFlow> dataList = new ArrayList<PayFlow>();
 		for (IpoPayFlow item : dbList) {
 			PayFlow entity = new PayFlow();
@@ -61,9 +61,46 @@ public class PayFlowServiceImpl implements PayFlowService {
 	public long queryPublishGoodsForCount(PayFlow payFlow) {
 		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
-		return payFlowMapper.queryPublishGoodsForCount(payFlow);
+		return payFlowMapper.queryForCount(payFlow);
 	}
 
+	
+	/**
+	 * 分页查询增发货款费用
+	 * @param PayFlow
+	 * @return
+	 */
+	public List<PayFlow> queryIncreasePublishGoodsForPage(String pageNo,String pageSize, PayFlow payFlow){
+		int startIndex = PageUtil.getStartIndex(pageNo, pageSize);
+		int endIndex = PageUtil.getEndIndex(pageNo, pageSize);
+		payFlow.setBusinessType(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		List<IpoPayFlow> dbList = payFlowMapper.queryForPage(
+				startIndex, endIndex, payFlow);
+		List<PayFlow> dataList = new ArrayList<PayFlow>();
+		for (IpoPayFlow item : dbList) {
+			PayFlow entity = new PayFlow();
+			BeanUtils.copyProperties(item, entity);
+			dataList.add(entity);
+		}
+		;
+		return dataList;
+	}
+	
+	
+	/**
+	 * 查询增发货款费用数量
+	 * @param PayFlow
+	 * @return
+	 */
+	public long queryIncreasePublishGoodsForCount(PayFlow payFlow) {
+		payFlow.setBusinessType(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		return payFlowMapper.queryForCount(payFlow);
+	}
+	
+	
+	
 	/**
 	 * 付款
 	 */

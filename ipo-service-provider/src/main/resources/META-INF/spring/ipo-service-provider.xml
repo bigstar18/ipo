@@ -117,4 +117,16 @@
 	 -->
 	<!-- 使用多个协议暴露服务 -->
     <!-- <dubbo:service id="helloService" interface="com.alibaba.hello.api.HelloService" version="1.0.0" protocol="dubbo,hessian" /> -->
+
+    <bean id="systemManagerObservable" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	   <property name="targetObject" ref="systemManager" />
+	   <property name="targetMethod" value="addObserver" />
+	   <property name="arguments">
+	     <list>
+	        <ref local="underwritersubscribeService"/>
+	     </list>
+	   </property>
+	</bean>
+   
+
 </beans>

@@ -49,8 +49,10 @@ public class SpecialCounterFeeImpl implements SpecialCounterFeeService {
 	}
 
 	@Override
-	public int getCounts() {
-		return ipoSpecialcounterfeeMapper.selectCounts();
+	public int getCounts(Specialcounterfee specialcounterfee) {
+		IpoSpecialcounterfee ipoSpecialcounterfee = new IpoSpecialcounterfee();
+		BeanUtils.copyProperties(specialcounterfee, ipoSpecialcounterfee);
+		return ipoSpecialcounterfeeMapper.selectCounts(ipoSpecialcounterfee);
 	}
 
 	@Override
@@ -82,6 +84,11 @@ public class SpecialCounterFeeImpl implements SpecialCounterFeeService {
 			return ipoSpecialcounterfeeMapper.updateByPrimaryKey(ipoSpecialcounterfee);
 		}
 		return 0;
+	}
+
+	@Override
+	public int selectCountsById(String id) throws Exception {
+		return ipoSpecialcounterfeeMapper.selectCountsById(id);
 	}
 
 }

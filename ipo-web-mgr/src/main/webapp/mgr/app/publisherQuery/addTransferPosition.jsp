@@ -92,19 +92,11 @@ function getPosition(){
 	{
 		var salecounts=parseInt($("#salecounts").val());
 		$("#pubposition").val(totalcounts-salecounts);
+	}else{
+	$("#pubposition").val("");
 	}
-	
 }
 
-function getSaleCounts(){
-	var totalcounts=parseInt($("#totalcounts").val());
-	if($("#pubposition").val()!='')
-	{
-		var pubposition=parseInt($("#pubposition").val());
-		$("#salecounts").val(totalcounts-pubposition);
-	}
-	
-}
 
 </script>
 </head>
@@ -168,7 +160,7 @@ function getSaleCounts(){
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        </tr>  
 	        <tr>
@@ -179,7 +171,7 @@ function getSaleCounts(){
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" onblur="getSaleCounts()" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="pubposition" name="pubposition"/><span class="required">*</span>
+	        	<input type="text" id="pubposition" name="pubposition"  readonly="readonly"/>
 	        	</td>
 	        </tr>  
 		  	<tr>

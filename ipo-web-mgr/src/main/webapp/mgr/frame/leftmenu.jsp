@@ -261,7 +261,7 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("申购成交,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/QueryController/ApplySuccManage");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("付发行商货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif",<%=basePath%>/mgr/app/payflow/publish_goods.jsp");
+									M0101 = new WebFXTreeItem("付发行商货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/pubManager/publish_goods.jsp");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
@@ -388,6 +388,9 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>	
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/turnToPosition");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("返还申请人货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/returnGoods");
 									M01.add(M0101);</SCRIPT>			
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
@@ -402,6 +405,10 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("定向配售管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/ppPlacingManage.jsp");
 									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("付发行商货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/increase_publish_goods.jsp");
+									M01.add(M0101);</SCRIPT>			
+									
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>        	          	
 						        	

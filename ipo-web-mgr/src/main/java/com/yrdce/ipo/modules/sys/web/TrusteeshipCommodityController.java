@@ -22,7 +22,9 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
@@ -45,6 +47,8 @@ public class TrusteeshipCommodityController {
 	private IpoCommConfService ipoCommConfService;
 	@Autowired
 	private BiWarehouseService biWarehouseService;
+	@Autowired
+	private PayFlowService payFlowService;
 	
 	/**
 	 * 查询可申购的托管计划
@@ -323,6 +327,45 @@ public class TrusteeshipCommodityController {
 		}
 		return true;
 	}
+	
+	
+	/**
+	 * 返还货款
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/returnGoods")
+	public String returnGoods(HttpServletRequest request,Model model){
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		model.addAttribute("stateList", TrusteeshipConstant.State.values());
+		return "app/trusteeship/return_goods";
+	}
+	
+	/**
+	 * 付款
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/pay")
+	@ResponseBody
+	public String pay(HttpServletRequest request)  {
+			
+		PayFlow payFlow = new PayFlow();
+		payFlow.setId(Long.valueOf(request.getParameter("id")));
+		payFlow.setUpdateUser(getLoginUserId(request));
+		try {
+			payFlowService.pay(payFlow);
+		} catch (Exception e) {
+			logger.error("pay error:"+e);
+			return "error";
+		}
+		return "success";
+	}
+	
+	
+	
 	
 	
 	

@@ -121,8 +121,24 @@ public class Trusteeship implements Serializable {
 	 */
 	private String beginAuditingDate;
 	private String endAuditingDate;
+	/**
+	 * 付货款流水id 
+	 */
+	private Long payGoodsId;
+	/**
+	 * 货款支付状态  
+	 */
+    private int payGoodsState;
+    /**
+     * 货款
+     */
+	private BigDecimal goodsCharge;
+	/**
+	 * 支付时间
+	 */
+	private Date payDate;
 	
-
+	
 	public Trusteeship() {
 	}
 
@@ -348,6 +364,38 @@ public class Trusteeship implements Serializable {
 
 	public void setListingCharge(BigDecimal listingCharge) {
 		this.listingCharge = listingCharge;
+	}
+
+	public Long getPayGoodsId() {
+		return payGoodsId;
+	}
+
+	public void setPayGoodsId(Long payGoodsId) {
+		this.payGoodsId = payGoodsId;
+	}
+
+	public int getPayGoodsState() {
+		return payGoodsState;
+	}
+
+	public void setPayGoodsState(int payGoodsState) {
+		this.payGoodsState = payGoodsState;
+	}
+
+	public BigDecimal getGoodsCharge() {
+		return goodsCharge;
+	}
+
+	public void setGoodsCharge(BigDecimal goodsCharge) {
+		this.goodsCharge = goodsCharge;
+	}
+
+	public Date getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(Date payDate) {
+		this.payDate = payDate;
 	}
 
 	 

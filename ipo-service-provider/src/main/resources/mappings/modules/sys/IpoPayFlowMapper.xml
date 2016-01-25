@@ -40,7 +40,7 @@
         )
    </insert>
    
-   <select id="queryPublishGoodsForPage" resultMap="IpoPayFlowResultMap"  parameterType="map" >
+   <select id="queryForPage" resultMap="IpoPayFlowResultMap"  parameterType="map" >
     select * from (
            select pg.*,rownum as row_num from (
 	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
@@ -73,7 +73,7 @@
 		) where row_num>=#{startIndex}
   </select>
   
-   <select id="queryPublishGoodsForCount" resultType="java.lang.Long"  parameterType="map" >
+   <select id="queryForCount" resultType="java.lang.Long"  parameterType="map" >
         select count(de.id) as count_  
         from ipo_payflow de where 1=1
         <if test="param.buyBackFlag >=0 ">
@@ -99,6 +99,70 @@
 		</if>
 		 
   </select>
+  
+  
+   <select id="queryIncreasePublishGoodsForPage" resultMap="IpoPayFlowResultMap"  parameterType="map" >
+    select * from (
+           select pg.*,rownum as row_num from (
+	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
+	        de.payee, de.amount, de.pay_mode, de.pay_channel, de.pay_date, de.remark, de.buy_back_flag,
+	        de.create_user, de.create_date, de.update_user, de.update_date 
+	        from ipo_payflow de where 1=1
+	        <if test="param.buyBackFlag >=0 ">
+				 and  de.buy_back_flag=#{param.buyBackFlag}
+			</if>
+			<if test="param.businessType!=null and param.businessType!='' ">
+				 and  de.business_type=#{param.businessType}
+			</if>
+			<if test="param.chargeType!=null and param.chargeType!='' ">
+				 and  de.charge_type=#{param.chargeType}
+			</if>
+			<if test="param.commodityId!=null and param.commodityId!='' ">
+				 and  de.commodity_id=#{param.commodityId}
+			</if> 
+			<if test="param.payState >0 ">
+				 and  de.pay_state=#{param.payState}
+			</if>
+			<if test="param.payMode >0 ">
+				 and  de.pay_mode=#{param.payMode}
+			</if>
+			<if test="param.payee!=null and param.payee!='' ">
+				 and  de.payee=#{param.payee}
+			</if>
+			order by de.create_date desc
+			) pg where #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
+  </select>
+  
+   <select id="queryIncreasePublishGoodsForCount" resultType="java.lang.Long"  parameterType="map" >
+        select count(de.id) as count_  
+        from ipo_payflow de where 1=1
+        <if test="param.buyBackFlag >=0 ">
+			 and  de.buy_back_flag=#{param.buyBackFlag}
+		</if>
+		<if test="param.businessType!=null and param.businessType!='' ">
+			 and  de.business_type=#{param.businessType}
+		</if>
+		<if test="param.chargeType!=null and param.chargeType!='' ">
+			 and  de.charge_type=#{param.chargeType}
+		</if>
+		<if test="param.commodityId!=null and param.commodityId!='' ">
+			 and  de.commodity_id=#{param.commodityId}
+		</if> 
+		<if test="param.payState >0 ">
+			 and  de.pay_state=#{param.payState}
+		</if>
+		<if test="param.payMode >0 ">
+			 and  de.pay_mode=#{param.payMode}
+		</if>
+		<if test="param.payee!=null and param.payee!='' ">
+				 and  de.payee=#{param.payee}
+		</if>
+		 
+  </select>
+  
+  
+  
   
   <update id="updateState" parameterType="com.yrdce.ipo.modules.sys.vo.PayFlow">
 		  update ipo_payflow t set t.pay_state=#{payState},t.update_user=#{updateUser},

@@ -303,7 +303,6 @@ public class TaskServiceImpl implements TaskService {
 	/**
 	 * ipo 转现货持仓
 	 */
-	@Transactional
 	public void ipoTransferGoodsPosition() throws Exception {
 
 		IpoCommodityConf examples = new IpoCommodityConf();
@@ -312,7 +311,11 @@ public class TaskServiceImpl implements TaskService {
 			return;
 		}
 		for (IpoCommodityConf item : commList) {
-			ipoTransferGoodsPosition(item.getCommodityid());
+			try {
+				ipoTransferGoodsPosition(item.getCommodityid());
+			} catch (Exception e) {
+				logger.error("ipo转持仓失败,商品编码:",item.getCommodityid());
+			}
 		}
 
 	}
@@ -341,7 +344,7 @@ public class TaskServiceImpl implements TaskService {
 			int sate = ipospocomm.getSpoSate();//
 			if (sate == 1) {
 				// 获得增发商品id
-				String commodityid = ipospocomm.getCommodityid();
+				String commodityid = ipospocomm.getCommodityId();
 				logger.info(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
 				// 获得未增发的量
 				long otration = ipospocomm.getNotRationCounts();

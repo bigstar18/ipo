@@ -105,7 +105,7 @@ public class SPOServiceImpl implements SPOService {
 		BigDecimal fee = ipoSpoRation.getServicefee();
 		String spoid = ipoSpoRation.getSpoid();
 		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		String commodityid = ipoSpoComm.getCommodityid();
+		String commodityid = ipoSpoComm.getCommodityId();
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commodityid);
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
 		// 总费用
@@ -370,7 +370,7 @@ public class SPOServiceImpl implements SPOService {
 		// 增发价格
 		BigDecimal price = ipoSpoComm.getPositionsPrice();
 		// 商品代码
-		String commid = ipoSpoComm.getCommodityid();
+		String commid = ipoSpoComm.getCommodityId();
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
 		//BrBroker brBroker = brBrokerMapper.selectById(pubmemberid);
