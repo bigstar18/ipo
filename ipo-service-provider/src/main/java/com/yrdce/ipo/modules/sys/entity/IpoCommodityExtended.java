@@ -23,7 +23,7 @@ public class IpoCommodityExtended {
 
 	private Date endtime;// 截止日期
 
-	private int purchaseCredits;// 申购额度
+	private long maxapplynum;// 申购额度
 
 	private int status;// 申购状态
 
@@ -37,12 +37,12 @@ public class IpoCommodityExtended {
 		this.status = status;
 	}
 
-	public int getPurchaseCredits() {
-		return purchaseCredits;
+	public long getMaxapplynum() {
+		return maxapplynum;
 	}
 
-	public void setPurchaseCredits(int purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setMaxapplynum(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public String getId() {
@@ -66,7 +66,8 @@ public class IpoCommodityExtended {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname.trim();
+		this.commodityname = commodityname == null ? null : commodityname
+				.trim();
 	}
 
 	public BigDecimal getPrice() {

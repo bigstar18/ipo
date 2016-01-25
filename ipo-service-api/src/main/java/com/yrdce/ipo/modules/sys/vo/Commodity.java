@@ -67,10 +67,10 @@ public class Commodity implements Serializable {
 	@NotNull
 	private int status;// 状态
 
-	@JsonProperty("purchaseCredits")
-	@XmlElement(name = "purchaseCredits")
+	@JsonProperty("maxapplynum")
+	@XmlElement(name = "maxapplynum")
 	@NotNull
-	private long purchaseCredits;// 申购额度
+	private long maxapplynum;// 申购额度
 
 	@JsonProperty("ccounts")
 	@XmlElement(name = "ccounts")
@@ -92,7 +92,7 @@ public class Commodity implements Serializable {
 	}
 
 	public Commodity(int id, String commodityid, String commodityname,
-			double price, int units, int purchaseCredits, Date starttime,
+			double price, int units, int maxapplynum, Date starttime,
 			Date endtime) {
 		super();
 		this.id = id;
@@ -100,7 +100,7 @@ public class Commodity implements Serializable {
 		this.commodityname = commodityname;
 		this.price = price;
 		this.units = units;
-		this.purchaseCredits = purchaseCredits;
+		this.maxapplynum = maxapplynum;
 		this.starttime = starttime;
 		this.endtime = endtime;
 	}
@@ -169,12 +169,12 @@ public class Commodity implements Serializable {
 		this.counts = counts;
 	}
 
-	public long getPurchaseCredits() {
-		return purchaseCredits;
+	public long getMaxapplynum() {
+		return maxapplynum;
 	}
 
-	public void setPurchaseCredits(long purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setMaxapplynum(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public int getStatus() {
@@ -199,8 +199,7 @@ public class Commodity implements Serializable {
 				+ ", commodityname=" + commodityname + ", price=" + price
 				+ ", units=" + units + ", counts=" + counts + ", starttime="
 				+ starttime + ", endtime=" + endtime + ", status=" + status
-				+ ", purchaseCredits=" + purchaseCredits + ", ccounts="
-				+ ccounts + "]";
+				+ ", maxapplynum=" + maxapplynum + ", ccounts=" + ccounts + "]";
 	}
 
 }

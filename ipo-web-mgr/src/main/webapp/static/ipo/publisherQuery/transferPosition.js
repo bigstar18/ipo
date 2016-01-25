@@ -107,12 +107,9 @@ function setInfo(value){
 
 function forzen(value){
 	                        $.ajax({ 
-                            		   cache:false,
-                                       type: "get",  
+                                       type: "POST",  
                                        url: getRootPath ()+"/PublisherController/frozenFunds",    
-                                       contentType: "application/json; charset=utf-8",
                                        data: {"storageid":value},  
-                                        dataType: 'json',
                                        success: function(data) { 
                                     	   if(data=='true'){
                                            alert("冻结成功！");
@@ -133,8 +130,7 @@ function forzen(value){
 
 function transfer(value){
 	                        $.ajax({ 
-                            		   cache:false,
-                                       type: "get",  
+                                       type: "POST",  
                                        url: getRootPath ()+"/PublisherController/transfer",       
                                        data: {"storageid":value},      
                                        success: function(data) { 

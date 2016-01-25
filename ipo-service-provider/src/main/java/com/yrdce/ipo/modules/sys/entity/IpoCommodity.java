@@ -24,7 +24,7 @@ public class IpoCommodity {
 
 	private Date endtime;// 截止日期
 
-	private long purchaseCredits;// 申购额度
+	private long maxapplynum;// 申购额度
 
 	private int status;// 申购状态
 
@@ -85,12 +85,12 @@ public class IpoCommodity {
 		this.counts = counts;
 	}
 
-	public long getPurchaseCredits() {
-		return purchaseCredits;
+	public long getMaxapplynum() {
+		return maxapplynum;
 	}
 
-	public void setPurchaseCredits(long purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setMaxapplynum(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public Date getStarttime() {
