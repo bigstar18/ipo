@@ -3,7 +3,7 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoSpoMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
     <id column="SPO_ID" property="spoId" jdbcType="VARCHAR" />
-    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="SPO_COUNTS" property="spoCounts" jdbcType="DECIMAL" />
     <result column="SPO_PRICE" property="spoPrice" jdbcType="DECIMAL" />
     <result column="RATION_COUNTS" property="rationCounts" jdbcType="DECIMAL" />
@@ -17,7 +17,7 @@
     <result column="FIRM_ID" property="firmId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-      SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE,
+      SPO_ID, COMMODITY_ID, SPO_COUNTS, SPO_PRICE,
       RATION_COUNTS, RATION_REPAYMENT, 
       RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
@@ -28,12 +28,12 @@
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
-    insert into IPO_SPO (SPO_ID, COMMUNITY_ID, SPO_COUNTS, 
+    insert into IPO_SPO (SPO_ID, COMMODITY_ID, SPO_COUNTS, 
       SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
       RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, 
       IPO_DATE, RATION_SATE, RATION_TYPE, 
       FIRM_ID)
-    values (#{spoId,jdbcType=VARCHAR}, #{communityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
+    values (#{spoId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, #{spoCounts,jdbcType=DECIMAL}, 
       #{spoPrice,jdbcType=DECIMAL}, #{rationCounts,jdbcType=DECIMAL}, #{rationRepayment,jdbcType=DECIMAL}, 
       #{rationPoundage,jdbcType=DECIMAL}, #{registerDate,jdbcType=DATE}, #{spoDate,jdbcType=DATE}, 
       #{ipoDate,jdbcType=DATE}, #{rationSate,jdbcType=DECIMAL}, #{rationType,jdbcType=VARCHAR}, 
@@ -41,7 +41,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpo" >
     update IPO_SPO
-    set COMMUNITY_ID = #{communityId,jdbcType=VARCHAR},
+    set COMMODITY_ID = #{commodityId,jdbcType=VARCHAR},
       SPO_COUNTS = #{spoCounts,jdbcType=DECIMAL},
       SPO_PRICE = #{spoPrice,jdbcType=DECIMAL},
       RATION_COUNTS = #{rationCounts,jdbcType=DECIMAL},
@@ -56,13 +56,13 @@
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
+    select SPO_ID, COMMODITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
     RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
     from IPO_SPO
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select SPO_ID, COMMUNITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
+    select SPO_ID, COMMODITY_ID, SPO_COUNTS, SPO_PRICE, RATION_COUNTS, RATION_REPAYMENT, 
     RATION_POUNDAGE, REGISTER_DATE, SPO_DATE, IPO_DATE, RATION_SATE, RATION_TYPE, FIRM_ID
     from IPO_SPO
   </select>
@@ -70,8 +70,8 @@
   	select <include refid="Base_Column_List" /> from
   	 (select s.*,rownum TNO from IPO_SPO s
   	 where 1=1
-  	 <if test="spo.communityId != null" >
-       and s.COMMUNITY_ID = #{spo.communityId,jdbcType=VARCHAR} 
+  	 <if test="spo.commodityId != null" >
+       and s.COMMODITY_ID = #{spo.commodityId,jdbcType=VARCHAR} 
      </if>
      <if test="spo.registerDateSart !=null and spo.registerDateEnd!=null">
      	and s.register_date between to_date(#{spo.registerDateSart},'yyyy-mm-dd') and to_date(#{spo.registerDateEnd},'yyyy-mm-dd')
@@ -82,8 +82,8 @@
   	SELECT COUNT(*) FROM
 	 IPO_SPO S
   	 WHERE 1=1
-  	 <if test="spo.communityId != null" >
-       AND S.COMMUNITY_ID = #{spo.communityId} 
+  	 <if test="spo.commodityId != null" >
+       AND S.COMMODITY_ID = #{spo.commodityId} 
      </if>
      <if test="spo.registerDateSart !=null and spo.registerDateEnd!=null">
      	and s.register_date between to_date(#{spo.registerDateSart},'yyyy-mm-dd') and to_date(#{spo.registerDateEnd},'yyyy-mm-dd')

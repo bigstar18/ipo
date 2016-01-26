@@ -38,7 +38,7 @@ function getAllInfo(){
          loadMsg:'数据加载中......',
          fitColumns:true,//允许表格自动缩放,以适应父容器
          columns : [ [ {
-             field : 'communityId',
+             field : 'commodityId',
              width : 200,
              align: "center",
              title : '商品代码'
@@ -128,7 +128,7 @@ function getAllInfo(){
 //查询
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
-		communityId: $("#commId").val(),
+		commodityId: $("#commId").val(),
     	registerDateStart:$("#startdate").datebox('getValue'),
     	registerDateEnd:$("#enddate").datebox('getValue')
 	});
@@ -182,7 +182,7 @@ function myparser(s){
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
-					商品代码: <input id="commId" name="communityId" type="text" style="border:1px solid #ccc">
+					商品代码: <input id="commId" name="commodityId" type="text" style="border:1px solid #ccc">
 								&nbsp
 								&nbsp
 					查询日期: <input id="startdate" name="startdate" class="easyui-datebox" style="border:1px solid #ccc"  data-options="formatter:myformatter,parser:myparser" >

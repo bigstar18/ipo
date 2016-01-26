@@ -43,7 +43,7 @@ function getAllInfo(){
                  return "<a herf='#'>"+value+"</a>";
        	 	 }
          },{
-        	 field : 'communityId',  
+        	 field : 'commodityId',  
              width : 200,  
              align: "center",
              title : '商品代码',
@@ -165,7 +165,7 @@ function myparser(s){
 
 function doSearch(){
 	$('#tt').datagrid('load',{
-		communityId:$("#commId").val(),
+		commodityId:$("#commId").val(),
     	registerDate:$("#registerDate").datebox("getValue")
 	});
 }

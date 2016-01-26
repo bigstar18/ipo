@@ -24,7 +24,7 @@ $(document).ready(function(){
 	if(spoid!=""){
 		getSpoInfo(spoid);
 		var value = $("#rationType").val();
-		$("#communityId").hide();
+		$("#commodityId").hide();
 		$("#commIdInput").show();
 		$(".radio").show();
 		$(".all").show();
@@ -45,7 +45,7 @@ function getSpoInfo(spoId){
 		success:function(data){
 			if(data!="error"&&data!=""){
 				$("#spoCounts").val(data.spoCounts);
-				$("#commIdInput").val(data.communityId);
+				$("#commIdInput").val(data.commodityId);
 				if(data.registerDate!=null){
 					$("#registerDate").datebox("setValue",data.registerDate.substr(0,10));
 				}
@@ -120,7 +120,7 @@ function getIPOCommInfo(){
         		var temp = data.split("|");
         		for(var ele in temp){
         			if(temp[ele] !="")
-        				$("#communityId").append("<option>"+temp[ele]+"</option>");
+        				$("#commodityId").append("<option>"+temp[ele]+"</option>");
         		}
         	}else if(data=="null"){
         		return;
@@ -156,11 +156,11 @@ function addSPOInfo(){
 	var minRationProportion = $("#minRationProportion").val();
 
 	//验证
-	if($("#communityId").val() == "请选择"){
+	if($("#commodityId").val() == "请选择"){
 		alert("请选择具体商品！");
 		return;
 	}
-	var commonityId = $("#communityId").val().match(reg)[1];
+	var commonityId = $("#commodityId").val().match(reg)[1];
 	if(!myDateValidate(ipoDate,registerDate)){
 		alert("上市日期不能小于登记日期！")
 		return;
@@ -218,7 +218,7 @@ function addSPOInfo(){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/SPOController/insertSPOInfo",
-		data:{communityId:commonityId,
+		data:{commodityId:commonityId,
 			spoCounts:spoCounts,
 			spoPrice:spoPrice,
 			registerDate:registerDate,
@@ -314,7 +314,7 @@ function updateSPOInfo(){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/SPOController/updateSPOInfo",
-		data:{communityId:commonityId,
+		data:{commodityId:commonityId,
 			spoCounts:spoCounts,
 			spoPrice:spoPrice,
 			registerDate:registerDate,
@@ -479,7 +479,7 @@ function doClose(){
 				<span>商品代码：</span>
 				<span>
 					<input type="text" id="commIdInput" readonly="readonly" style="width:150px;display:none;">
-					<select id="communityId" name="communityId" style="width:150px" >
+					<select id="commodityId" name="commodityId" style="width:150px" >
 						<option>请选择</option>
 					</select>
 				</span>

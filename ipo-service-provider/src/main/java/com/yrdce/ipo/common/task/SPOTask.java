@@ -12,12 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
@@ -40,6 +43,8 @@ public class SPOTask {
 	private IpoCommodityConfMapper ipoCommConfMapper;
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+	@Autowired
+	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -108,15 +113,32 @@ public class SPOTask {
 					// 货款
 					BigDecimal money = price.multiply(counts1);
 					logger.debug("商品费用Monery：" + money);
-					// 服务费
+					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid, commodityid,
+							ChargeConstant.BusinessType.PUBLISH.getCode());
 					BigDecimal fee = new BigDecimal(0);
-					if (mode == 1) {
-						BigDecimal valparam = val.divide(new BigDecimal("100"));
-						fee = money.multiply(valparam);
-						logger.debug("比例手续费：" + fee);
+					BigDecimal buy = new BigDecimal(0);
+					short tradealgr = 0;
+					if (ipoSpecialcounterfee != null) {
+						tradealgr = ipoSpecialcounterfee.getTradealgr();
+						buy = ipoSpecialcounterfee.getBuy();
+						if (tradealgr == 1) {
+							BigDecimal valparam = buy.divide(new BigDecimal("100"));
+							fee = money.multiply(valparam);
+							logger.debug("特殊比例手续费：" + fee);
+						} else {
+							fee = counts1.multiply(buy);
+							logger.debug("特殊绝对值手续费：" + fee);
+						}
 					} else {
-						fee = counts1.multiply(val);
-						logger.debug("绝对值手续费：" + fee);
+						// 服务费
+						if (mode == 1) {
+							BigDecimal valparam = val.divide(new BigDecimal("100"));
+							fee = money.multiply(valparam);
+							logger.debug("比例手续费：" + fee);
+						} else {
+							fee = counts1.multiply(val);
+							logger.debug("绝对值手续费：" + fee);
+						}
 					}
 
 					IpoSpoRation ipoSpoRation = new IpoSpoRation();

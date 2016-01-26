@@ -71,9 +71,15 @@
    <select id="sequence" resultType="java.lang.Integer">
 	SELECT SEQ_IPO_SPECIALCOUNTERFEE.NEXTVAL FROM dual
    </select>
+   
    <select id="isFirm" resultType="java.lang.Integer" parameterType="java.lang.String">
    	select count(0) from m_firm where firmid=#{firmid}
    </select>
   
-  
+  <select id="selectInfo" resultMap="BaseResultMap" parameterType="map">
+  	select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
+    from IPO_SPECIALCOUNTERFEE
+    where FIRMID = #{firmid,jdbcType=VARCHAR} and COMMODITYID = #{commodid,jdbcType=VARCHAR} 
+    and COUNTERFEETYPE = #{type,jdbcType=VARCHAR}
+  </select>
 </mapper>

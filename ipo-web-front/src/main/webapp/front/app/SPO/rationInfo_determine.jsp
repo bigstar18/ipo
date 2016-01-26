@@ -32,12 +32,12 @@ function getAllInfo(){
          toolbar:"#tb",
          url:"<%=request.getContextPath()%>/spoRationController/selectRationInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息
         queryParams:{
-        	communityId: $("#commId").val()
+        	commodityId: $("#commId").val()
         },
          loadMsg:'数据加载中......',
          fitColumns:true,//允许表格自动缩放,以适应父容器
          columns : [ [ {
-             field : 'communityId',
+             field : 'commodityId',
              width : 200,
              align: "center",
              title : '商品代码'
@@ -137,7 +137,7 @@ function getAllInfo(){
 //查询
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
-		communityId: $("#commId").val()
+		commodityId: $("#commId").val()
 	});
 }
 function reSet(){
@@ -199,7 +199,7 @@ function sure(){
 					<div>
 					<form name="frm" action="" >
 
-					商品代码: <input id="commId" name="communityId" type="text" style="border:1px solid #ccc">
+					商品代码: <input id="commId" name="commodityId" type="text" style="border:1px solid #ccc">
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="reSet()">重置</a>
 					</form>
