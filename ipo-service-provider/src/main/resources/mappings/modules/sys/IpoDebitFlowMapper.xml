@@ -131,6 +131,9 @@
   <update id="updateState" parameterType="com.yrdce.ipo.modules.sys.vo.DebitFlow">
 		  update ipo_debitflow t set t.debit_state=#{debitState},t.update_user=#{updateUser},
 		     t.update_date=#{updateDate,jdbcType=TIMESTAMP}
+		     <if test="debitDate!=null and debitDate!='' ">
+			    ,t.debit_date=#{debitDate,jdbcType=TIMESTAMP}
+		     </if>
           where t.id=#{id}
   </update>
   

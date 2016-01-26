@@ -226,7 +226,7 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("结算处理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trade/tradeSettle.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("扣款流水记录,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/debitflow/index.jsp");
+									M0101 = new WebFXTreeItem("扣款流水记录,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/debitFlowController/index");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>

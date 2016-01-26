@@ -42,11 +42,12 @@
 		</selectKey>
        insert into ipo_trusteeship(
           id, apply_amount,trusteeship_commodity_id,state, price,create_user, create_date,   
-	      commodity_id,instorage_amount,effective_amount,position_amount,listing_charge,warehouse_id
+	      commodity_id,instorage_amount,effective_amount,position_amount,publish_charge,
+	      listing_charge,warehouse_id
  	   )values (
  	      #{id,jdbcType=INTEGER}, #{applyAmount},#{trusteeshipCommodityId}, #{state}, #{price},  
           #{createUser},#{createDate,jdbcType=TIMESTAMP}, #{commodityId},#{instorageAmount},
-          #{effectiveAmount},#{positionAmount},#{listingCharge},#{warehouseId}
+          #{effectiveAmount},#{positionAmount},#{publishCharge},#{listingCharge},#{warehouseId}
        )
   </insert>
    
