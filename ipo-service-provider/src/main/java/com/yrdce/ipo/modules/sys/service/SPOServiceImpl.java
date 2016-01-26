@@ -523,7 +523,7 @@ public class SPOServiceImpl implements SPOService {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
 		debitFlow.setCommodityId(commodityid);
 		debitFlow.setOrderId(id);
 		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
@@ -536,7 +536,7 @@ public class SPOServiceImpl implements SPOService {
 		debitFlow.setCreateDate(new Date());
 		ipoDebitFlowMapper.insert(debitFlow);
 		// 手续费流水
-		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
 		debitFlow.setAmount(fee);
 		ipoDebitFlowMapper.insert(debitFlow);
 

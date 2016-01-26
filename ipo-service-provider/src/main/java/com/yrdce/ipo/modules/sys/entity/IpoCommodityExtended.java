@@ -17,7 +17,7 @@ public class IpoCommodityExtended {
 
 	private int units;// 配售单位
 
-	private int counts;// 发售总数
+	private long counts;// 发售总数
 
 	private Date starttime;// 发售日期
 
@@ -66,8 +66,7 @@ public class IpoCommodityExtended {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public BigDecimal getPrice() {
@@ -86,11 +85,11 @@ public class IpoCommodityExtended {
 		this.units = units;
 	}
 
-	public int getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(int counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
 	}
 
