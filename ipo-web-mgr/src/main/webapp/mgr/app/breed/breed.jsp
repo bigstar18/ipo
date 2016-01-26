@@ -154,6 +154,14 @@ function setSortName(value) {
 	 }  
 }
 	
+function changeContractor(value){
+	if(value=='1'){
+		$("#quote").html("元");
+	}
+	if(value=='2'){
+		$("#quote").html("美元");
+	}
+}
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
@@ -209,7 +217,7 @@ function setSortName(value) {
 										</td>
 										<td align="right" width="90">报价货币：</td>     
             							<td> 
-            							<select id="contractcurrency" name="contractcurrency" style="width:100">
+            							<select id="contractcurrency" name="contractcurrency" style="width:100" onchange="changeContractor(value)">
 												<option value=""></option>
 											    <option value="1" <c:if test="${entity.contractcurrency==1 }">selected</c:if>>元</option>
 												<option value="2" <c:if test="${entity.contractcurrency==2 }">selected</c:if>>美元</option>
@@ -241,19 +249,12 @@ function setSortName(value) {
 									<tr>
         								<input type="hidden" id="cmdtyPrefix"/>   
         	  							<td align="right">&nbsp;&nbsp;报价单位：</td>
-            							<td>元/<input id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }"
+            							<td><span id="quote"></span>/<input id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }"
             								class="easyui-validatebox textbox" data-options="required:true,readonly:true,missingMessage:'必填项'"  style="width: 100; background-color: C0C0C0"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>  
             							</td>    
-        								<td align="right" >交易单位：</td> 
+        								<td align="right" ></td> 
             							<td> 
-			  								<input id="contractfactor" name="contractfactor" maxlength="10" value="${entity.contractfactor }"
-			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正数',min:0,precision:2"/>
-			  								<span id="span_contractFactor"  class="required">
-			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
-			  									<c:if test="${entity.contractfactorname==null}">如(吨/批)</c:if>
-			  								</span>
-			  								<span class="required">*</span>            
             							</td>
             							<td align="right">T+N交易天数：</td>
 										<td>
@@ -372,7 +373,7 @@ function setSortName(value) {
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">   
 								    <tr>
-        	  							<td align="right">交易手续费算法：</td>
+        	  							<td align="right">申购手续费算法：</td>
             							<td>
             							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
 												<option value=""></option>
@@ -386,29 +387,11 @@ function setSortName(value) {
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span id="buyPercent">%</span> <span class="required">*</span> 
             							</td>    
-        								<td align="right" >卖出：</td> 
-            							<td> 
-			  								<input id="sell" name="sell" value="${entity.sell }" 
-			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/> 
-			  							<span id="sellPercent">%</span> <span class="required">*</span> 
-			  							</td>
-            							
-        							</tr>
-									<tr>
-        	  							<td align="right"></td>
-            							<td>
-            							</td>    
         								<td align="right">买方手续费市场留存比例：</td>
 										<td>
 										<input id="mktbuyfeeradio" name="mktbuyfeeradio"  value="${entity.mktbuyfeeradio }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										<span id="mktbuyPercent">%</span><span class="required">*</span> 
-										</td>
-            							<td align="right">卖方手续费市场留存比例：</td>
-										<td>
-											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }" 
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										<span id="mktsellPercent">%</span><span class="required">*</span> 
 										</td>
         							</tr>
 							        <tr>
