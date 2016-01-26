@@ -372,7 +372,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		payFlow.setCommodityId(dbShip.getCommodityId());
 		payFlow.setOrderId(String.valueOf(ship.getId()));
 		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
-		payFlow.setPayee(ship.getCreateUser());
+		payFlow.setPayee(dbShip.getCreateUser());
 		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
 		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
 		payFlow.setCreateUser(ship.getUpdateUser());
