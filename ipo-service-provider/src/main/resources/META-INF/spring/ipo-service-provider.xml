@@ -66,6 +66,8 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.PublisherPositionService" ref="publisherpositionService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService" ref="specialCounterFeeService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.PayFlowService" ref="payFlowService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DebitFlowService" ref="debitFlowService" protocol="dubbo" />
+	
 	
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
@@ -106,6 +108,7 @@
     <bean id="publisherpositionService" class="com.yrdce.ipo.modules.sys.service.PublisherPositionServiceImpl" />
     <bean id="specialCounterFeeService" class="com.yrdce.ipo.modules.sys.service.SpecialCounterFeeImpl" />
     <bean id="payFlowService" class="com.yrdce.ipo.modules.sys.service.PayFlowServiceImpl" />
+    <bean id="debitFlowService" class="com.yrdce.ipo.modules.sys.service.DebitFlowServiceImpl" />
      
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。

@@ -34,5 +34,24 @@ public interface IpoDebitFlowMapper {
 	 */
 	public void updateState(DebitFlow debitFlow);
 	
+	/**
+	 * 分页查询费用
+	 * @param debitFlow
+	 * @return
+	 */
+	public List<IpoDebitFlow> queryForPage(@Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex,@Param("param")DebitFlow debitFlow);
+	
+	/**
+	 * 查询费用数量
+	 * @param debitFlow
+	 * @return
+	 */
+	public long queryForCount(@Param("param")DebitFlow debitFlow);
+	
+	
+	
+	
+	
 	
 }

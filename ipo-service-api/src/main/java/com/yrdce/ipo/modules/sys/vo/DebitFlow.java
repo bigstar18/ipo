@@ -22,9 +22,17 @@ public class DebitFlow implements Serializable {
 	 */
 	private String businessType;
 	/**
+	 * 业务类型名称 
+	 */
+	private String businessTypeName;
+	/**
 	 * 费用类型
 	 */
 	private String chargeType;
+	/**
+	 * 费用类型名称
+	 */
+	private String chargeTypeName;
 	/**
 	 * 商品编号
 	 */
@@ -39,6 +47,10 @@ public class DebitFlow implements Serializable {
 	 */
 	private int debitState;
 	/**
+	 * 扣款状态名称
+	 */
+	private String debitStateName;
+	/**
 	 * 付款人
 	 */
 	private String payer;
@@ -50,6 +62,11 @@ public class DebitFlow implements Serializable {
 	 * 扣款方式:1 线上扣款 2 线下扣款
 	 */
 	private int debitMode;
+	/**
+	 * 扣款方式
+	 */
+	private String debitModeName;
+	
 	/**
 	 * 扣款渠道:1 保证金扣款 2 :现金 3:刷卡 4:支付宝 5:微信
 	 */
@@ -66,6 +83,10 @@ public class DebitFlow implements Serializable {
 	 * 返销标记 0:未返销 1 :已返销
 	 */
 	private int buyBackFlag;
+	/**
+	 * 返销标记
+	 */
+	private String buyBackFlagName;
 
 	/**
 	 * 创建人
@@ -221,6 +242,46 @@ public class DebitFlow implements Serializable {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getBusinessTypeName() {
+		return businessTypeName;
+	}
+
+	public void setBusinessTypeName(String businessTypeName) {
+		this.businessTypeName = businessTypeName;
+	}
+
+	public String getChargeTypeName() {
+		return chargeTypeName;
+	}
+
+	public void setChargeTypeName(String chargeTypeName) {
+		this.chargeTypeName = chargeTypeName;
+	}
+
+	public String getDebitStateName() {
+		return debitStateName;
+	}
+
+	public void setDebitStateName(String debitStateName) {
+		this.debitStateName = debitStateName;
+	}
+
+	public String getDebitModeName() {
+		return debitModeName;
+	}
+
+	public void setDebitModeName(String debitModeName) {
+		this.debitModeName = debitModeName;
+	}
+
+	public String getBuyBackFlagName() {
+		return buyBackFlagName;
+	}
+
+	public void setBuyBackFlagName(String buyBackFlagName) {
+		this.buyBackFlagName = buyBackFlagName;
 	}
 	
 	
