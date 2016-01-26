@@ -12,7 +12,7 @@ DROP TABLE IPO_SPO CASCADE CONSTRAINTS;
 CREATE TABLE IPO_SPO 
 (
    SPO_ID               VARCHAR2(32)         NOT NULL,
-   COMMUNITY_ID         VARCHAR2(32)         NOT NULL,
+   COMMODITY_ID         VARCHAR2(32)         NOT NULL,
    SPO_COUNTS           NUMBER(12)           NOT NULL,
    SPO_PRICE            NUMBER(12,2)         NOT NULL,
    RATION_COUNTS        NUMBER(12)           NOT NULL,

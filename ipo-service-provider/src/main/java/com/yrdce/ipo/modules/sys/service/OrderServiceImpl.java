@@ -50,7 +50,8 @@ public class OrderServiceImpl implements OrderService {
 			Date date = new Date(timestamp.getTime());
 			order.setCreatetime(date);
 			order.setFrozenfunds(list.get(i).getFrozenfunds());
-			logger.info(order.toString());
+			order.setFrozencounterfee(list.get(i).getFrozencounterfee());
+			logger.debug(order.toString());
 			list2.add(order);
 		}
 		return list2;
@@ -84,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
 			order.setCreatetime(date);
 			order.setFrozenfunds(list.get(i).getFrozenfunds());
 			order.setUserid(list.get(i).getUserid());
+			order.setFrozencounterfee(list.get(i).getFrozencounterfee());
 			list2.add(order);
 		}
 		return list2;
@@ -98,10 +100,10 @@ public class OrderServiceImpl implements OrderService {
 		return counts;
 
 	}
-	
-    /**
-     * 查询已冻结资金的订单 
-     */
+
+	/**
+	 * 查询已冻结资金的订单 
+	 */
 	@Override
 	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception {
 		List<Order> result = new ArrayList<Order>();

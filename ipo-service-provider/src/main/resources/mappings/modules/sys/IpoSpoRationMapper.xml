@@ -14,7 +14,7 @@
     <result column="FIRMNAME" property="firmname" jdbcType="VARCHAR" />
     <result column="SALESID" property="salesid" jdbcType="VARCHAR" />
     <result column="RATION_SATE" property="rationSate" jdbcType="DECIMAL" />
-    <result column="COMMUNITY_ID" property="communityId" jdbcType="VARCHAR" />
+    <result column="COMMODITY_ID" property="commodityId" jdbcType="VARCHAR" />
     <result column="REGISTER_DATE" property="registerDate" jdbcType="DATE" />
      <result column="SPO_COUNTS" property="spoCounts" jdbcType="DECIMAL" />
      <result column="SPO_PRICE" property="spoPrice" jdbcType="DECIMAL" />
@@ -80,11 +80,11 @@
   <select id="selectSPOAndRa" resultMap="BaseResultMap" parameterType="map">
   select * from (
     select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
-	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.community_id,c.register_date,
+	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,c.COMMODITY_ID,c.register_date,
 	r.RATION_SATE,rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
 	where 1=1 and c.ration_type = '2'
-    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId !=''" >
-    and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
+    <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId !=''" >
+    and c.COMMODITY_ID = #{IpoSpoComm.commodityId,jdbcType=VARCHAR}
     </if>
     <if test="IpoSpoComm.registerDate != null and IpoSpoComm.registerDate != ''">
     and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
@@ -96,8 +96,8 @@
   	select count(0) from IPO_SPO_RATION t inner join ipo_spo_commoditymanmaagement c
   	on t.spoid = c.spo_id
   	where 1=1 and c.ration_type = '2'
-    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId != ''"> 
-    and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
+    <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId != ''"> 
+    and c.COMMODITY_ID = #{IpoSpoComm.commodityId,jdbcType=VARCHAR}
     </if>
     <if test="IpoSpoComm.registerDate != null and IpoSpoComm.registerDate != ''">
     and c.register_date = #{IpoSpoComm.registerDate,jdbcType=DATE}
@@ -108,8 +108,8 @@
   	SELECT COUNT(r.rationid) FROM
 	 IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
   	 WHERE 1=1
-  	 <if test="IpoSpoComm.communityId != null" >
-       AND c.COMMUNITY_ID = #{IpoSpoComm.communityId} 
+  	 <if test="IpoSpoComm.commodityId != null" >
+       AND c.COMMODITY_ID = #{IpoSpoComm.commodityId} 
      </if>
      <if test="IpoSpoComm.registerDateSart !=null and IpoSpoComm.registerDateEnd!=null">
      	and c.register_date between to_date(#{IpoSpoComm.registerDateSart},'yyyy-mm-dd') and to_date(#{IpoSpoComm.registerDateEnd},'yyyy-mm-dd')
@@ -119,12 +119,12 @@
   <select id="getMyRationInfo" resultMap="BaseResultMap" parameterType="map">
   select * from (
     select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
-	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.community_id,c.register_date,
+	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.COMMODITY_ID,c.register_date,
 	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
 	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
 	where  r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
-    <if test="IpoSpoComm.communityId != null and IpoSpoComm.communityId !=''">
-    and c.community_id = #{IpoSpoComm.communityId,jdbcType=VARCHAR}
+    <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId !=''">
+    and c.COMMODITY_ID = #{IpoSpoComm.commodityId,jdbcType=VARCHAR}
     </if>
     <if test="IpoSpoComm.registerDateSart !=null and IpoSpoComm.registerDateEnd!=null">
      	and c.register_date between to_date(#{IpoSpoComm.registerDateSart},'yyyy-mm-dd') and to_date(#{IpoSpoComm.registerDateEnd},'yyyy-mm-dd')

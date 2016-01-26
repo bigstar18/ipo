@@ -21,9 +21,11 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
+import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
 
@@ -59,13 +61,15 @@ public class PurchaseImpl implements Purchase {
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
 	@Autowired
 	private IpoPayFlowMapper ipoPayFlowMapper;
+	@Autowired
+	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
 	private ThreadLocal<String> applyUser = new ThreadLocal<String>();
 
 	// 时间判断
-	public boolean isInDates(String sId) {
+	public boolean isInDates(String commodityid) {
 		logger.info("查询商品一列信息");
-		IpoCommodity c = ipoComMapper.selectByComid(sId);
+		IpoCommodity c = ipoComMapper.selectByComid(commodityid);
 		logger.debug("获取开始时间");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// 获取开售日期
@@ -90,24 +94,23 @@ public class PurchaseImpl implements Purchase {
 	// 申购
 	@Override
 	@Transactional
-	public int apply(String userId, String sId, Integer counts, Integer id) throws Exception {
+	public int apply(String userId, String commodityid, Integer counts, Integer id) throws Exception {
 		if (applyUser.get() != null)
 			return REPEAT;
 
 		applyUser.set(userId);// 要求不高
 		int result = SECCESS;
-
 		logger.info("进入申购方法");
 		//system.canSystemTrade()
 		if (system.canSystemTrade()) {
-			String ID = sId.toUpperCase();
+			String ID = commodityid.toUpperCase();
 			if (this.isInDates(ID)) {
 				logger.info("进入时间判断");
-				if (this.repeat(userId, sId)) {
+				if (this.repeat(userId, commodityid)) {
 					logger.info("进入重复申购");
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
+					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
 					//IpoCommodity commodity = ipoComMapper.selectByComid(ID);
 					// 获取商品名称
 					//String name = commodity.getCommodityname();
@@ -116,8 +119,8 @@ public class PurchaseImpl implements Purchase {
 					//BigDecimal price = commodity.getPrice();
 					BigDecimal price = ipoCommodityConf.getPrice();
 					// 获取申购额度
-					//long e = commodity.getPurchaseCredits();
-					long e = ipoCommodityConf.getMaxapplynum();
+					//long credits = commodity.getPurchaseCredits();
+					long credits = ipoCommodityConf.getMaxapplynum();
 					// 发售单位
 					//int units = commodity.getUnits();
 					String pubmemberid = ipoCommodityConf.getPubmemberid();
@@ -134,21 +137,38 @@ public class PurchaseImpl implements Purchase {
 					// 申购消费总额
 					BigDecimal allMoney = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
-					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(sId);
-					short mode = ipoCommodityConf.getTradealgr();
-					BigDecimal val = ipoCommodityConf.getBuy();
+					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
+					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(userId, commodityid,
+							ChargeConstant.BusinessType.PUBLISH.getCode());
 					BigDecimal fee = new BigDecimal(0);
-					if (mode == 1) {
-						BigDecimal valparam = val.divide(new BigDecimal("100"));
-						fee = allMoney.multiply(valparam);
-						logger.debug("比例手续费：" + fee);
+					BigDecimal buy = new BigDecimal(0);
+					short tradealgr = 0;
+					if (ipoSpecialcounterfee != null) {
+						tradealgr = ipoSpecialcounterfee.getTradealgr();
+						buy = ipoSpecialcounterfee.getBuy();
+						if (tradealgr == 1) {
+							BigDecimal valparam = buy.divide(new BigDecimal("100"));
+							fee = allMoney.multiply(valparam);
+							logger.debug("特殊比例手续费：" + fee);
+						} else {
+							fee = num.multiply(buy);
+							logger.debug("特殊绝对值手续费：" + fee);
+						}
 					} else {
-						fee = num.multiply(val);
-						logger.debug("绝对值手续费：" + fee);
+						tradealgr = ipoCommodityConf.getTradealgr();
+						buy = ipoCommodityConf.getBuy();
+						if (tradealgr == 1) {
+							BigDecimal valparam = buy.divide(new BigDecimal("100"));
+							fee = allMoney.multiply(valparam);
+							logger.debug("比例手续费：" + fee);
+						} else {
+							fee = num.multiply(buy);
+							logger.debug("绝对值手续费：" + fee);
+						}
 					}
 					BigDecimal cost = allMoney.add(fee);
 					// 申购额度判断
-					if (counts <= e) {
+					if (counts <= credits) {
 						// 申购资金判断
 						if (money.compareTo(cost) != -1) {
 							logger.info("进入资金判断");
@@ -163,20 +183,20 @@ public class PurchaseImpl implements Purchase {
 							IpoOrder ipoOrder = new IpoOrder();
 							ipoOrder.setOrderid(primaryKey);
 							ipoOrder.setUserid(userId);
-							ipoOrder.setCommodityid(sId);
+							ipoOrder.setCommodityid(commodityid);
 							ipoOrder.setCommodityname(name);
 							ipoOrder.setCounts(counts);
 							ipoOrder.setCreatetime(date);
 							ipoOrder.setFrozenfunds(allMoney);
 							ipoOrder.setFrozenst(0);
 							ipoOrder.setCommodity_id(id);
-							ipoOrder.setBuy(val);
-							ipoOrder.setTradealgr(mode);
+							ipoOrder.setBuy(buy);
+							ipoOrder.setTradealgr(tradealgr);
 							ipoOrder.setFrozencounterfee(fee);
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
 							// 货款流水
-							this.fundsFlow(sId, primaryKey, userId, allMoney, fee, pubmemberid);
+							this.fundsFlow(commodityid, primaryKey, userId, allMoney, fee, pubmemberid);
 							result = SECCESS;
 						} else {
 							result = LACK_OF_FUNDS;
@@ -215,9 +235,9 @@ public class PurchaseImpl implements Purchase {
 	}
 
 	// 判断是重复申购
-	public boolean repeat(String userId, String sId) {
+	public boolean repeat(String userId, String commodityid) {
 		logger.info("查询商品重复申购 ");
-		IpoOrder ipoOrder = ipoOrderMapper.selectByid(userId, sId);
+		IpoOrder ipoOrder = ipoOrderMapper.selectByid(userId, commodityid);
 		if (ipoOrder != null) {
 			return false;
 		} else {
@@ -229,8 +249,8 @@ public class PurchaseImpl implements Purchase {
 	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee, String pubmemberid) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
-		debitFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
+		debitFlow.setBusinessType(ChargeConstant.BusinessType.PURCHASE.getCode());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
 		debitFlow.setCommodityId(commodityid);
 		debitFlow.setOrderId(id);
 		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
@@ -243,13 +263,13 @@ public class PurchaseImpl implements Purchase {
 		debitFlow.setCreateDate(new Date());
 		ipoDebitFlowMapper.insert(debitFlow);
 		// 手续费流水
-		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
 		debitFlow.setAmount(fee);
 		ipoDebitFlowMapper.insert(debitFlow);
 
 		PayFlow payFlow = new PayFlow();
 		payFlow.setAmount(money);
-		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		payFlow.setBusinessType(ChargeConstant.BusinessType.PURCHASE.getCode());
 		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
 		payFlow.setCommodityId(commodityid);
 		payFlow.setOrderId(id);

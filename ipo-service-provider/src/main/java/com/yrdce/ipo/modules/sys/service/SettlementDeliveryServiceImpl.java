@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
@@ -29,6 +31,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
@@ -59,6 +62,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+	@Autowired
+	private IpoDebitFlowMapper ipoDebitFlowMapper;
 
 	@Override
 	// 获得交易商持仓信息
@@ -229,6 +234,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			ipoPositionMapper.updatePosition(firmid, commid, num);
 		} else if (status1 == 9) {
 			IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
+			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+			String commodid = ipoDeliveryorder.getCommodityId();
 			BigDecimal cost = ipoExpress.getCost();
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("money", "");
@@ -239,11 +246,12 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			if (money.compareTo(cost) != -1) {
 				float amount = cost.floatValue();
 				Map<String, Object> param1 = new HashMap<String, Object>();
-				param.put("money", "");
-				param.put("userid", userid);
-				param.put("amount", amount);
-				param.put("moduleid", "40");
+				param1.put("money", "");
+				param1.put("userid", userid);
+				param1.put("amount", amount);
+				param1.put("moduleid", "40");
 				fundsMapper.getfrozen(param);
+				this.fundsFlow(commodid, deliveryorderid, userid, cost);
 			} else {
 				return "error";
 			}
@@ -346,6 +354,26 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Override
 	public int countsByCost(Paging paging) throws Exception {
 		return ipoDeliveryCostMapper.countsByCost(paging);
+	}
+
+	//收付款流水
+	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money) {
+		// 货款流水
+		DebitFlow debitFlow = new DebitFlow();
+		debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY.getCode());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.CARRIAGE.getCode());
+		debitFlow.setCommodityId(commodityid);
+		debitFlow.setOrderId(id);
+		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+		debitFlow.setPayer(userid);
+		debitFlow.setAmount(money);
+		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+		debitFlow.setBuyBackFlag(0);
+		debitFlow.setCreateUser(userid);
+		debitFlow.setCreateDate(new Date());
+		ipoDebitFlowMapper.insert(debitFlow);
+		return "success";
 	}
 
 }

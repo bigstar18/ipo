@@ -282,7 +282,7 @@ function updateSPOSate(spoid,spoSate){
 
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
-		communityId:$("#commIdp").val(),
+		commodityId:$("#commIdp").val(),
 		registerDate:$("#registerDate").datebox("getValue"),
 		spoDate:$("#spoDate").datebox("getValue"),
 		ipoDate:$("#ipoDate").datebox("getValue"),
@@ -392,7 +392,7 @@ function orderBalance(spoid){
 		<table>
 			<tr>
 				<td>
-					商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc;height:20px;width:145px">
+					商品代码: <input id="commIdp" name="commodityId" class="easyui-textbox" style="border:1px solid #ccc;height:20px;width:145px">
 							&nbsp
 							&nbsp
 					配售类型: <select id="rationTypep" style="width:150px">
