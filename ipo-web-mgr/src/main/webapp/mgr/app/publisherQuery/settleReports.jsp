@@ -6,16 +6,12 @@
 <script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/commPubQuery.js" type="text/javascript"></script>
 </head>
 <body>
-<div class="warning">
-		<div class="title font_orange_14b">温馨提示 :  货款跟踪录入</div>
-		<div class="content" style="color: red"> 添加应付发行商的货款信息。</div>
-	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
 			<tr>
 				<td>
               <fieldset class="pickList" >
-	                 <legend class="common"><b>录入货款跟踪信息</b></legend>
+	                 <legend class="common"><b>发行会员结算报表</b></legend>
 		<table border="0" align="center" cellpadding="5" cellspacing="5" class="common" width="100%">
 			<tr>
 	           	<td align="center" colspan="2" style="color:red"></td>

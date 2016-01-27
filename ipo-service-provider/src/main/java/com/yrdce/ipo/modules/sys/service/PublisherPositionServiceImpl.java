@@ -255,7 +255,7 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 					.equals(debitFlow.getBusinessType())
 					&& (ChargeConstant.ChargeType.HANDLING.getCode())
 							.equals(debitFlow.getChargeType())
-					&& debitFlow.getDebitState() == (ChargeConstant.DebitState.FROZEN_SUCCESS
+					&& debitFlow.getDebitState() == (ChargeConstant.DebitState.PAY_SUCCESS
 							.getCode())
 					&& debitFlow.getDebitMode() == (ChargeConstant.DebitMode.ONLINE
 							.getCode())) {
