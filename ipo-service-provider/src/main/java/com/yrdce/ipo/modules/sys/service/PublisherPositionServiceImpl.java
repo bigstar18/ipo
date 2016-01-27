@@ -251,10 +251,14 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		String json = (String) obj;
 		try {
 			DebitFlow debitFlow = (DebitFlow) JSON.parse(json, DebitFlow.class);
-			if ("002".equals(debitFlow.getBusinessType())
-					&& "001".equals(debitFlow.getChargeType())
-					&& debitFlow.getDebitState() == 2
-					&& debitFlow.getDebitMode() == 1) {
+			if ((ChargeConstant.BusinessType.PUBLISH.getCode())
+					.equals(debitFlow.getBusinessType())
+					&& (ChargeConstant.ChargeType.HANDLING.getCode())
+							.equals(debitFlow.getChargeType())
+					&& debitFlow.getDebitState() == (ChargeConstant.DebitState.FROZEN_SUCCESS
+							.getCode())
+					&& debitFlow.getDebitMode() == (ChargeConstant.DebitMode.ONLINE
+							.getCode())) {
 				String positionId = debitFlow.getOrderId();
 				IpoPublisherPosition example = publisherPositionmapper
 						.selectByPrimaryKey(new BigDecimal(positionId));
