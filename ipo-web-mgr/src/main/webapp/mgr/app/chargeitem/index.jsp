@@ -33,8 +33,13 @@
 	        [
 			  {field: 'id',title: '费用编号',width: '120',align: 'center',
 				    formatter: function(value, row, index) {
-		              return "<a href=\"#\" onclick=\"view('"+row.id+"','"+row.name+"')\">" + row.id + "</a>&nbsp;&nbsp;";
-		            }
+				      if(row.leaf=="false"||row.leaf==false){
+		                return "<a href=\"#\" onclick=\"view('"+row.id+"','"+row.name+"')\">" + row.id + "</a>";
+				      }else{
+				    	return row.id;
+				      }
+				    }
+				     
 			  },
 	          {field: 'name',title: '费用名称',width: '200',align: 'center'},
 	          {field: 'parentId',title: '上级费用编号',width: '120',align: 'center'},

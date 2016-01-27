@@ -31,11 +31,11 @@
 	      remoteSort: false, //定义是否从服务器排序数据。
 	      columns: [
 	        [
-	          {field: 'code',title: '编码',width: '300',align: 'center'},
-	          {field: 'value',title: '值',width: '300',align: 'center'},
-	          {field: 'type',title: '类别',width: '300',align: 'center'},
+	          {field: 'code',title: '编码',width: '250',align: 'center'},
+	          {field: 'value',title: '值',width: '250',align: 'center'},
+	          {field: 'type',title: '类别',width: '250',align: 'center'},
 	          {field: 'remark',title: '备注',width: '300',align: 'center'},
-	          {field: 'oper',title: '操作',width : '200',align: 'center',
+	          {field: 'oper',title: '操作',width : '100',align: 'center',
 	              formatter: function(value, row, index) {
 	                  return "<a href=\"#\" onclick=\"edit('"+row.code+"','"+row.type+"')\">" + "修改" + "</a>";
 	              }
