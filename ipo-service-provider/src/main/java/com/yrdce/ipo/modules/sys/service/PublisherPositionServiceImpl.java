@@ -223,6 +223,7 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 	@Override
 	@Transactional
 	public String transferPosition(PublisherPosition example) {
+		this.updateStatus(example);
 		String commid = example.getCommodityid();
 		IpoCommodityConf record = commconfmapper
 				.findIpoCommConfByCommid(commid);
@@ -238,11 +239,18 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		position.setPositionPrice(record.getPrice());
 		position.setPositionUnit(commUnit);
 		position.setOperationTime(new Date());
-		int num = ipoPositionMapper.insert(position);
-		if (num == 1) {
-			return "true";
+		IpoPosition selected = ipoPositionMapper.selectPosition(
+				ipoSpoRationMapper.firmidBySales(example.getPublisherid()),
+				commid);
+		if (selected == null) {
+			ipoPositionMapper.insert(position);
+		} else {
+			position.setPosition(example.getPubposition()
+					+ selected.getPosition());
+			position.setPositionid(selected.getPositionid());
+			ipoPositionMapper.updateByPrimaryKey(position);
 		}
-		return "false";
+		return "true";
 	}
 
 	@Override

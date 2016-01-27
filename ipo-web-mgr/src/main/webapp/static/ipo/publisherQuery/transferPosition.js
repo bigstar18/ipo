@@ -137,11 +137,8 @@ function transfer(value){
                                     	   if(data=='true'){
                                            alert("转持仓成功！");
                                            $('#dg').datagrid('reload');
-                                    	   }else if(data=='false'){
-                                    		   alert("转持仓失败！");  
-                                    		   return;
                                     	   }else{
-                                    	   alert("后台异常！");
+                                    	   alert("转持仓失败！");
                                     	   }
                                        },  
                                        error: function(data) {  

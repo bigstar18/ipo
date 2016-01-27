@@ -332,7 +332,7 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>
 									
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("发行商结算表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/settleReports.jsp");
+									M0101 = new WebFXTreeItem("发行商结算表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/PublisherController/settleReports");
 									M01.add(M0101);</SCRIPT>			
 
 						<SCRIPT type=text/javascript>

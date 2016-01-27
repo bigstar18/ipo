@@ -29,6 +29,7 @@ import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
+import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
@@ -404,6 +405,35 @@ public class PublisherController {
 		record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID());
 		return publisherpositionService.transferPosition(record);
+	}
+
+	/**
+	 * 跳转到发行会员结算报表页面
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/settleReports", method = RequestMethod.GET)
+	public String settleReports(HttpServletRequest request,
+			HttpServletResponse response) {
+		List<VBrBroker> brokers = brBrokerService.findAllPublisher();
+		request.setAttribute("brokerlist", brokers);
+		return "app/publisherQuery/settleReports";
+	}
+
+	/**
+	 * 结算报表子窗口
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/showSettleLists", method = RequestMethod.GET)
+	public String showSettleLists(HttpServletRequest request,
+			HttpServletResponse response) {
+		return null;
 
 	}
+
 }

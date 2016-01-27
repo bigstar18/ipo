@@ -3,7 +3,24 @@
 <html>
 <head>
 <title>发行会员结算表</title>
-<script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/commPubQuery.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+function setPublisher(value){
+	$("#publisherid").val(value);
+}
+
+function query(exportTo)
+{
+		var url = ;
+		showDialog(url, "", 900, 650);
+		
+	
+}
+
+
+
+
+</script>
 </head>
 <body>
 	<form method="POST" action="" name="frm" id="frm">
@@ -16,47 +33,36 @@
 			<tr>
 	           	<td align="center" colspan="2" style="color:red"></td>
 	        </tr>  
-	       <!--  <tr>
-	        	<td align="right" style="font-size:15px" width="50%">发行会员编号：</td>
+	         <tr>
+	        	<td align="right" style="font-size:15px" width="50%"></td>
 	            <td align="left" width="60%">
-	                   <input style="width:150px;" id="pubmemberid" name="pubmemberid"/>
-	                   <span class="required">*</span>  
+	            <span class="required">（填空为查询全部）</span>  
 	            </td>
-	        </tr>    -->
+	        </tr>   
 	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">商品代码：</td>
-	        	<td align="left" width="60%">
-	        	<select id="commodityid" name="commodityid" style="width:150px" >
+	        	<td style="font-size:15px" align="right" width="20%">发行会员：</td>
+	        	<td align="left" width="50%">
+	        	<input type="text" id="publisherid" name="publisherid" style="width:100px"/>
+	        	<select id="publisher" name="publisher" style="width:100px" onchange="setPublisher(value)">
 						<option value="">请选择</option>
-                         <c:forEach var="commodity" items="${commlist}">
-                         <option value="${commodity.commodityid}">${commodity.commodityid}${commodity.commodityname}</option>
+                         <c:forEach var="broker" items="${brokerlist}">
+                         <option value="${broker.brokerid}">${broker.brokerid}(${broker.name})</option>
                           </c:forEach>
 				</select><span class="required">*</span>
 	        	</td>
 	        </tr>  
 	         <tr>
-	        	<td style="font-size:15px" align="right" width="20%">应付货款：</td>
-	        	<td align="left" width="60%">
-	        	 <input style="width:150px;" id="payables" name="payables"
-	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,max:99999999999999,precision:2"/><span class="required">*</span>
-	        	
+	        	<td style="font-size:15px" align="right" width="20%">查询日期：</td>
+	        	<td align="left" width="50%">
+	        	 <input style="width:100px;" id="payables" name="payables"
+	        	  class="easyui-datebox" data-options="required:true,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        </tr> 
-	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">状态：</td>
-	        	<td align="left" width="60%">
-	        	<select id="status" name="status" style="width:150px">
-	        	 <option value="">请选择</option>
-			     <option value="1">未付款</option>
-				 <option value="2">已付款</option>
-	        	</select><span class="required">*</span>
-	        	</td>
-	        </tr>  
 		  	<tr>
 				<td align="right">
-					<input type="button" value="添加" onclick="add()"/>
+					<input type="button" value="查看" onclick="query()"/>
 		    	</td>
-		    	<td align="left"><input type="button" value="返回" onclick="returntoList()"/></td>
+		    	<td align="left"><input type="button" value="保存为excel" onclick="saveExcel()"/></td>
 		 	</tr>
 	    </table>
 	</fieldset>
