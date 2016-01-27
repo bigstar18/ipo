@@ -6,12 +6,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.ParseException;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
@@ -35,7 +41,10 @@ import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
  *
  */
 @Service
-public class PublisherPositionServiceImpl implements PublisherPositionService {
+public class PublisherPositionServiceImpl implements PublisherPositionService,
+		Observer {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IpoCommodityConfMapper commconfmapper;
 
@@ -158,10 +167,8 @@ public class PublisherPositionServiceImpl implements PublisherPositionService {
 		IpoPublisherPosition record = new IpoPublisherPosition();
 		BeanUtils.copyProperties(example, record);
 		int num = publisherPositionmapper.updateByPrimaryKey(record);
-		IpoStorage storage = stroragemapper.getStorageByPrimary(record
-				.getStorageid());
-		storage.setTransferstate(record.getStatus().intValue());
-		int snum = stroragemapper.updateByPrimaryKey(storage);
+		int snum = stroragemapper.updateTransferstatusByPrimaryKey(
+				record.getStorageid(), record.getStatus().intValue());
 		if (num == 1 && snum == 1) {
 			return "true";
 		}
@@ -236,5 +243,30 @@ public class PublisherPositionServiceImpl implements PublisherPositionService {
 			return "true";
 		}
 		return "false";
+	}
+
+	@Override
+	public void update(Observable observable, Object obj) {
+		logger.info("监听财务结算消息内容为" + obj);
+		String json = (String) obj;
+		try {
+			DebitFlow debitFlow = (DebitFlow) JSON.parse(json, DebitFlow.class);
+			if ("002".equals(debitFlow.getBusinessType())
+					&& "001".equals(debitFlow.getChargeType())
+					&& debitFlow.getDebitState() == 2
+					&& debitFlow.getDebitMode() == 1) {
+				String positionId = debitFlow.getOrderId();
+				IpoPublisherPosition example = publisherPositionmapper
+						.selectByPrimaryKey(new BigDecimal(positionId));
+				example.setStatus((short) 3);// 扣款成功
+				publisherPositionmapper.updateByPrimaryKey(example);
+				stroragemapper.updateTransferstatusByPrimaryKey(
+						example.getStorageid(), example.getStatus().intValue());
+			}
+		} catch (ParseException e) {
+			logger.error("监听财务结算消息内容json转换失败" + obj);
+			throw new RuntimeException(e);
+		}
+
 	}
 }

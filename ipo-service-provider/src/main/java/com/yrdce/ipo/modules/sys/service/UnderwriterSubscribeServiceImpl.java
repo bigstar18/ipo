@@ -25,9 +25,9 @@ import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 
 @Service
 public class UnderwriterSubscribeServiceImpl implements
-		UnderwriterSubscribeService,Observer {
+		UnderwriterSubscribeService, Observer {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private IpoUnderwriterSubscribeMapper underwriterSubscribrmapper;
 
@@ -120,18 +120,30 @@ public class UnderwriterSubscribeServiceImpl implements
 		return 0;
 	}
 
-	
-	 
 	public void update(Observable observable, Object obj) {
-		 logger.info("监听财务结算消息内容为"+obj);
-		 String json=(String)obj;
-		 try {
-			DebitFlow debitFlow=(DebitFlow) JSON.parse(json,DebitFlow.class);
+		logger.info("监听财务结算消息内容为" + obj);
+		String json = (String) obj;
+		try {
+			DebitFlow debitFlow = (DebitFlow) JSON.parse(json, DebitFlow.class);
+			if ("001".equals(debitFlow.getBusinessType())
+					&& "001".equals(debitFlow.getChargeType())
+					&& debitFlow.getDebitState() == 2
+					&& debitFlow.getDebitMode() == 1) {
+				String positionId = debitFlow.getOrderId();
+				/*
+				 * IpoPublisherPosition example = publisherPositionmapper
+				 * .selectByPrimaryKey(new BigDecimal(positionId));
+				 * example.setStatus((short) 3);// 扣款成功
+				 * publisherPositionmapper.updateByPrimaryKey(example);
+				 * stroragemapper.updateTransferstatusByPrimaryKey(
+				 * example.getStorageid(), example.getStatus().intValue());
+				 */
+			}
 		} catch (ParseException e) {
-			 logger.error("监听财务结算消息内容json转换失败"+obj);
-			 throw new RuntimeException(e);
+			logger.error("监听财务结算消息内容json转换失败" + obj);
+			throw new RuntimeException(e);
 		}
-		 
+
 	}
 
 }

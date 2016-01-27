@@ -36,4 +36,7 @@ public interface IpoStorageMapper {
 
 	Long getWarehousePrimaryKey(String userId);
 
+	int updateTransferstatusByPrimaryKey(@Param("storageid") String storageid,
+			@Param("transferstate") int transferstate);
+
 }

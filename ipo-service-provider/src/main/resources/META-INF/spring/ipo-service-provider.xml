@@ -127,6 +127,7 @@
 	   <property name="arguments">
 	     <list>
 	        <ref local="underwritersubscribeService"/>
+	        <ref local="publisherpositionService"/>
 	     </list>
 	   </property>
 	</bean>
