@@ -11,11 +11,11 @@ var oldSystemStatus = "";
 var promptTime = 60;
 
 			var screenAvailHeight = window.screen.availHeight;
-			function regInput(str){  
+			function regInput(str){
 			      reg=/^[a-z]*$/;
 			      return reg.test(str)
 		      }
-	      
+
       		function goto(pathRrl,node,parentNode){
 	          parent.workspace.topFrame1.document.getElementById("tree").value="";
 			    //parent.workspace.mainFrame.location.href=pathRrl;
@@ -31,10 +31,10 @@ var promptTime = 60;
 				}
 				parent.document.title=title;
 			}
-			
+
 			function noUse(){
 			}
-			
+
 			function defDrawerHegiht()
 			{
 			    //当窗口很小时,菜单不能完全显示,下面时让窗口最大化
@@ -45,11 +45,11 @@ var promptTime = 60;
 				var bottomPosition = objBackGround.getBoundingClientRect().bottom;
 				if(bottomPosition<40) bottomPosition=40;
 				div_Container.style.height = ( bottomPosition - 21  );
-				
+
 				var objDrwPanel = document.all.namedItem( "div_drw_Panel" );
 				var objDrwContent = document.all.namedItem( "div_drw_Content" );
 				for ( var i = 0; i < objDrwContent.length; i++ )
-				{   
+				{
 					var opsheight =( bottomPosition - 21  - 14 - ( 26 * objDrwPanel.length ) );
 					opsheight = opsheight>0?opsheight:1;
 					objDrwContent[i].style.height = opsheight;
@@ -61,15 +61,15 @@ var promptTime = 60;
 				objContainer.style.left = "0px";
 				objContainer.showTop = topPosition;
 				objContainer.hideTop = topPosition - parseInt( div_Container.style.height.substr( 0, ( div_Container.style.height.length - 2 ) ) ) + 14;
-				
+
 			}
-			
+
 			function collaspe( action )
 			{
 				var obj = document.getElementById( "div_entry" );
 				var objContainer = document.getElementById( "div_Container" );
 				//var objSwitch = document.getElementById( "img_drwPuller" );
-				
+
 				if ( obj.curstatus == "hide" || action =="show" )
 				{
 					objContainer.style.display = "inline";
@@ -89,7 +89,7 @@ var promptTime = 60;
 				else
 				{
 					objContainer.style.pixelTop -= 50;
-					if (objContainer.style.pixelTop <= objContainer.hideTop) 
+					if (objContainer.style.pixelTop <= objContainer.hideTop)
 					{
 						objContainer.style.pixelTop = objContainer.hideTop;
 						obj.curstatus = "hide";
@@ -101,9 +101,9 @@ var promptTime = 60;
 					//objSwitch.src = "${skinPath}/image/frame/menu/drawer_PullDown_01.gif";
 					//alert ( objContainer.hideTop );
 				}
-				
+
 			}
-			
+
 			function drwSwitch()
 			{
 				var objDrwContent = document.all.namedItem( "div_drw_Content" );
@@ -112,7 +112,7 @@ var promptTime = 60;
 				var curNo = event.srcElement.curDrwNo;
             	var lastNo = objMem.curNo;
             	if(curNo!=0){
-            		objDrwContent[0].style.display = "none";		
+            		objDrwContent[0].style.display = "none";
                  }
             	if ( lastNo != curNo )
             	{
@@ -127,7 +127,7 @@ var promptTime = 60;
             	else
             		return;
 			}
-			
+
 			function start()
 			{
 				defDrawerHegiht();
@@ -135,7 +135,7 @@ var promptTime = 60;
 				collaspe("show");
 			}
 
-			
+
 			function chgFont()
 			{
 				var chgF = document.all("chgF");
@@ -153,7 +153,7 @@ var promptTime = 60;
 							chgF[i].className = "drwItem";
 						}
 					}
-				}	
+				}
 			}
 			function setFastMenu(){
 				if(showDialog("${basePath}/myMenu/getMyMenu.action", "", 580, 600)){
@@ -228,20 +228,20 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
+
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交易参数设置","");</SCRIPT>
-                     
+
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("交易节管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/TradetimeController/getTradeTimeForward");
 									M01.add(M0101);</SCRIPT>
-						
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("商品管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/CommodityManage");
 									M01.add(M0101);</SCRIPT>
-						
+
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("非交易日设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/TradetimeController/getNottradedayforward");
 									M01.add(M0101);</SCRIPT>
@@ -266,8 +266,8 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
-						        	
+
+
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -279,8 +279,8 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
-						        	
+
+
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -292,8 +292,8 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
-						        	
+
+
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -303,8 +303,8 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("承销设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/underwritingSet.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("承销贷款押金,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/loanDeposit.jsp");
-									M01.add(M0101);</SCRIPT>			
+									M0101 = new WebFXTreeItem("承销货款押金,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/loanDeposit.jsp");
+									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
@@ -318,20 +318,20 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("发行货款跟踪,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/paymentTracking.jsp");
-									M01.add(M0101);</SCRIPT>			
-									
+									M01.add(M0101);</SCRIPT>
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("承销会员查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/underwriterQuery.jsp");
 									M01.add(M0101);</SCRIPT>
-									
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("发行商转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/transferPosition.jsp");
-									M01.add(M0101);</SCRIPT>		
+									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	        	
-						        	
+
+
 						 <SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -339,19 +339,19 @@ var promptTime = 60;
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("交收属性管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/delivery/deliveryProps.jsp");
 									M01.add(M0101);</SCRIPT>
-                       
+
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("入库单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/StorageApprove");
 									M01.add(M0101);</SCRIPT>
-									
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("查询入库单,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/StorageQuery");
 									M01.add(M0101);</SCRIPT>
-									
+
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("出库单权限查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/OutboundQuery");
-									M01.add(M0101);</SCRIPT>	
-									
+									M01.add(M0101);</SCRIPT>
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("提货单审核,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryApprove");
 									M01.add(M0101);</SCRIPT>
@@ -359,7 +359,7 @@ var promptTime = 60;
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("提货单注销,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryCancel");
 									M01.add(M0101);</SCRIPT>
-									
+
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("注册提货单查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryQuery");
 									M01.add(M0101);</SCRIPT>
@@ -369,8 +369,8 @@ var promptTime = 60;
 
 
 						<SCRIPT type=text/javascript>
-						        	document.write(M01);</SCRIPT>       	
-						        	
+						        	document.write(M01);</SCRIPT>
+
 						 <SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -378,23 +378,23 @@ var promptTime = 60;
                         <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管计划管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trusteeship/plan.jsp");
 									M01.add(M0101);</SCRIPT>
-									
+
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管仓库管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/trusteeship/trustWarehouse.jsp");
 									M01.add(M0101);</SCRIPT>
-									 
+
 						 <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管申请管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/apply");
-									M01.add(M0101);</SCRIPT>	
+									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("托管转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/turnToPosition");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("返还申请人货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/trusteeshipCommodityController/returnGoods");
-									M01.add(M0101);</SCRIPT>			
+									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
+
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -407,12 +407,12 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("付发行商货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/increase_publish_goods.jsp");
-									M01.add(M0101);</SCRIPT>			
-									
+									M01.add(M0101);</SCRIPT>
+
 						<SCRIPT type=text/javascript>
-						        	document.write(M01);</SCRIPT>        	          	
-						        	
-						        	
+						        	document.write(M01);</SCRIPT>
+
+
 						 <SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -426,11 +426,11 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("特殊费用配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/chargeuser/index.jsp");
 									M01.add(M0101);</SCRIPT>
-									
+
 						<SCRIPT type=text/javascript>
-						        	document.write(M01);</SCRIPT>       
-						        	
-						        	    	
+						        	document.write(M01);</SCRIPT>
+
+
 					</DIV>
 				</DIV>
 			</DIV>
