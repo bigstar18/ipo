@@ -30,6 +30,13 @@ public class DataItem implements Serializable {
 
 	public DataItem() {}
 	
+	public DataItem(String code, String type) {
+		this.code = code;
+		this.type = type;
+	}
+
+
+
 	public DataItem(String type) {
 		this.type = type;
 	}

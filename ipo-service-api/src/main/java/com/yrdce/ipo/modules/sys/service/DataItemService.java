@@ -12,6 +12,8 @@ import com.yrdce.ipo.modules.sys.vo.DataItem;
  */
 public interface DataItemService {
 
+	
+	
     /**
      * 分页查询数据项
      * @param pageNo
@@ -40,6 +42,29 @@ public interface DataItemService {
 	 * @return
 	 */
 	public Map<String,String> queryForMap(String type);
+
+	
+	/**
+	 * 查找
+	 */
+	public DataItem findByPrimaryKey(DataItem dataItem);
+	
+	/**
+	 * 新增 
+	 */
+	public void save(DataItem dataItem);
+	
+	/**
+	 * 更新
+	 * @param dataItem
+	 */
+	public void update(DataItem dataItem);
+
+	
+	
+	
+	
+	
 	
 	
 }

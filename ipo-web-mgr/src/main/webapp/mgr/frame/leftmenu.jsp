@@ -429,7 +429,9 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("特殊费用配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/chargeuser/index.jsp");
 									M01.add(M0101);</SCRIPT>
-
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("数据项配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/dataitem/index.jsp");
+									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
 

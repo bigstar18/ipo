@@ -38,7 +38,26 @@ public interface IpoDataItemMapper {
 	 * @return
 	 */
 	public List<IpoDataItem> queryForList(@Param("param") DataItem dataItem);
+	
+	/**
+	 * 查找
+	 * @param code
+	 * @param type
+	 * @return
+	 */
+	public  IpoDataItem findByPrimaryKey( @Param("code") String code,@Param("type") String type);
+	
+	/**
+	 * 更新
+	 * @param dataItem
+	 */
+	public void update(@Param("param")DataItem dataItem);
 
+	/**
+	 * 新增
+	 * @param dataItem
+	 */
+	public void insert(DataItem dataItem);
 	
 	
 	

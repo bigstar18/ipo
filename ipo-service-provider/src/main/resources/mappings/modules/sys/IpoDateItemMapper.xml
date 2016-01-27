@@ -16,10 +16,23 @@
 		  <if test="param.type!=null and param.type!='' ">
 			   and type=#{param.type} 
 		  </if>
+		  <if test="param.code!=null and param.code!='' ">
+			   and code=#{param.code} 
+		  </if>
   </select>
   
   <select id="queryForPage" resultMap="IpoDataItemResultMap"  parameterType="map" >
-		 
+		    select * from (
+	          select pg.*,rownum as row_num from (
+				   select code, value, type, remark from ipo_data_item where delete_flag=0
+				   <if test="param.type!=null and param.type!='' ">
+					   and type=#{param.type} 
+				   </if>
+				   <if test="param.code!=null and param.code!='' ">
+					   and code=#{param.code} 
+				   </if>
+			) pg where  #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
   </select>
    
   <select id="queryForCount" resultType="java.lang.Long"    parameterType="map" >
@@ -27,7 +40,27 @@
 	       <if test="param.type!=null and param.type!='' ">
 			   and type=#{param.type} 
 		  </if>
+		  <if test="param.code!=null and param.code!='' ">
+			   and code=#{param.code} 
+		  </if>
   </select>
+  
+  
+  <select id="findByPrimaryKey" resultMap="IpoDataItemResultMap"  parameterType="map" >
+          select code, value, type, remark from ipo_data_item 
+          where delete_flag=0 and type=#{type}  and code=#{code} 
+  </select>
+  
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.vo.DataItem" >
+    insert into ipo_data_item (code,type,value,remark)
+    values  ( #{code},#{type},#{value},#{remark} )
+  </insert>
+  
+  <update id="update" parameterType="map" >
+     update ipo_data_item set value = #{param.value},remark=#{param.remark} where type=#{param.type}  and code=#{param.code}
+  </update>
+  
   
   
 </mapper>
