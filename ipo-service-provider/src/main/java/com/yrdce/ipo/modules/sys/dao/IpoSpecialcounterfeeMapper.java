@@ -26,4 +26,6 @@ public interface IpoSpecialcounterfeeMapper {
 	int isFirm(@Param("firmid") String firmid);
 
 	int selectCountsById(String id);
+
+	IpoSpecialcounterfee selectInfo(@Param("firmid") String firmid, @Param("commodid") String commodid, @Param("type") String type);
 }

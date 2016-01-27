@@ -76,11 +76,11 @@ public class IpoSpoCommoditymanmaagement {
 		this.spoId = spoId == null ? null : spoId.trim();
 	}
 
-	public String getCommodityid() {
+	public String getCommodityId() {
 		return commodityId;
 	}
 
-	public void setCommodityid(String commodityId) {
+	public void setCommodityId(String commodityId) {
 		this.commodityId = commodityId == null ? null : commodityId.trim();
 	}
 

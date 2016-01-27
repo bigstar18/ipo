@@ -126,7 +126,7 @@ public class UnderwriterSubscribeServiceImpl implements
 		 logger.info("监听财务结算消息内容为"+obj);
 		 String json=(String)obj;
 		 try {
-			DebitFlow debitFlow=(DebitFlow) JSON.parse(json);
+			DebitFlow debitFlow=(DebitFlow) JSON.parse(json,DebitFlow.class);
 		} catch (ParseException e) {
 			 logger.error("监听财务结算消息内容json转换失败"+obj);
 			 throw new RuntimeException(e);

@@ -34,9 +34,9 @@ import com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoWarehouseStock;
 
 /**
- * 查询商品Controller
+ * 商品Controller
  * 
- * @author ThinkGem
+ * @author chenjing
  * @version 2013-5-31
  */
 @Controller
@@ -298,6 +298,7 @@ public class IpoController {
 			request.setAttribute("entity", ipobreed);
 			request.setAttribute("Blist", Blist);
 			request.setAttribute("Tlist", Tlist);
+			request.setAttribute("commlist", JSON.json(Tlist));
 			return "app/commodity/add_commodity";
 		} catch (Exception e) {
 			e.printStackTrace();

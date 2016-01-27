@@ -69,10 +69,71 @@
 			order by de.create_date desc
   </select>
   
+  <select id="queryForPage" resultMap="IpoDebitFlowResultMap"  parameterType="map" >
+       select * from (
+	          select pg.*,rownum as row_num from (
+				  select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.debit_state, 
+			        de.payer, de.amount, de.debit_mode, de.debit_channel, de.debit_date, de.remark, de.buy_back_flag,
+			        de.create_user, de.create_date, de.update_user, de.update_date 
+			        from ipo_debitflow de where 1=1
+			        <if test="param.buyBackFlag >=0 ">
+						 and  de.buy_back_flag=#{param.buyBackFlag}
+					</if>
+					<if test="param.businessType!=null and param.businessType!='' ">
+						 and  de.business_type=#{param.businessType}
+					</if>
+					<if test="param.chargeType!=null and param.chargeType!='' ">
+						 and  de.charge_type=#{param.chargeType}
+					</if>
+					<if test="param.commodityId!=null and param.commodityId!='' ">
+						 and  de.commodity_id=#{param.commodityId}
+					</if> 
+					<if test="param.debitState >0 ">
+						 and  de.debit_state=#{param.debitState}
+					</if>
+					<if test="param.debitMode >0 ">
+						 and  de.debit_mode=#{param.debitMode}
+					</if>
+					<if test="param.payer!=null and param.payer!='' ">
+						 and  de.payer=#{param.payer}
+					</if>
+					order by de.create_date desc
+			) pg where  #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
+  </select>
+  
+  <select id="queryForCount" resultType="java.lang.Long"    parameterType="map" >
+      	select count(de.id) as count_ 
+        from ipo_debitflow de where 1=1
+        <if test="param.buyBackFlag >=0 ">
+			 and  de.buy_back_flag=#{param.buyBackFlag}
+		</if>
+		<if test="param.businessType!=null and param.businessType!='' ">
+			 and  de.business_type=#{param.businessType}
+		</if>
+		<if test="param.chargeType!=null and param.chargeType!='' ">
+			 and  de.charge_type=#{param.chargeType}
+		</if>
+		<if test="param.commodityId!=null and param.commodityId!='' ">
+			 and  de.commodity_id=#{param.commodityId}
+		</if> 
+		<if test="param.debitState >0 ">
+			 and  de.debit_state=#{param.debitState}
+		</if>
+		<if test="param.debitMode >0 ">
+			 and  de.debit_mode=#{param.debitMode}
+		</if>
+		<if test="param.payer!=null and param.payer!='' ">
+			 and  de.payer=#{param.payer}
+		</if>
+  </select>
   
   <update id="updateState" parameterType="com.yrdce.ipo.modules.sys.vo.DebitFlow">
 		  update ipo_debitflow t set t.debit_state=#{debitState},t.update_user=#{updateUser},
 		     t.update_date=#{updateDate,jdbcType=TIMESTAMP}
+		     <if test="debitDate!=null and debitDate!='' ">
+			    ,t.debit_date=#{debitDate,jdbcType=TIMESTAMP}
+		     </if>
           where t.id=#{id}
   </update>
   

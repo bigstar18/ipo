@@ -26,7 +26,7 @@ public class IpoSpoRation {
 
 	private String salesid;
 
-	private String communityId;
+	private String commodityId;
 
 	private Date registerDate;
 
@@ -164,12 +164,12 @@ public class IpoSpoRation {
 		this.salesid = salesid == null ? null : salesid.trim();
 	}
 
-	public String getCommodityid() {
-		return communityId;
+	public String getCommodityId() {
+		return commodityId;
 	}
 
-	public void setCommodityid(String communityId) {
-		this.communityId = communityId;
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId;
 	}
 
 	public Date getRegisterDate() {

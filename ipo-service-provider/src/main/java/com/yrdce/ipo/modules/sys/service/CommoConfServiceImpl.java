@@ -92,9 +92,6 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		if (comm != null) {
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
-			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
-			ipocomm.setUnits(comm.getUnits().intValue());
-			ipocomm.setCounts(comm.getCounts().intValue());
 			ipocomm.setStatus(comm.getStatus().intValue());
 			int inum = ipoCommodityConfmapper.insert(ipocommconf);
 			int cnum = commoditymapper.insert(ipocomm);
@@ -135,9 +132,6 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		if (comm != null) {
 			BeanUtils.copyProperties(comm, ipocommconf);
 			BeanUtils.copyProperties(comm, ipocomm);
-			ipocomm.setPurchaseCredits(comm.getMaxapplynum().intValue());
-			ipocomm.setUnits(comm.getUnits().intValue());
-			ipocomm.setCounts(comm.getCounts().intValue());
 			ipocomm.setStatus(comm.getStatus().intValue());
 			int inum = ipoCommodityConfmapper.update(ipocommconf);
 			int cnum = commoditymapper.update(ipocomm);

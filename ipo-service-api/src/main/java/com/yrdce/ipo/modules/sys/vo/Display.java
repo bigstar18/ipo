@@ -15,20 +15,20 @@ public class Display implements Serializable {
 	private int number;
 	private int units;
 	private BigDecimal price;
-	private long purchaseCredits; // 申购额度
+	private long maxapplynum; // 申购额度
 
 	public Display() {
 
 	}
 
-	public Display(int id, String name, int number, int units, BigDecimal price, long purchaseCredits) {
+	public Display(int id, String name, int number, int units, BigDecimal price, long maxapplynum) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.number = number;
 		this.units = units;
 		this.price = price;
-		this.purchaseCredits = purchaseCredits;
+		this.maxapplynum = maxapplynum;
 
 	}
 
@@ -41,11 +41,11 @@ public class Display implements Serializable {
 	}
 
 	public long getPurchaseCredits() {
-		return purchaseCredits;
+		return maxapplynum;
 	}
 
-	public void setPurchaseCredits(long purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setPurchaseCredits(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public int getUnits() {

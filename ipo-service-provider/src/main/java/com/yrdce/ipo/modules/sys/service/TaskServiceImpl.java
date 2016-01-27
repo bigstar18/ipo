@@ -43,7 +43,8 @@ public class TaskServiceImpl implements TaskService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	public static SimpleDateFormat sdtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static SimpleDateFormat sdtf = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
 	private IpoOrderMapper order;
@@ -101,7 +102,8 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Transactional
 	public void distribution() throws Exception {
-		List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
+		List<IpoCommodityConf> commodityConfList = commodityConfMapper
+				.findAllIpoCommConfs();
 		logger.info("遍历商品配置表");
 		for (IpoCommodityConf conf : commodityConfList) {
 			int i = +1;
@@ -130,11 +132,13 @@ public class TaskServiceImpl implements TaskService {
 		// 查找所有此商品的申购记录
 		logger.info("申购记录查询开始");
 		String ballotNowtime = DateUtil.getTime(1);// 做了修改，此处参数应为1
-		List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
+		List<IpoDistribution> ipoDidList = ipoDistribution
+				.allByTime(ballotNowtime);
 		logger.info(ipoDidList.size() + "");
 		for (IpoDistribution ipoDistribution1 : ipoDidList) {
 			String commId = ipoDistribution1.getCommodityid();
-			IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
+			IpoCommodity ipoCommodity = commodity.getSelectByComid(commId
+					.toUpperCase());
 			if (ipoCommodity.getStatus() == 2) {
 				lottery(commId);
 			}
@@ -145,30 +149,39 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional()
 	public void lottery(String commId) throws Exception {
 		logger.info("commID:" + commId);
-		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
-		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
+		List<IpoDistribution> ipoDidList = ipoDistribution
+				.selectByCommId(commId);
+		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId
+				.toUpperCase());
 
 		commodity.updateByStatus(31, commId);// 31表示摇号中
 		commodityConfMapper.updateByStatus(31, commId);
-		int commCounts = ipoCommodity.getCounts() / ipoCommodity.getUnits();
+		long commCounts = ipoCommodity.getCounts() / ipoCommodity.getUnits();
 		logger.info("单位" + ipoCommodity.getUnits());
 		logger.info("commCounts:" + commCounts + ":" + ipoCommodity.getUnits());
-		int saleCounts = order.bycommodityid(commId) / ipoCommodity.getUnits();
+		long saleCounts = order.bycommodityid(commId) / ipoCommodity.getUnits();
 		logger.info("saleCounts:" + saleCounts);
 		Selection selection = new Selection();
-		List<String> endNumList = selection.MainSelection(commCounts, saleCounts);// 尾号集合
+		List<String> endNumList = selection.MainSelection(commCounts,
+				saleCounts);// 尾号集合
 		logger.info("申购记录查询成功");
-		int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
+		int numLength = String.valueOf(ipoDidList.get(0).getStartnumber())
+				.length();// 配号号码长度
 		// 号码匹配
 		logger.info("中签号匹配开始");
-		List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(commId);
+		List<IpoDistribution> ipoDidList1 = ipoDistribution
+				.selectByCommId(commId);
 		for (IpoDistribution ipoDis : ipoDidList1) {
 			int userGetNum = 0;
 			System.out.println(ipoDis.getUserid() + "尾号个数" + endNumList.size());
-			System.out.println(ipoDis.getUserid() + "起始号码" + ipoDis.getStartnumber());
-			System.out.println(ipoDis.getUserid() + "匹配个数" + ipoDis.getPcounts());
+			System.out.println(ipoDis.getUserid() + "起始号码"
+					+ ipoDis.getStartnumber());
+			System.out.println(ipoDis.getUserid() + "匹配个数"
+					+ ipoDis.getPcounts());
 			for (String endNum : endNumList) {
-				userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+				userGetNum += selection.OwnMatchingEndNum(
+						(int) ipoDis.getStartnumber(), ipoDis.getPcounts(),
+						endNum);
 			}
 			System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 			ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
@@ -184,8 +197,10 @@ public class TaskServiceImpl implements TaskService {
 		// 将尾号记录到数据库
 		for (String endNum : endNumList) {
 			ipoBallotNoInfo.setBallotno(endNum);
-			ipoBallotNoInfo.setBallotnoendlen(Integer.valueOf(numLength).shortValue());
-			ipoBallotNoInfo.setBallotnostartlen(Integer.valueOf(numLength - endNum.length()).shortValue());
+			ipoBallotNoInfo.setBallotnoendlen(Integer.valueOf(numLength)
+					.shortValue());
+			ipoBallotNoInfo.setBallotnostartlen(Integer.valueOf(
+					numLength - endNum.length()).shortValue());
 			ipoBallotNoInfo.setCommodityid(commId);
 			ipoBallotNoInfo.setCreatetime(dt);
 			ipoBallotNoInfoMapper.insert(ipoBallotNoInfo);
@@ -201,17 +216,22 @@ public class TaskServiceImpl implements TaskService {
 	public void orderBalance(String commId) throws Exception {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(commId);
+		List<IpoDistribution> ipoDidList1 = ipoDistribution
+				.selectByCommId(commId);
 		for (IpoDistribution ipodb : ipoDidList1) {
 			if (ipodb.getZcounts() != 0) {
 				logger.info("获取发售商品信息" + ipodb.getCommodityid());
-				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipodb.getCommodityid());
-				List<IpoOrder> counterFeeInfo = ipoOrderMapper.selectCounterFeeInfo(ipodb.getCommodityid());
-				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipodb.getCommodityid());
+				IpoCommodityExtended commodityExtended = commodity
+						.selectPriceByCommodityid(ipodb.getCommodityid());
+				List<IpoOrder> counterFeeInfo = ipoOrderMapper
+						.selectCounterFeeInfo(ipodb.getCommodityid());
+				IpoCommodityConf commodityConf = commodityConfMapper
+						.selectCommUnit(ipodb.getCommodityid());
 				if (commodityConf != null) {
 					BigDecimal bigDecimal = commodityExtended.getPrice();
 					logger.info("计算成交金额" + bigDecimal);
-					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipodb.getZcounts()));
+					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(
+							ipodb.getZcounts()));
 					logger.info("成交金额" + tempPrice);
 					ipodb.setTradingamount(tempPrice);
 					logger.info("计算手续费" + counterFeeInfo.get(0).getTradealgr());
@@ -219,11 +239,13 @@ public class TaskServiceImpl implements TaskService {
 					BigDecimal buyfee = counterFeeInfo.get(0).getBuy();
 					logger.info("计算手续费算法" + tradealgr);
 					if (tradealgr == 1) {
-						BigDecimal tempDecimal = buyfee.divide(new BigDecimal(100));
+						BigDecimal tempDecimal = buyfee.divide(new BigDecimal(
+								100));
 						BigDecimal counterfee = tempPrice.multiply(tempDecimal);
 						ipodb.setCounterfee(counterfee);
 					} else if (tradealgr == 2) {
-						BigDecimal counterfee = buyfee.multiply(new BigDecimal(ipodb.getZcounts()));
+						BigDecimal counterfee = buyfee.multiply(new BigDecimal(
+								ipodb.getZcounts()));
 						ipodb.setCounterfee(counterfee);
 					}
 					Date dt = sdf.parse(DateUtil.getTime(0));
@@ -232,7 +254,8 @@ public class TaskServiceImpl implements TaskService {
 					ipoDistribution.setSomeInfo(ipodb);
 					logger.info("跟新中签计算金额结束");
 					transferPosition(commodityExtended, ipodb, commodityConf);
-					commodityMapper.updateStatusByStatusId(3, 32, ipodb.getCommodityid());
+					commodityMapper.updateStatusByStatusId(3, 32,
+							ipodb.getCommodityid());
 				}
 			}
 		}
@@ -251,10 +274,12 @@ public class TaskServiceImpl implements TaskService {
 		String ballotNowtime = DateUtil.getTime(2);
 		// List<IpoDistribution> distributions =
 		// ipoDistribution.getInfobyDate(ballotNowtime);
-		List<IpoDistribution> distributions = ipoDistribution.allByTime(ballotNowtime);
+		List<IpoDistribution> distributions = ipoDistribution
+				.allByTime(ballotNowtime);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
-			IpoCommodity ipoCommodity = commodity.getSelectByComid(ipod.getCommodityid());
+			IpoCommodity ipoCommodity = commodity.getSelectByComid(ipod
+					.getCommodityid());
 			// 不等于摇号成功
 			if (ipoCommodity.getStatus() == 3) {
 				orderBalance(ipod.getCommodityid());
@@ -265,12 +290,15 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Transactional
-	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
+	private void transferPosition(IpoCommodityExtended comm,
+			IpoDistribution dst, IpoCommodityConf commodityConf)
+			throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
 		String userid = dst.getUserid();
 		String commid = comm.getCommodityid();
-		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid, commid);
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid,
+				commid);
 		if (ipoPosition != null) {
 			long position = ipoPosition.getPosition();
 			BigDecimal unit = new BigDecimal(commodityConf.getUnits());
@@ -306,7 +334,8 @@ public class TaskServiceImpl implements TaskService {
 	public void ipoTransferGoodsPosition() throws Exception {
 
 		IpoCommodityConf examples = new IpoCommodityConf();
-		List<IpoCommodityConf> commList = commodityConfMapper.queryListingCommodity(examples);
+		List<IpoCommodityConf> commList = commodityConfMapper
+				.queryListingCommodity(examples);
 		if (commList == null || commList.isEmpty()) {
 			return;
 		}
@@ -314,7 +343,7 @@ public class TaskServiceImpl implements TaskService {
 			try {
 				ipoTransferGoodsPosition(item.getCommodityid());
 			} catch (Exception e) {
-				logger.error("ipo转持仓失败,商品编码:",item.getCommodityid());
+				logger.error("ipo转持仓失败,商品编码:", item.getCommodityid());
 			}
 		}
 
@@ -337,14 +366,15 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	public void placing() throws Exception {
 		logger.info("散户增发定时任务启动");
-		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1", null, null);
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1",
+				null, null);
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 			String spoid = ipospocomm.getSpoId();
 			logger.info(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
 			int sate = ipospocomm.getSpoSate();//
 			if (sate == 1) {
 				// 获得增发商品id
-				String commodityid = ipospocomm.getCommodityid();
+				String commodityid = ipospocomm.getCommodityId();
 				logger.info(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
 				// 获得未增发的量
 				long otration = ipospocomm.getNotRationCounts();
@@ -353,7 +383,8 @@ public class TaskServiceImpl implements TaskService {
 				int sum = ipoPositionMapper.selectSumByComm(commodityid);
 				logger.info(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
-				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper
+						.selectPositionList(commodityid);
 				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
 					String firmid = tFirmholdsums.getFirmId();
 					logger.info(">>>>>>>>>>>>>>>>>>firmid:" + firmid);

@@ -21,10 +21,12 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
+import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
@@ -56,6 +58,8 @@ public class SPOServiceImpl implements SPOService {
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
 	@Autowired
 	private IpoPayFlowMapper ipoPayFlowMapper;
+	@Autowired
+	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
 	@Override
 	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
@@ -105,7 +109,7 @@ public class SPOServiceImpl implements SPOService {
 		BigDecimal fee = ipoSpoRation.getServicefee();
 		String spoid = ipoSpoRation.getSpoid();
 		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		String commodityid = ipoSpoComm.getCommodityid();
+		String commodityid = ipoSpoComm.getCommodityId();
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commodityid);
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
 		// 总费用
@@ -370,12 +374,12 @@ public class SPOServiceImpl implements SPOService {
 		// 增发价格
 		BigDecimal price = ipoSpoComm.getPositionsPrice();
 		// 商品代码
-		String commid = ipoSpoComm.getCommodityid();
+		String commid = ipoSpoComm.getCommodityId();
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
 		//BrBroker brBroker = brBrokerMapper.selectById(pubmemberid);
-		short mode = ipoCommodityConf.getTradealgr();
-		BigDecimal val = ipoCommodityConf.getBuy();
+		short tradealgr = 0;
+		BigDecimal buy = new BigDecimal(0);
 		BigDecimal fee = new BigDecimal(0);
 
 		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
@@ -393,12 +397,29 @@ public class SPOServiceImpl implements SPOService {
 				BigDecimal countsparam = new BigDecimal(counts);
 				// 计算应冻结多少
 				BigDecimal money = countsparam.multiply(price);
-				// 手续费
-				if (mode == 1) {
-					BigDecimal valparam = val.divide(new BigDecimal("100"));
-					fee = money.multiply(valparam);
+				IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid, commid,
+						ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+				if (ipoSpecialcounterfee != null) {
+					tradealgr = ipoSpecialcounterfee.getTradealgr();
+					buy = ipoSpecialcounterfee.getBuy();
+					if (tradealgr == 1) {
+						BigDecimal valparam = buy.divide(new BigDecimal("100"));
+						fee = money.multiply(valparam);
+						logger.debug("特殊比例手续费：" + fee);
+					} else {
+						fee = countsparam.multiply(buy);
+						logger.debug("特殊绝对值手续费：" + fee);
+					}
 				} else {
-					fee = countsparam.multiply(val);
+					// 手续费
+					tradealgr = ipoCommodityConf.getTradealgr();
+					buy = ipoCommodityConf.getBuy();
+					if (tradealgr == 1) {
+						BigDecimal valparam = buy.divide(new BigDecimal("100"));
+						fee = money.multiply(valparam);
+					} else {
+						fee = countsparam.multiply(buy);
+					}
 				}
 				BigDecimal moneyPaeam = money.add(fee);
 				float allmoney = moneyPaeam.floatValue();
@@ -502,7 +523,7 @@ public class SPOServiceImpl implements SPOService {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getName());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
 		debitFlow.setCommodityId(commodityid);
 		debitFlow.setOrderId(id);
 		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
@@ -515,7 +536,7 @@ public class SPOServiceImpl implements SPOService {
 		debitFlow.setCreateDate(new Date());
 		ipoDebitFlowMapper.insert(debitFlow);
 		// 手续费流水
-		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getName());
+		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
 		debitFlow.setAmount(fee);
 		ipoDebitFlowMapper.insert(debitFlow);
 

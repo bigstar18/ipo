@@ -158,13 +158,17 @@ function addComm(){
 		var units=$("#units").val();
 		var contractfactor=$("#contractfactor").val();
 		var counts=$("#counts").val();
-		if(counts%contractfactor!=0||counts%units!=0){
-			alert("发行量必须为发售单位和交易单位的整数倍！")
+		if(units % contractfactor !=0   ){
+			alert("配售单位应为交易单位的整数倍！");
+			return ;
+		}
+		if(counts% contractfactor!=0   ){
+			alert("发行量必须为配售单位的整数倍！")
 			return;
 		}
 		 $.ajax({
 			 type: 'GET',
-		      url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",
+		     url: "<%=request.getContextPath()%>/BreedController/findExsitCommIds",
 		     contentType: "application/json; charset=utf-8",
 		     data:{"commodityid":commid,"randnum":Math.floor(Math.random()*1000000)},
 			 dataType: 'json',
@@ -242,13 +246,29 @@ function on_tchange(){
 	}
 }
 
+function setSortName(value) {
+	var commList =<%=request.getAttribute("commlist") %>; 
+	 for(var o in commList){  
+	        if (value == commList[o].commodityid ) {
+				$("#commodityid").val(commList[o].commodityid);
+				$("#commodityname").val(commList[o].name+"（发售）");
+				$("#currstatus").val(commList[o].status);
+				$("#contractfactor").val(commList[o].contractfactor);
+				$("#listingdate").datebox("setValue",commList[o].marketdate.substr(0,10));
+	            $("#lasttradate").datebox("setValue",commList[o].settledate.substr(0,10));
+				break;
+		}
+	 }  
+}
+
 
 </script>
 </head>
 <body leftmargin="14" topmargin="0">
 <div class="warning">
 		<div class="title font_orange_14b">温馨提示 : 商品增加</div>
-		<div class="content" style="color: red">      手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费              提货单费用价格提前天数：仓单交收费用计算平均价取前n天的平均价  </div>
+		<div class="content" style="color: red">    
+		手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费              提货单费用价格提前天数：仓单交收费用计算平均价取前n天的平均价  </div>
 	</div>
 	<table border="0"  width="100%">
 		<tr>
@@ -274,62 +294,47 @@ function on_tchange(){
 								<span id="baseinfo">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								      <tr>
-        								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>
+								       <td align="right">对应现货商品</td>
+										<td>
+										<select id="mapperid" name="mapperid" style="width:100" onchange="setSortName(value) ">
+								            		<option value="">请选择</option>
+                                                    <c:forEach var="Tcomm" items="${Tlist}">
+                                                      <option value="${Tcomm.commodityid}">${Tcomm.commodityid}${Tcomm.name}</option>
+                                                    </c:forEach>
+								         </select>
+										 <span class="required">*</span>
+										</td>
+										<td align="right" >商品代码：</td>
+            							<td>
+			  							<input id="commodityid" name="commodityid" value="" readonly="readonly" style="width: 100"/>
+            								 <span class="required">*</span>
+            							</td>
+										<td align="right">商品名称：</td>
+            							<td><input id="commodityname" name="commodityname" value=""
+            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>
+            								 <span class="required">*</span>
+            							</td>
+        							</tr>
+							        <tr>
+							            <input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>
+									    <input type="hidden" id="supervisedprice" name="supervisedprice" value=""/>
         	  							<td align="right">商品品种：</td>
             							<td>
             							<input id="breedname" value="${entity.breedname }"
             								class="easyui-textbox" data-options="required:true"  style="width: 100; background-color:gray"  readonly="readonly"/>
 			  								<span class="required">&nbsp;</span>
             							</td>
-        								<td align="right" ></td>
-            							<td>
-            							</td>
-            							<td align="right"></td>
-										<td>
-										</td>
-        							</tr>
-									<tr>
-        	  							<td align="right">商品名称：</td>
-            							<td><input id="commodityname" name="commodityname" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>
-            								 <span class="required">*</span>
-            							</td>
-        								<td align="right" >商品代码：</td>
-            							<td>
-			  							<input id="commodityid" name="commodityid" value=""
-            								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100"/>
-            								 <span class="required">*</span>
-            							</td>
             							<td align="right">当前状态</td>
 										<td>
 										<select id="currstatus" name="currstatus" style="width:100">
 												<option value=""></option>
 											    <option value="0">有效</option>
-												<option value="1">暂停交易</option>
-												 <span class="required">*</span>
+												<option value="2">暂停交易</option>
 										   </select>
-										</td>
-        							</tr>
-							        <tr>
-							            <td align="right" >开市指导价：</td>
-            							<td >
-            							<input id="supervisedprice" name="supervisedprice" value=""
-            								class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"  style="width: 100"/>
-							           <span class="required">*</span>
-							            </td>
-							            <td align="right">对应现货商品</td>
-										<td>
-										<select id="mapperid" name="mapperid" style="width:100">
-								            		<option value="">请选择</option>
-                                                    <c:forEach var="Tcomm" items="${Tlist}">
-                                                      <option value="${Tcomm.commodityid}">${Tcomm.name}</option>
-                                                    </c:forEach>
-								         </select>
-										 <span class="required">*</span>
 										</td>
 							            <td align="right">上市日期：</td>
 							            <td>
-			  							<input type="text" id="listingdate" name="listingdate" value="" style="width: 100"></input>
+			  							<input type="text" id="listingdate" name="listingdate" style="width: 100" ></input>
             							 <span class="required">*</span>
             							</td>
         							</tr>
@@ -340,7 +345,7 @@ function on_tchange(){
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"/>
             							 <span class="required">*</span>
             							</td>
-            							<td align="right">发售单位</td>
+            							<td align="right">配售单位</td>
             							<td>
             							<input type="text" id="units" name="units"  value=""
 			  									style="ime-mode:disabled; width: 100"  class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0"/>
@@ -348,7 +353,7 @@ function on_tchange(){
             							</td>
             							<td align="right">最后交易日：</td>
             							<td>
-										<input type="text" id="lasttradate" name="lasttradate" value="" style="width: 100"></input>
+										<input type="text" id="lasttradate" name="lasttradate" style="width: 100"></input>
 								      	 <span class="required">*</span>
 								      	</td>
          							</tr>
@@ -375,7 +380,7 @@ function on_tchange(){
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 									<tr>
         	  							<td align="right">交易单位：</td>
-            							<td><input id="contractfactor" name="contractfactor" value="${entity.contractfactor }"
+            							<td><input id="contractfactor" name="contractfactor"  readonly="readonly"
             								class="easyui-validatebox textbox" data-options="required:true,missingMessage:'必填项'"  style="width: 100;" />
 			  								<span id="span_contractFactor"  class="required">
 			  									<c:if test="${entity.contractfactorname!=null}">(${entity.contractfactorname}/批)</c:if>
@@ -525,7 +530,7 @@ function on_tchange(){
 								<span id="baseinfo2">
 								<table cellSpacing="0" cellPadding="0" width="790" border="0" align="left" class="common">
 								    <tr>
-        	  							<td align="right">交易手续费算法：</td>
+        	  							<td align="right">申购手续费算法：</td>
             							<td>
             							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
 												<option value=""></option>
@@ -539,29 +544,11 @@ function on_tchange(){
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
             							<span id="buyPercent">%</span> <span class="required">*</span>
             							</td>
-        								<td align="right" >卖出：</td>
-            							<td>
-			  								<input id="sell" name="sell" value="${entity.sell }"
-			  								style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-			  							<span id="sellPercent">%</span> <span class="required">*</span>
-			  							</td>
-
-        							</tr>
-									<tr>
-        	  							<td align="right"></td>
-            							<td>
-            							</td>
         								<td align="right">买方手续费市场留存比例：</td>
 										<td>
 										<input id="mktbuyfeeradio" name="mktbuyfeeradio"  value="${entity.mktbuyfeeradio }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
 										<span id="mktbuyPercent">%</span> <span class="required">*</span>
-										</td>
-            							<td align="right">卖方手续费市场留存比例：</td>
-										<td>
-											<input id="mktsellfeeradio" name="mktsellfeeradio" value="${entity.mktsellfeeradio }"
-											style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
-										<span id="mktsellPercent">%</span> <span class="required">*</span>
 										</td>
         							</tr>
 							        <tr>

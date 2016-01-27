@@ -418,6 +418,7 @@ public class SystemManager extends Observable{
 			 debitFlow.setUpdateDate(new Date());
 			 debitFlow.setUpdateUser("admin");
 			 debitFlow.setDebitState(ChargeConstant.DebitState.PAY_SUCCESS.getCode());
+			 debitFlow.setDebitDate(new Date());
 			 debitFlowMapper.updateState(debitFlow);
 			 logger.info("{}：商品={}，被扣款人={}，金额={}",opName, commodityId, firmId, amount.toString());
 			 //结算成功通知监听

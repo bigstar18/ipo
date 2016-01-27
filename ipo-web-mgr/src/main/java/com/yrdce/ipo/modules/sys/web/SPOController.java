@@ -99,14 +99,14 @@ public class SPOController {
 		try {
 			// SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
 			// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			// logger.info(communityId);
+			// logger.info(commodityId);
 			// logger.info(registerDate);
 			// logger.info(spoDate);
 			// logger.info(ipoDate);
 			// logger.info(rationType);
 			// logger.info(rationSate);
-			// if (!communityId.equals("")) {
-			// spoComm.setCommodityid(communityId);
+			// if (!commodityId.equals("")) {
+			// spoComm.setCommodityid(commodityId);
 			// }
 			// if (!registerDate.equals("")) {
 			// Date date = sdf.parse(registerDate);

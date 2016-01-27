@@ -6,7 +6,7 @@ import java.util.Date;
 public class Spo {
     private String spoId;
 
-    private String communityId;
+    private String commodityId;
 
     private Long spoCounts;
 
@@ -61,11 +61,11 @@ public class Spo {
     }
 
     public String getCommodityid() {
-        return communityId;
+        return commodityId;
     }
 
-    public void setCommodityid(String communityId) {
-        this.communityId = communityId == null ? null : communityId.trim();
+    public void setCommodityid(String commodityId) {
+        this.commodityId = commodityId == null ? null : commodityId.trim();
     }
 
     public Long getSpoCounts() {

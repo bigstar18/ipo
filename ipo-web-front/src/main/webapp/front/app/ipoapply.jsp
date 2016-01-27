@@ -56,7 +56,7 @@
 							<th data-options="field:'price',width:160">发售价格</th>
 							<th data-options="field:'units',width:160">配售单位</th>
 							<th data-options="field:'counts',width:160">发售数量</th>
-							<th data-options="field:'purchaseCredits',width:0">申购额度</th>
+							<th data-options="field:'maxapplynum',width:0">申购额度</th>
 							<th data-options="field:'starttime',width:160,formatter:dateconvertfunc">发售日期</th>
 							<th data-options="field:'endtime',width:160,formatter:dateconvertfunc">截止日期</th>
 						</tr>
@@ -79,7 +79,7 @@
 						<p>申购产品：<b id="comname"></b></p>
 						<p>可用资金(/元)：<b id="money"></b></p>
 						<p>可购买数量：<b id="availibleQua"></b></p>
-						<p>申购额度：<b id="purchaseCredits"></b></p>
+						<p>申购额度：<b id="maxapplynum"></b></p>
 					</div>
 					<form class="form-inline" id="fm2" style="margin-bottom: 12px" onsubmit="return false;">
 						<div class="form-group">
@@ -97,7 +97,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#mytb').datagrid('hideColumn','id');
-	$('#mytb').datagrid('hideColumn','purchaseCredits');
+	$('#mytb').datagrid('hideColumn','maxapplynum');
 	 var p = $('#mytb').datagrid('getPager');
 	    $(p).pagination({
 	        pageSize: 10,
@@ -226,7 +226,7 @@ function getDetail(index, data) {
 		        $("#id").val(data.id);
 		        $("#commodityid").val(data.commodityid);
 		        $("#comname").text(data.commodityname);
-		        $("#purchaseCredits").text(data.purchaseCredits);
+		        $("#maxapplynum").text(data.maxapplynum);
 		        $("#price").val(data.price);
 		        $("#units").val(data.units);
 		        var money=$("#money").text();

@@ -43,12 +43,12 @@ public class Commodity implements Serializable {
 	@JsonProperty("units")
 	@XmlElement(name = "units")
 	@NotNull
-	private int units; // 配售单位
+	private long units; // 配售单位
 
 	@JsonProperty("counts")
 	@XmlElement(name = "counts")
 	@NotNull
-	private int counts;// 发售总数
+	private long counts;// 发售总数
 
 	@JsonProperty("starttime")
 	@XmlElement(name = "starttime")
@@ -67,10 +67,10 @@ public class Commodity implements Serializable {
 	@NotNull
 	private int status;// 状态
 
-	@JsonProperty("purchaseCredits")
-	@XmlElement(name = "purchaseCredits")
+	@JsonProperty("maxapplynum")
+	@XmlElement(name = "maxapplynum")
 	@NotNull
-	private int purchaseCredits;// 申购额度
+	private long maxapplynum;// 申购额度
 
 	@JsonProperty("ccounts")
 	@XmlElement(name = "ccounts")
@@ -92,7 +92,7 @@ public class Commodity implements Serializable {
 	}
 
 	public Commodity(int id, String commodityid, String commodityname,
-			double price, int units, int purchaseCredits, Date starttime,
+			double price, int units, int maxapplynum, Date starttime,
 			Date endtime) {
 		super();
 		this.id = id;
@@ -100,7 +100,7 @@ public class Commodity implements Serializable {
 		this.commodityname = commodityname;
 		this.price = price;
 		this.units = units;
-		this.purchaseCredits = purchaseCredits;
+		this.maxapplynum = maxapplynum;
 		this.starttime = starttime;
 		this.endtime = endtime;
 	}
@@ -137,14 +137,6 @@ public class Commodity implements Serializable {
 		this.price = price;
 	}
 
-	public int getUnits() {
-		return units;
-	}
-
-	public void setUnits(int units) {
-		this.units = units;
-	}
-
 	public Date getStarttime() {
 		return starttime;
 	}
@@ -161,20 +153,28 @@ public class Commodity implements Serializable {
 		this.endtime = endtime;
 	}
 
-	public int getPurchaseCredits() {
-		return purchaseCredits;
+	public long getUnits() {
+		return units;
 	}
 
-	public void setPurchaseCredits(int purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setUnits(long units) {
+		this.units = units;
 	}
 
-	public int getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(int counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
+	}
+
+	public long getMaxapplynum() {
+		return maxapplynum;
+	}
+
+	public void setMaxapplynum(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public int getStatus() {
@@ -199,8 +199,7 @@ public class Commodity implements Serializable {
 				+ ", commodityname=" + commodityname + ", price=" + price
 				+ ", units=" + units + ", counts=" + counts + ", starttime="
 				+ starttime + ", endtime=" + endtime + ", status=" + status
-				+ ", purchaseCredits=" + purchaseCredits + ", ccounts="
-				+ ccounts + "]";
+				+ ", maxapplynum=" + maxapplynum + ", ccounts=" + ccounts + "]";
 	}
 
 }

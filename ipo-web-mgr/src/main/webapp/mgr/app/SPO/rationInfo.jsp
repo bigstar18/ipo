@@ -41,7 +41,7 @@ function getAllInfo(){
              align: "center",
              title : 'spoId'
          },{
-        	 field : 'communityId',
+        	 field : 'commodityId',
              width : 200,
              align: "center",
              title : '商品代码',
@@ -208,7 +208,7 @@ function getAllInfo(){
             	 var s = "<a href='#' onclick='orderBalance(\""+row.spoId+"\")'>配售</a>";
             	 switch(row.spoSate){
             	 case 1:
-            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>"+' '+ s;
             		 break;
             	 case 2:
             		 return "----";
@@ -220,7 +220,7 @@ function getAllInfo(){
             		 return "<a href='#' onclick='deleteSPOInfo(\""+row.spoId+"\")'>删除</a>";
             		 break;
             	 case 5:
-            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>";
+            		 return "<a href='#' onclick='updateSPOSate("+row.spoId+",\"2\")'>增发成功</a>  <a href='#' onclick='updateSPOSate("+row.spoId+",\"3\")'>增发失败</a>"+' '+ s;
             		 
             	 }
             	 
@@ -282,7 +282,7 @@ function updateSPOSate(spoid,spoSate){
 
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
-		communityId:$("#commIdp").val(),
+		commodityId:$("#commIdp").val(),
 		registerDate:$("#registerDate").datebox("getValue"),
 		spoDate:$("#spoDate").datebox("getValue"),
 		ipoDate:$("#ipoDate").datebox("getValue"),
@@ -392,7 +392,7 @@ function orderBalance(spoid){
 		<table>
 			<tr>
 				<td>
-					商品代码: <input id="commIdp" name="communityId" class="easyui-textbox" style="border:1px solid #ccc;height:20px;width:145px">
+					商品代码: <input id="commIdp" name="commodityId" class="easyui-textbox" style="border:1px solid #ccc;height:20px;width:145px">
 							&nbsp
 							&nbsp
 					配售类型: <select id="rationTypep" style="width:150px">

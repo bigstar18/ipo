@@ -18,10 +18,10 @@ import com.yrdce.ipo.modules.sys.vo.VTCommodity;
  */
 @Service("tCommodityService")
 public class TCommodityServiceImpl implements TCommodityService {
-	
+
 	@Autowired
 	private TCommodityMapper tCommodityMapper;
-	
+
 	public TCommodityMapper gettCommodityMapper() {
 		return tCommodityMapper;
 	}
@@ -33,13 +33,24 @@ public class TCommodityServiceImpl implements TCommodityService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<VTCommodity> findAllTCommodity() {
-		List<TCommodity> comlist=tCommodityMapper.selectAll();
-		List<VTCommodity> comlist2=new ArrayList<VTCommodity>();
-		for(TCommodity temp : comlist){
-			VTCommodity tcom=new VTCommodity();
+		List<TCommodity> comlist = tCommodityMapper.selectAll();
+		List<VTCommodity> comlist2 = new ArrayList<VTCommodity>();
+		/*
+		 * String[] CAClist = { "100001", "100002", "100003", "100004",
+		 * "100005", "100006", "100007", "100008", "100009" };
+		 */
+		for (TCommodity temp : comlist) {
+			VTCommodity tcom = new VTCommodity();
 			BeanUtils.copyProperties(temp, tcom);
 			comlist2.add(tcom);
 		}
+
+		/*
+		 * for (TCommodity temp : comlist) { VTCommodity tcom = new
+		 * VTCommodity(); BeanUtils.copyProperties(temp, tcom); for (String id :
+		 * CAClist) { if (id.equals(temp.getCommodityid())) { continue; } }
+		 * comlist2.add(tcom); }
+		 */
 		return comlist2;
 	}
 

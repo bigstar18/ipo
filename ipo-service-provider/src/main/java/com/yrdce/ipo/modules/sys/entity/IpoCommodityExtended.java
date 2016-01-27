@@ -17,13 +17,13 @@ public class IpoCommodityExtended {
 
 	private int units;// 配售单位
 
-	private int counts;// 发售总数
+	private long counts;// 发售总数
 
 	private Date starttime;// 发售日期
 
 	private Date endtime;// 截止日期
 
-	private int purchaseCredits;// 申购额度
+	private long maxapplynum;// 申购额度
 
 	private int status;// 申购状态
 
@@ -37,12 +37,12 @@ public class IpoCommodityExtended {
 		this.status = status;
 	}
 
-	public int getPurchaseCredits() {
-		return purchaseCredits;
+	public long getMaxapplynum() {
+		return maxapplynum;
 	}
 
-	public void setPurchaseCredits(int purchaseCredits) {
-		this.purchaseCredits = purchaseCredits;
+	public void setMaxapplynum(long maxapplynum) {
+		this.maxapplynum = maxapplynum;
 	}
 
 	public String getId() {
@@ -85,11 +85,11 @@ public class IpoCommodityExtended {
 		this.units = units;
 	}
 
-	public int getCounts() {
+	public long getCounts() {
 		return counts;
 	}
 
-	public void setCounts(int counts) {
+	public void setCounts(long counts) {
 		this.counts = counts;
 	}
 
