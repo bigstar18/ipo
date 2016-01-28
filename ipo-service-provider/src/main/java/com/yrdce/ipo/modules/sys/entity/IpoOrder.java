@@ -30,6 +30,10 @@ public class IpoOrder {
 
 	private BigDecimal frozencounterfee;// 手续费冻结资金
 
+	private BigDecimal unfreezefunds;//退还申购金额
+
+	private BigDecimal unfreezefees;//退还手续费
+
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;
 	}
@@ -132,5 +136,21 @@ public class IpoOrder {
 
 	public void setFrozenfunds(BigDecimal frozenfunds) {
 		this.frozenfunds = frozenfunds;
+	}
+
+	public BigDecimal getUnfreezefunds() {
+		return unfreezefunds;
+	}
+
+	public void setUnfreezefunds(BigDecimal unfreezefunds) {
+		this.unfreezefunds = unfreezefunds;
+	}
+
+	public BigDecimal getUnfreezefees() {
+		return unfreezefees;
+	}
+
+	public void setUnfreezefees(BigDecimal unfreezefees) {
+		this.unfreezefees = unfreezefees;
 	}
 }

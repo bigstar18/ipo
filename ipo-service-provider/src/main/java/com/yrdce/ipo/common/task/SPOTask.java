@@ -168,7 +168,7 @@ public class SPOTask {
 			long notcounts = ipospocomm.getNotRationCounts();
 			long mincounts = ipospocomm.getMinRationCounts();
 			if (notcounts > mincounts) {
-				ipoSpoRationMapper.updateByStatus(3, spoid);
+				ipoSPOCommMapper.updateByStatus(3, spoid);
 				List<IpoSpoRation> list2 = ipoSpoRationMapper.selectBySPOid(spoid);
 				for (IpoSpoRation ipoSpoRation : list2) {
 					String firmid = ipoSpoRation.getFirmid();

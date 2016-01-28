@@ -15,6 +15,8 @@
     <result column="TRADEALGR" property="tradealgr" jdbcType="DECIMAL" />
     <result column="BUY" property="buy" jdbcType="DECIMAL" />
     <result column="FROZENCOUNTERFEE" property="frozencounterfee" jdbcType="DECIMAL" />
+    <result column="UNFREEZEFUNDS" property="unfreezefunds" jdbcType="DECIMAL" />
+    <result column="UNFREEZEFEES" property="unfreezefees" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ORDERID, USERID, USERNAME, COMMODITYID, COMMODITYNAME, COUNTS, CREATETIME, FROZENFUNDS,FROZENST,COMMODITY_ID,
-    TRADEALGR,BUY,FROZENCOUNTERFEE
+    TRADEALGR,BUY,FROZENCOUNTERFEE,UNFREEZEFUNDS,UNFREEZEFEES
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoOrderExample" >
     select
@@ -362,5 +364,18 @@
   	select TRADEALGR,BUY from IPO_ORDER
   	where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </select>  
-
+  
+  <select id="selectByfirmid" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select <include refid="Base_Column_List" /> from IPO_ORDER t where t.userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateUnfreeze" parameterType="map">
+  	update IPO_ORDER
+    set 
+      FROZENST = 1,
+      UNFREEZEFUNDS = #{unfreezefunds,jdbcType=DECIMAL},
+      UNFREEZEFEES = #{unfreezefees,jdbcType=DECIMAL}
+    where where USERID = #{userid,jdbcType=VARCHAR}
+    and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </update>
 </mapper>

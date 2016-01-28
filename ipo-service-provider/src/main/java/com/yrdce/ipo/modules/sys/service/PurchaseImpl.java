@@ -18,16 +18,12 @@ import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
-import com.yrdce.ipo.modules.sys.vo.DebitFlow;
-import com.yrdce.ipo.modules.sys.vo.PayFlow;
 
 /**
  * 申购服务
@@ -57,10 +53,7 @@ public class PurchaseImpl implements Purchase {
 	private SystemService system;
 	@Autowired
 	private IpoCommodityConfMapper ipoCommConfMapper;
-	@Autowired
-	private IpoDebitFlowMapper ipoDebitFlowMapper;
-	@Autowired
-	private IpoPayFlowMapper ipoPayFlowMapper;
+
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
@@ -195,8 +188,6 @@ public class PurchaseImpl implements Purchase {
 							ipoOrder.setFrozencounterfee(fee);
 							ipoOrderMapper.insert(ipoOrder);
 							this.frozen(userId, cost);
-							// 货款流水
-							this.fundsFlow(commodityid, primaryKey, userId, allMoney, fee, pubmemberid);
 							result = SECCESS;
 						} else {
 							result = LACK_OF_FUNDS;
@@ -231,7 +222,6 @@ public class PurchaseImpl implements Purchase {
 		fundsMapper.getfrozen(param);
 		BigDecimal money = new BigDecimal((Double) (param.get("money")));
 		return money;
-
 	}
 
 	// 判断是重复申购
@@ -243,43 +233,5 @@ public class PurchaseImpl implements Purchase {
 		} else {
 			return true;
 		}
-	}
-
-	//收付款流水
-	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee, String pubmemberid) {
-		// 货款流水
-		DebitFlow debitFlow = new DebitFlow();
-		debitFlow.setBusinessType(ChargeConstant.BusinessType.PURCHASE.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
-		debitFlow.setCommodityId(commodityid);
-		debitFlow.setOrderId(id);
-		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
-		debitFlow.setPayer(userid);
-		debitFlow.setAmount(money);
-		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
-		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
-		debitFlow.setBuyBackFlag(0);
-		debitFlow.setCreateUser(userid);
-		debitFlow.setCreateDate(new Date());
-		ipoDebitFlowMapper.insert(debitFlow);
-		// 手续费流水
-		debitFlow.setChargeType(ChargeConstant.ChargeType.HANDLING.getCode());
-		debitFlow.setAmount(fee);
-		ipoDebitFlowMapper.insert(debitFlow);
-
-		PayFlow payFlow = new PayFlow();
-		payFlow.setAmount(money);
-		payFlow.setBusinessType(ChargeConstant.BusinessType.PURCHASE.getCode());
-		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
-		payFlow.setCommodityId(commodityid);
-		payFlow.setOrderId(id);
-		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
-		payFlow.setPayee(pubmemberid);
-		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
-		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
-		payFlow.setCreateUser(userid);
-		payFlow.setCreateDate(new Date());
-		ipoPayFlowMapper.insert(payFlow);
-		return "success";
 	}
 }

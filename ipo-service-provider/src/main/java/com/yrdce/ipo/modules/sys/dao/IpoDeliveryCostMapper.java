@@ -24,4 +24,6 @@ public interface IpoDeliveryCostMapper {
 	List<IpoDeliveryCostExtended> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
 
 	int countsByCost(@Param("paging") Paging paging);
+
+	List<IpoDeliveryCost> getInfo(@Param("firmid") String firmid);
 }

@@ -57,4 +57,10 @@
 	ipo_delivery_cost b on a.deliveryorder_id = b.delivery_id where a.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
 	and a.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
   </select>
+  
+  <select id="getInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select t1.* from ipo_deliveryorder t
+	right join ipo_delivery_cost t1 on t1.delivery_id = t.method_id and t1.delivery_method = t.delivery_method
+	where t.dealer_id = #{firmid,jdbcType=VARCHAR}
+  </select>
 </mapper>
