@@ -24,10 +24,12 @@ import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
+import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
@@ -67,6 +69,9 @@ public class PublisherController {
 
 	@Autowired
 	private BrBrokerService brBrokerService;
+
+	@Autowired
+	private SpecialCounterFeeService specialCounterFeeService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -353,22 +358,38 @@ public class PublisherController {
 	public String frozenFunds(@RequestParam("storageid") String storageid,
 			HttpSession session) {
 		// 根据入库单找转持仓单，获取发行商代码和发行手续费
+
 		PublisherPosition record = publisherpositionService
 				.getInfoByStorageId(storageid);
+		Specialcounterfee specialfee = publisherpositionService
+				.getSpecialCounterfee(record.getPublisherid(),
+						record.getCommodityid(), "3");// 获取发行特殊手续费
 		VIpoCommConf commodity = ipoCommConfService
 				.getVIpoCommConfByCommid(record.getCommodityid());
-		Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
-		BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
 		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
-		if (publishalgr == 1) {// 百分比算法
-			totalValue.multiply(ratio);
-			totalValue.divide(new BigDecimal(100));
-		}
-		if (publishalgr == 2) {// 绝对值算法
-			totalValue.multiply(ratio);
-		}
 		BigDecimal funds = new BigDecimal(record.getTotalcounts())
-				.multiply(commodity.getPrice());
+				.multiply(commodity.getPrice());// 货款
+		if (specialfee != null) {
+			Short tradealgr = specialfee.getTradealgr();
+			BigDecimal ratio = specialfee.getCounterfee();
+			if (tradealgr == 1) {// 百分比算法
+				totalValue.multiply(ratio);
+				totalValue.divide(new BigDecimal(100));
+			}
+			if (tradealgr == 2) {// 绝对值算法
+				totalValue.multiply(ratio);
+			}
+		} else {
+			Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
+			BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
+			if (publishalgr == 1) {// 百分比算法
+				totalValue.multiply(ratio);
+				totalValue.divide(new BigDecimal(100));
+			}
+			if (publishalgr == 2) {// 绝对值算法
+				totalValue.multiply(ratio);
+			}
+		}
 		String message = publisherpositionService.frozenFunds(
 				record.getPublisherid(), totalValue);
 		if ("true".equals(message)) {
@@ -382,6 +403,7 @@ public class PublisherController {
 			publisherpositionService.insertLoan(record, funds);
 			return "true";
 		}
+
 		return "false";
 	}
 
