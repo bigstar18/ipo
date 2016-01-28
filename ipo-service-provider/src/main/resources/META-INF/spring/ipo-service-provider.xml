@@ -130,6 +130,8 @@
 	     </list>
 	   </property>
    </bean>
+   <bean id="balanceRMIImpl" class="com.yrdce.ipo.rmi.BalanceRMIImpl" init-method="init"/>
    
-
+   
+   
 </beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.CTradeModuleMapper" >
+  
+  
+  <resultMap id="CTradeModuleResultMap" type="com.yrdce.ipo.modules.sys.entity.CTradeModule" >
+    <result column="moduleid" property="moduleId"  />
+    <result column="cnname" property="cnName"  />
+    <result column="enname" property="enName"  />
+    <result column="shortname" property="shortName"  />
+    <result column="addfirmfn" property="addFirmFn"  />
+    <result column="updatefirmstatusfn" property="updateFirmStatusFn"  />
+    <result column="delfirmfn" property="delFirmFn"  />
+    <result column="isfirmset" property="isFirmSet"  />
+    <result column="hostip" property="hostIp"  />
+    <result column="port" property="port"  />
+    <result column="rmidataport" property="rmiDataPort"  />
+    <result column="isbalancecheck" property="isBalanceCheck"  />
+    <result column="isneedbreed" property="isNeedBreed"  />
+  </resultMap>
+ 
+  
+  <select id="findById" resultMap="CTradeModuleResultMap"  parameterType="java.lang.Long" >
+      select moduleid, cnname, enname, shortname, addfirmfn, updatefirmstatusfn, delfirmfn, 
+		 isfirmset, hostip, port, rmidataport, isbalancecheck, isneedbreed 
+		 from c_trademodule
+	  where moduleid=#{moduleId}
+  </select>
+  
+  
+  
+  
+</mapper>
