@@ -290,4 +290,4 @@ function frmChk()
 
 //-->
 </SCRIPT>
-<%@ include file="/mgr/public/jsp/footinc.jsp"%>
+<%@ include file="/broker/public/jsp/footinc.jsp"%>
