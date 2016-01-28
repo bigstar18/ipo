@@ -26,13 +26,16 @@ import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPublisherPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition;
+import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
+import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
 
@@ -68,6 +71,8 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 
 	@Autowired
 	private IpoPayFlowMapper payFlowMapper;
+	@Autowired
+	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
 	@Override
 	public List<PublisherPosition> getInfoByPage(String page, String rows,
@@ -242,7 +247,7 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		IpoPosition selected = ipoPositionMapper.selectPosition(
 				ipoSpoRationMapper.firmidBySales(example.getPublisherid()),
 				commid);
-		if (selected == null) {
+		if (selected == null && position.getPosition() != 0) {
 			ipoPositionMapper.insert(position);
 		} else {
 			position.setPosition(example.getPubposition()
@@ -280,5 +285,25 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	@Override
+	public Specialcounterfee getSpecialCounterfee(String publisherid,
+			String commodityid, String counterfeetype) {
+		String firmid = ipoSpoRationMapper.firmidBySales(publisherid);
+		IpoSpecialcounterfee specialfee = new IpoSpecialcounterfee();
+		specialfee.setFirmid(firmid);
+		specialfee.setCommodityid(commodityid);
+		specialfee.setCounterfeetype((short) 3);
+		if (ipoSpecialcounterfeeMapper.selectCounts(specialfee) != 0) {
+			IpoSpecialcounterfee example = ipoSpecialcounterfeeMapper
+					.selectInfo(firmid, commodityid, "3");
+			if (example != null) {
+				Specialcounterfee fee = new Specialcounterfee();
+				BeanUtils.copyProperties(example, fee);
+				return fee;
+			}
+		}
+		return null;
 	}
 }

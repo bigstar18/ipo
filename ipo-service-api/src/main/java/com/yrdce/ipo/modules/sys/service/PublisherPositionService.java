@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
+import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 
 public interface PublisherPositionService {
 
@@ -92,5 +93,15 @@ public interface PublisherPositionService {
 	 * @return
 	 */
 	public String transferPosition(PublisherPosition example);
+
+	/**
+	 * 查找特殊手续费
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
+	public Specialcounterfee getSpecialCounterfee(String publisherid,
+			String commodityid, String counterfeetype);
 
 }
