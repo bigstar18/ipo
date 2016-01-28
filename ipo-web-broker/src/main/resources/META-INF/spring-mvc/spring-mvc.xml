@@ -67,7 +67,7 @@
 	
 	<!-- 定义视图文件解析 -->
 	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/member/" />
+		<property name="prefix" value="/broker/" />
 		<property name="suffix" value=".jsp" />
 	</bean> 
 	

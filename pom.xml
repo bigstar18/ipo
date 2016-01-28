@@ -1302,7 +1302,7 @@
 		<module>ipo-service-provider</module>
 		<module>ipo-web-front</module>
 		<module>ipo-web-mgr</module>
-		<module>ipo-web-member</module>
+		<module>ipo-web-broker</module>
 		<module>ipo-warehouse</module>
 		<module>ipo-web-integrate</module>
 	</modules>

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="/broker/public/includefiles/allincludefiles.jsp"%>
 <head>
  <title>设置用户快捷菜单</title>
 </head>
