@@ -69,24 +69,18 @@
 				<td align='left'>
 				<select id="counterFeeType" style="width:184px;height:21px">
 					<option value="">请选择</option>
-					<option value="1">交易手续费</option>
+					<option value="1">交易买手续费</option>
+					<option value="2">交易卖手续费</option>
+					<option value="3">发行手续卖</option>
 				</select>
 				</td>
 			</tr>
 			<tr>
 				<td align='right' style="width:45%">
-				买：
+				手续费：
 				</td>
 				<td align='left'>
-				<input id="buy" type="text" onblur="isNum(this)" style="width:180px;height:18px">
-				</td>
-			</tr>
-			<tr>
-				<td align='right' style="width:45%">
-				卖：
-				</td>
-				<td align='left'>
-				<input id="sell" type="text" onblur="isNum(this)" style="width:180px;height:18px">
+				<input id="counterfee" type="text" onblur="isNum(this)" style="width:180px;height:18px">
 				</td>
 			</tr>
 		</table>
@@ -162,7 +156,7 @@
 		var tradealgr = $("#tradealgr").val();
 		var commonityId = $("#commodityId").val();
 		var counterfeetype = $("#counterFeeType").val();
-		var buy = $("#buy").val();
+		var counterfee = $("#counterfee").val();
 		var sell = $("#sell").val();
 		var name = $("#add").val();
 		if(firmId==""){
@@ -177,7 +171,7 @@
 			alert("请选择手续费种类");
 			return;
 		}
-		if(buy==""||sell==""){
+		if(counterfee==""){
 			alert("手续费不可为空");
 			return;
 		}
@@ -200,7 +194,7 @@
 		var commonityId = $("#commodityId2").val();
 		var tradealgr = $("#tradealgr").val();
 		var counterfeetype = $("#counterFeeType").val();
-		var buy = $("#buy").val();
+		var counterfee = $("#counterfee").val();
 		var sell = $("#sell").val();
 		$.ajax({
 			type:"POST",
@@ -211,8 +205,7 @@
 				commodityid:commonityId,
 				tradealgr:tradealgr,
 				counterfeetype:counterfeetype,
-				buy:buy,
-				sell:sell
+				counterfee:counterfee
 			},
 			success:function(data){
 				if(data=="success"){
@@ -236,7 +229,7 @@
 		var commonityId = $("#commodityId").val().match(reg)[1];
 		var tradealgr = $("#tradealgr").val();
 		var counterfeetype = $("#counterFeeType").val();
-		var buy = $("#buy").val();
+		var counterfee = $("#counterfee").val();
 		var sell = $("#sell").val();
 		$.ajax({
 			type:"POST",
@@ -246,8 +239,7 @@
 				commodityid:commonityId,
 				tradealgr:tradealgr,
 				counterfeetype:counterfeetype,
-				buy:buy,
-				sell:sell
+				counterfee:counterfee
 			},
 			success:function(data){
 				if(data=="success"){
@@ -326,7 +318,7 @@
 					$("#commodityId2").val(data.commodityid);
 					$("#tradealgr ").get(0).selectedIndex=data.tradealgr;
 					$("#counterFeeType").get(0).selectedIndex=data.counterfeetype;
-					$("#buy").val(data.buy);
+					$("#counterfee").val(data.counterfee);
 					$("#sell").val(data.sell);
 					$("#add").val("修改");
 				}

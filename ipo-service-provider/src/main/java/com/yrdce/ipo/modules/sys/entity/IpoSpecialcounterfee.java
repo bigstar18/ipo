@@ -12,7 +12,7 @@ public class IpoSpecialcounterfee {
 
 	private Short tradealgr;
 
-	private BigDecimal buy;
+	private BigDecimal counterfee;
 
 	private BigDecimal sell;
 
@@ -21,6 +21,14 @@ public class IpoSpecialcounterfee {
 	private String userid;
 
 	private Short counterfeetype;
+
+	public BigDecimal getCounterfee() {
+		return counterfee;
+	}
+
+	public void setCounterfee(BigDecimal counterfee) {
+		this.counterfee = counterfee;
+	}
 
 	public String getId() {
 		return id;
@@ -52,14 +60,6 @@ public class IpoSpecialcounterfee {
 
 	public void setTradealgr(Short tradealgr) {
 		this.tradealgr = tradealgr;
-	}
-
-	public BigDecimal getBuy() {
-		return buy;
-	}
-
-	public void setBuy(BigDecimal buy) {
-		this.buy = buy;
 	}
 
 	public BigDecimal getSell() {

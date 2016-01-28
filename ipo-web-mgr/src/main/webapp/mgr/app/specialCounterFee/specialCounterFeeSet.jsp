@@ -71,8 +71,14 @@
  	             formatter:function(value,row){
  	            	 switch(value){
  	            	 case 1:
- 	            		 return "交易手续费";
+ 	            		 return "交易买手续费";
  	            		 break;
+ 	            	 case 2:
+ 	            		 return "交易卖手续费";
+ 	            		 break;
+ 	            	case 3:
+	            		 return "发行手续费";
+	            		 break;
  	            	 }
  	             }
  	         },{

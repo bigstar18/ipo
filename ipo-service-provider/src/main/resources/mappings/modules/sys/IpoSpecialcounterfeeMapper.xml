@@ -6,7 +6,7 @@
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="TRADEALGR" property="tradealgr" jdbcType="DECIMAL" />
-    <result column="BUY" property="buy" jdbcType="DECIMAL" />
+    <result column="COUNTERFEE" property="counterfee" jdbcType="DECIMAL" />
     <result column="SELL" property="sell" jdbcType="DECIMAL" />
     <result column="UPDATEDATE" property="updatedate" jdbcType="TIMESTAMP" />
     <result column="USERID" property="userid" jdbcType="VARCHAR" />
@@ -18,11 +18,11 @@
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee" >
     insert into IPO_SPECIALCOUNTERFEE (ID, FIRMID, COMMODITYID, 
-      TRADEALGR, BUY, SELL, 
+      TRADEALGR, COUNTERFEE, SELL, 
       UPDATEDATE, USERID, COUNTERFEETYPE
       )
     values (#{id,jdbcType=VARCHAR}, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
-      #{tradealgr,jdbcType=DECIMAL}, #{buy,jdbcType=DECIMAL}, #{sell,jdbcType=DECIMAL}, 
+      #{tradealgr,jdbcType=DECIMAL}, #{counterfee,jdbcType=DECIMAL}, #{sell,jdbcType=DECIMAL}, 
       sysdate, #{userid,jdbcType=VARCHAR}, #{counterfeetype,jdbcType=DECIMAL}
       )
   </insert>
@@ -31,7 +31,7 @@
     set FIRMID = #{firmid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       TRADEALGR = #{tradealgr,jdbcType=DECIMAL},
-      BUY = #{buy,jdbcType=DECIMAL},
+      COUNTERFEE = #{counterfee,jdbcType=DECIMAL},
       SELL = #{sell,jdbcType=DECIMAL},
       UPDATEDATE = sysdate,
       USERID = #{userid,jdbcType=VARCHAR},
@@ -39,7 +39,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
+    select ID, FIRMID, COMMODITYID, TRADEALGR, COUNTERFEE, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
     from IPO_SPECIALCOUNTERFEE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
@@ -49,7 +49,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
+    select ID, FIRMID, COMMODITYID, TRADEALGR, COUNTERFEE, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
     from (select t.*,rownum TNO from IPO_SPECIALCOUNTERFEE t where 1=1
      order by t.ID)a 
     where a.TNO between  #{beginnum} and  #{endnum}
@@ -77,7 +77,7 @@
    </select>
   
   <select id="selectInfo" resultMap="BaseResultMap" parameterType="map">
-  	select ID, FIRMID, COMMODITYID, TRADEALGR, BUY, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
+  	select ID, FIRMID, COMMODITYID, TRADEALGR, COUNTERFEE, SELL, UPDATEDATE, USERID, COUNTERFEETYPE
     from IPO_SPECIALCOUNTERFEE
     where FIRMID = #{firmid,jdbcType=VARCHAR} and COMMODITYID = #{commodid,jdbcType=VARCHAR} 
     and COUNTERFEETYPE = #{type,jdbcType=VARCHAR}
