@@ -401,7 +401,7 @@ public class SPOServiceImpl implements SPOService {
 						ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
 				if (ipoSpecialcounterfee != null) {
 					tradealgr = ipoSpecialcounterfee.getTradealgr();
-					buy = ipoSpecialcounterfee.getBuy();
+					buy = ipoSpecialcounterfee.getCounterfee();
 					if (tradealgr == 1) {
 						BigDecimal valparam = buy.divide(new BigDecimal("100"));
 						fee = money.multiply(valparam);

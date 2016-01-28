@@ -138,7 +138,7 @@ public class PurchaseImpl implements Purchase {
 					short tradealgr = 0;
 					if (ipoSpecialcounterfee != null) {
 						tradealgr = ipoSpecialcounterfee.getTradealgr();
-						buy = ipoSpecialcounterfee.getBuy();
+						buy = ipoSpecialcounterfee.getCounterfee();
 						if (tradealgr == 1) {
 							BigDecimal valparam = buy.divide(new BigDecimal("100"));
 							fee = allMoney.multiply(valparam);
