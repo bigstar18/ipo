@@ -17,6 +17,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.yrdce</groupId>
+			<artifactId>financermi</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/financermi.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yrdce</groupId>
 			<artifactId>ipo-service-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
