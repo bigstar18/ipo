@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="BS_FLAG" property="bsFlag" jdbcType="DECIMAL" />
+    <result column="HOLDQTY" property="holdqty" jdbcType="DECIMAL" />
+    <result column="FROZENQTY" property="frozenqty" jdbcType="DECIMAL" />
+    <result column="QUANTITYAVAILABLE" property="quantityavailable" jdbcType="DECIMAL" />
+    <result column="EVENPRICE" property="evenprice" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="HOLDINGGAINSANDLOSSES" property="holdinggainsandlosses" jdbcType="DECIMAL" />
+    <result column="MARKETVALUE" property="marketvalue" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_HOLDCOMMODITY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
+    insert into IPO_HOLDCOMMODITY (ID, FIRMID, COMMODITYID, 
+      COMMODITYNAME, BS_FLAG, HOLDQTY, 
+      FROZENQTY, QUANTITYAVAILABLE, EVENPRICE, 
+      PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, 
+      CREATETIME)
+    values (SEQ_IPO_HOLDCOMMODITY.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{commodityname,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, #{holdqty,jdbcType=DECIMAL}, 
+      #{frozenqty,jdbcType=DECIMAL}, #{quantityavailable,jdbcType=DECIMAL}, #{evenprice,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL}, #{holdinggainsandlosses,jdbcType=DECIMAL}, #{marketvalue,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
+    update IPO_HOLDCOMMODITY
+    set FIRMID = #{firmid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      BS_FLAG = #{bsFlag,jdbcType=DECIMAL},
+      HOLDQTY = #{holdqty,jdbcType=DECIMAL},
+      FROZENQTY = #{frozenqty,jdbcType=DECIMAL},
+      QUANTITYAVAILABLE = #{quantityavailable,jdbcType=DECIMAL},
+      EVENPRICE = #{evenprice,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      HOLDINGGAINSANDLOSSES = #{holdinggainsandlosses,jdbcType=DECIMAL},
+      MARKETVALUE = #{marketvalue,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+    EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
+    from IPO_HOLDCOMMODITY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+    EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
+    from IPO_HOLDCOMMODITY
+  </select>
+</mapper>

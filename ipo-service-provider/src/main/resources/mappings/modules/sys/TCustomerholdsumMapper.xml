@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.TCustomerholdsum" >
+    <id column="CUSTOMERID" property="customerid" jdbcType="VARCHAR" />
+    <id column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <id column="BS_FLAG" property="bsFlag" jdbcType="DECIMAL" />
+    <result column="HOLDQTY" property="holdqty" jdbcType="DECIMAL" />
+    <result column="HOLDFUNDS" property="holdfunds" jdbcType="DECIMAL" />
+    <result column="FLOATINGLOSS" property="floatingloss" jdbcType="DECIMAL" />
+    <result column="EVENPRICE" property="evenprice" jdbcType="DECIMAL" />
+    <result column="FROZENQTY" property="frozenqty" jdbcType="DECIMAL" />
+    <result column="HOLDMARGIN" property="holdmargin" jdbcType="DECIMAL" />
+    <result column="GAGEQTY" property="gageqty" jdbcType="DECIMAL" />
+    <result column="HOLDASSURE" property="holdassure" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="GAGEFROZENQTY" property="gagefrozenqty" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from T_CUSTOMERHOLDSUM
+    where CUSTOMERID = #{customerid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.TCustomerholdsum" >
+    insert into T_CUSTOMERHOLDSUM (CUSTOMERID, COMMODITYID, BS_FLAG, 
+      HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
+      EVENPRICE, FROZENQTY, HOLDMARGIN, 
+      GAGEQTY, HOLDASSURE, FIRMID, 
+      GAGEFROZENQTY)
+    values (#{customerid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, 
+      #{holdqty,jdbcType=DECIMAL}, #{holdfunds,jdbcType=DECIMAL}, #{floatingloss,jdbcType=DECIMAL}, 
+      #{evenprice,jdbcType=DECIMAL}, #{frozenqty,jdbcType=DECIMAL}, #{holdmargin,jdbcType=DECIMAL}, 
+      #{gageqty,jdbcType=DECIMAL}, #{holdassure,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, 
+      #{gagefrozenqty,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.TCustomerholdsum" >
+    update T_CUSTOMERHOLDSUM
+    set HOLDQTY = #{holdqty,jdbcType=DECIMAL},
+      HOLDFUNDS = #{holdfunds,jdbcType=DECIMAL},
+      FLOATINGLOSS = #{floatingloss,jdbcType=DECIMAL},
+      EVENPRICE = #{evenprice,jdbcType=DECIMAL},
+      FROZENQTY = #{frozenqty,jdbcType=DECIMAL},
+      HOLDMARGIN = #{holdmargin,jdbcType=DECIMAL},
+      GAGEQTY = #{gageqty,jdbcType=DECIMAL},
+      HOLDASSURE = #{holdassure,jdbcType=DECIMAL},
+      FIRMID = #{firmid,jdbcType=VARCHAR},
+      GAGEFROZENQTY = #{gagefrozenqty,jdbcType=DECIMAL}
+    where CUSTOMERID = #{customerid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
+    FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
+    from T_CUSTOMERHOLDSUM
+    where CUSTOMERID = #{customerid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
+    FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
+    from T_CUSTOMERHOLDSUM
+  </select>
+  
+  <select id="selectByFirmId" resultMap="BaseResultMap" parameterType="String">
+  	select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
+    FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
+    from T_CUSTOMERHOLDSUM where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </select>
+</mapper>

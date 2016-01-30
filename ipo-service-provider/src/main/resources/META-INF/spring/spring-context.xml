@@ -59,17 +59,26 @@
 	<!-- 定时器开关-->  
 	<task:annotation-driven /> 
     <bean id="IPOTask" class="com.yrdce.ipo.common.task.Taskmanage"></bean>
-    <bean id="sPOTask" class="com.yrdce.ipo.common.task.SPOTask"></bean>
+    <bean id="SPOTask" class="com.yrdce.ipo.common.task.SPOTask"></bean>
+    <bean id="brokerTask" class="com.yrdce.ipo.common.task.BrokerTask"></bean>
     
     <task:scheduled-tasks>  
-    <!--   这里表示的是几点开始执行任务-->  
+    <!-- 这里表示的是几点开始执行任务-->  
+    <!-- 申购相关任务   -->
     <task:scheduled ref="IPOTask" method="run" cron="0 5 0 * * ?" />
     <task:scheduled ref="IPOTask" method="lottery" cron="0 10 0 * * ?" />
     <task:scheduled ref="IPOTask" method="ipoTransferGoodsPosition" cron="0 20 0 * * ?" />
     
-    <task:scheduled ref="sPOTask" method="runSPO" cron="0 5 0 * * ?" /> 
-    <task:scheduled ref="sPOTask" method="placing" cron="0 10 0 * * ?" />
-    <task:scheduled ref="sPOTask" method="automaticFail" cron="0 15 0 * * ?" />
+    <!-- 增发相关任务   -->
+    <task:scheduled ref="SPOTask" method="runSPO" cron="0 5 0 * * ?" /> 
+    <task:scheduled ref="SPOTask" method="placing" cron="0 10 0 * * ?" />
+    <task:scheduled ref="SPOTask" method="automaticFail" cron="0 15 0 * * ?" />
+    
+    <!-- 经纪会员 报表汇总相关任务   -->
+    <task:scheduled ref="brokerTask" method="releasesub" cron="0 0 22 * * ?" />
+	<task:scheduled ref="brokerTask" method="billoFlading" cron="0 5 22 * * ?" />
+	<task:scheduled ref="brokerTask" method="delivery" cron="0 10 22 * * ?" />
+	<task:scheduled ref="brokerTask" method="holdCommodity" cron="0 15 22 * * ?" />
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->
 	<!-- <task:scheduler id="scheduler" pool-size="10" />-->

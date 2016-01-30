@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+    <result column="DELIVERYTYPE" property="deliverytype" jdbcType="VARCHAR" />
+    <result column="TRANSFERFEE" property="transferfee" jdbcType="DECIMAL" />
+    <result column="POSTAGE" property="postage" jdbcType="DECIMAL" />
+    <result column="TRANSFERDATE" property="transferdate" jdbcType="DATE" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_DELIVERY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
+    insert into IPO_DELIVERY (ID, FIRMID, COMMODITYID, 
+      COMMODITYNAME, QUANTITY, COUNTS, 
+      DELIVERYTYPE, TRANSFERFEE, POSTAGE, 
+      TRANSFERDATE, CREATETIME)
+    values (SEQ_IPO_DELIVERY.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{commodityname,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
+      #{deliverytype,jdbcType=VARCHAR}, #{transferfee,jdbcType=DECIMAL}, #{postage,jdbcType=DECIMAL}, 
+      #{transferdate,jdbcType=DATE}, #{createtime,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
+    update IPO_DELIVERY
+    set FIRMID = #{firmid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      COUNTS = #{counts,jdbcType=DECIMAL},
+      DELIVERYTYPE = #{deliverytype,jdbcType=VARCHAR},
+      TRANSFERFEE = #{transferfee,jdbcType=DECIMAL},
+      POSTAGE = #{postage,jdbcType=DECIMAL},
+      TRANSFERDATE = #{transferdate,jdbcType=DATE},
+      CREATETIME = #{createtime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+    POSTAGE, TRANSFERDATE, CREATETIME
+    from IPO_DELIVERY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+    POSTAGE, TRANSFERDATE, CREATETIME
+    from IPO_DELIVERY
+  </select>
+</mapper>

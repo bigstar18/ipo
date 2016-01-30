@@ -137,5 +137,11 @@
           where t.id=#{id}
   </update>
   
+  <select id="selectInfo" resultMap="IpoDebitFlowResultMap"  parameterType="map">
+  	select id, business_type, charge_type, commodity_id, order_id, 
+  		  debit_state,payer, amount,debit_mode, debit_channel, debit_date,  
+  		  remark,create_user, create_date 
+  		  from ipo_debitflow t where t.business_type = #{businessType} and t.charge_type=#{chargeType} and t.payer=#{payer}
+  </select>
   
 </mapper>

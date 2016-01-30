@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
+    <result column="ISSUEPRICE" property="issueprice" jdbcType="DECIMAL" />
+    <result column="PURCHASETIME" property="purchasetime" jdbcType="DATE" />
+    <result column="PURCHASEQUANTITY" property="purchasequantity" jdbcType="DECIMAL" />
+    <result column="PURCHASEAMOUNT" property="purchaseamount" jdbcType="DECIMAL" />
+    <result column="ISSUANCEFEE" property="issuancefee" jdbcType="DECIMAL" />
+    <result column="REFUNDABLEPURCHASEAMOUNT" property="refundablepurchaseamount" jdbcType="DECIMAL" />
+    <result column="REFUNDABLESERVICEFEE" property="refundableservicefee" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from IPO_RELEASESUBSCRIPTION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
+    insert into IPO_RELEASESUBSCRIPTION (ID, FIRMID, COMMODITYID, 
+      COMMODITYNAME, ISSUEPRICE, PURCHASETIME, 
+      PURCHASEQUANTITY, PURCHASEAMOUNT, ISSUANCEFEE, 
+      REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, 
+      CREATETIME)
+    values (SEQ_IPO_RELEASESUBSCRIPTION.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+      #{commodityname,jdbcType=VARCHAR}, #{issueprice,jdbcType=DECIMAL}, #{purchasetime,jdbcType=DATE}, 
+      #{purchasequantity,jdbcType=DECIMAL}, #{purchaseamount,jdbcType=DECIMAL}, #{issuancefee,jdbcType=DECIMAL}, 
+      #{refundablepurchaseamount,jdbcType=DECIMAL}, #{refundableservicefee,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
+    update IPO_RELEASESUBSCRIPTION
+    set FIRMID = #{firmid,jdbcType=VARCHAR},
+      COMMODITYID = #{commodityid,jdbcType=VARCHAR},
+      COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
+      ISSUEPRICE = #{issueprice,jdbcType=DECIMAL},
+      PURCHASETIME = #{purchasetime,jdbcType=DATE},
+      PURCHASEQUANTITY = #{purchasequantity,jdbcType=DECIMAL},
+      PURCHASEAMOUNT = #{purchaseamount,jdbcType=DECIMAL},
+      ISSUANCEFEE = #{issuancefee,jdbcType=DECIMAL},
+      REFUNDABLEPURCHASEAMOUNT = #{refundablepurchaseamount,jdbcType=DECIMAL},
+      REFUNDABLESERVICEFEE = #{refundableservicefee,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+    PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
+    from IPO_RELEASESUBSCRIPTION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+    PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
+    from IPO_RELEASESUBSCRIPTION
+  </select>
+</mapper>
