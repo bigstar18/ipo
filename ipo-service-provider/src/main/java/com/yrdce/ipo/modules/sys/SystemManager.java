@@ -304,8 +304,6 @@ public class SystemManager extends Observable{
 			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
 			//扣过户费,扣款对象:交易商(散户)
 			changeOwnerSettle();
-			//扣提单费,扣款对象:交易商(散户)
-			billSettle();
 			//扣仓储费,扣款对象:发行商,托管商品的散户
 			warehouseRentSettle();
 			//扣仓库保险费,扣款对象:发行商,托管商品的散户
@@ -326,69 +324,64 @@ public class SystemManager extends Observable{
 	public void publishHandlingSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.PUBLISH.getCode();
 		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","发行手续费结算");
+		debitFlowSettle(businessType,chargeType,"40002","发行手续费结算");
 	}
 	//散户托管商品的手续费
 	public void trusteeshipHandlingSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.TRUSTEESHIP.getCode();
 		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","托管手续费结算");
+		debitFlowSettle(businessType,chargeType,"40002","托管手续费结算");
 	}
 	 //增发货款结算 
 	public void increasePublishGoodsSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
 		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","增发货款结算 ");
+		debitFlowSettle(businessType,chargeType,"40005","增发货款结算 ");
 	}
    //增发手续费结算 
 	public void increasePublishHandlingSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
 		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","增发手续费结算");
+		debitFlowSettle(businessType,chargeType,"40001","增发手续费结算");
 	}
 	 //申购货款结算 
 	public void purchaseGoodsSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
 		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","申购货款结算 ");
+		debitFlowSettle(businessType,chargeType,"40005","申购货款结算 ");
 	}
 	 //申购手续费结算 
 	public void purchaseHandlingSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
 		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","申购手续费结算");
+		debitFlowSettle(businessType,chargeType,"40001","申购手续费结算");
 	}
 	
-	//过户费结算
+	//提单过户费结算
 	public void changeOwnerSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
 		String chargeType=ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","过户费结算");
+		debitFlowSettle(businessType,chargeType,"40015","提单过户费结算");
 	}
-	//提单费结算
-	public void billSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
-		String chargeType=ChargeConstant.ChargeType.BILL.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","提单费结算");
-	}
+	 
 	//仓储费结算
 	public void warehouseRentSettle()throws Exception {
 		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
 		String chargeType=ChargeConstant.ChargeType.WAREHOUSING.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","仓储费结算");
+		debitFlowSettle(businessType,chargeType,"40010","仓库仓储费结算");
 	}
 	
 	//仓库保险费结算
 	public void warehouseInsuranceSettle()throws Exception {
 		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
 		String chargeType=ChargeConstant.ChargeType.INSURANCE.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","仓库保险费结算");
+		debitFlowSettle(businessType,chargeType,"40009","仓库保险费结算");
 	}
 	//仓库托管费结算
 	public void warehouseTrusteeSettle()throws Exception {
 		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
 		String chargeType=ChargeConstant.ChargeType.TRUSTEE.getCode();
-		debitFlowSettle(businessType,chargeType,"40004","仓库保险费结算");
+		debitFlowSettle(businessType,chargeType,"40008","仓库托管费结算");
 	}
 	
 	public void debitFlowSettle(String businessType ,String chargeType ,String opCode,String opName) throws Exception{
@@ -526,8 +519,8 @@ public class SystemManager extends Observable{
 
 			result = result.add(amount);
 
-			updateFundsFull(userId, "40001", amount, commoId);
-			updateFundsFull(userId, "40101", fee, commoId);
+			updateFundsFull(userId, "40005", amount, commoId);
+			updateFundsFull(userId, "40001", fee, commoId);
 
 			if (distributionService.updateOrderSettled(distribution.getOrderid()) < 1)
 				throw new Exception("变更摇号记录为结算状态失败，全部回滚");
@@ -543,7 +536,7 @@ public class SystemManager extends Observable{
 			logger.error("申购结算：查找商品的发行商：商品={}，失败", commodityId);
 			throw new Exception("查找商品的发行商失败，全部回滚");
 		}
-		updateFundsFull(firmId, "40002", commoAmount, commodityId);
+		updateFundsFull(firmId, "40006", commoAmount, commodityId);
 		logger.info("申购结算：付发行商货款：商品={}，发行商id={}，付货款={}", commodityId, firmId, commoAmount.toString());
 	}
 

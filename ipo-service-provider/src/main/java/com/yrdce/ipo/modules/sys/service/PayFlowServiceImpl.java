@@ -110,7 +110,7 @@ public class PayFlowServiceImpl implements PayFlowService {
 		String payee = dbPayFlow.getPayee();
 		BigDecimal amount = dbPayFlow.getAmount();
 		String commodityId = dbPayFlow.getCommodityId();
-		updateFundsFull(payee, "40002", amount, commodityId);
+		updateFundsFull(payee, "40006", amount, commodityId);
 		Date now = new Date();
 		payFlow.setPayState(ChargeConstant.PayState.PAY_SUCCESS.getCode());
 		payFlow.setUpdateDate(now);

@@ -55,14 +55,13 @@ public interface ChargeConstant {
 	public static enum ChargeType {
 		HANDLING("001", "手续费"),
 		GOODS("002", "货款"),
-		CHANGE_OWNER("003", "过户费"),
+		REGISTER("003001", "提单注册费"),
+		CANCEL("003002", "提单注销费"),
+		CHANGE_OWNER("003003", "提单过户费"),
+		CARRIAGE("003004", "提单配送费"),
 		WAREHOUSING("004001", "仓储费"),
 		INSURANCE("004002", "保险费"),
 		TRUSTEE("004003", "托管费"),
-		BILL("004004", "提货单费"),
-		CARRIAGE("004005", "运费"),
-		REGISTER("004006", "注册费"),
-		CANCEL("004007", "注销费"),
 		LISTING("005", "挂牌费"),
 		COMMISSION("006", "佣金"),
 		OTHER("007", "其他费")
