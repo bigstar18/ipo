@@ -53,4 +53,13 @@
     POSTAGE, TRANSFERDATE, CREATETIME
     from IPO_DELIVERY
   </select>
+  
+  <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
+  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+    POSTAGE, TRANSFERDATE, CREATETIME
+    from IPO_DELIVERY where to_char(TRANSFERDATE,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
+    <if test="firmid != null">
+    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

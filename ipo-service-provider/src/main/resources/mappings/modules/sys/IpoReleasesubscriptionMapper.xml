@@ -57,4 +57,13 @@
     PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
     from IPO_RELEASESUBSCRIPTION
   </select>
+  
+  <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
+  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+    PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
+    from IPO_RELEASESUBSCRIPTION where to_char(PURCHASETIME,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
+    <if test="firmid != null">
+    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

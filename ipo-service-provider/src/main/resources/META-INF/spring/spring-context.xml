@@ -75,10 +75,10 @@
     <task:scheduled ref="SPOTask" method="automaticFail" cron="0 15 0 * * ?" />
     
     <!-- 经纪会员 报表汇总相关任务   -->
-    <task:scheduled ref="brokerTask" method="releasesub" cron="0 0 22 * * ?" />
+    <!-- <task:scheduled ref="brokerTask" method="releasesub" cron="0 0 22 * * ?" />
 	<task:scheduled ref="brokerTask" method="billoFlading" cron="0 5 22 * * ?" />
 	<task:scheduled ref="brokerTask" method="delivery" cron="0 10 22 * * ?" />
-	<task:scheduled ref="brokerTask" method="holdCommodity" cron="0 15 22 * * ?" />
+	<task:scheduled ref="brokerTask" method="holdCommodity" cron="0 15 22 * * ?" /> -->
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->
 	<!-- <task:scheduler id="scheduler" pool-size="10" />-->

@@ -59,4 +59,13 @@
     EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
     from IPO_HOLDCOMMODITY
   </select>
+  
+  <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
+  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+    EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
+    from IPO_HOLDCOMMODITY where to_char(CREATETIME,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
+    <if test="firmid != null">
+    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

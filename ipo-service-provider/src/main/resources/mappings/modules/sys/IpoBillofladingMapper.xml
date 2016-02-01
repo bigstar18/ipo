@@ -59,4 +59,13 @@
     WAREHOUSINGFEE, INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, CREATETIME
     from IPO_BILLOFLADING
   </select>
+  
+  <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
+  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
+    WAREHOUSINGFEE, INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, CREATETIME
+    from IPO_BILLOFLADING where to_char(REGISTRATIONDATE,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
+    <if test="firmid != null">
+    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

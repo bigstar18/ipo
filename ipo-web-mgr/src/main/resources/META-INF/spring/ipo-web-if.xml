@@ -61,6 +61,7 @@
     <dubbo:reference id="specialCounterFeeService" interface="com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService" />
     <dubbo:reference id="payFlowService" interface="com.yrdce.ipo.modules.sys.service.PayFlowService" />
     <dubbo:reference id="debitFlowService" interface="com.yrdce.ipo.modules.sys.service.DebitFlowService" />
+    <dubbo:reference id="brokerageReportService" interface="com.yrdce.ipo.modules.sys.service.BrokerageReportService" />
     
     
     

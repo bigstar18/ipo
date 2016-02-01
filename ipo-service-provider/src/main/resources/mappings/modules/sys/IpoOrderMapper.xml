@@ -375,7 +375,7 @@
       FROZENST = 1,
       UNFREEZEFUNDS = #{unfreezefunds,jdbcType=DECIMAL},
       UNFREEZEFEES = #{unfreezefees,jdbcType=DECIMAL}
-    where where USERID = #{userid,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=VARCHAR}
     and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
 </mapper>
