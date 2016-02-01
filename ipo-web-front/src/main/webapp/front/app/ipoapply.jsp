@@ -75,8 +75,8 @@
 						 <input type="hidden" id="commodityid" />
 						 <input type="hidden" id="price" />
 					     <input type="hidden" id="units" />
-						<%-- <p>账户编号：<b id="userId"><%=userId%></b></p> --%>
-						<p>申购产品：<b id="comname"></b></p>
+<%-- 						<p>账户编号：<b id="userId"><%=userId%></b></p> 
+ --%>						<p>申购产品：<b id="comname"></b></p>
 						<p>可用资金(/元)：<b id="money"></b></p>
 						<p>可购买数量：<b id="availibleQua"></b></p>
 						<p>申购额度：<b id="maxapplynum"></b></p>

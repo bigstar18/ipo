@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
@@ -66,5 +67,13 @@ public interface UnderwriterSubscribeService {
 	 * @return
 	 */
 	public Integer getUnderwritersNum(UnderWriters example);
+
+	/**
+	 * 新增货款流水
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public void insertLoan(UnderwriterSubscribe example, BigDecimal funds);
 
 }

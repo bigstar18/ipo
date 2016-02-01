@@ -37,7 +37,12 @@ $(document).ready(function(){
 	          width : 800,
 	          align: "center",
 	          title : '商品代码'
-	      }, {
+	      },{
+	          field : 'subscribeprice',
+	          width : 800,
+	          align: "center",
+	          title : '认购价格'
+	      },  {
 	          field : 'subscribecounts',
 	          width : 800,
 	          align: "center",

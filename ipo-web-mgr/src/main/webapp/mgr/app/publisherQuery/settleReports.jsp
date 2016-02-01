@@ -9,16 +9,10 @@ function setPublisher(value){
 	$("#publisherid").val(value);
 }
 
-function query(exportTo)
-{
-		var url = ;
-		showDialog(url, "", 900, 650);
-		
+function query(){
 	
+	document.location.href = '<%=request.getContextPath()%>/PublisherController/showSettleLists?publisherid='+$("#publisherid").val()+'&&queryDate='+$("#queryDate").datebox("getValue");
 }
-
-
-
 
 </script>
 </head>
@@ -54,7 +48,7 @@ function query(exportTo)
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">查询日期：</td>
 	        	<td align="left" width="50%">
-	        	 <input style="width:100px;" id="payables" name="payables"
+	        	 <input style="width:100px;" id="queryDate" name="queryDate"
 	        	  class="easyui-datebox" data-options="required:true,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        </tr> 

@@ -18,13 +18,18 @@
 function add(){
 	var flag= $('#frm').form('validate');
 	if(flag==true){
-		var totalcounts=parseInt($("#totalcounts").val());
-		var counts=parseInt($("#counts").val());
-		var salecounts=parseInt($("#salecounts").val());
+		var totalcounts=parseInt($("#totalcounts").val());//入库数量
+		var counts=parseInt($("#counts").val());//发行数量
+		var salecounts=parseInt($("#salecounts").val());//转发售数量
+		var pubposition=parseInt($("#pubposition").val());//转持仓数量
+		var subscricounts=parseInt($("#subscricounts").val());//转认购数量
 		if(totalcounts<counts&&salecounts!=0){
-			alert("总入库量小于发行量，只能全部转持仓！");
+			alert("总入库量小于发行量，只能转持仓或供承销认购！");
 			$("#salecounts").val(0);
-			$("#pubposition").val(totalcounts);
+		}
+		if(salecounts+pubposition+subscricounts>totalcounts){
+			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
+			return;
 		}
 		if(confirm("确定添加本记录吗？")){
 		 $.ajax({  
@@ -83,7 +88,7 @@ function returntoList(){
 				break;
 		}
 	 }  
-} --%>
+} 
 	
 function getPosition(){
 	
@@ -95,7 +100,7 @@ function getPosition(){
 	}else{
 	$("#pubposition").val("");
 	}
-}
+}--%>
 
 
 </script>
@@ -103,7 +108,7 @@ function getPosition(){
 <body leftmargin="14" topmargin="0">
 <div class="warning">
 		<div class="title font_orange_14b">温馨提示 :  发行会员库存转持仓录入</div>
-		<div class="content" style="color: red"> 添加应付发行商的货款信息。</div>
+		<div class="content" style="color: red"> 设置库存转持仓、转发售等信息。</div>
 	</div>
 	<form method="POST" action="" name="frm" id="frm">
         <table border="0" height="40%" width="60%" align="center">
@@ -143,16 +148,7 @@ function getPosition(){
 	        	<input type="text" id="publishername" name="publishername" value="${entity.publishername }" readonly="readonly"/>
 	        	</td>
 	        </tr> 
-	         <tr>
-	        	<td style="font-size:15px" align="right" width="20%">发行数量：</td>
-	        	<td>
-	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
-	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">入库单号：</td>
-	        	<td>
-	        	<input type="text" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
-	        	</td>
-	        </tr> 
+	        
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
@@ -163,15 +159,24 @@ function getPosition(){
 	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        </tr>  
-	        <tr>
+	         <tr>
+	        	<td style="font-size:15px" align="right" width="20%">发行数量：</td>
+	        	<td>
+	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
+	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
-	        	
-	        	<input type="text" onblur="getPosition()" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"/><span class="required">*</span>
+	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"/><span class="required">*</span>
 	        	</td>
+	        </tr> 
+	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"  readonly="readonly"/>
+	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/>
+	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
+	        	<td>
+	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/>
 	        	</td>
 	        </tr>  
 		  	<tr>

@@ -45,7 +45,8 @@ public interface IpoDebitFlowMapper {
 	 * @param debitFlow
 	 * @return
 	 */
-	public List<IpoDebitFlow> queryForPage(@Param("startIndex") int startIndex, @Param("endIndex") int endIndex, @Param("param") DebitFlow debitFlow);
+	public List<IpoDebitFlow> queryForPage(@Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex, @Param("param") DebitFlow debitFlow);
 
 	/**
 	 * 查询费用数量
@@ -63,7 +64,8 @@ public interface IpoDebitFlowMapper {
 	 * @param payer
 	 * @return 参数说明
 	 */
-	public List<IpoDebitFlow> selectInfo(@Param("businessType") String businessType, @Param("chargeType") String chargeType,
-			@Param("payer") String payer);
+	public List<IpoDebitFlow> selectInfo(
+			@Param("businessType") String businessType,
+			@Param("chargeType") String chargeType, @Param("payer") String payer);
 
 }

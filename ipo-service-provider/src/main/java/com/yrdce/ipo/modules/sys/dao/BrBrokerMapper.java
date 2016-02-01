@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.BrBrokerExample;
+import com.yrdce.ipo.modules.sys.entity.PublisherBalance;
 
 @MyBatisDao
 public interface BrBrokerMapper {
@@ -44,8 +45,10 @@ public interface BrBrokerMapper {
 	List<BrBroker> findAllPublisher();// 获取所有发行会员
 
 	BrBroker selectById(String brokerid);
-	
+
 	List<BrBroker> findAllUnderwriter();// 获取所有承销会员
 
+	PublisherBalance findBalance(@Param("firmid") String firmid,
+			@Param("today") String today, @Param("yesterday") String yesterday);// 获取某个发行商的当前和上日余额
 
 }

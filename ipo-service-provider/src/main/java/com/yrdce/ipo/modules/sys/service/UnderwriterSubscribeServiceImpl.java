@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,11 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.common.json.ParseException;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderWriters;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 
@@ -30,6 +36,14 @@ public class UnderwriterSubscribeServiceImpl implements
 
 	@Autowired
 	private IpoUnderwriterSubscribeMapper underwriterSubscribrmapper;
+
+	@Autowired
+	private IpoPayFlowMapper payFlowMapper;
+
+	@Autowired
+	private IpoCommodityConfMapper commconfmapper;
+	@Autowired
+	private IpoSpoRationMapper ipoSpoRationMapper;
 
 	@Override
 	public List<UnderwriterSubscribe> getInfosByPage(String page, String rows,
@@ -144,6 +158,28 @@ public class UnderwriterSubscribeServiceImpl implements
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	@Override
+	@Transactional
+	public void insertLoan(UnderwriterSubscribe example, BigDecimal funds) {
+		// 货款流水
+		PayFlow payFlow = new PayFlow();
+		payFlow.setAmount(funds);
+		payFlow.setBusinessType(ChargeConstant.BusinessType.PUBLISH.getCode());
+		payFlow.setChargeType(ChargeConstant.ChargeType.GOODS.getCode());
+		payFlow.setCommodityId(example.getCommodityid());
+		payFlow.setOrderId(String.valueOf(example.getSubscribeid()));
+		payFlow.setPayState(ChargeConstant.PayState.UNPAY.getCode());
+
+		payFlow.setPayee(ipoSpoRationMapper.firmidBySales(commconfmapper
+				.findIpoCommConfByCommid(example.getCommodityid())
+				.getPubmemberid()));
+		payFlow.setPayMode(ChargeConstant.PayMode.ONLINE.getCode());
+		payFlow.setPayChannel(ChargeConstant.PayChannel.DEPOSIT.getCode());
+		payFlow.setCreateUser(example.getCreateUser());
+		payFlow.setCreateDate(new Date());
+		payFlowMapper.insert(payFlow);
 	}
 
 }

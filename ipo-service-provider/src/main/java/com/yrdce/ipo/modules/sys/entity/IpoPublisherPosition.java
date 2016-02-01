@@ -26,6 +26,8 @@ public class IpoPublisherPosition {
 
 	private Long salecounts;// 转发售数量
 
+	private Long subscricounts;// 供承销认购量
+
 	private Long totalcounts;// 总数量
 
 	private Short status;// 状态（1、新增 2、已冻结费用 3、已扣费 4、已转持仓）
@@ -54,6 +56,14 @@ public class IpoPublisherPosition {
 
 	public void setPublisherid(String publisherid) {
 		this.publisherid = publisherid == null ? null : publisherid.trim();
+	}
+
+	public Long getSubscricounts() {
+		return subscricounts;
+	}
+
+	public void setSubscricounts(Long subscricounts) {
+		this.subscricounts = subscricounts;
 	}
 
 	public String getCommodityid() {

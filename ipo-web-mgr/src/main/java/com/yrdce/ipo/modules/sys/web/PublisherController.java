@@ -26,9 +26,12 @@ import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
+import com.yrdce.ipo.modules.sys.vo.PublisherSettle;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+import com.yrdce.ipo.modules.sys.vo.SettleResult;
 import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
@@ -367,7 +370,7 @@ public class PublisherController {
 		VIpoCommConf commodity = ipoCommConfService
 				.getVIpoCommConfByCommid(record.getCommodityid());
 		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
-		BigDecimal funds = new BigDecimal(record.getTotalcounts())
+		BigDecimal funds = new BigDecimal(record.getSalecounts())
 				.multiply(commodity.getPrice());// 货款
 		if (specialfee != null) {
 			Short tradealgr = specialfee.getTradealgr();
@@ -452,8 +455,22 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/showSettleLists", method = RequestMethod.GET)
+	@ResponseBody
 	public String showSettleLists(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response,
+			@RequestParam("publisherid") String publisherid,
+			@RequestParam("queryDate") String queryDate) throws IOException {
+		if (!"".equals(publisherid)) {
+			PublisherBalance balance = brBrokerService.findBalance(publisherid,
+					queryDate);// 上日和今日资金余额
+			// 获取货款和手续费
+			List<PublisherSettle> paylist = brBrokerService
+					.findLoanAndHandling(publisherid, queryDate);
+			SettleResult result = new SettleResult();
+			result.setBalance(balance);
+			result.setList(paylist);
+			return JSON.json(result);
+		}
 		return null;
 
 	}

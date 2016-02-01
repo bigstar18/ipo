@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -135,10 +136,12 @@ public class UnderwriterSetController {
 					.getUserID();
 			example.setCreateUser(userId);
 			example.setCreateDate(new Date());
-			int num = underwritersubscribeService.insertInfo(example);
-			if (num == 1) {
-				return "true";
-			}
+			underwritersubscribeService.insertInfo(example);
+			Long subcounts = example.getSubscribecounts();
+			BigDecimal subprice = example.getSubscribeprice();
+			BigDecimal subFunds = subprice.multiply(new BigDecimal(subcounts));
+			underwritersubscribeService.insertLoan(example, subFunds);
+			return "true";
 		}
 		return "false";
 

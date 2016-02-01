@@ -247,8 +247,11 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		IpoPosition selected = ipoPositionMapper.selectPosition(
 				ipoSpoRationMapper.firmidBySales(example.getPublisherid()),
 				commid);
-		if (selected == null && position.getPosition() != 0) {
-			ipoPositionMapper.insert(position);
+		if (selected == null) {
+			if (position.getPosition() != 0) {
+				ipoPositionMapper.insert(position);
+			}
+
 		} else {
 			position.setPosition(example.getPubposition()
 					+ selected.getPosition());

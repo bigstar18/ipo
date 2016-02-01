@@ -16,6 +16,14 @@
     <result column="MARKETMANAGER" property="marketmanager" jdbcType="VARCHAR" />
     <result column="MODIFYTIME" property="modifytime" jdbcType="DATE" />
   </resultMap>
+    <resultMap id="BalanceMap" type="com.yrdce.ipo.modules.sys.entity.PublisherBalance" >
+    <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="YESTERDAYBALANCE" property="yesterdaybalance" jdbcType="DECIMAL" />
+    <result column="TODAYBALANCE" property="todaybalance" jdbcType="DECIMAL" />
+    <result column="TODAY" property="today" jdbcType="VARCHAR" />
+  </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yrdce.ipo.modules.sys.entity.BrBroker" extends="BaseResultMap" >
     <result column="NOTE" property="note" jdbcType="CLOB" />
   </resultMap>
@@ -426,4 +434,15 @@
    <include refid="Base_Column_List" /> 
    from BR_BROKER where  MEMBERTYPE= (select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='承销会员' )
   </select>
+  
+   <select id="findBalance"  resultMap="BalanceMap" parameterType="map">
+    SELECT B.BROKERID,A.FIRMID,B.NAME,C.TODAYBALANCE YESTERDAYBALANCE,A.TODAYBALANCE,A.TODAY  FROM 
+    (SELECT F.FIRMID,F.BALANCE TODAYBALANCE,TO_CHAR(F.CREATETIME, 'YYYY-MM-DD') TODAY  FROM F_FUNDFLOW F
+     WHERE F.FUNDFLOWID = (SELECT MAX(T.FUNDFLOWID) FROM F_FUNDFLOW T WHERE T.FIRMID =#{firmid,jdbcType=VARCHAR}
+    AND TO_CHAR(T.CREATETIME, 'YYYY-MM-DD') = #{today,jdbcType=VARCHAR} GROUP BY T.FIRMID) ) A LEFT JOIN BR_BROKER B ON A.FIRMID=B.FIRMID 
+    LEFT JOIN(SELECT F.FIRMID,F.BALANCE TODAYBALANCE,TO_CHAR(F.CREATETIME, 'YYYY-MM-DD') TODAY  FROM F_FUNDFLOW F
+    WHERE F.FUNDFLOWID =(SELECT MAX(T.FUNDFLOWID) FROM F_FUNDFLOW T WHERE T.FIRMID =#{firmid,jdbcType=VARCHAR} 
+    AND TO_CHAR(T.CREATETIME, 'YYYY-MM-DD') = #{yesterday,jdbcType=VARCHAR} GROUP BY T.FIRMID))C ON C.FIRMID=A.FIRMID
+  </select>
+  
 </mapper>
