@@ -39,6 +39,10 @@
 				 if(dataForm.payer.value==""){
 					 alert('付款人不能为空!');return ;
 				 };
+				 var debitDateStrVal= $("#debitDateStr").datebox("getValue");
+				 if(debitDateStrVal==""){
+					 alert('付款时间不能为空!');return ;
+				 };
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/debitFlowController/save",  
 		  		    data:$('#dataForm').serialize(),  
@@ -58,6 +62,14 @@
 		    	  
 		      };
 
+		    //修改日期格式
+			  function myformatter(date){
+				 var y = date.getFullYear();
+				 var m = date.getMonth()+1;
+				 var d = date.getDate();
+				 return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+			  };
+				
 		      function closeWion(){
 					if(window.opener){
 						window.opener.doSearch();
@@ -152,6 +164,13 @@
         								<td align="right" >付款人:&nbsp;&nbsp;</td>
             							<td> <input name="payer" type="text" size="26" style="height: 24px;" maxlength="32" />
 			  								 <font style="color:red">*</font> 
+            							</td> 
+        							</tr>
+        							<tr style="height: 30px">   
+        								<td align="right" >付款时间:&nbsp;&nbsp;</td>
+            							<td> 
+            								<input id="debitDateStr" name="debitDateStr" class="easyui-datebox" style="width:171px;height: 24px;" editable="false" data-options="formatter:myformatter"> 
+			  								<font style="color:red">*</font>
             							</td> 
         							</tr>
         							<tr style="height: 20px">   

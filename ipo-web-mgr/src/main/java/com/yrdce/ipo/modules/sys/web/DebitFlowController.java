@@ -3,15 +3,18 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -129,6 +132,11 @@ public class DebitFlowController {
 	public String save(HttpServletRequest request,DebitFlow debitFlow) 
 			throws Exception {
 		try {
+			String debitDateStr=request.getParameter("debitDateStr");
+			if(!StringUtils.isEmpty(debitDateStr)){
+				Date debitDate=DateUtils.parseDate(debitDateStr, "yyyy-MM-dd");
+				debitFlow.setDebitDate(debitDate);
+			};
 			debitFlow.setCreateUser(getloginUserId(request));
 			debitFlowService.saveOffline(debitFlow);
 		} catch (Exception e) {
