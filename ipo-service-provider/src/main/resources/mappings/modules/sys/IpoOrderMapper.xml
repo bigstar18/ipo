@@ -334,8 +334,21 @@
    	from (select t.*,rownum TNO from IPO_ORDER t where t.USERID  like concat (concat('%',#{userid,jdbcType=VARCHAR}),'%')) a where a.TNO between  #{beginnum} and  #{endnum}
    </select>
    
-   <select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
-   	select <include refid="Base_Column_List" /> from (select t.*,rownum TNO from IPO_ORDER t ) a where a.TNO between  #{beginnum} and  #{endnum}
+   <select id="selectByPage" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoOrder">
+  select a.* from (
+         select t.ORDERID,t.USERID,t.USERNAME,t.COMMODITYID,t.COMMODITYNAME,t.COUNTS,t.CREATETIME,t.FROZENFUNDS,t.FROZENST,
+         t.TRADEALGR,t.BUY,t.FROZENCOUNTERFEE,t.UNFREEZEFUNDS,t.UNFREEZEFEES,dis.zcounts,dis.frozendate,conf.price,
+         rownum TNO from 
+         (select * from ipo_order o where 1=1
+         <if test="paging.dealerId != null">
+         and o.USERID like concat(concat('%',#{paging.dealerId}),'%')
+         </if>) t
+         left join ipo_distribution dis
+         on t.userid = dis.userid
+         and t.commodityid = dis.commodityid
+         left join ipo_commodity_conf conf
+         on conf.commodityid = t.commodityid) a
+         where a.TNO between #{beginnum} and #{endnum} order by a.createtime
    </select>
    
    <select id="selectByCounts" resultType="java.lang.Integer" parameterType="java.lang.String" >

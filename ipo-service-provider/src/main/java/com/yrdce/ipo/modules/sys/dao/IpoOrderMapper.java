@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.IpoOrderExample;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 
 @MyBatisDao
 public interface IpoOrderMapper {
@@ -28,9 +29,11 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByid(@Param("userid") String userid, @Param("commodityid") String sid);
 
-	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
+	int updateByExampleSelective(@Param("record") IpoOrder record,
+			@Param("example") IpoOrderExample example);
 
-	int updateByExample(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
+	int updateByExample(@Param("record") IpoOrder record,
+			@Param("example") IpoOrderExample example);
 
 	int updateByPrimaryKeySelective(IpoOrder record);
 
@@ -50,9 +53,11 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByPrimaryKey(@Param("orderid") String orderid);
 
-	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid);
+	List<IpoOrder> selectByUserId(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("userid") String userid);
 
-	List<IpoOrder> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoOrder> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	int selectByCounts(String userid);
 
@@ -62,7 +67,8 @@ public interface IpoOrderMapper {
 
 	long sequence();
 
-	List<IpoOrder> selectByCidPaged(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("commodityid") String commodityid);
+	List<IpoOrder> selectByCidPaged(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("commodityid") String commodityid);
 
 	int updateByOrderId(@Param("frozenst") int frozenst, @Param("orderid") String sid);
 
@@ -72,6 +78,7 @@ public interface IpoOrderMapper {
 	List<IpoOrder> selectByfirmid(String userid);
 
 	//根据主键跟新退还资金
-	int updateUnfreeze(@Param("unfreezefunds") BigDecimal unfreezefunds, @Param("unfreezefees") BigDecimal unfreezefees,
-			@Param("userid") String userid, @Param("commodityid") String commodityid);
+	int updateUnfreeze(@Param("unfreezefunds") BigDecimal unfreezefunds,
+			@Param("unfreezefees") BigDecimal unfreezefees, @Param("userid") String userid,
+			@Param("commodityid") String commodityid);
 }

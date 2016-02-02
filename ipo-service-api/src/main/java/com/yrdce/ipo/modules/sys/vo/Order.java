@@ -58,13 +58,22 @@ public class Order implements Serializable {
 	@JsonProperty("commodity_id")
 	@XmlElement(name = "commodity_id")
 	private Integer commodity_id;// 发售表主键ID
-	
+
 	private Short tradealgr;
 
 	private BigDecimal buy;
-	
+
 	private BigDecimal frozencounterfee;
-	
+
+	@JsonProperty("frozendate")
+	@XmlElement(name = "frozendate")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date frozendate;
+
+	private BigDecimal price;
+
+	private int zcounts;
+
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;
 	}
@@ -152,4 +161,29 @@ public class Order implements Serializable {
 	public void setFrozenfunds(BigDecimal frozenfunds) {
 		this.frozenfunds = frozenfunds;
 	}
+
+	public Date getFrozendate() {
+		return frozendate;
+	}
+
+	public void setFrozendate(Date frozendate) {
+		this.frozendate = frozendate;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public int getZcounts() {
+		return zcounts;
+	}
+
+	public void setZcounts(int zcounts) {
+		this.zcounts = zcounts;
+	}
+
 }

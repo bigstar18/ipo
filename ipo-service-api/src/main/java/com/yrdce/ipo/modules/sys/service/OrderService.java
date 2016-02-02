@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.service;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.Order;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 
 public interface OrderService {
 
@@ -13,14 +14,13 @@ public interface OrderService {
 	public int getAll(String userid) throws Exception;
 
 	// 订单表的信息分页展示
-	public List<Order> getOrder(String page, String rows) throws Exception;
+	public List<Order> getOrder(String page, String rows, Paging paging) throws Exception;
 
 	// 获取所有订单记录数
-	public int getAllOrder() throws Exception;
+	public int getAllOrder(Paging paging) throws Exception;
 
 	/**
-	 * 获取500未结算商品申购单
-	 * hxx
+	 * 获取500未结算商品申购单 hxx
 	 * 
 	 * @param page
 	 * @param rows

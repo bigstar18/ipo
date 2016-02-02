@@ -1,7 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +23,11 @@ import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Order;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 @Controller
 @RequestMapping("QueryController")
@@ -51,7 +52,8 @@ public class QueryController {
 	 * 发行摇号视图
 	 */
 	@RequestMapping(value = "/IssuedManage", method = RequestMethod.GET)
-	public String IssuedManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String IssuedManage(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 		return "app/pubManager/issued";
 	}
 
@@ -59,7 +61,8 @@ public class QueryController {
 	 * 申购成交视图
 	 */
 	@RequestMapping(value = "/ApplySuccManage", method = RequestMethod.GET)
-	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 		return "app/pubManager/order_query";
 	}
 
@@ -73,7 +76,11 @@ public class QueryController {
 			@RequestParam(value = "userid", required = false) String userid) throws IOException {
 		logger.info("查询订单信息");
 		try {
-			List<Order> clist;
+			Paging paging = new Paging();
+			paging.setDealerId(userid);
+			List<Order> clist = orderService.getOrder(page, rows, paging);
+			int totalnums = orderService.getAllOrder(paging);
+			/*List<Order> clist;
 			int totalnums;
 			if (userid == null) {
 				clist = orderService.getOrder(page, rows);
@@ -81,7 +88,7 @@ public class QueryController {
 			} else {
 				clist = orderService.getOrderInfo(page, rows, userid);
 				totalnums = orderService.getAll(userid);
-			}
+			}*/
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnums);
@@ -99,8 +106,9 @@ public class QueryController {
 
 	@RequestMapping(value = "/getOrderByUserid", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getOrderByUserid(@RequestParam("page") String page, @RequestParam("rows") String rows, @RequestParam("userid") String userid)
-			throws IOException {
+	public String getOrderByUserid(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, @RequestParam("userid") String userid)
+					throws IOException {
 		logger.info("根据用户ID查询订单信息");
 		try {
 			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
@@ -127,7 +135,8 @@ public class QueryController {
 	@RequestMapping(value = "/findRockNums", method = RequestMethod.GET)
 	@ResponseBody
 	public String findRockNums(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam(value = "commodityid", required = false) String commodityid) throws IOException {
+			@RequestParam(value = "commodityid", required = false) String commodityid)
+					throws IOException {
 		logger.info("分页查询发售商品信息");
 		try {
 			List<Commodity> clist;
@@ -156,7 +165,8 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String commodityInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+	public String commodityInfo(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
 			@RequestParam(value = "commodityid", required = false) String commodityid) {
 		logger.info("根据商品id查询商品信息");
 		try {
@@ -178,9 +188,9 @@ public class QueryController {
 		}
 	}
 
-	
 	/**
 	 * 查询发行的货款记录
+	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @param request
@@ -189,47 +199,45 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/queryPublishGoods")
 	@ResponseBody
-	public String queryPublishGoods(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
-			HttpServletRequest request) throws Exception {
-		
+	public String queryPublishGoods(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
+
 		PayFlow payFlow = new PayFlow();
 		payFlow.setPayee(request.getParameter("payee"));
 		payFlow.setCommodityId(request.getParameter("commodityId"));
-		long count=payFlowService.queryPublishGoodsForCount(payFlow);
-		List<PayFlow> dataList=new ArrayList<PayFlow>();
-		if(count>0){
-			dataList=payFlowService.queryPublishGoodsForPage(pageNo, pageSize, payFlow);
+		long count = payFlowService.queryPublishGoodsForCount(payFlow);
+		List<PayFlow> dataList = new ArrayList<PayFlow>();
+		if (count > 0) {
+			dataList = payFlowService.queryPublishGoodsForPage(pageNo, pageSize, payFlow);
 		}
 		ResponseResult result = new ResponseResult();
-		result.setTotal( new Long(count).intValue());
+		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
-	
+
 	/**
 	 * 付款
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/pay")
 	@ResponseBody
-	public String pay(HttpServletRequest request)  {
-			
+	public String pay(HttpServletRequest request) {
+
 		PayFlow payFlow = new PayFlow();
 		payFlow.setId(Long.valueOf(request.getParameter("id")));
 		payFlow.setUpdateUser(getLoginUserId(request));
 		try {
 			payFlowService.pay(payFlow);
 		} catch (Exception e) {
-			logger.error("pay error:"+e);
+			logger.error("pay error:" + e);
 			return "error";
 		}
 		return "success";
 	}
-	
-	
-	
-	
+
 	/**
 	 * 手动摇号功能
 	 */
@@ -250,7 +258,8 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/distribution")
 	@ResponseBody
-	public boolean distribution(@RequestParam(value = "commodityid", required = true) String commodityid) {
+	public boolean distribution(
+			@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.distribution(commodityid);
 		} catch (Exception e) {
@@ -265,7 +274,8 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody
-	public boolean orderBalance(@RequestParam(value = "commodityid", required = true) String commodityid) {
+	public boolean orderBalance(
+			@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.orderBalance(commodityid);
 		} catch (Exception e) {
@@ -290,10 +300,9 @@ public class QueryController {
 		return true;
 	}
 
-	
-	private String getLoginUserId(HttpServletRequest request){
+	private String getLoginUserId(HttpServletRequest request) {
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
-		if(user!=null){
+		if (user != null) {
 			return user.getUserID();
 		}
 		return "nologin";

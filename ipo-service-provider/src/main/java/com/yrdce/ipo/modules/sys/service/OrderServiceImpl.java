@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.vo.Order;
+import com.yrdce.ipo.modules.sys.vo.Paging;
 
 /**
  * 订单查询
@@ -37,7 +38,8 @@ public class OrderServiceImpl implements OrderService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		List<Order> list2 = new ArrayList<Order>();
-		List<IpoOrder> list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1, curpage * pagesize, userId);
+		List<IpoOrder> list = ipoOrderMapper.selectByUserId((curpage - 1) * pagesize + 1,
+				curpage * pagesize, userId);
 
 		for (int i = 0; i < list.size(); i++) {
 			Order order = new Order();
@@ -51,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
 			order.setCreatetime(date);
 			order.setFrozenfunds(list.get(i).getFrozenfunds());
 			order.setFrozencounterfee(list.get(i).getFrozencounterfee());
-			logger.debug(order.toString());
 			list2.add(order);
 		}
 		return list2;
@@ -66,14 +67,15 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Order> getOrder(String page, String rows) throws Exception {
+	public List<Order> getOrder(String page, String rows, Paging paging) throws Exception {
 		logger.info("分页查询订单信息");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		List<Order> list2 = new ArrayList<Order>();
-		List<IpoOrder> list = ipoOrderMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoOrder> list = ipoOrderMapper.selectByPage((curpage - 1) * pagesize + 1,
+				curpage * pagesize, paging);
 
 		for (int i = 0; i < list.size(); i++) {
 			Order order = new Order();
@@ -86,6 +88,12 @@ public class OrderServiceImpl implements OrderService {
 			order.setFrozenfunds(list.get(i).getFrozenfunds());
 			order.setUserid(list.get(i).getUserid());
 			order.setFrozencounterfee(list.get(i).getFrozencounterfee());
+			order.setZcounts(list.get(i).getZcounts());
+			order.setFrozendate(list.get(i).getFrozendate());
+			order.setPrice(list.get(i).getPrice());
+			logger.info(list.get(i).getZcounts() + "");
+			logger.info(list.get(i).getPrice() + "");
+			logger.info(list.get(i).getFrozendate() + "");
 			list2.add(order);
 		}
 		return list2;
@@ -93,16 +101,16 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public int getAllOrder() throws Exception {
+	public int getAllOrder(Paging paging) throws Exception {
 		logger.info("查询共有几条记录");
 
-		int counts = ipoOrderMapper.selectByCounts(null);
+		int counts = ipoOrderMapper.selectByCounts(paging.getDealerId());
 		return counts;
 
 	}
 
 	/**
-	 * 查询已冻结资金的订单 
+	 * 查询已冻结资金的订单
 	 */
 	@Override
 	public List<Order> queryUnsettleOrdersByCommId(String commId) throws Exception {

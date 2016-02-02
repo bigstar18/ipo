@@ -48,15 +48,33 @@ $(document).ready(function() {
              align: "center",
              title : '商品名称'
          },{
+			field : 'price',
+			width : 200,
+			align: "center",
+			title : '成交单价'
+		 },{
 			field : 'counts',
 			width : 200,
 			align: "center",
 			title : '已申购数量'
 		 },{
+			field : 'zcounts',
+			width : 200,
+			align: "center",
+			title : '成交数量'
+		},{
 			field : 'createtime',
 			width : 200,
 			align: "center",
 			title :  '申购时间'
+		 },{
+			field : 'frozendate',
+			width : 200,
+			align: "center",
+			title :  '成交时间',
+			formatter: function(value,row){
+	              return value.substr(0,10);
+	          }
 		 },{
 			field : 'frozenfunds',
 			width : 200,

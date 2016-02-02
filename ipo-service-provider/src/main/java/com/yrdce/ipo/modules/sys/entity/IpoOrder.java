@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class IpoOrder {
 	private String orderid;// 订单
@@ -33,6 +34,13 @@ public class IpoOrder {
 	private BigDecimal unfreezefunds;//退还申购金额
 
 	private BigDecimal unfreezefees;//退还手续费
+
+	//以下3个属性不是order表属性，联合查询映射
+	private Date frozendate;
+
+	private BigDecimal price;
+
+	private int zcounts;
 
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;
@@ -153,4 +161,37 @@ public class IpoOrder {
 	public void setUnfreezefees(BigDecimal unfreezefees) {
 		this.unfreezefees = unfreezefees;
 	}
+
+	public int getSale_id() {
+		return sale_id;
+	}
+
+	public void setSale_id(int sale_id) {
+		this.sale_id = sale_id;
+	}
+
+	public Date getFrozendate() {
+		return frozendate;
+	}
+
+	public void setFrozendate(Date frozendate) {
+		this.frozendate = frozendate;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public int getZcounts() {
+		return zcounts;
+	}
+
+	public void setZcounts(int zcounts) {
+		this.zcounts = zcounts;
+	}
+
 }

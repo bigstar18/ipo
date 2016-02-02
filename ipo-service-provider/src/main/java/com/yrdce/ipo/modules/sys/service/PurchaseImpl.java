@@ -57,25 +57,28 @@ public class PurchaseImpl implements Purchase {
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
 	private ThreadLocal<String> applyUser = new ThreadLocal<String>();
 
 	// 时间判断
 	public boolean isInDates(String commodityid) {
 		logger.info("查询商品一列信息");
-		IpoCommodity c = ipoComMapper.selectByComid(commodityid);
+		IpoCommodity commo = ipoComMapper.selectByComid(commodityid);
 		logger.debug("获取开始时间");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 		// 获取开售日期
-		Date ftimeStart1 = c.getStarttime();
-		String ftimeStart = sdf.format(ftimeStart1).replaceAll("-", "");
+		Date ftimeStart1 = commo.getStarttime();
+		String ftimeStart = sdf1.format(ftimeStart1).replaceAll("-", "");
 		int start = Integer.parseInt(ftimeStart);
 		// 获取截至日期
-		Date ftimeEnd1 = c.getEndtime();
-		String ftimrEnd = sdf.format(ftimeEnd1).replaceAll("-", "");
+		Date ftimeEnd1 = commo.getEndtime();
+		String ftimrEnd = sdf1.format(ftimeEnd1).replaceAll("-", "");
 		int end = Integer.parseInt(ftimrEnd);
 		// 获取当前日期
 		Date times = new Date();
-		String time = sdf.format(times).replaceAll("-", "");
+		String time = sdf1.format(times).replaceAll("-", "");
 		int now = Integer.parseInt(time);
 		logger.debug(">>>>>>>>>>>>" + "start:" + start + " " + "end:" + end + " " + "now:" + now);
 		if (now >= start && now <= end) {
@@ -87,7 +90,8 @@ public class PurchaseImpl implements Purchase {
 	// 申购
 	@Override
 	@Transactional
-	public int apply(String userId, String commodityid, Integer counts, Integer id) throws Exception {
+	public int apply(String userId, String commodityid, Integer counts, Integer id)
+			throws Exception {
 		if (applyUser.get() != null)
 			return REPEAT;
 
@@ -103,7 +107,8 @@ public class PurchaseImpl implements Purchase {
 					logger.info("进入重复申购");
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
+					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper
+							.selectCommUnit(commodityid);
 					//IpoCommodity commodity = ipoComMapper.selectByComid(ID);
 					// 获取商品名称
 					//String name = commodity.getCommodityname();
@@ -131,8 +136,9 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal allMoney = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
-					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(userId, commodityid,
-							ChargeConstant.BusinessType.PUBLISH.getCode());
+					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper
+							.selectInfo(userId, commodityid,
+									ChargeConstant.BusinessType.PUBLISH.getCode());
 					BigDecimal fee = new BigDecimal(0);
 					BigDecimal buy = new BigDecimal(0);
 					short tradealgr = 0;
@@ -169,7 +175,7 @@ public class PurchaseImpl implements Purchase {
 							long sequence = ipoOrderMapper.sequence();
 							// 当前时间
 							Timestamp date = new Timestamp(System.currentTimeMillis());
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+
 							String sequence1 = String.format("%04d", sequence);
 							String time = sdf.format(date);
 							String primaryKey = time + sequence1;

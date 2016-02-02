@@ -37,6 +37,7 @@ public class BrokerageReportController {
 			@RequestParam(value = "firmid", required = false) String firmid,
 			@RequestParam("time") String time) {
 		Paging paging = new Paging();
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>查询时间：" + time);
 		paging.setDealerId(firmid);
 		paging.setTime(time);
 		List<Billoflading> billfladInfo = this.billfladInfo(paging);
