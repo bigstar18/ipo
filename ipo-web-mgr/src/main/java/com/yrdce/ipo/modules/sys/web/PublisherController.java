@@ -4,6 +4,7 @@ import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -455,24 +456,59 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/showSettleLists", method = RequestMethod.GET)
-	@ResponseBody
 	public String showSettleLists(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam("publisherid") String publisherid,
-			@RequestParam("queryDate") String queryDate) throws IOException {
+			@RequestParam("queryDate") String queryDate) {
 		if (!"".equals(publisherid)) {
 			PublisherBalance balance = brBrokerService.findBalance(publisherid,
 					queryDate);// 上日和今日资金余额
 			// 获取货款和手续费
 			List<PublisherSettle> paylist = brBrokerService
 					.findLoanAndHandling(publisherid, queryDate);
-			SettleResult result = new SettleResult();
-			result.setBalance(balance);
-			result.setList(paylist);
-			return JSON.json(result);
-		}
-		return null;
+			BigDecimal totalLoan = new BigDecimal(0);
+			for (PublisherSettle temp : paylist) {
+				if (temp.getLoan() == null) {
+					totalLoan = totalLoan.add(new BigDecimal(0));
+				} else {
+					totalLoan = totalLoan.add(temp.getLoan());
+				}
 
+			}
+			request.setAttribute("totalLoan", totalLoan);
+			request.setAttribute("balance", balance);
+			request.setAttribute("paylist", paylist);
+			return "/app/publisherQuery/reportsDetail";
+		} else {
+			List<VBrBroker> brokers = brBrokerService.findAllPublisher();
+			List<SettleResult> settles = new ArrayList<SettleResult>();
+			for (int i = 0; i < brokers.size(); i++) {
+				String publisher = brokers.get(i).getBrokerid();
+				PublisherBalance balance = brBrokerService.findBalance(
+						publisher, queryDate);// 上日和今日资金余额
+				// 获取货款和手续费
+				List<PublisherSettle> paylist = brBrokerService
+						.findLoanAndHandling(publisher, queryDate);
+				BigDecimal totalLoan = new BigDecimal(0);
+				for (PublisherSettle settle : paylist) {
+					if (settle.getLoan() == null) {
+						totalLoan = totalLoan.add(new BigDecimal(0));
+					} else {
+						totalLoan = totalLoan.add(settle.getLoan());
+					}
+
+				}
+				SettleResult result = new SettleResult();
+				result.setBalance(balance);
+				result.setTotalLoan(totalLoan);
+				result.setList(paylist);
+				result.setBroker(brokers.get(i));
+				settles.add(result);
+			}
+			request.setAttribute("settles", settles);
+			request.setAttribute("today", queryDate);
+			return "/app/publisherQuery/reportsDetail";
+		}
 	}
 
 }

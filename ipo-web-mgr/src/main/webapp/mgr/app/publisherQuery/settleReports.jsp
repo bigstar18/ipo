@@ -5,14 +5,30 @@
 <title>发行会员结算表</title>
 <script type="text/javascript">
 
+$(function () {
+    $("#queryDate").datebox({
+   	    editable: false,
+        required: true,
+        missingMessage: "必填项",
+        formatter: function (date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+      }
+     });
+});
+
 function setPublisher(value){
 	$("#publisherid").val(value);
-}
+} 
 
-function query(){
-	
-	document.location.href = '<%=request.getContextPath()%>/PublisherController/showSettleLists?publisherid='+$("#publisherid").val()+'&&queryDate='+$("#queryDate").datebox("getValue");
-}
+ function query(){
+	 var flag= $('#frm').form('validate');
+	 if(flag==true)
+	{
+	document.location.href= '<%=request.getContextPath()%>/PublisherController/showSettleLists?publisherid='+$("#publisherid").val()+'&&queryDate='+$("#queryDate").datebox("getValue");
+	}} 
 
 </script>
 </head>
@@ -48,8 +64,7 @@ function query(){
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">查询日期：</td>
 	        	<td align="left" width="50%">
-	        	 <input style="width:100px;" id="queryDate" name="queryDate"
-	        	  class="easyui-datebox" data-options="required:true,missingMessage:'必填'"/><span class="required">*</span>
+	        	 <input style="width:100px;" type="text" id="queryDate" name="queryDate"/><span class="required">*</span>
 	        	</td>
 	        </tr> 
 		  	<tr>

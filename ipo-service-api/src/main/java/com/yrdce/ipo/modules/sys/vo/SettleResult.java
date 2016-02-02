@@ -11,9 +11,21 @@ public class SettleResult implements Serializable {
 	/*
 	 * 一个返回类，用于返回jquery easyui封装的json串
 	 */
+	private Object broker;
+
 	private Object balance;
 
 	private Object list;
+
+	private Object totalLoan;
+
+	public Object getTotalLoan() {
+		return totalLoan;
+	}
+
+	public void setTotalLoan(Object totalLoan) {
+		this.totalLoan = totalLoan;
+	}
 
 	public Object getBalance() {
 		return balance;
@@ -31,9 +43,18 @@ public class SettleResult implements Serializable {
 		this.list = list;
 	}
 
+	public Object getBroker() {
+		return broker;
+	}
+
+	public void setBroker(Object broker) {
+		this.broker = broker;
+	}
+
 	@Override
 	public String toString() {
-		return "SettleResult [balance=" + balance + ", list=" + list + "]";
+		return "SettleResult [broker=" + broker + ", balance=" + balance
+				+ ", list=" + list + ", totalLoan=" + totalLoan + "]";
 	}
 
 }

@@ -184,7 +184,7 @@
        where id=#{id}
   </select>
   
-    <select id="selectPayFlowByPublisher" resultMap="IpoPublisherSettleMap"  parameterType="map" >
+    <select id="selectPublisherSettleByPublisher" resultMap="IpoPublisherSettleMap"  parameterType="map" >
    select b.*,e.pay from (select a.commodity_id, sum(a.amount) debit
     from (select d.* from ipo_commodity_conf t  left join ipo_debitflow d   on d.commodity_id = t.commodityid  where t.pubmemberid = #{pubmemberid,jdbcType=VARCHAR}
     and d.business_type = '002'  and d.charge_type = '001'   and d.debit_state = '2'  and d.debit_mode = '1'    and d.debit_channel = '1'

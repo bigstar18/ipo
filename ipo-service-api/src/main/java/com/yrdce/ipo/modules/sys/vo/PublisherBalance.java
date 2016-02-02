@@ -11,17 +11,17 @@ import java.math.BigDecimal;
  */
 public class PublisherBalance implements Serializable {
 
-	private String brokerid;
+	private String brokerid;// 发行商代码
 
-	private String firmid;
+	private String firmid;// 交易商代码
 
-	private String name;
+	private String name;// 发行商名称
 
-	private BigDecimal yesterdaybalance;
+	private BigDecimal yesterdaybalance;// 上日余额
 
-	private BigDecimal todaybalance;
+	private BigDecimal todaybalance;// 当日余额
 
-	private String today;
+	private String today;// 日期
 
 	public String getBrokerid() {
 		return brokerid;
