@@ -285,7 +285,7 @@
 		from (
 		select conf.* from ipo_commodity_conf conf
 		join ipo_commodity_sale sa on (conf.commodityid=sa.commodityid)
-		where sa.status=4  
+		where 1=1 
 	     <![CDATA[ 
 			and to_char(conf.listingdate,'yyyymmdd') <=to_char(sysdate,'yyyymmdd')
 		 ]]>
