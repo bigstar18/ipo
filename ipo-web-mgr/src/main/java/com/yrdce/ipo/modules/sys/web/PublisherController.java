@@ -460,6 +460,8 @@ public class PublisherController {
 			HttpServletResponse response,
 			@RequestParam("publisherid") String publisherid,
 			@RequestParam("queryDate") String queryDate) {
+		List<VBrBroker> brokers = brBrokerService.findAllPublisher();
+		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(publisherid)) {
 			PublisherBalance balance = brBrokerService.findBalance(publisherid,
 					queryDate);// 上日和今日资金余额
@@ -475,13 +477,20 @@ public class PublisherController {
 				}
 
 			}
-			request.setAttribute("totalLoan", totalLoan);
-			request.setAttribute("balance", balance);
-			request.setAttribute("paylist", paylist);
+			SettleResult result = new SettleResult();
+			result.setBalance(balance);
+			result.setTotalLoan(totalLoan);
+			result.setList(paylist);
+			for (VBrBroker broker : brokers) {
+				if (publisherid.equals(broker.getBrokerid())) {
+					result.setBroker(broker);
+				}
+			}
+			settles.add(result);
+			request.setAttribute("settles", settles);
+			request.setAttribute("today", queryDate);
 			return "/app/publisherQuery/reportsDetail";
 		} else {
-			List<VBrBroker> brokers = brBrokerService.findAllPublisher();
-			List<SettleResult> settles = new ArrayList<SettleResult>();
 			for (int i = 0; i < brokers.size(); i++) {
 				String publisher = brokers.get(i).getBrokerid();
 				PublisherBalance balance = brBrokerService.findBalance(

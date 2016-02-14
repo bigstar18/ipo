@@ -108,20 +108,7 @@ function returnToPage(){
 <br>
 <br>
 
-
-
-
 </c:forEach>
-
-
-
-
-
-
-
-
-
-
 						
 						</td>
 					 </tr>
