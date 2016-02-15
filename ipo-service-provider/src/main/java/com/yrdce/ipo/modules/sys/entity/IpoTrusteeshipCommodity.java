@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 /**
- * 托管商品
+ * 托管商品计划
  * @author wq
  *
  */

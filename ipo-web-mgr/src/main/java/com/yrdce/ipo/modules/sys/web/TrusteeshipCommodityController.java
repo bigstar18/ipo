@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,10 +227,13 @@ public class TrusteeshipCommodityController {
 		ship.setCommodityName(request.getParameter("commodityName"));
 		if(request.getParameter("state")!=null){
 			ship.setState(Integer.parseInt(request.getParameter("state")));
-		}
+		};
+		if(request.getParameter("states")!=null){
+			ship.setStates(request.getParameter("states"));
+		};
 		if(request.getParameter("warehouseId")!=null){
 			ship.setWarehouseId(Long.parseLong(request.getParameter("warehouseId")));
-		}
+		};
 		ship.setBeginCreateDate(request.getParameter("beginCreateDate"));
 		ship.setEndCreateDate(request.getParameter("endCreateDate"));
 		ship.setBeginAuditingDate(request.getParameter("beginAuditingDate"));
@@ -245,6 +249,8 @@ public class TrusteeshipCommodityController {
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
+	
+	
 	
 	
 	
@@ -365,6 +371,63 @@ public class TrusteeshipCommodityController {
 	}
 	
 	
+	/**
+	 * 预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/prereduce")
+	public String prereduce(HttpServletRequest request,Model model){
+		StringBuilder states= new StringBuilder();
+		states.append(TrusteeshipConstant.State.INCREASE.getCode());
+		states.append(",");
+		states.append(TrusteeshipConstant.State.REDUCTION.getCode());
+		model.addAttribute("states", states);
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		return "app/trusteeship/prereduce";
+	}
+	
+	/**
+	 * 添加预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addPrereduce")
+	public String addPrereduce(HttpServletRequest request,Model model){
+		Long id = Long.valueOf(request.getParameter("id"));
+		Trusteeship entity=trusteeshipCommodityService.findTrusteeshipById(id);
+		model.addAttribute("entity", entity);
+		return "app/trusteeship/add_prereduce";
+	}
+	
+	/**
+	 * 保存预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/savePrereduce")
+	@ResponseBody
+	public String savePrereduce(HttpServletRequest request,Model model){
+		try {
+			Long id = Long.valueOf(request.getParameter("id"));
+			String reduceDate =  request.getParameter("reduceDate");
+			String reduceRatio = request.getParameter("reduceRatio");
+			Trusteeship param = new Trusteeship();
+			param.setId(id);
+			param.setReduceDate(DateUtils.parseDate(reduceDate, "yyyy-MM-dd"));
+			param.setReduceRatio(new BigDecimal(reduceRatio));
+			param.setUpdateUser(getLoginUserId(request));
+			trusteeshipCommodityService.savePrereduce(param);
+		} catch (Exception e) {
+			logger.error("savePrereduce error:"+e);
+			return "error";
+		}
+		return "success";
+	}
 	
 	
 	

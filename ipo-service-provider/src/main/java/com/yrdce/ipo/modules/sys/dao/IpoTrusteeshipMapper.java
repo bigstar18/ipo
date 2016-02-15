@@ -47,6 +47,11 @@ public interface IpoTrusteeshipMapper {
 	public void updateApplyState(@Param("ship")Trusteeship ship);
 	
 	/**
+	 * 预减持设置
+	 * @param ship
+	 */
+	public void savePrereduce(@Param("ship")Trusteeship ship);
+	/**
 	 * 查找
 	 * @param id
 	 * @return

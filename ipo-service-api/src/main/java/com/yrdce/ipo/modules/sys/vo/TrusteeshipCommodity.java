@@ -3,7 +3,11 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * 托管计划
+ * @author wq 2016-2-15
+ *
+ */
 public class TrusteeshipCommodity implements Serializable {
 	private static final long serialVersionUID = 5164987906151243891L;
 	/**

@@ -389,6 +389,7 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		IpoTrusteeship dbShip = shipMapper.get(id);
 		Trusteeship ship = new Trusteeship();
 		BeanUtils.copyProperties(dbShip, ship);
+		ship.setStateName(TrusteeshipConstant.State.getName(ship.getState()));
 		return ship;
 	}
 
@@ -412,6 +413,19 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return dbShip;
 	}
 
+	/**
+	 * 预减持设置
+	 * @param ship
+	 * @throws Exception
+	 */
+	@Transactional
+	public void savePrereduce(Trusteeship ship) throws Exception {
+		ship.setState(TrusteeshipConstant.State.REDUCTION.getCode());
+		ship.setUpdateDate(new Date());
+		shipMapper.savePrereduce(ship);
+	}
+	
+	
 	// 判断余额是否充足
 	private void validateBalance(String firmId, BigDecimal charge) throws Exception {
 		FFirmfunds firmfunds = firmfundsMapper.selectByPrimaryKey(firmId);
@@ -441,4 +455,13 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		return money;
 	}
 
+	
+	
+
+	
+	
+	
+	
+	
+	
 }

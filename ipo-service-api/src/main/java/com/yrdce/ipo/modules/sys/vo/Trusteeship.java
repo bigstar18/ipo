@@ -34,9 +34,14 @@ public class Trusteeship implements Serializable {
 	 */
 	private BigDecimal publishCharge;
 	/**
-	 * 申请的状态1:申请,2:撤销,3:仓库初审通过,4:仓库初审驳回, 5:仓库终审通过,6:仓库终审驳回,7:已增持加仓,8:已设置预减持
+	 * 申请的状态 1:申请,2:撤销,3:仓库初审通过,4:仓库初审驳回,5:仓库终审通过,6:仓库终审驳回, 7:市场审核通过,8:市场审核驳回,9:已增持加仓,10:已设置预减持
+	 * 
 	 */
 	private int state;
+	/**
+	 * 多个申请的状态，用逗号分隔,例如 9,10 
+	 */
+	private String states;
 	/**
 	 * 状态名称
 	 */
@@ -112,6 +117,15 @@ public class Trusteeship implements Serializable {
 	 */
 	private Date auditingDate;
 	/**
+	 * 预减持日期
+	 */
+	private Date reduceDate;
+	/**
+	 * 预减持百分比
+	 */
+	private BigDecimal reduceRatio;
+	
+	/**
 	 * 申请时间
 	 */
 	private String beginCreateDate;
@@ -172,6 +186,15 @@ public class Trusteeship implements Serializable {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	
+	public String getStates() {
+		return states;
+	}
+
+	public void setStates(String states) {
+		this.states = states;
 	}
 
 	public Long getWarehouseId() {
@@ -276,6 +299,22 @@ public class Trusteeship implements Serializable {
 
 	public void setAuditingDate(Date auditingDate) {
 		this.auditingDate = auditingDate;
+	}
+
+	public Date getReduceDate() {
+		return reduceDate;
+	}
+
+	public void setReduceDate(Date reduceDate) {
+		this.reduceDate = reduceDate;
+	}
+
+	public BigDecimal getReduceRatio() {
+		return reduceRatio;
+	}
+
+	public void setReduceRatio(BigDecimal reduceRatio) {
+		this.reduceRatio = reduceRatio;
 	}
 
 	public String getBeginCreateDate() {
