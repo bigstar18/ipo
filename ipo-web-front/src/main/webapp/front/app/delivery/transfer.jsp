@@ -13,7 +13,7 @@
 			td{white-space:normal}
 			.mbody{border:1px solid #95b8e7;background:#f4f4f4}
 			.deliveryInfo{display:none}
-			#add,#close{width:90pt;height:25px;border-radius:3px;background:#fff}
+			#add,#close{width:90px;height:25px;border-radius:3px;background:#fff}
     </style>
     <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>

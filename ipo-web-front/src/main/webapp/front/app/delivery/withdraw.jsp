@@ -37,6 +37,7 @@ input {
 body {
 	height: 700px;
 }
+#postbtn,#postrest{width:80px !important;height:25px;border-radius:3px;background:#fff}
 </style>
 <script type="text/javascript" src="${ctxStatic}/jquery/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js"></script>
@@ -130,10 +131,10 @@ body {
 					</tr>
 					<tr>
 						<td align="center" height="35" width="100">
-							<button id="postbtn">提交</button>
+							<input type="button" id="postbtn" value="提交"/>
 					</td>
 						<td align="center" height="35" width="100">
-							<button id="postrest">重置</button>
+							<input type="button" id="postrest" value="重置"/>
 					</td>
 					</tr>
 				</tbody>
