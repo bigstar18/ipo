@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoPositionReduceMapper">
+	<resultMap id="PositionReduceResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPositionReduce">
+		<result column="id" property="id" />
+		<result column="positionflow_id" property="positionFlowId" />
+		<result column="ratio" property="ratio" />
+		<result column="reduceqty" property="reduceqty" />
+		<result column="reduce_date" property="reduceDate" />
+		<result column="state" property="state" />
+		<result column="create_user" property="createUser" />
+		<result column="create_date" property="createDate" />
+		<result column="update_user" property="updateUser" />
+		<result column="update_date" property="updateDate" />
+	</resultMap>
+
+
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.vo.PositionReduce" >
+	  <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+		select seq_ipo_positionreduce.nextval from dual
+      </selectKey>
+      insert into ipo_positionreduce(
+          id, positionflow_id, ratio, reduceqty,reduce_date, state, 
+          create_user,create_date, delete_flag)
+      values(
+          #{id,jdbcType=INTEGER},#{positionFlowId},#{ratio},#{reduceqty},#{reduceDate},#{state},
+          #{createUser},#{createDate,jdbcType=TIMESTAMP},#{deleteFlag}
+      )
+  </insert>
+
+
+   <select id="queryForList" resultMap="PositionReduceResultMap"  parameterType="map" >
+            select pr.id, pr.positionflow_id, pr.ratio, pr.reduceqty, pr.reduce_date, pr.state, pr.create_user, pr.create_date, 
+			       pr.update_user, pr.update_date
+			from ipo_positionreduce pr
+			where pr.delete_flag=0
+			<if test="param.positionFlowId!=null and param.positionFlowId!='' ">
+				 and pr.positionflow_id=#{param.positionFlowId}
+			</if>
+			order by pr.create_date desc
+  </select>
+  
+
+
+
+</mapper>
