@@ -27,6 +27,7 @@
     <result column="position_amount" property="positionAmount"  />
     <result column="publish_charge" property="publishCharge"  />
     <result column="listing_charge" property="listingCharge"  />
+    <result column="price" property="price"  />
     <result column="delete_flag" property="deleteFlag"  />
     <result column="pay_goods_id" property="payGoodsId"  />
     <result column="pay_goods_state" property="payGoodsState"  />
@@ -173,7 +174,7 @@
   
   <select id="get" resultMap="IpoTrusteeshipResultMap"  parameterType="java.lang.Long" >
       select ship.id,ship.commodity_id,comm.commodityname,ship.create_user,firm.name as create_user_name,
-             to_char(firm.mobile) as create_user_mobile,ship.listing_charge,
+             to_char(firm.mobile) as create_user_mobile,ship.listing_charge,ship.price,
              ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
 		     trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,
 		     ship.warehouse_id,biware.warehousename,

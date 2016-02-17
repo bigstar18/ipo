@@ -17,24 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipHisMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoTrusteeshipMapper;
 import com.yrdce.ipo.modules.sys.entity.FFirmfunds;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeship;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoTrusteeshipHis;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
 import com.yrdce.ipo.throwable.BalanceNotEnoughException;
@@ -56,17 +57,15 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 	@Autowired
 	private IpoTrusteeshipHisMapper shipHisMapper;
 	@Autowired
-	private IpoPositionMapper positionMapper;
-	@Autowired
 	private IpoCommodityConfMapper commodityConfMapper;
-	@Autowired
-	private IpoPositionMapper ipoPositionMapper;
 	@Autowired
 	private IpoPayFlowMapper payFlowMapper;
 	@Autowired
 	private IpoDebitFlowMapper debitFlowMapper;
 	@Autowired
 	private FFirmfundsMapper firmfundsMapper;
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 
 	/**
 	 * 分页查询查询托管商品计划
@@ -340,29 +339,26 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		// 保存操作前的状态
 		IpoTrusteeship dbShip = saveHis(ship.getId(), ship.getUpdateUser());
 		// 商品信息
-		IpoCommodityConf dbCommodityConf = commodityConfMapper.findIpoCommConfByCommid(dbShip.getCommodityId());
+		//IpoCommodityConf dbCommodityConf = commodityConfMapper.findIpoCommConfByCommid(dbShip.getCommodityId());
 		// 更新状态
 		ship.setState(TrusteeshipConstant.State.INCREASE.getCode());
 		ship.setUpdateDate(new Date());
 		shipMapper.updateApplyState(ship);
 		// 保存持仓信息
-		IpoPosition dbPosition = ipoPositionMapper.selectPosition(dbShip.getCreateUser(), dbShip.getCommodityId());
-		if (dbPosition != null) {
-			long amount = dbPosition.getPosition() + dbShip.getPositionAmount();
-			ipoPositionMapper.updatePosition(dbShip.getCreateUser(), dbShip.getCommodityId(), amount);
-		} else {
-			IpoPosition position = new IpoPosition();
-			position.setCommodityid(dbShip.getCommodityId());
-			position.setFirmid(dbShip.getCreateUser());
-			position.setPosition(dbShip.getPositionAmount());
-			position.setCommodityname(dbCommodityConf.getCommodityname());
-			position.setPositionUnit(dbCommodityConf.getContractfactorname());
-			if (dbShip.getPrice() != null) {
-				position.setPositionPrice(dbShip.getPrice());
-			}
-			positionMapper.insert(position);
-		}
-
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
+		positionFlow.setCommodityId(dbShip.getCommodityId());
+		positionFlow.setFirmId(dbShip.getCreateUser());
+		positionFlow.setHoldqty(dbShip.getPositionAmount());
+		positionFlow.setPrice(dbShip.getPrice());
+		positionFlow.setFrozenqty(dbShip.getPositionAmount());
+		positionFlow.setCreateUser(ship.getUpdateUser());
+		positionFlow.setCreateDate(new Date());
+		positionFlow.setRemark("托管转持仓");
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.TRUSTEESHIP.getCode());
+		positionFlow.setRoleCode(ChargeConstant.RoleType.TRADER.getCode());
+		positionFlowMapper.insert(positionFlow);
+		
 		//计算托管商品的货款
 		Long effective = dbShip.getEffectiveAmount();
 		BigDecimal amount = dbShip.getPrice().multiply(new BigDecimal(effective));
