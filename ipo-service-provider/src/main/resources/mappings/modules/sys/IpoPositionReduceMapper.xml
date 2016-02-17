@@ -12,6 +12,8 @@
 		<result column="create_date" property="createDate" />
 		<result column="update_user" property="updateUser" />
 		<result column="update_date" property="updateDate" />
+		<result column="firmid" property="firmId" />
+		<result column="commodityid" property="commodityId" />
 	</resultMap>
 
 
@@ -22,26 +24,38 @@
       </selectKey>
       insert into ipo_positionreduce(
           id, positionflow_id, ratio, reduceqty,reduce_date, state, 
-          create_user,create_date, delete_flag)
+          create_user,create_date)
       values(
           #{id,jdbcType=INTEGER},#{positionFlowId},#{ratio},#{reduceqty},#{reduceDate},#{state},
-          #{createUser},#{createDate,jdbcType=TIMESTAMP},#{deleteFlag}
+          #{createUser},#{createDate,jdbcType=TIMESTAMP}
       )
   </insert>
 
 
    <select id="queryForList" resultMap="PositionReduceResultMap"  parameterType="map" >
             select pr.id, pr.positionflow_id, pr.ratio, pr.reduceqty, pr.reduce_date, pr.state, pr.create_user, pr.create_date, 
-			       pr.update_user, pr.update_date
+			       pr.update_user, pr.update_date,
+             	   pf.firmid,pf.commodityid
 			from ipo_positionreduce pr
+      		left join ipo_positionflow pf on (pr.positionflow_id=pf.id)
 			where pr.delete_flag=0
 			<if test="param.positionFlowId!=null and param.positionFlowId!='' ">
 				 and pr.positionflow_id=#{param.positionFlowId}
+			</if>
+			<if test="param.commodityId!=null and param.commodityId!='' ">
+				 and pf.commodityid=#{param.commodityId}
 			</if>
 			order by pr.create_date desc
   </select>
   
 
 
-
+  <delete id="deleteById" parameterType="com.yrdce.ipo.modules.sys.vo.PositionReduce" >
+      update ipo_positionreduce pr 
+      set pr.delete_flag=1,pr.update_user=#{updateUser},pr.update_date=#{updateDate,jdbcType=TIMESTAMP} 
+      where pr.id=#{id}
+  </delete>
+  
+  
+  
 </mapper>

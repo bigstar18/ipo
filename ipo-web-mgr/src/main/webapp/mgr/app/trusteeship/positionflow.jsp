@@ -74,7 +74,7 @@
   
   
   function add(id){
-	  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/positionReduce?positionFlowId='+id;
+	  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/reduce?positionFlowId='+id;
 	  window.location.href=url_; 
   }
   

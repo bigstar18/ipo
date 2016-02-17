@@ -76,6 +76,10 @@ public class PositionFlow implements Serializable {
 	 * 修改时间
 	 */
 	private Date updateDate;
+	/**
+	 * 备注
+	 */
+	private String remark;
 	
 	public PositionFlow() {
 	}
@@ -198,6 +202,14 @@ public class PositionFlow implements Serializable {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

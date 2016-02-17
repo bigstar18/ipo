@@ -13,7 +13,7 @@
   <script type="text/javascript">
   
   var positionFlowId_='${positionFlowId}';
-  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/queryPositionReduce';
+  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/queryReduce';
   url_+='?positionFlowId='+positionFlowId_+'&t='+Math.random();
   
   $(document).ready(function() {
@@ -39,7 +39,7 @@
           title: '持仓单号',
           width : '200',
           align: 'center'
-        }, {
+        },{
           field: 'firmId',
           title: '客户代码',
           width : '200',
@@ -74,6 +74,17 @@
           title: '状态',
           width : '200',
           align: 'center' 
+        },{
+            field: 'oper',
+            title: '操作',
+            align: 'center',
+            formatter: function(value, row, index) {
+               if(row.state==1){
+            	   return "<a href=\"#\" onclick=\"deleteById("+row.id+")\">" + "删除" + "</a>";
+               }else{
+            	   return "";
+               }	
+            }
         }]
       ]
     });
@@ -87,16 +98,44 @@
   
   
   function add(){
-	  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/positionReduceIndex';
+	  var url_='<%=request.getContextPath()%>/trusteeshipCommodityController/addReduce?positionFlowId='+positionFlowId_;
 	  window.location.href=url_; 
   }
+  
+  
+  function deleteById(id){
+		
+	  if(!confirm('确定删除?')){
+		 return false;
+	  }	; 
+ 	  $.ajax({  
+		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/deleteReduce",  
+		    data:{"id":id},  
+		    type: 'POST',dataType: 'text',  
+		    success : function(data, stats) {  
+	             if(data=="success"){
+	            	 alert('删除成功');
+	            	 doSearch();
+	             }else{
+	            	 alert('删除失败');
+	             }
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	              alert('系统异常!');
+	        }
+		});  
+   }
+  
+  function back(){
+	  history.go(-1);
+  };
   
   
   function doSearch(){
     	$('#dg').datagrid('load',{
     		commodityId:$('#commodityId').val()
     	});
-   }
+  };
   
  
   </script>
@@ -115,7 +154,8 @@
 			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:80px">&nbsp;
 			<input type="hidden">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add();" id="add">添加</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="back()">返还</a>							
 		</form> 
 		</div>
 	</div>

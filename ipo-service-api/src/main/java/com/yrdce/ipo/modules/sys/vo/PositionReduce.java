@@ -63,6 +63,19 @@ public class PositionReduce implements Serializable {
 	 */
 	private int deleteFlag;
 	
+	
+	// ------other--------
+	/**
+	 * 客户代码
+	 */
+	private String firmId;
+	/**
+	 * 商品代码
+	 */
+	private String commodityId;
+	
+	
+	
 	public PositionReduce() {
 	}
 
@@ -160,6 +173,22 @@ public class PositionReduce implements Serializable {
 
 	public void setStateName(String stateName) {
 		this.stateName = stateName;
+	}
+
+	public String getFirmId() {
+		return firmId;
+	}
+
+	public void setFirmId(String firmId) {
+		this.firmId = firmId;
+	}
+
+	public String getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId;
 	}
 	
 	

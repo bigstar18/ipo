@@ -473,11 +473,11 @@ public class TrusteeshipCommodityController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/positionReduce")
-	public String positionReduce(HttpServletRequest request,Model model){
+	@RequestMapping(value = "/reduce")
+	public String reduce(HttpServletRequest request,Model model){
 		String positionFlowId=request.getParameter("positionFlowId");
 		model.addAttribute("positionFlowId", positionFlowId);
-		return "app/trusteeship/positionreduce";
+		return "app/trusteeship/reduce";
 	}
 	
 	
@@ -487,9 +487,9 @@ public class TrusteeshipCommodityController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/queryPositionReduce")
+	@RequestMapping(value = "/queryReduce")
 	@ResponseBody
-	public String queryPositionReduce(HttpServletRequest request) throws Exception {
+	public String queryReduce(HttpServletRequest request) throws Exception {
 			
 		PositionReduce positionReduce = new PositionReduce();
 		positionReduce.setPositionFlowId(Long.valueOf(request.getParameter("positionFlowId")));
@@ -503,6 +503,86 @@ public class TrusteeshipCommodityController {
 	
 	
 	
+	/**
+	 * 跳转到 新增减持仓页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addReduce")
+	public String addReduce(HttpServletRequest request,Model model){
+		Long positionFlowId=Long.valueOf(request.getParameter("positionFlowId"));
+		PositionFlow flow =positionService.findFlow(positionFlowId);
+		model.addAttribute("flow", flow);
+		
+		return "app/trusteeship/add_reduce";
+	}
+	
+	
+	/**
+	 * 保存 减持仓设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/saveReduce")
+	@ResponseBody
+	public String saveReduce(HttpServletRequest request,Model model){
+		try {
+			Long positionFlowId = Long.valueOf(request.getParameter("positionFlowId"));
+			String reduceDate =  request.getParameter("reduceDate");
+			BigDecimal ratio = new BigDecimal(request.getParameter("ratio"));
+			String reduceqty=request.getParameter("reduceqty");
+			//验证输入的减持比例
+			PositionReduce positionReduce = new PositionReduce();
+			positionReduce.setPositionFlowId(positionFlowId);
+			List<PositionReduce> dataList=positionService.queryReduceForList(positionReduce);
+			BigDecimal ratioSum=new BigDecimal("0");
+			if(dataList!=null&&!dataList.isEmpty()){
+				for(PositionReduce item:dataList){
+					ratioSum=ratioSum.add(item.getRatio());
+				}
+			}; 
+			if(ratioSum.add(ratio).intValue()>100){
+				return "001";
+			};
+			
+			PositionReduce param = new PositionReduce();
+			param.setPositionFlowId(positionFlowId);
+			param.setReduceDate(DateUtils.parseDate(reduceDate, "yyyy-MM-dd"));
+			param.setRatio(ratio);
+			param.setReduceqty(Long.valueOf((reduceqty)));
+			param.setCreateUser(getLoginUserId(request));
+			positionService.savePositionReduce(param);
+		} catch (Exception e) {
+			logger.error("saveReduce error:"+e);
+			return "error";
+		}
+		return "success";
+	}
+	
+	
+    /**
+     * 删除减持仓设置
+     * @param request
+     * @param model
+     * @return
+     */
+	@RequestMapping(value = "/deleteReduce")
+	@ResponseBody
+	public String deleteReduce(HttpServletRequest request,Model model){
+		try {
+			Long id = Long.valueOf(request.getParameter("id"));
+			PositionReduce param = new PositionReduce();
+			param.setId(id);
+			param.setUpdateUser(getLoginUserId(request));
+			positionService.deletePositionReduce(param);
+		} catch (Exception e) {
+			logger.error("deleteReduce error:"+e);
+			return "error";
+		}
+		return "success";
+	}
 	
 	
 	

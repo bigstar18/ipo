@@ -18,6 +18,14 @@ public interface PositionService {
 	public List<PositionFlow> queryFlowForList(PositionFlow positionFlow);
 	
 	/**
+	 * 查找
+	 * @param id
+	 * @return
+	 */
+	public PositionFlow findFlow(Long id);
+	
+	
+	/**
 	 * 分页查询 ipo 持仓流水
 	 * @param pageNoStr
 	 * @param pageSizeStr
@@ -51,6 +59,11 @@ public interface PositionService {
 	 * @return
 	 */
 	public int savePositionReduce(PositionReduce positionReduce);
-	
+	/**
+	 * 逻辑删除减持仓设置
+	 * @param positionReduce
+	 * @return
+	 */
+	public int deletePositionReduce(PositionReduce positionReduce);
 	
 }

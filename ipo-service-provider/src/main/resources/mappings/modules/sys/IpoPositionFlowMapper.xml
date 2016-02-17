@@ -15,6 +15,7 @@
 		<result column="create_date" property="createDate" />
 		<result column="update_user" property="updateUser" />
 		<result column="update_date" property="updateDate" />
+		<result column="remark" property="remark" />
 		
 	</resultMap>
 
@@ -25,10 +26,10 @@
       </selectKey>
       insert into ipo_positionflow(
           id, firmid, holdqty, business_code, role_code, commodityid,  
-          price,create_user, create_date, state, frozenqty
+          price,create_user, create_date, state, frozenqty,remark
       )values(
            #{id,jdbcType=INTEGER},#{firmId},#{holdqty},#{businessCode},#{roleCode},#{commodityId},
-           #{price},#{createUser},#{createDate,jdbcType=TIMESTAMP},#{state},#{frozenqty}
+           #{price},#{createUser},#{createDate,jdbcType=TIMESTAMP},#{state},#{frozenqty},#{remark}
       )
   </insert>
 
@@ -36,7 +37,7 @@
    <select id="queryForList" resultMap="PositionFlowResultMap"  parameterType="map" >
             select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
                    pf.commodityid,pf.price,pf.create_user,pf.create_date,
-			       pf.update_user,pf.update_date,pf.state,pf.frozenqty
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark
 			from ipo_positionflow pf
 	        where 1=1
 			<if test="param.businessCode!=null and param.businessCode!='' ">
@@ -51,6 +52,9 @@
 			<if test="param.state>0 ">
 				and  pf.state=#{param.state} 
 			</if>
+			<if test="param.id!=null and param.id!='' ">
+				 and pf.id=#{param.id}
+			</if>
 			order by pf.create_date desc
   </select>
   
@@ -61,7 +65,7 @@
            select pg.*,rownum as row_num from (
 	            select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
                    pf.commodityid,pf.price,pf.create_user,pf.create_date,
-			       pf.update_user,pf.update_date,pf.state,pf.frozenqty
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark
 				from ipo_positionflow pf
 		        where 1=1
 				<if test="param.businessCode!=null and param.businessCode!='' ">

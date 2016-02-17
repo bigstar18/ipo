@@ -59,6 +59,16 @@ public class IpoPositionReduce implements Serializable {
 	 * 删除标记 0:有效 1:无效
 	 */
 	private int deleteFlag;
+	
+	// ------other--------
+	/**
+	 * 客户代码
+	 */
+	private String firmId;
+	/**
+	 * 商品代码
+	 */
+	private String commodityId;
 
 	public IpoPositionReduce() {
 	}
@@ -149,6 +159,22 @@ public class IpoPositionReduce implements Serializable {
 
 	public void setDeleteFlag(int deleteFlag) {
 		this.deleteFlag = deleteFlag;
+	}
+
+	public String getFirmId() {
+		return firmId;
+	}
+
+	public void setFirmId(String firmId) {
+		this.firmId = firmId;
+	}
+
+	public String getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId;
 	}
 
 	

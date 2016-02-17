@@ -178,10 +178,11 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		trusteeship.setCreateDate(new Date());
 		trusteeship.setState(TrusteeshipConstant.State.APPLY.getCode());
 		Long effectiveAmount = new BigDecimal(instorageAmount).multiply(purchaseRate).divide(new BigDecimal(100)).longValue();
-		// 挂牌费=入库数量*发行价格*挂牌费比例
+		Long positionAmount=instorageAmount - effectiveAmount;
+		// 挂牌费=持仓数量*发行价格*挂牌费比例
 		BigDecimal listingChargeRate = shipCommodity.getListingChargeRate();
 		if (listingChargeRate != null) {
-			BigDecimal listingCharge = new BigDecimal(instorageAmount).multiply(trusteeship.getPrice()).multiply(listingChargeRate)
+			BigDecimal listingCharge = new BigDecimal(positionAmount).multiply(trusteeship.getPrice()).multiply(listingChargeRate)
 					.divide(new BigDecimal(100));
 			trusteeship.setListingCharge(listingCharge);
 		}
@@ -195,11 +196,11 @@ public class TrusteeshipCommodityImpl implements TrusteeshipCommodityService {
 		} else {
 			publishCharge = commConf.getPrice().multiply(new BigDecimal(instorageAmount)).multiply(commConf.getPublishercharatio())
 					.divide(new BigDecimal(100));
-		}
-		;
+		};
+		
 		trusteeship.setPublishCharge(publishCharge);
 		trusteeship.setEffectiveAmount(effectiveAmount);
-		trusteeship.setPositionAmount(instorageAmount - effectiveAmount);
+		trusteeship.setPositionAmount(positionAmount);
 
 		return shipMapper.insertApply(trusteeship);
 	}

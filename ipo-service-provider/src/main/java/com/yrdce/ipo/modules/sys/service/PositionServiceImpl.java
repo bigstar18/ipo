@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -48,6 +49,28 @@ public class PositionServiceImpl implements PositionService {
 	
 	
 	/**
+	 * 查找
+	 * @param id
+	 * @return
+	 */
+	public PositionFlow findFlow(Long id) {
+		PositionFlow positionFlow = new PositionFlow ();
+		positionFlow.setId(id);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForList(positionFlow);
+		if(dbList!=null&&!dbList.isEmpty()){
+			IpoPositionFlow item = dbList.get(0);
+			PositionFlow entity = new PositionFlow();
+			BeanUtils.copyProperties(item, entity);
+			entity.setFreeqty(entity.getHoldqty()-entity.getFrozenqty());
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
+			return entity;
+		}
+		return null;
+	}
+	
+	
+	
+	/**
 	 * 分页查询 ipo 持仓流水
 	 * @param pageNoStr
 	 * @param pageSizeStr
@@ -88,7 +111,6 @@ public class PositionServiceImpl implements PositionService {
 	@Transactional
 	public int savePositionFlow(PositionFlow positionFlow) {
 		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
-		positionFlow.setFrozenqty(0L);
 		return positionFlowMapper.insert(positionFlow);
 	}
 	
@@ -119,12 +141,25 @@ public class PositionServiceImpl implements PositionService {
 	@Transactional
 	public int savePositionReduce(PositionReduce positionReduce){
 		positionReduce.setState(PositionConstant.ReduceState.no_reduce.getCode());
-		positionReduce.setDeleteFlag(0);
+		if(positionReduce.getCreateDate()==null){
+			positionReduce.setCreateDate(new Date());
+		};
 		return positionReduceMapper.insert(positionReduce);
 	}
 	
 	
-	
+	/**
+	 * 逻辑删除减持仓设置
+	 * @param positionReduce
+	 * @return
+	 */
+	@Transactional
+	public int deletePositionReduce(PositionReduce positionReduce) {
+		if(positionReduce.getUpdateDate()==null){
+			positionReduce.setUpdateDate(new Date());
+		}; 
+		return positionReduceMapper.deleteById(positionReduce);
+	}
 	
 	
 	
