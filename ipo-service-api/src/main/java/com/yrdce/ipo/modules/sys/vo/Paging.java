@@ -12,8 +12,6 @@ public class Paging implements Serializable {
 
 	private String deliveryorderId;
 
-	private String time;
-
 	public String getDealerId() {
 		return dealerId;
 	}
@@ -28,14 +26,6 @@ public class Paging implements Serializable {
 
 	public void setDeliveryorderId(String deliveryorderId) {
 		this.deliveryorderId = deliveryorderId;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 }

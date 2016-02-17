@@ -19,6 +19,14 @@ public class SettleResult implements Serializable {
 
 	private Object totalLoan;
 
+	private Object billfladInfo;
+
+	private Object deliveryInfo;
+
+	private Object holdInfo;
+
+	private Object releaInfo;
+
 	public Object getTotalLoan() {
 		return totalLoan;
 	}
@@ -51,10 +59,42 @@ public class SettleResult implements Serializable {
 		this.broker = broker;
 	}
 
+	public Object getBillfladInfo() {
+		return billfladInfo;
+	}
+
+	public void setBillfladInfo(Object billfladInfo) {
+		this.billfladInfo = billfladInfo;
+	}
+
+	public Object getDeliveryInfo() {
+		return deliveryInfo;
+	}
+
+	public void setDeliveryInfo(Object deliveryInfo) {
+		this.deliveryInfo = deliveryInfo;
+	}
+
+	public Object getHoldInfo() {
+		return holdInfo;
+	}
+
+	public void setHoldInfo(Object holdInfo) {
+		this.holdInfo = holdInfo;
+	}
+
+	public Object getReleaInfo() {
+		return releaInfo;
+	}
+
+	public void setReleaInfo(Object releaInfo) {
+		this.releaInfo = releaInfo;
+	}
+
 	@Override
 	public String toString() {
-		return "SettleResult [broker=" + broker + ", balance=" + balance
-				+ ", list=" + list + ", totalLoan=" + totalLoan + "]";
+		return "SettleResult [broker=" + broker + ", balance=" + balance + ", list=" + list + ", totalLoan="
+				+ totalLoan + "]";
 	}
 
 }

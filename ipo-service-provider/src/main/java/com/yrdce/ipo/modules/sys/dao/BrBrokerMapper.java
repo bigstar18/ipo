@@ -27,14 +27,11 @@ public interface BrBrokerMapper {
 
 	BrBroker selectByPrimaryKey(String brokerid);
 
-	int updateByExampleSelective(@Param("record") BrBroker record,
-			@Param("example") BrBrokerExample example);
+	int updateByExampleSelective(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
 
-	int updateByExampleWithBLOBs(@Param("record") BrBroker record,
-			@Param("example") BrBrokerExample example);
+	int updateByExampleWithBLOBs(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
 
-	int updateByExample(@Param("record") BrBroker record,
-			@Param("example") BrBrokerExample example);
+	int updateByExample(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
 
 	int updateByPrimaryKeySelective(BrBroker record);
 
@@ -48,7 +45,18 @@ public interface BrBrokerMapper {
 
 	List<BrBroker> findAllUnderwriter();// 获取所有承销会员
 
-	PublisherBalance findBalance(@Param("firmid") String firmid,
-			@Param("today") String today, @Param("yesterday") String yesterday);// 获取某个发行商的当前和上日余额
+	PublisherBalance findBalance(@Param("firmid") String firmid, @Param("today") String today,
+			@Param("yesterday") String yesterday);// 获取某个发行商的当前和上日余额
 
+	/**
+	 * @Title: findAllBrokerageMember
+	 * @Description: 查询经纪会员信息
+	 */
+	List<BrBroker> findAllBrokerageMember();
+
+	/**
+	 * @Title: findMemberTrader
+	 * @Description: 获取经纪会员以及下属交易商
+	 */
+	List<BrBroker> findMemberTrader();
 }

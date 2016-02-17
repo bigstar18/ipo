@@ -3,6 +3,8 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
+     <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="BROKERNAME" property="brokername" jdbcType="VARCHAR" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
@@ -20,12 +22,13 @@
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
-    insert into IPO_RELEASESUBSCRIPTION (ID, FIRMID, COMMODITYID, 
+    insert into IPO_RELEASESUBSCRIPTION (ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, 
       COMMODITYNAME, ISSUEPRICE, PURCHASETIME, 
       PURCHASEQUANTITY, PURCHASEAMOUNT, ISSUANCEFEE, 
       REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, 
       CREATETIME)
-    values (SEQ_IPO_RELEASESUBSCRIPTION.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+    values (SEQ_IPO_RELEASESUBSCRIPTION.NEXTVAL,  #{brokerid,jdbcType=VARCHAR},#{brokername,jdbcType=VARCHAR},
+    #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{commodityname,jdbcType=VARCHAR}, #{issueprice,jdbcType=DECIMAL}, #{purchasetime,jdbcType=DATE}, 
       #{purchasequantity,jdbcType=DECIMAL}, #{purchaseamount,jdbcType=DECIMAL}, #{issuancefee,jdbcType=DECIMAL}, 
       #{refundablepurchaseamount,jdbcType=DECIMAL}, #{refundableservicefee,jdbcType=DECIMAL}, 
@@ -33,7 +36,9 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription" >
     update IPO_RELEASESUBSCRIPTION
-    set FIRMID = #{firmid,jdbcType=VARCHAR},
+    set BROKERID = #{brokerid,jdbcType=VARCHAR},
+    	BROKERNAME = #{brokername,jdbcType=VARCHAR},
+    	FIRMID = #{firmid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       ISSUEPRICE = #{issueprice,jdbcType=DECIMAL},
@@ -47,23 +52,23 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+    select ID, BROKERID,BROKERNAME,FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
     PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
     from IPO_RELEASESUBSCRIPTION
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+    select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
     PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
     from IPO_RELEASESUBSCRIPTION
   </select>
   
   <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
-  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
+  	select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, ISSUEPRICE, PURCHASETIME, PURCHASEQUANTITY, 
     PURCHASEAMOUNT, ISSUANCEFEE, REFUNDABLEPURCHASEAMOUNT, REFUNDABLESERVICEFEE, CREATETIME
     from IPO_RELEASESUBSCRIPTION where to_char(PURCHASETIME,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
-    <if test="firmid != null">
-    and FIRMID = #{firmid,jdbcType=VARCHAR}
+     <if test="brokerid != null">
+    and BROKERID = #{brokerid,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

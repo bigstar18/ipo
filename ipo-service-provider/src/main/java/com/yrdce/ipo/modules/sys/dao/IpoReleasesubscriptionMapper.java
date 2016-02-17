@@ -10,9 +10,9 @@ import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 
 /**
  * 
-* @ClassName: IpoReleasesubscriptionMapper 
-* @Description: 经济会员发行申购
-* @author bob
+ * @ClassName: IpoReleasesubscriptionMapper
+ * @Description: 经济会员发行申购
+ * @author bob
  */
 @MyBatisDao
 public interface IpoReleasesubscriptionMapper {
@@ -26,12 +26,15 @@ public interface IpoReleasesubscriptionMapper {
 
 	int updateByPrimaryKey(IpoReleasesubscription record);
 
-	/** 
-	 *  @Title: selectByFirmidAndTime 
-	 *  @Description: 根据交易商id和注册日期查询（交易商条件选填）
-	 *  @param firmid  交易商id
-	 *  @param time   申购日期
-	 *  @return  商品提货单 
+	/**
+	 * @Title: selectByFirmidAndTime
+	 * @Description: 根据经纪会员id和注册日期查询（交易商条件选填）
+	 * @param brokerid
+	 *            经纪会员id
+	 * @param time
+	 *            日期
+	 * @return 商品提货单
 	 */
-	List<IpoReleasesubscription> selectByFirmidAndTime(@Param("firmid") String firmid, @Param("time") String time);
+	List<IpoReleasesubscription> selectByFirmidAndTime(@Param("brokerid") String brokerid,
+			@Param("time") String time);
 }

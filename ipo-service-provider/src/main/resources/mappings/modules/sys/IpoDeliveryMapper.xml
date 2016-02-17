@@ -3,6 +3,8 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="BROKERNAME" property="brokername" jdbcType="VARCHAR" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
@@ -19,18 +21,20 @@
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
-    insert into IPO_DELIVERY (ID, FIRMID, COMMODITYID, 
+    insert into IPO_DELIVERY (ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, 
       COMMODITYNAME, QUANTITY, COUNTS, 
       DELIVERYTYPE, TRANSFERFEE, POSTAGE, 
       TRANSFERDATE, CREATETIME)
-    values (SEQ_IPO_DELIVERY.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
-      #{commodityname,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
+    values (SEQ_IPO_DELIVERY.NEXTVAL, #{brokerid,jdbcType=VARCHAR},#{brokername,jdbcType=VARCHAR},#{firmid,jdbcType=VARCHAR},
+     #{commodityid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
       #{deliverytype,jdbcType=VARCHAR}, #{transferfee,jdbcType=DECIMAL}, #{postage,jdbcType=DECIMAL}, 
       #{transferdate,jdbcType=DATE}, #{createtime,jdbcType=DATE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDelivery" >
     update IPO_DELIVERY
-    set FIRMID = #{firmid,jdbcType=VARCHAR},
+    set   BROKERID = #{brokerid,jdbcType=VARCHAR},
+    	BROKERNAME = #{brokername,jdbcType=VARCHAR},
+       FIRMID = #{firmid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       QUANTITY = #{quantity,jdbcType=DECIMAL},
@@ -43,23 +47,23 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+    select ID, BROKERID,BROKERNAME,FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
     POSTAGE, TRANSFERDATE, CREATETIME
     from IPO_DELIVERY
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+    select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
     POSTAGE, TRANSFERDATE, CREATETIME
     from IPO_DELIVERY
   </select>
   
   <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
-  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
+  	select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, TRANSFERFEE, 
     POSTAGE, TRANSFERDATE, CREATETIME
     from IPO_DELIVERY where to_char(TRANSFERDATE,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
-    <if test="firmid != null">
-    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    <if test="brokerid != null">
+    and BROKERID = #{brokerid,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

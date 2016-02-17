@@ -97,6 +97,7 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	@Override
+	@Transactional
 	public int updateRationType(Long rationId, String dealerId) {
 		logger.info("进入客户确认操作");
 		// 获得可用资金
@@ -115,11 +116,11 @@ public class SPOServiceImpl implements SPOService {
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commodityid);
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
 		// 总费用
-		BigDecimal allMonery = money.add(fee);
-		logger.debug("总费用allMonery：" + allMonery);
-		if (money1.compareTo(allMonery) != -1) {
+		BigDecimal allMoney = money.add(fee);
+		logger.debug("总费用allMonery：" + allMoney);
+		if (money1.compareTo(allMoney) != -1) {
 			// 资金冻结
-			float moneyParam = allMonery.floatValue();
+			float moneyParam = allMoney.floatValue();
 			Map<String, Object> param1 = new HashMap<String, Object>();
 			param1.put("money", "");
 			param1.put("userid", dealerId);

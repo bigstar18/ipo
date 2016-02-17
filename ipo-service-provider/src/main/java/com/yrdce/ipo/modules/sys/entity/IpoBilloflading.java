@@ -6,6 +6,10 @@ import java.util.Date;
 public class IpoBilloflading {
 	private long id;
 
+	private String brokerid;
+
+	private String brokername;
+
 	private String firmid;
 
 	private String commodityid;
@@ -36,6 +40,22 @@ public class IpoBilloflading {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getBrokerid() {
+		return brokerid;
+	}
+
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
+	}
+
+	public String getBrokername() {
+		return brokername;
+	}
+
+	public void setBrokername(String brokername) {
+		this.brokername = brokername;
 	}
 
 	public String getFirmid() {

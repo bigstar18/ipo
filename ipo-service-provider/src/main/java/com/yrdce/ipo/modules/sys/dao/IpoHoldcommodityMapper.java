@@ -25,12 +25,15 @@ public interface IpoHoldcommodityMapper {
 
 	int updateByPrimaryKey(IpoHoldcommodity record);
 
-	/** 
-	 *  @Title: selectByFirmidAndTime 
-	 *  @Description: 根据交易商id和注册日期查询（交易商条件选填）
-	 *  @param firmid  交易商id
-	 *  @param time   日期
-	 *  @return  商品提货单 
+	/**
+	 * @Title: selectByFirmidAndTime
+	 * @Description: 根据经纪会员id和注册日期查询（交易商条件选填）
+	 * @param brokerid
+	 *            经纪会员id
+	 * @param time
+	 *            日期
+	 * @return 商品提货单
 	 */
-	List<IpoHoldcommodity> selectByFirmidAndTime(@Param("firmid") String firmid, @Param("time") String time);
+	List<IpoHoldcommodity> selectByFirmidAndTime(@Param("brokerid") String brokerid,
+			@Param("time") String time);
 }
