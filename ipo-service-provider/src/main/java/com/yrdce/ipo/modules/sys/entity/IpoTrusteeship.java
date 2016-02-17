@@ -135,6 +135,17 @@ public class IpoTrusteeship implements Serializable {
 	 * 支付时间
 	 */
 	private Date payDate;
+	
+	/**
+	 * 预减持日期
+	 */
+	private Date reduceDate;
+	/**
+	 * 预减持百分比
+	 */
+	private BigDecimal reduceRatio;
+	
+	
 
 	public IpoTrusteeship() {
 	}
@@ -369,6 +380,22 @@ public class IpoTrusteeship implements Serializable {
 
 	public void setPayDate(Date payDate) {
 		this.payDate = payDate;
+	}
+
+	public Date getReduceDate() {
+		return reduceDate;
+	}
+
+	public void setReduceDate(Date reduceDate) {
+		this.reduceDate = reduceDate;
+	}
+
+	public BigDecimal getReduceRatio() {
+		return reduceRatio;
+	}
+
+	public void setReduceRatio(BigDecimal reduceRatio) {
+		this.reduceRatio = reduceRatio;
 	}
 	
     

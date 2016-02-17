@@ -14,12 +14,26 @@
 	
 	function examine(){
 		  var time = $("#payables").datebox("getValue");
-		  var iWidth = 800; //弹出窗口的宽度;
-	      var iHeight = 700; //弹出窗口的高度;
-	      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
-	      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-	      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time,"报表页面", 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+		  var brokerid = $("#firm").val();
+		  if(time == "" || time == null){
+			  alert("请选择查询时间");
+		  }else{
+			  var iWidth = 1000; //弹出窗口的宽度;
+		      var iHeight = 700; //弹出窗口的高度;
+		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
+		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		  }
 	}
+	
+	<%-- function examine(){
+		 var flag= $('#frm').form('validate');
+		 var time = $("#payables").datebox("getValue");
+		 var brokerid = $("#firm").val();
+		 if(flag==true)
+		{
+		document.location.href= '<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time='+time+'&&brokerid='+brokerid;
+		}}  --%>
 	
 	$(function () {
 	     $("#payables").datebox({
@@ -38,7 +52,7 @@
 </script>
 </head>
 <body>
-	<form id="query" name="query">
+	<form id="frm" name="frm">
 	<br>
 	<br>
 	<br>

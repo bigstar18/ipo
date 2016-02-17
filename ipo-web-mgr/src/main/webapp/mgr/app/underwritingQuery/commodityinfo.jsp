@@ -35,7 +35,7 @@ function getAllInfo(){
              align: "center",
              title : '商品代码'
          },{  
-             field : 'commodityidname',  
+             field : 'commodityname',  
              width : 200,  
              align: "center",
              title : '商品名称'  

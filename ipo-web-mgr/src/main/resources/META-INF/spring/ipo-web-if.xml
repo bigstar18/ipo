@@ -62,7 +62,7 @@
     <dubbo:reference id="payFlowService" interface="com.yrdce.ipo.modules.sys.service.PayFlowService" />
     <dubbo:reference id="debitFlowService" interface="com.yrdce.ipo.modules.sys.service.DebitFlowService" />
     <dubbo:reference id="brokerageReportService" interface="com.yrdce.ipo.modules.sys.service.BrokerageReportService" />
-    
+    <dubbo:reference id="positionService" interface="com.yrdce.ipo.modules.sys.service.PositionService" />
     
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->

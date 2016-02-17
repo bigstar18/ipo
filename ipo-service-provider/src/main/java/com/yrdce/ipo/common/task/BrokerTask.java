@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -22,8 +22,8 @@ import com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
+import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
-import com.yrdce.ipo.modules.sys.entity.IpoBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
@@ -45,7 +45,7 @@ public class BrokerTask {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private IpoBrokerMapper brokerMapper;
+	private BrBrokerMapper brokerMapper;
 	@Autowired
 	private IpoOrderMapper orderMapper;
 	@Autowired
@@ -69,15 +69,17 @@ public class BrokerTask {
 	@Autowired
 	private IpoHoldcommodityMapper ipoHoldcommodityMapper;
 
-	/** 
-	 *  @Title: releasesub 
-	 *  @Description: 发行申购明细                               
+	/**
+	 * @Title: releasesub
+	 * @Description: 发行申购明细
 	 */
 	@Transactional
 	public void releasesub() {
 		logger.info("经纪会员发行申购明细汇总开始执行");
-		List<IpoBroker> brokersList = brokerMapper.selectFirm();
-		for (IpoBroker ipoBroker : brokersList) {
+		List<BrBroker> brokersList = brokerMapper.findMemberTrader();
+		for (BrBroker ipoBroker : brokersList) {
+			String brokerid = ipoBroker.getBrokerid();
+			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
 			List<IpoOrder> orderList = orderMapper.selectByfirmid(firmid);
 			if (orderList != null || !orderList.isEmpty()) {
@@ -94,6 +96,8 @@ public class BrokerTask {
 					BigDecimal price = ipoCommodityConf.getPrice();
 					// 插入发行申购汇总表
 					IpoReleasesubscription ipoReleasesubscription = new IpoReleasesubscription();
+					ipoReleasesubscription.setBrokerid(brokerid);
+					ipoReleasesubscription.setBrokername(brokername);
 					ipoReleasesubscription.setCommodityid(commodityId);
 					ipoReleasesubscription.setCommodityname(commodityName);
 					ipoReleasesubscription.setCreatetime(new Date());
@@ -111,15 +115,17 @@ public class BrokerTask {
 		}
 	}
 
-	/** 
-	 *  @Title: billoFlading 
-	 *  @Description: 商品提货单                          
+	/**
+	 * @Title: billoFlading
+	 * @Description: 商品提货单
 	 */
 	@Transactional
 	public void billoFlading() {
 		logger.info("经纪会员商品提货单汇总开始执行");
-		List<IpoBroker> brokersList = brokerMapper.selectFirm();
-		for (IpoBroker ipoBroker : brokersList) {
+		List<BrBroker> brokersList = brokerMapper.findMemberTrader();
+		for (BrBroker ipoBroker : brokersList) {
+			String brokerid = ipoBroker.getBrokerid();
+			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
 			List<IpoDeliveryorder> deliveryOrderList = DeliveryorderMapper.selectFirmid(firmid);
 			for (IpoDeliveryorder ipoDeliveryorder : deliveryOrderList) {
@@ -136,6 +142,8 @@ public class BrokerTask {
 				BigDecimal trudteeFee = ipoDeliveryCost.getTrusteeFee();
 				BigDecimal warehouseFee = ipoDeliveryCost.getWarehousingFee();
 				IpoBilloflading ipoBilloflading = new IpoBilloflading();
+				ipoBilloflading.setBrokerid(brokerid);
+				ipoBilloflading.setBrokername(brokername);
 				ipoBilloflading.setFirmid(firmid);
 				ipoBilloflading.setCommodityid(commodityId);
 				ipoBilloflading.setCommodityname(commodityName);
@@ -153,19 +161,22 @@ public class BrokerTask {
 		}
 	}
 
-	/** 
-	 *  @Title: delivery 
-	 *  @Description: 提货表                          
+	/**
+	 * @Title: delivery
+	 * @Description: 提货表
 	 */
 	@Transactional
 	public void delivery() {
 		logger.info("经纪会员提货表汇总开始执行");
-		List<IpoBroker> brokersList = brokerMapper.selectFirm();
-		for (IpoBroker ipoBroker : brokersList) {
+		List<BrBroker> brokersList = brokerMapper.findMemberTrader();
+		for (BrBroker ipoBroker : brokersList) {
+			String brokerid = ipoBroker.getBrokerid();
+			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
 			String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
 			String chargeType = ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
-			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.selectInfo(businessType, chargeType, firmid);
+			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.selectInfo(businessType, chargeType,
+					firmid);
 			for (IpoDebitFlow ipoDebitFlow : bebitFlowList) {
 				String id = ipoDebitFlow.getOrderId();
 				BigDecimal amount = ipoDebitFlow.getAmount();
@@ -179,6 +190,8 @@ public class BrokerTask {
 				IpoExpress ipoExpress = ipoExpressMapper.selectExpress(id);
 				BigDecimal cost = ipoExpress.getCost();
 				IpoDelivery ipoDelivery = new IpoDelivery();
+				ipoDelivery.setBrokerid(brokerid);
+				ipoDelivery.setBrokername(brokername);
 				ipoDelivery.setFirmid(firmid);
 				ipoDelivery.setCommodityid(commodityId);
 				ipoDelivery.setCommodityname(commodityName);
@@ -194,15 +207,17 @@ public class BrokerTask {
 		}
 	}
 
-	/** 
-	 *  @Title: holdCommodity 
-	 *  @Description: 持仓表                          
+	/**
+	 * @Title: holdCommodity
+	 * @Description: 持仓表
 	 */
 	@Transactional
 	public void holdCommodity() {
 		logger.info("经纪会员持仓表汇总开始执行");
-		List<IpoBroker> brokersList = brokerMapper.selectFirm();
-		for (IpoBroker ipoBroker : brokersList) {
+		List<BrBroker> brokersList = brokerMapper.findMemberTrader();
+		for (BrBroker ipoBroker : brokersList) {
+			String brokerid = ipoBroker.getBrokerid();
+			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
 			List<TCustomerholdsum> customerholdList = tCustomerholdsumMapper.selectByFirmId(firmid);
 			for (TCustomerholdsum tCustomerholdsum : customerholdList) {
@@ -223,6 +238,8 @@ public class BrokerTask {
 					value = (new BigDecimal(holdqty)).multiply(price);
 				}
 				IpoHoldcommodity ipoHoldcommodity = new IpoHoldcommodity();
+				ipoHoldcommodity.setBrokerid(brokerid);
+				ipoHoldcommodity.setBrokername(brokername);
 				ipoHoldcommodity.setBsFlag(flag);
 				ipoHoldcommodity.setCommodityid(commodityid);
 				ipoHoldcommodity.setCommodityname(commodityName);

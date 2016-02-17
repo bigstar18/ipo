@@ -13,7 +13,7 @@
 			td{white-space:normal}
 			.mbody{border:1px solid #95b8e7;background:#f4f4f4}
 			.deliveryInfo{display:none}
-			#add,#close{width:90pt;height:25px;border-radius:3px;background:#fff}
+			#add,#close{width:90px;height:25px;border-radius:3px;background:#fff}
     </style>
     <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
@@ -85,7 +85,7 @@ function doSearch(){
 				}
 			}else if(data.commodityId==null){
 				$("#deliveryInfo").hide();
-				alert("提货单不存在(自提单请输入密码)！")
+				alert("提货单不存在！")
 			}
 		}
 
@@ -148,7 +148,7 @@ function doClick(){
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">提货类型为自提时需要提货单密码，在线配送时不需要提货单密码！
+      <div class="content">提货单过户！
       </div>
     </div>
     <div class="mbodytop">

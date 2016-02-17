@@ -155,5 +155,10 @@ public interface TrusteeshipCommodityService {
 	 * @return
 	 */
 	public Trusteeship findTrusteeshipById(Long id);
-
+    /**
+     * 预减持设置
+     * @param ship
+     * @throws Exception
+     */
+	public void savePrereduce(Trusteeship ship) throws Exception;
 }

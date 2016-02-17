@@ -4,12 +4,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-* @ClassName: Billoflading 
-* @Description: 经纪会员提货单表
-* @author bob
+ * @ClassName: Billoflading
+ * @Description: 经纪会员提货单表
+ * @author bob
  */
 public class Billoflading {
 	private long id;
+
+	private String brokerid;
+
+	private String brokername;
 
 	private String firmid;
 
@@ -41,6 +45,22 @@ public class Billoflading {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getBrokerid() {
+		return brokerid;
+	}
+
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
+	}
+
+	public String getBrokername() {
+		return brokername;
+	}
+
+	public void setBrokername(String brokername) {
+		this.brokername = brokername;
 	}
 
 	public String getFirmid() {

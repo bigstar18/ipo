@@ -9,21 +9,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
+import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
-import com.yrdce.ipo.modules.sys.entity.IpoBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
 import com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
-import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
+import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
 /**
  * @ClassName: BrokerageMemberReport
@@ -34,7 +34,7 @@ import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 public class BrokerageReportServiceImpl implements BrokerageReportService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private IpoBrokerMapper brokerMapper;
+	private BrBrokerMapper brokerMapper;
 	@Autowired
 	private IpoBillofladingMapper ipoBillofladingMapper;
 	@Autowired
@@ -45,24 +45,23 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	private IpoReleasesubscriptionMapper ReleasesubscriptionMapper;
 
 	@Override
-	public List<String> getBroker() {
+	public List<VBrBroker> getBroker() {
 		logger.info("经纪会员id查询");
-		List<IpoBroker> brokersList = brokerMapper.selectFirm();
-		List<String> list = new ArrayList<String>();
-		for (IpoBroker ipoBroker : brokersList) {
-			String firmid = ipoBroker.getFirmid();
-			list.add(firmid);
+		List<BrBroker> brokersList = brokerMapper.findAllBrokerageMember();
+		List<VBrBroker> list = new ArrayList<VBrBroker>();
+		for (BrBroker ipoBroker : brokersList) {
+			VBrBroker vBrBroker = new VBrBroker();
+			BeanUtils.copyProperties(ipoBroker, vBrBroker);
+			list.add(vBrBroker);
 		}
 		return list;
 	}
 
 	@Override
-	public List<Billoflading> getBillfladInfo(Paging paging) {
+	public List<Billoflading> getBillfladInfo(String brokerid, String time) {
 		logger.info("经纪会员提货单查询");
-		String firmid = paging.getDealerId();
-		String time = paging.getTime();
-		List<IpoBilloflading> list1 = ipoBillofladingMapper.selectByFirmidAndTime(firmid, time);
 		List<Billoflading> list2 = new ArrayList<Billoflading>();
+		List<IpoBilloflading> list1 = ipoBillofladingMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoBilloflading ipoBilloflading : list1) {
 			Billoflading billoflading = new Billoflading();
 			BeanUtils.copyProperties(ipoBilloflading, billoflading);
@@ -72,12 +71,10 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	}
 
 	@Override
-	public List<Delivery> getDeliveryInfo(Paging paging) {
+	public List<Delivery> getDeliveryInfo(String brokerid, String time) {
 		logger.info("经纪会员交货查询");
-		String firmid = paging.getDealerId();
-		String time = paging.getTime();
-		List<IpoDelivery> list1 = ipoDeliveryMapper.selectByFirmidAndTime(firmid, time);
 		List<Delivery> list2 = new ArrayList<Delivery>();
+		List<IpoDelivery> list1 = ipoDeliveryMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoDelivery ipoDelivery : list1) {
 			Delivery delivery = new Delivery();
 			BeanUtils.copyProperties(ipoDelivery, delivery);
@@ -87,12 +84,10 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	}
 
 	@Override
-	public List<Holdcommodity> getHoldInfo(Paging paging) {
+	public List<Holdcommodity> getHoldInfo(String brokerid, String time) {
 		logger.info("经纪会员持仓查询");
-		String firmid = paging.getDealerId();
-		String time = paging.getTime();
-		List<IpoHoldcommodity> list1 = holdcommodityMapper.selectByFirmidAndTime(firmid, time);
 		List<Holdcommodity> list2 = new ArrayList<Holdcommodity>();
+		List<IpoHoldcommodity> list1 = holdcommodityMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoHoldcommodity ipoHoldcommodity : list1) {
 			Holdcommodity holdcommodity = new Holdcommodity();
 			BeanUtils.copyProperties(ipoHoldcommodity, holdcommodity);
@@ -102,12 +97,10 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	}
 
 	@Override
-	public List<Releasesubscription> getReleaInfo(Paging paging) {
+	public List<Releasesubscription> getReleaInfo(String brokerid, String time) {
 		logger.info("经纪会员发行申购明查询");
-		String firmid = paging.getDealerId();
-		String time = paging.getTime();
-		List<IpoReleasesubscription> list1 = ReleasesubscriptionMapper.selectByFirmidAndTime(firmid, time);
 		List<Releasesubscription> list2 = new ArrayList<Releasesubscription>();
+		List<IpoReleasesubscription> list1 = ReleasesubscriptionMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoReleasesubscription ipoReleasesubscription : list1) {
 			Releasesubscription releasesubscription = new Releasesubscription();
 			BeanUtils.copyProperties(ipoReleasesubscription, releasesubscription);

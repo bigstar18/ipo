@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,9 @@ import com.yrdce.ipo.modules.sys.service.BrokerageReportService;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
-import com.yrdce.ipo.modules.sys.vo.Paging;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
+import com.yrdce.ipo.modules.sys.vo.SettleResult;
+import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
 /**
  * @ClassName: BrokerageReportController
@@ -34,78 +36,72 @@ public class BrokerageReportController {
 
 	@RequestMapping(value = "/brokerinfoforward", method = RequestMethod.GET)
 	public String brokerInfoForward(HttpServletRequest request, Model model,
-			@RequestParam(value = "firmid", required = false) String firmid,
+			@RequestParam(value = "brokerid", required = false) String brokerid,
 			@RequestParam("time") String time) {
-		Paging paging = new Paging();
-		logger.debug(">>>>>>>>>>>>>>>>>>>>>>查询时间：" + time);
-		paging.setDealerId(firmid);
-		paging.setTime(time);
-		List<Billoflading> billfladInfo = this.billfladInfo(paging);
-		List<Delivery> deliveryInfo = this.deliveryInfo(paging);
-		List<Holdcommodity> holdInfo = this.holdInfo(paging);
-		List<Releasesubscription> releaInfo = this.releaInfo(paging);
-		model.addAttribute("billfladInfo", billfladInfo);
-		model.addAttribute("deliveryInfo", deliveryInfo);
-		model.addAttribute("holdInfo", holdInfo);
-		model.addAttribute("releaInfo", releaInfo);
+		List<VBrBroker> brokers = brokerageReportService.getBroker();
+		List<SettleResult> settles = new ArrayList<SettleResult>();
+		if (!"".equals(brokerid)) {
+			List<Billoflading> billfladInfo = brokerageReportService.getBillfladInfo(brokerid, time);
 
-		return "app/brokeragereport/brokerinfo";
+			List<Delivery> deliveryInfo = brokerageReportService.getDeliveryInfo(brokerid, time);
+
+			List<Holdcommodity> holdInfo = brokerageReportService.getHoldInfo(brokerid, time);
+
+			List<Releasesubscription> releaInfo = brokerageReportService.getReleaInfo(brokerid, time);
+
+			SettleResult result = new SettleResult();
+			result.setBillfladInfo(billfladInfo);
+			result.setDeliveryInfo(deliveryInfo);
+			result.setHoldInfo(holdInfo);
+			result.setReleaInfo(releaInfo);
+			for (VBrBroker broker : brokers) {
+				if (brokerid.equals(broker.getBrokerid())) {
+					result.setBroker(broker);
+				}
+			}
+			settles.add(result);
+			model.addAttribute("settles", settles);
+			model.addAttribute("today", time);
+			return "app/brokeragereport/brokerinfo";
+		} else {
+			for (int i = 0; i < brokers.size(); i++) {
+				String brokerid1 = brokers.get(i).getBrokerid();
+				List<Billoflading> billfladInfo = brokerageReportService.getBillfladInfo(brokerid1, time);
+
+				List<Delivery> deliveryInfo = brokerageReportService.getDeliveryInfo(brokerid1, time);
+
+				List<Holdcommodity> holdInfo = brokerageReportService.getHoldInfo(brokerid1, time);
+
+				List<Releasesubscription> releaInfo = brokerageReportService.getReleaInfo(brokerid1, time);
+
+				SettleResult result = new SettleResult();
+				result.setBillfladInfo(billfladInfo);
+				result.setDeliveryInfo(deliveryInfo);
+				result.setHoldInfo(holdInfo);
+				result.setReleaInfo(releaInfo);
+				result.setBroker(brokers.get(i));
+				settles.add(result);
+			}
+			request.setAttribute("settles", settles);
+			request.setAttribute("today", time);
+			return "app/brokeragereport/brokerinfo";
+		}
 	}
 
 	@RequestMapping(value = "/brokerid", method = RequestMethod.GET)
 	public String brokerId(Model model) {
 		try {
-			List<String> firmid = brokerageReportService.getBroker();
-			model.addAttribute("firmid", firmid);
+			List<VBrBroker> brokersList = brokerageReportService.getBroker();
+			List<String> list = new ArrayList<String>();
+			for (VBrBroker ipoBroker : brokersList) {
+				String brokerid = ipoBroker.getBrokerid();
+				list.add(brokerid);
+			}
+			model.addAttribute("firmid", list);
 			return "app/brokeragereport/queryindex";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
-		}
-	}
-
-	public List<Billoflading> billfladInfo(Paging paging) {
-
-		try {
-
-			List<Billoflading> list = brokerageReportService.getBillfladInfo(paging);
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public List<Delivery> deliveryInfo(Paging paging) {
-		try {
-
-			List<Delivery> list = brokerageReportService.getDeliveryInfo(paging);
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public List<Holdcommodity> holdInfo(Paging paging) {
-		try {
-
-			List<Holdcommodity> list = brokerageReportService.getHoldInfo(paging);
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public List<Releasesubscription> releaInfo(Paging paging) {
-		try {
-
-			List<Releasesubscription> list = brokerageReportService.getReleaInfo(paging);
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
 		}
 	}
 

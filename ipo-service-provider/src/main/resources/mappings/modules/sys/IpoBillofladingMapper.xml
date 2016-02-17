@@ -3,6 +3,8 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoBilloflading" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="BROKERNAME" property="brokername" jdbcType="VARCHAR" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
@@ -21,20 +23,22 @@
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBilloflading" >
-    insert into IPO_BILLOFLADING (ID, FIRMID, COMMODITYID, 
+    insert into IPO_BILLOFLADING (ID, BROKERID,BROKERNAME,FIRMID, COMMODITYID, 
       COMMODITYNAME, QUANTITY, COUNTS, 
       DELIVERYTYPE, BILLOFLADINGFEE, WAREHOUSINGFEE, 
       INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, 
       CREATETIME)
-    values (SEQ_IPO_BILLOFLADING.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
-      #{commodityname,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, 
-      #{deliverytype,jdbcType=VARCHAR}, #{billofladingfee,jdbcType=DECIMAL}, #{warehousingfee,jdbcType=DECIMAL}, 
-      #{insurance,jdbcType=DECIMAL}, #{trusteefee,jdbcType=DECIMAL}, #{registrationdate,jdbcType=DATE}, 
-      #{createtime,jdbcType=DATE})
+    values (SEQ_IPO_BILLOFLADING.NEXTVAL,#{brokerid,jdbcType=VARCHAR},#{brokername,jdbcType=VARCHAR},
+     #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR},#{commodityname,jdbcType=VARCHAR},
+      #{quantity,jdbcType=DECIMAL}, #{counts,jdbcType=DECIMAL}, #{deliverytype,jdbcType=VARCHAR}, 
+      #{billofladingfee,jdbcType=DECIMAL}, #{warehousingfee,jdbcType=DECIMAL}, #{insurance,jdbcType=DECIMAL},
+       #{trusteefee,jdbcType=DECIMAL}, #{registrationdate,jdbcType=DATE}, #{createtime,jdbcType=DATE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoBilloflading" >
     update IPO_BILLOFLADING
-    set FIRMID = #{firmid,jdbcType=VARCHAR},
+    set BROKERID = #{brokerid,jdbcType=VARCHAR},
+    	BROKERNAME = #{brokername,jdbcType=VARCHAR},
+      FIRMID = #{firmid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       QUANTITY = #{quantity,jdbcType=DECIMAL},
@@ -49,23 +53,23 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
+    select ID, BROKERID,BROKERNAME,FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
     WAREHOUSINGFEE, INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, CREATETIME
     from IPO_BILLOFLADING
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
+    select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
     WAREHOUSINGFEE, INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, CREATETIME
     from IPO_BILLOFLADING
   </select>
   
   <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
-  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
+  	select ID, BROKERID,BROKERNAME,FIRMID, COMMODITYID, COMMODITYNAME, QUANTITY, COUNTS, DELIVERYTYPE, BILLOFLADINGFEE, 
     WAREHOUSINGFEE, INSURANCE, TRUSTEEFEE, REGISTRATIONDATE, CREATETIME
     from IPO_BILLOFLADING where to_char(REGISTRATIONDATE,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
-    <if test="firmid != null">
-    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    <if test="brokerid != null">
+    and BROKERID = #{brokerid,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>

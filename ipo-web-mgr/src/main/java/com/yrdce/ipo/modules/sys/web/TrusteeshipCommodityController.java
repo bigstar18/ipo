@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.constant.TrusteeshipConstant;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PayFlowService;
+import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
@@ -49,6 +55,8 @@ public class TrusteeshipCommodityController {
 	private BiWarehouseService biWarehouseService;
 	@Autowired
 	private PayFlowService payFlowService;
+	@Autowired
+	private PositionService positionService;
 	
 	/**
 	 * 查询可申购的托管计划
@@ -226,10 +234,13 @@ public class TrusteeshipCommodityController {
 		ship.setCommodityName(request.getParameter("commodityName"));
 		if(request.getParameter("state")!=null){
 			ship.setState(Integer.parseInt(request.getParameter("state")));
-		}
+		};
+		if(request.getParameter("states")!=null){
+			ship.setStates(request.getParameter("states"));
+		};
 		if(request.getParameter("warehouseId")!=null){
 			ship.setWarehouseId(Long.parseLong(request.getParameter("warehouseId")));
-		}
+		};
 		ship.setBeginCreateDate(request.getParameter("beginCreateDate"));
 		ship.setEndCreateDate(request.getParameter("endCreateDate"));
 		ship.setBeginAuditingDate(request.getParameter("beginAuditingDate"));
@@ -245,6 +256,8 @@ public class TrusteeshipCommodityController {
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
+	
+	
 	
 	
 	
@@ -364,6 +377,129 @@ public class TrusteeshipCommodityController {
 		return "success";
 	}
 	
+	
+	/**
+	 * 预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/prereduce")
+	public String prereduce(HttpServletRequest request,Model model){
+		StringBuilder states= new StringBuilder();
+		states.append(TrusteeshipConstant.State.INCREASE.getCode());
+		states.append(",");
+		states.append(TrusteeshipConstant.State.REDUCTION.getCode());
+		model.addAttribute("states", states);
+		
+		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
+		return "app/trusteeship/prereduce";
+	}
+	
+	/**
+	 * 添加预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addPrereduce")
+	public String addPrereduce(HttpServletRequest request,Model model){
+		Long id = Long.valueOf(request.getParameter("id"));
+		Trusteeship entity=trusteeshipCommodityService.findTrusteeshipById(id);
+		model.addAttribute("entity", entity);
+		return "app/trusteeship/add_prereduce";
+	}
+	
+	/**
+	 * 保存预减持设置
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/savePrereduce")
+	@ResponseBody
+	public String savePrereduce(HttpServletRequest request,Model model){
+		try {
+			Long id = Long.valueOf(request.getParameter("id"));
+			String reduceDate =  request.getParameter("reduceDate");
+			String reduceRatio = request.getParameter("reduceRatio");
+			Trusteeship param = new Trusteeship();
+			param.setId(id);
+			param.setReduceDate(DateUtils.parseDate(reduceDate, "yyyy-MM-dd"));
+			param.setReduceRatio(new BigDecimal(reduceRatio));
+			param.setUpdateUser(getLoginUserId(request));
+			trusteeshipCommodityService.savePrereduce(param);
+		} catch (Exception e) {
+			logger.error("savePrereduce error:"+e);
+			return "error";
+		}
+		return "success";
+	}
+	
+	
+	/**
+	 * 查询持仓流水
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryPositionFlow")
+	@ResponseBody
+	public String queryPositionFlow(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
+			HttpServletRequest request) 
+			throws Exception {
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.TRUSTEESHIP.getCode());
+		positionFlow.setState(PositionConstant.FlowState.turn_goods.getCode());
+		positionFlow.setCommodityId(request.getParameter("commodityId"));
+		positionFlow.setFirmId(request.getParameter("firmId"));
+		long count=positionService.queryFlowForCount(positionFlow);
+		List<PositionFlow> dataList=new ArrayList<PositionFlow>();
+		if(count>0){
+			dataList=positionService.queryFlowForPage(pageNo, pageSize, positionFlow);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal( new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+	
+	
+	/**
+	 * 跳转到减持设置页面
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/positionReduce")
+	public String positionReduce(HttpServletRequest request,Model model){
+		String positionFlowId=request.getParameter("positionFlowId");
+		model.addAttribute("positionFlowId", positionFlowId);
+		return "app/trusteeship/positionreduce";
+	}
+	
+	
+	/**
+	 * 查询减持仓设置
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryPositionReduce")
+	@ResponseBody
+	public String queryPositionReduce(HttpServletRequest request) throws Exception {
+			
+		PositionReduce positionReduce = new PositionReduce();
+		positionReduce.setPositionFlowId(Long.valueOf(request.getParameter("positionFlowId")));
+		List<PositionReduce> dataList=new ArrayList<PositionReduce>();
+		dataList=positionService.queryReduceForList(positionReduce);
+		ResponseResult result = new ResponseResult();
+		result.setTotal(dataList.size());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
 	
 	
 	

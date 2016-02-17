@@ -32,6 +32,9 @@
     <result column="pay_goods_state" property="payGoodsState"  />
     <result column="goods_charge" property="goodsCharge"  />
     <result column="pay_date" property="payDate"  />
+    <result column="reduce_date" property="reduceDate"  />
+    <result column="reduce_ratio" property="reduceRatio"  />
+    
   </resultMap>
   
    
@@ -77,6 +80,9 @@
 			<if test="ship.state>0 ">
 				and  ship.state=#{ship.state} 
 			</if>
+			<if test="ship.states!=null and ship.states!='' ">
+			    and  ship.state in (${ship.states}) 
+		    </if>
 			<if test="ship.createUser!=null and ship.createUser!=''">
 				and  ship.create_user=#{ship.createUser} 
 			</if>
@@ -122,6 +128,9 @@
 		<if test="ship.state>0 ">
 			and  ship.state=#{ship.state} 
 		</if>
+		<if test="ship.states!=null and ship.states!='' ">
+			and  ship.state in (${ship.states}) 
+		</if>
 		<if test="ship.createUser!=null and ship.createUser!=''">
 				and  ship.create_user=#{ship.createUser} 
 		</if>
@@ -154,13 +163,28 @@
      where t.id=#{ship.id} 
   </update>
   
+  <update id="savePrereduce" parameterType="map">
+     update ipo_trusteeship t set t.state=#{ship.state},t.update_user=#{ship.updateUser},
+            t.update_date=#{ship.updateDate,jdbcType=TIMESTAMP},
+            t.reduce_date=#{ship.reduceDate}, t.reduce_ratio=#{ship.reduceRatio}
+     where t.id=#{ship.id} 
+  </update>
+  
   
   <select id="get" resultMap="IpoTrusteeshipResultMap"  parameterType="java.lang.Long" >
-       select id, apply_amount, instorage_amount, effective_amount, 
-          position_amount, trusteeship_commodity_id, state, price, publish_charge, delay_charge, listing_charge, 
-          auditing_date, create_user, create_date, update_user, update_date, delete_flag, commodity_id,warehouse_id 
-       from ipo_trusteeship
-       where id=#{id}
+      select ship.id,ship.commodity_id,comm.commodityname,ship.create_user,firm.name as create_user_name,
+             to_char(firm.mobile) as create_user_mobile,ship.listing_charge,
+             ship.apply_amount,ship.instorage_amount,ship.effective_amount,ship.position_amount,ship.publish_charge,
+		     trucomm.plan,ship.delay_charge,ship.state,ship.create_date,ship.auditing_date,
+		     ship.warehouse_id,biware.warehousename,
+		     pay.id as pay_goods_id ,pay.pay_state as pay_goods_state,pay.amount as goods_charge,pay.pay_date
+	 from ipo_trusteeship ship 
+	 left join ipo_commodity_sale comm on (ship.commodity_id=comm.commodityid)
+	 left join ipo_trusteeship_commodity trucomm on (ship.trusteeship_commodity_id=trucomm.id)
+	 left join bi_warehouse biware on (ship.warehouse_id=biware.id)
+	 left join m_firm firm on (ship.create_user=firm.firmid)
+	 left join ipo_payflow pay on (ship.id=pay.order_id and pay.business_type='007' and pay.charge_type='002')
+     where ship.id=#{id}
   </select>
   
   

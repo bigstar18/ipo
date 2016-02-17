@@ -3,6 +3,8 @@
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
+    <result column="BROKERNAME" property="brokername" jdbcType="VARCHAR" />
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
@@ -21,12 +23,13 @@
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
-    insert into IPO_HOLDCOMMODITY (ID, FIRMID, COMMODITYID, 
+    insert into IPO_HOLDCOMMODITY (ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, 
       COMMODITYNAME, BS_FLAG, HOLDQTY, 
       FROZENQTY, QUANTITYAVAILABLE, EVENPRICE, 
       PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, 
       CREATETIME)
-    values (SEQ_IPO_HOLDCOMMODITY.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
+    values (SEQ_IPO_HOLDCOMMODITY.NEXTVAL,  #{brokerid,jdbcType=VARCHAR},#{brokername,jdbcType=VARCHAR},
+    #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{commodityname,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, #{holdqty,jdbcType=DECIMAL}, 
       #{frozenqty,jdbcType=DECIMAL}, #{quantityavailable,jdbcType=DECIMAL}, #{evenprice,jdbcType=DECIMAL}, 
       #{price,jdbcType=DECIMAL}, #{holdinggainsandlosses,jdbcType=DECIMAL}, #{marketvalue,jdbcType=DECIMAL}, 
@@ -34,7 +37,9 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity" >
     update IPO_HOLDCOMMODITY
-    set FIRMID = #{firmid,jdbcType=VARCHAR},
+    set BROKERID = #{brokerid,jdbcType=VARCHAR},
+    	BROKERNAME = #{brokername,jdbcType=VARCHAR},
+    	FIRMID = #{firmid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
       BS_FLAG = #{bsFlag,jdbcType=DECIMAL},
@@ -49,23 +54,23 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+    select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
     EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
     from IPO_HOLDCOMMODITY
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+    select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
     EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
     from IPO_HOLDCOMMODITY
   </select>
   
   <select id="selectByFirmidAndTime" resultMap="BaseResultMap" parameterType="map">
-  	select ID, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
+  	select ID,BROKERID,BROKERNAME, FIRMID, COMMODITYID, COMMODITYNAME, BS_FLAG, HOLDQTY, FROZENQTY, QUANTITYAVAILABLE, 
     EVENPRICE, PRICE, HOLDINGGAINSANDLOSSES, MARKETVALUE, CREATETIME
     from IPO_HOLDCOMMODITY where to_char(CREATETIME,'yyyy-MM-dd') = #{time,jdbcType=VARCHAR}
-    <if test="firmid != null">
-    and FIRMID = #{firmid,jdbcType=VARCHAR}
+    <if test="brokerid != null">
+    and BROKERID = #{brokerid,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>
