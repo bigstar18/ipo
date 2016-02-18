@@ -493,6 +493,7 @@ public class TrusteeshipCommodityController {
 			
 		PositionReduce positionReduce = new PositionReduce();
 		positionReduce.setPositionFlowId(Long.valueOf(request.getParameter("positionFlowId")));
+		positionReduce.setCommodityId(request.getParameter("commodityId"));
 		List<PositionReduce> dataList=new ArrayList<PositionReduce>();
 		dataList=positionService.queryReduceForList(positionReduce);
 		ResponseResult result = new ResponseResult();
@@ -595,6 +596,6 @@ public class TrusteeshipCommodityController {
 		return "nologin";
 	}
 	
-	
+ 
 	
 }

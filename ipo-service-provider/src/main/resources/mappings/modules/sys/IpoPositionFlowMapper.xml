@@ -6,6 +6,7 @@
 		<result column="firmid" property="firmId" />
 		<result column="holdqty" property="holdqty" />
 		<result column="frozenqty" property="frozenqty" />
+		<result column="freeqty" property="freeqty" />
 		<result column="business_code" property="businessCode" />
 		<result column="role_code" property="roleCode" />
 		<result column="commodityid" property="commodityId" />
@@ -26,10 +27,11 @@
       </selectKey>
       insert into ipo_positionflow(
           id, firmid, holdqty, business_code, role_code, commodityid,  
-          price,create_user, create_date, state, frozenqty,remark
+          price,create_user, create_date, state, frozenqty,remark,freeqty
       )values(
            #{id,jdbcType=INTEGER},#{firmId},#{holdqty},#{businessCode},#{roleCode},#{commodityId},
-           #{price},#{createUser},#{createDate,jdbcType=TIMESTAMP},#{state},#{frozenqty},#{remark}
+           #{price},#{createUser},#{createDate,jdbcType=TIMESTAMP},#{state},#{frozenqty},#{remark},
+           #{freeqty}
       )
   </insert>
 
@@ -37,7 +39,8 @@
    <select id="queryForList" resultMap="PositionFlowResultMap"  parameterType="map" >
             select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
                    pf.commodityid,pf.price,pf.create_user,pf.create_date,
-			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark,
+			       pf.freeqty
 			from ipo_positionflow pf
 	        where 1=1
 			<if test="param.businessCode!=null and param.businessCode!='' ">
@@ -65,7 +68,8 @@
            select pg.*,rownum as row_num from (
 	            select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
                    pf.commodityid,pf.price,pf.create_user,pf.create_date,
-			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark,
+			       pf.freeqty
 				from ipo_positionflow pf
 		        where 1=1
 				<if test="param.businessCode!=null and param.businessCode!='' ">
@@ -102,6 +106,13 @@
 		and  pf.state=#{param.state} 
 	 </if>
   </select>
+
+  <update id="updateFreeqty"   parameterType="com.yrdce.ipo.modules.sys.vo.PositionFlow" >
+     update ipo_positionflow t set 
+          t.freeqty=#{freeqty},t.update_user=#{updateUser},t.update_date=#{updateDate,jdbcType=TIMESTAMP}
+     where t.id=#{id}
+  </update>
+  
 
 
 

@@ -65,5 +65,20 @@ public interface PositionService {
 	 * @return
 	 */
 	public int deletePositionReduce(PositionReduce positionReduce);
+	/**
+	 * 更新减持状态
+	 * @param positionReduce
+	 * @return
+	 */
+	public int updateReduceState(PositionReduce positionReduce);
+	/**
+	 * 客户持仓减持
+	 * @param positionReduce
+	 */
+	public void reduceeCustomerHold(PositionReduce positionReduce);
+	
+	
+	
+	
 	
 }

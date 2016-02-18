@@ -69,12 +69,12 @@
 			
 			function ratioOnBlur(){
 				var reduceqtyVal=0;
-				var holdqtyVal=$('#holdqty').val();
+				var frozenqtyVal=$('#frozenqty').val();
 				var ratioVal=dataForm.ratio.value;
 				if(parseInt(ratioVal)>100){
 					 alert('减持比例不能大于100!');return ;
 				};
-				reduceqtyVal=parseInt(holdqtyVal*ratioVal/100);
+				reduceqtyVal=parseInt(frozenqtyVal*ratioVal/100);
 				dataForm.reduceqty.value=reduceqtyVal;
 			}
 			
@@ -85,6 +85,7 @@
 		<div class="title font_orange_14b">温馨提示 :添加减持 <font style="color: red">*号为必填项</font></div>
 	</div>
 	<input  type="hidden" id="holdqty" value="${flow.holdqty}">
+	<input  type="hidden" id="frozenqty" value="${flow.frozenqty}">
 	<form id="dataForm" name="dataForm"  >
 	            <input  type="hidden" name="positionFlowId" value="${flow.id}">
 				<table style="border:0;width:850px" align="center"  class="common" cellpadding="0" cellspacing="2">

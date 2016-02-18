@@ -42,8 +42,12 @@ public interface IpoPositionFlowMapper {
      */
 	long queryForCount(@Param("param")PositionFlow positionFlow);
 	
-	
-	
+	/**
+	 * 更新释放数量
+	 * @param positionFlow
+	 * @return
+	 */
+	int updateFreeqty(PositionFlow positionFlow);
 	
 	
 }

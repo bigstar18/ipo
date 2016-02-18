@@ -113,6 +113,7 @@
     <bean id="debitFlowService" class="com.yrdce.ipo.modules.sys.service.DebitFlowServiceImpl" />
     <bean id="brokerageReportService" class="com.yrdce.ipo.modules.sys.service.BrokerageReportServiceImpl" />
     <bean id="positionService" class="com.yrdce.ipo.modules.sys.service.PositionServiceImpl" />
+    <bean id="customerHoldSumService" class="com.yrdce.ipo.modules.sys.service.CustomerHoldSumServiceImpl" />
      
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。

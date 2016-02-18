@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,8 +14,10 @@ import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionReduceMapper;
+import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoPositionFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoPositionReduce;
+import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 /**
@@ -23,10 +27,14 @@ import com.yrdce.ipo.modules.sys.vo.PositionReduce;
  */
 public class PositionServiceImpl implements PositionService {
 
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private IpoPositionFlowMapper positionFlowMapper;
 	@Autowired
 	private IpoPositionReduceMapper positionReduceMapper;
+	@Autowired
+	private  TCustomerholdsumMapper customerholdsumMapper;
 	
 	
 	 /**
@@ -40,7 +48,6 @@ public class PositionServiceImpl implements PositionService {
 		for (IpoPositionFlow item : dbList) {
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setFreeqty(entity.getHoldqty()-entity.getFrozenqty());
 			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			dataList.add(entity);
 		}
@@ -61,7 +68,6 @@ public class PositionServiceImpl implements PositionService {
 			IpoPositionFlow item = dbList.get(0);
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setFreeqty(entity.getHoldqty()-entity.getFrozenqty());
 			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			return entity;
 		}
@@ -85,7 +91,6 @@ public class PositionServiceImpl implements PositionService {
 		for (IpoPositionFlow item : dbList) {
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setFreeqty(entity.getHoldqty()-entity.getFrozenqty());
 			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			dataList.add(entity);
 		}
@@ -160,6 +165,67 @@ public class PositionServiceImpl implements PositionService {
 		}; 
 		return positionReduceMapper.deleteById(positionReduce);
 	}
+	
+	
+	/**
+	 * 更新减持状态
+	 */
+	@Transactional
+	public int updateReduceState(PositionReduce positionReduce) {
+		if(positionReduce.getUpdateDate()==null){
+			positionReduce.setUpdateDate(new Date());
+		};
+		return positionReduceMapper.updateState(positionReduce);
+	}
+	
+	
+	
+	/**
+	 * 客户持仓减持
+	 * @param positionReduce
+	 */
+	@Transactional
+	public void reduceeCustomerHold(PositionReduce positionReduce){
+		Long reduceId=positionReduce.getId();
+		String customerid=positionReduce.getFirmId()+"00";
+		String commodityid=positionReduce.getCommodityId();
+		short bsFlag=1; //买卖标志 1:买 buy，2:卖 sell
+		TCustomerholdsum dbCustomerHold= customerholdsumMapper.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		if(dbCustomerHold==null){
+			throw new RuntimeException("解冻客户持仓记录不存在,[reduceId:"+reduceId+",customerid:"+customerid+"," +
+					"commodityid:"+commodityid+",bsFlag:"+bsFlag+"]");
+		};
+		TCustomerholdsum param= new TCustomerholdsum();
+		BeanUtils.copyProperties(dbCustomerHold, param);
+		Long frozenqty=dbCustomerHold.getFrozenqty()-positionReduce.getReduceqty();
+		if(frozenqty<0){
+			frozenqty=0L;
+		};
+		param.setFrozenqty(frozenqty);
+		customerholdsumMapper.updateByPrimaryKey(param);
+		//更新状态
+		positionReduce.setState(PositionConstant.ReduceState.reduce.getCode());
+		if(positionReduce.getUpdateDate()==null){
+			positionReduce.setUpdateDate(new Date());
+		};
+		positionReduceMapper.updateState(positionReduce);
+		//更新释放数量
+		Long flowId= positionReduce.getPositionFlowId();
+		PositionFlow dbPositionFlow=findFlow(flowId);
+		Long freeqty =dbPositionFlow.getFreeqty();
+		if(freeqty==null){
+			freeqty=0L;
+		};
+		freeqty+=positionReduce.getReduceqty();
+		dbPositionFlow.setFreeqty(freeqty);
+		dbPositionFlow.setUpdateDate(new Date());
+		dbPositionFlow.setUpdateUser(positionReduce.getUpdateUser());
+		positionFlowMapper.updateFreeqty(dbPositionFlow);
+		
+	}
+	
+	
+	
 	
 	
 	

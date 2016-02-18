@@ -42,9 +42,16 @@
 			<if test="param.positionFlowId!=null and param.positionFlowId!='' ">
 				 and pr.positionflow_id=#{param.positionFlowId}
 			</if>
+			<if test="param.state>0">
+				 and pr.state=#{param.state}
+			</if>
+			<if test="param.reduceDate!=null ">
+				 and pr.reduce_date=#{param.reduceDate}
+			</if>
 			<if test="param.commodityId!=null and param.commodityId!='' ">
 				 and pf.commodityid=#{param.commodityId}
 			</if>
+			
 			order by pr.create_date desc
   </select>
   
@@ -55,6 +62,13 @@
       set pr.delete_flag=1,pr.update_user=#{updateUser},pr.update_date=#{updateDate,jdbcType=TIMESTAMP} 
       where pr.id=#{id}
   </delete>
+  
+  
+   <update id="updateState"  parameterType="com.yrdce.ipo.modules.sys.vo.PositionReduce" >
+	   update ipo_positionreduce pr set 
+	     pr.state=#{state},pr.update_user=#{updateUser},pr.update_date=#{updateDate,jdbcType=TIMESTAMP} 
+	   where pr.id=#{id}
+  </update>
   
   
   
