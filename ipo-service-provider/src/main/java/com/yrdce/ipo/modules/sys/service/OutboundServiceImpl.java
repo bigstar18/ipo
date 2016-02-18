@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
@@ -105,7 +106,9 @@ public class OutboundServiceImpl implements OutboundService {
 			if (ipoOutbound.getOutboundstate() == 2) {
 				deliveryorder.setDeliveryorderId(ipoOutbound
 						.getOutboundorderid());
-				deliveryorder.setApprovalStatus(6);
+				deliveryorder
+						.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEPASS
+								.getCode());
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			} else if (ipoOutbound.getOutboundstate() == 3) {
 				IpoDeliveryorder deliveryorderInfo = ipoDeliveryorderMapper
@@ -130,7 +133,9 @@ public class OutboundServiceImpl implements OutboundService {
 				ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
 				deliveryorder.setDeliveryorderId(ipoOutbound
 						.getOutboundorderid());
-				deliveryorder.setApprovalStatus(7);
+				deliveryorder
+						.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSENOPASS
+								.getCode());
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			}
 			return 1;

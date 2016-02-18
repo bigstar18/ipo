@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>发行会员结算报表</title>
+  
 <script type="text/javascript">
 function returnToPage(){
 	document.location.href= '<%=request.getContextPath()%>/PublisherController/settleReports';
@@ -28,7 +29,7 @@ function returnToPage(){
 		<tr>
 			<td>
 				<div id = ediv>
-				<table align="center" height="400px" width="800px" border="0" id ="tableList">
+				<table align="center" width="800px" height="400px"  border="0" id ="tableList">
 					<tr>
 						<td valign="top">
 						    <center class="reportHead"><h2>发行会员结算报表</h2></center><br/>
@@ -62,7 +63,7 @@ function returnToPage(){
 <table width="800px"  border="1" cellspacing="0" cellpadding="0" align="center">
 	<tr>
 		<td class="td_reportMdHead_Right">上日资金余额：</td>
-		<td class="td_reportMd1">${settle.balance.yesterdaybalance }</td>
+		<td class="td_reportMd1">${settle.balance.yesterdaybalance==null?0:settle.balance.yesterdaybalance }</td>
 		<td class="td_reportMdHead_Right">发行货款：</td>
 		<td class="td_reportRd1">${settle.totalLoan }</td>		
 	</tr>
@@ -70,7 +71,7 @@ function returnToPage(){
 		<td class="td_reportMdHead_Right">当日出入金：</td>
 		<td class="td_reportMd1">0.00</td>
 		<td class="td_reportMdHead_Right">当日资金余额</td>
-		<td class="td_reportRd1">${settle.balance.todaybalance }</td>	
+		<td class="td_reportRd1">${settle.balance.todaybalance==null?0:settle.balance.todaybalance }</td>	
 	</tr>
 </table>
 </div>

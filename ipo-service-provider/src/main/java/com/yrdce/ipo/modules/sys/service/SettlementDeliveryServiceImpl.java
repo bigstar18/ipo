@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -48,7 +49,8 @@ import com.yrdce.ipo.modules.sys.vo.Position;
 @Service
 public class SettlementDeliveryServiceImpl implements SettlementDeliveryService {
 
-	static Logger logger = LoggerFactory.getLogger(SettlementDeliveryServiceImpl.class);
+	static Logger logger = LoggerFactory
+			.getLogger(SettlementDeliveryServiceImpl.class);
 
 	@Autowired
 	private IpoPickupMapper ipoPickupMapper;
@@ -94,7 +96,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 自提申请
 	@Override
 	@Transactional
-	public String applicationByPickup(DeliveryOrder deliveryOrder) throws Exception {
+	public String applicationByPickup(DeliveryOrder deliveryOrder)
+			throws Exception {
 		logger.info("自提申请");
 		// 自提表
 		IpoPickup ipoPickup = new IpoPickup();
@@ -102,7 +105,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoPickupMapper.insert(ipoPickup);
 		String pickupId = ipoPickup.getPickupId();
 
-		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, pickupId);
+		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(
+				deliveryOrder, pickupId);
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
@@ -111,7 +115,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 在线配送申请
 	@Override
 	@Transactional
-	public String applicationByexpress(DeliveryOrder deliveryOrder) throws Exception {
+	public String applicationByexpress(DeliveryOrder deliveryOrder)
+			throws Exception {
 		logger.info("在线配送申请");
 		// 在线配送
 		IpoExpress ipoExpress = new IpoExpress();
@@ -119,18 +124,21 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoExpressMapper.insert(ipoExpress);
 		String expressId = ipoExpress.getExpressId();
 
-		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, expressId);
+		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(
+				deliveryOrder, expressId);
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
 	}
 
 	// 申请共用部分方法
-	public IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder, String id) {
+	public IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder,
+			String id) {
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
-		ipoDeliveryorder.setApprovalStatus(1);
+		ipoDeliveryorder.setApprovalStatus(DeliveryConstant.StatusType.REGISTER
+				.getCode());
 		ipoDeliveryorder.setMethodId(id);
 		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -148,7 +156,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId();
 		String commid = deliveryOrder.getCommodityId();
-		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid,
+				commid);
 		long position = ipoPosition.getPosition();
 		long num = position - quatity;
 		ipoPositionMapper.updatePosition(firmid, commid, num);
@@ -157,13 +166,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 自提打印
 	@Override
-	public List<DeliveryOrder> getPrint(String page, String rows, Paging paging) throws Exception {
-		logger.info("自提打印:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+	public List<DeliveryOrder> getPrint(String page, String rows, Paging paging)
+			throws Exception {
+		logger.info("自提打印:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup(
+				(curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -176,7 +188,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 自提打印总页数
 	@Override
 	public int counts(Paging paging, String deliveryMethod) throws Exception {
-		logger.info("自提打印总页数" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		logger.info("自提打印总页数" + "userid:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		if (deliveryMethod.equals("no")) {
 			logger.info("无参数的条数查询");
 			return ipoDeliveryorderMapper.selectCounts(paging, null);
@@ -190,7 +203,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Override
 	public Pickup getDetail(String methodid) throws Exception {
 		logger.info("自提信息信息" + "methodid:" + methodid);
-		IpoPickupExtended ipoPickup = ipoDeliveryorderMapper.selectByPickUp(methodid);
+		IpoPickupExtended ipoPickup = ipoDeliveryorderMapper
+				.selectByPickUp(methodid);
 		Pickup pickup = new Pickup();
 		BeanUtils.copyProperties(ipoPickup, pickup);
 		return pickup;
@@ -198,13 +212,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 撤销申请页面展示
 	@Override
-	public List<DeliveryOrder> getRevocationList(String page, String rows, Paging paging) throws Exception {
-		logger.info("撤销提货列表:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+	public List<DeliveryOrder> getRevocationList(String page, String rows,
+			Paging paging) throws Exception {
+		logger.info("撤销提货列表:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectRevocation((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectRevocation(
+				(curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -217,24 +234,30 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 撤销申请(状态修改)
 	@Override
 	@Transactional
-	public String updateRevocationStatus(String deliveryorderid, String status, String userid) throws Exception {
+	public String updateRevocationStatus(String deliveryorderid, String status,
+			String userid) throws Exception {
 		int status1 = Integer.parseInt(status);
-		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
+		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:"
+				+ status1);
 		if (status1 == 10) {
 			// 获取此条订单的属性
-			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper
+					.selectByPrimaryKey(deliveryorderid);
 			String firmid = ipoDeliveryorder.getDealerId();
 			String commid = ipoDeliveryorder.getCommodityId();
 			long quatity = ipoDeliveryorder.getDeliveryQuatity();
 			// 获取此交易商的持仓量
-			IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
+			IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid,
+					commid);
 			long position = ipoPosition.getPosition();
 			long num = position + quatity;
 			// 更新交易商的持仓量
 			ipoPositionMapper.updatePosition(firmid, commid, num);
 		} else if (status1 == 9) {
-			IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
-			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+			IpoExpress ipoExpress = ipoExpressMapper
+					.selectExpress(deliveryorderid);
+			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper
+					.selectByPrimaryKey(deliveryorderid);
 			String commodid = ipoDeliveryorder.getCommodityId();
 			BigDecimal cost = ipoExpress.getCost();
 			Map<String, Object> param = new HashMap<String, Object>();
@@ -263,13 +286,17 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 在线配送
 	@Override
-	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception {
-		logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+	public List<Express> getListByExpress(String page, String rows,
+			Paging paging) throws Exception {
+		logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper.selectByExpress((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper
+				.selectByExpress((curpage - 1) * pagesize + 1, curpage
+						* pagesize, paging);
 		List<Express> list2 = new ArrayList<Express>();
 		for (IpoExpressExtended ipoExpressExtended : list1) {
 			Express express = new Express();
@@ -281,13 +308,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 提货查询
 	@Override
-	public List<DeliveryOrder> getListByOrder(String page, String rows, Paging paging) throws Exception {
-		logger.info("提货查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+	public List<DeliveryOrder> getListByOrder(String page, String rows,
+			Paging paging) throws Exception {
+		logger.info("提货查询" + "用户ID:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid(
+				(curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -300,14 +330,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 提货查询总页数
 	@Override
 	public int countsByAll(Paging paging) throws Exception {
-		logger.info("提货查询总页数" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+		logger.info("提货查询总页数" + "用户ID:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		return ipoDeliveryorderMapper.allCounts(paging);
 	}
 
 	// 根据提货方式和提货id查申请主表
 	@Override
 	public DeliveryOrder getorder(String method, String id) {
-		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByMethodAndId(method, id);
+		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper
+				.selectByMethodAndId(method, id);
 		DeliveryOrder deliveryOrder = new DeliveryOrder();
 		BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
 		return deliveryOrder;
@@ -335,13 +367,17 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 费用查询
 	@Override
-	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging) throws Exception {
-		logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
+	public List<DeliveryCost> getListByDeliveryCost(String page, String rows,
+			Paging paging) throws Exception {
+		logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号："
+				+ paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryCostExtended> list1 = ipoDeliveryCostMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryCostExtended> list1 = ipoDeliveryCostMapper
+				.selectByUserid((curpage - 1) * pagesize + 1, curpage
+						* pagesize, paging);
 		List<DeliveryCost> list2 = new ArrayList<DeliveryCost>();
 		for (IpoDeliveryCost ipodeliveryCost : list1) {
 			DeliveryCost deliveryCost = new DeliveryCost();
@@ -356,19 +392,23 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return ipoDeliveryCostMapper.countsByCost(paging);
 	}
 
-	//收付款流水
-	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money) {
+	// 收付款流水
+	private String fundsFlow(String commodityid, String id, String userid,
+			BigDecimal money) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
-		debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY.getCode());
+		debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
+				.getCode());
 		debitFlow.setChargeType(ChargeConstant.ChargeType.CARRIAGE.getCode());
 		debitFlow.setCommodityId(commodityid);
 		debitFlow.setOrderId(id);
-		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
+		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS
+				.getCode());
 		debitFlow.setPayer(userid);
 		debitFlow.setAmount(money);
 		debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
-		debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
+		debitFlow
+				.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
 		debitFlow.setBuyBackFlag(0);
 		debitFlow.setCreateUser(userid);
 		debitFlow.setCreateDate(new Date());

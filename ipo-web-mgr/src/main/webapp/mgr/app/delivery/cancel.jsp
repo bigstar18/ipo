@@ -88,18 +88,17 @@ $(document).ready(function() {
             align: "center",
             title : '状态' ,
             formatter:function(value,row){
-            	 if(value=='1') return "申请";
-               	 if(value=='2') return "市场通过";
-               	 if(value=='3') return "市场驳回";
-               	 if(value=='4') return "已打印";
-               	 if(value=='5') return "已过户";
-               	 if(value=='6') return "仓库通过";
-               	 if(value=='7') return "仓库驳回";
-               	 if(value=='8') return "已设置配置费用";
-               	 if(value=='9')  return "已确认";
-               	 if(value=='10') return "已废除";
-               	 if(value=='11')  return "已出库";
-               	 if(value=='12') return "已收货";
+            	 if(value=='001') return "申请";
+               	 if(value=='002001') return "市场通过";
+               	 if(value=='002002') return "市场驳回";
+               	 if(value=='003001') return "已打印";
+               	 if(value=='003002') return "已过户";
+            	 if(value=='003003') return "已设置配置费用";
+            	 if(value=='003003001') return "已确认";
+               	 if(value=='004001') return "仓库通过";
+               	 if(value=='004002') return "仓库驳回";
+               	 if(value=='005')  return "已出库";
+               	 if(value=='006') return "已废除";
         }
         },{  
             field : 'methodId',  
@@ -107,7 +106,7 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
-            	if(row.approvalStatus<9&&row.approvalStatus!=3&&row.approvalStatus!=7){
+            	if(row.approvalStatus=='001'||row.approvalStatus=='002001'||row.approvalStatus=='003001'||row.approvalStatus=='003002'||row.approvalStatus=='003003'){
         	    return "<input type=\"button\" onclick=\"cancel('"+row.deliveryorderId+"')\" value=\"撤销\"/>";
             	}
         }
@@ -134,8 +133,8 @@ $(document).ready(function() {
 });
 
 function cancel(id){
-             $.ajax({ 
-                           		   cache:false,
+                                $.ajax({ 
+                           		      cache:false,
                                       type: "post",  
                                       url: getRootPath () +"/DeliveryController/cancelOrders",       
                                       data: {"deorderId":id},      

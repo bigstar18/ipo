@@ -92,18 +92,17 @@ $(document).ready(function() {
             align: "center",
             title : '状态' ,
             formatter:function(value){
-           	 if(value=='1') return "申请";
-           	 if(value=='2') return "市场通过";
-           	 if(value=='3') return "市场驳回";
-           	 if(value=='4') return "已打印";
-           	 if(value=='5') return "已过户";
-           	 if(value=='6') return "仓库通过";
-           	 if(value=='7') return "仓库驳回";
-           	 if(value=='8') return "已设置配置费用";
-           	 if(value=='9')  return "已确认";
-           	 if(value=='10') return "已废除";
-           	 if(value=='11')  return "已出库";
-           	 if(value=='12') return "已收货";
+            	 if(value=='001') return "申请";
+               	 if(value=='002001') return "市场通过";
+               	 if(value=='002002') return "市场驳回";
+               	 if(value=='003001') return "已打印";
+               	 if(value=='003002') return "已过户";
+            	 if(value=='003003') return "已设置配置费用";
+            	 if(value=='003003001') return "已确认";
+               	 if(value=='004001') return "仓库通过";
+               	 if(value=='004002') return "仓库驳回";
+               	 if(value=='005')  return "已出库";
+               	 if(value=='006') return "已废除";
           }
          }
         ]],  
@@ -159,18 +158,17 @@ function clearInfo(){
 			申请日期：<input type="text" id="applyDate" name="applyDate"></input> 
 			提货单状态: 	<select id="approvalStatus" name="approvalStatus" style="width:80">
 					<option value="">请选择</option>
-					<option value="1">申请</option>
-					<option value="2">市场通过</option>
-					<option value="3">市场驳回</option>
-					<option value="4">已打印</option>
-					<option value="5">已过户</option>
-					<option value="6">仓库通过</option>
-					<option value="7">仓库驳回</option>
-					<option value="8">已设置配置费用</option>
-					<option value="9">已确认</option>
-					<option value="10">已废除</option>
-					<option value="11">已出库</option>
-					<option value="12">已收货</option>
+					<option value="001">申请</option>
+					<option value="002001">市场通过</option>
+					<option value="002002">市场驳回</option>
+					<option value="003001">已打印</option>
+					<option value="003002">已过户</option>
+					<option value="003003">已设置配置费用</option>
+					<option value="003003001">已确认</option>
+					<option value="004001">仓库通过</option>
+					<option value="004002">仓库驳回</option>
+					<option value="005">已出库</option>
+					<option value="006">已废除</option>
 					</select>
 			交易商代码：<input type="text" id="dealerId" name="dealerId" />
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>

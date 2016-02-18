@@ -148,7 +148,8 @@ public class BrBrokerServiceImpl implements BrBrokerService {
 			IpoCommodityConf comm = ipoCommodityConfmapper
 					.findIpoCommConfByCommid(commid);
 			BeanUtils.copyProperties(comm, example);
-			dlist.add(example);
+			if (example.getLoan() != null || example.getHanding() != null)
+				dlist.add(example);
 		}
 		return dlist;
 	}

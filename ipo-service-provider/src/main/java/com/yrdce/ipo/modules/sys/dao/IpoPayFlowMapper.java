@@ -58,9 +58,10 @@ public interface IpoPayFlowMapper {
 	public IpoPayFlow findById(Long id);
 
 	/**
-	 * 查找发行商的日认购金额和日发行手续费
+	 * 查找发行商的日认购金额、日发行手续费
 	 * 
-	 * @param id
+	 * @param pubmemberid
+	 * @param queryDate
 	 * @return
 	 */
 	public List<IpoPublisherSettle> selectPublisherSettleByPublisher(

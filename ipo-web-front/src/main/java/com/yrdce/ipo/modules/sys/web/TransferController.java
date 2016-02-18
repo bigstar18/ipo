@@ -41,28 +41,12 @@ public class TransferController {
 		try {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
-			order.setWarehouseId(null);
-			String operatorid = ((UserManageVO) session
-					.getAttribute("CurrentUser")).getUserID();
 			if (!order.getPickupPassword().equals("")) {
 				deliveryOrder = deliveryOrderService
 						.getPickupDeliveryInfo(order);
-			} else {
-				deliveryOrder = deliveryOrderService
-						.getExpressDeliveryInfo(order);
+				return JSON.json(deliveryOrder);
 			}
-			System.out.println(deliveryOrder);
-			if (deliveryOrder != null) {
-				if (operatorid != null) {
-					if (!operatorid.equals(deliveryOrder.getDealerId())) {
-						return "";
-					}
-				}
-				String request = JSON.json(deliveryOrder);
-				return request;
-			} else {
-				return "";
-			}
+			return "";
 		} catch (Exception e) {
 			log.error("获取提货单信息异常", e);
 			return "error";
@@ -91,16 +75,14 @@ public class TransferController {
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String updateSate(
-			@RequestParam("deliveryorderId") String deliveryorderId) {
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			HttpSession session) {
 		try {
 			log.info("确认过户");
-			int result = deliveryOrderService
-					.transferDeliveryOrder(deliveryorderId);
-			if (result == 1) {
-				return "success";
-			} else {
-				return "fail";
-			}
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			deliveryOrderService.transferDeliveryOrder(deliveryorderId, userId);
+			return "success";
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("过户异常", e);

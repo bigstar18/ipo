@@ -11,18 +11,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
+import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 
@@ -45,7 +48,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Autowired
 	private IpoOutboundMapper ipoOutboundMapper;
 	@Autowired
-	private IpoPositionMapper ipopositionmapper;
+	private IpoPositionFlowMapper ipopositionmapper;
 
 	public IpoDeliveryorderMapper getDeliveryordermapper() {
 		return deliveryordermapper;
@@ -135,8 +138,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				BeanUtils.copyProperties(order, deorder);
 				deorder.setApproveDate(new Date());
 				deorder.setApprovers(managerId);
-				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
-				if (order.getApprovalStatus() == 2) {
+				deliveryordermapper.updateByPrimaryKey(deorder);
+				if (order.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
 					// ipopickupmapper.updateByPrimaryKey(ipopickup);
 					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
@@ -157,20 +161,29 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 								+ stock.getOutboundnum());
 					}
 				}
-				if (order.getApprovalStatus() == 3) {
+				if (order.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
 					// 驳回更新持仓量
 					long quatity = order.getDeliveryQuatity();
 					String firmid = order.getDealerId();
 					String commid = order.getCommodityId();
-					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
-							firmid, commid);
-					long position = ipoPosition.getPosition();
-					long num = position + quatity;
-					ipopositionmapper.updatePosition(firmid, commid, num);
+					PositionFlow position = new PositionFlow();
+					position.setFirmId(firmid);
+					position.setHoldqty(quatity);
+					position.setFrozenqty((long) 0);
+					position.setCommodityId(commid);
+					position.setBusinessCode(ChargeConstant.BusinessType.DELIVERY
+							.getCode());
+					position.setRoleCode(ChargeConstant.RoleType.TRADER
+							.getCode());
+					position.setCreateDate(new Date());
+					position.setCreateUser(managerId);
+					position.setState(PositionConstant.FlowState.no_turn_goods
+							.getCode());
+					position.setRemark("市场驳回,返还持仓");
+					ipopositionmapper.insert(position);
 				}
-				if (onum != 0) {
-					return "已审核";
-				}
+				return "已审核";
 			}
 		}
 		return "审核失败";
@@ -187,8 +200,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				BeanUtils.copyProperties(order, deorder);
 				deorder.setApproveDate(new Date());
 				deorder.setApprovers(managerId);
-				int onum = deliveryordermapper.updateByPrimaryKey(deorder);
-				if (order.getApprovalStatus() == 2) {
+				deliveryordermapper.updateByPrimaryKey(deorder);
+				if (order.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
 					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
@@ -208,20 +222,19 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 						ipoWarehouseStockMapper.updateInfo(stock);
 					}
 				}
-				if (order.getApprovalStatus() == 3) {
+				if (order.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
 					// 驳回更新持仓量
 					long quatity = order.getDeliveryQuatity();
 					String firmid = order.getDealerId();
 					String commid = order.getCommodityId();
-					IpoPosition ipoPosition = ipopositionmapper.selectPosition(
-							firmid, commid);
-					long position = ipoPosition.getPosition();
-					long num = position + quatity;
-					ipopositionmapper.updatePosition(firmid, commid, num);
+					// IpoPosition ipoPosition =
+					// ipopositionmapper.selectPosition(firmid, commid);
+					// long position = ipoPosition.getPosition();
+					// long num = position + quatity;
+					// ipopositionmapper.updatePosition(firmid, commid, num);
 				}
-				if (onum != 0) {
-					return "已审核";
-				}
+				return "已审核";
 			}
 		}
 		return "审核失败";
@@ -279,23 +292,27 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	public String cancelDeorder(String deOrderId, String cancellId) {
 		IpoDeliveryorder orideorder = deliveryordermapper
 				.selectByPrimaryKey(deOrderId);
-		deliveryordermapper.cancelDeorder(deOrderId, cancellId);
+		deliveryordermapper.cancelDeorder(deOrderId,
+				DeliveryConstant.StatusType.CANCEL.getCode(), cancellId);
 		IpoDeliveryorder deorder = deliveryordermapper
 				.selectByPrimaryKey(deOrderId);
 		if (deorder != null) {
-			Integer status = deorder.getApprovalStatus();
+			String status = deorder.getApprovalStatus();
 			long quatity = deorder.getDeliveryQuatity();// 撤销返还持仓量
 			String firmid = deorder.getDealerId();
 			String commid = deorder.getCommodityId();
-			IpoPosition ipoPosition = ipopositionmapper.selectPosition(firmid,
-					commid);
-			long position = ipoPosition.getPosition();
-			long num = position + quatity;
-			int pnum = ipopositionmapper.updatePosition(firmid, commid, num);
-			if (status == 10 && pnum == 1) {
+			/*
+			 * IpoPosition ipoPosition =
+			 * ipopositionmapper.selectPosition(firmid, commid);
+			 */
+			// long position = ipoPosition.getPosition();
+			// long num = position + quatity;
+			// int pnum = ipopositionmapper.updatePosition(firmid, commid, num);
+			if (status.equals(DeliveryConstant.StatusType.CANCEL.getCode())) {
 				if (orideorder != null) {
-					Integer oristatus = orideorder.getApprovalStatus();
-					if (oristatus > 1) {// 解冻库存
+					String oristatus = orideorder.getApprovalStatus();
+					if (!(oristatus.equals(DeliveryConstant.StatusType.REGISTER
+							.getCode()))) {// 解冻库存
 						IpoWarehouseStock stock = ipoWarehouseStockMapper
 								.selectByCommoId(commid, Long.parseLong(deorder
 										.getWarehouseId()));
@@ -445,11 +462,29 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public Integer transferDeliveryOrder(String deliveryId) {
+	public Integer transferDeliveryOrder(String deliveryId, String userId) {
 		IpoDeliveryorder example = deliveryordermapper
 				.selectByPrimaryKey(deliveryId);
-		example.setApprovalStatus(5);// 已过户
-		return deliveryordermapper.updateByPrimaryKey(example);
+		if (example.getApprovalStatus().equals(
+				DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+			example.setApprovalStatus(DeliveryConstant.StatusType.TRANSFERRED
+					.getCode());
+			long quatity = example.getDeliveryQuatity();// 持仓转移
+			String commid = example.getCommodityId();
+			// IpoPosition ipoPosition =
+			// ipopositionmapper.selectPosition(userId,
+			// commid);
+			// if (ipoPosition == null) {
+			// 新增持仓
+			// } else {
+			// long position = ipoPosition.getPosition();
+			// long num = position + quatity;
+			// ipopositionmapper.updatePosition(userId, commid, num);
+			// }
+			return deliveryordermapper.updateByPrimaryKey(example);
+		}
+		return null;
+
 	}
 
 	@Override

@@ -463,61 +463,50 @@ public class PublisherController {
 		List<VBrBroker> brokers = brBrokerService.findAllPublisher();
 		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(publisherid)) {
-			PublisherBalance balance = brBrokerService.findBalance(publisherid,
-					queryDate);// 上日和今日资金余额
-			// 获取货款和手续费
-			List<PublisherSettle> paylist = brBrokerService
-					.findLoanAndHandling(publisherid, queryDate);
-			BigDecimal totalLoan = new BigDecimal(0);
-			for (PublisherSettle temp : paylist) {
-				if (temp.getLoan() == null) {
-					totalLoan = totalLoan.add(new BigDecimal(0));
-				} else {
-					totalLoan = totalLoan.add(temp.getLoan());
-				}
-
-			}
-			SettleResult result = new SettleResult();
-			result.setBalance(balance);
-			result.setTotalLoan(totalLoan);
-			result.setList(paylist);
+			SettleResult result = this.getSettle(publisherid, queryDate);
 			for (VBrBroker broker : brokers) {
 				if (publisherid.equals(broker.getBrokerid())) {
 					result.setBroker(broker);
 				}
 			}
 			settles.add(result);
-			request.setAttribute("settles", settles);
-			request.setAttribute("today", queryDate);
-			return "/app/publisherQuery/reportsDetail";
 		} else {
 			for (int i = 0; i < brokers.size(); i++) {
 				String publisher = brokers.get(i).getBrokerid();
-				PublisherBalance balance = brBrokerService.findBalance(
-						publisher, queryDate);// 上日和今日资金余额
-				// 获取货款和手续费
-				List<PublisherSettle> paylist = brBrokerService
-						.findLoanAndHandling(publisher, queryDate);
-				BigDecimal totalLoan = new BigDecimal(0);
-				for (PublisherSettle settle : paylist) {
-					if (settle.getLoan() == null) {
-						totalLoan = totalLoan.add(new BigDecimal(0));
-					} else {
-						totalLoan = totalLoan.add(settle.getLoan());
-					}
-
-				}
-				SettleResult result = new SettleResult();
-				result.setBalance(balance);
-				result.setTotalLoan(totalLoan);
-				result.setList(paylist);
+				SettleResult result = this.getSettle(publisher, queryDate);
 				result.setBroker(brokers.get(i));
 				settles.add(result);
 			}
-			request.setAttribute("settles", settles);
-			request.setAttribute("today", queryDate);
-			return "/app/publisherQuery/reportsDetail";
 		}
+		request.setAttribute("settles", settles);
+		request.setAttribute("today", queryDate);
+		return "/app/publisherQuery/reportsDetail";
+	}
+
+	/*
+	 * 获取每个交易商的报表内容
+	 */
+	public SettleResult getSettle(String publisherid, String queryDate) {
+		PublisherBalance balance = brBrokerService.findBalance(publisherid,
+				queryDate);// 上日和今日资金余额
+		// 获取货款和手续费
+		List<PublisherSettle> paylist = brBrokerService.findLoanAndHandling(
+				publisherid, queryDate);
+		BigDecimal totalLoan = new BigDecimal(0);
+		for (PublisherSettle temp : paylist) {
+			if (temp.getLoan() == null) {
+				totalLoan = totalLoan.add(new BigDecimal(0));
+			} else {
+				totalLoan = totalLoan.add(temp.getLoan());
+			}
+
+		}
+		SettleResult result = new SettleResult();
+		result.setBalance(balance);
+		result.setTotalLoan(totalLoan);
+		result.setList(paylist);
+		return result;
+
 	}
 
 }
