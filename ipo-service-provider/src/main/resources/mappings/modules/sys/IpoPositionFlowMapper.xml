@@ -114,6 +114,11 @@
   </update>
   
 
-
+   <select id="transferGoodsPosition" statementType="CALLABLE" parameterType="java.util.HashMap">
+       <![CDATA[
+            {call SP_I_TRANSFERGOODSPOSITION(#{commodityid,mode=IN,jdbcType=VARCHAR},#{operUser,mode=IN,jdbcType=VARCHAR})}
+       ]]>
+ 
+  </select>
 
 </mapper>
