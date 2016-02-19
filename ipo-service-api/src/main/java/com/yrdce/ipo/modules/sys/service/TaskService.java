@@ -68,7 +68,7 @@ public interface TaskService {
 	 * @param commodityid
 	 * @throws Exception
 	 */
-	public void ipoTransferGoodsPosition(String commodityid) throws Exception;
+	public void ipoTransferGoodsPosition(String commodityid,String operUser) throws Exception;
 
 	// 增发散户配售
 	public void placing() throws Exception;

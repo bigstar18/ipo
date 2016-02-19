@@ -24,6 +24,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
@@ -69,6 +70,8 @@ public class TaskServiceImpl implements TaskService {
 	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 	@Autowired
 	private IpoCommodityMapper commodityMapper;
 	@Autowired
@@ -332,15 +335,37 @@ public class TaskServiceImpl implements TaskService {
 	 * ipo 转现货持仓
 	 */
 	public void ipoTransferGoodsPosition() throws Exception {
-
-		IpoCommodityConf examples = new IpoCommodityConf();
-		List<IpoCommodityConf> commList = commodityConfMapper.queryListingCommodity(examples);
+		List<IpoCommodityConf> commList = commodityConfMapper.findAllIpoCommConfs();
 		if (commList == null || commList.isEmpty()) {
 			return;
 		}
 		for (IpoCommodityConf item : commList) {
 			try {
-				ipoTransferGoodsPosition(item.getCommodityid());
+				// 上市日期
+				Date listingdate= item.getListingdate();
+				//交货开始日期
+				Date deliverystartday=item.getDeliverystartday();
+				Date baseday=null;
+				if(listingdate!=null&&deliverystartday==null){
+					baseday=listingdate;
+				}else if(listingdate==null&&deliverystartday!=null){
+					baseday=deliverystartday;
+				}else if(listingdate!=null&&deliverystartday!=null){
+					if(listingdate.getTime()<deliverystartday.getTime()){
+						baseday=listingdate;
+					}else{
+						baseday=deliverystartday;
+					}
+				};
+				if(baseday==null){
+					continue;
+				};
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+				Date today=sdf.parse(sdf.format(new Date()));
+				baseday= sdf.parse(sdf.format(baseday));
+				if(today.getTime()>=baseday.getTime()){
+					ipoTransferGoodsPosition(item.getCommodityid(),"job");
+				}
 			} catch (Exception e) {
 				logger.error("ipo转持仓失败,商品编码:", item.getCommodityid());
 			}
@@ -349,12 +374,14 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	/**
-	 * ipo 转现货持仓
+	 * ipo持仓 转现货持仓
 	 */
 	@Transactional
-	public void ipoTransferGoodsPosition(String commodityid) throws Exception {
-		ipoPositionMapper.transferGoodsPosition(commodityid);
+	public void ipoTransferGoodsPosition(String commodityid,String operUser) throws Exception {
+		positionFlowMapper.transferGoodsPosition(commodityid,operUser);
 	}
+	
+	
 
 	/**
 	 * 比例增发散户的配售
