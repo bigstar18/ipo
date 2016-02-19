@@ -141,7 +141,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				deliveryordermapper.updateByPrimaryKey(deorder);
 				if (order.getApprovalStatus().equals(
 						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					// ipopickupmapper.updateByPrimaryKey(ipopickup);
 					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
 					String commid = deorder.getCommodityId();
 					IpoWarehouseStock stock = ipoWarehouseStockMapper
@@ -160,10 +159,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 								+ stock.getStoragenum() + "出库数量："
 								+ stock.getOutboundnum());
 					}
+					// 扣现货持仓
 				}
 				if (order.getApprovalStatus().equals(
 						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-					// 驳回更新持仓量
+					// 驳回解冻持仓
+
+					CustomerHoldSumServiceImpl cserveice = new CustomerHoldSumServiceImpl();
+					// cserveice.unfreezeCustomerHold(unfreezeqty, customerid,
+					// commodityid, bsFlag);
+
 					long quatity = order.getDeliveryQuatity();
 					String firmid = order.getDealerId();
 					String commid = order.getCommodityId();

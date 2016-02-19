@@ -331,6 +331,14 @@ public class DeliveryController {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+				// 扣持仓 减库存
+			}
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+				// 解冻持仓
+			}
 			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
