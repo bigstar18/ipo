@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
+import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
@@ -61,6 +62,9 @@ public class DeliveryController {
 
 	@Autowired
 	private IpoWarehouseStockService warehouseStockService;
+
+	@Autowired
+	private CustomerHoldSumService customerHoldSumService;
 
 	public OutboundService getOutboundService() {
 		return outboundService;
@@ -330,16 +334,24 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-				// 扣持仓 减库存
+			String result = deliveryorderservice.updateDeliveryOrder(deorder,
+					userId);
+			if (result.equals("true")) {
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+					deliveryorderservice.frozenStock(deorder);
+					// 扣持仓
+				}
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+					customerHoldSumService
+							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
+									deorder.getDealerId() + "00",
+									deorder.getCommodityId(), (short) 1);
+				}
+				return "true";
 			}
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-				// 解冻持仓
-			}
-			return "true";
+			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

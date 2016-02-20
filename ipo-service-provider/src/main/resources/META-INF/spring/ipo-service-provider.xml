@@ -69,7 +69,7 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DebitFlowService" ref="debitFlowService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.BrokerageReportService" ref="brokerageReportService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.PositionService" ref="positionService" protocol="dubbo" />
-	
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.CustomerHoldSumService" ref="customerHoldSumService" protocol="dubbo" />
 	
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />

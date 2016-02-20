@@ -50,8 +50,8 @@ public interface DeliveryConstant {
 	public static enum StatusType {
 		REGISTER("001", "注册"), MARKETPASS("002001", "市场通过"), MARKETNOPASS(
 				"002002", "市场驳回"), PRINTED("003001", "已自提打印"), TRANSFERRED(
-				"003002", "已货权过户"), EXPRESSCOSTSET("003003", "已设置配送费用"), CONFIRM(
-				"003003001", "已确认"), WAREHOUSEPASS("004001", "仓库通过"), WAREHOUSENOPASS(
+				"003001001", "已货权过户"), EXPRESSCOSTSET("003002", "已设置配送费用"), CONFIRM(
+				"003002001", "已确认"), WAREHOUSEPASS("004001", "仓库通过"), WAREHOUSENOPASS(
 				"004002", "仓库驳回"), WAREHOUSEOUT("005", "已出库"), CANCEL("006",
 				"已废除");
 

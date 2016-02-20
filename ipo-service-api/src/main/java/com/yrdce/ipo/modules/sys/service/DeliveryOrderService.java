@@ -78,11 +78,17 @@ public interface DeliveryOrderService {
 	 * 审核自提提货单
 	 * 
 	 * @param order
-	 * @param pickup
 	 * @return
 	 */
-	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup,
-			String managerId);
+	public String updateDeliveryOrder(DeliveryOrder order, String managerId);
+
+	/**
+	 * 冻结库存
+	 * 
+	 * @param order
+	 * @return
+	 */
+	public String frozenStock(DeliveryOrder order);
 
 	/**
 	 * 审核配送提货单

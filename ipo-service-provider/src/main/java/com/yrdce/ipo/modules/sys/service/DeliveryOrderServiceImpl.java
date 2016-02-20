@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
-import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
-import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
@@ -25,7 +23,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
-import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 
@@ -129,69 +126,40 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Pickup pickup,
-			String managerId) {
+	public String updateDeliveryOrder(DeliveryOrder order, String managerId) {
 		Log.info("审核自提提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		if (order != null) {
-			if (pickup != null) {
-				BeanUtils.copyProperties(order, deorder);
-				deorder.setApproveDate(new Date());
-				deorder.setApprovers(managerId);
-				deliveryordermapper.updateByPrimaryKey(deorder);
-				if (order.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
-					String commid = deorder.getCommodityId();
-					IpoWarehouseStock stock = ipoWarehouseStockMapper
-							.selectByCommoId(commid,
-									Long.parseLong(deorder.getWarehouseId()));
-					if (stock != null) {
-						long frozennum = stock.getForzennum();
-						long available = stock.getAvailablenum();
-						long newfrozen = frozennum + quantity;
-						long newavailble = available - quantity;
-						stock.setForzennum(newfrozen);
-						stock.setAvailablenum(newavailble);
-						ipoWarehouseStockMapper.updateInfo(stock);
-						log.info("冻结数量：" + stock.getForzennum() + "有效数量："
-								+ stock.getAvailablenum() + "入库数量："
-								+ stock.getStoragenum() + "出库数量："
-								+ stock.getOutboundnum());
-					}
-					// 扣现货持仓
-				}
-				if (order.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-					// 驳回解冻持仓
-
-					CustomerHoldSumServiceImpl cserveice = new CustomerHoldSumServiceImpl();
-					// cserveice.unfreezeCustomerHold(unfreezeqty, customerid,
-					// commodityid, bsFlag);
-
-					long quatity = order.getDeliveryQuatity();
-					String firmid = order.getDealerId();
-					String commid = order.getCommodityId();
-					PositionFlow position = new PositionFlow();
-					position.setFirmId(firmid);
-					position.setHoldqty(quatity);
-					position.setFrozenqty((long) 0);
-					position.setCommodityId(commid);
-					position.setBusinessCode(ChargeConstant.BusinessType.DELIVERY
-							.getCode());
-					position.setRoleCode(ChargeConstant.RoleType.TRADER
-							.getCode());
-					position.setCreateDate(new Date());
-					position.setCreateUser(managerId);
-					position.setState(PositionConstant.FlowState.no_turn_goods
-							.getCode());
-					position.setRemark("市场驳回,返还持仓");
-					ipopositionmapper.insert(position);
-				}
-				return "已审核";
-			}
+			BeanUtils.copyProperties(order, deorder);
+			deorder.setApproveDate(new Date());
+			deorder.setApprovers(managerId);
+			deliveryordermapper.updateByPrimaryKey(deorder);
+			return "true";
 		}
-		return "审核失败";
+		return "false";
+	}
+
+	@Override
+	@Transactional
+	public String frozenStock(DeliveryOrder deorder) {
+		long quantity = deorder.getDeliveryQuatity();
+		String commid = deorder.getCommodityId();
+		IpoWarehouseStock stock = ipoWarehouseStockMapper.selectByCommoId(
+				commid, Long.parseLong(deorder.getWarehouseId()));
+		if (stock != null) {
+			long frozennum = stock.getForzennum();
+			long available = stock.getAvailablenum();
+			long newfrozen = frozennum + quantity;
+			long newavailble = available - quantity;
+			stock.setForzennum(newfrozen);
+			stock.setAvailablenum(newavailble);
+			ipoWarehouseStockMapper.updateInfo(stock);
+			log.info("冻结数量：" + stock.getForzennum() + "有效数量："
+					+ stock.getAvailablenum() + "入库数量：" + stock.getStoragenum()
+					+ "出库数量：" + stock.getOutboundnum());
+			return "true";
+		}
+		return "false";
 	}
 
 	@Override

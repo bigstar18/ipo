@@ -88,7 +88,7 @@ function updatePickup(){
                                         alert("审核完成！"); 
                                         returntoList();
                                  	   }else{
-                                 		   alert("系统异常，请联系管理员");  
+                                 		   alert("审核失败！");  
                                  	   }
                                     },  
                                     error: function(data) {  
