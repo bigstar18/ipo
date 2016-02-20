@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
-import com.yrdce.ipo.common.constant.DeliveryConstant.StatusType;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -131,7 +131,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
-		ipoDeliveryorder.setApprovalStatus(StatusType.REGISTER.getCode());
+		ipoDeliveryorder.setApprovalStatus(DeliveryConstant.StatusType.REGISTER.getCode());
 		ipoDeliveryorder.setMethodId(id);
 		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -364,7 +364,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return ipoDeliveryCostMapper.countsByCost(paging);
 	}
 
-	//收付款流水
+	// 收付款流水
 	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();

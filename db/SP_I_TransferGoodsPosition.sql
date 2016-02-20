@@ -51,15 +51,16 @@ begin
             holdFunds = holdFunds + v_PRICE*v_quantity*v_UNITS,
             HoldMargin = HoldMargin + v_Margin,
             HoldAssure = HoldAssure + v_Assure,
-            evenprice = (holdFunds + v_PRICE*v_quantity*v_UNITS)/((holdQty + v_quantity)*v_UNITS)
+            evenprice = (holdFunds + v_PRICE*v_quantity*v_UNITS)/((holdQty + v_quantity)*v_UNITS),
+            FrozenQty=nvl(FrozenQty,0)+v_quantity
             where CustomerID = v_customerid
             and CommodityID = v_mapper_commodityid
             and bs_flag = 1;
         else
           insert into T_CustomerHoldSum
-            (CustomerID,   CommodityID,      bs_flag, holdQty, holdFunds,FloatingLoss, evenprice,FrozenQty,HoldMargin,HoldAssure,FirmID)
+            (CustomerID,   CommodityID,        bs_flag, holdQty,  holdFunds,      FloatingLoss, evenprice,FrozenQty,HoldMargin,HoldAssure,FirmID)
           values
-            (v_customerid, v_mapper_commodityid, 1, v_quantity, v_PRICE*v_quantity*v_UNITS,0, v_PRICE,0,v_Margin,v_Assure,v_FIRMID);
+            (v_customerid, v_mapper_commodityid, 1,    v_quantity, v_PRICE*v_quantity*v_UNITS,0, v_PRICE, v_quantity,v_Margin, v_Assure,  v_FIRMID);
         end if;
   
          --更新交易商持仓合计表 
