@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.utils.DateUtil;
 import com.yrdce.ipo.common.utils.Selection;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
@@ -24,6 +25,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
@@ -34,12 +36,12 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 
 /**
  * 定时任务相关的 service
@@ -69,6 +71,8 @@ public class TaskServiceImpl implements TaskService {
 	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
 	private IpoPositionMapper ipoPositionMapper;
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 	@Autowired
 	private IpoCommodityMapper commodityMapper;
 	@Autowired
@@ -181,7 +185,8 @@ public class TaskServiceImpl implements TaskService {
 			System.out.println(ipoDis.getUserid() + "起始号码" + ipoDis.getStartnumber());
 			System.out.println(ipoDis.getUserid() + "匹配个数" + ipoDis.getPcounts());
 			for (String endNum : endNumList) {
-				userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(), endNum);
+				userGetNum += selection.OwnMatchingEndNum((int) ipoDis.getStartnumber(), ipoDis.getPcounts(),
+						endNum);
 			}
 			System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 			ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
@@ -218,7 +223,8 @@ public class TaskServiceImpl implements TaskService {
 		for (IpoDistribution ipodb : ipoDidList1) {
 			if (ipodb.getZcounts() != 0) {
 				logger.info("获取发售商品信息" + ipodb.getCommodityid());
-				IpoCommodityExtended commodityExtended = commodity.selectPriceByCommodityid(ipodb.getCommodityid());
+				IpoCommodityExtended commodityExtended = commodity
+						.selectPriceByCommodityid(ipodb.getCommodityid());
 				List<IpoOrder> counterFeeInfo = ipoOrderMapper.selectCounterFeeInfo(ipodb.getCommodityid());
 				short tradealgr = counterFeeInfo.get(0).getTradealgr();
 				BigDecimal buyfee = counterFeeInfo.get(0).getBuy();
@@ -293,10 +299,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Transactional
-	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst, IpoCommodityConf commodityConf) throws Exception {
+	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst,
+			IpoCommodityConf commodityConf) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
-		String userid = dst.getUserid();
+		/*String userid = dst.getUserid();
 		String commid = comm.getCommodityid();
 		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(userid, commid);
 		if (ipoPosition != null) {
@@ -311,9 +318,9 @@ public class TaskServiceImpl implements TaskService {
 		} else {
 			String commUnit = commodityConf.getContractfactorname();
 			BigDecimal unit = new BigDecimal(commodityConf.getUnits());
-			logger.info("配售单位" + unit);
+			logger.debug("配售单位" + unit);
 			BigDecimal counts = new BigDecimal(dst.getZcounts());
-			logger.info("中签数量：" + counts);
+			logger.debug("中签数量：" + counts);
 			long num = (unit.multiply(counts)).intValue();
 			IpoPosition record = new IpoPosition();
 			record.setFirmid(dst.getUserid());
@@ -324,7 +331,27 @@ public class TaskServiceImpl implements TaskService {
 			record.setPositionUnit(commUnit);
 			record.setOperationTime(new Date());
 			ipoPositionMapper.insert(record);
-		}
+		}*/
+		// 保存持仓信息
+		BigDecimal unit = new BigDecimal(commodityConf.getUnits());
+		logger.debug("配售单位" + unit);
+		BigDecimal counts = new BigDecimal(dst.getZcounts());
+		logger.debug("中签数量：" + counts);
+		long num = (unit.multiply(counts)).intValue();
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
+		positionFlow.setCommodityId(dst.getCommodityid());
+		positionFlow.setFirmId(dst.getUserid());
+		positionFlow.setHoldqty(num);
+		positionFlow.setPrice(comm.getPrice());
+		positionFlow.setFrozenqty(0L);
+		positionFlow.setCreateUser(dst.getUserid());
+		positionFlow.setCreateDate(new Date());
+		positionFlow.setRemark("申购转持仓");
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.PURCHASE.getCode());
+		positionFlow.setRoleCode(ChargeConstant.RoleType.TRADER.getCode());
+		positionFlowMapper.insert(positionFlow);
+
 		logger.info("转持仓结束");
 	}
 
@@ -332,15 +359,39 @@ public class TaskServiceImpl implements TaskService {
 	 * ipo 转现货持仓
 	 */
 	public void ipoTransferGoodsPosition() throws Exception {
-
-		IpoCommodityConf examples = new IpoCommodityConf();
-		List<IpoCommodityConf> commList = commodityConfMapper.queryListingCommodity(examples);
+		List<IpoCommodityConf> commList = commodityConfMapper.findAllIpoCommConfs();
 		if (commList == null || commList.isEmpty()) {
 			return;
 		}
 		for (IpoCommodityConf item : commList) {
 			try {
-				ipoTransferGoodsPosition(item.getCommodityid());
+				// 上市日期
+				Date listingdate = item.getListingdate();
+				//交货开始日期
+				Date deliverystartday = item.getDeliverystartday();
+				Date baseday = null;
+				if (listingdate != null && deliverystartday == null) {
+					baseday = listingdate;
+				} else if (listingdate == null && deliverystartday != null) {
+					baseday = deliverystartday;
+				} else if (listingdate != null && deliverystartday != null) {
+					if (listingdate.getTime() < deliverystartday.getTime()) {
+						baseday = listingdate;
+					} else {
+						baseday = deliverystartday;
+					}
+				}
+				;
+				if (baseday == null) {
+					continue;
+				}
+				;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date today = sdf.parse(sdf.format(new Date()));
+				baseday = sdf.parse(sdf.format(baseday));
+				if (today.getTime() >= baseday.getTime()) {
+					ipoTransferGoodsPosition(item.getCommodityid(), "job");
+				}
 			} catch (Exception e) {
 				logger.error("ipo转持仓失败,商品编码:", item.getCommodityid());
 			}
@@ -349,11 +400,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	/**
-	 * ipo 转现货持仓
+	 * ipo持仓 转现货持仓
 	 */
 	@Transactional
-	public void ipoTransferGoodsPosition(String commodityid) throws Exception {
-		ipoPositionMapper.transferGoodsPosition(commodityid);
+	public void ipoTransferGoodsPosition(String commodityid, String operUser) throws Exception {
+		positionFlowMapper.transferGoodsPosition(commodityid, operUser);
 	}
 
 	/**
@@ -408,7 +459,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	//收付款流水
-	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee, String pubmemberid) {
+	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee,
+			String pubmemberid) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.PURCHASE.getCode());

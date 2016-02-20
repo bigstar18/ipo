@@ -12,16 +12,19 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
+import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
+import com.yrdce.ipo.modules.sys.vo.Income;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
@@ -43,6 +46,8 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	private IpoHoldcommodityMapper holdcommodityMapper;
 	@Autowired
 	private IpoReleasesubscriptionMapper ReleasesubscriptionMapper;
+	@Autowired
+	private IpoDistributionMapper distributionMapper;
 
 	@Override
 	public List<VBrBroker> getBroker() {
@@ -107,5 +112,18 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 			list2.add(releasesubscription);
 		}
 		return list2;
+	}
+
+	//等吴琪返佣
+	@Override
+	public Income getIncomeInfo(String brokerid, String starttime, String endtime) {
+		logger.info("经纪会员经纪收入查询");
+		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
+		for (BrBroker broker : brBrokers) {
+			String firmid = broker.getFirmid();
+			List<IpoDistribution> list = distributionMapper.findByfirmidAndDate(firmid, starttime, endtime);
+
+		}
+		return null;
 	}
 }

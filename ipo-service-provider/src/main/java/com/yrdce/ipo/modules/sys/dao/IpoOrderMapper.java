@@ -29,11 +29,9 @@ public interface IpoOrderMapper {
 
 	IpoOrder selectByid(@Param("userid") String userid, @Param("commodityid") String sid);
 
-	int updateByExampleSelective(@Param("record") IpoOrder record,
-			@Param("example") IpoOrderExample example);
+	int updateByExampleSelective(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
-	int updateByExample(@Param("record") IpoOrder record,
-			@Param("example") IpoOrderExample example);
+	int updateByExample(@Param("record") IpoOrder record, @Param("example") IpoOrderExample example);
 
 	int updateByPrimaryKeySelective(IpoOrder record);
 
@@ -81,4 +79,5 @@ public interface IpoOrderMapper {
 	int updateUnfreeze(@Param("unfreezefunds") BigDecimal unfreezefunds,
 			@Param("unfreezefees") BigDecimal unfreezefees, @Param("userid") String userid,
 			@Param("commodityid") String commodityid);
+
 }

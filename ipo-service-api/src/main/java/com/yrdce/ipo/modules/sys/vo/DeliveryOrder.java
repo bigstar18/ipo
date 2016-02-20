@@ -49,9 +49,9 @@ public class DeliveryOrder implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date applyDate;
 
-	private Integer approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、已打印 5、已过户 6、仓库通过
+	private String approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、已打印 5、已过户 6、仓库通过
 									// 7、仓库驳回 8、已设置配置费用 9、已确认 10.已废除 11、已出库
-									// 12已收货)
+									// ) 改为枚举类型 参照DeliveryConstant
 
 	private String approvers;
 
@@ -241,11 +241,11 @@ public class DeliveryOrder implements Serializable {
 		this.applyDate = applyDate;
 	}
 
-	public Integer getApprovalStatus() {
+	public String getApprovalStatus() {
 		return approvalStatus;
 	}
 
-	public void setApprovalStatus(Integer approvalStatus) {
+	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}
 

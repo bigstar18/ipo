@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
@@ -144,12 +145,13 @@ public class OutBoundController {
 		try {
 			log.info("确认出库");
 			DeliveryOrder temp = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
-			if (temp.getDeliveryMethod().equals("在线配送") && temp.getApprovalStatus() != 9) {
+			if (temp.getDeliveryMethod().equals("在线配送")
+					&& temp.getApprovalStatus() != DeliveryConstant.StatusType.CONFIRM.getCode()) {
 				return "no";
 			}
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
-			deliveryOrder.setApprovalStatus(11);
+			deliveryOrder.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEOUT.getCode());
 			int result = deliveryOrderService.updateStatus(deliveryOrder, outboundorderid);
 			if (result == 1) {
 				return "success";

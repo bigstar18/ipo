@@ -25,16 +25,7 @@
 		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
-	
-	<%-- function examine(){
-		 var flag= $('#frm').form('validate');
-		 var time = $("#payables").datebox("getValue");
-		 var brokerid = $("#firm").val();
-		 if(flag==true)
-		{
-		document.location.href= '<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time='+time+'&&brokerid='+brokerid;
-		}}  --%>
-	
+ 	
 	$(function () {
 	     $("#payables").datebox({
 	    	 editable: false,

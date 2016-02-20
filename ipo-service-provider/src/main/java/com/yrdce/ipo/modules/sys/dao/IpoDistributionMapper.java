@@ -27,19 +27,22 @@ public interface IpoDistributionMapper {
 
 	List<IpoDistribution> selectAll();
 
-	List<IpoDistributionExtended> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("userid") String userid,
-			@Param("ptime") String ptime);// 分页获取配号信息
+	List<IpoDistributionExtended> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("userid") String userid, @Param("ptime") String ptime);// 分页获取配号信息
 
 	// 分页获取配号表
 	List<IpoDistribution> selectByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	IpoDistribution selectByPrimaryKey(String id);
 
-	int updateByExampleSelective(@Param("record") IpoDistribution record, @Param("example") IpoDistributionExample example);
+	int updateByExampleSelective(@Param("record") IpoDistribution record,
+			@Param("example") IpoDistributionExample example);
 
-	int updateByExampleWithBLOBs(@Param("record") IpoDistribution record, @Param("example") IpoDistributionExample example);
+	int updateByExampleWithBLOBs(@Param("record") IpoDistribution record,
+			@Param("example") IpoDistributionExample example);
 
-	int updateByExample(@Param("record") IpoDistribution record, @Param("example") IpoDistributionExample example);
+	int updateByExample(@Param("record") IpoDistribution record,
+			@Param("example") IpoDistributionExample example);
 
 	int updateByPrimaryKeySelective(IpoDistribution record);
 
@@ -69,5 +72,15 @@ public interface IpoDistributionMapper {
 	int updateSettledById(int id);
 
 	int ballotCounts(String userid, String ptime);
+
+	/**
+	 * @Title: findByfirmidAndDate
+	 * @Description: 通过用户id和时间查询
+	 * @param userid
+	 * @param startdate
+	 * @param enddate
+	 */
+	List<IpoDistribution> findByfirmidAndDate(@Param("userid") String userid,
+			@Param("startdate") String startdate, @Param("enddate") String enddate);
 
 }

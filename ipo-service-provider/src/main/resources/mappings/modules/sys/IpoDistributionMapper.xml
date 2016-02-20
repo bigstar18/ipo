@@ -423,4 +423,10 @@
 	) a where a.TNO between #{beginnum} and  #{endnum}
   </select>
 	
+	<!-- 冻结时间就是中签时间 -->
+  <select id="findByfirmidAndDate" resultMap="BaseResultMap" parameterType="map">
+  	select <include refid="Base_Column_List" /> from ipo_distribution t where t.userid = #{userid,jdbcType=VARCHAR}
+  	and to_char(FROZENDATE, 'yyyy-MM-dd') <![CDATA[<=]]> #{enddate,jdbcType=VARCHAR} 
+  	and to_char(FROZENDATE, 'yyyy-MM-dd') <![CDATA[>=]]> #{startdate,jdbcType=VARCHAR}
+  </select>
 </mapper>

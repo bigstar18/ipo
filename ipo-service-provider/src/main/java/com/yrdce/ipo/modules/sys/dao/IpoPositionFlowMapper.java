@@ -49,5 +49,13 @@ public interface IpoPositionFlowMapper {
 	 */
 	int updateFreeqty(PositionFlow positionFlow);
 	
+	/**
+	 * 转现货持仓
+	 * @param commodityid
+	 * @param operUser
+	 */
+	void transferGoodsPosition(@Param("commodityid") String commodityid,@Param("operUser") String operUser);
+	
+	
 	
 }

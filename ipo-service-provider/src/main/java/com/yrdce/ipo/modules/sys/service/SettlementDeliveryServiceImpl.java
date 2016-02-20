@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.DeliveryConstant.StatusType;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -130,7 +131,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
-		ipoDeliveryorder.setApprovalStatus(1);
+		ipoDeliveryorder.setApprovalStatus(StatusType.REGISTER.getCode());
 		ipoDeliveryorder.setMethodId(id);
 		// 生成主键
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -163,7 +164,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByPickup((curpage - 1) * pagesize + 1,
+				curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -204,7 +206,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectRevocation((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectRevocation((curpage - 1) * pagesize + 1,
+				curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -217,7 +220,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	// 撤销申请(状态修改)
 	@Override
 	@Transactional
-	public String updateRevocationStatus(String deliveryorderid, String status, String userid) throws Exception {
+	public String updateRevocationStatus(String deliveryorderid, String status, String userid)
+			throws Exception {
 		int status1 = Integer.parseInt(status);
 		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
 		if (status1 == 10) {
@@ -269,7 +273,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper.selectByExpress((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoExpressExtended> list1 = ipoDeliveryorderMapper.selectByExpress((curpage - 1) * pagesize + 1,
+				curpage * pagesize, paging);
 		List<Express> list2 = new ArrayList<Express>();
 		for (IpoExpressExtended ipoExpressExtended : list1) {
 			Express express = new Express();
@@ -287,7 +292,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryorder> list1 = ipoDeliveryorderMapper.selectByUserid((curpage - 1) * pagesize + 1,
+				curpage * pagesize, paging);
 		List<DeliveryOrder> list2 = new ArrayList<DeliveryOrder>();
 		for (IpoDeliveryorder ipoDeliveryorder : list1) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
@@ -335,13 +341,15 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 	// 费用查询
 	@Override
-	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging) throws Exception {
+	public List<DeliveryCost> getListByDeliveryCost(String page, String rows, Paging paging)
+			throws Exception {
 		logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
-		List<IpoDeliveryCostExtended> list1 = ipoDeliveryCostMapper.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
+		List<IpoDeliveryCostExtended> list1 = ipoDeliveryCostMapper
+				.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryCost> list2 = new ArrayList<DeliveryCost>();
 		for (IpoDeliveryCost ipodeliveryCost : list1) {
 			DeliveryCost deliveryCost = new DeliveryCost();

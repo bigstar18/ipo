@@ -142,7 +142,7 @@ public interface DeliveryOrderService {
 	 * @param deliveryId
 	 * @return
 	 */
-	public Integer transferDeliveryOrder(String deliveryId);
+	public Integer transferDeliveryOrder(String deliveryId, String userId);
 
 	/**
 	 * 仓库设置配送费

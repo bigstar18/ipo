@@ -45,42 +45,40 @@ function doSearch(){
 				$("#deliveryDate").val(data.deliveryDate.substr(0,10));
 				$("#deliveryQuatity").val(data.deliveryQuatity);
 				switch(data.approvalStatus){
-				case 1:
+				case "001":
 					$("#approvalStatus").val("申请");
 					break;
-				case 2:
+				case "002001":
 					$("#approvalStatus").val("市场通过");
 					$("#add").val("过户");
 					break;
-				case 3:
+				case "002002":
 					$("#approvalStatus").val("市场驳回");
 					break;
-				case 4:
+				case "003001":
 					$("#approvalStatus").val("已打印");
 					break;
-				case 5:
+				case "003002":
 					$("#approvalStatus").val("已过户");
 					break;
-				case 6:
-					$("#approvalStatus").val("仓库通过");
-					break;
-				case 7:
-					$("#approvalStatus").val("仓库驳回");
-					break;
-				case 8:
+				case "003003":
 					$("#approvalStatus").val("已设置配置费用");
 					break;
-				case 9:
+				case "003003001":
 					$("#approvalStatus").val("已确认");
 					break;
-				case 10:
-					$("#approvalStatus").val("已废除");
+				case "004001":
+					$("#approvalStatus").val("仓库通过");
 					break;
-				case 11:
+				case "004002":
+					$("#approvalStatus").val("仓库驳回");
+					break;
+				
+				case "005":
 					$("#approvalStatus").val("已出库");
 					break;
-				case 12:
-					$("#approvalStatus").val("已收货");
+				case "006":
+					$("#approvalStatus").val("已废除");
 					break;
 				}
 			}else if(data.commodityId==null){
@@ -88,7 +86,6 @@ function doSearch(){
 				alert("提货单不存在！")
 			}
 		}
-
 	});
 }
 	//过户
@@ -98,7 +95,7 @@ function doAdd(){
     	alert("提货单还未进行市场审核，无法过户！");
     	return ;
     }
-    if(appstatus=='市场通过'||appstatus=='已打印'){
+    if(appstatus=='市场通过'){
 	var deliveryorderId = $("#deliveryorderId").val();
 	$.ajax({
 		type:"POST",
@@ -111,16 +108,13 @@ function doAdd(){
 				alert("过户成功！");
 				closeform();
 			}
-			if(data=="fail"){
-				alert("过户失败！");
-			}
 			if(data=="error"){
 				alert("系统异常!");
 			}
 		}
 	});
     }else{
-    	alert("提货单未通过市场审核，无法过户！");
+    	alert("只有通过市场审核的提货单才能过户！");
     }
 }
 
@@ -148,7 +142,7 @@ function doClick(){
     </div>
     <div class="warning">
       <div class="title font_orange_14b">温馨提示 :</div>
-      <div class="content">提货单过户！
+      <div class="content">提货单过户(必须是自提方式的提货单才能过户)！
       </div>
     </div>
     <div class="mbodytop">
@@ -163,13 +157,13 @@ function doClick(){
 											提货单号：
 									</td>
 									<td align="left" width="200">
-										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"  />
+										<input  id="deliveryorderId" name="" value="" class="easyui-validatebox textbox"  data-options="required:true,missingMessage:'必填'"/>
 									</td>
 									<td align="right" width="90">
 										提货单密码：
 									</td>
 									<td align="left" width="200">
-										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"  />
+										<input id="pickupPassword" name="" value="" class="easyui-validatebox textbox"  data-options="required:true,missingMessage:'必填'"/>
 									</td>
 								</tr>
 							</table>

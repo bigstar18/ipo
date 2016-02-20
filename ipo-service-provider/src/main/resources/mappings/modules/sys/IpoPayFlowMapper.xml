@@ -182,17 +182,37 @@
               pay_channel,pay_date,remark, buy_back_flag, create_user, create_date, update_user, update_date 
   	   from ipo_payflow
        where id=#{id}
+  </select> 
+   
+ <select id="selectPublisherSettleByPublisher" resultMap="IpoPublisherSettleMap"  parameterType="map" >
+ select tem.*，b.debit,e.pay from (select c.commodityid  from ipo_commodity_conf c where c.pubmemberid=#{pubmemberid,jdbcType=VARCHAR}) tem
+left join (select  a.commodity_id, sum(a.amount) debit
+          from (select d.*
+                  from ipo_commodity_conf t
+                  left join ipo_debitflow d
+                    on d.commodity_id = t.commodityid
+                 where t.pubmemberid = #{pubmemberid,jdbcType=VARCHAR}
+                   and d.business_type = '002'
+                   and d.charge_type = '001'
+                   and d.debit_state = '2'
+                   and d.debit_mode = '1'
+                   and d.debit_channel = '1'
+                   and to_char(d.debit_date, 'yyyy-mm-dd') = #{queryDate,jdbcType=VARCHAR}) a
+         group by a.commodity_id) b on tem.commodityid=b.commodity_id left join 
+         (select c.commodity_id, sum(c.amount) pay
+               from (select p.*
+                       from ipo_commodity_conf t
+                       left join ipo_payflow p
+                         on p.commodity_id = t.commodityid
+                      where t.pubmemberid = #{pubmemberid,jdbcType=VARCHAR}
+                        and p.business_type = '002'
+                        and p.charge_type = '002'
+                        and p.pay_state = '2'
+                        and p.pay_mode = '1'
+                        and p.pay_channel = '1'
+                        and to_char(p.pay_date, 'yyyy-mm-dd') = #{queryDate,jdbcType=VARCHAR}) c
+              group by c.commodity_id) e on tem.commodityid=e.commodity_id
   </select>
   
-    <select id="selectPublisherSettleByPublisher" resultMap="IpoPublisherSettleMap"  parameterType="map" >
-   select b.*,e.pay from (select a.commodity_id, sum(a.amount) debit
-    from (select d.* from ipo_commodity_conf t  left join ipo_debitflow d   on d.commodity_id = t.commodityid  where t.pubmemberid = #{pubmemberid,jdbcType=VARCHAR}
-    and d.business_type = '002'  and d.charge_type = '001'   and d.debit_state = '2'  and d.debit_mode = '1'    and d.debit_channel = '1'
-    and to_char(d.debit_date, 'yyyy-mm-dd') = #{queryDate,jdbcType=VARCHAR} ) a group by a.commodity_id) b
-    full  join (select c.commodity_id, sum(c.amount) pay  from (select p.*   from ipo_commodity_conf t
-    left join ipo_payflow p  on p.commodity_id = t.commodityid  where t.pubmemberid = #{pubmemberid,jdbcType=VARCHAR}
-    and p.business_type = '002'  and p.charge_type = '002'  and p.pay_state = '2'  and p.pay_mode = '1'
-     and p.pay_channel = '1'   and to_char(p.pay_date, 'yyyy-mm-dd') = #{queryDate,jdbcType=VARCHAR}) c  group by c.commodity_id)e on b.commodity_id=e.commodity_id
-  </select>
   
 </mapper>

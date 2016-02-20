@@ -19,7 +19,7 @@ $(document).ready(function() {
         collapsible:false,  
         url:  getRootPath () + "/DeliveryController/QueryByConditions?randnum=" +Math.floor(Math.random()*1000000),  
         queryParams:{
-        	approvalStatus:'1'
+        	approvalStatus:'001'
         },
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
@@ -144,7 +144,7 @@ function doSearch(){
   $('#dg').datagrid('load',{
 		deliveryorderId: $('#deliveryorderId').val(),
 		applyDate: $('#applyDate').datebox('getValue'),
-		approvalStatus: '1',
+		approvalStatus: '001',
 		dealerId: $('#dealerId').val()
 	});       
 }

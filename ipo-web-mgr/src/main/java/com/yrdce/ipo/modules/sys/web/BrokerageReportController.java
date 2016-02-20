@@ -105,4 +105,43 @@ public class BrokerageReportController {
 		}
 	}
 
+	/*@RequestMapping(value = "/incomeforward", method = RequestMethod.GET)
+	public String incomeForward(HttpServletRequest request, Model model,
+			@RequestParam(value = "brokerid", required = false) String brokerid,
+			@RequestParam("starttime") String starttime, @RequestParam("endtime") String endtime) {
+		List<VBrBroker> brokers = brokerageReportService.getBroker();
+		List<SettleResult> settles = new ArrayList<SettleResult>();
+		if (!"".equals(brokerid)) {
+	
+			SettleResult result = new SettleResult();
+			result.setBillfladInfo(billfladInfo);
+			result.setDeliveryInfo(deliveryInfo);
+			result.setHoldInfo(holdInfo);
+			result.setReleaInfo(releaInfo);
+			for (VBrBroker broker : brokers) {
+				if (brokerid.equals(broker.getBrokerid())) {
+					result.setBroker(broker);
+				}
+			}
+			settles.add(result);
+			model.addAttribute("settles", settles);
+			model.addAttribute("today", time);
+			return "app/brokeragereport/brokerinfo";
+		} else {
+			for (int i = 0; i < brokers.size(); i++) {
+	
+				SettleResult result = new SettleResult();
+				result.setBillfladInfo(billfladInfo);
+				result.setDeliveryInfo(deliveryInfo);
+				result.setHoldInfo(holdInfo);
+				result.setReleaInfo(releaInfo);
+				result.setBroker(brokers.get(i));
+				settles.add(result);
+			}
+			request.setAttribute("settles", settles);
+			request.setAttribute("today", time);
+			return "app/brokeragereport/brokerinfo";
+		}
+	}*/
+
 }

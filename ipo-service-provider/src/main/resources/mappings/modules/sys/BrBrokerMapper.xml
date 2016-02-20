@@ -456,4 +456,11 @@
   	(select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='经纪会员' ))broker 
 	left join br_firmandbroker t on broker.brokerid = t.brokerid
   </select>
+  
+  <select id="findTraderByBrokerid" resultMap="BaseResultMap" parameterType="String">
+	 select * from ( 
+	select t.firmid,broker.brokerid,broker.name from(select t1.brokerid,t1.name from br_broker t1 where MEMBERTYPE= 
+  	(select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='经纪会员' ))broker 
+	left join br_firmandbroker t on broker.brokerid = t.brokerid) bro where bro.brokerid = #{brokerid,jdbcType=VARCHAR}
+  </select>
 </mapper>

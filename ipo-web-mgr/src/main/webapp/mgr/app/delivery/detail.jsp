@@ -18,7 +18,6 @@
 	 	        }
 	 	        return date;
 	 	      }
-		
 		$(function () {
 			 $("#deliveryDate").datebox({
 		    	 editable: false,
@@ -65,22 +64,7 @@
 		        $("#deliveryDate").datebox("setValue",$("#picktime").val());
 				$("#applyDate").datebox("setValue",$("#applytime").val());
 		});
-		
-function parseISO8601(dateStringInRange) {
-	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
-	            date = new Date(NaN), month,
-	            parts = isoExp.exec(dateStringInRange);
-	      
-	        if(parts) {
-	          month = +parts[2];
-	          date.setFullYear(parts[1], month - 1, parts[3]);
-	          if(month != date.getMonth() + 1) {
-	            date.setTime(NaN);
-	          }
-	        }
-	        return date;//new Date(str) IE8不兼容
-	      }		
-		
+				
 function updatePickup(){
 	var approvalStatus=$("#approvalStatus").val();
 	var stock= parseInt($("#stock").val());
@@ -124,7 +108,7 @@ function updateExpress(){
 		alert("库存不足，暂时无法通过审核!");
 		return ;
 	}
-	if(approvalStatus== '2'){
+	if(approvalStatus!= ''){
                          	   $.ajax({ 
                          		   cache:false,
                                     type: "post",  
@@ -142,39 +126,14 @@ function updateExpress(){
                                         alert("系统异常，请联系管理员!");  
                                     }  
                                 }); 
-         }else if(approvalStatus== '3'){
-		                    $.ajax({ 
-                         		   cache:false,
-                                    type: "post",  
-                                    url: getRootPath () +"/DeliveryController/checkPorders",       
-                                    data: $("#frm").serialize(),      
-                                    success: function(data) { 
-                                 	   if(data=='true'){
-                                        alert("审核完成！"); 
-                                        returntoList();
-                                 	   }else{
-                                 		   alert("系统异常，请联系管理员");  
-                                 	   }
-                                    },  
-                                    error: function(data) {  
-                                        alert("系统异常，请联系管理员!");  
-                                    }  
-                                }); 
-		}
-			else{
+         }else{
 					alert("请先审核再提交!");
 		}
 }
 function returntoList(){
 	var backUrl=getRootPath () +"/IpoController/DeliveryApprove?randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
-}
-		
-function onlyNumberInput(){
-	 if (event.keyCode<46 || event.keyCode>57 || event.keyCode == 47){
-		    event.returnValue=false;
-	 }
-}
+}	
 		</script>
 		<style type="text/css">
 		td{font-size:12px;}
@@ -291,8 +250,8 @@ function onlyNumberInput(){
 	      								<td>
 	      								 <select id="approvalStatus" name="approvalStatus" style="width:140px">
 												<option value=""></option>
-											    <option value="2">通过</option>
-												<option value="3">驳回</option>
+											    <option value="002001">通过</option>
+												<option value="002002">驳回</option>
 										   </select> <span class="required">*</span> 
 										</td>
 							        </tr> 
@@ -324,8 +283,8 @@ function onlyNumberInput(){
 	      								<td>
 	      								 <select id="approvalStatus" name="approvalStatus" style="width:140px">
 												<option value=""></option>
-											    <option value="2">通过</option>
-												<option value="3">驳回</option>
+											    <option value="002001">通过</option>
+												<option value="002002">驳回</option>
 										   </select> <span class="required">*</span> 
 										</td>
         			 					<td align="right" width="110"></td>

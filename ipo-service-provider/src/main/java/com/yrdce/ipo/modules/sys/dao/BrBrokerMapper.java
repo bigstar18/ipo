@@ -59,4 +59,11 @@ public interface BrBrokerMapper {
 	 * @Description: 获取经纪会员以及下属交易商
 	 */
 	List<BrBroker> findMemberTrader();
+
+	/**
+	 * @Title: findTraderByBrokerid
+	 * @Description: 通过会员id查找下属交易商
+	 * @param brokerid
+	 */
+	List<BrBroker> findTraderByBrokerid(String brokerid);
 }

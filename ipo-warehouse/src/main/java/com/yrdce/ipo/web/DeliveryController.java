@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
@@ -256,7 +257,8 @@ public class DeliveryController {
 		try {
 			log.debug(record.toString());
 			record.setDeliveryMethod("在线配送");
-			record.setApprovalStatus(6);
+			record.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEPASS
+					.getCode());
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
@@ -329,7 +331,8 @@ public class DeliveryController {
 		log.info("设置配送费用");
 		try {
 			log.debug(detail.getCost().toString());
-			deorder.setApprovalStatus(8);// 8、已设置配置费用
+			deorder.setApprovalStatus(DeliveryConstant.StatusType.EXPRESSCOSTSET
+					.getCode());// 8、已设置配置费用
 			return deliveryorderservice.setExpressFee(deorder, detail);
 		} catch (Exception e) {
 			e.printStackTrace();

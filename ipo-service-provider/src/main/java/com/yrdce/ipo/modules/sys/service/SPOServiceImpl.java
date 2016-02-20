@@ -16,21 +16,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
@@ -60,10 +62,11 @@ public class SPOServiceImpl implements SPOService {
 	private IpoPayFlowMapper ipoPayFlowMapper;
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 
 	@Override
-	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page,
-			String rows) {
+	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
 		// TODO Auto-generated method stub
 
 		if (spoCommo == null)
@@ -74,8 +77,7 @@ public class SPOServiceImpl implements SPOService {
 		int endNum = Integer.parseInt(page) * Integer.parseInt(rows);
 		IpoSpoCommoditymanmaagement ipoSpoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoCommo, ipoSpoComm);
-		List<IpoSpoRation> ipoSpos = ipoSpoRationMapper.getMyRationInfo(beginNum, endNum,
-				ipoSpoComm);
+		List<IpoSpoRation> ipoSpos = ipoSpoRationMapper.getMyRationInfo(beginNum, endNum, ipoSpoComm);
 		List<SpoRation> spos = new ArrayList<SpoRation>();
 		for (IpoSpoRation ipoSpo2 : ipoSpos) {
 			SpoRation tempSpo = new SpoRation();
@@ -152,8 +154,8 @@ public class SPOServiceImpl implements SPOService {
 		IpoSpoCommoditymanmaagement ipospoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipospoComm);
 		List<SpoCommoditymanmaagement> list1 = new ArrayList<SpoCommoditymanmaagement>();
-		List<IpoSpoCommoditymanmaagement> list2 = ipoSPOCommMapper
-				.selectAll((curpage - 1) * pagesize + 1, curpage * pagesize, ipospoComm);
+		List<IpoSpoCommoditymanmaagement> list2 = ipoSPOCommMapper.selectAll((curpage - 1) * pagesize + 1,
+				curpage * pagesize, ipospoComm);
 		for (IpoSpoCommoditymanmaagement ipoSPOCommoditymanmaagement : list2) {
 			SpoCommoditymanmaagement spoCommoditymanmaagement = new SpoCommoditymanmaagement();
 			BeanUtils.copyProperties(ipoSPOCommoditymanmaagement, spoCommoditymanmaagement);
@@ -405,8 +407,8 @@ public class SPOServiceImpl implements SPOService {
 				BigDecimal countsparam = new BigDecimal(counts);
 				// 计算应冻结多少
 				BigDecimal money = countsparam.multiply(price);
-				IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(
-						firmid, commid, ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+				IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid,
+						commid, ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
 				if (ipoSpecialcounterfee != null) {
 					tradealgr = ipoSpecialcounterfee.getTradealgr();
 					buy = ipoSpecialcounterfee.getCounterfee();
@@ -441,25 +443,27 @@ public class SPOServiceImpl implements SPOService {
 
 				// 更新手续费
 				ipoSpoRationMapper.updateServicefee(fee, rationId);
-				String value = this.fundsFlow(commid, rationIdparam, userid, money, fee,
-						pubmemberid);
+				String value = this.fundsFlow(commid, rationIdparam, userid, money, fee, pubmemberid);
 				if (value != "success") {
 					return 0;
 				}
+				logger.info("承销商调用转持仓");
+				this.transferPosition(userid, ipoCommodityConf, counts, price, "underwriter");
+			} else {
+				logger.info("散户调用转持仓");
+				long countsparam = ipoSpoRation.getRationcounts();
+				this.transferPosition(userid, ipoCommodityConf, countsparam, price, "retail");
 			}
-			logger.info("调用转持仓");
-			long countsparam = ipoSpoRation.getRationcounts();
-			this.transferPosition(userid, ipoCommodityConf, countsparam, price);
 		}
 		logger.info("增发状态更新成功");
 		return ipoSPOCommMapper.updateByStatus(rationSate, spoid);
 	}
 
 	private void transferPosition(String userid, IpoCommodityConf ipoCommodityConf, Long position,
-			BigDecimal price) throws Exception {
+			BigDecimal price, String type) throws Exception {
 		logger.info("转持仓开始");
 		String commid = ipoCommodityConf.getCommodityid();
-		String commUnit = ipoCommodityConf.getContractfactorname();
+		/*String commUnit = ipoCommodityConf.getContractfactorname();
 		String commodityname = ipoCommodityConf.getCommodityname();
 		IpoPosition record = new IpoPosition();
 		record.setFirmid(userid);
@@ -470,7 +474,25 @@ public class SPOServiceImpl implements SPOService {
 		record.setPositionUnit(commUnit);
 		record.setOperationTime(new Date());
 		ipoPositionMapper.insert(record);
-		logger.info("转持仓结束");
+		logger.info("转持仓结束");*/
+		// 保存持仓信息
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
+		positionFlow.setCommodityId(commid);
+		positionFlow.setFirmId(userid);
+		positionFlow.setHoldqty(position);
+		positionFlow.setPrice(price);
+		positionFlow.setFrozenqty(position);
+		positionFlow.setCreateUser(userid);
+		positionFlow.setCreateDate(new Date());
+		positionFlow.setRemark("增发转持仓");
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		if (type == "retail") {
+			positionFlow.setRoleCode(ChargeConstant.RoleType.TRADER.getCode());
+		} else {
+			positionFlow.setRoleCode(ChargeConstant.RoleType.UNDERWRITER.getCode());
+		}
+		positionFlowMapper.insert(positionFlow);
 	}
 
 	// 修改增发商品
@@ -529,8 +551,8 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	//收付款流水
-	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money,
-			BigDecimal fee, String pubmemberid) {
+	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money, BigDecimal fee,
+			String pubmemberid) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());

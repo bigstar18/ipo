@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
@@ -297,8 +298,10 @@ public class DeliveryController {
 		log.info("模糊查询提货单");
 		try {
 			log.debug(record.toString());
+			record.setApprovalStatus(DeliveryConstant.StatusType.REGISTER
+					.getCode());
 			List<DeliveryOrder> dlist = deliveryorderservice
-					.queryAllDeliOrdersByPage(page, rows, record);
+					.queryAllDeliOrdersByPage(page, rows, record);// 提货单号是以输入数字开头的模糊查询
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -328,6 +331,14 @@ public class DeliveryController {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
 			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+				// 扣持仓 减库存
+			}
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+				// 解冻持仓
+			}
 			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -371,9 +382,8 @@ public class DeliveryController {
 			HttpSession session) throws IOException {
 		log.info("撤销审核单");
 		try {
-			// String userId = ((UserManageVO)
-			// session.getAttribute("CurrentUser")).getUserID();
-			String userId = "121";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
 			return deliveryorderservice.cancelDeorder(deorderId, userId);
 		} catch (Exception e) {
 			e.printStackTrace();

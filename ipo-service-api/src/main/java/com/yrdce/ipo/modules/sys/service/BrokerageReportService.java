@@ -5,6 +5,7 @@ import java.util.List;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
+import com.yrdce.ipo.modules.sys.vo.Income;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
@@ -44,4 +45,12 @@ public interface BrokerageReportService {
 	 * @Description: 获取经纪会员的发行申购信息
 	 */
 	List<Releasesubscription> getReleaInfo(String brokerid, String time);
+
+	/**
+	 * @Title: getIncomeInfo
+	 * @Description: 经纪会员经纪收入
+	 * @param brokerid
+	 * @param time
+	 */
+	Income getIncomeInfo(String brokerid, String starttime, String endtime);
 }
