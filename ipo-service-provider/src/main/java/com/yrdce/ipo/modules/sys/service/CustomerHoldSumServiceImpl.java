@@ -10,36 +10,69 @@ import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 
 	@Autowired
-	private  TCustomerholdsumMapper customerholdsumMapper;
-	
-	
+	private TCustomerholdsumMapper customerholdsumMapper;
+
 	/**
-	  * 解冻客户持仓
-	  * @param unfreezeqty 解冻数量
-	  * @param customerid  客户代码
-	  * @param commodityid 商品编码
-	  * @param bsFlag      买卖标记
-	  */
+	 * 冻结客户持仓
+	 * 
+	 * @param freezeqty
+	 *            冻结数量
+	 * @param customerid
+	 *            客户代码
+	 * @param commodityid
+	 *            商品编码
+	 * @param bsFlag
+	 *            买卖标记
+	 */
 	@Transactional
-	public void unfreezeCustomerHold(Long unfreezeqty, String customerid,
-			String commodityid, short bsFlag) {
-		 
-		TCustomerholdsum dbCustomerHold= customerholdsumMapper.selectByPrimaryKey(customerid, commodityid, bsFlag);
-		if(dbCustomerHold==null){
+	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
+
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
+		if (dbCustomerHold == null) {
 			throw new RuntimeException("解冻客户持仓记录不存在");
-		};
-		TCustomerholdsum param= new TCustomerholdsum();
+		}
+		;
+		TCustomerholdsum param = new TCustomerholdsum();
 		BeanUtils.copyProperties(dbCustomerHold, param);
-		Long frozenqty=dbCustomerHold.getFrozenqty()-unfreezeqty;
-		if(frozenqty<0){
-			frozenqty=0L;
-		};
+		if (frozenqty < 0) {
+			frozenqty = 0L;
+		}
+		;
 		param.setFrozenqty(frozenqty);
 		customerholdsumMapper.updateByPrimaryKey(param);
 	}
 
-	
-	
-	
-	
+	/**
+	 * 解冻客户持仓
+	 * 
+	 * @param unfreezeqty
+	 *            解冻数量
+	 * @param customerid
+	 *            客户代码
+	 * @param commodityid
+	 *            商品编码
+	 * @param bsFlag
+	 *            买卖标记
+	 */
+	@Transactional
+	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, short bsFlag) {
+
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
+		if (dbCustomerHold == null) {
+			throw new RuntimeException("解冻客户持仓记录不存在");
+		}
+		;
+		TCustomerholdsum param = new TCustomerholdsum();
+		BeanUtils.copyProperties(dbCustomerHold, param);
+		Long frozenqty = dbCustomerHold.getFrozenqty() - unfreezeqty;
+		if (frozenqty < 0) {
+			frozenqty = 0L;
+		}
+		;
+		param.setFrozenqty(frozenqty);
+		customerholdsumMapper.updateByPrimaryKey(param);
+	}
+
 }

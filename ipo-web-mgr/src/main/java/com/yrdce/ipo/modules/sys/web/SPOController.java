@@ -1,7 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,8 +8,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.PayFlowService;
+import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 @Controller
 @RequestMapping("SPOController")
@@ -33,15 +40,13 @@ public class SPOController {
 	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SPOController.class);
 	@Autowired
 	private SPOService spoService;
-
 	@Autowired
 	private TaskService taskService;
 	@Autowired
 	private PayFlowService payFlowService;
-	
-	
-	
-	
+	@Autowired
+	private PositionService positionService;
+
 	// 添加增发商品信息
 	@RequestMapping(value = "/insertSPOInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -93,8 +98,8 @@ public class SPOController {
 	// 查询增发商品信息
 	@RequestMapping(value = "/getAllSPOInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getAllSPOInfo(@RequestParam("page") String page, @RequestParam("rows") String rows, SpoCommoditymanmaagement spoComm)
-			throws IOException {
+	public String getAllSPOInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			SpoCommoditymanmaagement spoComm) throws IOException {
 		logger.info("获取商品增发信息");
 		try {
 			// SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
@@ -152,8 +157,8 @@ public class SPOController {
 	// 获取配售信息
 	@RequestMapping(value = "/getRationInfopp", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows, SpoCommoditymanmaagement spoComm)
-			throws IOException {
+	public String getRationInfopp(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			SpoCommoditymanmaagement spoComm) throws IOException {
 		logger.info("获取定向配售信息");
 		try {
 			List<SpoRation> tempList = spoService.getRationInfo(page, rows, spoComm);
@@ -215,7 +220,8 @@ public class SPOController {
 	// 更改增发状态
 	@RequestMapping(value = "/updateSPOSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSPOSate(@RequestParam("spoId") String spoId, @RequestParam("rationSate") String rationSate) {
+	public String updateSPOSate(@RequestParam("spoId") String spoId,
+			@RequestParam("rationSate") String rationSate) {
 		logger.info("删除增发商品信息");
 		try {
 			int result = spoService.updateStatus(Integer.parseInt(rationSate), spoId);
@@ -355,64 +361,202 @@ public class SPOController {
 		}
 		return true;
 	}
-	
-	
+
 	/**
 	 * 查询增发的货款记录
+	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @param request
-	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryIncreasePublishGoods")
 	@ResponseBody
-	public String queryIncreasePublishGoods(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
-			HttpServletRequest request) throws Exception {
-		
+	public String queryIncreasePublishGoods(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
+
 		PayFlow payFlow = new PayFlow();
 		payFlow.setPayee(request.getParameter("payee"));
 		payFlow.setCommodityId(request.getParameter("commodityId"));
-		long count=payFlowService.queryIncreasePublishGoodsForCount(payFlow);
-		List<PayFlow> dataList=new ArrayList<PayFlow>();
-		if(count>0){
-			dataList=payFlowService.queryIncreasePublishGoodsForPage(pageNo, pageSize, payFlow);
+		long count = payFlowService.queryIncreasePublishGoodsForCount(payFlow);
+		List<PayFlow> dataList = new ArrayList<PayFlow>();
+		if (count > 0) {
+			dataList = payFlowService.queryIncreasePublishGoodsForPage(pageNo, pageSize, payFlow);
 		}
 		ResponseResult result = new ResponseResult();
-		result.setTotal( new Long(count).intValue());
+		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
-	
-	
+
 	/**
 	 * 付款
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/pay")
 	@ResponseBody
-	public String pay(HttpServletRequest request)  {
-			
+	public String pay(HttpServletRequest request) {
+
 		PayFlow payFlow = new PayFlow();
 		payFlow.setId(Long.valueOf(request.getParameter("id")));
 		payFlow.setUpdateUser(getLoginUserId(request));
 		try {
 			payFlowService.pay(payFlow);
 		} catch (Exception e) {
-			logger.error("pay error:"+e);
+			logger.error("pay error:" + e);
 			return "error";
 		}
 		return "success";
 	}
-	
-	
-	private String getLoginUserId(HttpServletRequest request){
+
+	private String getLoginUserId(HttpServletRequest request) {
 		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
-		if(user!=null){
+		if (user != null) {
 			return user.getUserID();
 		}
 		return "nologin";
 	}
-	
+
+	/**
+	 * 查询持仓流水
+	 * 
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 */
+	@RequestMapping(value = "/queryPositionFlow")
+	@ResponseBody
+	public String queryPositionFlow(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		positionFlow.setState(PositionConstant.FlowState.turn_goods.getCode());
+		positionFlow.setCommodityId(request.getParameter("commodityId"));
+		positionFlow.setFirmId(request.getParameter("firmId"));
+		long count = positionService.queryFlowForCount(positionFlow);
+		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
+		if (count > 0) {
+			dataList = positionService.queryFlowForPage(pageNo, pageSize, positionFlow);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal(new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+
+	/**
+	 * 查询减持仓设置
+	 * 
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryReduce")
+	@ResponseBody
+	public String queryReduce(HttpServletRequest request) throws Exception {
+
+		PositionReduce positionReduce = new PositionReduce();
+		positionReduce.setPositionFlowId(Long.valueOf(request.getParameter("positionFlowId")));
+		positionReduce.setCommodityId(request.getParameter("commodityId"));
+		List<PositionReduce> dataList = positionService.queryReduceForList(positionReduce);
+		ResponseResult result = new ResponseResult();
+		result.setTotal(dataList.size());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+
+	/**
+	 * 跳转到减持设置页面
+	 * 
+	 * @param request
+	 * @param model
+	 */
+	@RequestMapping(value = "/reduce")
+	public String reduce(HttpServletRequest request, Model model) {
+		String positionFlowId = request.getParameter("positionFlowId");
+		model.addAttribute("positionFlowId", positionFlowId);
+		return "app/SPO/reduce";
+	}
+
+	/**
+	 * 跳转到 新增减持仓页面
+	 * 
+	 * @param request
+	 * @param model
+	 */
+	@RequestMapping(value = "/addReduce")
+	public String addReduce(HttpServletRequest request, Model model) {
+		Long positionFlowId = Long.valueOf(request.getParameter("positionFlowId"));
+		PositionFlow flow = positionService.findFlow(positionFlowId);
+		model.addAttribute("flow", flow);
+
+		return "app/SPO/add_reduce";
+	}
+
+	/**
+	 * 删除减持仓设置
+	 * 
+	 * @param request
+	 * @param model
+	 */
+	@RequestMapping(value = "/deleteReduce")
+	@ResponseBody
+	public String deleteReduce(HttpServletRequest request, Model model) {
+		try {
+			Long id = Long.valueOf(request.getParameter("id"));
+			PositionReduce param = new PositionReduce();
+			param.setId(id);
+			param.setUpdateUser(getLoginUserId(request));
+			positionService.deletePositionReduce(param);
+		} catch (Exception e) {
+			logger.error("deleteReduce error:" + e);
+			return "error";
+		}
+		return "success";
+	}
+
+	/**
+	 * 保存 减持仓设置
+	 * 
+	 * @param request
+	 * @param model
+	 */
+	@RequestMapping(value = "/saveReduce")
+	@ResponseBody
+	public String saveReduce(HttpServletRequest request, Model model) {
+		try {
+			Long positionFlowId = Long.valueOf(request.getParameter("positionFlowId"));
+			String reduceDate = request.getParameter("reduceDate");
+			BigDecimal ratio = new BigDecimal(request.getParameter("ratio"));
+			String reduceqty = request.getParameter("reduceqty");
+			//验证输入的减持比例
+			PositionReduce positionReduce = new PositionReduce();
+			positionReduce.setPositionFlowId(positionFlowId);
+			List<PositionReduce> dataList = positionService.queryReduceForList(positionReduce);
+			BigDecimal ratioSum = new BigDecimal("0");
+			if (dataList != null && !dataList.isEmpty()) {
+				for (PositionReduce item : dataList) {
+					ratioSum = ratioSum.add(item.getRatio());
+				}
+			}
+			;
+			if (ratioSum.add(ratio).intValue() > 100) {
+				return "001";
+			}
+			;
+
+			PositionReduce param = new PositionReduce();
+			param.setPositionFlowId(positionFlowId);
+			param.setReduceDate(DateUtils.parseDate(reduceDate, "yyyy-MM-dd"));
+			param.setRatio(ratio);
+			param.setReduceqty(Long.valueOf((reduceqty)));
+			param.setCreateUser(getLoginUserId(request));
+			positionService.savePositionReduce(param);
+		} catch (Exception e) {
+			logger.error("saveReduce error:" + e);
+			return "error";
+		}
+		return "success";
+	}
 }
