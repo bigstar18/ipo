@@ -29,7 +29,6 @@ public class PickUpServiceImpl implements PickUpService {
 	public Integer setPassword(String pickupId, String password) {
 		IpoPickup example = ipopickupmapper.selectByPrimaryKey(pickupId);
 		example.setPickupPassword(password);
-
 		return ipopickupmapper.updateByPrimaryKey(example);
 	}
 

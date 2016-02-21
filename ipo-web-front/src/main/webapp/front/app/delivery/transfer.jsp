@@ -58,13 +58,13 @@ function doSearch(){
 				case "003001":
 					$("#approvalStatus").val("已打印");
 					break;
-				case "003002":
+				case "003001001":
 					$("#approvalStatus").val("已过户");
 					break;
-				case "003003":
+				case "003002":
 					$("#approvalStatus").val("已设置配置费用");
 					break;
-				case "003003001":
+				case "003002001":
 					$("#approvalStatus").val("已确认");
 					break;
 				case "004001":
@@ -95,18 +95,21 @@ function doAdd(){
     	alert("提货单还未进行市场审核，无法过户！");
     	return ;
     }
-    if(appstatus=='市场通过'){
-	var deliveryorderId = $("#deliveryorderId").val();
+    if(appstatus=='市场通过'||appstatus=='已打印'){
 	$.ajax({
 		type:"POST",
 		url:"<%=request.getContextPath()%>/TransferController/updateSate",
 		data:{
-			deliveryorderId:deliveryorderId
+			deliveryorderId:$("#deliveryorderId").val(),
+			pickupPassword:$("#pickupPassword").val()
 		},
 		success:function(data){
-			if(data=="success"){
+			if(data=="true"){
 				alert("过户成功！");
 				closeform();
+			}
+			if(data=="false"){
+				alert("过户失败！");
 			}
 			if(data=="error"){
 				alert("系统异常!");

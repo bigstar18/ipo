@@ -99,6 +99,14 @@ public interface DeliveryOrderService {
 	public String unfrozenStock(DeliveryOrder order);
 
 	/**
+	 * 扣除过户费
+	 * 
+	 * @param order
+	 * @return
+	 */
+	public String insertTransferFee(DeliveryOrder order);
+
+	/**
 	 * 查询自提详细信息
 	 * 
 	 * @param pickUpId
@@ -146,7 +154,7 @@ public interface DeliveryOrderService {
 	 * @param deliveryId
 	 * @return
 	 */
-	public Integer transferDeliveryOrder(String deliveryId, String userId);
+	public String transferDeliveryOrder(String deliveryId, String userId);
 
 	/**
 	 * 仓库设置配送费

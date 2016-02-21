@@ -38,7 +38,7 @@
     <dubbo:reference id="deliveryOrderService" interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" />
     <dubbo:reference id="pickupservice" interface="com.yrdce.ipo.modules.sys.service.PickUpService" />
     <dubbo:reference id="trusteeshipWarehouseService" interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" />
-    
+    <dubbo:reference id="customerHoldSumService" interface="com.yrdce.ipo.modules.sys.service.CustomerHoldSumService" />
     
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->

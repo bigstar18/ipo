@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.PickUpService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
@@ -31,6 +32,9 @@ public class TransferController {
 
 	@Autowired
 	private PickUpService pickupservice;
+
+	@Autowired
+	private CustomerHoldSumService customerHoldSumService;
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(TransferController.class);
@@ -60,6 +64,9 @@ public class TransferController {
 	public String setPassword(
 			@RequestParam("deliveryorderid") String deliveryorderId,
 			@RequestParam("pickupPassword") String pickupPassword) {
+		if (pickupPassword.equals("")) {
+			return "fail";
+		}
 		DeliveryOrder order = deliveryOrderService
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 		int num = pickupservice
@@ -76,13 +83,26 @@ public class TransferController {
 	@ResponseBody
 	public String updateSate(
 			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("pickupPassword") String pickupPassword,
 			HttpSession session) {
 		try {
 			log.info("确认过户");
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			deliveryOrderService.transferDeliveryOrder(deliveryorderId, userId);
-			return "success";
+			// 验证是不是那条单子,密码对不对
+			if (1 == 1) {
+				deliveryOrderService.transferDeliveryOrder(deliveryorderId,
+						userId);
+				// b现货持仓增加 扣过户费
+				DeliveryOrder deorder = deliveryOrderService
+						.getDeliveryOrderByDeliOrderID(deliveryorderId);
+				deorder.setDealerId(userId);
+				customerHoldSumService.unfreezeCustomerHold(
+						0 - deorder.getDeliveryQuatity(), deorder.getDealerId()
+								+ "00", deorder.getCommodityId(), (short) 1);
+				return deliveryOrderService.insertTransferFee(deorder);
+			}
+			return "false";
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("过户异常", e);

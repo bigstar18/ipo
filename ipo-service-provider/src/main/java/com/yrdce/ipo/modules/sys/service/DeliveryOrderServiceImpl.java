@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,15 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
@@ -46,6 +52,12 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	private IpoOutboundMapper ipoOutboundMapper;
 	@Autowired
 	private IpoPositionFlowMapper ipopositionmapper;
+
+	@Autowired
+	private IpoDebitFlowMapper debitFlowMapper;
+
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfmapper;
 
 	public IpoDeliveryorderMapper getDeliveryordermapper() {
 		return deliveryordermapper;
@@ -340,26 +352,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public Integer transferDeliveryOrder(String deliveryId, String userId) {
+	public String transferDeliveryOrder(String deliveryId, String userId) {
 		IpoDeliveryorder example = deliveryordermapper
 				.selectByPrimaryKey(deliveryId);
-		if (example.getApprovalStatus().equals(
-				DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+		if (example != null) {
 			example.setApprovalStatus(DeliveryConstant.StatusType.TRANSFERRED
 					.getCode());
-			long quatity = example.getDeliveryQuatity();// 持仓转移
-			String commid = example.getCommodityId();
-			// IpoPosition ipoPosition =
-			// ipopositionmapper.selectPosition(userId,
-			// commid);
-			// if (ipoPosition == null) {
-			// 新增持仓
-			// } else {
-			// long position = ipoPosition.getPosition();
-			// long num = position + quatity;
-			// ipopositionmapper.updatePosition(userId, commid, num);
-			// }
-			return deliveryordermapper.updateByPrimaryKey(example);
+			deliveryordermapper.updateByPrimaryKey(example);
+			DeliveryOrder order = new DeliveryOrder();
+			BeanUtils.copyProperties(example, order);
+			this.unfrozenStock(order);
 		}
 		return null;
 
@@ -407,4 +409,35 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 		return "false";
 	}
 
+	@Override
+	@Transactional
+	public String insertTransferFee(DeliveryOrder order) {
+		// 过户费流水
+		DebitFlow debitFlow = new DebitFlow();
+		IpoCommodityConf commodity = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(order.getCommodityId());
+		if (commodity != null) {
+			BigDecimal transferFee = commodity.getTransferfeeradio();
+			BigDecimal funds = new BigDecimal(order.getDeliveryQuatity())
+					.multiply(commodity.getPrice()).multiply(transferFee);
+			debitFlow.setAmount(funds);
+			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
+					.getCode());
+			debitFlow.setChargeType(ChargeConstant.ChargeType.CHANGE_OWNER
+					.getCode());
+			debitFlow.setCommodityId(order.getCommodityId());
+			debitFlow.setOrderId(String.valueOf(order.getDeliveryorderId()));
+			debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS
+					.getCode());
+			debitFlow.setPayer(order.getDealerId());
+			debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+			debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT
+					.getCode());
+			debitFlow.setCreateUser(order.getDealerId());
+			debitFlow.setCreateDate(new Date());
+			debitFlowMapper.insert(debitFlow);
+			return "true";
+		}
+		return "false";
+	}
 }
