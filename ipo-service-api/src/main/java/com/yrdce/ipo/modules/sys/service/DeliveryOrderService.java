@@ -75,7 +75,7 @@ public interface DeliveryOrderService {
 	public DeliveryOrder getDeliveryOrderByDeliOrderID(String deliOrderID);
 
 	/**
-	 * 审核自提提货单
+	 * 审核提货单
 	 * 
 	 * @param order
 	 * @return
@@ -91,14 +91,12 @@ public interface DeliveryOrderService {
 	public String frozenStock(DeliveryOrder order);
 
 	/**
-	 * 审核配送提货单
+	 * 解冻库存
 	 * 
 	 * @param order
-	 * @param express
 	 * @return
 	 */
-	public String updateDeliveryOrder(DeliveryOrder order, Express express,
-			String managerId);
+	public String unfrozenStock(DeliveryOrder order);
 
 	/**
 	 * 查询自提详细信息

@@ -92,9 +92,9 @@ $(document).ready(function() {
                	 if(value=='002001') return "市场通过";
                	 if(value=='002002') return "市场驳回";
                	 if(value=='003001') return "已打印";
-               	 if(value=='003002') return "已过户";
-            	 if(value=='003003') return "已设置配置费用";
-            	 if(value=='003003001') return "已确认";
+               	 if(value=='003001001') return "已过户";
+            	 if(value=='003002') return "已设置配置费用";
+            	 if(value=='003002001') return "已确认";
                	 if(value=='004001') return "仓库通过";
                	 if(value=='004002') return "仓库驳回";
                	 if(value=='005')  return "已出库";
@@ -106,7 +106,7 @@ $(document).ready(function() {
             align: "center",
             title : '操作' ,
             formatter:function(value,row){
-            	if(row.approvalStatus=='001'||row.approvalStatus=='002001'||row.approvalStatus=='003001'||row.approvalStatus=='003002'||row.approvalStatus=='003003'){
+            	if(row.approvalStatus=='001'||row.approvalStatus=='002001'||row.approvalStatus=='003001'||row.approvalStatus=='003002'){
         	    return "<input type=\"button\" onclick=\"cancel('"+row.deliveryorderId+"')\" value=\"撤销\"/>";
             	}
         }
@@ -139,7 +139,7 @@ function cancel(id){
                                       url: getRootPath () +"/DeliveryController/cancelOrders",       
                                       data: {"deorderId":id},      
                                       success: function(data) { 
-                                   	   if(data=='撤销成功'){
+                                   	   if(data=='true'){
                                           alert("撤销成功！"); 
                                    	   }else{
                                    		   alert("系统异常，撤销失败，请联系管理员");  
@@ -160,20 +160,6 @@ function returntoList(){
 }
 
 function doSearch(){
-	
-   /* var options = $('#dg').datagrid('getPager').data("pagination").options;  
-    var curr = options.pageNumber;
-    var rows=  options.pageSize;
-    $('#pageNo').val(curr);
-    $('#pageSize').val(rows);
-           $.ajax({ 
-                 type: "post",  
-                 url: getRootPath () + "/DeliveryController/QueryByConditions",       
-                 data: form2Json(),      
-                 success: function(result) { 
-                     $("#dg").datagrid("reload",result); 
-                 }
-           });*/
 	 $('#dg').datagrid('load',{
 			deliveryorderId: $('#deliveryorderId').val(),
 			applyDate: $('#applyDate').datebox('getValue'),

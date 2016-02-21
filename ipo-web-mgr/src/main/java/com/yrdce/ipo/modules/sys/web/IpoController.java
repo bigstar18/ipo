@@ -377,7 +377,7 @@ public class IpoController {
 					.getWarehouseStockByCommodity(deorder.getCommodityId(),
 							deorder.getWarehouseId());
 			request.setAttribute("stock", stock.getAvailablenum());
-			log.info("当前仓库可用数量：" + stock.getAvailablenum() + ",客户交收数量："
+			log.debug("当前仓库可用数量：" + stock.getAvailablenum() + ",客户交收数量："
 					+ deorder.getDeliveryQuatity());
 			request.setAttribute("deliveryDate", deliveryDate);
 			request.setAttribute("applyDate", applyDate);

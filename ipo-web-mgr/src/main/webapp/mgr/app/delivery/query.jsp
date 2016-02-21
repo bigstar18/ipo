@@ -96,9 +96,9 @@ $(document).ready(function() {
                	 if(value=='002001') return "市场通过";
                	 if(value=='002002') return "市场驳回";
                	 if(value=='003001') return "已打印";
-               	 if(value=='003002') return "已过户";
-            	 if(value=='003003') return "已设置配置费用";
-            	 if(value=='003003001') return "已确认";
+               	 if(value=='003001001') return "已过户";
+            	 if(value=='003002') return "已设置配置费用";
+            	 if(value=='003002001') return "已确认";
                	 if(value=='004001') return "仓库通过";
                	 if(value=='004002') return "仓库驳回";
                	 if(value=='005')  return "已出库";
@@ -162,9 +162,9 @@ function clearInfo(){
 					<option value="002001">市场通过</option>
 					<option value="002002">市场驳回</option>
 					<option value="003001">已打印</option>
-					<option value="003002">已过户</option>
-					<option value="003003">已设置配置费用</option>
-					<option value="003003001">已确认</option>
+					<option value="003001001">已过户</option>
+					<option value="003002">已设置配置费用</option>
+					<option value="003002001">已确认</option>
 					<option value="004001">仓库通过</option>
 					<option value="004002">仓库驳回</option>
 					<option value="005">已出库</option>

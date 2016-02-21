@@ -24,11 +24,9 @@ import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
-import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.MProperty;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
-import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService;
@@ -319,62 +317,44 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 审核提货单(自提)
+	 * 审核提货单
 	 * 
-	 * @param
+	 * @param deorder
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/checkPorders", method = RequestMethod.POST)
+	@RequestMapping(value = "/checkOrders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkPorders(DeliveryOrder deorder, Pickup detail,
-			HttpSession session) throws IOException {
-		log.info("进行自提方式提货单审核");
+	public String checkPorders(DeliveryOrder deorder, HttpSession session)
+			throws IOException {
+		log.info("进行提货单审核");
 		try {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			String result = deliveryorderservice.updateDeliveryOrder(deorder,
-					userId);
-			if (result.equals("true")) {
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+				String result = deliveryorderservice.updateDeliveryOrder(
+						deorder, userId);
+				if (result.equals("true")) {
 					deliveryorderservice.frozenStock(deorder);
 					// 扣持仓
+					return "true";
 				}
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+			}
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+				String result = deliveryorderservice.updateDeliveryOrder(
+						deorder, userId);
+				if (result.equals("true")) {
 					customerHoldSumService
 							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
 									deorder.getDealerId() + "00",
 									deorder.getCommodityId(), (short) 1);
+					return "true";
 				}
-				return "true";
 			}
 			return "false";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 审核提货单(配送)
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
-	@ResponseBody
-	public String checkEorders(DeliveryOrder deorder, Express detail,
-			HttpSession session) throws IOException {
-		log.info("进行在线配送方式提货单审核");
-		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			deliveryorderservice.updateDeliveryOrder(deorder, detail, userId);
-			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -396,7 +376,39 @@ public class DeliveryController {
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			return deliveryorderservice.cancelDeorder(deorderId, userId);
+			DeliveryOrder deorder = deliveryorderservice
+					.getDeliveryOrderByDeliOrderID(deorderId);
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.REGISTER.getCode())) {
+				String result = deliveryorderservice.cancelDeorder(deorderId,
+						userId);
+				if (result.equals("true")) {
+					customerHoldSumService
+							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
+									deorder.getDealerId() + "00",
+									deorder.getCommodityId(), (short) 1);
+					return "true";
+				}
+			}
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETPASS.getCode())
+					|| deorder.getApprovalStatus().equals(
+							DeliveryConstant.StatusType.PRINTED.getCode())
+					|| deorder.getApprovalStatus().equals(
+							DeliveryConstant.StatusType.EXPRESSCOSTSET
+									.getCode())) {
+				String result = deliveryorderservice.cancelDeorder(deorderId,
+						userId);
+				if (result.equals("true")) {
+					customerHoldSumService
+							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
+									deorder.getDealerId() + "00",
+									deorder.getCommodityId(), (short) 1);
+					deliveryorderservice.unfrozenStock(deorder);
+					return "true";
+				}
+			}
+			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

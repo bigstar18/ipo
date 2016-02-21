@@ -65,7 +65,7 @@
 				$("#applyDate").datebox("setValue",$("#applytime").val());
 		});
 				
-function updatePickup(){
+function updateDelivery(){
 	var approvalStatus=$("#approvalStatus").val();
 	var stock= parseInt($("#stock").val());
 	var deliveryQuantity=parseInt($("#deliveryQuatity").val());
@@ -73,15 +73,15 @@ function updatePickup(){
 		alert("库存为空，数据异常，请联系仓库管理员");
 		return;
 	}
-	if(stock<deliveryQuantity&&approvalStatus=='2'){
-		alert("库存不足，暂时无法通过审核!");
+	if(stock<deliveryQuantity&&approvalStatus=='002001'){
+		alert("提货仓库库存不足，暂时无法通过审核!");
 		return ;
 	}
 	if(approvalStatus!= ''){
                          	   $.ajax({ 
                          		   cache:false,
                                     type: "post",  
-                                    url: getRootPath () +"/DeliveryController/checkPorders",       
+                                    url: getRootPath () +"/DeliveryController/checkOrders",       
                                     data: $("#frm").serialize(),      
                                     success: function(data) { 
                                  	   if(data=='true'){
@@ -100,36 +100,6 @@ function updatePickup(){
 		}
 }
 
-function updateExpress(){
-	var approvalStatus=$("#approvalStatus").val();
-	var stock=parseInt($("#stock").val());
-	var deliveryQuantity=parseInt($("#deliveryQuatity").val());
-	if(stock<deliveryQuantity&&approvalStatus=='2'){
-		alert("库存不足，暂时无法通过审核!");
-		return ;
-	}
-	if(approvalStatus!= ''){
-                         	   $.ajax({ 
-                         		   cache:false,
-                                    type: "post",  
-                                    url: getRootPath () +"/DeliveryController/checkEorders",       
-                                    data: $("#frm").serialize(),      
-                                    success: function(data) { 
-                                 	   if(data=='true'){
-                                        alert("审核完成！"); 
-                                        returntoList();
-                                 	   }else{
-                                 		   alert("系统异常，请联系管理员");  
-                                 	   }
-                                    },  
-                                    error: function(data) {  
-                                        alert("系统异常，请联系管理员!");  
-                                    }  
-                                }); 
-         }else{
-					alert("请先审核再提交!");
-		}
-}
 function returntoList(){
 	var backUrl=getRootPath () +"/IpoController/DeliveryApprove?randnum="+Math.floor(Math.random()*1000000);
 	document.location.href = backUrl;
@@ -308,12 +278,7 @@ function returntoList(){
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">
-								<c:if test="${flag == 'pickup'}"> 
-								    	<input type="button" value="提交" onclick="updatePickup()" class="anniu_btn"/>
-								    	</c:if>
-								  <c:if test="${flag == 'express'}"> 
-								    	<input type="button" value="提交" onclick="updateExpress()" class="anniu_btn"/>
-								    	</c:if>  	
+								    	<input type="button" value="提交" onclick="updateDelivery()" class="anniu_btn"/>
 									&nbsp;&nbsp;
 									<input type="button" value="返回" onclick="returntoList()" class="anniu_btn"/>
 								</div>

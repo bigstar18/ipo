@@ -127,7 +127,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	@Transactional
 	public String updateDeliveryOrder(DeliveryOrder order, String managerId) {
-		Log.info("审核自提提货单服务");
+		Log.info("审核提货单服务");
 		IpoDeliveryorder deorder = new IpoDeliveryorder();
 		if (order != null) {
 			BeanUtils.copyProperties(order, deorder);
@@ -160,57 +160,6 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			return "true";
 		}
 		return "false";
-	}
-
-	@Override
-	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, Express express,
-			String managerId) {
-		Log.info("审核配送提货单服务");
-		IpoDeliveryorder deorder = new IpoDeliveryorder();
-		if (order != null) {
-			if (express != null) {
-				BeanUtils.copyProperties(order, deorder);
-				deorder.setApproveDate(new Date());
-				deorder.setApprovers(managerId);
-				deliveryordermapper.updateByPrimaryKey(deorder);
-				if (order.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					long quantity = deorder.getDeliveryQuatity();// 冻结仓库库存
-					String commid = deorder.getCommodityId();
-					IpoWarehouseStock stock = ipoWarehouseStockMapper
-							.selectByCommoId(commid,
-									Long.parseLong(deorder.getWarehouseId()));
-					if (stock != null) {
-						long frozennum = stock.getForzennum();
-						long available = stock.getAvailablenum();
-						long newfrozen = frozennum + quantity;
-						long newavailble = available - quantity;
-						stock.setForzennum(newfrozen);
-						stock.setAvailablenum(newavailble);
-						log.info("冻结数量：" + stock.getForzennum() + "有效数量："
-								+ stock.getAvailablenum() + "入库数量："
-								+ stock.getStoragenum() + "出库数量："
-								+ stock.getOutboundnum());
-						ipoWarehouseStockMapper.updateInfo(stock);
-					}
-				}
-				if (order.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-					// 驳回更新持仓量
-					long quatity = order.getDeliveryQuatity();
-					String firmid = order.getDealerId();
-					String commid = order.getCommodityId();
-					// IpoPosition ipoPosition =
-					// ipopositionmapper.selectPosition(firmid, commid);
-					// long position = ipoPosition.getPosition();
-					// long num = position + quatity;
-					// ipopositionmapper.updatePosition(firmid, commid, num);
-				}
-				return "已审核";
-			}
-		}
-		return "审核失败";
 	}
 
 	@Override
@@ -263,54 +212,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	@Transactional
 	public String cancelDeorder(String deOrderId, String cancellId) {
-		IpoDeliveryorder orideorder = deliveryordermapper
-				.selectByPrimaryKey(deOrderId);
+		Log.info("撤销提货单服务");
 		deliveryordermapper.cancelDeorder(deOrderId,
 				DeliveryConstant.StatusType.CANCEL.getCode(), cancellId);
-		IpoDeliveryorder deorder = deliveryordermapper
-				.selectByPrimaryKey(deOrderId);
-		if (deorder != null) {
-			String status = deorder.getApprovalStatus();
-			long quatity = deorder.getDeliveryQuatity();// 撤销返还持仓量
-			String firmid = deorder.getDealerId();
-			String commid = deorder.getCommodityId();
-			/*
-			 * IpoPosition ipoPosition =
-			 * ipopositionmapper.selectPosition(firmid, commid);
-			 */
-			// long position = ipoPosition.getPosition();
-			// long num = position + quatity;
-			// int pnum = ipopositionmapper.updatePosition(firmid, commid, num);
-			if (status.equals(DeliveryConstant.StatusType.CANCEL.getCode())) {
-				if (orideorder != null) {
-					String oristatus = orideorder.getApprovalStatus();
-					if (!(oristatus.equals(DeliveryConstant.StatusType.REGISTER
-							.getCode()))) {// 解冻库存
-						IpoWarehouseStock stock = ipoWarehouseStockMapper
-								.selectByCommoId(commid, Long.parseLong(deorder
-										.getWarehouseId()));
-						if (stock != null) {
-							long frozennum = stock.getForzennum();
-							long available = stock.getAvailablenum();
-							long newfrozen = frozennum - quatity;
-							long newavailble = available + quatity;
-							stock.setForzennum(newfrozen);
-							stock.setAvailablenum(newavailble);
-							log.info("冻结数量：" + stock.getForzennum() + "有效数量："
-									+ stock.getAvailablenum() + "入库数量："
-									+ stock.getStoragenum() + "出库数量："
-									+ stock.getOutboundnum());
-							int snum = ipoWarehouseStockMapper
-									.updateInfo(stock);
-							if (snum == 1) {
-								return "撤销成功";
-							}
-						}
-					}
-				}
-			}
-		}
-		return "撤销失败";
+		return "true";
 	}
 
 	@Override
@@ -474,6 +379,29 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				if (onum == 1 && num == 1) {
 					return "true";
 				}
+			}
+		}
+		return "false";
+	}
+
+	@Override
+	public String unfrozenStock(DeliveryOrder order) {
+		// 解冻库存
+		IpoWarehouseStock stock = ipoWarehouseStockMapper.selectByCommoId(
+				order.getCommodityId(), Long.parseLong(order.getWarehouseId()));
+		if (stock != null) {
+			long frozennum = stock.getForzennum();
+			long available = stock.getAvailablenum();
+			long newfrozen = frozennum - order.getDeliveryQuatity();
+			long newavailble = available + order.getDeliveryQuatity();
+			stock.setForzennum(newfrozen);
+			stock.setAvailablenum(newavailble);
+			log.info("冻结数量：" + stock.getForzennum() + "有效数量："
+					+ stock.getAvailablenum() + "入库数量：" + stock.getStoragenum()
+					+ "出库数量：" + stock.getOutboundnum());
+			int snum = ipoWarehouseStockMapper.updateInfo(stock);
+			if (snum == 1) {
+				return "true";
 			}
 		}
 		return "false";
