@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.PickUpService;
@@ -67,6 +68,7 @@ public class TransferController {
 		if (pickupPassword.equals("")) {
 			return "fail";
 		}
+		// TODO 加密
 		DeliveryOrder order = deliveryOrderService
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 		int num = pickupservice
@@ -89,18 +91,25 @@ public class TransferController {
 			log.info("确认过户");
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			// 验证是不是那条单子,密码对不对
+			// TODO 验证是不是那条单子,密码对不对
+			DeliveryOrder deorder = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (1 == 1) {
-				deliveryOrderService.transferDeliveryOrder(deliveryorderId,
-						userId);
-				// b现货持仓增加 扣过户费
-				DeliveryOrder deorder = deliveryOrderService
-						.getDeliveryOrderByDeliOrderID(deliveryorderId);
-				deorder.setDealerId(userId);
-				customerHoldSumService.unfreezeCustomerHold(
-						0 - deorder.getDeliveryQuatity(), deorder.getDealerId()
-								+ "00", deorder.getCommodityId(), (short) 1);
-				return deliveryOrderService.insertTransferFee(deorder);
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.PRINTED.getCode())
+						|| deorder.getApprovalStatus().equals(
+								DeliveryConstant.StatusType.MARKETPASS
+										.getCode())) {
+					deliveryOrderService.transferDeliveryOrder(deliveryorderId,
+							userId);
+					// TODO b现货持仓增加 扣过户费
+					deorder.setDealerId(userId);
+					customerHoldSumService.unfreezeCustomerHold(
+							0 - deorder.getDeliveryQuatity(),
+							deorder.getDealerId() + "00",
+							deorder.getCommodityId(), (short) 1);
+					return deliveryOrderService.insertTransferFee(deorder);
+				}
 			}
 			return "false";
 		} catch (Exception e) {
@@ -109,5 +118,4 @@ public class TransferController {
 			return "error";
 		}
 	}
-
 }

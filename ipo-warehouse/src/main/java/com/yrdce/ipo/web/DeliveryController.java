@@ -257,7 +257,7 @@ public class DeliveryController {
 		try {
 			log.debug(record.toString());
 			record.setDeliveryMethod("在线配送");
-			record.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEPASS
+			record.setApprovalStatus(DeliveryConstant.StatusType.MARKETPASS
 					.getCode());
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);
@@ -332,7 +332,7 @@ public class DeliveryController {
 		try {
 			log.debug(detail.getCost().toString());
 			deorder.setApprovalStatus(DeliveryConstant.StatusType.EXPRESSCOSTSET
-					.getCode());// 8、已设置配置费用
+					.getCode());
 			return deliveryorderservice.setExpressFee(deorder, detail);
 		} catch (Exception e) {
 			e.printStackTrace();

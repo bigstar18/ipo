@@ -172,7 +172,7 @@ function returntoList(){
 										</td>
 										<td align="right" width="110">提货方式：</td>     
             							<td width="110"> 
-            								 <input id="deliveryMethod" type="text" name="deliveryMethod" value="在线配送" readonly="readonly" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
+            						    <input id="deliveryMethod" type="text" name="deliveryMethod" value="在线配送" readonly="readonly" style="padding-top: 0px; padding-bottom: 0px;margin-top: 0px;margin-bottom: 0px;line-height: 14px;"/>
             							<input id="methodId" type="hidden" name="methodId" value="${entity.methodId }"/>
             							<input id="deliveryCounts" type="hidden" name="deliveryCounts" value="${entity.deliveryCounts }"/>
             							<input id="position" type="hidden" name="position" value="${entity.position }"/>

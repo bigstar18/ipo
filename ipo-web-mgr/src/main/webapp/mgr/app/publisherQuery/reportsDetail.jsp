@@ -62,15 +62,15 @@ function returnToPage(){
 <div class="table-c">
 <table width="800px"  border="1" cellspacing="0" cellpadding="0" align="center">
 	<tr>
-		<td class="td_reportMdHead_Right">上日资金余额：</td>
+		<td class="td_reportMdHead_Right">上日资金余额（元）</td>
 		<td class="td_reportMd1">${settle.balance.yesterdaybalance==null?0:settle.balance.yesterdaybalance }</td>
-		<td class="td_reportMdHead_Right">发行货款：</td>
+		<td class="td_reportMdHead_Right">发行货款（元）</td>
 		<td class="td_reportRd1">${settle.totalLoan }</td>		
 	</tr>
 	<tr>
-		<td class="td_reportMdHead_Right">当日出入金：</td>
+		<td class="td_reportMdHead_Right">当日出入金（元）</td>
 		<td class="td_reportMd1">0.00</td>
-		<td class="td_reportMdHead_Right">当日资金余额</td>
+		<td class="td_reportMdHead_Right">当日资金余额（元）</td>
 		<td class="td_reportRd1">${settle.balance.todaybalance==null?0:settle.balance.todaybalance }</td>	
 	</tr>
 </table>
@@ -82,11 +82,11 @@ function returnToPage(){
 	<td class="td_reportMdHead">序号</td>
 	<td class="td_reportMdHead">商品代码</td>
 	<td class="td_reportMdHead">商品名称</td>
-	<td class="td_reportMdHead">发行价格</td>
+	<td class="td_reportMdHead">发行价格（元）</td>
 	<td class="td_reportMdHead">发行认购数量</td>
-	<td class="td_reportMdHead">发行认购金额</td>
-	<td class="td_reportMdHead">发行服务费</td>
-	<td class="td_reportRdHead">发行应得收入</td>
+	<td class="td_reportMdHead">发行认购金额（元）</td>
+	<td class="td_reportMdHead">发行服务费（元）</td>
+	<td class="td_reportRdHead">发行应得收入（元）</td>
 	</tr>
 		 <c:forEach var="publish" items="${settle.list}" varStatus="status">
 		 <tr>
