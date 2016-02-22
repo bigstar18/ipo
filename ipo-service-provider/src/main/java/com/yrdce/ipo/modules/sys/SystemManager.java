@@ -31,6 +31,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoClearStatusMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoFirmrewarddeailMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoClearStatus;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
@@ -125,6 +126,8 @@ public class SystemManager extends Observable{
 	
 	@Autowired
 	private IpoDebitFlowMapper debitFlowMapper;
+	@Autowired
+	private IpoFirmrewarddeailMapper ipoFirmrewarddeailMapper;
 	
 	public String getStatus() {
 		return status;
@@ -284,26 +287,24 @@ public class SystemManager extends Observable{
 		updateSysStatusLock(STATUS_MARKET_CLOSE, STATUS_MARKET_SETTLING, null, "结算中");
 		try {
 			updateClearStatus(Short.valueOf("0"), CLEAR_STATUS_Y);
-			// 收付当日货款、手续费
-			//purchaseSettle();
-			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
 			//扣发行手续费,扣款对象:发行商
 			publishHandlingSettle();
 			//扣托管商品的手续费,扣款对象:散户
 			trusteeshipHandlingSettle();
-			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("1"), CLEAR_STATUS_Y);
 			//扣增发的货款,扣款对象:交易商(散户+承销商)
 			increasePublishGoodsSettle();
 			//扣增发的手续费,扣款对象:交易商(散户+承销商)
 			increasePublishHandlingSettle();
-			updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("2"), CLEAR_STATUS_Y);
 			//扣发售的货款 ,扣款对象:交易商(散户+承销商)
 			purchaseGoodsSettle();
 			//扣发售的手续费,扣款对象:交易商(散户+承销商)
 			purchaseHandlingSettle();
-			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
+			updateClearStatus(Short.valueOf("3"), CLEAR_STATUS_Y);
 			//扣过户费,扣款对象:交易商(散户)
 			changeOwnerSettle();
+			updateClearStatus(Short.valueOf("4"), CLEAR_STATUS_Y);
 			//扣仓储费,扣款对象:发行商,托管商品的散户
 			warehouseRentSettle();
 			//扣仓库保险费,扣款对象:发行商,托管商品的散户
@@ -311,7 +312,9 @@ public class SystemManager extends Observable{
 			//扣仓库托管费,扣款对象:发行商,托管商品的散户
 			warehouseTrusteeSettle();
 			updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
-			 
+			 //佣金结算
+			brokerageSettle();
+			updateClearStatus(Short.valueOf("6"), CLEAR_STATUS_Y);
 			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
 		} catch (Throwable e) {
 			updateSysStatusLock(STATUS_MARKET_SETTLING, STATUS_MARKET_CLOSE, null, "已闭市");
@@ -319,7 +322,8 @@ public class SystemManager extends Observable{
 		}
 	}
 
-	
+
+
 	//发行手续费结算 
 	public void publishHandlingSettle()throws Exception{
 		String businessType=ChargeConstant.BusinessType.PUBLISH.getCode();
@@ -382,6 +386,11 @@ public class SystemManager extends Observable{
 		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
 		String chargeType=ChargeConstant.ChargeType.TRUSTEE.getCode();
 		debitFlowSettle(businessType,chargeType,"40008","仓库托管费结算");
+	}
+	
+	//佣金结算
+	private void brokerageSettle()throws Exception  {
+		ipoFirmrewarddeailMapper.brokerRewardSettle();
 	}
 	
 	public void debitFlowSettle(String businessType ,String chargeType ,String opCode,String opName) throws Exception{

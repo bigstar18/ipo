@@ -80,4 +80,10 @@
   	and to_char(t.cleardate, 'yyyy-mm-dd') between #{startdate,jdbcType=VARCHAR} 
   	and #{enddate,jdbcType=VARCHAR} 
   </select>
+  
+    <select id="brokerRewardSettle" statementType="CALLABLE" parameterType="java.util.HashMap">
+       <![CDATA[
+            {#{returnCode,mode=OUT,jdbcType=INTEGER} = {call FN_ipo_BrokerReward()}
+       ]]>
+  </select>
 </mapper>

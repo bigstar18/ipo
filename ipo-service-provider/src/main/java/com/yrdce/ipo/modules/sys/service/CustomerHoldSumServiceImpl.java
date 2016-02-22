@@ -30,16 +30,17 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
 				bsFlag);
 		if (dbCustomerHold == null) {
-			throw new RuntimeException("解冻客户持仓记录不存在");
+			throw new RuntimeException("冻结客户持仓记录不存在");
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
 		BeanUtils.copyProperties(dbCustomerHold, param);
-		if (frozenqty < 0) {
-			frozenqty = 0L;
+		Long frozenqtySum = dbCustomerHold.getFrozenqty() + frozenqty;
+		if (frozenqtySum < 0) {
+			frozenqtySum = 0L;
 		}
 		;
-		param.setFrozenqty(frozenqty);
+		param.setFrozenqty(frozenqtySum);
 		customerholdsumMapper.updateByPrimaryKey(param);
 	}
 
@@ -73,6 +74,26 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		;
 		param.setFrozenqty(frozenqty);
 		customerholdsumMapper.updateByPrimaryKey(param);
+	}
+	
+    /**
+     * 	增加客户持仓
+     */
+	@Transactional
+	public void increaseCustomerHold(Long frozenqty, String customerid,
+			String commodityid, short bsFlag) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * 减少客户持仓
+	 */
+	@Transactional
+	public void reduceCustomerHold(Long frozenqty, String customerid,
+			String commodityid, short bsFlag) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
