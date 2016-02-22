@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yrdce.ipo.modules.sys.service.BrokerageReportService;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
+import com.yrdce.ipo.modules.sys.vo.Income;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.SettleResult;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
@@ -103,6 +106,47 @@ public class BrokerageReportController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	@RequestMapping(value = "/brokerid", method = RequestMethod.GET)
+	public String incomeForward(HttpServletRequest request, Model model,
+			@RequestParam(value = "brokerid", required = false) String brokerid,
+			@RequestParam("starttime") String starttime, @RequestParam("endtime") String endtime) {
+		List<VBrBroker> brokers = brokerageReportService.getBroker();
+		if (!"".equals(brokerid)) {
+			List<Firmrewarddeail> list1 = brokerageReportService.getHandlingInfo(brokerid, starttime,
+					endtime);
+			BigDecimal allHandling = new BigDecimal(0);
+			for (Firmrewarddeail firmrewarddeail : list1) {
+				BigDecimal handling = firmrewarddeail.getReward();
+				allHandling = allHandling.add(handling);
+			}
+			List<Firmrewarddeail> list2 = brokerageReportService.getRegisterInfo(brokerid, starttime,
+					endtime);
+			BigDecimal allRegister = new BigDecimal(0);
+			for (Firmrewarddeail firmrewarddeail : list2) {
+				BigDecimal register = firmrewarddeail.getReward();
+				allRegister = allRegister.add(register);
+			}
+			List<Firmrewarddeail> list3 = brokerageReportService.getCancelInfo(brokerid, starttime, endtime);
+			BigDecimal allCancel = new BigDecimal(0);
+			for (Firmrewarddeail firmrewarddeail : list3) {
+				BigDecimal cancel = firmrewarddeail.getReward();
+				allCancel = allCancel.add(cancel);
+			}
+			Income income = new Income();
+			income.setBrokerId(brokerid);
+			income.setPurchase(allHandling);
+			income.setBillOfLading(allRegister.add(allCancel));
+			income.setFirmId(list1.get(0).getFirmid());
+			for (VBrBroker broker : brokers) {
+				if (brokerid.equals(broker.getBrokerid())) {
+					income.setBrokerName(broker.getName());
+				}
+			}
+
+		}
+		return "error";
 	}
 
 	/*@RequestMapping(value = "/incomeforward", method = RequestMethod.GET)

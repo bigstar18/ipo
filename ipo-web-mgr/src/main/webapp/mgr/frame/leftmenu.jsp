@@ -430,6 +430,9 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("定向配售管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/ppPlacingManage.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("减持设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/positionflow.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("付发行商货款,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/increase_publish_goods.jsp");
 									M01.add(M0101);</SCRIPT>
 

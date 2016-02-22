@@ -9,22 +9,24 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoFirmrewarddeailMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoHoldcommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
-import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
+import com.yrdce.ipo.modules.sys.entity.IpoFirmrewarddeail;
 import com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
-import com.yrdce.ipo.modules.sys.vo.Income;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
@@ -48,6 +50,8 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	private IpoReleasesubscriptionMapper ReleasesubscriptionMapper;
 	@Autowired
 	private IpoDistributionMapper distributionMapper;
+	@Autowired
+	private IpoFirmrewarddeailMapper FirmrewarddeailMapper;
 
 	@Override
 	public List<VBrBroker> getBroker() {
@@ -114,16 +118,61 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		return list2;
 	}
 
-	//等吴琪返佣
 	@Override
-	public Income getIncomeInfo(String brokerid, String starttime, String endtime) {
+	public List<Firmrewarddeail> getHandlingInfo(String brokerid, String starttime, String endtime) {
 		logger.info("经纪会员经纪收入查询");
 		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
+		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
 		for (BrBroker broker : brBrokers) {
 			String firmid = broker.getFirmid();
-			List<IpoDistribution> list = distributionMapper.findByfirmidAndDate(firmid, starttime, endtime);
-
+			List<IpoFirmrewarddeail> list1 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
+					ChargeConstant.ChargeType.HANDLING.getCode(),
+					ChargeConstant.BusinessType.PURCHASE.getCode(), starttime, endtime);
+			for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
+				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+				firmrewarddeail.setFirmid(firmid);
+				list.add(firmrewarddeail);
+			}
 		}
-		return null;
+		return list;
+	}
+
+	@Override
+	public List<Firmrewarddeail> getRegisterInfo(String brokerid, String starttime, String endtime) {
+		logger.info("经纪会员经纪收入查询");
+		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
+		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
+		for (BrBroker broker : brBrokers) {
+			String firmid = broker.getFirmid();
+			List<IpoFirmrewarddeail> list2 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
+					ChargeConstant.ChargeType.REGISTER.getCode(),
+					ChargeConstant.BusinessType.DELIVERY.getCode(), starttime, endtime);
+			for (IpoFirmrewarddeail ipoFirmrewarddeail : list2) {
+				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+				list.add(firmrewarddeail);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Firmrewarddeail> getCancelInfo(String brokerid, String starttime, String endtime) {
+		logger.info("经纪会员经纪收入查询");
+		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
+		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
+		for (BrBroker broker : brBrokers) {
+			String firmid = broker.getFirmid();
+			List<IpoFirmrewarddeail> list3 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
+					ChargeConstant.ChargeType.CANCEL.getCode(),
+					ChargeConstant.BusinessType.DELIVERY.getCode(), starttime, endtime);
+			for (IpoFirmrewarddeail ipoFirmrewarddeail : list3) {
+				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+				list.add(firmrewarddeail);
+			}
+		}
+		return list;
 	}
 }

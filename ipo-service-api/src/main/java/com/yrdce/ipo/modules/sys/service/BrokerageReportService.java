@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
-import com.yrdce.ipo.modules.sys.vo.Income;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
@@ -52,5 +52,9 @@ public interface BrokerageReportService {
 	 * @param brokerid
 	 * @param time
 	 */
-	Income getIncomeInfo(String brokerid, String starttime, String endtime);
+	List<Firmrewarddeail> getHandlingInfo(String brokerid, String starttime, String endtime);
+
+	List<Firmrewarddeail> getRegisterInfo(String brokerid, String starttime, String endtime);
+
+	List<Firmrewarddeail> getCancelInfo(String brokerid, String starttime, String endtime);
 }
