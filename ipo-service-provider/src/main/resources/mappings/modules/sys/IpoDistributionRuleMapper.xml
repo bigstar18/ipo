@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDistributionRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDistributionRule" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="HOLD_RATIO" property="holdRatio" jdbcType="DECIMAL" />
+    <result column="PURCHASE_RATIO" property="purchaseRatio" jdbcType="DECIMAL" />
+    <result column="MAXQTY" property="maxqty" jdbcType="DECIMAL" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="DECIMAL" />
+    <result column="HOLD_UNIT_VALUE" property="holdUnitValue" jdbcType="DECIMAL" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionRule" >
+    insert into IPO_DISTRIBUTION_RULE (ID, COMMODITYID, HOLD_RATIO, 
+      PURCHASE_RATIO, MAXQTY, CREATE_USER, 
+      CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
+      DELETE_FLAG, HOLD_UNIT_VALUE)
+    values (#{id,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{holdRatio,jdbcType=DECIMAL}, 
+      #{purchaseRatio,jdbcType=DECIMAL}, #{maxqty,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, 
+      #{deleteFlag,jdbcType=DECIMAL}, #{holdUnitValue,jdbcType=DECIMAL})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, COMMODITYID, HOLD_RATIO, PURCHASE_RATIO, MAXQTY, CREATE_USER, CREATE_DATE, 
+    UPDATE_USER, UPDATE_DATE, DELETE_FLAG, HOLD_UNIT_VALUE
+    from IPO_DISTRIBUTION_RULE
+  </select>
+</mapper>
