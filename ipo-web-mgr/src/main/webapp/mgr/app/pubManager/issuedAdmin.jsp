@@ -90,7 +90,7 @@ $(document).ready(function() {
 				align: "center",
 				title : '操作',
 				formatter:function(value,row){
-					return "<a href='addDistributionRule.jsp?commodityid="+row.commodityid+"'>分配设置</a>";
+					return "<a href='addDistributionRule.jsp?commodityid="+row.commodityid+"&operationType=insert'>分配设置</a>";
 				}
 			 }
 		 ]],  

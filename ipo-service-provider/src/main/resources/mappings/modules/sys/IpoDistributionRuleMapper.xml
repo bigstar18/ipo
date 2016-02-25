@@ -19,9 +19,9 @@
       PURCHASE_RATIO, MAXQTY, CREATE_USER, 
       CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
       DELETE_FLAG, HOLD_UNIT_VALUE)
-    values (#{id,jdbcType=DECIMAL}, #{commodityid,jdbcType=VARCHAR}, #{holdRatio,jdbcType=DECIMAL}, 
+    values (SEQ_IPO_DELIVERY.NEXTVAL, #{commodityid,jdbcType=VARCHAR}, #{holdRatio,jdbcType=DECIMAL}, 
       #{purchaseRatio,jdbcType=DECIMAL}, #{maxqty,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, 
+      sysdate, #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, 
       #{deleteFlag,jdbcType=DECIMAL}, #{holdUnitValue,jdbcType=DECIMAL})
   </insert>
   <select id="selectAll" resultMap="BaseResultMap" >
@@ -29,4 +29,43 @@
     UPDATE_USER, UPDATE_DATE, DELETE_FLAG, HOLD_UNIT_VALUE
     from IPO_DISTRIBUTION_RULE
   </select>
+  <select id="selectCountByCommId" resultType="Integer" parameterType="String">
+  	select count(0) from IPO_DISTRIBUTION_RULE 
+  	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+  	and DELETE_FLAG=0
+  </select>
+  <select id="selectInfoByPages" resultMap="BaseResultMap" parameterType="map">
+  	select a.* from
+  	(select s.*,rownum TNO from IPO_DISTRIBUTION_RULE s
+  	where 1=1
+  	order by s.ID)a
+  	where a.TNO between  #{beginnum} and  #{endnum}
+  </select>
+  <select id="selectCounts"  resultType="java.lang.Integer" parameterType="map">
+  	select count(0) from IPO_DISTRIBUTION_RULE s
+  	where 1=1
+  </select>
+  <select id="selectInfoByCommId" resultMap="BaseResultMap" parameterType="String">
+  	select * from IPO_DISTRIBUTION_RULE 
+  	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+  	and DELETE_FLAG=0
+  </select>
+  <update id="updateInfoByCommId" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionRule"> 
+  	update IPO_DISTRIBUTION_RULE 
+  	set
+  	HOLD_RATIO=#{holdRatio,jdbcType=DECIMAL},
+  	PURCHASE_RATIO=#{purchaseRatio,jdbcType=DECIMAL},
+  	MAXQTY=#{maxqty,jdbcType=DECIMAL},
+  	UPDATE_DATE=sysdate
+  	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+  	and DELETE_FLAG=0
+  </update>
+  <update id="deleteInfoByCommid" parameterType="String">
+  	update IPO_DISTRIBUTION_RULE
+  	set
+  	DELETE_FLAG=1,
+  	UPDATE_DATE=sysdate
+  	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+  	and DELETE_FLAG=0
+  </update>
 </mapper>
