@@ -74,4 +74,6 @@ public interface CommodityService {
 	 * @return
 	 */
 	public int updateCommoditySettled(String commoId);
+
+	public Commodity getCommInfoById(String commId);
 }

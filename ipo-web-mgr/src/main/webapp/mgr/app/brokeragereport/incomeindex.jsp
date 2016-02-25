@@ -5,13 +5,35 @@
 <head>
 <title>查询条件</title>
 <script type="text/javascript">
+<%-- $(document).ready(function(){
+	$.ajax({
+		type: "GET",
+        url: "<%=request.getContextPath()%>/brokerageReportController/ibrokerid"
+	})
+	}); --%>
+
+	function parseISO8601(dateStringInRange) {
+	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+	            date = new Date(NaN), month,
+	            parts = isoExp.exec(dateStringInRange);
+
+	        if(parts) {
+	          month = +parts[2];
+	          date.setFullYear(parts[1], month - 1, parts[3]);
+	          if(month != date.getMonth() + 1) {
+	            date.setTime(NaN);
+	          }
+	        }
+	        return date;//new Date(str) IE8不兼容
+	      }
 
 	function setFirmid(value){
 		$("#firm").val(value);
 	}
 	
 	function examine(){
-		  var time = $("#payables").datebox("getValue");
+		  var time = $("#startTime").datebox("getValue");
+		  var endtime = $("#endTime").datebox("getValue");
 		  var brokerid = $("#firm").val();
 		  if(time == "" || time == null){
 			  alert("请选择查询时间");
@@ -20,12 +42,12 @@
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
 		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/incomeForward?starttime="+time+"&&endtime="+endtime+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
  	
 	$(function () {
-	     $("#payables").datebox({
+	     $("#startTime").datebox({
 	    	 editable: false,
 	         required: true,
 	         missingMessage: "必填项",
@@ -34,9 +56,38 @@
 	         var m = date.getMonth() + 1;
 	         var d = date.getDate();
 	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
-	         }
+	         },
+	         onSelect:function (date){
+                 var stime=parseISO8601($('#starttime').datebox('getValue'));
+  		          var etime=parseISO8601($('#endtime').datebox('getValue'));
+  		    	   if (etime < stime) {
+  		               alert('结束日期小于开始日期');
+  		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+  		           }
+  	     	}
 	       });
-	     });
+	     
+	     $("#endTime").datebox({
+	    	 editable: false,
+	         required: true,
+	         missingMessage: "必填项",
+	         formatter: function (date) {
+	         var y = date.getFullYear();
+	         var m = date.getMonth() + 1;
+	         var d = date.getDate();
+	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	         },
+	         onSelect:function (date){
+                 var stime=parseISO8601($('#starttime').datebox('getValue'));
+  		          var etime=parseISO8601($('#endtime').datebox('getValue'));
+  		    	   if (etime < stime) {
+  		               alert('结束日期小于开始日期');
+  		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+  		           }
+  	     	}
+	       });
+	     }
+	);
 	
 </script>
 </head>

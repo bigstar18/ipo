@@ -12,18 +12,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
@@ -32,6 +36,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPosition;
+import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
@@ -65,23 +70,62 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	private FFirmfundsMapper fundsMapper;
 	@Autowired
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
+	@Autowired
+	private TCustomerholdsumMapper tCustomerholdsumMapper;
+	@Autowired
+	private IpoCommodityConfMapper commodityConfMapper;
+	@Autowired
+	@Qualifier("customerHoldSumService")
+	private CustomerHoldSumService customerHoldSumService;
 
 	@Override
 	// 获得交易商持仓信息
 	public List<Position> getListByPosition(String firmid) {
 		logger.info("获得交易商持仓信息");
-		List<IpoPosition> list1 = ipoPositionMapper.selectByFirmid(firmid);
+		List<TCustomerholdsum> list1 = tCustomerholdsumMapper.selectHQT(firmid);
+		List<Position> list2 = new ArrayList<Position>();
+		for (TCustomerholdsum customerholdsum : list1) {
+			String commodityid = customerholdsum.getCommodityid();
+			IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commodityid);
+			String commodityname = commodityConf.getCommodityname();
+			BigDecimal contractfactor = commodityConf.getContractfactor();
+			BigDecimal deliunittocontract = commodityConf.getDeliunittocontract();
+			BigDecimal unit = contractfactor.multiply(deliunittocontract);
+			long holdqty = customerholdsum.getHoldqty();
+			long frozenqty = customerholdsum.getFrozenqty();
+			Position position = new Position();
+			position.setCommodityid(commodityid);
+			position.setCommodityname(commodityname);
+			position.setPosition(holdqty - frozenqty);
+			position.setPositionUnit(unit);
+			position.setSettlementdate(commodityConf.getDeliverystartday());
+
+			// 分割仓库名称
+			String[] warehouse1 = customerholdsum.getWarehouseName().split(",");
+			String[] warehouse2 = position.getWarehouse();
+			warehouse2 = (String[]) warehouse1.clone();
+			position.setWarehouse(warehouse2);
+
+			// 分割仓库id
+			String[] warehouseid1 = customerholdsum.getWarehouseId().split(",");
+			String[] warehouseid2 = position.getWarehouseid();
+			warehouseid2 = (String[]) warehouseid1.clone();
+			position.setWarehouseid(warehouseid2);
+			list2.add(position);
+		}
+		return list2;
+		/*List<IpoPosition> list1 = ipoPositionMapper.selectByFirmid(firmid);
 		List<Position> list2 = new ArrayList<Position>();
 		for (IpoPosition ipoPosition : list1) {
 			Position position = new Position();
 			BeanUtils.copyProperties(ipoPosition, position);
-
+		
 			// 分割仓库名称
 			String[] warehouse1 = ipoPosition.getWarehouseName().split(",");
 			String[] warehouse2 = position.getWarehouse();
 			warehouse2 = (String[]) warehouse1.clone();
 			position.setWarehouse(warehouse2);
-
+		
 			// 分割仓库id
 			String[] warehouseid1 = ipoPosition.getWarehouseId().split(",");
 			String[] warehouseid2 = position.getWarehouseid();
@@ -89,7 +133,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			position.setWarehouseid(warehouseid2);
 			list2.add(position);
 		}
-		return list2;
+		return list2;*/
 	}
 
 	// 自提申请
@@ -127,7 +171,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	}
 
 	// 申请共用部分方法
-	public IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder, String id) {
+	private IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder, String id) {
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
 		BeanUtils.copyProperties(deliveryOrder, ipoDeliveryorder);
@@ -147,12 +191,16 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 
 		// 更新持仓量
 		long quatity = deliveryOrder.getDeliveryQuatity();
+		String firmid = deliveryOrder.getDealerId() + "00";
+		String commid = deliveryOrder.getCommodityId();
+		customerHoldSumService.freezeCustomerHold(quatity, firmid, commid, (short) 1);
+		/*long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId();
 		String commid = deliveryOrder.getCommodityId();
 		IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
 		long position = ipoPosition.getPosition();
 		long num = position - quatity;
-		ipoPositionMapper.updatePosition(firmid, commid, num);
+		ipoPositionMapper.updatePosition(firmid, commid, num);*/
 		return ipoDeliveryorder;
 	}
 

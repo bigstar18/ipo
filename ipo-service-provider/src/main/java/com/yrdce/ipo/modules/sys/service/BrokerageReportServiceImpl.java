@@ -120,7 +120,7 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 
 	@Override
 	public List<Firmrewarddeail> getHandlingInfo(String brokerid, String starttime, String endtime) {
-		logger.info("经纪会员经纪收入查询");
+		logger.info("经纪会员申购经纪收入查询");
 		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
 		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
 		for (BrBroker broker : brBrokers) {
@@ -128,11 +128,13 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 			List<IpoFirmrewarddeail> list1 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
 					ChargeConstant.ChargeType.HANDLING.getCode(),
 					ChargeConstant.BusinessType.PURCHASE.getCode(), starttime, endtime);
-			for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
-				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
-				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
-				firmrewarddeail.setFirmid(firmid);
-				list.add(firmrewarddeail);
+			if (list1.size() != 0 && list1 != null) {
+				for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
+					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+					firmrewarddeail.setFirmid(firmid);
+					list.add(firmrewarddeail);
+				}
 			}
 		}
 		return list;
@@ -140,7 +142,7 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 
 	@Override
 	public List<Firmrewarddeail> getRegisterInfo(String brokerid, String starttime, String endtime) {
-		logger.info("经纪会员经纪收入查询");
+		logger.info("经纪会员注册经纪收入查询");
 		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
 		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
 		for (BrBroker broker : brBrokers) {
@@ -148,10 +150,12 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 			List<IpoFirmrewarddeail> list2 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
 					ChargeConstant.ChargeType.REGISTER.getCode(),
 					ChargeConstant.BusinessType.DELIVERY.getCode(), starttime, endtime);
-			for (IpoFirmrewarddeail ipoFirmrewarddeail : list2) {
-				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
-				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
-				list.add(firmrewarddeail);
+			if (list2.size() != 0 && list2 != null) {
+				for (IpoFirmrewarddeail ipoFirmrewarddeail : list2) {
+					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+					list.add(firmrewarddeail);
+				}
 			}
 		}
 		return list;
@@ -159,7 +163,7 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 
 	@Override
 	public List<Firmrewarddeail> getCancelInfo(String brokerid, String starttime, String endtime) {
-		logger.info("经纪会员经纪收入查询");
+		logger.info("经纪会员注销经纪收入查询");
 		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
 		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
 		for (BrBroker broker : brBrokers) {
@@ -167,10 +171,12 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 			List<IpoFirmrewarddeail> list3 = FirmrewarddeailMapper.findByFirmidAndType(firmid,
 					ChargeConstant.ChargeType.CANCEL.getCode(),
 					ChargeConstant.BusinessType.DELIVERY.getCode(), starttime, endtime);
-			for (IpoFirmrewarddeail ipoFirmrewarddeail : list3) {
-				Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
-				BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
-				list.add(firmrewarddeail);
+			if (list3.size() != 0 && list3 != null) {
+				for (IpoFirmrewarddeail ipoFirmrewarddeail : list3) {
+					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+					list.add(firmrewarddeail);
+				}
 			}
 		}
 		return list;

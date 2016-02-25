@@ -69,4 +69,22 @@
     FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
     from T_CUSTOMERHOLDSUM where FIRMID = #{firmid,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectHQT" resultMap="BaseResultMap" parameterType="String">
+  	select p.commodityid,
+  	   sum(p.frozenqty) as frozenqty,
+       sum(p.HOLDQTY) as HOLDQTY,
+       wm_concat(w.warehousename) as warehousename,
+       wm_concat(w.id) as warehouseid
+    from T_CUSTOMERHOLDSUM p
+    left join ipo_warehouse_stock t
+      on p.commodityid = t.commodityid
+    left join bi_warehouse w
+      on w.id = t.warehouseid
+    left join ipo_commodity_conf comm
+      on comm.commodityid = t.commodityid
+   where FIRMID = #{firmid,jdbcType=VARCHAR} and comm.deliveryprop = 1
+   and p.bs_flag = '1'
+   group by p.commodityid,p.HOLDQTY
+  </select>
 </mapper>

@@ -4,9 +4,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 
+@Service
 public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 
 	@Autowired
@@ -34,13 +36,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
+		Long frozen = dbCustomerHold.getFrozenqty() + frozenqty;
 		BeanUtils.copyProperties(dbCustomerHold, param);
-		Long frozenqtySum = dbCustomerHold.getFrozenqty() + frozenqty;
-		if (frozenqtySum < 0) {
-			frozenqtySum = 0L;
-		}
-		;
-		param.setFrozenqty(frozenqtySum);
+		param.setFrozenqty(frozen);
 		customerholdsumMapper.updateByPrimaryKey(param);
 	}
 
@@ -75,25 +73,23 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		param.setFrozenqty(frozenqty);
 		customerholdsumMapper.updateByPrimaryKey(param);
 	}
-	
-    /**
-     * 	增加客户持仓
-     */
+
+	/**
+	 * 增加客户持仓
+	 */
 	@Transactional
-	public void increaseCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
+	public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * 减少客户持仓
 	 */
 	@Transactional
-	public void reduceCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
+	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
