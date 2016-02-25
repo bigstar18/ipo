@@ -34,7 +34,8 @@ public class DistributionServiceImpl implements DistributionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Distribution> getDistriList(String page, String rows, String userid, String condition) throws Exception {
+	public List<Distribution> getDistriList(String page, String rows, String userid, String condition)
+			throws Exception {
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
 		int curpage = Integer.parseInt(page);
@@ -87,7 +88,8 @@ public class DistributionServiceImpl implements DistributionService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		List<Distribution> list2 = new ArrayList<Distribution>();
-		List<IpoDistribution> list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoDistribution> list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1,
+				curpage * pagesize);
 		for (int i = 0; i < list.size(); i++) {
 			Distribution distrib = new Distribution();
 			BeanUtils.copyProperties(list.get(i), distrib);
@@ -116,10 +118,10 @@ public class DistributionServiceImpl implements DistributionService {
 		}
 		return distributions2;
 	}
-	
-    /**
-     * 查询未结算的中签记录
-     */
+
+	/**
+	 * 查询未结算的中签记录
+	 */
 	@Override // hxx
 	public List<Distribution> queryUnsettleOrdersByCommId(String commId) throws Exception {
 		List<IpoDistribution> distributions = ipoDistributionMapper.queryUnsettledByCommoId(commId);
@@ -150,7 +152,8 @@ public class DistributionServiceImpl implements DistributionService {
 		int curpage = Integer.parseInt(page);
 		int pagesize = Integer.parseInt(rows);
 		List<Distribution> list2 = new ArrayList<Distribution>();
-		List<IpoDistribution> list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1, curpage * pagesize);
+		List<IpoDistribution> list = ipoDistributionMapper.selectByPage((curpage - 1) * pagesize + 1,
+				curpage * pagesize);
 		for (int i = 0; i < list.size(); i++) {
 			Distribution distrib = new Distribution();
 			BeanUtils.copyProperties(list.get(i), distrib);

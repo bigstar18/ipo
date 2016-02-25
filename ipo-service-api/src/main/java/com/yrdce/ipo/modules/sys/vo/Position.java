@@ -10,17 +10,13 @@ public class Position {
 
 	private Long position;
 
+	private BigDecimal positionUnit;
+
+	private Date settlementdate;
+
 	private String commodityid;
 
 	private String commodityname;
-
-	private Long positionPrice;
-
-	private String positionUnit;
-
-	private BigDecimal reductionNum;
-
-	private Date reductionDate;
 
 	private String[] warehouse;
 
@@ -50,6 +46,22 @@ public class Position {
 		this.position = position;
 	}
 
+	public BigDecimal getPositionUnit() {
+		return positionUnit;
+	}
+
+	public void setPositionUnit(BigDecimal positionUnit) {
+		this.positionUnit = positionUnit;
+	}
+
+	public Date getSettlementdate() {
+		return settlementdate;
+	}
+
+	public void setSettlementdate(Date settlementdate) {
+		this.settlementdate = settlementdate;
+	}
+
 	public String getCommodityid() {
 		return commodityid;
 	}
@@ -63,40 +75,7 @@ public class Position {
 	}
 
 	public void setCommodityname(String commodityname) {
-		this.commodityname = commodityname == null ? null : commodityname
-				.trim();
-	}
-
-	public Long getPositionPrice() {
-		return positionPrice;
-	}
-
-	public void setPositionPrice(Long positionPrice) {
-		this.positionPrice = positionPrice;
-	}
-
-	public String getPositionUnit() {
-		return positionUnit;
-	}
-
-	public void setPositionUnit(String positionUnit) {
-		this.positionUnit = positionUnit == null ? null : positionUnit.trim();
-	}
-
-	public BigDecimal getReductionNum() {
-		return reductionNum;
-	}
-
-	public void setReductionNum(BigDecimal reductionNum) {
-		this.reductionNum = reductionNum;
-	}
-
-	public Date getReductionDate() {
-		return reductionDate;
-	}
-
-	public void setReductionDate(Date reductionDate) {
-		this.reductionDate = reductionDate;
+		this.commodityname = commodityname == null ? null : commodityname.trim();
 	}
 
 	public String[] getWarehouse() {

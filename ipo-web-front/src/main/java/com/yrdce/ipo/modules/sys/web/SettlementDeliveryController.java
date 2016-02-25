@@ -119,26 +119,11 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货申请(自提打印)(暂不用)
-	// @RequestMapping(value = "/deliveryBypickup", method = RequestMethod.GET)
-	// @ResponseBody
-	/*
-	 * public String deliveryBypickup(Pickup pickup) { logger.info("提货申请(自提打印)"); try { settlementDeliveryService.applicationByPickup(pickup); return
-	 * "success"; } catch (Exception e) { e.printStackTrace(); return "error"; } }
-	 */
-
-	// 提货申请(在线配送)(暂不用)
-	// @RequestMapping(value = "/deliveryByexpress", method = RequestMethod.GET)
-	// @ResponseBody
-	/*
-	 * public String deliveryByexpress(Express express) { logger.info("提货申请(在线配送)"); try { settlementDeliveryService.applicationByexpress(express);
-	 * return "success"; } catch (Exception e) { e.printStackTrace(); return "error"; } }
-	 */
-
 	// 自提打印
 	@RequestMapping(value = "/print", method = RequestMethod.GET)
 	@ResponseBody
-	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging,
+			HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			paging.setDealerId(user.getUserID());// user.getUserID()
@@ -176,7 +161,8 @@ public class SettlementDeliveryController {
 	// 撤销提货单列表
 	@RequestMapping(value = "/revocation", method = RequestMethod.GET)
 	@ResponseBody
-	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			Paging paging, HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			paging.setDealerId(user.getUserID());// user.getUserID()
@@ -196,8 +182,8 @@ public class SettlementDeliveryController {
 	// 提货单状态修改(撤销提货、提货确认)
 	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid, @RequestParam("status") String status,
-			HttpSession session) {
+	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid,
+			@RequestParam("status") String status, HttpSession session) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
@@ -212,7 +198,8 @@ public class SettlementDeliveryController {
 	// 在线配送
 	@RequestMapping(value = "/getDispatching", method = RequestMethod.GET)
 	@ResponseBody
-	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			Paging paging, HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			paging.setDealerId(user.getUserID());// user.getUserID()
@@ -232,7 +219,8 @@ public class SettlementDeliveryController {
 	// 提货查询
 	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
 	@ResponseBody
-	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			Paging paging, HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			paging.setDealerId(user.getUserID());// user.getUserID()
@@ -253,7 +241,8 @@ public class SettlementDeliveryController {
 	// 提货查询详细
 	@RequestMapping(value = "/detail", method = RequestMethod.POST)
 	@ResponseBody
-	public String detail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
+	public String detail(@RequestParam("methodid") String methodid,
+			@RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询详细" + "methodid:" + methodid);
 		try {
 			if (deliveryMethod.equals("1")) {
@@ -280,7 +269,8 @@ public class SettlementDeliveryController {
 	// 提货查询(自提详细)<暂不用>
 	@RequestMapping(value = "/expressDetail", method = RequestMethod.GET)
 	@ResponseBody
-	public String expressDetail(@RequestParam("methodid") String methodid, @RequestParam("deliveryMethod") String deliveryMethod) {
+	public String expressDetail(@RequestParam("methodid") String methodid,
+			@RequestParam("deliveryMethod") String deliveryMethod) {
 		logger.info("提货查询(自提详细)" + "methodid:" + methodid);
 		try {
 			Express express = settlementDeliveryService.getDetailByExpress(methodid);
@@ -295,7 +285,8 @@ public class SettlementDeliveryController {
 	// 费用查询
 	@RequestMapping(value = "/costQuery", method = RequestMethod.GET)
 	@ResponseBody
-	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging, HttpSession session) {
+	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			Paging paging, HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			paging.setDealerId(user.getUserID());

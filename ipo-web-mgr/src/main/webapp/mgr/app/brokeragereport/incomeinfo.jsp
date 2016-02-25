@@ -41,23 +41,21 @@
 												<td class="td_reportMdHead" align="center">会员代码</td>
 												<td class="td_reportMdHead" align="center">会员名称</td>
 												<td class="td_reportMdHead" align="center">交易商代码</td>
-												<td class="td_reportMdHead" align="center">交易经济收入</td>
 												<td class="td_reportMdHead" align="center">申购经济收入</td>
 												<td class="td_reportMdHead" align="center">提货单经济收入</td>
 												<td class="td_reportMdHead" align="center">分计</td>
 											</tr>
-											<c:forEach var="publish" items="${result}" varStatus="status">
+											<%-- <c:forEach var="income" items="${incomesList}" varStatus="status">
 												<tr>
 													<td class="td_reportMdHead" align="center">${status.count}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityid}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityname}</td>
-													<td class="td_reportMdHead" align="center">${publish.price}</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan/publish.price }</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan}</td>
-													<td class="td_reportMdHead" align="center">${publish.handing==null?0:publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
+													<td class="td_reportMdHead" align="center">${income.brokerId}</td>
+													<td class="td_reportMdHead" align="center">${income.brokerName}</td>
+													<td class="td_reportMdHead" align="center">${income.firmId}</td>
+													<td class="td_reportMdHead" align="center">${income.Purchase }</td>
+													<td class="td_reportMdHead" align="center">${income.BillOfLading}</td>
+													<td class="td_reportMdHead" align="center">100</td>
 												</tr>
-											</c:forEach>
+											</c:forEach> --%>
 										</table>
 									</div>
 							  </td> 

@@ -63,7 +63,6 @@ body {
 			<div class="panel-title panel-with-icon">提货信息</div>
 		</div>
 		<div class="mbody">
-			<!-- <form id="withdraw" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryApply" method="POST" onsubmit="return checkSubmit();"> -->
 			<table border="0" width="300" cellspacing="0" cellpadding="0" align="center">
 				<tbody>
 					<tr>
@@ -91,9 +90,11 @@ body {
 						<td><input id="vcount" type="text" name="position" style="width: 150px;" readonly="readonly"><b>*</b></td>
 					</tr>
 					<tr>
-						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;单位： </span></td>
-						<td><input id="punit" type="text" name="positionUnit" style="width: 150px;" readonly="readonly"><b>*</b></td>
+						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;交割日期： </span></td>
+						<td><input id="vdate" type="text" name="vdate" style="width: 150px;" readonly="readonly"><b>*</b></td>
 					</tr>
+						<!-- <td align="center" height="35" width="100"><span> &nbsp;&nbsp;单位： </span></td> -->
+						<input id="punit" type="hidden" name="positionUnit" style="width: 150px;" readonly="readonly">
 					<tr>
 						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;交割件数： </span></td>
 						<td><input id="pickcount" class="btnreset" type="number" placeholder="您希望交割的件数" name="deliveryQuatity" value="" onkeydown="onlyNum();" style="ime-mode: Disabled; width: 150px;"><b>*</b></td>
@@ -196,6 +197,7 @@ body {
 				$ ("#vcode").val (commodities[0].commodityid);
 				$ ("#vcount").val (commodities[0].position);
 				$ ("#punit").val (commodities[0].positionUnit);
+				$ ("#vdate").val (commodities[0].settlementdate.substr(0, 10));
 				var warehouses = commodities[0].warehouse;
 				var warehouseId = commodities[0].warehouseid;
 				for (var i = 0; i < warehouses.length; i++)
@@ -212,7 +214,10 @@ body {
 				var selhouse = $ ('#housetext');
 				$ ("#vcode").val (commodities[logic].commodityid);
 				$ ("#vcount").val (commodities[logic].position);
-				$ ("#punit").val (commodities[logic].positionUnit);
+				$ ("#punit").val (commodities[logic].positionUnit); 
+				$ ("#vdate").val (commodities[logic].settlementdate.substr(0, 10));
+				$ ("#pickcount").val ('');
+				$ ("#dcount").val ('');
 				var warehouses = commodities[logic].warehouse;
 				var warehouseId = commodities[logic].warehouseid;
 				selhouse.empty ();
@@ -239,7 +244,7 @@ body {
 
 			$('#pickcount').change (function ()
 			{
-				$('#dcount').val($('#pickcount').val() * 5);
+				$('#dcount').val($('#pickcount').val() * parseFloat($('#punit').val()));
 				console.log($('#ddate').datebox ('getValue'));
 			});
 
@@ -270,10 +275,10 @@ body {
 				if (value == '1')
 				{
 					var d1 = new Date($('#ddate').datebox ('getValue').replace(/\-/g, "\/"));
-					var d2 = new Date($('#ddate').replace(/\-/g, "\/"));
+					var d2 = new Date($('#vdate'));
           if (d1 < d2)
           {
-            alert('');
+            alert('提货日期必须在交收日期之后');
           }
           if ($ ('#telNum').val () != '')
           {
@@ -320,11 +325,11 @@ body {
 				if (value == '2')
 				{
 					var d1 = new Date($('#ddate').datebox ('getValue').replace(/\-/g, "\/"));
-					var d2 = new Date($('#ddate').replace(/\-/g, "\/"));
-          if (d1 < d2)
-          {
-            alert('');
-          }
+					var d2 = new Date($('#vdate'));
+			          if (d1 < d2)
+			          {
+			            alert('提货日期必须在交收日期之后');
+			          }
 					if ($ ('#cardNum').val () != '')
 					{
 						$ ('#cardNum').val ('');
@@ -399,8 +404,8 @@ body {
 				        "idcardNum" : $ ('#cardNum').val (),
 				        "tel" : $ ('#telNum').val (),
 				        "receiver" : $ ('#receiverName').val (),
-				        "address" : $ ('#addressName').val (),
-				        "unit" : $ ('#punit').val ()
+				        "address" : $ ('#addressName').val ()
+				       /*  "unit" : $ ('#punit').val () */
 				    },
 				    success : function (response)
 				    {

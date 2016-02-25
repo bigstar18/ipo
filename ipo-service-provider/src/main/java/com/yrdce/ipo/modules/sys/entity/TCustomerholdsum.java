@@ -3,133 +3,154 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.math.BigDecimal;
 
 public class TCustomerholdsum {
-    private String customerid;
+	private String customerid;
 
-    private String commodityid;
+	private String commodityid;
 
-    private Short bsFlag;
+	private Short bsFlag;
 
-    private Long holdqty;
+	private Long holdqty;
 
-    private BigDecimal holdfunds;
+	private BigDecimal holdfunds;
 
-    private BigDecimal floatingloss;
+	private BigDecimal floatingloss;
 
-    private BigDecimal evenprice;
+	private BigDecimal evenprice;
 
-    private Long frozenqty;
+	private Long frozenqty;
 
-    private BigDecimal holdmargin;
+	private BigDecimal holdmargin;
 
-    private Long gageqty;
+	private Long gageqty;
 
-    private BigDecimal holdassure;
+	private BigDecimal holdassure;
 
-    private String firmid;
+	private String firmid;
 
-    private Long gagefrozenqty;
+	private Long gagefrozenqty;
 
-    public String getCustomerid() {
-        return customerid;
-    }
+	private String warehouseName;
 
-    public void setCustomerid(String customerid) {
-        this.customerid = customerid == null ? null : customerid.trim();
-    }
+	private String warehouseId;
 
-    public String getCommodityid() {
-        return commodityid;
-    }
+	public String getCustomerid() {
+		return customerid;
+	}
 
-    public void setCommodityid(String commodityid) {
-        this.commodityid = commodityid == null ? null : commodityid.trim();
-    }
+	public void setCustomerid(String customerid) {
+		this.customerid = customerid == null ? null : customerid.trim();
+	}
 
-    public Short getBsFlag() {
-        return bsFlag;
-    }
+	public String getCommodityid() {
+		return commodityid;
+	}
 
-    public void setBsFlag(Short bsFlag) {
-        this.bsFlag = bsFlag;
-    }
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid == null ? null : commodityid.trim();
+	}
 
-    public Long getHoldqty() {
-        return holdqty;
-    }
+	public Short getBsFlag() {
+		return bsFlag;
+	}
 
-    public void setHoldqty(Long holdqty) {
-        this.holdqty = holdqty;
-    }
+	public void setBsFlag(Short bsFlag) {
+		this.bsFlag = bsFlag;
+	}
 
-    public BigDecimal getHoldfunds() {
-        return holdfunds;
-    }
+	public Long getHoldqty() {
+		return holdqty;
+	}
 
-    public void setHoldfunds(BigDecimal holdfunds) {
-        this.holdfunds = holdfunds;
-    }
+	public void setHoldqty(Long holdqty) {
+		this.holdqty = holdqty;
+	}
 
-    public BigDecimal getFloatingloss() {
-        return floatingloss;
-    }
+	public BigDecimal getHoldfunds() {
+		return holdfunds;
+	}
 
-    public void setFloatingloss(BigDecimal floatingloss) {
-        this.floatingloss = floatingloss;
-    }
+	public void setHoldfunds(BigDecimal holdfunds) {
+		this.holdfunds = holdfunds;
+	}
 
-    public BigDecimal getEvenprice() {
-        return evenprice;
-    }
+	public BigDecimal getFloatingloss() {
+		return floatingloss;
+	}
 
-    public void setEvenprice(BigDecimal evenprice) {
-        this.evenprice = evenprice;
-    }
+	public void setFloatingloss(BigDecimal floatingloss) {
+		this.floatingloss = floatingloss;
+	}
 
-    public Long getFrozenqty() {
-        return frozenqty;
-    }
+	public BigDecimal getEvenprice() {
+		return evenprice;
+	}
 
-    public void setFrozenqty(Long frozenqty) {
-        this.frozenqty = frozenqty;
-    }
+	public void setEvenprice(BigDecimal evenprice) {
+		this.evenprice = evenprice;
+	}
 
-    public BigDecimal getHoldmargin() {
-        return holdmargin;
-    }
+	public Long getFrozenqty() {
+		return frozenqty;
+	}
 
-    public void setHoldmargin(BigDecimal holdmargin) {
-        this.holdmargin = holdmargin;
-    }
+	public void setFrozenqty(Long frozenqty) {
+		this.frozenqty = frozenqty;
+	}
 
-    public Long getGageqty() {
-        return gageqty;
-    }
+	public BigDecimal getHoldmargin() {
+		return holdmargin;
+	}
 
-    public void setGageqty(Long gageqty) {
-        this.gageqty = gageqty;
-    }
+	public void setHoldmargin(BigDecimal holdmargin) {
+		this.holdmargin = holdmargin;
+	}
 
-    public BigDecimal getHoldassure() {
-        return holdassure;
-    }
+	public Long getGageqty() {
+		return gageqty;
+	}
 
-    public void setHoldassure(BigDecimal holdassure) {
-        this.holdassure = holdassure;
-    }
+	public void setGageqty(Long gageqty) {
+		this.gageqty = gageqty;
+	}
 
-    public String getFirmid() {
-        return firmid;
-    }
+	public BigDecimal getHoldassure() {
+		return holdassure;
+	}
 
-    public void setFirmid(String firmid) {
-        this.firmid = firmid == null ? null : firmid.trim();
-    }
+	public void setHoldassure(BigDecimal holdassure) {
+		this.holdassure = holdassure;
+	}
 
-    public Long getGagefrozenqty() {
-        return gagefrozenqty;
-    }
+	public String getFirmid() {
+		return firmid;
+	}
 
-    public void setGagefrozenqty(Long gagefrozenqty) {
-        this.gagefrozenqty = gagefrozenqty;
-    }
+	public void setFirmid(String firmid) {
+		this.firmid = firmid == null ? null : firmid.trim();
+	}
+
+	public Long getGagefrozenqty() {
+		return gagefrozenqty;
+	}
+
+	public void setGagefrozenqty(Long gagefrozenqty) {
+		this.gagefrozenqty = gagefrozenqty;
+	}
+
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
 }
