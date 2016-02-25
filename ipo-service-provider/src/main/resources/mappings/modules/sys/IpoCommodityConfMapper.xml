@@ -270,6 +270,9 @@
 		<if test="record.deliveryProp != null">
 			and DELIVERYPROP =#{record.deliveryProp,jdbcType=DECIMAL}
 		</if>
+		<if test="record.nonissuereg != null">
+			and NONISSUEREG =#{record.nonissuereg,jdbcType=DECIMAL}
+		</if>
 	</select>
 	<select id="selectCommUnit" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="java.lang.String">
 		select

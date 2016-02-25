@@ -28,7 +28,7 @@ public class IpoCommodityConf {
 
 	private BigDecimal codedelivery;
 
-	private BigDecimal nonissuereg;
+	private BigDecimal nonissuereg;// 非发行注册
 
 	private String pubmemberid;
 
