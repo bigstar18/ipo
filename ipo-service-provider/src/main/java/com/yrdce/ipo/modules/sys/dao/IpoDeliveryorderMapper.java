@@ -13,25 +13,22 @@ import com.yrdce.ipo.modules.sys.vo.Paging;
 @MyBatisDao
 public interface IpoDeliveryorderMapper {
 
-	List<IpoDeliveryorder> queryAllDeliOrdersByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("record") IpoDeliveryorder record);
+	List<IpoDeliveryorder> queryAllDeliOrdersByPage(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoDeliveryorder record);
 
 	int getQueryNum(@Param("record") IpoDeliveryorder record);
 
-	List<IpoDeliveryorder> queryCancelDeliOrdersByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("record") IpoDeliveryorder record);
+	List<IpoDeliveryorder> queryCancelDeliOrdersByPage(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoDeliveryorder record);
 
 	int getQueryCancelNum(@Param("record") IpoDeliveryorder record);
 
-	List<IpoDeliveryorder> cancelDeliOrdersByPage(
-			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoDeliveryorder> cancelDeliOrdersByPage(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);
 
 	int getCancelNum();
 
-	void cancelDeorder(@Param("deorderId") String deorderId,
-			@Param("approveStatus") String approveStatus,
+	void cancelDeorder(@Param("deorderId") String deorderId, @Param("approveStatus") String approveStatus,
 			@Param("canceller") String cancelId);
 
 	int deleteByPrimaryKey(String deliveryorderId);
@@ -54,8 +51,8 @@ public interface IpoDeliveryorderMapper {
 	 * @param endnum
 	 * @param paging
 	 */
-	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoDeliveryorder> selectByPickup(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	/**
 	 * @Title: selectByPickUp
@@ -72,8 +69,7 @@ public interface IpoDeliveryorderMapper {
 	 * @param deliveryMethod
 	 * @return 总页数
 	 */
-	int selectCounts(@Param("paging") Paging paging,
-			@Param("deliveryMethod") String deliveryMethod);
+	int selectCounts(@Param("paging") Paging paging, @Param("deliveryMethod") String deliveryMethod);
 
 	/**
 	 * @Title: selectRevocation
@@ -83,8 +79,8 @@ public interface IpoDeliveryorderMapper {
 	 * @param paging
 	 * @return 订单列表
 	 */
-	List<IpoDeliveryorder> selectRevocation(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoDeliveryorder> selectRevocation(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	/**
 	 * @Title: allCounts
@@ -100,8 +96,8 @@ public interface IpoDeliveryorderMapper {
 	 * @param endnum
 	 * @param paging
 	 */
-	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoExpressExtended> selectByExpress(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	/**
 	 * @Title: updateByStatus
@@ -113,7 +109,7 @@ public interface IpoDeliveryorderMapper {
 	 * @return 成功条数
 	 */
 	int updateByStatus(@Param("deliveryorderId") String deliveryorderId,
-			@Param("approvalStatus") int approvalStatus);
+			@Param("approvalStatus") String approvalStatus);
 
 	/**
 	 * @Title: updateStatus
@@ -132,8 +128,8 @@ public interface IpoDeliveryorderMapper {
 	 * @param paging
 	 * @return 订单集合
 	 */
-	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum,
-			@Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoDeliveryorder> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	/**
 	 * @Title: getPickupDeliveryInfo
@@ -142,8 +138,7 @@ public interface IpoDeliveryorderMapper {
 	 *            提货单号
 	 * @return 自提订单数据
 	 */
-	IpoDeliveryorder getPickupDeliveryInfo(
-			@Param("delivery") IpoDeliveryorder delivery);
+	IpoDeliveryorder getPickupDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
 
 	/**
 	 * @Title: getExpressDeliveryInfo
@@ -152,8 +147,7 @@ public interface IpoDeliveryorderMapper {
 	 *            提货单号
 	 * @return 配送订单数据
 	 */
-	IpoDeliveryorder getExpressDeliveryInfo(
-			@Param("delivery") IpoDeliveryorder delivery);
+	IpoDeliveryorder getExpressDeliveryInfo(@Param("delivery") IpoDeliveryorder delivery);
 
 	/**
 	 * @Title: selectByFrim
@@ -173,15 +167,15 @@ public interface IpoDeliveryorderMapper {
 	 *            提货方式id
 	 * @return 订单集合
 	 */
-	IpoDeliveryorder selectByMethodAndId(
-			@Param("deliveryMethod") String method, @Param("methodId") String id);
+	IpoDeliveryorder selectByMethodAndId(@Param("deliveryMethod") String method,
+			@Param("methodId") String id);
 
 	/**
 	 * @Title: selectAllByStatus
 	 * @Description: 查询出库状态前的所有订单
 	 * @return 订单集合
 	 */
-	List<IpoDeliveryorder> selectAllByStatus();
+	List<IpoDeliveryorder> selectAllByStatus(@Param("status") List<String> status);
 
 	/**
 	 * @Title: selectFirmid

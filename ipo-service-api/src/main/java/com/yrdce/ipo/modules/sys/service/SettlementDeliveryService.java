@@ -38,8 +38,14 @@ public interface SettlementDeliveryService {
 	// 撤销提货列表
 	public List<DeliveryOrder> getRevocationList(String page, String rows, Paging paging) throws Exception;
 
-	// 撤销提货
-	public String updateRevocationStatus(String deliveryorderid, String status, String userid) throws Exception;
+	// 状态修改
+	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception;
+
+	// 客户确认配售收取货款
+	public String determine(String deliveryorderid, String userid);
+
+	// 撤销申请
+	public String revoke(String deliveryorderid, String status);
 
 	// 在线配送
 	public List<Express> getListByExpress(String page, String rows, Paging paging) throws Exception;

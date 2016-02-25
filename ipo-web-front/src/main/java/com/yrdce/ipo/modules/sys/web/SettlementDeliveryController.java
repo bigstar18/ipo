@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.SettlementDeliveryService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
@@ -187,8 +188,17 @@ public class SettlementDeliveryController {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			settlementDeliveryService.updateRevocationStatus(deliveryorderid, status, user.getUserID());
-			return "success";
+			if (status == "9") {
+				settlementDeliveryService.determine(deliveryorderid, user.getUserID());
+				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+						DeliveryConstant.StatusType.CONFIRM.getCode());
+				return "success";
+			} else {
+				settlementDeliveryService.revoke(deliveryorderid, status);
+				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+						DeliveryConstant.StatusType.CANCEL.getCode());
+				return "success";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

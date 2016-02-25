@@ -25,7 +25,6 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
@@ -35,7 +34,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoExpressExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.entity.IpoPickupExtended;
-import com.yrdce.ipo.modules.sys.entity.IpoPosition;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
@@ -65,8 +63,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Autowired
 	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
 	@Autowired
-	private IpoPositionMapper ipoPositionMapper;
-	@Autowired
 	private FFirmfundsMapper fundsMapper;
 	@Autowired
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
@@ -77,6 +73,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Autowired
 	@Qualifier("customerHoldSumService")
 	private CustomerHoldSumService customerHoldSumService;
+	@Autowired
+	@Qualifier("deliveryorderservice")
+	private DeliveryOrderService deliveryorderservice;
 
 	@Override
 	// 获得交易商持仓信息
@@ -265,51 +264,76 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return list2;
 	}
 
-	// 撤销申请(状态修改)
+	// 状态修改
 	@Override
 	@Transactional
-	public String updateRevocationStatus(String deliveryorderid, String status, String userid)
-			throws Exception {
-		int status1 = Integer.parseInt(status);
-		logger.info("撤销申请" + "deliveryorderid:" + deliveryorderid + "status:" + status1);
-		if (status1 == 10) {
-			// 获取此条订单的属性
-			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
-			String firmid = ipoDeliveryorder.getDealerId();
-			String commid = ipoDeliveryorder.getCommodityId();
-			long quatity = ipoDeliveryorder.getDeliveryQuatity();
-			// 获取此交易商的持仓量
-			IpoPosition ipoPosition = ipoPositionMapper.selectPosition(firmid, commid);
-			long position = ipoPosition.getPosition();
-			long num = position + quatity;
-			// 更新交易商的持仓量
-			ipoPositionMapper.updatePosition(firmid, commid, num);
-		} else if (status1 == 9) {
-			IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
-			IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
-			String commodid = ipoDeliveryorder.getCommodityId();
-			BigDecimal cost = ipoExpress.getCost();
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("money", "");
-			param.put("userid", userid);
-			param.put("lock", 0);
-			fundsMapper.getMonery(param);
-			BigDecimal money = (BigDecimal) param.get("money");
-			if (money.compareTo(cost) != -1) {
-				float amount = cost.floatValue();
-				Map<String, Object> param1 = new HashMap<String, Object>();
-				param1.put("money", "");
-				param1.put("userid", userid);
-				param1.put("amount", amount);
-				param1.put("moduleid", "40");
-				fundsMapper.getfrozen(param);
-				this.fundsFlow(commodid, deliveryorderid, userid, cost);
-			} else {
-				return "error";
-			}
+	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception {
+		logger.info("状态修改" + "deliveryorderid:" + deliveryorderid + "status:" + status);
+		int i = ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status);
+		if (i == 1) {
+			return "success";
+		} else {
+			return "error";
 		}
-		// 跟新订单状态
-		ipoDeliveryorderMapper.updateByStatus(deliveryorderid, status1);
+	}
+
+	/**
+	 * @Title: determine
+	 * @Description: 客户确认配售收取货款
+	 * @param deliveryorderid
+	 * @param userid
+	 */
+	@Override
+	@Transactional
+	public String determine(String deliveryorderid, String userid) {
+		logger.info("客户确认配售收取货款:" + "deliveryorderid:" + deliveryorderid + "userid:" + userid);
+		IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
+		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+		String commodid = ipoDeliveryorder.getCommodityId();
+		BigDecimal cost = ipoExpress.getCost();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("money", "");
+		param.put("userid", userid);
+		param.put("lock", 0);
+		fundsMapper.getMonery(param);
+		BigDecimal money = (BigDecimal) param.get("money");
+		if (money.compareTo(cost) != -1) {
+			float amount = cost.floatValue();
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("money", "");
+			param1.put("userid", userid);
+			param1.put("amount", amount);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param);
+			this.fundsFlow(commodid, deliveryorderid, userid, cost);
+			return "success";
+		} else {
+			return "error";
+		}
+	}
+
+	/**
+	 * @Title: revoke
+	 * @Description: 撤销申请
+	 * @param deliveryorderid
+	 * @param status
+	 * @return 参数说明
+	 */
+	@Override
+	@Transactional
+	public String revoke(String deliveryorderid, String status) {
+		logger.info("撤销申请:" + "deliveryorderid:" + deliveryorderid + "status:" + status);
+		// 获取此条订单的属性
+		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+		String firmid = ipoDeliveryorder.getDealerId();
+		String commid = ipoDeliveryorder.getCommodityId();
+		long quatity = ipoDeliveryorder.getDeliveryQuatity();
+		customerHoldSumService.unfreezeCustomerHold(quatity, firmid + "00", commid, (short) 1);
+		if (status == DeliveryConstant.StatusType.MARKETPASS.getCode()) {
+			DeliveryOrder deliveryOrder = new DeliveryOrder();
+			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+			deliveryorderservice.unfrozenStock(deliveryOrder);
+		}
 		return "success";
 	}
 

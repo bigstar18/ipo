@@ -89,32 +89,29 @@
             width: 100,
             align: 'center',
             formatter: function(value, row) {
-            	if (value == 1) {
+            	if (value == '001') {
                     return '已申请';
-                  }if (value == 2) {
+                  }if (value == '002001') {
                     return '市场通过';
-                  }if (value == 3) {
+                  }if (value == '002002') {
                     return '市场驳回';
-                  }if (value == 4) {
-                    return '已打印';
-                  }if (value == 5) {
+                  }if (value == '003001001') {
                     return '已过户';
-                  }if (value == 6) {
+                  }if (value == '003001') {
+                    return '打印';
+                  }if (value == '004001') {
                     return '仓库通过';
-                  }if (value == 7) {
+                  }if (value == '004002') {
                     return '仓库驳回';
-                  }if (value == 8) {
+                  }if (value == '003002') {
                     return '已设置配置费用';
-                  }if (value == 9) {
+                  }if (value == '003002001') {
                     return '已确认';
-                  }if (value == 10) {
+                  }if (value == '006') {
                     return '已废除';
-                  }if (value == 11) {
-                    return '已出库';
-                  }if (value == 12) {
-                    return '已收货';
-                  }
-            }
+                  }if (value == '005') {
+                    return '已出库'; 
+            	}
           }, {
             field: 'cost',
             title: '配送费用',
@@ -131,7 +128,7 @@
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-            	if(row.approvalStatus == 8){
+            	if(row.approvalStatus == '003002'){
             		return "<a href=\"#\" onclick=\"execution('"+row.deliveryorderId+"')\">" + "确认" + "</a>";
             	}else {
             		return "确认";

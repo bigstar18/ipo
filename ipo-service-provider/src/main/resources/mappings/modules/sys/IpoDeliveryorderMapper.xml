@@ -309,12 +309,20 @@
   	and deorder.METHOD_ID = #{methodId,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectAllByStatus" resultMap="BaseResultMap" >
+  <select id="selectAllByStatus" resultMap="BaseResultMap" parameterType="List" >
     select DELIVERYORDER_ID, COMMODITY_ID, COMMODITY_NAME, DEALER_ID, DEALER_NAME, WAREHOUSE_ID, 
     WAREHOUSE_NAME, DELIVERY_QUATITY, DELIVERY_COUNTS, DELIVERY_METHOD, METHOD_ID, UNIT, 
     DELIVERY_DATE, APPLY_DATE, APPROVAL_STATUS, APPROVERS, APPROVE_DATE, CANCELER, CANCEL_DATE, 
     POSITION, REMARKS
-    from IPO_DELIVERYORDER where <![CDATA[ APPROVAL_STATUS < 11]]>
+    from IPO_DELIVERYORDER 
+    <where>
+    	APPROVAL_STATUS in
+    	<if test="status.size()>0">
+    		<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+    			#{item}
+    		</foreach>
+    	</if>
+    </where>
   </select>
   
   <select id="selectFirmid" parameterType="java.lang.String" resultMap="BaseResultMap">

@@ -106,31 +106,28 @@
             width: 100,
             align: 'center',
             formatter: function(value, row) {
-            	if (value == 1) {
+            	if (value == '001') {
                     return '已申请';
-                  }if (value == 2) {
+                  }if (value == '002001') {
                     return '市场通过';
-                  }if (value == 3) {
+                  }if (value == '002002') {
                     return '市场驳回';
-                  }if (value == 4) {
+                  }if (value == '003001001') {
                     return '已过户';
-                  }if (value == 5) {
+                  }if (value == '003001') {
                     return '打印';
-                  }if (value == 6) {
+                  }if (value == '004001') {
                     return '仓库通过';
-                  }if (value == 7) {
+                  }if (value == '004002') {
                     return '仓库驳回';
-                  }if (value == 8) {
+                  }if (value == '003002') {
                     return '已设置配置费用';
-                  }if (value == 9) {
+                  }if (value == '003002001') {
                     return '已确认';
-                  }if (value == 10) {
+                  }if (value == '006') {
                     return '已废除';
-                  }if (value == 11) {
-                    return '已出库';
-                  }if (value == 12) {
-                    return '已收货';
-                  }
+                  }if (value == '005') {
+                    return '已出库'; 
             }
           }, {
             field: 'test',
@@ -138,11 +135,11 @@
             width: 100,
             align: 'center',
             formatter: function(value, row, index) {
-            	if(row.approvalStatus == 1){
-            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"')\">" + "撤销" + "</a>";
-            	}else if(row.approvalStatus == 10){
+            	if(row.approvalStatus == '001' || row.approvalStatus == '002001' || row.approvalStatus == '003001' || row.approvalStatus == '003002'){
+            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"','"+row.approvalStatus+"')\">" + "撤销" + "</a>";
+            	}else if(row.approvalStatus == '006'){
             		return "废除";
-            	}{
+            	}else {
             		return "撤销";
             	}
             }
@@ -157,13 +154,13 @@
       });
     })
 
-    function updateStatus(deliveryorderid){
+    function updateStatus(deliveryorderid,status){
     	if(confirm('确实要撤销吗?')){
     	$.ajax({
 			 type: 'post',
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
 		     data:{"deliveryorderid":deliveryorderid,
-		    	 	"status":"10"	
+		    	 	"status":status	
 		    	  },
 		     success : function(data) {
 			           if(data=='success'){
