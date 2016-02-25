@@ -25,11 +25,17 @@ function add(){
 		var subscricounts=parseInt($("#subscricounts").val());//转认购数量
 		if(totalcounts<counts&&salecounts!=0){
 			alert("总入库量小于发行量，只能转持仓或供承销认购！");
-			$("#salecounts").val(0);
+			$("#salecounts").numberbox('setValue','0');
+			$("#pubposition").numberbox('setValue','');
+			$("#subscricounts").numberbox('setValue','');
+			return;
 		}
 		if(salecounts+pubposition+subscricounts>totalcounts){
 			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
 			return;
+		}
+		if(salecounts+pubposition+subscricounts<totalcounts){
+			alert("转发售、转持仓和转供承销认购量总和小于总入库量，仍有商品未分配");
 		}
 		if(confirm("确定添加本记录吗？")){
 		 $.ajax({  
@@ -136,6 +142,7 @@ function getPosition(){
 	        	<td style="font-size:15px" align="right" width="20%">商品名称：</td>
 	        	<td>
 	        	<input type="text" id="commodityname" name="commodityname" value="${entity.commodityname }" readonly="readonly"/>
+	        	<input type="hidden" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
 	        	</td>
 	        </tr>  
 	         <tr>
@@ -172,11 +179,11 @@ function getPosition(){
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/>
+	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
 	        	<td>
-	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/>
+	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        </tr>  
 		  	<tr>
