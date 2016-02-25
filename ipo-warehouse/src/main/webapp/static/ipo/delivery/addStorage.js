@@ -39,7 +39,7 @@ function getStorageCounts(){
 function saveStorage(){
 	if($("#commodityname").val()==""||$("#storagenum").val()==""){
 		alert("请选择商品并填写入库件数！");
-		return　　false;
+		return false;
 	}
                    	   $.ajax({ 
                    		   cache:false,
