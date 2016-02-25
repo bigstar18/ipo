@@ -73,25 +73,23 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		param.setFrozenqty(frozenqty);
 		customerholdsumMapper.updateByPrimaryKey(param);
 	}
-	
+
 	/**
-     * 	增加客户持仓
-     */
+	 * 增加客户持仓
+	 */
 	@Transactional
-	public void increaseCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
+	public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * 减少客户持仓
 	 */
 	@Transactional
-	public void reduceCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
+	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

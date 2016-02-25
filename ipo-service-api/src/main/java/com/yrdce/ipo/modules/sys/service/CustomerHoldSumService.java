@@ -29,23 +29,25 @@ public interface CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, short bsFlag);
-	
-	 /**
-	  * 增加客户持仓
-	  * @param frozenqty
-	  * @param customerid
-	  * @param commodityid
-	  * @param bsFlag
-	  */
-	 public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) ;
-	 
-	 /**
-	  * 减少客户持仓
-	  * @param frozenqty
-	  * @param customerid
-	  * @param commodityid
-	  * @param bsFlag
-	  */
-	 public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) ;
-	 
+
+	/**
+	 * 增加客户持仓
+	 * 
+	 * @param frozenqty
+	 * @param customerid
+	 * @param commodityid
+	 * @param bsFlag
+	 */
+	public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag);
+
+	/**
+	 * 减少客户持仓
+	 * 
+	 * @param frozenqty
+	 * @param customerid
+	 * @param commodityid
+	 * @param bsFlag
+	 */
+	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag);
+
 }
