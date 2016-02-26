@@ -64,8 +64,9 @@ public interface IpoDebitFlowMapper {
 	 * @param payer
 	 * @return 参数说明
 	 */
-	public List<IpoDebitFlow> selectInfo(
-			@Param("businessType") String businessType,
+	public List<IpoDebitFlow> selectInfo(@Param("businessType") String businessType,
 			@Param("chargeType") String chargeType, @Param("payer") String payer);
+
+	public IpoDebitFlow findInfo(@Param("param") DebitFlow debitFlow);
 
 }

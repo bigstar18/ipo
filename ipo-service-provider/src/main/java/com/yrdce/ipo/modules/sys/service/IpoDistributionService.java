@@ -26,7 +26,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoOrder;
  * 
  */
 @Service
-public class Distribution {
+public class IpoDistributionService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired

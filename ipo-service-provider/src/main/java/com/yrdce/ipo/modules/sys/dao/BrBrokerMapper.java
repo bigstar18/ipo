@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.BrBrokerExample;
+import com.yrdce.ipo.modules.sys.entity.IpoBroker;
 import com.yrdce.ipo.modules.sys.entity.PublisherBalance;
 
 @MyBatisDao
@@ -66,4 +67,13 @@ public interface BrBrokerMapper {
 	 * @param brokerid
 	 */
 	List<BrBroker> findTraderByBrokerid(String brokerid);
+
+	/**
+	 * @Title: findTrader
+	 * @Description: 查找居间商代码
+	 * @param brokerid
+	 * @param firmid
+	 * @return 参数说明
+	 */
+	IpoBroker findIntermediary(@Param("brokerid") String brokerid, @Param("firmid") String firmid);
 }

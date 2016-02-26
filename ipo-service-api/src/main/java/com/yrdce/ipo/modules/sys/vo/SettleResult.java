@@ -27,6 +27,8 @@ public class SettleResult implements Serializable {
 
 	private Object releaInfo;
 
+	private Object ipoSubRevenue;
+
 	public Object getTotalLoan() {
 		return totalLoan;
 	}
@@ -89,6 +91,14 @@ public class SettleResult implements Serializable {
 
 	public void setReleaInfo(Object releaInfo) {
 		this.releaInfo = releaInfo;
+	}
+
+	public Object getIpoSubRevenue() {
+		return ipoSubRevenue;
+	}
+
+	public void setIpoSubRevenue(Object ipoSubRevenue) {
+		this.ipoSubRevenue = ipoSubRevenue;
 	}
 
 	@Override

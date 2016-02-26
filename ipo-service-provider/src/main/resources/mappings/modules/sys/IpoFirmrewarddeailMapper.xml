@@ -86,4 +86,10 @@
             {#{returnCode,mode=OUT,jdbcType=INTEGER} = {call FN_ipo_BrokerReward()}
        ]]>
   </select>
+  
+  <select id="findDisAndDea" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoFirmrewarddeail">
+  select * from IPO_FIRMREWARDDEAIL t where 
+	to_char(t.cleardate,'yyyy-mm-dd') = #{date,jdbcType=VARCHAR} and t.firmid = #{firmid,jdbcType=VARCHAR}
+	and t.business_type = #{business,jdbcType=VARCHAR} and t.charge_type = #{charge,jdbcType=VARCHAR}
+  </select>
 </mapper>

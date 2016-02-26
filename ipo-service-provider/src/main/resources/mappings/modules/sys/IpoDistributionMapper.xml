@@ -429,4 +429,9 @@
   	and to_char(FROZENDATE, 'yyyy-MM-dd') <![CDATA[<=]]> #{enddate,jdbcType=VARCHAR} 
   	and to_char(FROZENDATE, 'yyyy-MM-dd') <![CDATA[>=]]> #{startdate,jdbcType=VARCHAR}
   </select>
+  
+  <select id="findByfirmidAndCommoId" resultMap="BaseResultMap" parameterType="map">
+  select <include refid="Base_Column_List" /> from ipo_distribution dis 
+  where dis.userid = #{firmid,jdbcType=VARCHAR} and dis.commodityid = #{commoid,jdbcType=VARCHAR}
+  </select>
 </mapper>

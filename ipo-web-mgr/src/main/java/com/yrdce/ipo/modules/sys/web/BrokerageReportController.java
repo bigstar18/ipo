@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.BrokerageReportService;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
+import com.yrdce.ipo.modules.sys.vo.Brokers;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
 import com.yrdce.ipo.modules.sys.vo.Income;
+import com.yrdce.ipo.modules.sys.vo.IpoSubRevenue;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.SettleResult;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
@@ -224,5 +228,65 @@ public class BrokerageReportController {
 			}
 		}
 		return income;
+	}
+
+	@RequestMapping(value = "/purchaseincomeinfo", method = RequestMethod.GET)
+	public String purchaseIncomeInfo(HttpServletRequest request, Model model,
+			@RequestParam(value = "brokerid", required = false) String brokerid,
+			@RequestParam("time") String time) {
+		List<VBrBroker> brokers = brokerageReportService.getBroker();
+		//List<List<IpoSubRevenue>> purchaseIncome = new ArrayList<List<IpoSubRevenue>>();
+		List<SettleResult> settles = new ArrayList<SettleResult>();
+		if (!"".equals(brokerid)) {
+			List<IpoSubRevenue> subRevenueList = setSubRevenue(brokerid, time);
+			//purchaseIncome.add(subRevenueList);
+			for (VBrBroker broker : brokers) {
+				SettleResult result = new SettleResult();
+				result.setIpoSubRevenue(subRevenueList);
+				if (brokerid.equals(broker.getBrokerid())) {
+					result.setBroker(broker);
+					settles.add(result);
+				}
+			}
+			model.addAttribute("settles", settles);
+			model.addAttribute("today", time);
+		} else {
+			for (int i = 0; i < brokers.size(); i++) {
+				String brokerid1 = brokers.get(i).getBrokerid();
+				List<IpoSubRevenue> subRevenueList = setSubRevenue(brokerid1, time);
+				SettleResult result = new SettleResult();
+				result.setBroker(brokers.get(i));
+				result.setIpoSubRevenue(subRevenueList);
+				settles.add(result);
+			}
+			model.addAttribute("settles", settles);
+			model.addAttribute("today", time);
+		}
+		return "app/brokeragereport/purchaseincomeinfo";
+	}
+
+	private List<IpoSubRevenue> setSubRevenue(String brokerid, String time) {
+		List<Firmrewarddeail> list = brokerageReportService.getCommission(time, brokerid,
+				ChargeConstant.BusinessType.PURCHASE.getCode(), ChargeConstant.ChargeType.HANDLING.getCode());
+		List<IpoSubRevenue> subRevenuesList = new ArrayList<IpoSubRevenue>();
+		for (Firmrewarddeail firmrewarddeail : list) {
+			Distribution distribution = brokerageReportService.getPurchase(firmrewarddeail.getFirmid(),
+					firmrewarddeail.getCommodityid());
+			Brokers brokers1 = brokerageReportService.getIntermediary(brokerid, firmrewarddeail.getFirmid());
+			String firmName = brokerageReportService.getFirmName(firmrewarddeail.getFirmid());
+			String intermediaryName = brokerageReportService.getFirmName(brokers1.getBrokerageid());
+			IpoSubRevenue ipoSubRevenue = new IpoSubRevenue();
+			ipoSubRevenue.setAmount(distribution.getTradingamount());
+			ipoSubRevenue.setBrokerIncome(firmrewarddeail.getReward());
+			ipoSubRevenue.setCommodityId(firmrewarddeail.getCommodityid());
+			ipoSubRevenue.setCommodityName(firmrewarddeail.getCommodityname());
+			ipoSubRevenue.setFirmId(firmrewarddeail.getFirmid());
+			ipoSubRevenue.setFirmName(firmName);
+			ipoSubRevenue.setIntermediaryId(brokers1.getBrokerageid());
+			ipoSubRevenue.setIntermediaryName(intermediaryName);
+			ipoSubRevenue.setLuckyNumber(distribution.getZcounts());
+			subRevenuesList.add(ipoSubRevenue);
+		}
+		return subRevenuesList;
 	}
 }

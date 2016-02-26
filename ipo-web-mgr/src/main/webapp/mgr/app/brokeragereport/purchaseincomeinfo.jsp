@@ -59,18 +59,18 @@
 												<td class="td_reportMdHead" align="center">直属居间商代码</td>
 												<td class="td_reportRdHead" align="center">直属居间商名称</td>
 											</tr>
-											<c:forEach var="publish" items="${result}" varStatus="status">
+											<c:forEach var="subRevenueList" items="${settle.ipoSubRevenue}" varStatus="status">
 												<tr>
 													<td class="td_reportMdHead" align="center">${status.count}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityid}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityname}</td>
-													<td class="td_reportMdHead" align="center">${publish.price}</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan/publish.price }</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan}</td>
-													<td class="td_reportMdHead" align="center">${publish.handing==null?0:publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.firmId}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.firmName}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.commodityId}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.commodityName}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.luckyNumber}</td>
+													<td class="td_reportMdHead" align="center">${subRevenueList.amount}</td>
+													<td class="td_reportRdHead" align="center">${subRevenueList.brokerIncome}</td>
+													<td class="td_reportRdHead" align="center">${subRevenueList.intermediaryId}</td>
+													<td class="td_reportRdHead" align="center">${subRevenueList.intermediaryName}</td>
 												</tr>
 											</c:forEach>
 										</table>

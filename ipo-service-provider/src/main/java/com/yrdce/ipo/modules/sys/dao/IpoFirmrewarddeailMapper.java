@@ -35,13 +35,27 @@ public interface IpoFirmrewarddeailMapper {
 	List<IpoFirmrewarddeail> findByFirmidAndType(@Param("firmid") String firmid,
 			@Param("chargeType") String chargeType, @Param("businessType") String businessType,
 			@Param("startdate") String startdate, @Param("enddate") String enddate);
-	
+
 	/**
 	 * 佣金结算
+	 * 
 	 * @return
 	 */
 	int brokerRewardSettle();
-	
-	
-	
+
+	/**
+	 * @Title: findDisAndDea
+	 * @param date
+	 *            时间
+	 * @param firmid
+	 *            交易商id
+	 * @param business
+	 *            业务类型
+	 * @param charge
+	 *            费用类型
+	 * @return 参数说明
+	 */
+	IpoFirmrewarddeail findDisAndDea(@Param("date") String date, @Param("firmid") String firmid,
+			@Param("business") String business, @Param("charge") String charge);
+
 }

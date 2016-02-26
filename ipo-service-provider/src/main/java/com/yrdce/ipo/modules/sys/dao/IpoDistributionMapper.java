@@ -83,4 +83,13 @@ public interface IpoDistributionMapper {
 	List<IpoDistribution> findByfirmidAndDate(@Param("userid") String userid,
 			@Param("startdate") String startdate, @Param("enddate") String enddate);
 
+	/**
+	 * @Title: findByfirmidAndCommoId
+	 * @param firmid
+	 *            交易商id
+	 * @param commoid
+	 *            商品id
+	 */
+	IpoDistribution findByfirmidAndCommoId(@Param("firmid") String firmid, @Param("commoid") String commoid);
+
 }

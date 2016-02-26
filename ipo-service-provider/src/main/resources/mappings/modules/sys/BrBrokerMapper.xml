@@ -463,4 +463,9 @@
   	(select BORKERTYPE from BR_BROKERTYPE where BROKERNAME='经纪会员' ))broker 
 	left join br_firmandbroker t on broker.brokerid = t.brokerid) bro where bro.brokerid = #{brokerid,jdbcType=VARCHAR}
   </select>
+  
+  <select id="findIntermediary" resultType="com.yrdce.ipo.modules.sys.entity.IpoBroker" parameterType="map">
+  	select * from BR_FIRMAPPLY t where t.userid = #{firmid,jdbcType=VARCHAR} and t.brokerid= #{brokerid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

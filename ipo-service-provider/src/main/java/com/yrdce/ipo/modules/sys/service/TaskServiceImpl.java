@@ -58,13 +58,13 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	private IpoOrderMapper orderMapper;
 	@Autowired
-	private Distribution distribution;
+	private IpoDistributionService ipoDistribution;
 	@Autowired
 	private IpoNumberofrecordsMapper unmberofrecord;
 	@Autowired
 	private IpoCommodityMapper commodity;
 	@Autowired
-	private IpoDistributionMapper ipoDistribution;
+	private IpoDistributionMapper ipoDistributionMapper;
 	@Autowired
 	private IpoBallotNoInfoMapper ipoBallotNoInfoMapper;
 	@Autowired
@@ -107,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
 			unmberofrecord.insert(frecord);
 
 			logger.info("调用配号任务");
-			distribution.start(orderList);
+			ipoDistribution.start(orderList);
 		}
 	}
 
@@ -147,7 +147,7 @@ public class TaskServiceImpl implements TaskService {
 		// 查找所有此商品的申购记录
 		logger.info("申购记录查询开始");
 		String ballotNowtime = DateUtil.getTime(1);// 做了修改，此处参数应为1
-		List<IpoDistribution> ipoDidList = ipoDistribution.allByTime(ballotNowtime);
+		List<IpoDistribution> ipoDidList = ipoDistributionMapper.allByTime(ballotNowtime);
 		logger.info(ipoDidList.size() + "");
 		for (IpoDistribution ipoDistribution1 : ipoDidList) {
 			String commId = ipoDistribution1.getCommodityid();
@@ -162,7 +162,7 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional()
 	public void lottery(String commId) throws Exception {
 		logger.info("commID:" + commId);
-		List<IpoDistribution> ipoDidList = ipoDistribution.selectByCommId(commId);
+		List<IpoDistribution> ipoDidList = ipoDistributionMapper.selectByCommId(commId);
 		IpoCommodity ipoCommodity = commodity.getSelectByComid(commId.toUpperCase());
 
 		commodity.updateByStatus(31, commId);// 31表示摇号中
@@ -178,7 +178,7 @@ public class TaskServiceImpl implements TaskService {
 		int numLength = String.valueOf(ipoDidList.get(0).getStartnumber()).length();// 配号号码长度
 		// 号码匹配
 		logger.info("中签号匹配开始");
-		List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(commId);
+		List<IpoDistribution> ipoDidList1 = ipoDistributionMapper.selectByCommId(commId);
 		for (IpoDistribution ipoDis : ipoDidList1) {
 			int userGetNum = 0;
 			System.out.println(ipoDis.getUserid() + "尾号个数" + endNumList.size());
@@ -190,7 +190,7 @@ public class TaskServiceImpl implements TaskService {
 			}
 			System.out.println(ipoDis.getUserid() + "匹配个数" + userGetNum);
 			ipoDis.setZcounts(userGetNum);// 更新对象中匹配的个数
-			ipoDistribution.updateByPrimaryKey(ipoDis);// 更新数据库记录
+			ipoDistributionMapper.updateByPrimaryKey(ipoDis);// 更新数据库记录
 			// commodityConfMapper.updateByStatus(3, commId);
 			// commodity.updateByStatus(3, commId);
 			System.out.println("中签号匹配完成");
@@ -219,7 +219,7 @@ public class TaskServiceImpl implements TaskService {
 	public void orderBalance(String commId) throws Exception {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		List<IpoDistribution> ipoDidList1 = ipoDistribution.selectByCommId(commId);
+		List<IpoDistribution> ipoDidList1 = ipoDistributionMapper.selectByCommId(commId);
 		for (IpoDistribution ipodb : ipoDidList1) {
 			if (ipodb.getZcounts() != 0) {
 				logger.info("获取发售商品信息" + ipodb.getCommodityid());
@@ -250,7 +250,7 @@ public class TaskServiceImpl implements TaskService {
 					Date dt = sdf.parse(DateUtil.getTime(0));
 					ipodb.setFrozendate(dt);
 					logger.info("跟新中签计算金额开始");
-					ipoDistribution.setSomeInfo(ipodb);
+					ipoDistributionMapper.setSomeInfo(ipodb);
 					String id = ipodb.getId() + "";
 					String pubmemberid = commodityConf.getPubmemberid();
 					String userid = ipodb.getUserid();
@@ -285,7 +285,7 @@ public class TaskServiceImpl implements TaskService {
 		String ballotNowtime = DateUtil.getTime(2);
 		// List<IpoDistribution> distributions =
 		// ipoDistribution.getInfobyDate(ballotNowtime);
-		List<IpoDistribution> distributions = ipoDistribution.allByTime(ballotNowtime);
+		List<IpoDistribution> distributions = ipoDistributionMapper.allByTime(ballotNowtime);
 		logger.info("费用结算开始");
 		for (IpoDistribution ipod : distributions) {
 			IpoCommodity ipoCommodity = commodity.getSelectByComid(ipod.getCommodityid());

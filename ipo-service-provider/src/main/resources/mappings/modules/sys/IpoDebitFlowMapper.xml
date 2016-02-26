@@ -147,6 +147,5 @@
       	select a.commodity_id,sum(a.amount) from(select p.*  from ipo_commodity_conf t  left join ipo_debitflow p
     on p.commodity_id = t.commodityid  where t.pubmemberid =#{pubmemberid,jdbcType=VARCHAR}  and p.business_type = '002'  and p.charge_type = '001'
    and p.debit_state = '2'   and p.debit_mode='1'   and p.debit_channel='1' and to_char(p.debit_date,'yyyy-mm-dd')=#{queryDate,jdbcType=VARCHAR} )a group by a.commodity_id
-      	
   </select>
 </mapper>
