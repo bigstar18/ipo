@@ -403,6 +403,8 @@ public class PublisherController {
 			publisherpositionService.updateStatus(record);
 			publisherpositionService.insertPoundage(record, totalValue);
 			publisherpositionService.insertLoan(record, funds);
+			// 插入持仓流水记录
+			publisherpositionService.insertPositionFlow(record);
 			return "true";
 		}
 		return "false";

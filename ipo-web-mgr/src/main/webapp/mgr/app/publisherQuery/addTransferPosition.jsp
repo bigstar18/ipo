@@ -23,6 +23,10 @@ function add(){
 		var salecounts=parseInt($("#salecounts").val());//转发售数量
 		var pubposition=parseInt($("#pubposition").val());//转持仓数量
 		var subscricounts=parseInt($("#subscricounts").val());//转认购数量
+		if(salecounts+pubposition+subscricounts>totalcounts){
+			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
+			return;
+		}
 		if(totalcounts<counts&&salecounts!=0){
 			alert("总入库量小于发行量，只能转持仓或供承销认购！");
 			$("#salecounts").numberbox('setValue','0');
@@ -30,9 +34,9 @@ function add(){
 			$("#subscricounts").numberbox('setValue','');
 			return;
 		}
-		if(salecounts+pubposition+subscricounts>totalcounts){
-			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
-			return;
+		if(salecounts!=0){
+			alert("转发售需一次性转满公开发行数量");
+			$("#salecounts").numberbox('setValue',$("#counts").val());
 		}
 		if(salecounts+pubposition+subscricounts<totalcounts){
 			alert("转发售、转持仓和转供承销认购量总和小于总入库量，仍有商品未分配");
@@ -44,7 +48,7 @@ function add(){
 		     data:{"salecounts":salecounts,"commodityid":$("#commodityid").val(),"counts":$("#counts").val()},
 		     success : function(data, stats) { 
 			           if(data=='false'){
-			        	   alert("发售数量已满，请全部转持仓");
+			        	   alert("发售数量已满，请全部转持仓或供承销认购！");
 			        	   return ;
 			           }
                        if(data=='true'){
@@ -155,11 +159,10 @@ function getPosition(){
 	        	<input type="text" id="publishername" name="publishername" value="${entity.publishername }" readonly="readonly"/>
 	        	</td>
 	        </tr> 
-	        
 	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
+	            <td style="font-size:15px" align="right" width="20%">发行数量：</td>
 	        	<td>
-	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
+	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
@@ -167,9 +170,9 @@ function getPosition(){
 	        	</td>
 	        </tr>  
 	         <tr>
-	        	<td style="font-size:15px" align="right" width="20%">发行数量：</td>
+	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
-	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
+	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>

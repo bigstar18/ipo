@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.common.json.ParseException;
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPublisherPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
@@ -34,6 +36,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
@@ -73,6 +76,9 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 	private IpoPayFlowMapper payFlowMapper;
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
+
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 
 	@Override
 	public List<PublisherPosition> getInfoByPage(String page, String rows,
@@ -308,5 +314,29 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void insertPositionFlow(PublisherPosition example) {
+		// 保存持仓信息
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods
+				.getCode());
+		positionFlow.setCommodityId(example.getCommodityid());
+		positionFlow.setFirmId(ipoSpoRationMapper.firmidBySales(example
+				.getPublisherid()));
+
+		positionFlow.setHoldqty(example.getPubposition());
+		positionFlow.setPrice(new BigDecimal(0));// TODO 需要核实
+		positionFlow.setFrozenqty(example.getPubposition());
+		positionFlow.setCreateUser(example.getUpdater());// 需要核实
+
+		positionFlow.setCreateDate(new Date());
+		positionFlow.setRemark("发行商转持仓");
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.PUBLISH
+				.getCode());
+		positionFlow.setRoleCode(ChargeConstant.RoleType.PUBLISHER.getCode());
+		positionFlowMapper.insert(positionFlow);
+
 	}
 }

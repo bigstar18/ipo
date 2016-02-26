@@ -77,6 +77,14 @@ public interface PublisherPositionService {
 	public void insertLoan(PublisherPosition example, BigDecimal funds);
 
 	/**
+	 * 新增转持仓流水记录
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public void insertPositionFlow(PublisherPosition example);
+
+	/**
 	 * 更改状态
 	 * 
 	 * @param publisherid
