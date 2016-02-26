@@ -53,7 +53,7 @@
       UPDATER = #{updater,jdbcType=VARCHAR},
       UPDATEDATE = #{updatedate,jdbcType=DATE},
       STORAGEID = #{storageid,jdbcType=VARCHAR},
-      SUBSCRICOUNTS = #{subscricounts,jdbcType=DECIMAL},
+      SUBSCRICOUNTS = #{subscricounts,jdbcType=DECIMAL}
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >

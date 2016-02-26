@@ -361,45 +361,43 @@ public class PublisherController {
 	@ResponseBody
 	public String frozenFunds(@RequestParam("storageid") String storageid,
 			HttpSession session) {
-		// 根据入库单找转持仓单，获取发行商代码和发行手续费
-
 		PublisherPosition record = publisherpositionService
 				.getInfoByStorageId(storageid);
 		Specialcounterfee specialfee = publisherpositionService
 				.getSpecialCounterfee(record.getPublisherid(),
-						record.getCommodityid(), "3");// 获取发行特殊手续费
+						record.getCommodityid(), "3");// 获取交易商的特殊发行手续费比例
 		VIpoCommConf commodity = ipoCommConfService
 				.getVIpoCommConfByCommid(record.getCommodityid());
 		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
 		BigDecimal funds = new BigDecimal(record.getSalecounts())
 				.multiply(commodity.getPrice());// 货款
+		BigDecimal interest = new BigDecimal(0);// 发行手续费
 		if (specialfee != null) {
 			Short tradealgr = specialfee.getTradealgr();
 			BigDecimal ratio = specialfee.getCounterfee();
 			if (tradealgr == 1) {// 百分比算法
-				totalValue.multiply(ratio);
-				totalValue.divide(new BigDecimal(100));
+				interest = totalValue.multiply(ratio).divide(
+						new BigDecimal(100));
 			}
 			if (tradealgr == 2) {// 绝对值算法
-				totalValue.multiply(ratio);
+				interest = ratio;
 			}
 		} else {
 			Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
 			BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
 			if (publishalgr == 1) {// 百分比算法
-				totalValue.multiply(ratio);
-				totalValue.divide(new BigDecimal(100));
+				interest = totalValue.multiply(ratio).divide(
+						new BigDecimal(100));
 			}
 			if (publishalgr == 2) {// 绝对值算法
-				totalValue.multiply(ratio);
+				interest = ratio;
 			}
 		}
 		String message = publisherpositionService.frozenFunds(
-				record.getPublisherid(), totalValue);
+				record.getPublisherid(), interest);// 冻结客户手续费
 		if ("true".equals(message)) {
 			record.setStatus((short) 2);
 			record.setUpdatedate(new Date());
-			// record.setUpdater("cj");
 			record.setUpdater(((UserManageVO) session
 					.getAttribute("CurrentUser")).getUserID());
 			publisherpositionService.updateStatus(record);
@@ -407,7 +405,6 @@ public class PublisherController {
 			publisherpositionService.insertLoan(record, funds);
 			return "true";
 		}
-
 		return "false";
 	}
 
