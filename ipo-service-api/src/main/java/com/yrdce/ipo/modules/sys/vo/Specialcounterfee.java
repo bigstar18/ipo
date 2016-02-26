@@ -20,7 +20,7 @@ public class Specialcounterfee {
 
 	private String userid;
 
-	private Short counterfeetype;
+	private Short counterfeetype;// 手续费种类（暂定）1.交易买2.交易卖3.发行
 
 	public BigDecimal getCounterfee() {
 		return counterfee;
