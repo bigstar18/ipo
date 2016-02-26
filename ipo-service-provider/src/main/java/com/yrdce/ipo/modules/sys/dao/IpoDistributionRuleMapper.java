@@ -16,9 +16,9 @@ public interface IpoDistributionRuleMapper {
 	int selectCountByCommId(String commodityid);
 
 	List<IpoDistributionRule> selectInfoByPages(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			IpoDistributionRule distributionRule);
+			@Param("dist") IpoDistributionRule distributionRule);
 
-	int selectCounts(IpoDistributionRule distributionRule);
+	int selectCounts(@Param("dist") IpoDistributionRule distributionRule);
 
 	IpoDistributionRule selectInfoByCommId(String commodityid);
 

@@ -122,7 +122,9 @@
     });
   });
   
-
+  function reset(){
+	  $("#commodityId").val("");
+  }
 
 
   function deleteById(id){
@@ -151,10 +153,9 @@
    }
 
   
-  
   function doSearch(){
     	$('#dg').datagrid('load',{
-    		commodityId:$('#commodityId').val()
+    		commodityid:$('#commodityId').val()
     	});
   };
   
@@ -172,8 +173,9 @@
 		<div id="tb" style="padding:5px;height:auto">
 		<div>
 		<form name="frm" action="<%=request.getContextPath()%>/BreedController/findBreedByName" method="post">
-			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:80px">&nbsp;
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>							
+			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:150px;height:20px;">&nbsp;
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-redo" id="view" onclick="reset()">重置</a>							
 		</form> 
 		</div>
 	</div>

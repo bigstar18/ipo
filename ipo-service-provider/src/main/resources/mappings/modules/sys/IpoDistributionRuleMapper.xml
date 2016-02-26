@@ -34,16 +34,22 @@
   	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
   	and DELETE_FLAG=0
   </select>
-  <select id="selectInfoByPages" resultMap="BaseResultMap" parameterType="map">
+  <select id="selectInfoByPages" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionRule">
   	select a.* from
   	(select s.*,rownum TNO from IPO_DISTRIBUTION_RULE s
   	where 1=1
+  	<if test="dist.commodityid!=null and dist.commodityid!=''">
+  	and COMMODITYID=#{dist.commodityid}
+  	</if>
   	order by s.ID)a
   	where a.TNO between  #{beginnum} and  #{endnum}
   </select>
-  <select id="selectCounts"  resultType="java.lang.Integer" parameterType="map">
+  <select id="selectCounts"  resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionRule">
   	select count(0) from IPO_DISTRIBUTION_RULE s
   	where 1=1
+  	<if test="dist.commodityid!=null and dist.commodityid!=''">
+  	and COMMODITYID=#{dist.commodityid}
+  	</if>
   </select>
   <select id="selectInfoByCommId" resultMap="BaseResultMap" parameterType="String">
   	select * from IPO_DISTRIBUTION_RULE 
