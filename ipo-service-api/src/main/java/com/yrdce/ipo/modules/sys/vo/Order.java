@@ -65,6 +65,8 @@ public class Order implements Serializable {
 
 	private BigDecimal frozencounterfee;
 
+	private BigDecimal successcounts;// 中签数量
+
 	@JsonProperty("frozendate")
 	@XmlElement(name = "frozendate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -73,6 +75,14 @@ public class Order implements Serializable {
 	private BigDecimal price;
 
 	private int zcounts;
+
+	public BigDecimal getSuccesscounts() {
+		return successcounts;
+	}
+
+	public void setSuccesscounts(BigDecimal successcounts) {
+		this.successcounts = successcounts;
+	}
 
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;

@@ -31,16 +31,26 @@ public class IpoOrder {
 
 	private BigDecimal frozencounterfee;// 手续费冻结资金
 
-	private BigDecimal unfreezefunds;//退还申购金额
+	private BigDecimal unfreezefunds;// 退还申购金额
 
-	private BigDecimal unfreezefees;//退还手续费
+	private BigDecimal unfreezefees;// 退还手续费
 
-	//以下3个属性不是order表属性，联合查询映射
+	private BigDecimal successcounts;// 中签数量
+
+	// 以下3个属性不是order表属性，联合查询映射
 	private Date frozendate;
 
 	private BigDecimal price;
 
 	private int zcounts;
+
+	public BigDecimal getSuccesscounts() {
+		return successcounts;
+	}
+
+	public void setSuccesscounts(BigDecimal successcounts) {
+		this.successcounts = successcounts;
+	}
 
 	public BigDecimal getFrozencounterfee() {
 		return frozencounterfee;

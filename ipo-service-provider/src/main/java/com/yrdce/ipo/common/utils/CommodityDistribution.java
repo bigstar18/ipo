@@ -1,39 +1,15 @@
 package com.yrdce.ipo.common.utils;
 
-public class CommodityDistribution {
-	private String firmId;// 交易商id
-	private double firmPositionRatio;// 交易商的持仓比例
-	private double firmCapitalRatio;// 交易商资金比例
-	private int distNum;// 中签数量
+import java.util.Random;
 
-	private int maxdistNum;// 最大中签数
+import com.yrdce.ipo.modules.sys.entity.FirmDistInfo;
+
+public class CommodityDistribution {
+
+	// 最大中签数
 	private int alldistNum;// 分配商品总量
 	private double distPositionRatio;// 分配持仓比例
 	private double distCapitalRatio;// 分配资金比例
-
-	public int getDistNum() {
-		return distNum;
-	}
-
-	public void setDistNum(int distNum) {
-		this.distNum = distNum;
-	}
-
-	public String getFirmId() {
-		return firmId;
-	}
-
-	public void setFirmId(String firmId) {
-		this.firmId = firmId;
-	}
-
-	public int getMaxdistNum() {
-		return maxdistNum;
-	}
-
-	public void setMaxdistNum(int maxdistNum) {
-		this.maxdistNum = maxdistNum;
-	}
 
 	public int getAlldistNum() {
 		return alldistNum;
@@ -43,58 +19,72 @@ public class CommodityDistribution {
 		this.alldistNum = alldistNum;
 	}
 
-	public double getDistPositionRatio() {
-		return distPositionRatio;
-	}
-
-	public void setDistPositionRatio(double distPositionRatio) {
+	// 构造初始化赋值
+	public CommodityDistribution(int alldistNum, double distPositionRatio, double distCapitalRatio) {
+		this.alldistNum = alldistNum;
 		this.distPositionRatio = distPositionRatio;
-	}
-
-	public double getDistCapitalRatio() {
-		return distCapitalRatio;
-	}
-
-	public void setDistCapitalRatio(double distCapitalRatio) {
 		this.distCapitalRatio = distCapitalRatio;
 	}
 
-	public double getFirmPositionRatio() {
-		return firmPositionRatio;
-	}
-
-	public void setFirmPositionRatio(double firmPositionRatio) {
-		this.firmPositionRatio = firmPositionRatio;
-	}
-
-	public double getFirmCapitalRatio() {
-		return firmCapitalRatio;
-	}
-
-	public void setFirmCapitalRatio(double firmCapitalRatio) {
-		this.firmCapitalRatio = firmCapitalRatio;
-	}
-
-	public void distributionMain() {
-		disCommodityByPosition();
-		disCommodityByCapital();
+	// 初次分配主函数
+	public void distributionMain(FirmDistInfo firmDistInfo) {
+		disCommodityByPosition(firmDistInfo);
+		disCommodityByCapital(firmDistInfo);
 	}
 
 	// 按持仓比例分配数量
-	private void disCommodityByPosition() {
-		int tempDistNumByPosition = (int) (this.alldistNum * this.distPositionRatio * this.firmPositionRatio);
-		this.distNum += tempDistNumByPosition;
+	private void disCommodityByPosition(FirmDistInfo firmDistInfo) {
+		int tempDistNumByPosition = (int) (this.alldistNum * this.distPositionRatio
+				* firmDistInfo.getFirmPositionRatio());
+		int result = firmDistInfo.getDistNum() + tempDistNumByPosition;
+		if (this.alldistNum == 0) {
+			return;
+		}
+		if (this.alldistNum < tempDistNumByPosition) {
+			firmDistInfo.setDistNum(this.alldistNum);
+			this.alldistNum = 0;
+			return;
+		}
+		if (result > firmDistInfo.getMaxdistNum()) {
+			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
+			this.alldistNum -= firmDistInfo.getMaxdistNum();
+		} else {
+			firmDistInfo.setDistNum(result);
+			this.alldistNum -= result;
+		}
+
 	}
 
 	// 按资金比例分配数量
-	private void disCommodityByCapital() {
-		int tempDistNumByCapital = (int) (this.alldistNum * this.distCapitalRatio * this.firmCapitalRatio);
-		this.distNum += tempDistNumByCapital;
+	private void disCommodityByCapital(FirmDistInfo firmDistInfo) {
+		int tempDistNumByCapital = (int) (this.alldistNum * this.distCapitalRatio * firmDistInfo.getFirmCapitalRatio());
+		int result = firmDistInfo.getDistNum() + tempDistNumByCapital;
+		if (this.alldistNum == 0) {
+			return;
+		}
+		if (this.alldistNum < tempDistNumByCapital) {
+			firmDistInfo.setDistNum(this.alldistNum);
+			this.alldistNum = 0;
+			return;
+		}
+		if (result > firmDistInfo.getMaxdistNum()) {
+			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
+			this.alldistNum -= firmDistInfo.getMaxdistNum();
+		} else {
+			firmDistInfo.setDistNum(result);
+			this.alldistNum -= firmDistInfo.getMaxdistNum();
+		}
+
 	}
 
-	// // 随机分配数量
-	// private void disCommodityByRandom() {
-	// int remainingNum=this.alldistNum-this.dist
-	// int tempDistNumByRandom=
-	// }
+	// 随机分配数量（再次分配）
+	public void disCommodityByRandom(FirmDistInfo firmDistInfo) {
+		if (this.alldistNum != 0) {
+			Random random = new Random();
+			int result = random.nextInt(this.alldistNum);
+			int tempDistNum = firmDistInfo.getDistNum() + result;
+			firmDistInfo.setDistNum(tempDistNum);
+			this.alldistNum -= result;
+		}
+	}
 }
