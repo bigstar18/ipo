@@ -52,7 +52,7 @@ public interface PublisherPositionService {
 	public PublisherPosition getInfoByStorageId(String storageid);
 
 	/**
-	 * 冻结货款
+	 * 冻结费用
 	 * 
 	 * @param publisherid
 	 * @param money
