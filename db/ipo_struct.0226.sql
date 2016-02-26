@@ -1,6 +1,6 @@
 --------------------------------------------------
 -- Export file for user TRADE_GNNT@SPOT.DEV.183 --
--- Created by hxx on 2016/2/25, 21:25:03 ---------
+-- Created by hxx on 2016/2/26, 17:13:51 ---------
 --------------------------------------------------
 
 set define off
@@ -2059,33 +2059,6 @@ alter table IPO_SYSSTATUS
   add constraint PK_IPO_SYSSTATUS primary key (TRADEDATE);
 
 prompt
-prompt Creating table IPO_TEST
-prompt =======================
-prompt
-create table IPO_TEST
-(
-  id                 NUMBER,
-  tradealgr          NUMBER(1),
-  buy                NUMBER(10,2),
-  sell               NUMBER(10,2),
-  mktbuyfeeradio     NUMBER(10,2),
-  mktsellfeeradio    NUMBER(10,2),
-  warehousedailyrent NUMBER(10,2),
-  trusteedailyrent   NUMBER(10,2),
-  insurancedailyrent NUMBER(10,2),
-  freetrusteedays    NUMBER(8),
-  deliveryunit       VARCHAR2(32),
-  deliunittocontract NUMBER(10,2),
-  registfeeradio     NUMBER(10,2),
-  mktregistfeeradio  NUMBER(10,2),
-  cancelfeeradio     NUMBER(10,2),
-  mktcancelfeeradio  NUMBER(10,2),
-  deliverycostbefore NUMBER(8),
-  transferfeeradio   NUMBER(10,2)
-)
-;
-
-prompt
 prompt Creating table IPO_TRADETIME
 prompt ============================
 prompt
@@ -2426,6 +2399,661 @@ comment on column IPO_WAREHOUSE_STOCK.warehouseid
   is '仓库ID(与bi_warehouse的ID主键关联)';
 alter table IPO_WAREHOUSE_STOCK
   add constraint PK_IPO_WAREHOUSE_STOCK primary key (STOCKID);
+
+prompt
+prompt Creating sequence SEQ_IPO_BALLOTNO_INFO
+prompt =======================================
+prompt
+create sequence SEQ_IPO_BALLOTNO_INFO
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 6120
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_BILLOFLADING
+prompt ======================================
+prompt
+create sequence SEQ_IPO_BILLOFLADING
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_BREED
+prompt ===============================
+prompt
+create sequence SEQ_IPO_BREED
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_CHARGE_ROLE
+prompt =====================================
+prompt
+create sequence SEQ_IPO_CHARGE_ROLE
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 61
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_CHARGE_USER
+prompt =====================================
+prompt
+create sequence SEQ_IPO_CHARGE_USER
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 81
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_COMMODITY_SALE
+prompt ========================================
+prompt
+create sequence SEQ_IPO_COMMODITY_SALE
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 181
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_DEBITFLOW
+prompt ===================================
+prompt
+create sequence SEQ_IPO_DEBITFLOW
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 181
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_DELIVERT_PROP
+prompt =======================================
+prompt
+create sequence SEQ_IPO_DELIVERT_PROP
+minvalue 1
+maxvalue 9999999999999999999
+start with 193
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_DELIVERY
+prompt ==================================
+prompt
+create sequence SEQ_IPO_DELIVERY
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 21
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_DELIVERYORDER
+prompt =======================================
+prompt
+create sequence SEQ_IPO_DELIVERYORDER
+minvalue 1
+maxvalue 9999
+start with 201
+increment by 1
+cache 20
+cycle;
+
+prompt
+prompt Creating sequence SEQ_IPO_DELIVERY_COST
+prompt =======================================
+prompt
+create sequence SEQ_IPO_DELIVERY_COST
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_DISTRIBUTION
+prompt ======================================
+prompt
+create sequence SEQ_IPO_DISTRIBUTION
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 421
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_EXPRESS
+prompt =================================
+prompt
+create sequence SEQ_IPO_EXPRESS
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 41
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_FIRMREWARDDEAIL
+prompt =========================================
+prompt
+create sequence SEQ_IPO_FIRMREWARDDEAIL
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 101
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_HOLDCOMMODITY
+prompt =======================================
+prompt
+create sequence SEQ_IPO_HOLDCOMMODITY
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 21
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_NOTTRADEDAY
+prompt =====================================
+prompt
+create sequence SEQ_IPO_NOTTRADEDAY
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_NUMBEROFRECORDS
+prompt =========================================
+prompt
+create sequence SEQ_IPO_NUMBEROFRECORDS
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 441
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_NUMBEROFRECORDS_H
+prompt ===========================================
+prompt
+create sequence SEQ_IPO_NUMBEROFRECORDS_H
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 61
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_ORDER
+prompt ===============================
+prompt
+create sequence SEQ_IPO_ORDER
+minvalue 1
+maxvalue 9999
+start with 82
+increment by 1
+cache 20
+cycle;
+
+prompt
+prompt Creating sequence SEQ_IPO_ORDER_H
+prompt =================================
+prompt
+create sequence SEQ_IPO_ORDER_H
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 81
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_PAYFLOW
+prompt =================================
+prompt
+create sequence SEQ_IPO_PAYFLOW
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 121
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_PICKUP
+prompt ================================
+prompt
+create sequence SEQ_IPO_PICKUP
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 121
+increment by 1
+cache 20
+cycle;
+
+prompt
+prompt Creating sequence SEQ_IPO_POSITION
+prompt ==================================
+prompt
+create sequence SEQ_IPO_POSITION
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 101
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_POSITIONFLOW
+prompt ======================================
+prompt
+create sequence SEQ_IPO_POSITIONFLOW
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 41
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_POSITIONREDUCE
+prompt ========================================
+prompt
+create sequence SEQ_IPO_POSITIONREDUCE
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 21
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_PUBLISHER_POSITION
+prompt ============================================
+prompt
+create sequence SEQ_IPO_PUBLISHER_POSITION
+minvalue 1
+maxvalue 99999999999999999999999999
+start with 104
+increment by 1
+cache 21;
+
+prompt
+prompt Creating sequence SEQ_IPO_PUBPAYMENT_TRACK
+prompt ==========================================
+prompt
+create sequence SEQ_IPO_PUBPAYMENT_TRACK
+minvalue 1
+maxvalue 999999999999999999999999
+start with 81
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_RELEASESUBSCRIPTION
+prompt =============================================
+prompt
+create sequence SEQ_IPO_RELEASESUBSCRIPTION
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 41
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_SALES
+prompt ===============================
+prompt
+create sequence SEQ_IPO_SALES
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_SPECIALCOUNTERFEE
+prompt ===========================================
+prompt
+create sequence SEQ_IPO_SPECIALCOUNTERFEE
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 61
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_SPECIAL_POUNDAGE
+prompt ==========================================
+prompt
+create sequence SEQ_IPO_SPECIAL_POUNDAGE
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_SPO_COMM
+prompt ==================================
+prompt
+create sequence SEQ_IPO_SPO_COMM
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 101
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_SPO_RATION
+prompt ====================================
+prompt
+create sequence SEQ_IPO_SPO_RATION
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 161
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_STORAGE
+prompt =================================
+prompt
+create sequence SEQ_IPO_STORAGE
+minvalue 1
+maxvalue 999999999999999999999
+start with 111
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRADETIME
+prompt ===================================
+prompt
+create sequence SEQ_IPO_TRADETIME
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 221
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRADETIME_COMM
+prompt ========================================
+prompt
+create sequence SEQ_IPO_TRADETIME_COMM
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 161
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRUSTEESHIP
+prompt =====================================
+prompt
+create sequence SEQ_IPO_TRUSTEESHIP
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 121
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRUSTEESHIP_COMMODITY
+prompt ===============================================
+prompt
+create sequence SEQ_IPO_TRUSTEESHIP_COMMODITY
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 121
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRUSTEESHIP_HIS
+prompt =========================================
+prompt
+create sequence SEQ_IPO_TRUSTEESHIP_HIS
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 201
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_TRUSTEESHIP_WAREHOUSE
+prompt ===============================================
+prompt
+create sequence SEQ_IPO_TRUSTEESHIP_WAREHOUSE
+minvalue 1
+maxvalue 9999999999999999999
+start with 101
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_UNDERWRITER_DEPOSIT
+prompt =============================================
+prompt
+create sequence SEQ_IPO_UNDERWRITER_DEPOSIT
+minvalue 1
+maxvalue 9999999999999999999999999
+start with 41
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_UNDERWRITER_SUB
+prompt =========================================
+prompt
+create sequence SEQ_IPO_UNDERWRITER_SUB
+minvalue 1
+maxvalue 999999999999999999999999
+start with 31
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_UNDERWRITER_SUBSCRIBE
+prompt ===============================================
+prompt
+create sequence SEQ_IPO_UNDERWRITER_SUBSCRIBE
+minvalue 1
+maxvalue 999999999999999999999999
+start with 81
+increment by 1
+cache 20;
+
+prompt
+prompt Creating sequence SEQ_IPO_WAREHOUSE_STOCK
+prompt =========================================
+prompt
+create sequence SEQ_IPO_WAREHOUSE_STOCK
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 63
+increment by 1
+cache 20;
+
+prompt
+prompt Creating function FN_IPO_BROKERREWARD
+prompt =====================================
+prompt
+create or replace function FN_ipo_BrokerReward
+  return number is
+  /**fn_ipo_brokerreward
+   * ipo付会员佣金
+  **/
+  v_ret           number(15, 2);
+  v_payDate       date;
+  v_autopay       char(1);
+  v_oprcode       varchar2(10):='40007';
+  v_firstPayMoney number(15, 2);
+  v_brokerFirmID  varchar2(32);
+  v_rtn           varchar2(10);
+  v_moduleId      number(2):=40;
+  v_tradeDate     date;
+
+begin
+      --查询结算日期
+      select tradedate into v_tradeDate from ipo_sysstatus;
+      --计算付款日
+      v_payDate := FN_BR_BrokerPayDate(v_tradeDate);
+      --查询是否自动付佣金 Y 是 N 否
+      select autopay into v_autopay from BR_RewardParameterProps;
+      --删除交易当日佣金明细数据支持重做结算
+      delete from ipo_FirmRewardDeail m where m.cleardate = trunc(v_tradeDate);
+      --重新生成佣金明细数据
+       execute immediate 'BEGIN :1:=FN_ipo_FirmRewardDeail(:2); END;' using out v_rtn,v_tradeDate;
+      --如果是手动付佣金，将当日佣金明细首款置为0，尾款为总佣金
+      if(v_autopay = 'N') then
+         update ipo_Firmrewarddeail m set m.firstpay = 0,m.secondpay = m.reward  where m.cleardate = trunc(v_tradeDate);
+      end if;
+
+     /**
+     For循环是把BR_Brokerreward的会员ID和已付佣金查询出来。
+     **/
+     for brokerReward in (select t.brokerid,t.paidamount from BR_brokerReward t where t.Occurdate = trunc(v_tradeDate) and t.moduleid=v_moduleId) loop
+        --查询出会员交易商ID
+        select firmid into v_brokerFirmID from BR_broker where brokerid = brokerReward.brokerid;
+
+        v_firstPayMoney := -brokerReward.paidamount;
+
+        --写流水将付给会员的佣金再收上来
+        v_ret:= fn_f_updatefunds(v_brokerFirmID,v_oprcode,v_firstPayMoney,null);
+     end loop;
+
+     --删除当日待付佣金记录支持重做结算
+     delete from BR_Brokerreward t where t.Occurdate = trunc(v_tradeDate) and moduleid = v_moduleId;
+
+     --根据会员ID汇总当日佣金明细佣金首款和尾款
+     for broker in (select t.brokerid,sum(t.firstpay) firstpay,sum(t.secondpay) secondpay from ipo_firmrewarddeail t
+                  where t.cleardate = trunc(v_tradeDate) group by t.brokerid) loop
+        --插入待付佣金
+        insert into BR_BrokerReward (BrokerID, moduleid, Occurdate, Amount, Paydate, Paidamount)
+               values (broker.brokerid,v_moduleId,trunc(v_tradeDate),broker.secondpay,trunc(v_paydate),broker.firstpay);
+        --查询出会员交易商ID
+        select firmid into v_brokerFirmID from BR_broker where brokerid = broker.brokerid;
+        --写流水付会员佣金首款
+        v_ret := fn_f_updatefunds(v_brokerFirmID,v_oprcode,broker.firstpay,null);
+    end loop;
+    --如果是自动付佣金，便将付款日<=当日且待付>0的佣金付给会员；更新会员待付佣金表
+    if (v_autopay = 'Y') then
+        for brokerReward in (select t.brokerid, t.amount, t.occurdate from BR_Brokerreward t where t.paydate <= trunc(v_tradeDate) and t.amount > 0 and t.moduleid=v_moduleId ) loop
+            select firmid into v_brokerFirmID from BR_broker where brokerid = brokerReward.brokerid;
+            v_ret := fn_f_updatefunds(v_brokerFirmID,v_oprcode,brokerReward.Amount,null);
+            update BR_Brokerreward m set m.amount= 0,m.paidamount = m.paidamount + brokerReward.Amount
+                where m.brokerid = brokerReward.Brokerid and m.occurdate = brokerReward.Occurdate and m.moduleid=v_moduleId;
+        end loop;
+   end if;
+
+return 1;
+end;
+/
+
+prompt
+prompt Creating function FN_IPO_FIRMREWARDDEAIL
+prompt ========================================
+prompt
+create or replace function FN_ipo_FirmRewardDeail(p_tradeDate Date)
+  return number is
+  /**
+  * 从历史成交中生成佣金明细
+  **/
+  v_firstpayrate  number(6, 4);--提成首付比例
+  v_secondpayrate number(6, 4);--提成尾款比例
+  v_rewardrate    number(6, 4);--手续费佣金比例
+  v_firstPay      number(15, 2);--提成首付金额
+  v_secondPay     number(15, 2);--提成尾款金额
+  v_reward        number(15, 2);--会员实得手续费：会员加收部分手续费+交易手续费中会员所得分成
+  v_feestandard   number(15, 2);--商品固定手续费
+  v_rewardRemainder number(15, 2);--会员加收部分手续费
+  v_brokerEachDivide number(15, 2);--交易手续费中会员所得分成
+  v_marketReward  number(15, 2);--市场所得
+
+begin
+
+
+  for firmRewardDeail in (
+           
+   select a.id,a.BUSINESS_TYPE,a.CHARGE_TYPE,a.COMMODITY_ID,a.PAYER,a.AMOUNT,
+          a.commodityname,a.goods_COMMODITY_ID,a.breedid,a.breedname,
+          b.firmid, b.brokerid, b.brokername
+          from (
+                select d.id,d.BUSINESS_TYPE,d.CHARGE_TYPE,d.COMMODITY_ID,d.PAYER,d.AMOUNT,cof.commodityname,
+                cof.mapperid as goods_COMMODITY_ID,cof.breedid,
+                br.breedname
+                from ipo_debitflow d
+                left join ipo_commodity_conf cof on (d.commodity_id=cof.commodityid)
+                left join ipo_breed br on (cof.breedid=br.breedid)
+                where d.BUY_BACK_FLAG=0 and d.DEBIT_MODE=1 and d.DEBIT_STATE=2
+                and trunc(d.DEBIT_DATE)=trunc(sysdate)
+              ) a ,(
+                  select fb.firmid,fb.brokerid,mb.name as brokername from BR_firmandbroker fb
+                  join BR_broker mb on (fb.brokerid=mb.brokerid)
+              ) b
+          where a.PAYER=b.firmid
+    ) loop
+
+
+    --从会员佣金设置表获得手续费佣金比例、提成首付比例、提成尾款比例
+      select rewardrate, firstpayrate, secondpayrate
+      into v_rewardrate, v_firstpayrate, v_secondpayrate
+      from (select t.rewardrate,
+                   t.firstpayrate,
+                   t.secondpayrate
+              from BR_brokerrewardprops t
+             where (t.commodityId = firmRewardDeail.goods_COMMODITY_ID or t.commodityId = '-1')
+               and (t.brokerid = firmRewardDeail.brokerid or t.brokerid = '-1')
+               and(t.moduleid = '40' or t.moduleid = '-1')
+               and(t.rewardType=0 or t.rewardType=-1 )
+             order by t.brokerid desc, t.commodityId desc, t.moduleid ,t.rewardType desc)
+     where rownum = 1;
+
+    --市场固定手续费
+    v_feestandard:=firmRewardDeail.AMOUNT;
+    --会员加收部分手续费
+    v_rewardRemainder:=0;
+    --交易手续费中会员所得分成
+    v_brokerEachDivide:=v_feestandard*v_rewardrate;
+    --市场所得
+    v_marketReward:= v_feestandard-v_brokerEachDivide;
+    --会员实得手续费
+    v_reward:=v_rewardRemainder+v_feestandard*v_rewardrate;
+
+    --提成首付金额
+    v_firstPay:=v_reward*v_firstpayrate;
+    --提成尾款比例
+    v_secondPay := v_reward-v_firstPay;
+
+   -- 保存记录
+   insert into ipo_firmrewarddeail
+     (firmid, commodityid, cleardate, brokerid, brokername,
+      firstpay, secondpay, reward,TRADEMONEY,
+      marketreward, brokereachdivide, commodityname, breedid, breedname,
+      business_type, charge_type, id)
+   values
+     (firmRewardDeail.firmId, firmRewardDeail.COMMODITY_ID, trunc(p_tradeDate), firmRewardDeail.brokerId, firmRewardDeail.brokername,
+      v_firstPay, v_secondPay, v_reward,firmRewardDeail.Amount,
+      v_marketReward, v_brokerEachDivide, firmRewardDeail.commodityname, firmRewardDeail.breedid, firmRewardDeail.breedname,
+      firmRewardDeail.BUSINESS_TYPE, firmRewardDeail.CHARGE_TYPE, seq_ipo_firmrewarddeail.nextval);
+
+  end loop;
+  return 1;
+end;
+/
 
 
 spool off
