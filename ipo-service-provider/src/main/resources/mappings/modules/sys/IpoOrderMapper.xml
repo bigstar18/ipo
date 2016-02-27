@@ -392,5 +392,6 @@
     where USERID = #{userid,jdbcType=VARCHAR}
     and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
   </update>
-  
+
+   
 </mapper>
