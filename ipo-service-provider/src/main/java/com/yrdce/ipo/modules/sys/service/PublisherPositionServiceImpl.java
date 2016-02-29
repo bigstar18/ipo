@@ -325,12 +325,11 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		positionFlow.setCommodityId(example.getCommodityid());
 		positionFlow.setFirmId(ipoSpoRationMapper.firmidBySales(example
 				.getPublisherid()));
-
 		positionFlow.setHoldqty(example.getPubposition());
-		positionFlow.setPrice(new BigDecimal(0));// TODO 需要核实
+		positionFlow.setPrice(commconfmapper.findIpoCommConfByCommid(
+				example.getCommodityid()).getPrice());// TODO 需要核实
 		positionFlow.setFrozenqty(example.getPubposition());
-		positionFlow.setCreateUser(example.getUpdater());// 需要核实
-
+		positionFlow.setCreateUser(example.getUpdater());
 		positionFlow.setCreateDate(new Date());
 		positionFlow.setRemark("发行商转持仓");
 		positionFlow.setBusinessCode(ChargeConstant.BusinessType.PUBLISH

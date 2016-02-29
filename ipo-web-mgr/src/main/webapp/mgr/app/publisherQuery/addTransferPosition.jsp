@@ -164,15 +164,15 @@ function getPosition(){
 	        	<td>
 	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
 	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
-	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
-	        	</td>
-	        </tr>  
-	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
 	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
+	        	</td>
+	        </tr>  
+	         <tr>
+	            <td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
+	        	<td>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
