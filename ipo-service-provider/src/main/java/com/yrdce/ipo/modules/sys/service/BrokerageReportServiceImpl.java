@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
@@ -21,14 +23,18 @@ import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
 import com.yrdce.ipo.modules.sys.entity.IpoBroker;
+import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoFirmrewarddeail;
 import com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Brokers;
+import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
@@ -59,6 +65,8 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	private IpoFirmrewarddeailMapper FirmrewarddeailMapper;
 	@Autowired
 	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
+	@Autowired
+	private IpoDebitFlowMapper IpoDebitFlowMapper;
 
 	@Override
 	public List<VBrBroker> getBroker() {
@@ -67,7 +75,9 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<VBrBroker> list = new ArrayList<VBrBroker>();
 		for (BrBroker ipoBroker : brokersList) {
 			VBrBroker vBrBroker = new VBrBroker();
-			BeanUtils.copyProperties(ipoBroker, vBrBroker);
+			if (ipoBroker != null) {
+				BeanUtils.copyProperties(ipoBroker, vBrBroker);
+			}
 			list.add(vBrBroker);
 		}
 		return list;
@@ -80,7 +90,9 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<IpoBilloflading> list1 = ipoBillofladingMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoBilloflading ipoBilloflading : list1) {
 			Billoflading billoflading = new Billoflading();
-			BeanUtils.copyProperties(ipoBilloflading, billoflading);
+			if (ipoBilloflading != null) {
+				BeanUtils.copyProperties(ipoBilloflading, billoflading);
+			}
 			list2.add(billoflading);
 		}
 		return list2;
@@ -93,7 +105,9 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<IpoDelivery> list1 = ipoDeliveryMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoDelivery ipoDelivery : list1) {
 			Delivery delivery = new Delivery();
-			BeanUtils.copyProperties(ipoDelivery, delivery);
+			if (ipoDelivery != null) {
+				BeanUtils.copyProperties(ipoDelivery, delivery);
+			}
 			list2.add(delivery);
 		}
 		return list2;
@@ -106,7 +120,9 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<IpoHoldcommodity> list1 = holdcommodityMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoHoldcommodity ipoHoldcommodity : list1) {
 			Holdcommodity holdcommodity = new Holdcommodity();
-			BeanUtils.copyProperties(ipoHoldcommodity, holdcommodity);
+			if (ipoHoldcommodity != null) {
+				BeanUtils.copyProperties(ipoHoldcommodity, holdcommodity);
+			}
 			list2.add(holdcommodity);
 		}
 		return list2;
@@ -119,7 +135,9 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<IpoReleasesubscription> list1 = ReleasesubscriptionMapper.selectByFirmidAndTime(brokerid, time);
 		for (IpoReleasesubscription ipoReleasesubscription : list1) {
 			Releasesubscription releasesubscription = new Releasesubscription();
-			BeanUtils.copyProperties(ipoReleasesubscription, releasesubscription);
+			if (ipoReleasesubscription != null) {
+				BeanUtils.copyProperties(ipoReleasesubscription, releasesubscription);
+			}
 			list2.add(releasesubscription);
 		}
 		return list2;
@@ -233,6 +251,32 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	@Override
 	public String getFirmName(String firmid) {
 		return ipoDeliveryorderMapper.selectByFrim(firmid);
+	}
+
+	public List<DebitFlow> getDebitFlow(String date, String brokerid, String business, String charge) {
+		IpoDebitFlow ipoDebitFlow = new IpoDebitFlow();
+		ipoDebitFlow.setBusinessType(business);
+		ipoDebitFlow.setChargeType(charge);
+		ipoDebitFlow.setDebitDate(new Date(date));
+		List<IpoDebitFlow> list = IpoDebitFlowMapper.findInfo(ipoDebitFlow);
+		List<DebitFlow> list2 = new ArrayList<DebitFlow>();
+		if (list != null && list.size() != 0) {
+			for (IpoDebitFlow ipoDebitFlow1 : list) {
+				DebitFlow debitFlow = new DebitFlow();
+				BeanUtils.copyProperties(ipoDebitFlow1, debitFlow);
+				list2.add(debitFlow);
+			}
+		}
+		return list2;
+	}
+
+	public DeliveryOrder getOrder(String deliveryorderId) {
+		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderId);
+		DeliveryOrder deliveryOrder = new DeliveryOrder();
+		if (ipoDeliveryorder != null) {
+			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
+		}
+		return deliveryOrder;
 	}
 
 }

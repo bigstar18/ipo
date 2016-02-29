@@ -73,8 +73,10 @@
     from IPO_FIRMREWARDDEAIL
   </select>
 
-  <select id="findByFirmidAndType" resultType="java.math.BigDecimal" parameterType="map">
-  	select sum(t.reward) from ipo_firmrewarddeail t where t.firmid = #{firmid,jdbcType=VARCHAR} 
+  <select id="findByFirmidAndType" resultMap="BaseResultMap" parameterType="map">
+  	select  ID, FIRMID, COMMODITYID, CLEARDATE, BROKERID, BROKERNAME, FIRSTPAY, SECONDPAY, 
+    REWARD, MARKETREWARD, BROKEREACHDIVIDE, COMMODITYNAME, BREEDID, BREEDNAME, BUSINESS_TYPE, 
+    CHARGE_TYPE from ipo_firmrewarddeail t where t.firmid = #{firmid,jdbcType=VARCHAR} 
   	and t.charge_type = #{chargeType,jdbcType=VARCHAR} 
   	and t.business_type = #{businessType,jdbcType=VARCHAR}
   	and to_char(t.cleardate, 'yyyy-mm-dd') between #{startdate,jdbcType=VARCHAR} 

@@ -204,7 +204,7 @@
                    and DELIVERY_METHOD = '自提'
         
                    <![CDATA[
-                   and d.approval_status < 6
+                   and d.approval_status in ('001','002001')
                    ]]>
                    ) t) c
  	where c.TNO between #{beginnum} and #{endnum}

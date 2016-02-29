@@ -37,7 +37,10 @@
 		  var brokerid = $("#firm").val();
 		  if(time == "" || time == null){
 			  alert("请选择查询时间");
-		  }else{
+		  }else if(time > endtime){
+			  alert("结束日期大于起始日期");
+		  }
+		  else{
 			  var iWidth = 1000; //弹出窗口的宽度;
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
