@@ -43,8 +43,8 @@ public interface TCustomerholdsumMapper {
 	 */
 	List<TCustomerholdsum> selectHQT(String firmid);
 
-	int selectByCommId(List<IpoOrder> ipoOrders);
+	long selectByCommId(List<IpoOrder> ipoOrders);
 
-	int selectFirmHold(String firmid);
+	long selectFirmHold(String firmid);
 
 }

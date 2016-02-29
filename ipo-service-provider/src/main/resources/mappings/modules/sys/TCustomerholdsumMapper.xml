@@ -87,18 +87,19 @@
    and p.bs_flag = '1'
    group by p.commodityid,p.HOLDQTY
   </select>
-  <select id="selectByCommId" resultType="Integer">
-  	select sum(HOLDQTY) from T_CUSTOMERHOLDSUM
+  <select id="selectByCommId" resultType="java.lang.Long" parameterType="list" >
+  	select nvl(sum(HOLDQTY),0) from T_CUSTOMERHOLDSUM
   	where
-  	COMMODITYID= #{commodityid,jdbcType=VARCHAR}
-  	and FIRMID in
-  	<foreach collection="list" item="userid" index="index" separator=",">
-  	#{userid}
+  	COMMODITYID= #{list[0].commodityid,jdbcType=VARCHAR}
+  	and
+  	FIRMID in
+  	<foreach collection="list" item="item" index="" separator="," open="(" close=")">
+  	#{item.userid}
   	</foreach>
   </select>
   
-  <select id="selectFirmHold" resultType="Integer" parameterType="String">
-  	select sum(HOLDQTY) from T_CUSTOMERHOLDSUM
+  <select id="selectFirmHold" resultType="java.lang.Long" parameterType="String">
+  	select nvl(sum(HOLDQTY),0) from T_CUSTOMERHOLDSUM
   	where
   	FIRMID= #{firmid,jdbcType=VARCHAR}
   </select>

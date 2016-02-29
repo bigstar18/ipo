@@ -22,8 +22,8 @@ public class CommodityDistribution {
 	// 构造初始化赋值
 	public CommodityDistribution(int alldistNum, double distPositionRatio, double distCapitalRatio) {
 		this.alldistNum = alldistNum;
-		this.distPositionRatio = distPositionRatio;
-		this.distCapitalRatio = distCapitalRatio;
+		this.distPositionRatio = distPositionRatio / 100;
+		this.distCapitalRatio = distCapitalRatio / 100;
 	}
 
 	// 初次分配主函数
@@ -46,7 +46,7 @@ public class CommodityDistribution {
 			this.alldistNum = 0;
 			return;
 		}
-		if (result > firmDistInfo.getMaxdistNum()) {
+		if (result > firmDistInfo.getMaxdistNum() && firmDistInfo.getMaxdistNum() != 0) {
 			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
 			this.alldistNum -= firmDistInfo.getMaxdistNum();
 		} else {
@@ -68,7 +68,7 @@ public class CommodityDistribution {
 			this.alldistNum = 0;
 			return;
 		}
-		if (result > firmDistInfo.getMaxdistNum()) {
+		if (result > firmDistInfo.getMaxdistNum() && firmDistInfo.getMaxdistNum() != 0) {
 			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
 			this.alldistNum -= firmDistInfo.getMaxdistNum();
 		} else {

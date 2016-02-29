@@ -93,6 +93,11 @@
 		<include refid="Base_Column_List" />
 		from IPO_COMMODITY_CONF order by COMMODITYID
 	</select>
+	<select id="selectCommInfoByStatus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IPO_COMMODITY_CONF order by COMMODITYID
+	</select>
 	<select id="countByBreedid" parameterType="Long" resultType="java.lang.Integer">
 		select count(*) from IPO_COMMODITY_CONF where BREEDID = #{breedid}
 	</select>
