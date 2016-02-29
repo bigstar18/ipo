@@ -87,4 +87,20 @@
    and p.bs_flag = '1'
    group by p.commodityid,p.HOLDQTY
   </select>
+  <select id="selectByCommId" resultType="Integer">
+  	select sum(HOLDQTY) from T_CUSTOMERHOLDSUM
+  	where
+  	COMMODITYID= #{commodityid,jdbcType=VARCHAR}
+  	and FIRMID in
+  	<foreach collection="list" item="userid" index="index" separator=",">
+  	#{userid}
+  	</foreach>
+  </select>
+  
+  <select id="selectFirmHold" resultType="Integer" parameterType="String">
+  	select sum(HOLDQTY) from T_CUSTOMERHOLDSUM
+  	where
+  	FIRMID= #{firmid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

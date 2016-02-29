@@ -27,9 +27,10 @@ public class CommodityDistribution {
 	}
 
 	// 初次分配主函数
-	public void distributionMain(FirmDistInfo firmDistInfo) {
+	public FirmDistInfo distributionMain(FirmDistInfo firmDistInfo) {
 		disCommodityByPosition(firmDistInfo);
 		disCommodityByCapital(firmDistInfo);
+		return firmDistInfo;
 	}
 
 	// 按持仓比例分配数量
@@ -78,7 +79,7 @@ public class CommodityDistribution {
 	}
 
 	// 随机分配数量（再次分配）
-	public void disCommodityByRandom(FirmDistInfo firmDistInfo) {
+	public FirmDistInfo disCommodityByRandom(FirmDistInfo firmDistInfo) {
 		if (this.alldistNum != 0) {
 			Random random = new Random();
 			int result = random.nextInt(this.alldistNum);
@@ -86,5 +87,6 @@ public class CommodityDistribution {
 			firmDistInfo.setDistNum(tempDistNum);
 			this.alldistNum -= result;
 		}
+		return firmDistInfo;
 	}
 }

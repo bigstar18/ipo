@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
+import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 
 /**
@@ -41,5 +42,9 @@ public interface TCustomerholdsumMapper {
 	 * @return 参数说明
 	 */
 	List<TCustomerholdsum> selectHQT(String firmid);
+
+	int selectByCommId(List<IpoOrder> ipoOrders);
+
+	int selectFirmHold(String firmid);
 
 }
