@@ -170,6 +170,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	}
 
 	// 申请共用部分方法
+	@Transactional
 	private IpoDeliveryorder applicationMethod(DeliveryOrder deliveryOrder, String id) {
 		// 提货单表
 		IpoDeliveryorder ipoDeliveryorder = new IpoDeliveryorder();
@@ -193,6 +194,21 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String firmid = deliveryOrder.getDealerId() + "00";
 		String commid = deliveryOrder.getCommodityId();
 		customerHoldSumService.freezeCustomerHold(quatity, firmid, commid, (short) 1);
+
+		//注册费
+		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
+		BigDecimal registfeeradio = commodityConf.getRegistfeeradio();
+		BigDecimal valparam = registfeeradio.divide(new BigDecimal("100"));
+		BigDecimal price = commodityConf.getPrice();
+		BigDecimal quatityParam = new BigDecimal(quatity);
+		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
+		IpoDeliveryCost ipoDeliveryCost = new IpoDeliveryCost();
+		ipoDeliveryCost.setDeliveryId(primaryKey);
+		ipoDeliveryCost.setDeliveryMethod(deliveryOrder.getDeliveryMethod());
+		ipoDeliveryCost.setApplyDate(new Date());
+		ipoDeliveryCost.setRegistrationFee(fee);
+		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
+
 		/*long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId();
 		String commid = deliveryOrder.getCommodityId();
@@ -334,6 +350,20 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
 			deliveryorderservice.unfrozenStock(deliveryOrder);
 		}
+
+		//注销费
+		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
+		BigDecimal cancelfeeradio = commodityConf.getCancelfeeradio();
+		BigDecimal valparam = cancelfeeradio.divide(new BigDecimal("100"));
+		BigDecimal price = commodityConf.getPrice();
+		BigDecimal quatityParam = new BigDecimal(quatity);
+		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
+		IpoDeliveryCost ipoDeliveryCost = new IpoDeliveryCost();
+		ipoDeliveryCost.setDeliveryId(deliveryorderid);
+		ipoDeliveryCost.setDeliveryMethod(ipoDeliveryorder.getDeliveryMethod());
+		ipoDeliveryCost.setApplyDate(new Date());
+		ipoDeliveryCost.setRegistrationFee(fee);
+		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
 		return "success";
 	}
 

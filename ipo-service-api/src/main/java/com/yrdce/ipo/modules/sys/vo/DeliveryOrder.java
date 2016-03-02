@@ -20,52 +20,53 @@ public class DeliveryOrder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String deliveryorderId;
+	private String deliveryorderId;//提货单号
 
-	private String commodityId;
+	private String commodityId;//商品
 
-	private String commodityName;
+	private String commodityName;//商品名称
 
-	private String dealerId;
+	private String dealerId;//交易商id
 
-	private String dealerName;
+	private String dealerName;//交易商名称
 
-	private String warehouseId;
+	private String warehouseId;//仓库id
 
-	private String warehouseName;
+	private String warehouseName;//仓库名称
 
-	private Long deliveryQuatity;
+	private Long deliveryQuatity;//交割数量
 
-	private Long deliveryCounts;
+	private Long deliveryCounts;//交割件数
 
-	private String deliveryMethod;
+	private String deliveryMethod;//提货方式
 
-	private String methodId;
+	private String methodId;//关联提货方式id
 
-	private String unit;
+	private String unit;//单位
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date deliveryDate;
+	private Date deliveryDate;//提货日期
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date applyDate;
+	private Date applyDate;//申请日期
 
 	private String approvalStatus;// (1、申请 2、市场通过 3、市场驳回 4、已打印 5、已过户 6、仓库通过
 									// 7、仓库驳回 8、已设置配置费用 9、已确认 10.已废除 11、已出库
 									// ) 改为枚举类型 参照DeliveryConstant
 
-	private String approvers;
+	private String approvers;//审批人
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date approveDate;
+	private Date approveDate;//审批日期
 
-	private String canceler;
+	private String canceler;//撤销人
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date cancelDate;
+	private Date cancelDate;//撤销日期
 
-	private Long position;
+	private Long position;//持仓量
 
-	private String remarks;
+	private String remarks;//备注
 
 	private String pickupPassword;
 
@@ -147,8 +148,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setCommodityName(String commodityName) {
-		this.commodityName = commodityName == null ? null : commodityName
-				.trim();
+		this.commodityName = commodityName == null ? null : commodityName.trim();
 	}
 
 	public String getDealerId() {
@@ -180,8 +180,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName == null ? null : warehouseName
-				.trim();
+		this.warehouseName = warehouseName == null ? null : warehouseName.trim();
 	}
 
 	public Long getDeliveryQuatity() {
@@ -205,8 +204,7 @@ public class DeliveryOrder implements Serializable {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
-				.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
 	}
 
 	public String getMethodId() {
@@ -307,19 +305,14 @@ public class DeliveryOrder implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DeliveryOrder [deliveryorderId=" + deliveryorderId
-				+ ", commodityId=" + commodityId + ", commodityName="
-				+ commodityName + ", dealerId=" + dealerId + ", dealerName="
-				+ dealerName + ", warehouseId=" + warehouseId
-				+ ", warehouseName=" + warehouseName + ", deliveryQuatity="
-				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts
-				+ ", deliveryMethod=" + deliveryMethod + ", methodId="
-				+ methodId + ", unit=" + unit + ", deliveryDate="
-				+ deliveryDate + ", applyDate=" + applyDate
-				+ ", approvalStatus=" + approvalStatus + ", approvers="
-				+ approvers + ", approveDate=" + approveDate + ", canceler="
-				+ canceler + ", cancelDate=" + cancelDate + ", position="
-				+ position + ", remarks=" + remarks + "]";
+		return "DeliveryOrder [deliveryorderId=" + deliveryorderId + ", commodityId=" + commodityId
+				+ ", commodityName=" + commodityName + ", dealerId=" + dealerId + ", dealerName=" + dealerName
+				+ ", warehouseId=" + warehouseId + ", warehouseName=" + warehouseName + ", deliveryQuatity="
+				+ deliveryQuatity + ", deliveryCounts=" + deliveryCounts + ", deliveryMethod="
+				+ deliveryMethod + ", methodId=" + methodId + ", unit=" + unit + ", deliveryDate="
+				+ deliveryDate + ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus
+				+ ", approvers=" + approvers + ", approveDate=" + approveDate + ", canceler=" + canceler
+				+ ", cancelDate=" + cancelDate + ", position=" + position + ", remarks=" + remarks + "]";
 	}
 
 }
