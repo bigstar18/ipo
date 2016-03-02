@@ -318,7 +318,7 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 
 	@Override
 	public void insertPositionFlow(PublisherPosition example) {
-		// TODO 保存持仓信息(应保存各个业务记录的主键 )
+		// 保存持仓信息
 		PositionFlow positionFlow = new PositionFlow();
 		positionFlow.setState(PositionConstant.FlowState.no_turn_goods
 				.getCode());
@@ -326,11 +326,8 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 		positionFlow.setFirmId(ipoSpoRationMapper.firmidBySales(example
 				.getPublisherid()));
 		positionFlow.setHoldqty(example.getPubposition());
-		int scale = 2;// 保留2位小数
-		BigDecimal price = example.getTotalvalue().divide(
-				new BigDecimal(example.getTotalcounts()), scale,
-				BigDecimal.ROUND_HALF_UP);
-		positionFlow.setPrice(price);// 按照鉴定总值及入库数量计算成本价插入
+		positionFlow.setPrice(commconfmapper.findIpoCommConfByCommid(
+				example.getCommodityid()).getPrice());// TODO 需要核实
 		positionFlow.setFrozenqty(example.getPubposition());
 		positionFlow.setCreateUser(example.getUpdater());
 		positionFlow.setCreateDate(new Date());
@@ -339,26 +336,6 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 				.getCode());
 		positionFlow.setRoleCode(ChargeConstant.RoleType.PUBLISHER.getCode());
 		positionFlowMapper.insert(positionFlow);
+
 	}
-
-	public void updateTransferredStatus(Observable observable, Object obj) {
-		logger.info("监听转现货持仓消息内容为" + obj);
-		String json = (String) obj;
-		try {
-			PositionFlow positionFlow = (PositionFlow) JSON.parse(json,
-					PositionFlow.class);
-			if ((ChargeConstant.BusinessType.PUBLISH.getCode())
-					.equals(positionFlow.getBusinessCode())
-					&& (ChargeConstant.RoleType.PUBLISHER.getCode())
-							.equals(positionFlow.getRoleCode())
-					&& (PositionConstant.FlowState.turn_goods.getCode()) == positionFlow
-							.getState()) {
-
-			}
-		} catch (ParseException e) {
-			logger.error("监听财务结算消息内容json转换失败" + obj);
-			throw new RuntimeException(e);
-		}
-	}
-
 }

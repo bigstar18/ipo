@@ -19,28 +19,6 @@
 		<result column="remark" property="remark" />
 		
 	</resultMap>
-	
-	<resultMap id="PubPositionFlowResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoPubPositionFlow">
-		<result column="id" property="id" />
-		<result column="firmid" property="firmId" />
-		<result column="brokerid" property="publisherId" />
-		<result column="holdqty" property="holdqty" />
-		<result column="frozenqty" property="frozenqty" />
-		<result column="freeqty" property="freeqty" />
-		<result column="business_code" property="businessCode" />
-		<result column="role_code" property="roleCode" />
-		<result column="commodityid" property="commodityId" />
-		<result column="commodityname" property="commodityName" />
-		<result column="price" property="price" />
-		<result column="state" property="state" />
-		<result column="create_user" property="createUser" />
-		<result column="create_date" property="createDate" />
-		<result column="update_user" property="updateUser" />
-		<result column="update_date" property="updateDate" />
-		<result column="remark" property="remark" />
-	</resultMap>
-	
-	
 
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.vo.PositionFlow" >
@@ -97,9 +75,6 @@
 				<if test="param.businessCode!=null and param.businessCode!='' ">
 					 and pf.business_code=#{param.businessCode}
 				</if>
-				<if test="param.roleCode!=null and param.roleCode!='' ">
-					 and pf.role_code=#{param.roleCode}
-				</if>
 				<if test="param.firmId!=null and param.firmId!='' ">
 					 and pf.firmid=#{param.firmId}
 				</if>
@@ -121,9 +96,6 @@
 	 <if test="param.businessCode!=null and param.businessCode!='' ">
 		 and pf.business_code=#{param.businessCode}
 	 </if>
-	 <if test="param.roleCode!=null and param.roleCode!='' ">
-		and pf.role_code=#{param.roleCode}
-	 </if>
 	 <if test="param.firmId!=null and param.firmId!='' ">
 		 and pf.firmid=#{param.firmId}
 	 </if>
@@ -134,51 +106,6 @@
 		and  pf.state=#{param.state} 
 	 </if>
   </select>
-  
-  <select id="queryPubFlowForPage" resultMap="PubPositionFlowResultMap"  parameterType="map" >
-      select * from (select b.brokerid,c.commodityname, t.*, rownum TNO from ipo_positionflow t left join br_broker b on t.firmid = b.firmid
-      left join ipo_commodity_conf c on t.commodityid=c.commodityid
-      where 1=1 
-      <if test="param.businessCode!=null and param.businessCode!='' ">
-        and t.business_code = #{param.businessCode}
-      </if>
-      <if test="param.roleCode!=null and param.roleCode!='' ">
-        and t.role_code =#{param.roleCode}
-      </if>
-      <if test="param.commodityId!=null and param.commodityId!='' ">
-        and t.commodityid =#{param.commodityId}
-      </if>
-      <if test="param.state>0 ">
-        and t.state = #{param.state} 
-      </if>
-       <if test="param.publisherId!=null and param.publisherId!='' ">
-        and b.brokerid = #{param.publisherId} 
-       </if>
-      order by t.id)p where p.TNO between #{startIndex} and #{endIndex}  
-  </select>
-  
-   <select id="queryPubFlowForCount" resultType="java.lang.Long"  parameterType="map" >
-     select count(*) from ipo_positionflow t  left join br_broker b  on t.firmid = b.firmid  
-     where 1=1
-     <if test="param.businessCode!=null and param.businessCode!='' ">
-		 and t.business_code=#{param.businessCode}
-	 </if>
-	 <if test="param.roleCode!=null and param.roleCode!='' ">
-		and t.role_code=#{param.roleCode}
-	 </if>
-	 <if test="param.commodityId!=null and param.commodityId!='' ">
-		 and t.commodityid=#{param.commodityId}
-	 </if>
-	 <if test="param.state>0 ">
-		and  t.state=#{param.state} 
-	 </if>
-     <if test="param.publisherId!=null and param.publisherId!='' ">
-        and b.brokerid = #{param.publisherId} 
-       </if>
-  </select>
-  
-  
-  
 
   <update id="updateFreeqty"   parameterType="com.yrdce.ipo.modules.sys.vo.PositionFlow" >
      update ipo_positionflow t set 

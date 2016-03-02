@@ -20,17 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.yrdce.ipo.common.constant.ChargeConstant;
-import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
-import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
-import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PublisherSettle;
@@ -80,8 +76,6 @@ public class PublisherController {
 
 	@Autowired
 	private SpecialCounterFeeService specialCounterFeeService;
-	@Autowired
-	private PositionService positionService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -103,7 +97,7 @@ public class PublisherController {
 	public String findAllCommsByExample(@RequestParam("page") String page,
 			@RequestParam("rows") String rows, VIpoCommConf example)
 			throws IOException {
-		log.info("查询�?有商品列�?");
+		log.info("查询所有商品列表");
 		try {
 			List<VIpoCommConf> comlist = ipoCommConfService
 					.findIpoCommConfsByExample(page, rows, example);
@@ -160,7 +154,7 @@ public class PublisherController {
 	public String findPaymentTrack(@RequestParam("page") String page,
 			@RequestParam("rows") String rows, PubpaymentTrack example)
 			throws IOException {
-		log.info("查询发行商应付货款跟�?");
+		log.info("查询发行商应付货款跟踪");
 		try {
 			log.debug(example.toString());
 			List<PubpaymentTrack> paymentlist = paymenttrackservice
@@ -178,7 +172,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 跳转到货款跟踪录入视�?
+	 * 跳转到货款跟踪录入视图
 	 * 
 	 * @param
 	 * @return
@@ -193,7 +187,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 判断商品货款跟踪信息是否已存�?
+	 * 判断商品货款跟踪信息是否已存在
 	 * 
 	 * @param
 	 * @return
@@ -264,7 +258,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 发行会员转持�?
+	 * 发行会员转持仓
 	 * 
 	 * @param
 	 * @return
@@ -275,7 +269,7 @@ public class PublisherController {
 	public String transferPosition(@RequestParam("page") String page,
 			@RequestParam("rows") String rows, VIpoStorageExtended storage)
 			throws IOException {
-		log.info("分页查询转持仓信�?");
+		log.info("分页查询转持仓信息");
 		log.debug(storage.toString());
 		try {
 			storage.setStoragestate(4);
@@ -307,10 +301,7 @@ public class PublisherController {
 			throws IOException {
 		VIpoStorageExtended storage = ipoStorageService
 				.getStorageByStorageId(storageid);
-		BigDecimal contractor = ipoCommConfService.getVIpoCommConfByCommid(
-				storage.getCommodityid()).getContractfactor();
 		request.setAttribute("entity", storage);
-		request.setAttribute("contractor", contractor);
 		return "app/publisherQuery/addTransferPosition";
 	}
 
@@ -331,13 +322,13 @@ public class PublisherController {
 		long lcounts = Long.parseLong(counts);
 		long lsalecounts = Long.parseLong(salecounts);
 		if (lnum + lsalecounts > lcounts) {
-			return "false";// 发行量已�?
+			return "false";// 发行量已满
 		}
 		return "true";
 	}
 
 	/**
-	 * 新增转持仓信�?
+	 * 新增转持仓信息
 	 * 
 	 * @param
 	 * @return
@@ -374,36 +365,36 @@ public class PublisherController {
 				.getInfoByStorageId(storageid);
 		Specialcounterfee specialfee = publisherpositionService
 				.getSpecialCounterfee(record.getPublisherid(),
-						record.getCommodityid(), "3");// 获取交易商的特殊发行手续费比�?
+						record.getCommodityid(), "3");// 获取交易商的特殊发行手续费比例
 		VIpoCommConf commodity = ipoCommConfService
 				.getVIpoCommConfByCommid(record.getCommodityid());
-		BigDecimal totalValue = record.getTotalvalue();// 鉴定总�??
+		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
 		BigDecimal funds = new BigDecimal(record.getSalecounts())
 				.multiply(commodity.getPrice());// 货款
-		BigDecimal interest = new BigDecimal(0);// 发行手续�?
+		BigDecimal interest = new BigDecimal(0);// 发行手续费
 		if (specialfee != null) {
 			Short tradealgr = specialfee.getTradealgr();
 			BigDecimal ratio = specialfee.getCounterfee();
-			if (tradealgr == 1) {// 百分比算�?
+			if (tradealgr == 1) {// 百分比算法
 				interest = totalValue.multiply(ratio).divide(
 						new BigDecimal(100));
 			}
-			if (tradealgr == 2) {// 绝对值算�?
+			if (tradealgr == 2) {// 绝对值算法
 				interest = ratio;
 			}
 		} else {
-			Short publishalgr = commodity.getPublishalgr();// 发行手续费算�?
+			Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
 			BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
-			if (publishalgr == 1) {// 百分比算�?
+			if (publishalgr == 1) {// 百分比算法
 				interest = totalValue.multiply(ratio).divide(
 						new BigDecimal(100));
 			}
-			if (publishalgr == 2) {// 绝对值算�?
+			if (publishalgr == 2) {// 绝对值算法
 				interest = ratio;
 			}
 		}
 		String message = publisherpositionService.frozenFunds(
-				record.getPublisherid(), interest);// 冻结客户手续�?
+				record.getPublisherid(), interest);// 冻结客户手续费
 		if ("true".equals(message)) {
 			record.setStatus((short) 2);
 			record.setUpdatedate(new Date());
@@ -420,7 +411,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 转持�?
+	 * 转持仓
 	 * 
 	 * @param
 	 * @return
@@ -435,47 +426,14 @@ public class PublisherController {
 				.getInfoByStorageId(storageid);
 		record.setStatus((short) 4);
 		record.setUpdatedate(new Date());
+		// record.setUpdater("cj");
 		record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID());
 		return publisherpositionService.transferPosition(record);
 	}
 
 	/**
-	 * 减持设置查询
-	 * 
-	 * @param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/reduceHoldPosition", method = RequestMethod.POST)
-	@ResponseBody
-	public String reduceHoldPosition(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, PubPositionFlow example)
-			throws IOException {
-		log.info("查询发行商转持仓流水记录");
-		try {
-			example.setBusinessCode(ChargeConstant.BusinessType.PUBLISH
-					.getCode());
-			example.setRoleCode(ChargeConstant.RoleType.PUBLISHER.getCode());
-			example.setState(PositionConstant.FlowState.turn_goods.getCode());
-			long count = positionService.queryPubFlowForCount(example);
-			List<PubPositionFlow> dataList = new ArrayList<PubPositionFlow>();
-			if (count > 0) {
-				dataList = positionService.queryPubFlowForPage(page, rows,
-						example);
-			}
-			ResponseResult result = new ResponseResult();
-			result.setTotal(new Long(count).intValue());
-			result.setRows(dataList);
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
-	/**
-	 * 跳转到发行会员结算报表页�?
+	 * 跳转到发行会员结算报表页面
 	 * 
 	 * @param
 	 * @return
@@ -490,7 +448,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 结算报表子窗�?
+	 * 结算报表子窗口
 	 * 
 	 * @param
 	 * @return
@@ -529,7 +487,7 @@ public class PublisherController {
 	 */
 	public SettleResult getSettle(String publisherid, String queryDate) {
 		PublisherBalance balance = brBrokerService.findBalance(publisherid,
-				queryDate);// 上日和今日资金余�?
+				queryDate);// 上日和今日资金余额
 		// 获取货款和手续费
 		List<PublisherSettle> paylist = brBrokerService.findLoanAndHandling(
 				publisherid, queryDate);
@@ -540,6 +498,7 @@ public class PublisherController {
 			} else {
 				totalLoan = totalLoan.add(temp.getLoan());
 			}
+
 		}
 		SettleResult result = new SettleResult();
 		result.setBalance(balance);

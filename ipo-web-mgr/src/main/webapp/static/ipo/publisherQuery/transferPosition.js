@@ -72,7 +72,7 @@ $(document).ready(function() {
              formatter:function(value,row){
              	if(row.transferstate==1) return "<input type=\"button\" onclick=\"forzen('"+row.storageid+"')\" value=\"冻结\"/>";
              	if(row.transferstate==2) return "等待结算";
-             	if(row.transferstate==3) return "等待系统转持仓";
+             	if(row.transferstate==3) return "<input type=\"button\" onclick=\"transfer('"+row.storageid+"')\" value=\"转持仓\"/>";
              	if(row.transferstate==4) return "";
                 return "<input type=\"button\" onclick=\"setInfo('"+row.storageid+"')\" value=\"设置\"/>";
            }
