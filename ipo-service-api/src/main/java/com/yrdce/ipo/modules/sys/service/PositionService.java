@@ -65,6 +65,23 @@ public interface PositionService {
 	public List<PositionReduce> queryReduceForList(PositionReduce positionReduce);
 
 	/**
+	 * 分页查询减持仓设置
+	 * 
+	 * @param positionReduce
+	 * @return
+	 */
+	public List<PositionReduce> queryReduceForListByPage(String page,
+			String row, PositionReduce positionReduce);
+
+	/**
+	 * 查询减持仓设置记录数
+	 * 
+	 * @param positionReduce
+	 * @return
+	 */
+	public int queryReduceCount(PositionReduce positionReduce);
+
+	/**
 	 * 新增 减持仓设置
 	 * 
 	 * @param positionReduce

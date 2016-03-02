@@ -55,7 +55,38 @@
 			order by pr.create_date desc
   </select>
   
-
+   <select id="queryForPositionId" resultMap="PositionReduceResultMap"  parameterType="map" >
+     select * from(select t.*, rownum TNO from ipo_positionreduce t where t.delete_flag=0 
+     <if test="param.positionFlowId!=null and param.positionFlowId!='' ">
+		and t.positionflow_id=#{param.positionFlowId}
+	 </if>
+	 <if test="param.state>0">
+	    and t.state=#{param.state}
+	</if>
+	<if test="param.reduceDate!=null ">
+		and t.reduce_date=#{param.reduceDate}
+	</if>
+	<if test="param.commodityId!=null and param.commodityId!='' ">
+		and t.commodityid=#{param.commodityId}
+	</if>
+     )a  where a.TNO between #{beginnum} and #{endnum}
+  </select>
+  
+  <select id="quertReduceCount" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.vo.PositionReduce" >
+    select count(*) from ipo_positionreduce t where t.delete_flag=0 
+     <if test="param.positionFlowId!=null and param.positionFlowId!='' ">
+		and t.positionflow_id=#{param.positionFlowId}
+	 </if>
+	 <if test="param.state>0">
+	    and t.state=#{param.state}
+	</if>
+	<if test="param.reduceDate!=null ">
+		and t.reduce_date=#{param.reduceDate}
+	</if>
+	<if test="param.commodityId!=null and param.commodityId!='' ">
+		and t.commodityid=#{param.commodityId}
+	</if>
+  </select>
 
   <delete id="deleteById" parameterType="com.yrdce.ipo.modules.sys.vo.PositionReduce" >
       update ipo_positionreduce pr 

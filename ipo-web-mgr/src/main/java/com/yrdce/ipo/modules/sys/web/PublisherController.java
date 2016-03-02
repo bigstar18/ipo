@@ -30,6 +30,7 @@ import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
@@ -466,6 +467,55 @@ public class PublisherController {
 			}
 			ResponseResult result = new ResponseResult();
 			result.setTotal(new Long(count).intValue());
+			result.setRows(dataList);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 减持设置查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceSet", method = RequestMethod.GET)
+	public String reduceSet(@RequestParam("id") String id,
+			HttpServletRequest request) throws IOException {
+		log.info("跳转持仓单号对应的减持设置信息视图");
+		try {
+			request.setAttribute("id", id);
+			return "app/publisherQuery/reduceSet";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 减持设置分页查询列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceSetList", method = RequestMethod.GET)
+	@ResponseBody
+	public String reduceSetList(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, @RequestParam("id") String id)
+			throws IOException {
+		log.info("查询持仓单号对应的减持设置列表");
+		try {
+			PositionReduce positionReduce = new PositionReduce();
+			positionReduce.setPositionFlowId(Long.valueOf(id));
+			List<PositionReduce> dataList = new ArrayList<PositionReduce>();
+			dataList = positionService.queryReduceForListByPage(page, rows,
+					positionReduce);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(positionService.queryReduceCount(positionReduce));
 			result.setRows(dataList);
 			return JSON.json(result);
 		} catch (Exception e) {

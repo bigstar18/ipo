@@ -6,9 +6,9 @@
 <script  type="text/javascript">
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-        title:'持仓信息',  
+        title:'减持设置',  
         iconCls:'icon-ok', 
-        method:"post",
+        method:"get",
         height:400,
         pageSize:10,  
         pageList:[5,10,15],  
@@ -17,20 +17,15 @@ $(document).ready(function() {
         nowrap:true,  
         striped:true,  
         collapsible:false,  
-        url:  getRootPath () + "/PublisherController/reduceHoldPosition" ,  
+        url:  getRootPath () + "/PublisherController/reduceSetList?id="+100001+"&&randnum="+Math.floor(Math.random()*1000000) ,  
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
         columns : [ [  {
-       	 field : 'id',  
+       	 field : 'positionFlowId',  
             width : 200,  
             align: "center",
             title : '持仓单号'
-           },  {
-       	 field : 'publisherId',  
-            width : 200,  
-            align: "center",
-            title : '发行会员编号'
-           }, {
+           },{
        	 field : 'firmId',  
             width : 200,  
             align: "center",
@@ -41,26 +36,29 @@ $(document).ready(function() {
             align: "center",
             title : '商品代码'
         } ,{
-       	 field : 'commodityName',  
+       	 field : 'reduceDate',  
             width : 200,  
             align: "center",
-            title : '商品名称'
+            title : '减持日期',
+            formatter: function(value) {
+            	   return value.substr(1,10);
+                     } 
         } ,{
-       	 field : 'holdqty',  
+       	 field : 'ratio',  
             width : 200,  
             align: "center",
-            title : '转持仓数量'
+            title : '减持比例'
         } ,{
-       	 field : 'frozenqty',  
+       	 field : 'reduceqty',  
             width : 200,  
             align: "center",
-            title : '冻结数量'
+            title : '减持数量'
         } ,{
-       	 field : 'freeqty',  
-            width : 200,  
-            align: "center",
-            title : '释放数量'
-        } ,{
+          	 field : 'stateName',  
+             width : 200,  
+             align: "center",
+             title : '状态'
+         } ,{
            field: 'oper',
            title: '操作',
            align: 'center',
@@ -79,23 +77,6 @@ $(document).ready(function() {
 	    }); 
 });
 	
-function doSearch(){
-	$('#dg').datagrid('load',{
-		publisherId:$("#publisherid").val(),
-		commodityId:$("#commodityid").val()
-	});
-}
-
-
-function clearInfo(){
-	$("#publisherid").val("");
-	$("#commodityid").val("");
-}
-
-function add(id){
-	document.location.href= '<%=request.getContextPath()%>/PublisherController/reduceSet?id='+id+'&&randnum='+Math.floor(Math.random()*1000000);
-}
-
 </script>
 </head>
 <body>
@@ -110,6 +91,7 @@ function add(id){
 					 <div>
 						发行会员编号：<input type="text" id="publisherid" name="publisherid" />
 						商品代码：<input type="text" id="commodityid" name="commodityid" />
+						<input type="hidden" id="positionFlowId" name="positionFlowId" value="${id }"/>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
 					</div>
@@ -119,6 +101,7 @@ function add(id){
 		</tr>
 	</table>
 </div>
+
 </body>
 
 </html>

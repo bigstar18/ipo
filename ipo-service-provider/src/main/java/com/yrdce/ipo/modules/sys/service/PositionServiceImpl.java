@@ -152,6 +152,29 @@ public class PositionServiceImpl implements PositionService {
 	}
 
 	/**
+	 * 分页查询减持仓设置
+	 * 
+	 * @param positionReduce
+	 * @return
+	 */
+	public List<PositionReduce> queryReduceForListByPage(String page,
+			String row, PositionReduce positionReduce) {
+		int startIndex = PageUtil.getStartIndex(page, row);
+		int endIndex = PageUtil.getEndIndex(page, row);
+		List<IpoPositionReduce> dbList = positionReduceMapper
+				.queryForPositionId(startIndex, endIndex, positionReduce);
+		List<PositionReduce> dataList = new ArrayList<PositionReduce>();
+		for (IpoPositionReduce item : dbList) {
+			PositionReduce entity = new PositionReduce();
+			BeanUtils.copyProperties(item, entity);
+			entity.setStateName(PositionConstant.ReduceState.getName(entity
+					.getState()));
+			dataList.add(entity);
+		}
+		return dataList;
+	}
+
+	/**
 	 * 新增 减持仓设置
 	 * 
 	 * @param positionReduce
@@ -269,6 +292,11 @@ public class PositionServiceImpl implements PositionService {
 	public long queryPubFlowForCount(PubPositionFlow positionFlow) {
 		long count = positionFlowMapper.queryPubFlowForCount(positionFlow);
 		return count;
+	}
+
+	@Override
+	public int queryReduceCount(PositionReduce positionReduce) {
+		return positionReduceMapper.quertReduceCount(positionReduce);
 	}
 
 }
