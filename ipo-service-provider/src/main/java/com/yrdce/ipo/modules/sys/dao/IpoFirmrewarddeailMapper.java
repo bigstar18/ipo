@@ -55,7 +55,7 @@ public interface IpoFirmrewarddeailMapper {
 	 *            费用类型
 	 * @return 参数说明
 	 */
-	IpoFirmrewarddeail findDisAndDea(@Param("date") String date, @Param("firmid") String firmid,
+	List<IpoFirmrewarddeail> findDisAndDea(@Param("date") String date, @Param("firmid") String firmid,
 			@Param("business") String business, @Param("charge") String charge);
 
 }

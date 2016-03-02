@@ -4,153 +4,183 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoFirmrewarddeail {
-    private String firmid;
+	private String firmid;//交易商id
 
-    private String commodityid;
+	private String commodityid;//商品id
 
-    private Date cleardate;
+	private Date cleardate;//清算日期
 
-    private String brokerid;
+	private String brokerid;//加盟商id
 
-    private String brokername;
+	private String brokername;//加盟商名称
 
-    private BigDecimal firstpay;
+	private BigDecimal firstpay;//首款
 
-    private BigDecimal secondpay;
+	private BigDecimal secondpay;//尾款
 
-    private BigDecimal reward;
+	private BigDecimal reward;//加盟商实得手续费
 
-    private BigDecimal marketreward;
+	private BigDecimal marketreward;//交易所实得手续费
 
-    private BigDecimal brokereachdivide;
+	private BigDecimal brokereachdivide;//交易手续费中加盟商手续费分成
 
-    private String commodityname;
+	private String commodityname;//商品名称
 
-    private Long breedid;
+	private Long breedid;//品种编码
 
-    private String breedname;
+	private String breedname;//品种名称
 
-    private String businessType;
+	private String businessType;//业务类型
 
-    private String chargeType;
+	private String chargeType;//费用类型
 
-    public String getFirmid() {
-        return firmid;
-    }
+	private long id;//主键
 
-    public void setFirmid(String firmid) {
-        this.firmid = firmid == null ? null : firmid.trim();
-    }
+	private BigDecimal trademoney;//交易额
 
-    public String getCommodityid() {
-        return commodityid;
-    }
+	private String orderId;//订单主键
 
-    public void setCommodityid(String commodityid) {
-        this.commodityid = commodityid == null ? null : commodityid.trim();
-    }
+	public String getFirmid() {
+		return firmid;
+	}
 
-    public Date getCleardate() {
-        return cleardate;
-    }
+	public void setFirmid(String firmid) {
+		this.firmid = firmid == null ? null : firmid.trim();
+	}
 
-    public void setCleardate(Date cleardate) {
-        this.cleardate = cleardate;
-    }
+	public String getCommodityid() {
+		return commodityid;
+	}
 
-    public String getBrokerid() {
-        return brokerid;
-    }
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid == null ? null : commodityid.trim();
+	}
 
-    public void setBrokerid(String brokerid) {
-        this.brokerid = brokerid == null ? null : brokerid.trim();
-    }
+	public Date getCleardate() {
+		return cleardate;
+	}
 
-    public String getBrokername() {
-        return brokername;
-    }
+	public void setCleardate(Date cleardate) {
+		this.cleardate = cleardate;
+	}
 
-    public void setBrokername(String brokername) {
-        this.brokername = brokername == null ? null : brokername.trim();
-    }
+	public String getBrokerid() {
+		return brokerid;
+	}
 
-    public BigDecimal getFirstpay() {
-        return firstpay;
-    }
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid == null ? null : brokerid.trim();
+	}
 
-    public void setFirstpay(BigDecimal firstpay) {
-        this.firstpay = firstpay;
-    }
+	public String getBrokername() {
+		return brokername;
+	}
 
-    public BigDecimal getSecondpay() {
-        return secondpay;
-    }
+	public void setBrokername(String brokername) {
+		this.brokername = brokername == null ? null : brokername.trim();
+	}
 
-    public void setSecondpay(BigDecimal secondpay) {
-        this.secondpay = secondpay;
-    }
+	public BigDecimal getFirstpay() {
+		return firstpay;
+	}
 
-    public BigDecimal getReward() {
-        return reward;
-    }
+	public void setFirstpay(BigDecimal firstpay) {
+		this.firstpay = firstpay;
+	}
 
-    public void setReward(BigDecimal reward) {
-        this.reward = reward;
-    }
+	public BigDecimal getSecondpay() {
+		return secondpay;
+	}
 
-    public BigDecimal getMarketreward() {
-        return marketreward;
-    }
+	public void setSecondpay(BigDecimal secondpay) {
+		this.secondpay = secondpay;
+	}
 
-    public void setMarketreward(BigDecimal marketreward) {
-        this.marketreward = marketreward;
-    }
+	public BigDecimal getReward() {
+		return reward;
+	}
 
-    public BigDecimal getBrokereachdivide() {
-        return brokereachdivide;
-    }
+	public void setReward(BigDecimal reward) {
+		this.reward = reward;
+	}
 
-    public void setBrokereachdivide(BigDecimal brokereachdivide) {
-        this.brokereachdivide = brokereachdivide;
-    }
+	public BigDecimal getMarketreward() {
+		return marketreward;
+	}
 
-    public String getCommodityname() {
-        return commodityname;
-    }
+	public void setMarketreward(BigDecimal marketreward) {
+		this.marketreward = marketreward;
+	}
 
-    public void setCommodityname(String commodityname) {
-        this.commodityname = commodityname == null ? null : commodityname.trim();
-    }
+	public BigDecimal getBrokereachdivide() {
+		return brokereachdivide;
+	}
 
-    public Long getBreedid() {
-        return breedid;
-    }
+	public void setBrokereachdivide(BigDecimal brokereachdivide) {
+		this.brokereachdivide = brokereachdivide;
+	}
 
-    public void setBreedid(Long breedid) {
-        this.breedid = breedid;
-    }
+	public String getCommodityname() {
+		return commodityname;
+	}
 
-    public String getBreedname() {
-        return breedname;
-    }
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname == null ? null : commodityname.trim();
+	}
 
-    public void setBreedname(String breedname) {
-        this.breedname = breedname == null ? null : breedname.trim();
-    }
+	public Long getBreedid() {
+		return breedid;
+	}
 
-    public String getBusinessType() {
-        return businessType;
-    }
+	public void setBreedid(Long breedid) {
+		this.breedid = breedid;
+	}
 
-    public void setBusinessType(String businessType) {
-        this.businessType = businessType == null ? null : businessType.trim();
-    }
+	public String getBreedname() {
+		return breedname;
+	}
 
-    public String getChargeType() {
-        return chargeType;
-    }
+	public void setBreedname(String breedname) {
+		this.breedname = breedname == null ? null : breedname.trim();
+	}
 
-    public void setChargeType(String chargeType) {
-        this.chargeType = chargeType == null ? null : chargeType.trim();
-    }
+	public String getBusinessType() {
+		return businessType;
+	}
+
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType == null ? null : businessType.trim();
+	}
+
+	public String getChargeType() {
+		return chargeType;
+	}
+
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType == null ? null : chargeType.trim();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public BigDecimal getTrademoney() {
+		return trademoney;
+	}
+
+	public void setTrademoney(BigDecimal trademoney) {
+		this.trademoney = trademoney;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 }

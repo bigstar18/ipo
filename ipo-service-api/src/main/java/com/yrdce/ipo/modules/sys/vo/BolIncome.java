@@ -2,6 +2,11 @@ package com.yrdce.ipo.modules.sys.vo;
 
 import java.math.BigDecimal;
 
+/**
+ * @ClassName: BolIncome
+ * @Description: 提货单经纪收入类
+ * @author bob
+ */
 public class BolIncome {
 
 	private String firmId;//交易商id
@@ -14,13 +19,13 @@ public class BolIncome {
 
 	private String type;//提货类型
 
-	private int count;//件数
+	private long count;//件数
 
-	private int quataty;//数量
+	private long quataty;//数量
 
 	private BigDecimal amount;//提货单金额
 
-	private BigDecimal Income;//经纪收入
+	private BigDecimal income;//经纪收入
 
 	private String intermediaryId;//直属居间商代码
 
@@ -66,19 +71,19 @@ public class BolIncome {
 		this.type = type;
 	}
 
-	public int getCount() {
+	public long getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(long count) {
 		this.count = count;
 	}
 
-	public int getQuataty() {
+	public long getQuataty() {
 		return quataty;
 	}
 
-	public void setQuataty(int quataty) {
+	public void setQuataty(long quataty) {
 		this.quataty = quataty;
 	}
 
@@ -91,11 +96,11 @@ public class BolIncome {
 	}
 
 	public BigDecimal getIncome() {
-		return Income;
+		return income;
 	}
 
 	public void setIncome(BigDecimal income) {
-		Income = income;
+		income = income;
 	}
 
 	public String getIntermediaryId() {

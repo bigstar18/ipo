@@ -29,6 +29,8 @@ public class SettleResult implements Serializable {
 
 	private Object ipoSubRevenue;
 
+	private Object bolIncome;
+
 	public Object getTotalLoan() {
 		return totalLoan;
 	}
@@ -99,6 +101,14 @@ public class SettleResult implements Serializable {
 
 	public void setIpoSubRevenue(Object ipoSubRevenue) {
 		this.ipoSubRevenue = ipoSubRevenue;
+	}
+
+	public Object getBolIncome() {
+		return bolIncome;
+	}
+
+	public void setBolIncome(Object bolIncome) {
+		this.bolIncome = bolIncome;
 	}
 
 	@Override

@@ -18,6 +18,8 @@
     <result column="BREEDNAME" jdbcType="VARCHAR" property="breedname" />
     <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
     <result column="CHARGE_TYPE" jdbcType="VARCHAR" property="chargeType" />
+    <result column="TRADEMONEY" jdbcType="DECIMAL" property="trademoney" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from IPO_FIRMREWARDDEAIL
@@ -29,14 +31,14 @@
       CLEARDATE, BROKERID, BROKERNAME, 
       FIRSTPAY, SECONDPAY, REWARD, 
       MARKETREWARD, BROKEREACHDIVIDE, COMMODITYNAME, 
-      BREEDID, BREEDNAME, BUSINESS_TYPE, 
-      CHARGE_TYPE)
+      BREEDID, BREEDNAME, BUSINESS_TYPE, TRADEMONEY,
+      CHARGE_TYPE,ORDER_ID)
     values (#{id,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{cleardate,jdbcType=DATE}, #{brokerid,jdbcType=VARCHAR}, #{brokername,jdbcType=VARCHAR}, 
       #{firstpay,jdbcType=DECIMAL}, #{secondpay,jdbcType=DECIMAL}, #{reward,jdbcType=DECIMAL}, 
       #{marketreward,jdbcType=DECIMAL}, #{brokereachdivide,jdbcType=DECIMAL}, #{commodityname,jdbcType=VARCHAR}, 
       #{breedid,jdbcType=DECIMAL}, #{breedname,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, 
-      #{chargeType,jdbcType=VARCHAR})
+      #{trademoney,jdbcType=DECIMAL}, #{chargeType,jdbcType=VARCHAR},#{orderId,jdbcType=VARCHAR})
   </insert>
   
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoFirmrewarddeail">
@@ -55,13 +57,16 @@
       BREEDID = #{breedid,jdbcType=DECIMAL},
       BREEDNAME = #{breedname,jdbcType=VARCHAR},
       BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
-      CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR}
+      CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
+      TRADEMONEY = #{trademoney,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+  
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select ID, FIRMID, COMMODITYID, CLEARDATE, BROKERID, BROKERNAME, FIRSTPAY, SECONDPAY, 
     REWARD, MARKETREWARD, BROKEREACHDIVIDE, COMMODITYNAME, BREEDID, BREEDNAME, BUSINESS_TYPE, 
-    CHARGE_TYPE
+    CHARGE_TYPE,TRADEMONEY,ORDER_ID
     from IPO_FIRMREWARDDEAIL
     where ID = #{id,jdbcType=DECIMAL}
   </select>
@@ -69,14 +74,14 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select ID, FIRMID, COMMODITYID, CLEARDATE, BROKERID, BROKERNAME, FIRSTPAY, SECONDPAY, 
     REWARD, MARKETREWARD, BROKEREACHDIVIDE, COMMODITYNAME, BREEDID, BREEDNAME, BUSINESS_TYPE, 
-    CHARGE_TYPE
+    CHARGE_TYPE,TRADEMONEY,ORDER_ID
     from IPO_FIRMREWARDDEAIL
   </select>
 
   <select id="findByFirmidAndType" resultMap="BaseResultMap" parameterType="map">
   	select  ID, FIRMID, COMMODITYID, CLEARDATE, BROKERID, BROKERNAME, FIRSTPAY, SECONDPAY, 
     REWARD, MARKETREWARD, BROKEREACHDIVIDE, COMMODITYNAME, BREEDID, BREEDNAME, BUSINESS_TYPE, 
-    CHARGE_TYPE from ipo_firmrewarddeail t where t.firmid = #{firmid,jdbcType=VARCHAR} 
+    CHARGE_TYPE,TRADEMONEY,ORDER_ID from ipo_firmrewarddeail t where t.firmid = #{firmid,jdbcType=VARCHAR} 
   	and t.charge_type = #{chargeType,jdbcType=VARCHAR} 
   	and t.business_type = #{businessType,jdbcType=VARCHAR}
   	and to_char(t.cleardate, 'yyyy-mm-dd') between #{startdate,jdbcType=VARCHAR} 

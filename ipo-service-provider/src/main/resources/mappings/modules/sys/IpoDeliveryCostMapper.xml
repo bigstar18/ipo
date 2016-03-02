@@ -9,19 +9,23 @@
     <result column="TRUSTEE_FEE" property="trusteeFee" jdbcType="DECIMAL" />
     <result column="WAREHOUSING_FEE" property="warehousingFee" jdbcType="DECIMAL" />
     <result column="DELIVERY_FEE" property="deliveryFee" jdbcType="DECIMAL" />
+    <result column="REGISTRATION_FEE" property="registrationFee" jdbcType="DECIMAL" />
+    <result column="CANCELLATION_FEE" property="cancellationFee" jdbcType="DECIMAL" />
   </resultMap>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from IPO_DELIVERY_COST
     where DELIVERY_ID = #{deliveryId,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost" >
     insert into IPO_DELIVERY_COST (DELIVERY_ID, DELIVERY_METHOD, APPLY_DATE, 
-      INSURANCE, TRUSTEE_FEE, WAREHOUSING_FEE, 
-      DELIVERY_FEE)
+      INSURANCE, TRUSTEE_FEE, WAREHOUSING_FEE,DELIVERY_FEE,REGISTRATION_FEE,CANCELLATION_FEE)
     values (#{deliveryId,jdbcType=VARCHAR}, #{deliveryMethod,jdbcType=VARCHAR}, #{applyDate,jdbcType=DATE}, 
       #{insurance,jdbcType=DECIMAL}, #{trusteeFee,jdbcType=DECIMAL}, #{warehousingFee,jdbcType=DECIMAL}, 
-      #{deliveryFee,jdbcType=DECIMAL})
+      #{deliveryFee,jdbcType=DECIMAL},#{registrationFee,jdbcType=DECIMAL},#{cancellationFee,jdbcType=DECIMAL})
   </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost" >
     update IPO_DELIVERY_COST
     set DELIVERY_METHOD = #{deliveryMethod,jdbcType=VARCHAR},
@@ -29,20 +33,25 @@
       INSURANCE = #{insurance,jdbcType=DECIMAL},
       TRUSTEE_FEE = #{trusteeFee,jdbcType=DECIMAL},
       WAREHOUSING_FEE = #{warehousingFee,jdbcType=DECIMAL},
-      DELIVERY_FEE = #{deliveryFee,jdbcType=DECIMAL}
+      DELIVERY_FEE = #{deliveryFee,jdbcType=DECIMAL},
+      REGISTRATION_FEE = #{registrationFee,jdbcType=DECIMAL},
+      CANCELLATION_FEE = #{cancellationFee,jdbcType=DECIMAL}
     where DELIVERY_ID = #{deliveryId,jdbcType=VARCHAR}
   </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select DELIVERY_ID, DELIVERY_METHOD, APPLY_DATE, INSURANCE, TRUSTEE_FEE, WAREHOUSING_FEE, 
-    DELIVERY_FEE
+    DELIVERY_FEE,REGISTRATION_FEE,CANCELLATION_FEE
     from IPO_DELIVERY_COST
     where DELIVERY_ID = #{deliveryId,jdbcType=VARCHAR}
   </select>
+  
   <select id="selectAll" resultMap="BaseResultMap" >
     select DELIVERY_ID, DELIVERY_METHOD, APPLY_DATE, INSURANCE, TRUSTEE_FEE, WAREHOUSING_FEE, 
-    DELIVERY_FEE
+    DELIVERY_FEE,REGISTRATION_FEE,CANCELLATION_FEE
     from IPO_DELIVERY_COST
   </select>
+  
   <select id="selectByUserid" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryCostExtended" parameterType="map">
   select * from 
   (select t.*,rownum TNO from
