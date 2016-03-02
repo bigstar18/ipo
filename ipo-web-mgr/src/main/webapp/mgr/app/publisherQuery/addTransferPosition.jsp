@@ -23,6 +23,11 @@ function add(){
 		var salecounts=parseInt($("#salecounts").val());//转发售数量
 		var pubposition=parseInt($("#pubposition").val());//转持仓数量
 		var subscricounts=parseInt($("#subscricounts").val());//转认购数量
+		var contractor=parseInt($("#contractor").val());
+		if(salecounts%contractor!=0||pubposition%contractor!=0||subscricounts%contractor!=0){
+			alert("转发售、转持仓、供认购数量均需为交易单位的整数倍！");
+			return;
+		}
 		if(salecounts+pubposition+subscricounts>totalcounts){
 			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
 			return;
@@ -147,6 +152,15 @@ function getPosition(){
 	        	<td>
 	        	<input type="text" id="commodityname" name="commodityname" value="${entity.commodityname }" readonly="readonly"/>
 	        	<input type="hidden" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
+	        	</td>
+	        </tr> 
+	        <tr>
+	        	<td style="font-size:15px" align="right" width="20%">交易单位：</td>
+	        	<td>
+	        	<input type="text" id="contractor" name="contractor" value="${contractor }" readonly="readonly"/>
+	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%"></td>
+	        	<td>
 	        	</td>
 	        </tr>  
 	         <tr>
