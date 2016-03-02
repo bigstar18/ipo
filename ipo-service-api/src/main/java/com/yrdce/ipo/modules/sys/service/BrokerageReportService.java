@@ -5,6 +5,7 @@ import java.util.List;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Brokers;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
+import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Firmrewarddeail;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
@@ -67,7 +68,6 @@ public interface BrokerageReportService {
 	 * @param firmid
 	 * @param business
 	 * @param charge
-	 * @return 参数说明
 	 */
 	public List<Firmrewarddeail> getCommission(String date, String brokerid, String business, String charge);
 
@@ -76,4 +76,9 @@ public interface BrokerageReportService {
 	public Brokers getIntermediary(String brokerid, String firmid);
 
 	public String getFirmName(String firmid);
+
+	/*public List<Firmrewarddeail> getFirmrewarddeail(String date, String brokerid, String business,
+			String charge);*/
+
+	public DeliveryOrder getOrder(String deliveryorderId);
 }

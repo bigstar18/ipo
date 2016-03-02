@@ -61,20 +61,20 @@
 												<td class="td_reportMdHead" align="center">直属居间商代码</td>
 												<td class="td_reportRdHead" align="center">直属居间商名称</td>
 											</tr>
-											<c:forEach var="publish" items="${result}" varStatus="status">
+											<c:forEach var="bolIncome" items="${settle.bolIncome}" varStatus="status">
 												<tr>
 													<td class="td_reportMdHead" align="center">${status.count}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityid}</td>
-													<td class="td_reportMdHead" align="center">${publish.commodityname}</td>
-													<td class="td_reportMdHead" align="center">${publish.price}</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan/publish.price }</td>
-													<td class="td_reportMdHead" align="center">${publish.loan==null?0:publish.loan}</td>
-													<td class="td_reportMdHead" align="center">${publish.handing==null?0:publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
-													<td class="td_reportRdHead" align="center">${publish.loan-publish.handing}</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.firmId}</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.firmName}</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.commodityId}</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.commodityName }</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.type}</td>
+													<td class="td_reportMdHead" align="center">${bolIncome.count}</td>
+													<td class="td_reportRdHead" align="center">${bolIncome.quataty}</td>
+													<td class="td_reportRdHead" align="center">${bolIncome.amount}</td>
+													<td class="td_reportRdHead" align="center">${bolIncome.income}</td>
+													<td class="td_reportRdHead" align="center">${bolIncome.intermediaryId}</td>
+													<td class="td_reportRdHead" align="center">${bolIncome.intermediaryName}</td>
 												</tr>
 											</c:forEach>
 										</table>

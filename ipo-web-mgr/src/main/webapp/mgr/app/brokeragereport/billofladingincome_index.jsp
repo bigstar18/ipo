@@ -22,7 +22,7 @@
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
 		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/deliveryIncomeInfo?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
  	

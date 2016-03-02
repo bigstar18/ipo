@@ -4,19 +4,23 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoDeliveryCost {
-	public String deliveryId;
+	public String deliveryId;//提货单号
 
-	public String deliveryMethod;
+	public String deliveryMethod;//提货方式
 
-	public Date applyDate;
+	public Date applyDate;//申请日期
 
-	public BigDecimal insurance;
+	public BigDecimal insurance;//保险费
 
-	public BigDecimal trusteeFee;
+	public BigDecimal trusteeFee;//托管费
 
-	public BigDecimal warehousingFee;
+	public BigDecimal warehousingFee;//仓储费
 
-	public BigDecimal deliveryFee;
+	public BigDecimal deliveryFee;//提货单费用
+
+	public BigDecimal registrationFee;//注册费
+
+	public BigDecimal cancellationFee;//注销费
 
 	public String getDeliveryId() {
 		return deliveryId;
@@ -72,5 +76,21 @@ public class IpoDeliveryCost {
 
 	public void setDeliveryFee(BigDecimal deliveryFee) {
 		this.deliveryFee = deliveryFee;
+	}
+
+	public BigDecimal getRegistrationFee() {
+		return registrationFee;
+	}
+
+	public void setRegistrationFee(BigDecimal registrationFee) {
+		this.registrationFee = registrationFee;
+	}
+
+	public BigDecimal getCancellationFee() {
+		return cancellationFee;
+	}
+
+	public void setCancellationFee(BigDecimal cancellationFee) {
+		this.cancellationFee = cancellationFee;
 	}
 }

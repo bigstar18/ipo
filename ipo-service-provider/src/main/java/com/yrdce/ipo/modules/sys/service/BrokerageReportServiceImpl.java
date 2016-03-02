@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoBillofladingMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
@@ -23,7 +21,6 @@ import com.yrdce.ipo.modules.sys.dao.IpoReleasesubscriptionMapper;
 import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.IpoBilloflading;
 import com.yrdce.ipo.modules.sys.entity.IpoBroker;
-import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoDelivery;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
@@ -32,7 +29,6 @@ import com.yrdce.ipo.modules.sys.entity.IpoHoldcommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoReleasesubscription;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Brokers;
-import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Distribution;
@@ -65,8 +61,6 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 	private IpoFirmrewarddeailMapper FirmrewarddeailMapper;
 	@Autowired
 	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
-	@Autowired
-	private IpoDebitFlowMapper IpoDebitFlowMapper;
 
 	@Override
 	public List<VBrBroker> getBroker() {
@@ -214,12 +208,14 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		List<Firmrewarddeail> list = new ArrayList<Firmrewarddeail>();
 		for (BrBroker broker : brBrokers) {
 			String firmid = broker.getFirmid();
-			IpoFirmrewarddeail ipofirmrewarddeail = FirmrewarddeailMapper.findDisAndDea(date, firmid,
-					business, charge);
-			Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
-			if (ipofirmrewarddeail != null) {
-				BeanUtils.copyProperties(ipofirmrewarddeail, firmrewarddeail);
-				list.add(firmrewarddeail);
+			List<IpoFirmrewarddeail> list1 = FirmrewarddeailMapper.findDisAndDea(date, firmid, business,
+					charge);
+			if (list1 != null && list1.size() != 0) {
+				for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
+					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+					list.add(firmrewarddeail);
+				}
 			}
 		}
 		return list;
@@ -253,23 +249,27 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		return ipoDeliveryorderMapper.selectByFrim(firmid);
 	}
 
-	public List<DebitFlow> getDebitFlow(String date, String brokerid, String business, String charge) {
-		IpoDebitFlow ipoDebitFlow = new IpoDebitFlow();
-		ipoDebitFlow.setBusinessType(business);
-		ipoDebitFlow.setChargeType(charge);
-		ipoDebitFlow.setDebitDate(new Date(date));
-		List<IpoDebitFlow> list = IpoDebitFlowMapper.findInfo(ipoDebitFlow);
-		List<DebitFlow> list2 = new ArrayList<DebitFlow>();
-		if (list != null && list.size() != 0) {
-			for (IpoDebitFlow ipoDebitFlow1 : list) {
-				DebitFlow debitFlow = new DebitFlow();
-				BeanUtils.copyProperties(ipoDebitFlow1, debitFlow);
-				list2.add(debitFlow);
+	/*@Override
+	public List<Firmrewarddeail> getFirmrewarddeail(String date, String brokerid, String business,
+			String charge) {
+		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
+		List<Firmrewarddeail> list2 = new ArrayList<Firmrewarddeail>();
+		for (BrBroker broker : brBrokers) {
+			String firmid = broker.getFirmid();
+			List<IpoFirmrewarddeail> list1 = FirmrewarddeailMapper.findDisAndDea(date, firmid, business,
+					charge);
+			if (list1 != null && list1.size() != 0) {
+				for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
+					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
+					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
+					list2.add(firmrewarddeail);
+				}
 			}
 		}
 		return list2;
-	}
+	}*/
 
+	@Override
 	public DeliveryOrder getOrder(String deliveryorderId) {
 		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderId);
 		DeliveryOrder deliveryOrder = new DeliveryOrder();
