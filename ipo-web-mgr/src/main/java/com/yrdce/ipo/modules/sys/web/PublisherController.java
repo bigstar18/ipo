@@ -20,13 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
 import com.yrdce.ipo.modules.sys.vo.PublisherPosition;
 import com.yrdce.ipo.modules.sys.vo.PublisherSettle;
@@ -76,6 +80,8 @@ public class PublisherController {
 
 	@Autowired
 	private SpecialCounterFeeService specialCounterFeeService;
+	@Autowired
+	private PositionService positionService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -301,7 +307,10 @@ public class PublisherController {
 			throws IOException {
 		VIpoStorageExtended storage = ipoStorageService
 				.getStorageByStorageId(storageid);
+		BigDecimal contractor = ipoCommConfService.getVIpoCommConfByCommid(
+				storage.getCommodityid()).getContractfactor();
 		request.setAttribute("entity", storage);
+		request.setAttribute("contractor", contractor);
 		return "app/publisherQuery/addTransferPosition";
 	}
 
@@ -426,10 +435,43 @@ public class PublisherController {
 				.getInfoByStorageId(storageid);
 		record.setStatus((short) 4);
 		record.setUpdatedate(new Date());
-		// record.setUpdater("cj");
 		record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID());
 		return publisherpositionService.transferPosition(record);
+	}
+
+	/**
+	 * 减持设置查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceHoldPosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String reduceHoldPosition(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, PubPositionFlow example)
+			throws IOException {
+		log.info("查询发行商转持仓流水记录");
+		try {
+			example.setBusinessCode(ChargeConstant.BusinessType.PUBLISH
+					.getCode());
+			example.setRoleCode(ChargeConstant.RoleType.PUBLISHER.getCode());
+			example.setState(PositionConstant.FlowState.turn_goods.getCode());
+			long count = positionService.queryPubFlowForCount(example);
+			List<PubPositionFlow> dataList = new ArrayList<PubPositionFlow>();
+			if (count > 0) {
+				dataList = positionService.queryPubFlowForPage(page, rows,
+						example);
+			}
+			ResponseResult result = new ResponseResult();
+			result.setTotal(new Long(count).intValue());
+			result.setRows(dataList);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	/**
@@ -498,7 +540,6 @@ public class PublisherController {
 			} else {
 				totalLoan = totalLoan.add(temp.getLoan());
 			}
-
 		}
 		SettleResult result = new SettleResult();
 		result.setBalance(balance);
