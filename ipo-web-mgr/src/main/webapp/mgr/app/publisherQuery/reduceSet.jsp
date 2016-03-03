@@ -17,7 +17,7 @@ $(document).ready(function() {
         nowrap:true,  
         striped:true,  
         collapsible:false,  
-        url:  getRootPath () + "/PublisherController/reduceSetList?id="+100001+"&&randnum="+Math.floor(Math.random()*1000000) ,  
+        url:  getRootPath () + "/PublisherController/reduceSetList?id="+"${id}"+"&&randnum="+Math.floor(Math.random()*1000000) ,  
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器   
         columns : [ [  {
@@ -41,7 +41,7 @@ $(document).ready(function() {
             align: "center",
             title : '减持日期',
             formatter: function(value) {
-            	   return value.substr(1,10);
+            	   return value.substr(0,10);
                      } 
         } ,{
        	 field : 'ratio',  
@@ -63,8 +63,9 @@ $(document).ready(function() {
            title: '操作',
            align: 'center',
            formatter: function(value,row) {
-       	   return "<a href=\"#\" onclick=\"add("+row.id+")\">" + "减持设置" + "</a>";
-                }
+        	   if(row.state==1){
+       	         return "<a href=\"#\" onclick=\"deleteById("+row.id+")\">" + "删除" + "</a>";
+        	   }  }
             }
         ]],  
         pagination : true 
@@ -76,7 +77,36 @@ $(document).ready(function() {
 	        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 	    }); 
 });
+
+function returnToList(){
+	document.location.href="<%=request.getContextPath()%>/mgr/app/publisherQuery/reduce.jsp";
+}
+function deleteById(id){
 	
+	  if(!confirm('确定删除?')){
+		 return false;
+	  }	; 
+	  $.ajax({  
+		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/deleteReduce",  
+		    data:{"id":id},  
+		    type: 'POST',dataType: 'text',  
+		    success : function(data, stats) {  
+	             if(data=="success"){
+	            	 alert('删除成功');
+	            	 $('#dg').datagrid('reload');  
+	             }else{
+	            	 alert('删除失败');
+	             }
+	        },
+	  	    error: function (jqXHR, textStatus, errorThrown) {
+	              alert('系统异常!');
+	        }
+		});  
+ }
+function addSet(){
+	  var url_='<%=request.getContextPath()%>/PublisherController/addReduce?positionFlowId='+'${id}';
+	  window.location.href=url_; 
+}
 </script>
 </head>
 <body>
@@ -89,11 +119,8 @@ $(document).ready(function() {
 				<table id="dg" width="100%"></table>
 				 <div id="tb" style="padding:5px;height:auto">
 					 <div>
-						发行会员编号：<input type="text" id="publisherid" name="publisherid" />
-						商品代码：<input type="text" id="commodityid" name="commodityid" />
-						<input type="hidden" id="positionFlowId" name="positionFlowId" value="${id }"/>
-						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-add" id="view" onclick="addSet()">新增</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="returnToList()">返回</a>
 					</div>
 				</div>
 				</div>

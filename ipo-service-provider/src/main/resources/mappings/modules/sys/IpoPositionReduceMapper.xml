@@ -56,7 +56,7 @@
   </select>
   
    <select id="queryForPositionId" resultMap="PositionReduceResultMap"  parameterType="map" >
-     select * from(select t.*, rownum TNO from ipo_positionreduce t where t.delete_flag=0 
+     select * from(select p.firmid,p.commodityid,t.*, rownum TNO from ipo_positionreduce t left join ipo_positionflow p on t.positionflow_id=p.id where t.delete_flag=0 
      <if test="param.positionFlowId!=null and param.positionFlowId!='' ">
 		and t.positionflow_id=#{param.positionFlowId}
 	 </if>
