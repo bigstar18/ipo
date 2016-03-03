@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esotericsoftware.minlog.Log;
+import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.BrBrokerMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
@@ -152,6 +153,48 @@ public class BrBrokerServiceImpl implements BrBrokerService {
 				dlist.add(example);
 		}
 		return dlist;
+	}
+
+	@Override
+	public List<VBrBroker> findBrokerBalance(String page, String rows,
+			VBrBroker broker, String type) {
+		int startIndex = PageUtil.getStartIndex(page, rows);
+		int endIndex = PageUtil.getEndIndex(page, rows);
+		List<BrBroker> brokerlist = brBrokerMapper.getBrokerBalance(broker,
+				type, startIndex, endIndex);
+		List<VBrBroker> datalist = new ArrayList<VBrBroker>();
+		for (BrBroker temp : brokerlist) {
+			VBrBroker vbroker = new VBrBroker();
+			BeanUtils.copyProperties(temp, vbroker);
+			datalist.add(vbroker);
+		}
+		return datalist;
+	}
+
+	@Override
+	public Integer findBrokerNum(VBrBroker broker, String type) {
+		return brBrokerMapper.getBrokerNum(broker, type);
+	}
+
+	@Override
+	public List<VBrBroker> getUnderscribeFunds(VBrBroker broker, String type,
+			String page, String rows) {
+		int startIndex = PageUtil.getStartIndex(page, rows);
+		int endIndex = PageUtil.getEndIndex(page, rows);
+		List<BrBroker> brokerlist = brBrokerMapper.getUnderscribeFunds(broker,
+				type, startIndex, endIndex);
+		List<VBrBroker> datalist = new ArrayList<VBrBroker>();
+		for (BrBroker temp : brokerlist) {
+			VBrBroker vbroker = new VBrBroker();
+			BeanUtils.copyProperties(temp, vbroker);
+			datalist.add(vbroker);
+		}
+		return datalist;
+	}
+
+	@Override
+	public int getUnderscribeFundsCount(VBrBroker broker, String type) {
+		return brBrokerMapper.getUnderscribeFundsCount(broker, type);
 	}
 
 }

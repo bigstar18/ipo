@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,6 +40,26 @@ public class VBrBroker implements Serializable {
 	private Date modifytime;
 
 	private String note;
+
+	private BigDecimal userBalance;
+
+	private BigDecimal amount;
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	public BigDecimal getUserBalance() {
+		return userBalance;
+	}
+
+	public void setUserBalance(BigDecimal userBalance) {
+		this.userBalance = userBalance;
+	}
 
 	public String getBrokerid() {
 		return brokerid;

@@ -55,6 +55,36 @@ public class UnderwriterSetController {
 	private UnderwriterDepositService depositService;
 
 	/**
+	 * 承销货款押金
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/getAllInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public String getAllInfo(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam(value = "brokerid", required = false) String brokerid) {
+		try {
+			VBrBroker example = new VBrBroker();
+			if (brokerid != null) {
+				example.setBrokerid(brokerid);
+			}
+			List<VBrBroker> datalist = brBrokerService.findBrokerBalance(page,
+					rows, example, "承销会员");
+			int num = brBrokerService.findBrokerNum(example, "承销会员");
+			ResponseResult result = new ResponseResult();
+			result.setRows(datalist);
+			result.setTotal(num);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
 	 * 分页返回承销设置
 	 * 
 	 * @param

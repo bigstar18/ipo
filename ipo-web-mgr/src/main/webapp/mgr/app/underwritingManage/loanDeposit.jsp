@@ -13,11 +13,11 @@ $(document).ready(function() {
 });
 //加载所有信息
 function getAllInfo(){
-	 $('#name').val("");
+	
 	 $('#depositInfo').datagrid({  
          title:'承销货款押金',  
          iconCls:'icon-ok', 
-         method:"get",
+         method:"post",
          height:400,
          pageSize:10,  
          pageList:[5,10,15],  
@@ -25,11 +25,11 @@ function getAllInfo(){
          singleSelect:true,
          striped:true,  
          toolbar:"#tb",  
-         url:'<%=request.getContextPath()%>/LoanDepositController/getAllInfo', //搜索前,触发此action请求所有用户信息  
+         url:'<%=request.getContextPath()%>/UnderwriterSetController/getAllInfo', //搜索前,触发此action请求所有用户信息  
          loadMsg:'数据加载中......',  
          fitColumns:true,//允许表格自动缩放,以适应父容器  
          columns : [ [ {  
-             field : 'underwriterid',  
+             field : 'brokerid',  
              width : 200,  
              align: "center",
              title : '承销会员编号'  
@@ -42,12 +42,24 @@ function getAllInfo(){
              field : 'amount',  
              width : 200,  
              align: "center",
-             title : '冻结预付款'  
+             title : '冻结预付款' ,
+             formatter:function(value,row){
+            	 if(value==null){
+            		 return 0;
+            	 }
+             }
          }, {  
              field : 'balance',  
              width : 200, 
              align: "center",
-             title : '冻结后余额'
+             title : '冻结后余额',
+             formatter:function(value,row){
+            	 if(row.amount==null){
+            		 return row.userBalance;
+            	 }else{
+            		 return row.userBalance-row.amount;
+            	 }
+             }
          }]],  
          pagination : true
      });  
@@ -68,12 +80,12 @@ function dateconvertfunc(value,row){
     
 function doSearch(){
 	$('#depositInfo').datagrid('load',{
-		underwriterid:$("#underwriterid").val()
+		brokerid:$("#brokerid").val()
 	});
 }
   
 function clearInfo(){
-	$("#underwriterid").val("");
+	$("#brokerid").val("");
 	}
 </script>
 </head>
@@ -89,7 +101,7 @@ function clearInfo(){
 				<div id="tb" style="padding:5px;height:auto">
 					<div>
 					<form name="frm" action="" >
-					承销会员编号: <input id="underwriterid" name="underwriterid" class="easyui-textbox" style="border:1px solid #ccc" >
+					承销会员编号: <input id="brokerid" name="brokerid" class="easyui-textbox" style="border:1px solid #ccc" >
 						<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
 						<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>
 					</form> 
