@@ -182,4 +182,14 @@ public class UnderwriterSubscribeServiceImpl implements
 		payFlowMapper.insert(payFlow);
 	}
 
+	@Override
+	public String checkExist(UnderwriterSubscribe example) {
+		IpoUnderwriterSubscribe record = underwriterSubscribrmapper
+				.selectByExample(example);
+		if (record != null) {
+			return "true";// 已存在
+		}
+		return "false";
+	}
+
 }

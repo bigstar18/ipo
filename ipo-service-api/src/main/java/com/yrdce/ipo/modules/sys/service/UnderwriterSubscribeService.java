@@ -15,7 +15,7 @@ import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 public interface UnderwriterSubscribeService {
 
 	/**
-	 * 撤销设置列表
+	 * 承销设置列表
 	 * 
 	 * @param page
 	 * @param rows
@@ -48,6 +48,14 @@ public interface UnderwriterSubscribeService {
 	 * @return
 	 */
 	public Integer insertInfo(UnderwriterSubscribe example);
+
+	/**
+	 * 查询承销商是否重复认购商品
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public String checkExist(UnderwriterSubscribe example);
 
 	/**
 	 * 查询发行会员的承销商列表

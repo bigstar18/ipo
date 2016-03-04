@@ -251,6 +251,18 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
+						        	
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交易商特殊设置","");</SCRIPT>
+
+                        <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("特殊手续费设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/specialCounterFee/specialCounterFeeSet.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>        	
+						        	
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;

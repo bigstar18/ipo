@@ -47,20 +47,29 @@ function getAllInfo(){
             	 if(value==null){
             		 return 0;
             	 }
+            	 return value;
              }
          }, {  
              field : 'balance',  
              width : 200, 
              align: "center",
-             title : '冻结后余额',
+             title : '余额',
              formatter:function(value,row){
             	 if(row.amount==null){
             		 return row.userBalance;
             	 }else{
-            		 return row.userBalance-row.amount;
+            		 return row.userBalance+row.amount;
             	 }
              }
-         }]],  
+         }, {
+	          field : 'oper',
+	          width : 200,
+	          align: "center",
+	          title : '操作',
+	          formatter:function(value,row){
+	        	  return "<input type=\"button\" onclick=\"withhold('"+row.brokerid+"')\" value=\"暂扣押金\"/>";
+		      }
+	      } ]],  
          pagination : true
      });  
 	 var p = $('#depositInfo').datagrid('getPager'); 
@@ -87,6 +96,11 @@ function doSearch(){
 function clearInfo(){
 	$("#brokerid").val("");
 	}
+	
+function withhold(id){
+	document.location.href = '<%=request.getContextPath()%>/UnderwriterSetController/withhold?brokerid='+id+'&&randnum='+Math.floor(Math.random()*1000000);
+
+}
 </script>
 </head>
 <body>

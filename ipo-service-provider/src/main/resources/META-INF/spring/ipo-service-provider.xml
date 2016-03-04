@@ -40,7 +40,6 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SystemService" ref="systemService" protocol="dubbo">
 		<dubbo:method name="settle" timeout="600000" />
 	</dubbo:service>
-	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.LoanDepositService" ref="loanDepositService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SpecialPoundageService" ref="specialPoundageService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" ref="deliveryorderservice" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.SettlementDeliveryService" ref="settlementDeliveryService" protocol="dubbo" />
@@ -86,7 +85,6 @@
 	<bean id="tCommodityService" class="com.yrdce.ipo.modules.sys.service.TCommodityServiceImpl" />
 	<bean id="brBrokerService" class="com.yrdce.ipo.modules.sys.service.BrBrokerServiceImpl" />
 	<bean id="systemService" class="com.yrdce.ipo.modules.sys.service.SystemServiceImpl" />
-	<bean id="loanDepositService" class="com.yrdce.ipo.modules.sys.service.LoanDepositServiceImpl" />
 	<bean id="specialPoundageService" class="com.yrdce.ipo.modules.sys.service.SpecialPoundageServiceImpl" />
 	<bean id="deliveryorderservice" class="com.yrdce.ipo.modules.sys.service.DeliveryOrderServiceImpl" />
 	<bean id="settlementDeliveryService" class="com.yrdce.ipo.modules.sys.service.SettlementDeliveryServiceImpl" />

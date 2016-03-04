@@ -4,54 +4,43 @@
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
     <result column="ID" property="id" jdbcType="DECIMAL" />
     <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="DECIMAL" />
     <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
     <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
     <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
-    <result column="STATE" property="state" jdbcType="DECIMAL" />
-    <result column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
   	 <selectKey resultType="Long" order="BEFORE" keyProperty="id">
 	SELECT SEQ_IPO_UNDERWRITER_DEPOSIT.NEXTVAL FROM dual
 	</selectKey>
-    insert into IPO_UNDERWRITER_DEPOSIT (ID, AMOUNT, REMARK, 
-      DELETE_FLAG, CREATE_USER, CREATE_DATE, 
-      UPDATE_USER, UPDATE_DATE, STATE,SUBSCRIBEID
+    insert into IPO_UNDERWRITER_DEPOSIT (ID, AMOUNT,BROKERID, REMARK, 
+       CREATE_USER, CREATE_DATE, 
+      UPDATE_USER, UPDATE_DATE
       )
-    values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{deleteFlag,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
-      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{state,jdbcType=DECIMAL}, #{subscribeid,jdbcType=DECIMAL}
+    values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL},#{brokerid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}
       )
   </insert>
+   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" >
+    update IPO_UNDERWRITER_DEPOSIT
+    set AMOUNT = #{amount,jdbcType=DECIMAL},
+      BROKERID = #{brokerid,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE}   
+      where ID = #{id,jdbcType=DECIMAL}
+  </update>
+   <select id="selectInfoByBrokerId" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit" parameterType="java.lang.String">
+    select ID, AMOUNT,BROKERID,  REMARK, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
+    from IPO_UNDERWRITER_DEPOSIT where BROKERID=#{brokerid,jdbcType=VARCHAR} 
+  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select ID, AMOUNT, REMARK, DELETE_FLAG, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, 
-    STATE,SUBSCRIBEID
+    select ID, AMOUNT,BROKERID,  REMARK, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
     from IPO_UNDERWRITER_DEPOSIT
-  </select>
-  <select id="getSubFundsInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
-	  select a.* from
-	  (select t.id,t.amount,b.underwriterid,b.commodityid,rownum TNO
-	  from ipo_underwriter_deposit t 
-	  inner join ipo_underwriter_subscribe b 
-	  on t.subscribeid = b.subscribeid
-	  where 1=1 
-	  <if test="underwriterid!=null and underwriterid!=''">
-	  and b.underwriterid=#{underwriterid,jdbcType=VARCHAR}
-	  </if>
-	  order by t.id)a
-	  where a.TNO between  #{beginnum} and #{endnum}
-  </select>
-  <select id="getSubFundsInfoCounts" parameterType="java.lang.String" resultType="java.lang.Integer">
-	  select count(0) 
-	  from ipo_underwriter_deposit t 
-	  inner join ipo_underwriter_subscribe b 
-	  on t.subscribeid = b.subscribeid
-	  where 1=1 
-	  <if test="underwriterid!=null and underwriterid!=''">
-	  and b.underwriterid=#{underwriterid,jdbcType=VARCHAR}
-	  </if>
   </select>
 </mapper>

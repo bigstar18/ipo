@@ -260,9 +260,9 @@ public class PublisherController {
 	@RequestMapping(value = "/checkFundsAvailable", method = RequestMethod.POST)
 	@ResponseBody
 	public String checkFundsAvailable(
-			@RequestParam("underwriterid") String underwriterid,
+			@RequestParam("brokerid") String brokerid,
 			@RequestParam("amount") String amount) {
-		String dealId = spoService.getFirmid(underwriterid);
+		String dealId = spoService.getFirmid(brokerid);
 		return spoService.checkFundsAvailable(dealId, new BigDecimal(amount));
 	}
 

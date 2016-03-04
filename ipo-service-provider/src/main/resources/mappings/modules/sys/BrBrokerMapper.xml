@@ -475,10 +475,10 @@
   left join v_f_firmcurfunds v on v.firmId = b.firmid
  where t.brokername =#{type} 
       <if test="broker.brokerid != null" >
-      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR},
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
       </if>
      <if test="broker.name != null" >
-      and  b.name = #{broker.name,jdbcType=VARCHAR},
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
       </if>
        <if test="broker.firmid != null" >
       and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
@@ -490,10 +490,10 @@
   left join v_f_firmcurfunds v on v.firmId = b.firmid
   where t.brokername =#{type} 
   <if test="broker.brokerid != null" >
-      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR},
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
       </if>
      <if test="broker.name != null" >
-      and  b.name = #{broker.name,jdbcType=VARCHAR},
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
       </if>
        <if test="broker.firmid != null" >
       and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
@@ -503,14 +503,13 @@
    <select id="getUnderscribeFunds" resultMap="BaseResultMap" parameterType="map">
   select p.* from(select g.*,rownum TNO from(select b.brokerid,sum(d.amount) amount,sum( v.user_balance) user_balance
    from br_broker b left join br_brokertype t   on t.borkertype = b.membertype left join v_f_firmcurfunds v
-    on v.firmId = b.firmid  left join ipo_underwriter_subscribe s on  s.underwriterid=b.brokerid
-    left join ipo_underwriter_deposit d on s.subscribeid=d.subscribeid 
+    on v.firmId = b.firmid  left join ipo_underwriter_deposit d on b.brokerid = d.brokerid 
     where t.brokername = #{type} 
       <if test="broker.brokerid != null" >
-      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR},
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
       </if>
      <if test="broker.name != null" >
-      and  b.name = #{broker.name,jdbcType=VARCHAR},
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
       </if>
        <if test="broker.firmid != null" >
       and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
@@ -521,14 +520,13 @@
    <select id="getUnderscribeFundsCount" resultType="Integer" parameterType="map">
   select count(*) from(select b.brokerid,sum(d.amount) amount,sum( v.user_balance) user_balance from br_broker b
   left join br_brokertype t  on t.borkertype = b.membertype  left join v_f_firmcurfunds v
-    on v.firmId = b.firmid left join ipo_underwriter_subscribe s on  s.underwriterid=b.brokerid
-    left join ipo_underwriter_deposit d on s.subscribeid=d.subscribeid 
-     where t.brokername = #{type}   
+    on v.firmId = b.firmid left join ipo_underwriter_deposit d  on b.brokerid = d.brokerid 
+     where t.brokername = #{type}  
     <if test="broker.brokerid != null" >
-      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR},
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
       </if>
      <if test="broker.name != null" >
-      and  b.name = #{broker.name,jdbcType=VARCHAR},
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
       </if>
        <if test="broker.firmid != null" >
       and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}

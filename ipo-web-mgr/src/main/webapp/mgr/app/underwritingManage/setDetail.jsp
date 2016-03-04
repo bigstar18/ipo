@@ -44,7 +44,9 @@ function add(){
         		     data:{"underwriterid":$("#underwriterid").val(),"randnum":Math.floor(Math.random()*1000000)},  
         		     success : function(data, stats) { 
         			           if(data=='0'){
-        			        	   alert("承销会员代码不存在！")
+        			        	   alert("承销会员代码不存在！");
+        			        	   clearInfo();
+        			        	   return;
         			           }
                                if(data=='1'){
                             	   $.ajax({ 
@@ -53,10 +55,16 @@ function add(){
                                        url: "<%=request.getContextPath()%>/UnderwriterSetController/addSet",       
                                        data: $("#frm").serialize(),      
                                        success: function(data) { 
+                                    	   if(data=='existed'){
+                                    		   alert("承销会员已认购过此商品，请重新填写");
+                                    		   clearInfo();
+                                    		   return;
+                                    	   }
                                     	   if(data=='true'){
                                            alert("添加成功！"); 
                                            returntoList();
-                                    	   }else{
+                                    	   } 
+                                    	   if(data=='false'){
                                     		   alert("系统异常，请联系管理员");  
                                     	   }
                                        },  
@@ -72,7 +80,13 @@ function add(){
 					alert("所有参数必填！");
 		}
 }
-		
+	function clearInfo(){
+	       $("#underwriterid").val("");
+		   $("#subscribecounts").numberbox("setValue","");
+		   $("#proportion").numberbox("setValue","");
+		   $("#subscribeprice").numberbox("setValue","");
+		   $("#commodityid").val("");
+	}	
 
 function returntoList(){
 	var backUrl="<%=request.getContextPath()%>/mgr/app/underwritingManage/underwritingSet.jsp";
@@ -89,7 +103,7 @@ function setSortName(value) {
 	var commList =<%=request.getAttribute("commlist") %>; 
 	 for(var o in commList){  
 	        if (value == commList[o].commodityid ) {
-				$("#subscribeprice").val(commList[o].price);
+				$("#subscribeprice").numberbox("setValue",commList[o].price);
 				break;
 		}
 	 }  
@@ -135,7 +149,7 @@ function setSortName(value) {
 	        	<td style="font-size:15px" align="right" width="20%">认购价格：</td>
 	        	<td align="left" width="60%">
 	        	 <input style="width:150px;" id="subscribeprice" name="subscribeprice"  
-	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2"/>
+	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,precision:2,disabled:true"/>
 	                   <span class="required">*</span>
 	        	</td>
 	        </tr> 

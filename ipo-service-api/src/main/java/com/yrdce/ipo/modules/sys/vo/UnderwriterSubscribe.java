@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class UnderwriterSubscribe {
 	private Long subscribeid;
 
-	private String underwriterid;// 承销商ID
+	private String underwriterid;// 承销会员ID
 
 	private String commodityid;// 商品ID
 

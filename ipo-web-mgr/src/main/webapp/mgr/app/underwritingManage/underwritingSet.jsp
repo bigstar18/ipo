@@ -52,14 +52,6 @@ $(document).ready(function(){
 	          width : 800,
 	          align: "center",
 	          title : '占承销会员手续费总和的比例（%）'
-	      } , {
-	          field : 'subscribeid',
-	          width : 800,
-	          align: "center",
-	          title : '操作',
-	          formatter:function(value,row){
-	        	  return "<input type=\"button\" onclick=\"withhold('"+row.subscribeid+"','"+row.underwriterid+"')\" value=\"暂扣押金\"/>";
-		      }
 	      } ]],
 	      pagination : true,
 	      singleSelect: false,
@@ -98,10 +90,6 @@ function deleteList(){
 	}else{
 		alert("至少选择一条记录再进行删除！");
 	}
-}
-function withhold(id,underwriterId){
-	document.location.href = '<%=request.getContextPath()%>/UnderwriterSetController/withhold?subscribeid='+id+'&&underwriterId='+underwriterId+'&&randnum='+Math.floor(Math.random()*1000000);
-
 }
 
 function addInfo(){

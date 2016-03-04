@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,23 +34,29 @@ public class UnderwriterDepositServiceImpl implements UnderwriterDepositService 
 
 	@Override
 	@Transactional
-	public Integer insertInfo(UnderwriterDeposit example) {
+	public void insertInfo(UnderwriterDeposit example) {
 		if (example != null) {
 			IpoUnderwriterDeposit record = new IpoUnderwriterDeposit();
 			BeanUtils.copyProperties(example, record);
-			BigDecimal subId = new BigDecimal(example.getSubscribeid());
-			int num = depositmapper.insert(record);
+			IpoUnderwriterDeposit result = depositmapper
+					.selectInfoByBrokerId(example.getBrokerid());
+			if (result == null) {
+				depositmapper.insert(record);
+			} else {
+				result.setUpdateDate(new Date());
+				result.setUpdateUser(example.getCreateUser());
+				BigDecimal newFrozenLoans = result.getAmount().add(
+						example.getAmount());
+				result.setAmount(newFrozenLoans);
+				depositmapper.updateByPrimaryKey(result);
+			}
 			Map<String, Object> param1 = new HashMap<String, Object>();
 			param1.put("money", "");
-			param1.put("userid", ipoSpoRationMapper
-					.firmidBySales(subscribeMapper.selectByPrimaryKey(subId)
-							.getUnderwriterid()));
+			param1.put("userid",
+					ipoSpoRationMapper.firmidBySales(example.getBrokerid()));
 			param1.put("amount", example.getAmount());
 			param1.put("moduleid", "40");
 			fundsMapper.getfrozen(param1);
-			return num;
 		}
-		return 0;
 	}
-
 }
