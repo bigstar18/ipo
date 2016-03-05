@@ -192,4 +192,29 @@ public class UnderwriterSubscribeServiceImpl implements
 		return "false";
 	}
 
+	@Override
+	public String checkTotalCounts(String commodityId) {
+		Long subcounts = underwriterSubscribrmapper
+				.selectSubscibedCounts(commodityId);// 已认购的数量
+		Long totalcounts = underwriterSubscribrmapper
+				.selectTotalCounts(commodityId);// 供认购的总数
+		if (totalcounts != null) {
+			if (subcounts == null) {
+				subcounts = (long) 0;
+			}
+			if (subcounts < totalcounts) {
+				return "true";
+			}
+		}
+		return "false";
+	}
+
+	@Override
+	public Float checkRatioSum(String commodityId) {
+		Float ratio = underwriterSubscribrmapper.checkRatioSum(commodityId);
+		if (ratio != null) {
+			return 100 - ratio;
+		}
+		return (float) 100;
+	}
 }

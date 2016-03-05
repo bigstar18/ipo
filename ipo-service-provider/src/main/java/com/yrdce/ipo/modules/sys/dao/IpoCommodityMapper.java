@@ -25,11 +25,11 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectByExample(IpoCommodityExample example);
 
-	List<IpoCommodity> queryByConditions(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("record") IpoCommodity record);
+	List<IpoCommodity> queryByConditions(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoCommodity record);
 
-	List<IpoCommodity> queryByConditionsfront(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("record") IpoCommodity record);
+	List<IpoCommodity> queryByConditionsfront(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum, @Param("record") IpoCommodity record);
 
 	int countByConditions(IpoCommodity record);
 
@@ -37,15 +37,20 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectAll();
 
-	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum, @Param("endnum") int endnum);// 分页获取发售商品
+	List<IpoCommodity> findAvaiSubscribeCommoditys();
+
+	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);// 分页获取发售商品
 
 	IpoCommodity selectByPrimaryKey(int id);
 
 	IpoCommodity selectByComid(@Param("comid") String comid); // 根据商品ID获取商品信息(有时间限制)
 
-	int updateByExampleSelective(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
+	int updateByExampleSelective(@Param("record") IpoCommodity record,
+			@Param("example") IpoCommodityExample example);
 
-	int updateByExample(@Param("record") IpoCommodity record, @Param("example") IpoCommodityExample example);
+	int updateByExample(@Param("record") IpoCommodity record,
+			@Param("example") IpoCommodityExample example);
 
 	int updateByPrimaryKeySelective(IpoCommodity record);
 
@@ -55,15 +60,18 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectByEnd(String enddate);
 
-	List<IpoCommodityExtended> selectByCommodityAndOrder(@Param("beginnum") int beginnum, @Param("endnum") int endnum);
+	List<IpoCommodityExtended> selectByCommodityAndOrder(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum);
 
 	int getCounts();
 
 	int getCountsByPage(String commodityid);
 
-	int updateByStatus(@Param("status") int status, @Param("commodityid") String commodityid);
+	int updateByStatus(@Param("status") int status,
+			@Param("commodityid") String commodityid);
 
-	List<IpoCommodityExtended> getAllBycommodityid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+	List<IpoCommodityExtended> getAllBycommodityid(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
 			@Param("commodityid") String commodityid);
 
 	int selectByCommodityid(String commodityid);
@@ -77,10 +85,12 @@ public interface IpoCommodityMapper {
 	List<String> queryNames();
 
 	// 根据商品代码查询发售价格
-	IpoCommodityExtended selectPriceByCommodityid(@Param("commodityid") String commId);
+	IpoCommodityExtended selectPriceByCommodityid(
+			@Param("commodityid") String commId);
 
 	List<IpoCommodity> selectByStatus(@Param("status") int status);
 
-	int updateStatusByStatusId(@Param("oldStatus") int oldStatus, @Param("newStatus") int newStatus,
+	int updateStatusByStatusId(@Param("oldStatus") int oldStatus,
+			@Param("newStatus") int newStatus,
 			@Param("commodityid") String commId);
 }

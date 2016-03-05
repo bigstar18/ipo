@@ -39,9 +39,10 @@ function add(){
 			$("#subscricounts").numberbox('setValue','');
 			return;
 		}
-		if(salecounts!=0){
+		if(salecounts!=0&&salecounts!=counts){
 			alert("转发售需一次性转满公开发行数量");
 			$("#salecounts").numberbox('setValue',$("#counts").val());
+			return ;
 		}
 		if(salecounts+pubposition+subscricounts<totalcounts){
 			alert("转发售、转持仓和转供承销认购量总和小于总入库量，仍有商品未分配");
@@ -154,15 +155,6 @@ function getPosition(){
 	        	<input type="hidden" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
 	        	</td>
 	        </tr> 
-	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">交易单位：</td>
-	        	<td>
-	        	<input type="text" id="contractor" name="contractor" value="${contractor }" readonly="readonly"/>
-	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%"></td>
-	        	<td>
-	        	</td>
-	        </tr>  
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">发行会员代码：</td>
 	        	<td>
@@ -182,26 +174,39 @@ function getPosition(){
 	        	<td>
 	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
 	        	</td>
-	        </tr>  
-	         <tr>
-	            <td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
+	        </tr>
+	        <tr>
+	        	<td style="font-size:15px" align="right" width="20%">交易单位：</td>
+	        	<td>
+	        	<input type="text" id="contractor" name="contractor" value="${contractor }" readonly="readonly"/>
+	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
 	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
+	        </tr>  
+	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
 	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"/><span class="required">*</span>
 	        	</td>
-	        </tr> 
-	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
 	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
+	        </tr> 
+	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
 	        	<td>
 	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
 	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%"></td>
+	        	<td>
+	        	</td>
+	        	<!-- <td style="font-size:15px" align="right" width="20%">承销商认购优惠比例：</td>
+	        	<td>
+	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="subscriberatio" name="subscriberatio"/>%<span class="required">*</span>
+	        	</td> -->
 	        </tr>  
 		  	<tr>
 				<td align="right">

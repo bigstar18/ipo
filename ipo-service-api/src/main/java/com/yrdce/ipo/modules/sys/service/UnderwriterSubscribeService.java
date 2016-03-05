@@ -58,6 +58,22 @@ public interface UnderwriterSubscribeService {
 	public String checkExist(UnderwriterSubscribe example);
 
 	/**
+	 * 获取承销商的承销商手续费比例总和最大值
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public Float checkRatioSum(String commodityId);
+
+	/**
+	 * 查询是否超出某商品的供认购总量
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public String checkTotalCounts(String commodityId);
+
+	/**
 	 * 查询发行会员的承销商列表
 	 * 
 	 * @param page

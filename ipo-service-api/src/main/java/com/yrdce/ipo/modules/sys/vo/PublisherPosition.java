@@ -23,6 +23,8 @@ public class PublisherPosition implements Serializable {
 
 	private String commodityname;// 商品名称
 
+	private BigDecimal subscriberatio;// 承销商认购手续费比例
+
 	private BigDecimal totalvalue;// 总市值
 
 	private Long pubposition;// 转持仓
@@ -93,6 +95,14 @@ public class PublisherPosition implements Serializable {
 
 	public void setTotalvalue(BigDecimal totalvalue) {
 		this.totalvalue = totalvalue;
+	}
+
+	public BigDecimal getSubscriberatio() {
+		return subscriberatio;
+	}
+
+	public void setSubscriberatio(BigDecimal subscriberatio) {
+		this.subscriberatio = subscriberatio;
 	}
 
 	public Long getPubposition() {

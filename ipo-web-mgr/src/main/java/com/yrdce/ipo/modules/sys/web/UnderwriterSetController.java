@@ -145,10 +145,26 @@ public class UnderwriterSetController {
 	@RequestMapping(value = "/addInfo", method = RequestMethod.GET)
 	public String addInfo(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		List<Commodity> commist = commodityService.findAll();
+		List<Commodity> commist = commodityService
+				.findAvaiSubscribeCommoditys();
 		request.setAttribute("commList", commist);
 		request.setAttribute("commlist", JSON.json(commist));
 		return "app/underwritingManage/setDetail";
+	}
+
+	/**
+	 * 获取已认购同一商品的承销商手续费比例总和
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkRatioSum", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkRatioSum(@RequestParam("commodityId") String commodityId)
+			throws IOException {
+		Float ratio = underwritersubscribeService.checkRatioSum(commodityId);
+		return ratio.toString();
 	}
 
 	/**
@@ -160,8 +176,8 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/addSet", method = RequestMethod.POST)
 	@ResponseBody
-	public String addSet(UnderwriterSubscribe example, HttpSession session)
-			throws IOException {
+	public String addSet(UnderwriterSubscribe example,
+			HttpServletRequest request) throws IOException {
 		if (example != null) {
 			example.setDeleteFlag((short) 0);
 			String flag = underwritersubscribeService.checkExist(example);
@@ -170,20 +186,26 @@ public class UnderwriterSetController {
 					return "existed";
 				}
 				if (flag.equals("false")) {
-					/*
-					 * String userId = ((UserManageVO)
-					 * session.getAttribute("CurrentUser")) .getUserID();
-					 */
-					String userId = "111";
-					example.setCreateUser(userId);
-					example.setCreateDate(new Date());
-					underwritersubscribeService.insertInfo(example);
-					Long subcounts = example.getSubscribecounts();
-					BigDecimal subprice = example.getSubscribeprice();
-					BigDecimal subFunds = subprice.multiply(new BigDecimal(
-							subcounts));
-					underwritersubscribeService.insertLoan(example, subFunds);
-					return "true";
+					String tag = underwritersubscribeService
+							.checkTotalCounts(example.getCommodityid());
+					if (tag != null) {
+						if (tag.equals("false")) {
+							return "full";
+						}
+						if (tag.equals("true")) {
+							String userId = this.getLoginUserId(request);
+							example.setCreateUser(userId);
+							example.setCreateDate(new Date());
+							underwritersubscribeService.insertInfo(example);
+							Long subcounts = example.getSubscribecounts();
+							BigDecimal subprice = example.getSubscribeprice();
+							BigDecimal subFunds = subprice
+									.multiply(new BigDecimal(subcounts));
+							underwritersubscribeService.insertLoan(example,
+									subFunds);
+							return "true";
+						}
+					}
 				}
 			}
 		}
@@ -248,4 +270,43 @@ public class UnderwriterSetController {
 		depositService.insertInfo(deposit);
 		return "true";
 	}
+
+	/**
+	 * 认购资金处理列表查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/subFundsList", method = RequestMethod.POST)
+	@ResponseBody
+	public String subFundsList(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam(value = "brokerid", required = false) String brokerid)
+			throws IOException {
+		UnderwriterDeposit example = new UnderwriterDeposit();
+		if (brokerid != null) {
+			if (!brokerid.trim().equals("")) {
+				example.setBrokerid(brokerid);
+			}
+		}
+		List<UnderwriterDeposit> datalist = depositService.selectInfoByPage(
+				page, rows, example);
+		int num = depositService.getInfoCounts(example);
+		ResponseResult result = new ResponseResult();
+		result.setRows(datalist);
+		result.setTotal(num);
+		return JSON.json(result);
+
+	}
+
+	private String getLoginUserId(HttpServletRequest request) {
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
+				"CurrentUser");
+		if (user != null) {
+			return user.getUserID();
+		}
+		return "nologin";
+	}
+
 }

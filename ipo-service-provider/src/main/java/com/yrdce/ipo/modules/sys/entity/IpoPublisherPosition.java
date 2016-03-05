@@ -22,6 +22,8 @@ public class IpoPublisherPosition {
 
 	private BigDecimal totalvalue;// 总市值
 
+	private BigDecimal subscriberatio;// 承销商认购手续费比例
+
 	private Long pubposition;// 转持仓
 
 	private Long salecounts;// 转发售数量
@@ -41,6 +43,14 @@ public class IpoPublisherPosition {
 	private Date updatedate;
 
 	private String storageid;
+
+	public BigDecimal getSubscriberatio() {
+		return subscriberatio;
+	}
+
+	public void setSubscriberatio(BigDecimal subscriberatio) {
+		this.subscriberatio = subscriberatio;
+	}
 
 	public String getStorageid() {
 		return storageid;

@@ -1,8 +1,10 @@
 package com.yrdce.ipo.modules.sys.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterDepositMapper;
@@ -58,5 +61,27 @@ public class UnderwriterDepositServiceImpl implements UnderwriterDepositService 
 			param1.put("moduleid", "40");
 			fundsMapper.getfrozen(param1);
 		}
+	}
+
+	@Override
+	@Transactional
+	public List<UnderwriterDeposit> selectInfoByPage(String page, String rows,
+			UnderwriterDeposit example) {
+		int startIndex = PageUtil.getStartIndex(page, rows);
+		int endIndex = PageUtil.getEndIndex(page, rows);
+		List<IpoUnderwriterDeposit> datalist = depositmapper.selectInfoByPage(
+				startIndex, endIndex, example);
+		List<UnderwriterDeposit> datalist2 = new ArrayList<UnderwriterDeposit>();
+		for (IpoUnderwriterDeposit temp : datalist) {
+			UnderwriterDeposit info = new UnderwriterDeposit();
+			BeanUtils.copyProperties(temp, info);
+			datalist2.add(info);
+		}
+		return datalist2;
+	}
+
+	@Override
+	public Integer getInfoCounts(UnderwriterDeposit example) {
+		return depositmapper.getInfoCounts(example);
 	}
 }

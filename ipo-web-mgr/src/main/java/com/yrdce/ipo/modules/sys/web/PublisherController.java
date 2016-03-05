@@ -350,6 +350,7 @@ public class PublisherController {
 	@ResponseBody
 	public String addPublisherPosition(PublisherPosition example,
 			HttpSession session) {
+
 		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID();
 		example.setStatus((short) 1);

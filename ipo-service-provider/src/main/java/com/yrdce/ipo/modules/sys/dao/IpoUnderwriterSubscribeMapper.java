@@ -21,6 +21,30 @@ public interface IpoUnderwriterSubscribeMapper {
 	IpoUnderwriterSubscribe selectByExample(
 			@Param("record") UnderwriterSubscribe Subscribe);
 
+	/**
+	 * 查询某商品已被认购的数量
+	 * 
+	 * @param commodityId
+	 * @return
+	 */
+	Long selectSubscibedCounts(@Param("commodityId") String commodityId);
+
+	/**
+	 * 查询某商品供承销商认购的总量
+	 * 
+	 * @param commodityId
+	 * @return
+	 */
+	Long selectTotalCounts(@Param("commodityId") String commodityId);
+
+	/**
+	 * 获取已认购同一商品的承销商手续费比例总和
+	 * 
+	 * @param example
+	 * @return
+	 */
+	Float checkRatioSum(@Param("commodityId") String commodityId);
+
 	List<IpoUnderwriterSubscribe> selectAll();
 
 	int updateByPrimaryKey(IpoUnderwriterSubscribe record);
