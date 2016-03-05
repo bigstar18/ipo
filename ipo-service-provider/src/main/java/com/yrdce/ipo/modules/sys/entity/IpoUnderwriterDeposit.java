@@ -8,9 +8,9 @@ public class IpoUnderwriterDeposit {
 
 	private BigDecimal amount;
 
-	private String remark;
+	private String brokerid;
 
-	private Short deleteFlag;
+	private String remark;
 
 	private String createUser;
 
@@ -20,16 +20,12 @@ public class IpoUnderwriterDeposit {
 
 	private Date updateDate;
 
-	private Short state;
-
-	private Long subscribeid;
-
-	public Long getSubscribeid() {
-		return subscribeid;
+	public String getBrokerid() {
+		return brokerid;
 	}
 
-	public void setSubscribeid(Long subscribeid) {
-		this.subscribeid = subscribeid;
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
 	}
 
 	public Long getId() {
@@ -54,14 +50,6 @@ public class IpoUnderwriterDeposit {
 
 	public void setRemark(String remark) {
 		this.remark = remark == null ? null : remark.trim();
-	}
-
-	public Short getDeleteFlag() {
-		return deleteFlag;
-	}
-
-	public void setDeleteFlag(Short deleteFlag) {
-		this.deleteFlag = deleteFlag;
 	}
 
 	public String getCreateUser() {
@@ -96,11 +84,4 @@ public class IpoUnderwriterDeposit {
 		this.updateDate = updateDate;
 	}
 
-	public Short getState() {
-		return state;
-	}
-
-	public void setState(Short state) {
-		this.state = state;
-	}
 }

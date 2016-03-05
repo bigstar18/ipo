@@ -1,150 +1,172 @@
 package com.yrdce.ipo.modules.sys.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author chenjing
  *
- * 加盟商
+ *         加盟商
  */
 public class BrBroker {
-    private String brokerid;
+	private String brokerid;
 
-    private String password;
+	private String password;
 
-    private String name;
+	private String name;
 
-    private String telephone;
+	private String telephone;
 
-    private String mobile;
+	private String mobile;
 
-    private String email;
+	private String email;
 
-    private String address;
+	private String address;
 
-    private String firmid;
+	private String firmid;
 
-    private Short areaid;
+	private Short areaid;
 
-    private Short membertype;
+	private Short membertype;
 
-    private Date timelimit;
+	private Date timelimit;
 
-    private String marketmanager;
+	private String marketmanager;
 
-    private Date modifytime;
+	private Date modifytime;
 
-    private String note;
+	private String note;
 
-    public String getBrokerid() {
-        return brokerid;
-    }
+	private BigDecimal userBalance;
 
-    public void setBrokerid(String brokerid) {
-        this.brokerid = brokerid == null ? null : brokerid.trim();
-    }
+	private BigDecimal amount;
 
-    public String getPassword() {
-        return password;
-    }
+	public BigDecimal getAmount() {
+		return amount;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public BigDecimal getUserBalance() {
+		return userBalance;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public void setUserBalance(BigDecimal userBalance) {
+		this.userBalance = userBalance;
+	}
 
-    public String getTelephone() {
-        return telephone;
-    }
+	public String getBrokerid() {
+		return brokerid;
+	}
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
-    }
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid == null ? null : brokerid.trim();
+	}
 
-    public String getMobile() {
-        return mobile;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public String getTelephone() {
+		return telephone;
+	}
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+	public void setTelephone(String telephone) {
+		this.telephone = telephone == null ? null : telephone.trim();
+	}
 
-    public String getFirmid() {
-        return firmid;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setFirmid(String firmid) {
-        this.firmid = firmid == null ? null : firmid.trim();
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile == null ? null : mobile.trim();
+	}
 
-    public Short getAreaid() {
-        return areaid;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setAreaid(Short areaid) {
-        this.areaid = areaid;
-    }
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
 
-    public Short getMembertype() {
-        return membertype;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public void setMembertype(Short membertype) {
-        this.membertype = membertype;
-    }
+	public void setAddress(String address) {
+		this.address = address == null ? null : address.trim();
+	}
 
-    public Date getTimelimit() {
-        return timelimit;
-    }
+	public String getFirmid() {
+		return firmid;
+	}
 
-    public void setTimelimit(Date timelimit) {
-        this.timelimit = timelimit;
-    }
+	public void setFirmid(String firmid) {
+		this.firmid = firmid == null ? null : firmid.trim();
+	}
 
-    public String getMarketmanager() {
-        return marketmanager;
-    }
+	public Short getAreaid() {
+		return areaid;
+	}
 
-    public void setMarketmanager(String marketmanager) {
-        this.marketmanager = marketmanager == null ? null : marketmanager.trim();
-    }
+	public void setAreaid(Short areaid) {
+		this.areaid = areaid;
+	}
 
-    public Date getModifytime() {
-        return modifytime;
-    }
+	public Short getMembertype() {
+		return membertype;
+	}
 
-    public void setModifytime(Date modifytime) {
-        this.modifytime = modifytime;
-    }
+	public void setMembertype(Short membertype) {
+		this.membertype = membertype;
+	}
 
-    public String getNote() {
-        return note;
-    }
+	public Date getTimelimit() {
+		return timelimit;
+	}
 
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
-    }
+	public void setTimelimit(Date timelimit) {
+		this.timelimit = timelimit;
+	}
+
+	public String getMarketmanager() {
+		return marketmanager;
+	}
+
+	public void setMarketmanager(String marketmanager) {
+		this.marketmanager = marketmanager == null ? null : marketmanager
+				.trim();
+	}
+
+	public Date getModifytime() {
+		return modifytime;
+	}
+
+	public void setModifytime(Date modifytime) {
+		this.modifytime = modifytime;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note == null ? null : note.trim();
+	}
 }

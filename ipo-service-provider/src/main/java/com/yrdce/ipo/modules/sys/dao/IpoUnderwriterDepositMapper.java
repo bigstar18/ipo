@@ -11,14 +11,11 @@ import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit;
 public interface IpoUnderwriterDepositMapper {
 	int insert(IpoUnderwriterDeposit record);
 
+	int updateByPrimaryKey(IpoUnderwriterDeposit record);
+
+	IpoUnderwriterDeposit selectInfoByBrokerId(
+			@Param("brokerid") String brokerid);
+
 	List<IpoUnderwriterDeposit> selectAll();
-
-	/*
-	 * 2016.1.9 认购资金管理 li
-	 */
-	List<IpoUnderwriterDeposit> getSubFundsInfo(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
-			@Param("underwriterid") String underwriterid);
-
-	int getSubFundsInfoCounts(@Param("underwriterid") String underwriterid);
 
 }

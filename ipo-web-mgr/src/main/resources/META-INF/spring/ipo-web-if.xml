@@ -37,7 +37,6 @@
 	<dubbo:reference id="brBrokerService" interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" />
 	<dubbo:reference id="tCommodityService" interface="com.yrdce.ipo.modules.sys.service.TCommodityService" />
 	<dubbo:reference id="ipoCommConfService" interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" />
-	<dubbo:reference id="loanDepositService" interface="com.yrdce.ipo.modules.sys.service.LoanDepositService" />
 	<dubbo:reference id="specialPoundageService" interface="com.yrdce.ipo.modules.sys.service.SpecialPoundageService" />
 	<dubbo:reference id="deliveryorderservice" interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" />
 	<dubbo:reference id="ipoStorageService" interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" />

@@ -110,7 +110,8 @@
                   }if (value == '006') {
                     return '已废除';
                   }if (value == '005') {
-                    return '已出库'; 
+                    return '已出库';
+                  }
             	}
           }, {
             field: 'cost',

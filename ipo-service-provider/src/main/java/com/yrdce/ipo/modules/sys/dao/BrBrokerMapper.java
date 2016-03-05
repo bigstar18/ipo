@@ -9,6 +9,7 @@ import com.yrdce.ipo.modules.sys.entity.BrBroker;
 import com.yrdce.ipo.modules.sys.entity.BrBrokerExample;
 import com.yrdce.ipo.modules.sys.entity.IpoBroker;
 import com.yrdce.ipo.modules.sys.entity.PublisherBalance;
+import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
 @MyBatisDao
 public interface BrBrokerMapper {
@@ -28,11 +29,14 @@ public interface BrBrokerMapper {
 
 	BrBroker selectByPrimaryKey(String brokerid);
 
-	int updateByExampleSelective(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExampleSelective(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
-	int updateByExampleWithBLOBs(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExampleWithBLOBs(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
-	int updateByExample(@Param("record") BrBroker record, @Param("example") BrBrokerExample example);
+	int updateByExample(@Param("record") BrBroker record,
+			@Param("example") BrBrokerExample example);
 
 	int updateByPrimaryKeySelective(BrBroker record);
 
@@ -46,8 +50,8 @@ public interface BrBrokerMapper {
 
 	List<BrBroker> findAllUnderwriter();// 获取所有承销会员
 
-	PublisherBalance findBalance(@Param("firmid") String firmid, @Param("today") String today,
-			@Param("yesterday") String yesterday);// 获取某个发行商的当前和上日余额
+	PublisherBalance findBalance(@Param("firmid") String firmid,
+			@Param("today") String today, @Param("yesterday") String yesterday);// 获取某个发行商的当前和上日余额
 
 	/**
 	 * @Title: findAllBrokerageMember
@@ -75,5 +79,43 @@ public interface BrBrokerMapper {
 	 * @param firmid
 	 * @return 参数说明
 	 */
-	IpoBroker findIntermediary(@Param("brokerid") String brokerid, @Param("firmid") String firmid);
+	IpoBroker findIntermediary(@Param("brokerid") String brokerid,
+			@Param("firmid") String firmid);
+
+	/**
+	 * @Title: getBrokerBalance
+	 * @Description: 分页查询各大会员可用资金
+	 * @param brokerType
+	 *            ,beginnum,endnum
+	 */
+	List<BrBroker> getBrokerBalance(@Param("broker") VBrBroker broker,
+			@Param("type") String type, @Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);
+
+	/**
+	 * @Title: getBrokerNum
+	 * @Description: 查询不同类型会员人数
+	 * @param brokerType
+	 */
+	int getBrokerNum(@Param("broker") VBrBroker broker,
+			@Param("type") String type);
+
+	/**
+	 * @Title: getBrokerBalance
+	 * @Description: 分页查询承销会员可用资金和冻结货款
+	 * @param brokerType
+	 *            ,beginnum,endnum
+	 */
+	List<BrBroker> getUnderscribeFunds(@Param("broker") VBrBroker broker,
+			@Param("type") String type, @Param("beginnum") int beginnum,
+			@Param("endnum") int endnum);
+
+	/**
+	 * @Title: getBrokerNum
+	 * @Description: 查询承销会员人数
+	 * @param brokerType
+	 */
+	int getUnderscribeFundsCount(@Param("broker") VBrBroker broker,
+			@Param("type") String type);
+
 }

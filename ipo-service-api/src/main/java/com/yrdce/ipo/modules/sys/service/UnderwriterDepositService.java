@@ -16,6 +16,6 @@ public interface UnderwriterDepositService {
 	 * @param example
 	 * @return
 	 */
-	public Integer insertInfo(UnderwriterDeposit example);
+	public void insertInfo(UnderwriterDeposit example);
 
 }

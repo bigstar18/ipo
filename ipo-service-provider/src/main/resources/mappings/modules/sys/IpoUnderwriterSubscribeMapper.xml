@@ -69,6 +69,22 @@
     from IPO_UNDERWRITER_SUBSCRIBE
   </select>
   
+    
+  <select id="selectByExample" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" parameterType="com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe" >
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
+    from IPO_UNDERWRITER_SUBSCRIBE where 1=1 
+     <if test="record.underwriterid != null" >
+     and   UNDERWRITERID = #{record.underwriterid,jdbcType=VARCHAR} 
+     </if>
+     <if test="record.commodityid != null" >
+     and   COMMODITYID = #{record.commodityid,jdbcType=VARCHAR} 
+     </if>
+      <if test="record.deleteFlag != null" >
+     and   DELETE_FLAG = #{record.deleteFlag,jdbcType=DECIMAL}
+      </if>
+  </select>
+  
   <select id="getInfosByPage" resultMap="BaseResultMap"  parameterType="map">
     SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
        <if test="record.underwriterid != null" >
