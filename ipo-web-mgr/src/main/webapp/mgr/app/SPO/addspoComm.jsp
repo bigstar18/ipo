@@ -185,7 +185,7 @@ function addSPOInfo(){
 		alert("请选择上市日期！");
 		return;
 	}
-	if(rationType=="比例配售"){
+	if(rationType=="1"){
 		if(spoDate==""){
 			alert("请选择增发日期！");
 			return;
@@ -208,9 +208,9 @@ function addSPOInfo(){
 		return;
 	}
 	//转换数据格式
-	if(rationType=="比例配售"){
+	if(rationType=="1"){
 		rationType=1;
-	}else if(rationType=="定向配售"){
+	}else if(rationType=="2"){
 		rationType=2;
 	}
 	
@@ -281,7 +281,7 @@ function updateSPOInfo(){
 		alert("请选择上市日期！");
 		return;
 	}
-	if(rationType=="比例配售"){
+	if(rationType=="1"){
 		if(spoDate==""){
 			alert("请选择增发日期！");
 			return;
@@ -304,9 +304,9 @@ function updateSPOInfo(){
 		return;
 	}
 	//转换数据格式
-	if(rationType=="比例配售"){
+	if(rationType=="1"){
 		rationType=1;
-	}else if(rationType=="定向配售"){
+	}else if(rationType=="2"){
 		rationType=2;
 	}
 	

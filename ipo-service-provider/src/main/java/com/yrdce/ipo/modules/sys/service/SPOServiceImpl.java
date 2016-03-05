@@ -273,7 +273,7 @@ public class SPOServiceImpl implements SPOService {
 		long counts = ipoSPOComm.getSpoCounts();
 		//判断是定向配售还是比例配售（1:比例配售       2:定向配售）
 		//定向配售
-		if (ipoSPOComm.getRationType().equals("1")) {
+		if (ipoSPOComm.getRationType().equals("2")) {
 			for (SpoRation spoRation : spoRationList) {
 				IpoSpoRation ipoSpoRation = new IpoSpoRation();
 				BeanUtils.copyProperties(spoRation, ipoSpoRation);
@@ -404,20 +404,25 @@ public class SPOServiceImpl implements SPOService {
 				ipoSpoRationMapper.updateCounts(all, rationid);
 			}
 		} else {
-			all = Long.parseLong(count);
-			IpoSpoRation record = new IpoSpoRation();
-			record.setSpoid(spoid);
-			record.setRationcounts(Long.parseLong(count));
-			record.setFirmid(firmid);
-			record.setOperationdate(new Date());
 			String name = ipoSpoRationMapper.selectFirmname(firmid);
-			record.setFirmname(name);
-			record.setRationSate(2);
-			ipoSpoRationMapper.insert(record);
+			if (name == null) {
+				return BROKER_NOT_EXIST;
+			} else {
+				all = Long.parseLong(count);
+				IpoSpoRation record = new IpoSpoRation();
+				record.setSpoid(spoid);
+				record.setRationcounts(Long.parseLong(count));
+				record.setFirmid(firmid);
+				record.setOperationdate(new Date());
+				record.setFirmname(name);
+				record.setRationSate(2);
+				ipoSpoRationMapper.insert(record);
+			}
 		}
 		long notCount = ipoSpoCom.getNotRationCounts();
+		long spoCount = ipoSpoCom.getSpoCounts();
 		long balance = notCount - all;
-		ipoSPOCommMapper.updatePlscingNum(all, balance, spoid);
+		ipoSPOCommMapper.updatePlscingNum(spoCount - balance, balance, spoid);
 		return "success";
 	}
 

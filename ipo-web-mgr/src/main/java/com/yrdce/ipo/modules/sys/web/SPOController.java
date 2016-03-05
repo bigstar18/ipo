@@ -365,7 +365,8 @@ public class SPOController {
 	@RequestMapping(value = "/adddir", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String addDir(@RequestParam("spoid") String spoid, @RequestParam("type") String type,
-			@RequestParam("firmid") String firmid, @RequestParam("counts") String counts) {
+			@RequestParam("firmid") String firmid, @RequestParam("counts") String counts,
+			HttpServletRequest request) {
 		String status = spoService.add(spoid, type, firmid, counts);
 		return status;
 	}

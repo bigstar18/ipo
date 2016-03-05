@@ -104,16 +104,16 @@ $(document).ready(function(){
         { text: '保存', iconCls: 'icon-save', handler: function () {
         	$("#tt").datagrid("endEdit", editRow);
         	var spoState=parent.$("#spoType").val();
-        	if(spoState!='4'){
-        		alert("已到增发日期，该配售方案已被采用，不能再次修改！");
-        		return;
-        	}
+        	var hidrationType=parent.$("#hidrationType").val();
+        	var hidipodate=parent.$("#hidipodate").val();
+        	
             var rows = $('#tt').datagrid('getChecked');
             if(rows.length==0){
             	alert("至少请勾选一条分配信息");
             	return;
             }
             var counts=0;
+            var sales=0;
 	        for(var temp in rows){
 	        	if(rows[temp].salesAllocationratio==null||rows[temp].salesAllocationratio==''){
 	        		alert("承销商分配比例不能为空");
@@ -134,6 +134,7 @@ $(document).ready(function(){
 	        	if(rows[temp].operationdate!=null){
 	        		rows[temp].operationdate=null;
 	        	}
+	        	sales = Number(sales)+Number(rows[temp].salesRebateratio);
 	        }
      	   	if(counts>100){
      	   		alert("所分配的比例总和不能大于100");
@@ -142,6 +143,22 @@ $(document).ready(function(){
      	   		alert("分配比例总和不能为0");
      	   		return;
      	   	}
+     	   	if(sales != 100){
+     	   	alert("sales"+sales);
+     	   		alert("返佣比例总和为100");
+ 	   			return;
+     	   	}
+     	   if(hidrationType == 2){
+       		if(hidipodate == "true"){
+       			alert("已到上市日期，该配售方案已被采用，不能再次修改！");
+       			return;
+       		}
+       	}else{
+       		if(spoState!='4'){
+       		alert("已到增发日期，该配售方案已被采用，不能再次修改！");
+       		return;
+       		}
+       	}
             	if(rows.length!=0){
             		$.ajax({
             			traditional: true,

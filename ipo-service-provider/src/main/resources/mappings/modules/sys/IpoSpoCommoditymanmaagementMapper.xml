@@ -95,7 +95,8 @@
     <if test="Spo.ipoDate != null and Spo.ipoDate!=''">
     and IPO_DATE = #{Spo.ipoDate,jdbcType=DATE}
     </if>
-    ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spo_id
+    order by REGISTER_DATE
+    ) a where a.TNO between  #{beginnum} and  #{endnum}
   </select>
   
   <select id="counts" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement">

@@ -188,8 +188,8 @@ function getAllInfo(){
              width : 200,
              align: "center",
              title : '分配承销商配售比例',
-             formatter: function(value,row){
-                 return "<a href='#' onclick='ration(\""+row.spoId+"\",\""+row.spoSate+"\")'>分配及查询</a>";
+             formatter: function(value,row,index){
+                 return "<a href='#' onclick='ration(\""+row.spoId+"\",\""+row.spoSate+"\",\""+row.rationType+"\","+index+")'>分配及查询</a>";
        	 	 }
          },{
              field : 'prePlacement',
@@ -342,16 +342,39 @@ function OpenFrame(spoId) {
     $('#dd').window('open');
 }
 
-function ration(spoId,spoSate) {
+function ration(spoId,spoSate,rationType,index) {
+	var bool = date(index);
 	$("#hidSpoId").val("");
 	$("#hidSpoId").val(spoId);
 	$("#spoType").val("");
 	$("#spoType").val(spoSate);
+	$("#hidrationType").val("");
+	$("#hidrationType").val(rationType);
+	$("#hidipodate").val("");
+	$("#hidipodate").val(bool);
 	$('#dd').empty();
     $('#dd').append("<iframe style='width:100%;height:100%' src='../SPO/distributionAndSelect.jsp'></iframe>");
     $('#dd').window('open');
 }
 
+function date(index){
+	$('#depositInfo').datagrid('selectRow',index);
+	var row = $("#depositInfo").datagrid("getSelected");
+	var ipoDate = row.ipoDate.substr(0,10);
+	
+	var nowDate = new Date();
+	var year = nowDate.getFullYear();
+	var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
+	var day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+	var time1 = year + "" + month + "" + day;
+	
+	var time2 = ipoDate.replace(/\-/g, "");
+	if(time1 <= time2){
+		return false;
+	}else{
+		return true;
+	}
+}
 function orderBalance(spoid){
 	if(!sure("是否确认配售？"))
 		return;
@@ -378,6 +401,8 @@ function orderBalance(spoid){
 
  <input type="hidden" id="spoType" value=""/>
  <input type="hidden" id="hidSpoId" value=""/>
+ <input type="hidden" id="hidrationType" value=""/>
+ <input type="hidden" id="hidipodate" value=""/>
 <div id="dd" title="增发商品添加"  class="easyui-window"  closed="true" style="width:800%;height:600%;padding:5px;">
 </div>
 

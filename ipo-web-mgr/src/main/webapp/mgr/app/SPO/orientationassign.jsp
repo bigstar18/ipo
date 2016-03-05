@@ -119,7 +119,7 @@ legend {
 		function initial() {
 			var spolist = $('.codeselect');
 			for (var i = 0; i < commodities.length; i++) {
-				spolist.append('<option value =' + i + 'logicvalue= '+commodities[i].commodityId+'>'+ commodities[i].commodityId + '(---'+ commodities[i].spoDate.split(" ", 1) + '---)' + '</option>');
+				spolist.append('<option value =' + i + ' logicvalue= '+commodities[i].commodityId+'>'+ commodities[i].commodityId + '(---'+ commodities[i].ipoDate.split(" ", 1) + '---)' + '</option>');
 			}
 			$('#registerDate').val(commodities[0].registerDate.split(" ", 1));
 			$('#ipoDate').val(commodities[0].ipoDate.split(" ", 1));
@@ -147,11 +147,10 @@ legend {
 		}
 
 		function ajaxpost() {
-			var spoid = $("spoid").val();
-			//var commodityid = $(".codeselect").find("option:selected").attr('logicvalue');
+			var spoid = $('#spoid').val();
 			var type = $(".listselect").find("option:selected").val();
-			var firmid = $("firmid").val();
-			var counts = $("count").val();
+			var firmid = $('#firmid').val();
+			var counts = $('#count').val();
 			$.ajax({
 				type : "POST",
 				url : "<%=request.getContextPath()%>/SPOController/adddir",
@@ -168,7 +167,7 @@ legend {
 						loadData();
 					}
 					if (response == "1001") {
-						alert("承销商代码错误");
+						alert("客户代码没有权限");
 					}
 				},
 				error : function(response) {
@@ -189,7 +188,15 @@ legend {
 
 		$('#postbtn').click(function() {
 			//验证写在这里
-			ajaxpost();
+			var firmid = $("#firmid").val();
+			var count = $("#count").val();
+			if(firmid == null || firmid == ""){
+				alert("客户代码不可以为空");
+			}else if(count == null || count == ""){
+				alert("配售数量不可以为空");
+			}else{
+				ajaxpost();
+			}
 		});
 	</script>
 </body>
