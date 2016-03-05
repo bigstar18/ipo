@@ -15,8 +15,7 @@ import com.yrdce.ipo.modules.sys.vo.SpoRation;
  */
 public interface SPOService {
 	// 客户端分页查询(front)
-	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoComm,
-			String page, String rows);
+	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoComm, String page, String rows);
 
 	// 获得总页数(front)
 	public int getRationInfoCounts(SpoCommoditymanmaagement spoComm);
@@ -47,15 +46,14 @@ public interface SPOService {
 	public int updateByRation(SpoRation spoRation) throws Exception;
 
 	// 承销商配售信息插入(mgr)
-	public int insertByRation(ArrayList<SpoRation> spoRationList)
-			throws Exception;
+	public int insertByRation(ArrayList<SpoRation> spoRationList) throws Exception;
 
 	// 增发查询总页数
 	public int spoCounts(SpoCommoditymanmaagement spoComm);
 
 	// 定向配售查询(mgr)
-	public List<SpoRation> getRationInfo(String page, String rows,
-			SpoCommoditymanmaagement spoComm) throws Exception;
+	public List<SpoRation> getRationInfo(String page, String rows, SpoCommoditymanmaagement spoComm)
+			throws Exception;
 
 	// 删除定向配售信息(mgr)
 	public int deleteByRation(Long rationid) throws Exception;
@@ -76,8 +74,7 @@ public interface SPOService {
 	public SpoCommoditymanmaagement circulation(String spoid) throws Exception;
 
 	// 更新已配售和未配售
-	public int updatePlscingNum(Long success, Long balance, String spoid)
-			throws Exception;
+	public int updatePlscingNum(Long success, Long balance, String spoid) throws Exception;
 
 	// 根据会员id查询交易商id
 	public String getFirmid(String brokerid);
@@ -87,4 +84,9 @@ public interface SPOService {
 
 	// 检查可用资金是否能扣除所需货款
 	public String checkFundsAvailable(String firmid, BigDecimal moneyNeeded);
+
+	//定向配售(mgr)
+	public List<SpoCommoditymanmaagement> getInfo();
+
+	public String add(String spoid, String type, String firmid, String count);
 }

@@ -55,6 +55,38 @@ public class UnderwriterSetController {
 	private UnderwriterDepositService depositService;
 
 	/**
+	 * 承销货款押金
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/getAllInfo", method = RequestMethod.POST)
+	@ResponseBody
+	public String getAllInfo(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam(value = "brokerid", required = false) String brokerid) {
+		try {
+			VBrBroker example = new VBrBroker();
+			if (brokerid != null) {
+				if (!brokerid.trim().equals("")) {
+					example.setBrokerid(brokerid);
+				}
+			}
+			List<VBrBroker> datalist = brBrokerService.getUnderscribeFunds(
+					example, "承销会员", page, rows);
+			int num = brBrokerService.getUnderscribeFundsCount(example, "承销会员");
+			ResponseResult result = new ResponseResult();
+			result.setRows(datalist);
+			result.setTotal(num);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
 	 * 分页返回承销设置
 	 * 
 	 * @param
@@ -132,19 +164,30 @@ public class UnderwriterSetController {
 			throws IOException {
 		if (example != null) {
 			example.setDeleteFlag((short) 0);
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			example.setCreateUser(userId);
-			example.setCreateDate(new Date());
-			underwritersubscribeService.insertInfo(example);
-			Long subcounts = example.getSubscribecounts();
-			BigDecimal subprice = example.getSubscribeprice();
-			BigDecimal subFunds = subprice.multiply(new BigDecimal(subcounts));
-			underwritersubscribeService.insertLoan(example, subFunds);
-			return "true";
+			String flag = underwritersubscribeService.checkExist(example);
+			if (flag != null) {
+				if (flag.equals("true")) {
+					return "existed";
+				}
+				if (flag.equals("false")) {
+					/*
+					 * String userId = ((UserManageVO)
+					 * session.getAttribute("CurrentUser")) .getUserID();
+					 */
+					String userId = "111";
+					example.setCreateUser(userId);
+					example.setCreateDate(new Date());
+					underwritersubscribeService.insertInfo(example);
+					Long subcounts = example.getSubscribecounts();
+					BigDecimal subprice = example.getSubscribeprice();
+					BigDecimal subFunds = subprice.multiply(new BigDecimal(
+							subcounts));
+					underwritersubscribeService.insertLoan(example, subFunds);
+					return "true";
+				}
+			}
 		}
 		return "false";
-
 	}
 
 	/**
@@ -177,12 +220,10 @@ public class UnderwriterSetController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/withhold", method = RequestMethod.GET)
-	public String withhold(@RequestParam("subscribeid") String subscribeid,
-			@RequestParam("underwriterId") String underwriterId,
+	public String withhold(@RequestParam("brokerid") String brokerid,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		request.setAttribute("subscribeid", subscribeid);
-		request.setAttribute("underwriterId", underwriterId);
+		request.setAttribute("brokerid", brokerid);
 		return "app/underwritingManage/withhold";
 
 	}
@@ -198,18 +239,13 @@ public class UnderwriterSetController {
 	@ResponseBody
 	public String deductMoney(UnderwriterDeposit deposit, HttpSession session)
 			throws IOException {
+
 		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID();
-		// String userId = "chenj";
+
 		deposit.setCreateDate(new Date());
 		deposit.setCreateUser(userId);
-		deposit.setDeleteFlag((short) 0);
-		deposit.setState((short) 1);
-		int num = depositService.insertInfo(deposit);
-		if (num == 1) {
-			return "true";
-		}
-		return "false";
-
+		depositService.insertInfo(deposit);
+		return "true";
 	}
 }

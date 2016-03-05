@@ -251,6 +251,18 @@ var promptTime = 60;
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
+						        	
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 交易商特殊设置","");</SCRIPT>
+
+                        <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("特殊手续费设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/specialCounterFee/specialCounterFeeSet.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>        	
+						        	
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
@@ -299,6 +311,9 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("经纪会员申购收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/brokerageReportController/pbrokerid");
 									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("经纪会员提货单收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/brokerageReportController/bbrokerid");
+									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
@@ -320,7 +335,9 @@ var promptTime = 60;
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 承销会员认购管理","");</SCRIPT>
-
+                        <SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("承销货款押金,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/loanDeposit.jsp");
+									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("承销设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/underwritingManage/underwritingSet.jsp");
 									M01.add(M0101);</SCRIPT>
@@ -436,6 +453,9 @@ var promptTime = 60;
 								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 增发业务","");</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("增发商品管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/rationInfo.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("定向配售,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/orientationassign.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("定向配售管理,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/SPO/ppPlacingManage.jsp");

@@ -6,47 +6,48 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class SpoCommoditymanmaagement {
-	private String spoId;
+	private String spoId;//增发id
 
-	private String commodityId;
+	private String commodityId;//商品id
 
-	private Long spoCounts;
+	private Long spoCounts;//增发数量
 
-	private BigDecimal spoPrice;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date registerDate;
+	private BigDecimal spoPrice;//增发价格
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date spoDate;
+	private Date registerDate;//登记日期
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date ipoDate;
+	private Date spoDate;//增发日期
 
-	private Integer spoSate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date ipoDate;//上市日期
 
-	private String rationType;
+	private Integer spoSate;//增发状态
 
-	private Long notRationCounts;
+	private String rationType;//配售类型
 
-	private Long successRationCounts;
+	private Long notRationCounts;//未配售数量
 
-	private Long minRationCounts;
+	private Long successRationCounts;//已配售数量
 
-	private Long minRationProportion;
+	private Long minRationCounts;//最小配售数量
 
-	private Integer rebate;
+	private Long minRationProportion;//最小配售比例
 
-	private Integer beListed;
+	private Integer rebate;//是否返佣
 
-	private Long prePlacement;
+	private Integer beListed;//是否上市
 
-	private BigDecimal positionsPrice;
+	private Long prePlacement;//预配售
+
+	private BigDecimal positionsPrice;//持仓价格
 
 	private String registerDateSart;
 
 	private String registerDateEnd;
-	private String firmid;
+
+	private String firmid;//交易商id
 
 	public String getFirmid() {
 		return firmid;

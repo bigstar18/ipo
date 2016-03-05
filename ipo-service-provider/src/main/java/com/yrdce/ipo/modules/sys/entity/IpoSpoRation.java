@@ -4,41 +4,41 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoSpoRation {
-	private Long rationid;
+	private Long rationid;//配售id
 
-	private String spoid;
+	private String spoid;//增发id
 
-	private Long rationcounts;
+	private Long rationcounts;//配售数量
 
-	private String firmid;
+	private String firmid;//交易商id
 
-	private Date operationdate;
+	private Date operationdate;//操作日期
 
-	private BigDecimal rationloan;
+	private BigDecimal rationloan;//配售货款
 
-	private BigDecimal servicefee;
+	private BigDecimal servicefee;//服务费
 
-	private BigDecimal salesAllocationratio;
+	private BigDecimal salesAllocationratio;//承销商分销比例
 
-	private BigDecimal salesRebateratio;
+	private BigDecimal salesRebateratio;//承销商返佣比例
 
-	private String firmname;
+	private String firmname;//交易商名称
 
-	private String salesid;
+	private String salesid;//承销商id
 
-	private String commodityId;
+	private String commodityId;//商品id
 
 	private Date registerDate;
 
-	private Date spoDate;
+	private Date spoDate;//增发日期
 
-	private Date ipoDate;
+	private Date ipoDate;//上市日期
 
-	private Long spoCounts;
+	private Long spoCounts;//增发数量
 
-	private BigDecimal spoPrice;
+	private BigDecimal spoPrice;//增发价格
 
-	private Integer rationSate;
+	private Integer rationSate;//配售状态（1：未确认配售 2：已确认配售）
 
 	private String brokerid;// 会员id
 

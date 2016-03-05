@@ -167,4 +167,12 @@
       	SUCCESS_RATION_COUNTS = #{successRationCounts,jdbcType=DECIMAL}
     where SPO_ID = #{spoId,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findByDate" resultMap="BaseResultMap" parameterType="map">
+  	select <include refid="Base_Column_List" /> from IPO_SPO_COMMODITYMANMAAGEMENT spocom 
+  	<![CDATA[ 
+  	where to_char(IPO_DATE,'yyyymmdd') >=to_char(#{ipoDate,jdbcType=DATE},'yyyymmdd')
+  	]]>
+  	and RATION_TYPE = #{rationtype,jdbcType=VARCHAR}
+  </select>
 </mapper>

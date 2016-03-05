@@ -209,6 +209,10 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoDeliveryCost.setRegistrationFee(fee);
 		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
 
+		//扣款流水
+		this.fundsFlow(ChargeConstant.ChargeType.REGISTER.getCode(), commid, primaryKey,
+				deliveryOrder.getDealerId(), fee);
+
 		/*long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId();
 		String commid = deliveryOrder.getCommodityId();
@@ -321,7 +325,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			param1.put("amount", amount);
 			param1.put("moduleid", "40");
 			fundsMapper.getfrozen(param);
-			this.fundsFlow(commodid, deliveryorderid, userid, cost);
+			this.fundsFlow(ChargeConstant.ChargeType.CARRIAGE.getCode(), commodid, deliveryorderid, userid,
+					cost);
 			return "success";
 		} else {
 			return "error";
@@ -364,6 +369,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoDeliveryCost.setApplyDate(new Date());
 		ipoDeliveryCost.setRegistrationFee(fee);
 		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
+
+		//扣款流水
+		this.fundsFlow(ChargeConstant.ChargeType.CANCEL.getCode(), commid, deliveryorderid, firmid, fee);
 		return "success";
 	}
 
@@ -467,11 +475,12 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	}
 
 	// 收付款流水
-	private String fundsFlow(String commodityid, String id, String userid, BigDecimal money) {
+	private String fundsFlow(String chargeType, String commodityid, String id, String userid,
+			BigDecimal money) {
 		// 货款流水
 		DebitFlow debitFlow = new DebitFlow();
 		debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY.getCode());
-		debitFlow.setChargeType(ChargeConstant.ChargeType.CARRIAGE.getCode());
+		debitFlow.setChargeType(chargeType);
 		debitFlow.setCommodityId(commodityid);
 		debitFlow.setOrderId(id);
 		debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());

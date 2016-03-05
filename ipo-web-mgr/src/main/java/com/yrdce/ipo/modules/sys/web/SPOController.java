@@ -349,6 +349,27 @@ public class SPOController {
 		}
 	}
 
+	//定向配售
+	@RequestMapping(value = "/directional", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String directional() {
+		try {
+			List<SpoCommoditymanmaagement> list = spoService.getInfo();
+			return JSON.json(list);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	@RequestMapping(value = "/adddir", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String addDir(@RequestParam("spoid") String spoid, @RequestParam("type") String type,
+			@RequestParam("firmid") String firmid, @RequestParam("counts") String counts) {
+		String status = spoService.add(spoid, type, firmid, counts);
+		return status;
+	}
+
 	// 散户手动配
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody

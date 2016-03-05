@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,7 @@ import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
@@ -258,9 +260,9 @@ public class PublisherController {
 	@RequestMapping(value = "/checkFundsAvailable", method = RequestMethod.POST)
 	@ResponseBody
 	public String checkFundsAvailable(
-			@RequestParam("underwriterid") String underwriterid,
+			@RequestParam("brokerid") String brokerid,
 			@RequestParam("amount") String amount) {
-		String dealId = spoService.getFirmid(underwriterid);
+		String dealId = spoService.getFirmid(brokerid);
 		return spoService.checkFundsAvailable(dealId, new BigDecimal(amount));
 	}
 
@@ -522,6 +524,23 @@ public class PublisherController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	/**
+	 * 跳转到 新增减持仓页面
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addReduce")
+	public String addReduce(HttpServletRequest request, Model model) {
+		Long positionFlowId = Long.valueOf(request
+				.getParameter("positionFlowId"));
+		PositionFlow flow = positionService.findFlow(positionFlowId);
+		model.addAttribute("flow", flow);
+
+		return "app/publisherQuery/add_reduce";
 	}
 
 	/**

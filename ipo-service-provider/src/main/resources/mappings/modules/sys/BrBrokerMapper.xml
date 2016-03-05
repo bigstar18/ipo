@@ -15,6 +15,8 @@
     <result column="TIMELIMIT" property="timelimit" jdbcType="DATE" />
     <result column="MARKETMANAGER" property="marketmanager" jdbcType="VARCHAR" />
     <result column="MODIFYTIME" property="modifytime" jdbcType="DATE" />
+    <result column="USER_BALANCE" property="userBalance" jdbcType="DECIMAL" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
   </resultMap>
     <resultMap id="BalanceMap" type="com.yrdce.ipo.modules.sys.entity.PublisherBalance" >
     <result column="BROKERID" property="brokerid" jdbcType="VARCHAR" />
@@ -467,5 +469,71 @@
   <select id="findIntermediary" resultType="com.yrdce.ipo.modules.sys.entity.IpoBroker" parameterType="map">
   	select * from BR_FIRMAPPLY t where t.userid = #{firmid,jdbcType=VARCHAR} and t.brokerid= #{brokerid,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getBrokerBalance" resultMap="BaseResultMap" parameterType="map">
+  	select * from(select b.*, v.user_balance,rownum TNO from br_broker b left join br_brokertype t  on t.borkertype = b.membertype
+  left join v_f_firmcurfunds v on v.firmId = b.firmid
+ where t.brokername =#{type} 
+      <if test="broker.brokerid != null" >
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
+      </if>
+     <if test="broker.name != null" >
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
+      </if>
+       <if test="broker.firmid != null" >
+      and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
+      </if>
+    ) a where a.TNO between #{beginnum} and #{endnum}
+  </select>
+  <select id="getBrokerNum" resultType="Integer" parameterType="map">
+  select count(*) from br_broker b left join br_brokertype t  on t.borkertype = b.membertype
+  left join v_f_firmcurfunds v on v.firmId = b.firmid
+  where t.brokername =#{type} 
+  <if test="broker.brokerid != null" >
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
+      </if>
+     <if test="broker.name != null" >
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
+      </if>
+       <if test="broker.firmid != null" >
+      and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+   <select id="getUnderscribeFunds" resultMap="BaseResultMap" parameterType="map">
+  select p.* from(select g.*,rownum TNO from(select b.brokerid,sum(d.amount) amount,sum( v.user_balance) user_balance
+   from br_broker b left join br_brokertype t   on t.borkertype = b.membertype left join v_f_firmcurfunds v
+    on v.firmId = b.firmid  left join ipo_underwriter_deposit d on b.brokerid = d.brokerid 
+    where t.brokername = #{type} 
+      <if test="broker.brokerid != null" >
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
+      </if>
+     <if test="broker.name != null" >
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
+      </if>
+       <if test="broker.firmid != null" >
+      and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
+      </if>
+    group by b.brokerid)g )p where p.TNO between  #{beginnum} and #{endnum}
+  </select> 
+  
+   <select id="getUnderscribeFundsCount" resultType="Integer" parameterType="map">
+  select count(*) from(select b.brokerid,sum(d.amount) amount,sum( v.user_balance) user_balance from br_broker b
+  left join br_brokertype t  on t.borkertype = b.membertype  left join v_f_firmcurfunds v
+    on v.firmId = b.firmid left join ipo_underwriter_deposit d  on b.brokerid = d.brokerid 
+     where t.brokername = #{type}  
+    <if test="broker.brokerid != null" >
+      and  b.brokerid = #{broker.brokerid,jdbcType=VARCHAR}
+      </if>
+     <if test="broker.name != null" >
+      and  b.name = #{broker.name,jdbcType=VARCHAR}
+      </if>
+       <if test="broker.firmid != null" >
+      and  b.firmid = #{broker.firmid,jdbcType=VARCHAR}
+      </if>
+      group by b.brokerid)g 
+  </select>
+  
+  
   
 </mapper>

@@ -50,4 +50,23 @@ public interface IpoSpoRationMapper {
 
 	// 更新服务费
 	int updateServicefee(@Param("servicefee") BigDecimal servicefee, @Param("rationId") long rationId);
+
+	/**
+	 * @Title: findFirm
+	 * @Description: 定向配售是否有此会员
+	 * @param spoid
+	 * @param brokerid
+	 * @return 参数说明
+	 */
+	IpoSpoRation findFirm(@Param("spoid") String spoid, @Param("brokerid") String brokerid);
+
+	/**
+	 * @Title: updateCounts
+	 * @Description: 更新配售数量
+	 * @param rationCounts
+	 * @param rationid
+	 * @return 参数说明
+	 */
+	int updateCounts(@Param("rationCounts") long rationCounts, @Param("rationId") long rationid);
+
 }

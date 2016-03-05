@@ -4,45 +4,45 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class IpoSpoCommoditymanmaagement {
-	private String spoId;
+	private String spoId;//增发id
 
-	private String commodityId;
+	private String commodityId;//商品id
 
-	private Long spoCounts;
+	private Long spoCounts;//增发数量
 
-	private BigDecimal spoPrice;
+	private BigDecimal spoPrice;//增发价格
 
-	private Date registerDate;
+	private Date registerDate;//登记日期
 
-	private Date spoDate;
+	private Date spoDate;//增发日期
 
-	private Date ipoDate;
+	private Date ipoDate;//上市日期
 
-	private Integer spoSate;
+	private Integer spoSate;//增发状态
 
-	private String rationType;
+	private String rationType;//配售类型
 
-	private Long notRationCounts;
+	private Long notRationCounts;//未配售数量
 
-	private Long successRationCounts;
+	private Long successRationCounts;//已配售数量
 
-	private Long minRationCounts;
+	private Long minRationCounts;//最小配售数量
 
-	private Long minRationProportion;
+	private Long minRationProportion;//最小配售比例
 
-	private Integer rebate;
+	private Integer rebate;//是否返佣
 
-	private Integer beListed;
+	private Integer beListed;//是否上市
 
-	private Long prePlacement;
+	private Long prePlacement;//预配售
 
-	private BigDecimal positionsPrice;
+	private BigDecimal positionsPrice;//持仓价格
 
 	private String registerDateSart;
 
 	private String registerDateEnd;
 
-	private String firmid;
+	private String firmid;//交易商id
 
 	public String getFirmid() {
 		return firmid;

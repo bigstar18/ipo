@@ -27,11 +27,15 @@ public interface IpoSpoCommoditymanmaagementMapper {
 
 	int updateByComm(IpoSpoCommoditymanmaagement record);
 
-	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype, @Param("ipoDate") Date ipoDate,
-			@Param("spoSate") Integer spoSate);
+	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype,
+			@Param("ipoDate") Date ipoDate, @Param("spoSate") Integer spoSate);
 
 	int updateByCounts(@Param("spoId") String spoId, @Param("notRationCounts") long notRationCounts,
 			@Param("successRationCounts") long successRationCounts);
 
-	int updatePlscingNum(@Param("successRationCounts") long success, @Param("notRationCounts") long balance, @Param("spoId") String spoid);
+	int updatePlscingNum(@Param("successRationCounts") long success, @Param("notRationCounts") long balance,
+			@Param("spoId") String spoid);
+
+	List<IpoSpoCommoditymanmaagement> findByDate(@Param("rationtype") String rationtype,
+			@Param("ipoDate") Date ipoDate);
 }
