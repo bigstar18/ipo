@@ -83,9 +83,13 @@ public class DistTaskServiceImpl {
 				}
 				firmdistInfoList.add(firmDistInfo);
 			}
-			for (FirmDistInfo firmDistInfo : firmdistInfoList) {
-				if (commodityDistribution.getAlldistNum() > 0) {
+			for (int i = 0; i < firmdistInfoList.size(); i++) {
+				FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
+				if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
 					firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
+				} else if (i + 1 == firmdistInfoList.size()) {
+					int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
+					firmDistInfo.setDistNum(disNum);
 				}
 				IpoDistribution ipoDistribution = new IpoDistribution();
 				ipoDistribution.setCommodityid(ipoCommodityConf.getCommodityid());
