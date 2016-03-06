@@ -191,11 +191,23 @@ public class UnderwriterSetController {
 							return "full";
 						}
 						if (tag.equals("true")) {
-							String userId = this.getLoginUserId(request);
-							example.setCreateUser(userId);
-							example.setCreateDate(new Date());
-							underwritersubscribeService.insertInfo(example);
-							return "true";
+							String mark = underwritersubscribeService
+									.checkFrozenFunds(example);
+							if (mark != null) {
+								if (mark.equals("false")) {
+									return "fundshort";
+								}
+								if (mark.equals("true")) {
+									String userId = this
+											.getLoginUserId(request);
+									example.setCreateUser(userId);
+									example.setCreateDate(new Date());
+									underwritersubscribeService
+											.insertInfo(example);
+									return "true";
+								}
+
+							}
 						}
 					}
 				}

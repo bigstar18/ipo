@@ -63,12 +63,17 @@ function add(){
                                        success: function(data) { 
                                     	   if(data=='existed'){
                                     		   alert("承销会员已认购过此商品，请重新填写");
-                                    		   clearInfo();
+                                    		  // clearInfo();
                                     		   return;
                                     	   }
                                     	   if(data=='full'){
                                     		   alert("此商品供承销认购数量已被认购完，请重新填写");
-                                    		   clearInfo();
+                                    		 //  clearInfo();
+                                    		   return;
+                                    	   }
+                                    	   if(data=='fundshort'){
+                                    		   alert("资金不足，请重新填写，或增加暂扣押金");
+                                    		  // clearInfo();
                                     		   return;
                                     	   }
                                     	   if(data=='true'){

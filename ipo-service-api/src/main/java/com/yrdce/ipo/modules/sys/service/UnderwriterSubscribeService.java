@@ -74,6 +74,14 @@ public interface UnderwriterSubscribeService {
 	public String checkTotalCounts(String commodityId);
 
 	/**
+	 * 查询认购的商品是否超出冻结资金
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public String checkFrozenFunds(UnderwriterSubscribe example);
+
+	/**
 	 * 查询发行会员的承销商列表
 	 * 
 	 * @param page

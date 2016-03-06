@@ -335,4 +335,29 @@ public class UnderwriterSubscribeServiceImpl implements
 
 	}
 
+	@Override
+	public String checkFrozenFunds(UnderwriterSubscribe example) {
+		Long subcounts = example.getSubscribecounts();
+		BigDecimal subprice = example.getSubscribeprice();
+		BigDecimal subFunds = subprice.multiply(new BigDecimal(subcounts));
+		IpoCommodityConf commodity = commconfmapper
+				.findIpoCommConfByCommid(example.getCommodityid());
+		Short publishalgr = commodity.getPublishalgr();
+		BigDecimal subHanding = new BigDecimal(0);
+		if (publishalgr == 1) {
+			subHanding = subFunds.multiply(commodity.getDealerpubcharatio())
+					.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_EVEN);
+		}
+		if (publishalgr == 2) {
+			subHanding = commodity.getDealerpubcharatio();
+		}
+		BigDecimal totalvalue = subFunds.add(subHanding);
+		BigDecimal frozenFunds = depositmapper.selectInfoByBrokerId(
+				example.getUnderwriterid()).getAmount();
+		if (totalvalue.compareTo(frozenFunds) < 0) {
+			return "true";
+		}
+		return "false";
+	}
+
 }

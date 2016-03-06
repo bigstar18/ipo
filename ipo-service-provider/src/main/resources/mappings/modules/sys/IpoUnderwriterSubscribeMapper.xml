@@ -115,7 +115,7 @@
     </select>
     
     <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
-   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 
+   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 and T.STATE=1
       <if test="record.underwriterid != null" >
        and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
       </if>
