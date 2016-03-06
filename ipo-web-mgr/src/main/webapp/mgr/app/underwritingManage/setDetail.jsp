@@ -47,7 +47,7 @@ function add(){
             	 $.ajax({  
         			 type: 'POST', 
         		      url: "<%=request.getContextPath()%>/UnderwriterSetController/findUnderwriter",  
-        		     data:{"underwriterid":$("#underwriterid").val(),"randnum":Math.floor(Math.random()*1000000)},  
+        		     data:{"underwriterid":$("#underwriterid").val()},  
         		     success : function(data, stats) { 
         			           if(data=='0'){
         			        	   alert("承销会员代码不存在！");

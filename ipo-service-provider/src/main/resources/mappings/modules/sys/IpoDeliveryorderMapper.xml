@@ -117,6 +117,9 @@
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
       </if>
+       <if test="record.deliveryMethod != null" >
+       and t.DELIVERY_METHOD = #{record.deliveryMethod,jdbcType=VARCHAR}
+      </if>
        <if test="record.approvalStatus != null" >
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}
       </if>
@@ -132,6 +135,9 @@
       </if>
        <if test="record.applyDate != null" >
        and t.APPLY_DATE = #{record.applyDate,jdbcType=DATE}
+      </if>
+       <if test="record.deliveryMethod != null" >
+       and t.DELIVERY_METHOD = #{record.deliveryMethod,jdbcType=VARCHAR}
       </if>
        <if test="record.approvalStatus != null" >
        and t.APPROVAL_STATUS = #{record.approvalStatus,jdbcType=DECIMAL}

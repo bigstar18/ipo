@@ -56,7 +56,7 @@
 	             align: "center",
 	             title : '认购商品',
 	             formatter:function(value,row){
-	            	 return "此处图标";
+	            	 return "<img src=\"<%=request.getContextPath()%>/static/ipo/image/set.jpg\" onclick=\"getCommodity('"+row.brokerid+"')\"></img>";
 	             }
 	         }]],  
 	         pagination : true
@@ -76,6 +76,9 @@
 	function reSet(){
 		$("#brokerageId").val("");
 		doSearch();
+	}
+	function getCommodity(brokerid){
+		document.location.href="<%=request.getContextPath()%>/UnderwriterSetController/subCommodity?brokerid="+brokerid+"&&randnum="+Math.floor(Math.random()*1000000);
 	}
 
 	</script>

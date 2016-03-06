@@ -3,13 +3,11 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -197,12 +195,6 @@ public class UnderwriterSetController {
 							example.setCreateUser(userId);
 							example.setCreateDate(new Date());
 							underwritersubscribeService.insertInfo(example);
-							Long subcounts = example.getSubscribecounts();
-							BigDecimal subprice = example.getSubscribeprice();
-							BigDecimal subFunds = subprice
-									.multiply(new BigDecimal(subcounts));
-							underwritersubscribeService.insertLoan(example,
-									subFunds);
 							return "true";
 						}
 					}
@@ -259,12 +251,9 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/deductMoney", method = RequestMethod.POST)
 	@ResponseBody
-	public String deductMoney(UnderwriterDeposit deposit, HttpSession session)
-			throws IOException {
-
-		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-				.getUserID();
-
+	public String deductMoney(UnderwriterDeposit deposit,
+			HttpServletRequest request) throws IOException {
+		String userId = getLoginUserId(request);
 		deposit.setCreateDate(new Date());
 		deposit.setCreateUser(userId);
 		depositService.insertInfo(deposit);
@@ -297,7 +286,52 @@ public class UnderwriterSetController {
 		result.setRows(datalist);
 		result.setTotal(num);
 		return JSON.json(result);
+	}
 
+	/**
+	 * 认购商品页面
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/subCommodity", method = RequestMethod.GET)
+	public String subCommodity(
+			@RequestParam(value = "brokerid") String brokerid,
+			HttpServletRequest request) throws IOException {
+		List<UnderwriterSubscribe> datalist = underwritersubscribeService
+				.selectUnFrozeSet(brokerid);
+		UnderwriterDeposit record = depositService
+				.selectInfoByBrokerId(brokerid);
+		request.setAttribute("subCommList", datalist);
+		request.setAttribute("subCommlist", JSON.json(datalist));
+		request.setAttribute("brokerid", brokerid);
+		request.setAttribute("deposit", record);
+		return "app/underwritingManage/subCommodity";
+	}
+
+	/**
+	 * 认购资金解冻
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/unfrozenSubFunds", method = RequestMethod.POST)
+	@ResponseBody
+	public String unfrozenSubFunds(UnderwriterSubscribe example,
+			HttpServletRequest request) throws IOException {
+		try {
+			String userId = getLoginUserId(request);
+			UnderwriterDeposit record = depositService
+					.selectInfoByBrokerId(example.getUnderwriterid());
+			underwritersubscribeService.unfrozen(example, record.getAmount(),
+					userId);
+			return "true";
+		} catch (Exception e) {
+			log.error("认购资金解冻 error:" + e);
+			return "false";
+		}
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {

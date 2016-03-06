@@ -317,6 +317,7 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 	}
 
 	@Override
+	@Transactional
 	public void insertPositionFlow(PublisherPosition example) {
 		// TODO 保存持仓信息(应保存各个业务记录的主键 )
 		PositionFlow positionFlow = new PositionFlow();

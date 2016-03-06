@@ -71,4 +71,19 @@ public interface IpoUnderwriterSubscribeMapper {
 
 	// 获取发行商的承销会员记录数
 	int getUnderwritersNum(@Param("record") IpoUnderWriters record);
+
+	// 查询承销商认购资金未处理的认购设置信息(除去正在处理的这条记录)
+	List<IpoUnderwriterSubscribe> selectUnFrozeSetExcpt(
+			@Param("brokerid") String brokerid, @Param("state") short state,
+			@Param("subscribeid") long subscribeid);
+
+	// 查询承销商认购资金未处理的认购设置信息
+	List<IpoUnderwriterSubscribe> selectUnFrozeSet(
+			@Param("brokerid") String brokerid, @Param("state") short state);
+
+	// 根据承销会员编号和商品代码查询设置信息
+	IpoUnderwriterSubscribe selectSetByBrokerIdAndCommId(
+			@Param("brokerid") String brokerid,
+			@Param("commodityid") String commodityid);
+
 }

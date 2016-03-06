@@ -93,11 +93,20 @@ public interface UnderwriterSubscribeService {
 	public Integer getUnderwritersNum(UnderWriters example);
 
 	/**
-	 * 新增货款流水
+	 * 认购资金解冻
 	 * 
 	 * @param example
 	 * @return
 	 */
-	public void insertLoan(UnderwriterSubscribe example, BigDecimal funds);
+	public void unfrozen(UnderwriterSubscribe example, BigDecimal frozenFunds,
+			String updater);
+
+	/**
+	 * 获取未处理的设置信息
+	 * 
+	 * @param brokerid
+	 * @return
+	 */
+	public List<UnderwriterSubscribe> selectUnFrozeSet(String brokerid);
 
 }

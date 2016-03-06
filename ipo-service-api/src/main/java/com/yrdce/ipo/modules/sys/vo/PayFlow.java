@@ -3,16 +3,17 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 付款流水记录
+ * 
  * @author wq 2016-1-21
  *
  */
 public class PayFlow implements Serializable {
- 
+
 	private static final long serialVersionUID = 4225236475098996750L;
-	
-	
+
 	/**
 	 * 主键
 	 */
@@ -83,7 +84,7 @@ public class PayFlow implements Serializable {
 	 * 修改时间
 	 */
 	private Date updateDate;
-	
+
 	public PayFlow() {
 	}
 
@@ -222,9 +223,5 @@ public class PayFlow implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	
-	
-	
-	
+
 }

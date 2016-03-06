@@ -64,7 +64,6 @@ public class UnderwriterDepositServiceImpl implements UnderwriterDepositService 
 	}
 
 	@Override
-	@Transactional
 	public List<UnderwriterDeposit> selectInfoByPage(String page, String rows,
 			UnderwriterDeposit example) {
 		int startIndex = PageUtil.getStartIndex(page, rows);
@@ -83,5 +82,17 @@ public class UnderwriterDepositServiceImpl implements UnderwriterDepositService 
 	@Override
 	public Integer getInfoCounts(UnderwriterDeposit example) {
 		return depositmapper.getInfoCounts(example);
+	}
+
+	@Override
+	public UnderwriterDeposit selectInfoByBrokerId(String brokerid) {
+		IpoUnderwriterDeposit example = depositmapper
+				.selectInfoByBrokerId(brokerid);
+		if (example != null) {
+			UnderwriterDeposit record = new UnderwriterDeposit();
+			BeanUtils.copyProperties(example, record);
+			return record;
+		}
+		return null;
 	}
 }

@@ -37,4 +37,12 @@ public interface UnderwriterDepositService {
 	 */
 	public Integer getInfoCounts(UnderwriterDeposit example);
 
+	/**
+	 * 查询承销会员的预付货款
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public UnderwriterDeposit selectInfoByBrokerId(String brokerid);
+
 }
