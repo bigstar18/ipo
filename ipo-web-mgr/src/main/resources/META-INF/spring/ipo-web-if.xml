@@ -63,11 +63,9 @@
     <dubbo:reference id="brokerageReportService" interface="com.yrdce.ipo.modules.sys.service.BrokerageReportService" />
     <dubbo:reference id="positionService" interface="com.yrdce.ipo.modules.sys.service.PositionService" />
     <dubbo:reference id="customerHoldSumService" interface="com.yrdce.ipo.modules.sys.service.CustomerHoldSumService" />
-     <dubbo:reference id="distributionRuleService" interface="com.yrdce.ipo.modules.sys.service.DistributionRuleService" />
+    <dubbo:reference id="distributionRuleService" interface="com.yrdce.ipo.modules.sys.service.DistributionRuleService" />
+     <dubbo:reference id="distTaskService" interface="com.yrdce.ipo.modules.sys.service.DistTaskService" />
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
-    
-    
-
 </beans>
