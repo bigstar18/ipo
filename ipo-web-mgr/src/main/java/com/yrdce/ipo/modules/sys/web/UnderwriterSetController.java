@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,17 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterDepositService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionReduce;
+import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterDeposit;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
@@ -51,6 +59,9 @@ public class UnderwriterSetController {
 
 	@Autowired
 	private UnderwriterDepositService depositService;
+
+	@Autowired
+	private PositionService positionService;
 
 	/**
 	 * 承销货款押金
@@ -344,6 +355,106 @@ public class UnderwriterSetController {
 			log.error("认购资金解冻 error:" + e);
 			return "false";
 		}
+	}
+
+	/**
+	 * 分期解冻查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceHoldPosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String reduceHoldPosition(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, PubPositionFlow example)
+			throws IOException {
+		log.info("查询承销商认购转持仓流水记录");
+		try {
+			example.setBusinessCode(ChargeConstant.BusinessType.UNDERWRITE
+					.getCode());
+			example.setRoleCode(ChargeConstant.RoleType.UNDERWRITER.getCode());
+			example.setState(PositionConstant.FlowState.turn_goods.getCode());// 要等转到现货持仓才行
+			long count = positionService.queryPubFlowForCount(example);
+			List<PubPositionFlow> dataList = new ArrayList<PubPositionFlow>();
+			if (count > 0) {
+				dataList = positionService.queryPubFlowForPage(page, rows,
+						example);
+			}
+			ResponseResult result = new ResponseResult();
+			result.setTotal(new Long(count).intValue());
+			result.setRows(dataList);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 减持设置查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceSet", method = RequestMethod.GET)
+	public String reduceSet(@RequestParam("id") String id,
+			HttpServletRequest request) throws IOException {
+		log.info("跳转持仓单号对应的减持设置信息视图");
+		try {
+			request.setAttribute("id", id);
+			return "app/underwritingManage/reduceSet";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 减持设置分页查询列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/reduceSetList", method = RequestMethod.GET)
+	@ResponseBody
+	public String reduceSetList(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, @RequestParam("id") String id)
+			throws IOException {
+		log.info("查询持仓单号对应的减持设置列表");
+		try {
+			PositionReduce positionReduce = new PositionReduce();
+			positionReduce.setPositionFlowId(Long.valueOf(id));
+			List<PositionReduce> dataList = new ArrayList<PositionReduce>();
+			dataList = positionService.queryReduceForListByPage(page, rows,
+					positionReduce);
+			ResponseResult result = new ResponseResult();
+			result.setTotal(positionService.queryReduceCount(positionReduce));
+			result.setRows(dataList);
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
+	 * 跳转到 新增减持仓页面
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addReduce")
+	public String addReduce(HttpServletRequest request, Model model) {
+		Long positionFlowId = Long.valueOf(request
+				.getParameter("positionFlowId"));
+		PositionFlow flow = positionService.findFlow(positionFlowId);
+		model.addAttribute("flow", flow);
+
+		return "app/underwritingManage/add_reduce";
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {

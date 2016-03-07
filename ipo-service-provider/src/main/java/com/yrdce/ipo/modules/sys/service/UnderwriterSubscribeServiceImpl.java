@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.common.json.ParseException;
 import com.yrdce.ipo.common.constant.ChargeConstant;
+import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterDepositMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoUnderwriterSubscribeMapper;
@@ -32,6 +34,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoUnderWriters;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.UnderWriters;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 
@@ -59,6 +62,9 @@ public class UnderwriterSubscribeServiceImpl implements
 
 	@Autowired
 	private IpoUnderwriterDepositMapper depositmapper;
+
+	@Autowired
+	private IpoPositionFlowMapper positionFlowMapper;
 
 	@Override
 	public List<UnderwriterSubscribe> getInfosByPage(String page, String rows,
@@ -238,6 +244,8 @@ public class UnderwriterSubscribeServiceImpl implements
 				.subtract(subHanding);
 		deposit.setAmount(newAmount);
 		depositmapper.updateByPrimaryKey(deposit);
+		// 插入转持仓流水
+		this.insertPositionFlow(example, updater);
 	}
 
 	@Override
@@ -352,12 +360,38 @@ public class UnderwriterSubscribeServiceImpl implements
 			subHanding = commodity.getDealerpubcharatio();
 		}
 		BigDecimal totalvalue = subFunds.add(subHanding);
-		BigDecimal frozenFunds = depositmapper.selectInfoByBrokerId(
-				example.getUnderwriterid()).getAmount();
-		if (totalvalue.compareTo(frozenFunds) < 0) {
-			return "true";
+		IpoUnderwriterDeposit deposit = depositmapper
+				.selectInfoByBrokerId(example.getUnderwriterid());
+		if (deposit != null) {
+			BigDecimal frozenFunds = depositmapper.selectInfoByBrokerId(
+					example.getUnderwriterid()).getAmount();
+			if (totalvalue.compareTo(frozenFunds) < 0) {
+				return "true";
+			}
 		}
 		return "false";
+	}
+
+	// 插入转持仓流水
+	public void insertPositionFlow(UnderwriterSubscribe example, String updater) {
+		// TODO 保存持仓信息(应保存各个业务记录的主键 )
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods
+				.getCode());
+		positionFlow.setCommodityId(example.getCommodityid());
+		positionFlow.setFirmId(ipoSpoRationMapper.firmidBySales(example
+				.getUnderwriterid()));
+		positionFlow.setHoldqty(example.getSubscribecounts());
+		positionFlow.setPrice(example.getSubscribeprice());
+		positionFlow.setFrozenqty(example.getSubscribecounts());
+		positionFlow.setFreeqty((long) 0);
+		positionFlow.setCreateUser(updater);
+		positionFlow.setCreateDate(new Date());
+		positionFlow.setRemark("承销商认购转持仓");
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.UNDERWRITE
+				.getCode());
+		positionFlow.setRoleCode(ChargeConstant.RoleType.UNDERWRITER.getCode());
+		positionFlowMapper.insert(positionFlow);
 	}
 
 }
