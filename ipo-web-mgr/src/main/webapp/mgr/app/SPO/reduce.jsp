@@ -28,6 +28,7 @@
       toolbar: "#tb", //数据网格（datagrid）面板的头部工具栏。
       title: '减持设置', //列的标题文本。
       remoteSort: false, //定义是否从服务器排序数据。
+      height:400,
       columns: [
         [{
           field: 'positionFlowId',
@@ -122,7 +123,8 @@
    }
   
   function back(){
-	  history.go(-1);
+	  var url_='<%=request.getContextPath()%>/mgr/app/SPO/positionflow.jsp';
+	  window.location.href=url_; 
   };
   
   
@@ -150,7 +152,7 @@
 			<input type="hidden">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add();" id="add">添加</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="back()">返还</a>							
+			<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="back()">返回</a>							
 		</form> 
 		</div>
 	</div>

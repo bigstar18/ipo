@@ -188,7 +188,7 @@ public class SettlementDeliveryController {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			if (status == "9") {
+			if (status.equals("9")) {
 				settlementDeliveryService.determine(deliveryorderid, user.getUserID());
 				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
 						DeliveryConstant.StatusType.CONFIRM.getCode());

@@ -324,7 +324,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			param1.put("userid", userid);
 			param1.put("amount", amount);
 			param1.put("moduleid", "40");
-			fundsMapper.getfrozen(param);
+			fundsMapper.getfrozen(param1);
 			this.fundsFlow(ChargeConstant.ChargeType.CARRIAGE.getCode(), commodid, deliveryorderid, userid,
 					cost);
 			return "success";
@@ -363,12 +363,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		BigDecimal price = commodityConf.getPrice();
 		BigDecimal quatityParam = new BigDecimal(quatity);
 		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
-		IpoDeliveryCost ipoDeliveryCost = new IpoDeliveryCost();
-		ipoDeliveryCost.setDeliveryId(deliveryorderid);
-		ipoDeliveryCost.setDeliveryMethod(ipoDeliveryorder.getDeliveryMethod());
-		ipoDeliveryCost.setApplyDate(new Date());
-		ipoDeliveryCost.setRegistrationFee(fee);
-		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
+		ipoDeliveryCostMapper.updateFee(deliveryorderid, fee);
 
 		//扣款流水
 		this.fundsFlow(ChargeConstant.ChargeType.CANCEL.getCode(), commid, deliveryorderid, firmid, fee);

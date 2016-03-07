@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -21,9 +22,20 @@ public interface IpoDeliveryCostMapper {
 
 	int updateByPrimaryKey(IpoDeliveryCost record);
 
-	List<IpoDeliveryCostExtended> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum, @Param("paging") Paging paging);
+	List<IpoDeliveryCostExtended> selectByUserid(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("paging") Paging paging);
 
 	int countsByCost(@Param("paging") Paging paging);
 
 	List<IpoDeliveryCost> getInfo(@Param("firmid") String firmid);
+
+	/**
+	 * @Title: updateFee
+	 * @Description: 更新注销费
+	 * @param deliveryId
+	 * @param registrationFee
+	 * @param cancellationFee
+	 */
+	int updateFee(@Param("deliveryId") String deliveryId,
+			@Param("cancellationFee") BigDecimal cancellationFee);
 }
