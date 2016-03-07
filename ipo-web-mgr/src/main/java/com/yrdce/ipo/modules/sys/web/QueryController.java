@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.DistTaskService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.PayFlowService;
@@ -47,13 +48,14 @@ public class QueryController {
 	private TaskService taskService;
 	@Autowired
 	private PayFlowService payFlowService;
+	@Autowired
+	private DistTaskService distTaskService;
 
 	/*
 	 * 发行摇号视图
 	 */
 	@RequestMapping(value = "/IssuedManage", method = RequestMethod.GET)
-	public String IssuedManage(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+	public String IssuedManage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/pubManager/issued";
 	}
 
@@ -61,8 +63,7 @@ public class QueryController {
 	 * 申购成交视图
 	 */
 	@RequestMapping(value = "/ApplySuccManage", method = RequestMethod.GET)
-	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+	public String ApplySuccManage(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/pubManager/order_query";
 	}
 
@@ -80,15 +81,13 @@ public class QueryController {
 			paging.setDealerId(userid);
 			List<Order> clist = orderService.getOrder(page, rows, paging);
 			int totalnums = orderService.getAllOrder(paging);
-			/*List<Order> clist;
-			int totalnums;
-			if (userid == null) {
-				clist = orderService.getOrder(page, rows);
-				totalnums = orderService.getAllOrder();
-			} else {
-				clist = orderService.getOrderInfo(page, rows, userid);
-				totalnums = orderService.getAll(userid);
-			}*/
+			/*
+			 * List<Order> clist; int totalnums; if (userid == null) { clist =
+			 * orderService.getOrder(page, rows); totalnums =
+			 * orderService.getAllOrder(); } else { clist =
+			 * orderService.getOrderInfo(page, rows, userid); totalnums =
+			 * orderService.getAll(userid); }
+			 */
 			ResponseResult result = new ResponseResult();
 			result.setRows(clist);
 			result.setTotal(totalnums);
@@ -106,9 +105,8 @@ public class QueryController {
 
 	@RequestMapping(value = "/getOrderByUserid", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getOrderByUserid(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, @RequestParam("userid") String userid)
-					throws IOException {
+	public String getOrderByUserid(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("userid") String userid) throws IOException {
 		logger.info("根据用户ID查询订单信息");
 		try {
 			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
@@ -135,8 +133,7 @@ public class QueryController {
 	@RequestMapping(value = "/findRockNums", method = RequestMethod.GET)
 	@ResponseBody
 	public String findRockNums(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			@RequestParam(value = "commodityid", required = false) String commodityid)
-					throws IOException {
+			@RequestParam(value = "commodityid", required = false) String commodityid) throws IOException {
 		logger.info("分页查询发售商品信息");
 		try {
 			List<Commodity> clist;
@@ -165,8 +162,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/commodityInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String commodityInfo(@RequestParam("page") String page,
-			@RequestParam("rows") String rows,
+	public String commodityInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			@RequestParam(value = "commodityid", required = false) String commodityid) {
 		logger.info("根据商品id查询商品信息");
 		try {
@@ -199,8 +195,8 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/queryPublishGoods")
 	@ResponseBody
-	public String queryPublishGoods(@RequestParam("page") String pageNo,
-			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
+	public String queryPublishGoods(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize,
+			HttpServletRequest request) throws Exception {
 
 		PayFlow payFlow = new PayFlow();
 		payFlow.setPayee(request.getParameter("payee"));
@@ -245,7 +241,7 @@ public class QueryController {
 	@ResponseBody
 	public boolean rock(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
-			taskService.lottery(commodityid);
+			distTaskService.distCommodity(commodityid);
 		} catch (Exception e) {
 			logger.error("rock error:", e);
 			return false;
@@ -258,8 +254,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/distribution")
 	@ResponseBody
-	public boolean distribution(
-			@RequestParam(value = "commodityid", required = true) String commodityid) {
+	public boolean distribution(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.distribution(commodityid);
 		} catch (Exception e) {
@@ -274,8 +269,7 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody
-	public boolean orderBalance(
-			@RequestParam(value = "commodityid", required = true) String commodityid) {
+	public boolean orderBalance(@RequestParam(value = "commodityid", required = true) String commodityid) {
 		try {
 			taskService.orderBalance(commodityid);
 		} catch (Exception e) {

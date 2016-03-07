@@ -1,8 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,23 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.utils.CommodityDistribution;
 import com.yrdce.ipo.common.utils.DateUtil;
-import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDistributionRuleMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.FirmDistInfo;
-import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoDistributionRule;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 
 @Service("distTaskService")
-public class DistTaskServiceImpl {
+public class DistTaskServiceImpl implements DistTaskService {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
 	private IpoOrderMapper ipoOrderMapper;
 	@Autowired
@@ -38,6 +34,8 @@ public class DistTaskServiceImpl {
 	private TCustomerholdsumMapper tcustomerholdsumMapper;
 	@Autowired
 	private IpoDistributionMapper ipoDistributionMapper;
+	@Autowired
+	private IpoCommodityMapper commodityMapper;
 
 	private List<FirmDistInfo> firmdistInfoList;
 	private List<IpoOrder> orderList;
@@ -45,38 +43,36 @@ public class DistTaskServiceImpl {
 	@Transactional()
 	public void getCommodityInfos() throws Exception {
 		logger.info("分配开始，开始获取商品信息");
-		List<IpoCommodityConf> commodityConfList = commodityConfMapper.findAllIpoCommConfs();
-		for (IpoCommodityConf ipoCommodityConf : commodityConfList) {
-			int day = ipoCommodityConf.getTradedays();
-			String oldtime = DateUtil.getTime(day);
-			Date endtime = ipoCommodityConf.getEndtime();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String endtime1 = sdf.format(endtime);
-			if (oldtime.equals(endtime1) && ipoCommodityConf.getStatus().intValue() == 1) {
-				logger.info("T+N天符合要求");
-				distCommodity(ipoCommodityConf);
+		String time = DateUtil.getTime(1);
+		// 查询发售表
+		List<IpoCommodity> ipoCommodities = commodityMapper.selectByEnd(time);
+		for (IpoCommodity ipoCommodity : ipoCommodities) {
+			if (ipoCommodity.getStatus() == 1) {
+				distCommodity(ipoCommodity.getCommodityid());
 			}
 		}
-		logger.info("分配结束");
+		logger.info("摇号结束");
 	}
 
-	// 分配过程
-	private void distCommodity(IpoCommodityConf ipoCommodityConf) throws Exception {
-		orderList = ipoOrderMapper.selectByCid(ipoCommodityConf.getCommodityid());
-		IpoDistributionRule distributionRule = ipoDistributionRuleMapper
-				.selectInfoByCommId(ipoCommodityConf.getCommodityid());
+	// 摇号过程
+	@Override
+	public void distCommodity(String commid) throws Exception {
+		IpoCommodity commodity = commodityMapper.queryByComid(commid);
+		commodityMapper.updateByStatus(31, commid);// 31表示摇号中
+		orderList = ipoOrderMapper.selectByCid(commid);
+		IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
 		CommodityDistribution commodityDistribution;
 		if (distributionRule == null) {
-			commodityDistribution = new CommodityDistribution((int) ipoCommodityConf.getCounts(), 100, 0);
+			commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 100, 0);
 		} else {
-			commodityDistribution = new CommodityDistribution((int) ipoCommodityConf.getCounts(),
+			commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
 					distributionRule.getPurchaseRatio().doubleValue(), distributionRule.getHoldRatio().doubleValue());
 		}
 		if (orderList.size() != 0) {
 			firmdistInfoList = new ArrayList<FirmDistInfo>();
 			for (IpoOrder ipoOrder : orderList) {
 				logger.info("创建分配对象");
-				FirmDistInfo firmDistInfo = creatFirmObj(ipoCommodityConf, ipoOrder, distributionRule);
+				FirmDistInfo firmDistInfo = creatFirmObj(commodity, ipoOrder, distributionRule);
 				logger.info("创建分配对象成功");
 				if (commodityDistribution.getAlldistNum() > 0) {
 					firmDistInfo = commodityDistribution.distributionMain(firmDistInfo);
@@ -92,23 +88,25 @@ public class DistTaskServiceImpl {
 					firmDistInfo.setDistNum(disNum);
 				}
 				IpoDistribution ipoDistribution = new IpoDistribution();
-				ipoDistribution.setCommodityid(ipoCommodityConf.getCommodityid());
-				ipoDistribution.setCommodityname(ipoCommodityConf.getCommodityname());
+				ipoDistribution.setCommodityid(commodity.getCommodityid());
+				ipoDistribution.setCommodityname(commodity.getCommodityname());
 				ipoDistribution.setZcounts(firmDistInfo.getDistNum());
 				ipoDistribution.setUserid(firmDistInfo.getFirmId());
 				ipoDistributionMapper.insert(ipoDistribution);
 			}
 		}
+		commodityMapper.updateByStatus(3, commid);
+		logger.info("摇号结束");
 	}
 
 	// 实例化一个等待摇号的交易商对象
-	private FirmDistInfo creatFirmObj(IpoCommodityConf ipoCommodityConf, IpoOrder ipoOrder,
+	private FirmDistInfo creatFirmObj(IpoCommodity ipoCommodity, IpoOrder ipoOrder,
 			IpoDistributionRule distributionRule) {
 		int countsBuy = ipoOrderMapper.selectbysid(ipoOrder.getCommodityid());
 		long holdCounts = tcustomerholdsumMapper.selectByCommId(orderList);
 		long firmhoidCounts = tcustomerholdsumMapper.selectFirmHold(ipoOrder.getUserid());
-		long tempCountsBuy = countsBuy / ipoCommodityConf.getUnits();
-		long tempCountsOrder = ipoOrder.getCounts() / ipoCommodityConf.getUnits();
+		long tempCountsBuy = countsBuy / ipoCommodity.getUnits();
+		long tempCountsOrder = ipoOrder.getCounts() / ipoCommodity.getUnits();
 		double firmCapitalRatio = tempCountsOrder / tempCountsBuy;
 		double firmPositionRatio;
 		if (holdCounts != 0) {

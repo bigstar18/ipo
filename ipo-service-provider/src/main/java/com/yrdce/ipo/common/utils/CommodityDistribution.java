@@ -6,7 +6,6 @@ import com.yrdce.ipo.modules.sys.entity.FirmDistInfo;
 
 public class CommodityDistribution {
 
-	// 最大中签数
 	private int alldistNum;// 分配商品总量
 	private double distPositionRatio;// 分配持仓比例
 	private double distCapitalRatio;// 分配资金比例
