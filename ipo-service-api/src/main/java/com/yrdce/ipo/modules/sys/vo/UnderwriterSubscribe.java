@@ -24,6 +24,8 @@ public class UnderwriterSubscribe {
 
 	private Short deleteFlag;// 删除标记 0:有效 1:无效
 
+	private Short state;// 处理状态 1:未处理 2:已处理
+
 	private String createUser;// 创建人
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -40,6 +42,14 @@ public class UnderwriterSubscribe {
 	private BigDecimal userBalance;// 可用资金
 
 	private BigDecimal balance;// 冻结后的资金
+
+	public Short getState() {
+		return state;
+	}
+
+	public void setState(Short state) {
+		this.state = state;
+	}
 
 	public Long getSubscribeid() {
 		return subscribeid;

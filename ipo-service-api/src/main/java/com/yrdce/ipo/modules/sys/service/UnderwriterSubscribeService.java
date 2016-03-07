@@ -58,6 +58,30 @@ public interface UnderwriterSubscribeService {
 	public String checkExist(UnderwriterSubscribe example);
 
 	/**
+	 * 获取承销商的承销商手续费比例总和最大值
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public Float checkRatioSum(String commodityId);
+
+	/**
+	 * 查询是否超出某商品的供认购总量
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public String checkTotalCounts(String commodityId);
+
+	/**
+	 * 查询认购的商品是否超出冻结资金
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public String checkFrozenFunds(UnderwriterSubscribe example);
+
+	/**
 	 * 查询发行会员的承销商列表
 	 * 
 	 * @param page
@@ -77,11 +101,20 @@ public interface UnderwriterSubscribeService {
 	public Integer getUnderwritersNum(UnderWriters example);
 
 	/**
-	 * 新增货款流水
+	 * 认购资金解冻
 	 * 
 	 * @param example
 	 * @return
 	 */
-	public void insertLoan(UnderwriterSubscribe example, BigDecimal funds);
+	public void unfrozen(UnderwriterSubscribe example, BigDecimal frozenFunds,
+			String updater);
+
+	/**
+	 * 获取未处理的设置信息
+	 * 
+	 * @param brokerid
+	 * @return
+	 */
+	public List<UnderwriterSubscribe> selectUnFrozeSet(String brokerid);
 
 }

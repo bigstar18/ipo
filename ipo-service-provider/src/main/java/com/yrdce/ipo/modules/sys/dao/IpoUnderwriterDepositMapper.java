@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.IpoUnderwriterDeposit;
+import com.yrdce.ipo.modules.sys.vo.UnderwriterDeposit;
 
 @MyBatisDao
 public interface IpoUnderwriterDepositMapper {
@@ -17,5 +18,11 @@ public interface IpoUnderwriterDepositMapper {
 			@Param("brokerid") String brokerid);
 
 	List<IpoUnderwriterDeposit> selectAll();
+
+	List<IpoUnderwriterDeposit> selectInfoByPage(
+			@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("example") UnderwriterDeposit example);
+
+	int getInfoCounts(@Param("example") UnderwriterDeposit example);
 
 }

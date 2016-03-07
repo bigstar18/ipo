@@ -11,7 +11,7 @@
 	
 	<body>
 		<div id="tb">
-			 <input id="brokerageId" value="" style="width:160px;height:20px;padding:0">
+			 承销会员编号：<input id="brokerageId" value="" style="width:160px;height:20px;padding:0">
 			 <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a>
 			 <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="reSet()">重置</a>	
 		</div>
@@ -27,7 +27,7 @@
 		 $('#tt').datagrid({  
 	         title:'认购资金信息',  
 	         iconCls:'icon-ok', 
-	         method:"get",
+	         method:"post",
 	         height:400,
 	         pageSize:10,  
 	         pageList:[5,10,15],
@@ -37,11 +37,11 @@
 	         fitColumns:true,
 	         toolbar:"#tb",
 	         queryParams:{underwriterid:$("#brokerageId").val()},
-	         url:"<%=request.getContextPath()%>/SubFundsController/insertSPOInfo?randnum="+Math.floor(Math.random()*1000000), //搜索前,触发此action请求所有用户信息  
+	         url:"<%=request.getContextPath()%>/UnderwriterSetController/subFundsList", //搜索前,触发此action请求所有用户信息  
 	         loadMsg:'数据加载中......',  
 	         fitColumns:true,//允许表格自动缩放,以适应父容器  
 	         columns : [ [ {
-	        	 field : 'underwriterid',
+	        	 field : 'brokerid',
 	             width : 200,
 	             align: "center",
 	             title : '承销会员编号'
@@ -54,7 +54,10 @@
 	             field : 'commodityid',  
 	             width : 200, 
 	             align: "center",
-	             title : '认购商品'
+	             title : '认购商品',
+	             formatter:function(value,row){
+	            	 return "<img src=\"<%=request.getContextPath()%>/static/ipo/image/set.jpg\" onclick=\"getCommodity('"+row.brokerid+"')\"></img>";
+	             }
 	         }]],  
 	         pagination : true
 	     });  
@@ -67,12 +70,15 @@
 	}
 	function doSearch(){
 		$('#tt').datagrid('load',{
-			underwriterid:$("#brokerageId").val()
+			brokerid:$("#brokerageId").val()
 		}); 
 	}
 	function reSet(){
 		$("#brokerageId").val("");
 		doSearch();
+	}
+	function getCommodity(brokerid){
+		document.location.href="<%=request.getContextPath()%>/UnderwriterSetController/subCommodity?brokerid="+brokerid+"&&randnum="+Math.floor(Math.random()*1000000);
 	}
 
 	</script>

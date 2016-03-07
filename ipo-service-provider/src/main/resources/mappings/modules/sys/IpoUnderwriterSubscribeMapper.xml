@@ -13,6 +13,7 @@
     <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
     <result column="SUBSCRIBEPRICE" property="subscribeprice" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="UResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoUnderWriters" >
     <id column="SUBSCRIBEID" property="subscribeid" jdbcType="DECIMAL" />
@@ -34,11 +35,11 @@
     insert into IPO_UNDERWRITER_SUBSCRIBE (SUBSCRIBEID, UNDERWRITERID, COMMODITYID, 
       SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
       CREATE_USER, CREATE_DATE, UPDATE_USER, 
-      UPDATE_DATE,SUBSCRIBEPRICE)
+      UPDATE_DATE,SUBSCRIBEPRICE,STATE)
     values (#{subscribeid,jdbcType=DECIMAL}, #{underwriterid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
       #{subscribecounts,jdbcType=DECIMAL}, #{proportion,jdbcType=DECIMAL}, #{deleteFlag,jdbcType=DECIMAL}, 
       #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=DATE},#{subscribeprice,jdbcType=DECIMAL})
+      #{updateDate,jdbcType=DATE},#{subscribeprice,jdbcType=DECIMAL},#{state,jdbcType=DECIMAL})
   </insert>
   
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" >
@@ -52,27 +53,32 @@
       CREATE_DATE = #{createDate,jdbcType=DATE},
       UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
       UPDATE_DATE = #{updateDate,jdbcType=DATE},
-      SUBSCRIBEPRICE = #{subscribeprice,jdbcType=DECIMAL}
+      SUBSCRIBEPRICE = #{subscribeprice,jdbcType=DECIMAL},
+      STATE = #{state,jdbcType=DECIMAL}
     where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
   </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
-    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE,STATE
     from IPO_UNDERWRITER_SUBSCRIBE
     where SUBSCRIBEID = #{subscribeid,jdbcType=DECIMAL}
   </select>
   
   <select id="selectAll" resultMap="BaseResultMap" >
     select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
-    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE,STATE
     from IPO_UNDERWRITER_SUBSCRIBE
   </select>
-  
+  <select id="selectSetByBrokerIdAndCommId" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" parameterType="map">
+    select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE,STATE
+    from IPO_UNDERWRITER_SUBSCRIBE where DELETE_FLAG=0  and  UNDERWRITERID=#{brokerid,jdbcType=VARCHAR} and COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+  </select>
     
   <select id="selectByExample" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe" parameterType="com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe" >
     select SUBSCRIBEID, UNDERWRITERID, COMMODITYID, SUBSCRIBECOUNTS, PROPORTION, DELETE_FLAG, 
-    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE
+    CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,SUBSCRIBEPRICE,STATE
     from IPO_UNDERWRITER_SUBSCRIBE where 1=1 
      <if test="record.underwriterid != null" >
      and   UNDERWRITERID = #{record.underwriterid,jdbcType=VARCHAR} 
@@ -85,8 +91,20 @@
       </if>
   </select>
   
+  <select id="selectSubscibedCounts" resultType="Long" parameterType="String">
+    select sum(t.subscribecounts) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR}  group by t.commodityid 
+  </select>
+  
+   <select id="selectTotalCounts" resultType="Long" parameterType="String">
+    select sum(t.subscricounts) from ipo_publisher_position t where t.commodityid=#{commodityId,jdbcType=VARCHAR} group by t.commodityid 
+  </select>
+  
+    <select id="checkRatioSum" resultType="Float" parameterType="String">
+   select sum(t.proportion) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR} group by t.commodityid  
+  </select>
+  
   <select id="getInfosByPage" resultMap="BaseResultMap"  parameterType="map">
-    SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
+    SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 and T.STATE=1
        <if test="record.underwriterid != null" >
        and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
       </if>
@@ -97,7 +115,7 @@
     </select>
     
     <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
-   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 
+   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 and T.STATE=1
       <if test="record.underwriterid != null" >
        and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
       </if>
@@ -146,4 +164,13 @@
       )
     </select>
   
+    <select id="selectUnFrozeSetExcpt" resultMap="BaseResultMap"  parameterType="map">
+     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL} and t.subscribeid != #{subscribeid,jdbcType=DECIMAL}
+    </select>
+  
+   <select id="selectUnFrozeSet" resultMap="BaseResultMap"  parameterType="map">
+     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL}
+    </select>
+    
+    
 </mapper>

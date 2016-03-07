@@ -24,24 +24,30 @@ function add(){
 		alert("请选择商品");
 		return;
 	}
-	if($("#subscribecounts").val()==''){
+	if($("#subscribecounts").numberbox("getValue")==''){
 		alert("认购数量不可为空");
 		return;
 	}
-	if($("#subscribeprice").val()==''){
+	if($("#subscribeprice").numberbox("getValue")==''){
 		alert("认购价格不可为空");
 		return;
 	}
-	if($("#proportion").val()==''){
+	if($("#proportion").numberbox("getValue")==''){
 		alert("占承销会员手续费总和的比例不可为空");
 		return;
 	}
 	var flag= $('#frm').form('validate');
 	if(flag==true){
+		var proportion=parseFloat($("#proportion").numberbox("getValue"));
+		var maxproportion=parseFloat($("#maxproportion").val());
+		if(proportion>maxproportion){
+			alert("超出剩余可分配比例");
+			return ;
+		}
             	 $.ajax({  
         			 type: 'POST', 
         		      url: "<%=request.getContextPath()%>/UnderwriterSetController/findUnderwriter",  
-        		     data:{"underwriterid":$("#underwriterid").val(),"randnum":Math.floor(Math.random()*1000000)},  
+        		     data:{"underwriterid":$("#underwriterid").val()},  
         		     success : function(data, stats) { 
         			           if(data=='0'){
         			        	   alert("承销会员代码不存在！");
@@ -57,7 +63,17 @@ function add(){
                                        success: function(data) { 
                                     	   if(data=='existed'){
                                     		   alert("承销会员已认购过此商品，请重新填写");
-                                    		   clearInfo();
+                                    		  // clearInfo();
+                                    		   return;
+                                    	   }
+                                    	   if(data=='full'){
+                                    		   alert("此商品供承销认购数量已被认购完，请重新填写");
+                                    		 //  clearInfo();
+                                    		   return;
+                                    	   }
+                                    	   if(data=='fundshort'){
+                                    		   alert("资金不足，请重新填写，或增加暂扣押金");
+                                    		  // clearInfo();
                                     		   return;
                                     	   }
                                     	   if(data=='true'){
@@ -106,7 +122,19 @@ function setSortName(value) {
 				$("#subscribeprice").numberbox("setValue",commList[o].price);
 				break;
 		}
-	 }  
+	 } 
+	 $.ajax({ 
+         type: "post",  
+         url: "<%=request.getContextPath()%>/UnderwriterSetController/checkRatioSum",       
+         data: {"commodityId":value},      
+         success: function(data) { 
+        	 $("#proportion").numberbox("setValue",data);
+        	 $("#maxproportion").val(data);
+         },  
+         error: function(data) {  
+             alert("系统异常，请联系管理员！");  
+         }  
+     }) ;
 }
 			
 </script>
@@ -165,8 +193,9 @@ function setSortName(value) {
 	        	<td style="font-size:15px" align="right" width="20%">占承销会员手续费总和的比例(%)：</td>
 	        	<td align="left" width="60%">
 	        	 <input style="width:150px;" id="proportion" name="proportion" 
-	        	 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,max:100,precision:2"/>
+	        	 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0,max:100,precision:1"/>
 	                   <span class="required">*</span>
+	                   <input type="hidden" id="maxproportion"/>
 	        	</td>
 	        </tr>  
 		  	<tr>

@@ -8,6 +8,7 @@
     <result column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="TOTALVALUE" property="totalvalue" jdbcType="DECIMAL" />
+    <result column="SUBSCRIBERATIO" property="subscriberatio" jdbcType="DECIMAL" />
     <result column="PUBPOSITION" property="pubposition" jdbcType="DECIMAL" />
     <result column="SALECOUNTS" property="salecounts" jdbcType="DECIMAL" />
     <result column="SUBSCRICOUNTS" property="subscricounts" jdbcType="DECIMAL" />
@@ -28,12 +29,12 @@
 	SELECT SEQ_IPO_PUBLISHER_POSITION.NEXTVAL FROM dual
 	</selectKey>
     insert into IPO_PUBLISHER_POSITION (POSITIONID, PUBLISHERID, COMMODITYID, 
-      TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+      TOTALVALUE,SUBSCRIBERATIO, PUBPOSITION, SALECOUNTS, 
       TOTALCOUNTS, STATUS, CREATER, 
       CREATEDATE, UPDATER, UPDATEDATE,STORAGEID,SUBSCRICOUNTS
       )
     values (#{positionid,jdbcType=DECIMAL}, #{publisherid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, 
-      #{totalvalue,jdbcType=DECIMAL}, #{pubposition,jdbcType=DECIMAL}, #{salecounts,jdbcType=DECIMAL}, 
+      #{totalvalue,jdbcType=DECIMAL}, #{subscriberatio,jdbcType=DECIMAL}, #{pubposition,jdbcType=DECIMAL}, #{salecounts,jdbcType=DECIMAL}, 
       #{totalcounts,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{creater,jdbcType=VARCHAR}, 
       #{createdate,jdbcType=DATE}, #{updater,jdbcType=VARCHAR}, #{updatedate,jdbcType=DATE}, #{storageid,jdbcType=VARCHAR},
        #{subscricounts,jdbcType=DECIMAL}
@@ -44,6 +45,7 @@
     set PUBLISHERID = #{publisherid,jdbcType=VARCHAR},
       COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       TOTALVALUE = #{totalvalue,jdbcType=DECIMAL},
+      SUBSCRIBERATIO = #{subscriberatio,jdbcType=DECIMAL},
       PUBPOSITION = #{pubposition,jdbcType=DECIMAL},
       SALECOUNTS = #{salecounts,jdbcType=DECIMAL},
       TOTALCOUNTS = #{totalcounts,jdbcType=DECIMAL},
@@ -57,13 +59,13 @@
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE,SUBSCRIBERATIO, PUBPOSITION, SALECOUNTS, 
     TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID,SUBSCRICOUNTS
     from IPO_PUBLISHER_POSITION
     where POSITIONID = #{positionid,jdbcType=DECIMAL}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+    select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE,SUBSCRIBERATIO, PUBPOSITION, SALECOUNTS, 
     TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID,SUBSCRICOUNTS
     from IPO_PUBLISHER_POSITION
   </select>
@@ -86,7 +88,7 @@
     select sum(t.salecounts) from ipo_publisher_position t where  t.commodityid=#{commodityid,jdbcType=VARCHAR}
   </select> 
     <select id="getInfoByStorageId" resultType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" parameterType="String">
-        select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE, PUBPOSITION, SALECOUNTS, 
+        select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE,SUBSCRIBERATIO, PUBPOSITION, SALECOUNTS, 
         TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID,SUBSCRICOUNTS
         from IPO_PUBLISHER_POSITION
         where STORAGEID = #{storageid,jdbcType=VARCHAR}

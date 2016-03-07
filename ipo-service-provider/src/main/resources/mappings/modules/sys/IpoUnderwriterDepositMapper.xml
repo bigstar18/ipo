@@ -43,4 +43,21 @@
     select ID, AMOUNT,BROKERID,  REMARK, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
     from IPO_UNDERWRITER_DEPOSIT
   </select>
+     <select id="selectInfoByPage" resultMap="BaseResultMap" parameterType="map">
+   select g.* from (select d.*, rownum TNO  from ipo_underwriter_deposit d where d.brokerid in (select t.underwriterid
+   from ipo_underwriter_subscribe t  where t.delete_flag = 0
+    <if test="example.brokerid != null and example.brokerid!=''" >
+    and t.underwriterid = #{example.brokerid,jdbcType=VARCHAR}
+     </if>
+    group by t.underwriterid)) g where g.TNO between #{beginnum} and  #{endnum}
+  </select>
+  
+   <select id="getInfoCounts" resultType="Integer" parameterType="com.yrdce.ipo.modules.sys.vo.UnderwriterDeposit">
+  select count(*)   from ipo_underwriter_deposit d   where d.brokerid in (select t.underwriterid
+     from ipo_underwriter_subscribe t where t.delete_flag = 0
+    <if test="example.brokerid != null and example.brokerid!=''" >
+    and t.underwriterid = #{example.brokerid,jdbcType=VARCHAR}
+     </if>
+    group by t.underwriterid)
+  </select>
 </mapper>

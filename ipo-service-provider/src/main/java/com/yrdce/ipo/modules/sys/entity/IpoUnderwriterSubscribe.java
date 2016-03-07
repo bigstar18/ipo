@@ -22,6 +22,8 @@ public class IpoUnderwriterSubscribe {
 
 	private Short deleteFlag;// 删除标记 0:有效 1:无效
 
+	private Short state;// 处理状态 1:未处理 2:已处理
+
 	private String createUser;// 创建人
 
 	private Date createDate;// 创建时间
@@ -37,6 +39,14 @@ public class IpoUnderwriterSubscribe {
 	private BigDecimal userBalance;// 用户可用资金
 
 	private BigDecimal lBalance;// 冻结后的余额
+
+	public Short getState() {
+		return state;
+	}
+
+	public void setState(Short state) {
+		this.state = state;
+	}
 
 	public Long getSubscribeid() {
 		return subscribeid;

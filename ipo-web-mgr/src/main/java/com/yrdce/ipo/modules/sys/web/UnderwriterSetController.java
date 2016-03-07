@@ -3,13 +3,11 @@ package com.yrdce.ipo.modules.sys.web;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -145,10 +143,26 @@ public class UnderwriterSetController {
 	@RequestMapping(value = "/addInfo", method = RequestMethod.GET)
 	public String addInfo(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		List<Commodity> commist = commodityService.findAll();
+		List<Commodity> commist = commodityService
+				.findAvaiSubscribeCommoditys();
 		request.setAttribute("commList", commist);
 		request.setAttribute("commlist", JSON.json(commist));
 		return "app/underwritingManage/setDetail";
+	}
+
+	/**
+	 * 获取已认购同一商品的承销商手续费比例总和
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/checkRatioSum", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkRatioSum(@RequestParam("commodityId") String commodityId)
+			throws IOException {
+		Float ratio = underwritersubscribeService.checkRatioSum(commodityId);
+		return ratio.toString();
 	}
 
 	/**
@@ -160,8 +174,8 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/addSet", method = RequestMethod.POST)
 	@ResponseBody
-	public String addSet(UnderwriterSubscribe example, HttpSession session)
-			throws IOException {
+	public String addSet(UnderwriterSubscribe example,
+			HttpServletRequest request) throws IOException {
 		if (example != null) {
 			example.setDeleteFlag((short) 0);
 			String flag = underwritersubscribeService.checkExist(example);
@@ -170,20 +184,32 @@ public class UnderwriterSetController {
 					return "existed";
 				}
 				if (flag.equals("false")) {
-					/*
-					 * String userId = ((UserManageVO)
-					 * session.getAttribute("CurrentUser")) .getUserID();
-					 */
-					String userId = "111";
-					example.setCreateUser(userId);
-					example.setCreateDate(new Date());
-					underwritersubscribeService.insertInfo(example);
-					Long subcounts = example.getSubscribecounts();
-					BigDecimal subprice = example.getSubscribeprice();
-					BigDecimal subFunds = subprice.multiply(new BigDecimal(
-							subcounts));
-					underwritersubscribeService.insertLoan(example, subFunds);
-					return "true";
+					String tag = underwritersubscribeService
+							.checkTotalCounts(example.getCommodityid());
+					if (tag != null) {
+						if (tag.equals("false")) {
+							return "full";
+						}
+						if (tag.equals("true")) {
+							String mark = underwritersubscribeService
+									.checkFrozenFunds(example);
+							if (mark != null) {
+								if (mark.equals("false")) {
+									return "fundshort";
+								}
+								if (mark.equals("true")) {
+									String userId = this
+											.getLoginUserId(request);
+									example.setCreateUser(userId);
+									example.setCreateDate(new Date());
+									underwritersubscribeService
+											.insertInfo(example);
+									return "true";
+								}
+
+							}
+						}
+					}
 				}
 			}
 		}
@@ -237,15 +263,96 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/deductMoney", method = RequestMethod.POST)
 	@ResponseBody
-	public String deductMoney(UnderwriterDeposit deposit, HttpSession session)
-			throws IOException {
-
-		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-				.getUserID();
-
+	public String deductMoney(UnderwriterDeposit deposit,
+			HttpServletRequest request) throws IOException {
+		String userId = getLoginUserId(request);
 		deposit.setCreateDate(new Date());
 		deposit.setCreateUser(userId);
 		depositService.insertInfo(deposit);
 		return "true";
 	}
+
+	/**
+	 * 认购资金处理列表查询
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/subFundsList", method = RequestMethod.POST)
+	@ResponseBody
+	public String subFundsList(@RequestParam("page") String page,
+			@RequestParam("rows") String rows,
+			@RequestParam(value = "brokerid", required = false) String brokerid)
+			throws IOException {
+		UnderwriterDeposit example = new UnderwriterDeposit();
+		if (brokerid != null) {
+			if (!brokerid.trim().equals("")) {
+				example.setBrokerid(brokerid);
+			}
+		}
+		List<UnderwriterDeposit> datalist = depositService.selectInfoByPage(
+				page, rows, example);
+		int num = depositService.getInfoCounts(example);
+		ResponseResult result = new ResponseResult();
+		result.setRows(datalist);
+		result.setTotal(num);
+		return JSON.json(result);
+	}
+
+	/**
+	 * 认购商品页面
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/subCommodity", method = RequestMethod.GET)
+	public String subCommodity(
+			@RequestParam(value = "brokerid") String brokerid,
+			HttpServletRequest request) throws IOException {
+		List<UnderwriterSubscribe> datalist = underwritersubscribeService
+				.selectUnFrozeSet(brokerid);
+		UnderwriterDeposit record = depositService
+				.selectInfoByBrokerId(brokerid);
+		request.setAttribute("subCommList", datalist);
+		request.setAttribute("subCommlist", JSON.json(datalist));
+		request.setAttribute("brokerid", brokerid);
+		request.setAttribute("deposit", record);
+		return "app/underwritingManage/subCommodity";
+	}
+
+	/**
+	 * 认购资金解冻
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/unfrozenSubFunds", method = RequestMethod.POST)
+	@ResponseBody
+	public String unfrozenSubFunds(UnderwriterSubscribe example,
+			HttpServletRequest request) throws IOException {
+		try {
+			String userId = getLoginUserId(request);
+			UnderwriterDeposit record = depositService
+					.selectInfoByBrokerId(example.getUnderwriterid());
+			underwritersubscribeService.unfrozen(example, record.getAmount(),
+					userId);
+			return "true";
+		} catch (Exception e) {
+			log.error("认购资金解冻 error:" + e);
+			return "false";
+		}
+	}
+
+	private String getLoginUserId(HttpServletRequest request) {
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
+				"CurrentUser");
+		if (user != null) {
+			return user.getUserID();
+		}
+		return "nologin";
+	}
+
 }

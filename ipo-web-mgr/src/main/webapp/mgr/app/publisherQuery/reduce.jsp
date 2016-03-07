@@ -54,12 +54,24 @@ $(document).ready(function() {
        	 field : 'frozenqty',  
             width : 200,  
             align: "center",
-            title : '冻结数量'
+            title : '冻结数量',
+            formatter: function(value,row) {
+            	if(row.freeqty==null){
+            		return value;
+            	}
+            	 return value-row.freeqty;
+           }
         } ,{
        	 field : 'freeqty',  
             width : 200,  
             align: "center",
-            title : '释放数量'
+            title : '释放数量',
+            formatter: function(value,row) {
+            	if(value==null){
+            		return 0;
+            	}
+            	 return value;
+           }
         } ,{
            field: 'oper',
            title: '操作',
