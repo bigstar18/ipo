@@ -72,4 +72,10 @@
 	right join ipo_delivery_cost t1 on t1.delivery_id = t.method_id and t1.delivery_method = t.delivery_method
 	where t.dealer_id = #{firmid,jdbcType=VARCHAR}
   </select>
+  
+  <update id="updateFee" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost" >
+    update IPO_DELIVERY_COST
+    set CANCELLATION_FEE = #{cancellationFee,jdbcType=DECIMAL}
+    where DELIVERY_ID = #{deliveryId,jdbcType=VARCHAR}
+  </update>
 </mapper>

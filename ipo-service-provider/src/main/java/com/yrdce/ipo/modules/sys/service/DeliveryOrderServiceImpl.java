@@ -361,7 +361,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			deliveryordermapper.updateByPrimaryKey(example);
 			DeliveryOrder order = new DeliveryOrder();
 			BeanUtils.copyProperties(example, order);
-			this.unfrozenStock(order);
+			return this.unfrozenStock(order);
 		}
 		return null;
 
