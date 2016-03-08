@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>特殊手续费设置</title>
+<script src="<%=request.getContextPath()%>/mgr/public/js/json2.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -115,6 +116,7 @@
  	    });
  	}
 	function deleteInfo(){
+	
 		var rows = $('#tt').datagrid('getChecked');
 		var ids = new Array();
 		if(rows.length==0){

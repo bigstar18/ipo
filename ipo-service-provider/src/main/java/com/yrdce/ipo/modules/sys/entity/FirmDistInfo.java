@@ -4,11 +4,20 @@ package com.yrdce.ipo.modules.sys.entity;
  * li 用于交易商摇号分配
  */
 public class FirmDistInfo {
+	private String id;
 	private String firmId;// 交易商id
 	private double firmPositionRatio;// 交易商的持仓比例
 	private double firmCapitalRatio;// 交易商资金比例
 	private int distNum;// 中签数量
 	private int maxdistNum;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getMaxdistNum() {
 		return maxdistNum;

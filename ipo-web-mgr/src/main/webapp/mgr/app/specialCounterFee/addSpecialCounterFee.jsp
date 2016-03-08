@@ -12,8 +12,6 @@
 <script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
 <link rel="stylesheet" href="../../skinstyle/default/css/common.css" type="text/css" />
 <script src="<%=request.getContextPath()%>/mgr/public/js/json2.js" type="text/javascript"></script>
-<script type="text/javascript">
-</script>
 </head>
 <body>
 	<div class="warning">
@@ -44,7 +42,7 @@
 				商品代码：
 				</td>
 				<td align='left'>
-				<select id="commodityId" style="width:184px;height:21px">
+				<select id="commodityId" style="width:182px;height:21px">
 					<option value="">请选择</option>
 				</select>
 				<input id="commodityId2" readonly="readonly" style="width:180px;height:18px;display:none;">
@@ -55,7 +53,7 @@
 				手续费算法：
 				</td>
 				<td align='left'>
-				<select id="tradealgr" style="width:184px;height:21px">
+				<select id="tradealgr" style="width:182px;height:21px">
 					<option value="">请选择</option>
 					<option value="1">百分比</option>
 					<option value="2">绝对值</option>
@@ -67,7 +65,7 @@
 				手续费种类：
 				</td>
 				<td align='left'>
-				<select id="counterFeeType" style="width:184px;height:21px">
+				<select id="counterFeeType" style="width:182px;height:21px">
 					<option value="">请选择</option>
 					<option value="1">交易买手续费</option>
 					<option value="2">交易卖手续费</option>
@@ -136,7 +134,7 @@
 			type:"POST",
 			url:"<%=request.getContextPath()%>/SpecialCounterFeeController/isFirm",
 			data:{
-				firmid:firmId,
+				firmid:firmId
 			},
 			success:function(data){
 				if(data==false){
@@ -176,7 +174,6 @@
 			return;
 		}
 		if(name=="修改"){
-
 			doUpdateInfo();
 		}else{
 			if(commonityId==""){

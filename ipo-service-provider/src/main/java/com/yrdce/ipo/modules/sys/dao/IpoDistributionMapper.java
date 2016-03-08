@@ -15,7 +15,7 @@ public interface IpoDistributionMapper {
 
 	int deleteByExample(IpoDistributionExample example);
 
-	int deleteByPrimaryKey(int id);
+	int deleteByPrimaryKey(String id);
 
 	int insert(IpoDistribution record);
 
@@ -41,8 +41,7 @@ public interface IpoDistributionMapper {
 	int updateByExampleWithBLOBs(@Param("record") IpoDistribution record,
 			@Param("example") IpoDistributionExample example);
 
-	int updateByExample(@Param("record") IpoDistribution record,
-			@Param("example") IpoDistributionExample example);
+	int updateByExample(@Param("record") IpoDistribution record, @Param("example") IpoDistributionExample example);
 
 	int updateByPrimaryKeySelective(IpoDistribution record);
 
@@ -69,7 +68,7 @@ public interface IpoDistributionMapper {
 	// hxx
 	List<IpoDistribution> queryUnsettledByCommoId(@Param("commodityid") String commodityid);
 
-	int updateSettledById(int id);
+	int updateSettledById(String id);
 
 	int ballotCounts(String userid, String ptime);
 
@@ -80,8 +79,8 @@ public interface IpoDistributionMapper {
 	 * @param startdate
 	 * @param enddate
 	 */
-	List<IpoDistribution> findByfirmidAndDate(@Param("userid") String userid,
-			@Param("startdate") String startdate, @Param("enddate") String enddate);
+	List<IpoDistribution> findByfirmidAndDate(@Param("userid") String userid, @Param("startdate") String startdate,
+			@Param("enddate") String enddate);
 
 	/**
 	 * @Title: findByfirmidAndCommoId

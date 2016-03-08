@@ -22,7 +22,7 @@ public class Distribution implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3098786530206351559L;
-
+	private String id;
 	@JsonProperty("userid")
 	@XmlElement(name = "userid")
 	@NotNull
@@ -73,6 +73,14 @@ public class Distribution implements Serializable {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date frozendate;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getOrderid() {
 		return orderid;
@@ -138,7 +146,6 @@ public class Distribution implements Serializable {
 		this.commodityid = commodityid;
 	}
 
-
 	public Integer getFrozen() {
 		return frozen;
 	}
@@ -170,6 +177,5 @@ public class Distribution implements Serializable {
 	public void setCounterfee(BigDecimal counterfee) {
 		this.counterfee = counterfee;
 	}
-
 
 }

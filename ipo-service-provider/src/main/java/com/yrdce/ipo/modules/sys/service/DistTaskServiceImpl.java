@@ -56,47 +56,63 @@ public class DistTaskServiceImpl implements DistTaskService {
 
 	// 摇号过程
 	@Override
-	public void distCommodity(String commid) throws Exception {
-		IpoCommodity commodity = commodityMapper.queryByComid(commid);
-		commodityMapper.updateByStatus(31, commid);// 31表示摇号中
-		orderList = ipoOrderMapper.selectByCid(commid);
-		IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
-		CommodityDistribution commodityDistribution;
-		if (distributionRule == null) {
-			commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 100, 0);
-		} else {
-			commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
-					distributionRule.getPurchaseRatio().doubleValue(), distributionRule.getHoldRatio().doubleValue());
-		}
-		if (orderList.size() != 0) {
-			firmdistInfoList = new ArrayList<FirmDistInfo>();
-			for (IpoOrder ipoOrder : orderList) {
-				logger.info("创建分配对象");
-				FirmDistInfo firmDistInfo = creatFirmObj(commodity, ipoOrder, distributionRule);
-				logger.info("创建分配对象成功");
-				if (commodityDistribution.getAlldistNum() > 0) {
-					firmDistInfo = commodityDistribution.distributionMain(firmDistInfo);
-				}
-				firmdistInfoList.add(firmDistInfo);
+	@Transactional()
+	public void distCommodity(String commid) {
+		int st = 1;
+		try {
+			IpoCommodity commodity = commodityMapper.queryByComid(commid);
+			st = commodity.getStatus();
+			commodityMapper.updateByStatus(31, commid);// 31表示摇号中
+			orderList = ipoOrderMapper.selectByCid(commid);
+			IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
+			CommodityDistribution commodityDistribution;
+			if (distributionRule == null) {
+				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 100, 0);
+			} else {
+				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
+						distributionRule.getPurchaseRatio().doubleValue(),
+						distributionRule.getHoldRatio().doubleValue());
 			}
-			for (int i = 0; i < firmdistInfoList.size(); i++) {
-				FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
-				if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
-					firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
-				} else if (i + 1 == firmdistInfoList.size()) {
-					int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
-					firmDistInfo.setDistNum(disNum);
+			if (orderList.size() != 0) {
+				firmdistInfoList = new ArrayList<FirmDistInfo>();
+				for (IpoOrder ipoOrder : orderList) {
+					logger.info("创建分配对象");
+					FirmDistInfo firmDistInfo = creatFirmObj(commodity, ipoOrder, distributionRule);
+					logger.info("创建分配对象成功");
+					if (commodityDistribution.getAlldistNum() > 0) {
+						firmDistInfo = commodityDistribution.distributionMain(firmDistInfo);
+					}
+					firmdistInfoList.add(firmDistInfo);
 				}
-				IpoDistribution ipoDistribution = new IpoDistribution();
-				ipoDistribution.setCommodityid(commodity.getCommodityid());
-				ipoDistribution.setCommodityname(commodity.getCommodityname());
-				ipoDistribution.setZcounts(firmDistInfo.getDistNum());
-				ipoDistribution.setUserid(firmDistInfo.getFirmId());
-				ipoDistributionMapper.insert(ipoDistribution);
+				for (int i = 0; i < firmdistInfoList.size(); i++) {
+					FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
+					if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
+						firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
+					} else if (i + 1 == firmdistInfoList.size()) {
+						int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
+						firmDistInfo.setDistNum(disNum);
+					}
+					IpoDistribution ipoDistribution = new IpoDistribution();
+					IpoDistribution tempDistribution = ipoDistributionMapper.selectByPrimaryKey(firmDistInfo.getId());
+					ipoDistribution.setZcounts(firmDistInfo.getDistNum());
+					ipoDistribution.setId(firmDistInfo.getId());
+					ipoDistribution.setCommodityid(commodity.getCommodityid());
+					ipoDistribution.setCommodityname(commodity.getCommodityname());
+					ipoDistribution.setUserid(firmDistInfo.getFirmId());
+					if (tempDistribution == null) {
+						ipoDistributionMapper.insert(ipoDistribution);
+					} else {
+						ipoDistributionMapper.updateByPrimaryKey(ipoDistribution);
+					}
+				}
 			}
+			commodityMapper.updateByStatus(3, commid);
+			logger.info("摇号结束");
+
+		} catch (Exception e) {
+			logger.error("摇号异常", e);
+			commodityMapper.updateByStatus(st, commid);
 		}
-		commodityMapper.updateByStatus(3, commid);
-		logger.info("摇号结束");
 	}
 
 	// 实例化一个等待摇号的交易商对象
@@ -117,6 +133,7 @@ public class DistTaskServiceImpl implements DistTaskService {
 		FirmDistInfo distInfo = new FirmDistInfo();
 		distInfo.setFirmCapitalRatio(firmCapitalRatio);
 		distInfo.setFirmId(ipoOrder.getUserid());
+		distInfo.setId(ipoOrder.getOrderid());
 		if (distributionRule != null) {
 			distInfo.setMaxdistNum(distributionRule.getMaxqty().intValue());
 		}

@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class IpoDistribution {
-	private int id;
+	private String id;
 	// 用户编号
 	private String userid;
 	// 商品名称
@@ -41,11 +41,11 @@ public class IpoDistribution {
 		this.commodityid = commodityid;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

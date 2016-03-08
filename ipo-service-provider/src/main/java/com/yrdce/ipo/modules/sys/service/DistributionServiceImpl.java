@@ -142,7 +142,7 @@ public class DistributionServiceImpl implements DistributionService {
 
 	@Override // hxx
 	public int updateOrderSettled(String orderId) throws Exception {
-		return ipoDistributionMapper.updateSettledById(Integer.parseInt(orderId));
+		return ipoDistributionMapper.updateSettledById(orderId);
 	}
 
 	@Override

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoDistributionMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
-    <id column="ID" property="id" jdbcType="INTEGER" />
+    <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="USERID" property="userid" jdbcType="VARCHAR" />
     <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
     <result column="STARTNUMBER" property="startnumber" jdbcType="BIGINT" />
@@ -113,17 +113,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from IPO_DISTRIBUTION
-    where ID = #{id,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from IPO_DISTRIBUTION
-    where ID = #{id,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistributionExample" >
     delete from IPO_DISTRIBUTION
@@ -131,16 +129,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
-    <selectKey resultType="Integer" order="BEFORE" keyProperty="id">
-
-	SELECT SEQ_IPO_DISTRIBUTION.NEXTVAL FROM dual
-
-	</selectKey>
+  <insert id="insert"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     insert into IPO_DISTRIBUTION (ID, USERID, COMMODITYNAME, 
       STARTNUMBER, PCOUNTS, PTIME, 
       ZCOUNTS, NUMBERS,COMMODITYID)
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
       #{startnumber,jdbcType=BIGINT}, #{pcounts,jdbcType=INTEGER}, #{ptime,jdbcType=TIMESTAMP}, 
       #{zcounts,jdbcType=INTEGER}, #{numbers,jdbcType=BLOB},#{commodityid,jdbcType=VARCHAR})
   </insert>
@@ -182,7 +175,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=VARCHAR},
@@ -220,7 +213,7 @@
     update IPO_DISTRIBUTION
     <set >
       <if test="record.id != null" >
-        ID = #{record.id,jdbcType=INTEGER},
+        ID = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.userid != null" >
         USERID = #{record.userid,jdbcType=VARCHAR},
@@ -253,7 +246,7 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
     update IPO_DISTRIBUTION
-    set ID = #{record.id,jdbcType=INTEGER},
+    set ID = #{record.id,jdbcType=VARCHAR},
       USERID = #{record.userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{record.startnumber,jdbcType=BIGINT},
@@ -268,7 +261,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update IPO_DISTRIBUTION
-    set ID = #{record.id,jdbcType=INTEGER},
+    set ID = #{record.id,jdbcType=VARCHAR},
       USERID = #{record.userid,jdbcType=VARCHAR},
       COMMODITYNAME = #{record.commodityname,jdbcType=VARCHAR},
       STARTNUMBER = #{record.startnumber,jdbcType=BIGINT},
@@ -308,7 +301,7 @@
       	COMMODITYID = #{commodityid,jdbcType=VARCHAR},
       </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     update IPO_DISTRIBUTION
@@ -320,7 +313,7 @@
       ZCOUNTS = #{zcounts,jdbcType=INTEGER},
       NUMBERS = #{numbers,jdbcType=BLOB},
       COMMODITYID =#{commodityid,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     update IPO_DISTRIBUTION
@@ -331,7 +324,7 @@
       PTIME = #{ptime,jdbcType=TIMESTAMP},
       ZCOUNTS = #{zcounts,jdbcType=INTEGER},
       COMMODITYID =#{commodityid,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   
   <update id="updateBycomAndUserid" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution">
@@ -397,7 +390,7 @@
 			tradingamount = #{tradingamount,jdbcType=DECIMAL},
 			counterfee = #{counterfee,jdbcType=DECIMAL},
 			frozendate = #{frozendate,jdbcType=DATE}
-		where ID = #{id,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	
 	<select id="queryUnsettledByCommoId" resultMap="BaseResultMap" parameterType="map">
@@ -407,7 +400,7 @@
   <update id="updateSettledById" parameterType="map">
 		update IPO_DISTRIBUTION
 		set frozen =3
-		where ID = #{id,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=VARCHAR}
   </update>
   
   <select id="selectBallot" resultMap="BaseResultMap" parameterType="map">
