@@ -30,7 +30,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
+	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
 
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
 				bsFlag);
@@ -58,7 +58,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, short bsFlag) {
+	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, Short bsFlag) {
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
 				bsFlag);
 		if (dbCustomerHold == null) {

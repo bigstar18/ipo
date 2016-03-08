@@ -14,7 +14,7 @@ public interface CustomerHoldSumService {
 	 * @param bsFlag
 	 *            买卖标记
 	 */
-	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag);
+	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag);
 
 	/**
 	 * 解冻客户持仓
@@ -28,7 +28,7 @@ public interface CustomerHoldSumService {
 	 * @param bsFlag
 	 *            买卖标记
 	 */
-	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, short bsFlag);
+	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, Short bsFlag);
 
 	/**
 	 * 增加客户持仓

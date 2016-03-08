@@ -391,9 +391,10 @@ public class SPOServiceImpl implements SPOService {
 	 */
 	@Override
 	public String add(String spoid, String type, String firmid, String count) {
+		logger.info("定向配售前台传向后台，type：" + type);
 		IpoSpoCommoditymanmaagement ipoSpoCom = ipoSPOCommMapper.selectByPrimaryKey(spoid);
 		long all = 0;
-		if (type == UNDERWRITING_MEMBER) {
+		if (type.equals(UNDERWRITING_MEMBER)) {
 			IpoSpoRation ipoSpoRation = ipoSpoRationMapper.findFirm(spoid, firmid);
 			if (ipoSpoRation == null) {
 				return BROKER_NOT_EXIST;

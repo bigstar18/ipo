@@ -39,6 +39,11 @@ legend {
 	background: #FFEF9D;
 	margin-top: 18px;
 }
+
+.errorMsg{
+	position: absolute;
+	margin-left: 5px;
+}
 </style>
 </head>
 <body>
@@ -88,19 +93,27 @@ legend {
 				<tr>
 					<td align="right"><b>*</b>客户类型：</td>
 					<td align="left">
-						<select class="listselect">
+						<select class="listselect" id="customer_type" onchange="customerFocus()">
+							<option value=""></option>
 							<option value="0">普通会员</option>
 							<option value="1">承销会员</option>
 						</select>
+						<span style="display:none;color: red;" id="errorMsg0" class="errorMsg"/>
 					</td>
 				</tr>
 				<tr>
 					<td align="right"><b>*</b>客户代码：</td>
-					<td align="left"><input type="text" id = "firmid" name = "firmid" class="listinput" /></td>
+					<td align="left">
+						<input type="text" id = "firmid" class="listinput" onblur="firmidFocus();" onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
+						<span style="display:none;color: red;" id="errorMsg1" class="errorMsg"/>
+					</td>
 				</tr>
 				<tr>
 					<td align="right"><b>*</b>配售数量：</td>
-					<td align="left"><input type="text" id = "count" class="listinput" /></td>
+					<td align="left">
+						<input type="text" id = "count" class="listinput" onkeypress="number()" onkeyup="filterInput()" onpaste="return false" onblur="countFocus();" style="ime-mode: disabled" />
+						<span style="display:none;color: red;" id="errorMsg2" class="errorMsg"/>
+					</td>
 				</tr>
 				<tr>
 					<td align="center" colspan="2"><input id="postbtn"
@@ -184,20 +197,77 @@ legend {
 							$('#successRationCounts').val(commodities[logic].successRationCounts);
 							$('#notRationCounts').val(commodities[logic].notRationCounts);
 							$('#spoid').val(commodities[logic].spoId);
+							$('#customer_type').val("");
+							$('#firmid').val("");
+							$('#count').val("");
+							$("#errorMsg0").hide();
+							$("#errorMsg1").hide();
+							$("#errorMsg2").hide();
 						});
 
 		$('#postbtn').click(function() {
 			//验证写在这里
 			var firmid = $("#firmid").val();
 			var count = $("#count").val();
-			if(firmid == null || firmid == ""){
-				alert("客户代码不可以为空");
-			}else if(count == null || count == ""){
-				alert("配售数量不可以为空");
+			var customer = $("#customer_type").val();
+			if(customer == ''){
+				$("#errorMsg0").html("请选择");
+				 $("#errorMsg0").show();
+			}else if(firmid == '' || $.trim(firmid) == ''){
+				$("#errorMsg1").html("不能为空");
+				$("#errorMsg1").show();
+			}else if($.trim(count) == '' || count == ""){
+				$("#errorMsg2").html("不能为空");
+				$("#errorMsg2").show();
 			}else{
 				ajaxpost();
 			}
 		});
+		
+		function customerFocus(){
+			var customer = $("#customer_type").val();
+			if(customer == ''){
+				$("#errorMsg0").html("请选择");
+				 $("#errorMsg0").show();
+			}else{
+				$("#errorMsg0").hide();
+			}
+		}
+		
+		function firmidFocus(){
+			var firmid = $("#firmid").val();
+			if(firmid == '' || $.trim(firmid) == ''){
+				$("#errorMsg1").html("不能为空");
+				$("#errorMsg1").show();
+			}else{
+				$("#errorMsg1").hide();
+			}
+		}
+		
+		function countFocus(){
+			var count = $("#count").val();
+			if($.trim(count) == '' || count == ""){
+				$("#errorMsg2").html("不能为空");
+				 $("#errorMsg2").show();
+			}else{
+				$("#errorMsg2").hide();
+			}
+		}
+		
+		function number(){
+			var char = String.fromCharCode(event.keyCode)
+			var re = /[0-9]/g
+			event.returnValue = char.match(re) != null ? true : false
+		}
+		
+
+		function filterInput(){
+			if (event.type.indexOf("key") != -1){
+				var re = /37|38|39|40/g
+				if (event.keyCode.toString().match(re)) return false
+			}
+			event.srcElement.value = event.srcElement.value.replace(/[^0-9]/g, "")
+		}
 	</script>
 </body>
 </body>
