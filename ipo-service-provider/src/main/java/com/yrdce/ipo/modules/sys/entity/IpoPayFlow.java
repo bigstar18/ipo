@@ -3,15 +3,17 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 付款流水记录
+ * 
  * @author wq 2016-1-21
  *
  */
 public class IpoPayFlow implements Serializable {
 
 	private static final long serialVersionUID = -8364331669480951462L;
-	
+
 	/**
 	 * 主键
 	 */
@@ -28,6 +30,11 @@ public class IpoPayFlow implements Serializable {
 	 * 商品编号
 	 */
 	private String commodityId;
+
+	/**
+	 * 商品名称
+	 */
+	private String commodityname;
 	/**
 	 * 单号
 	 */
@@ -82,7 +89,33 @@ public class IpoPayFlow implements Serializable {
 	 * 修改时间
 	 */
 	private Date updateDate;
-	
+
+	/**
+	 * 发售结束时间
+	 */
+	private Date endtime;
+
+	/**
+	 * 发行会员编号
+	 */
+	private String pubmemberid;
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getPubmemberid() {
+		return pubmemberid;
+	}
+
+	public void setPubmemberid(String pubmemberid) {
+		this.pubmemberid = pubmemberid;
+	}
+
 	public IpoPayFlow() {
 	}
 
@@ -92,6 +125,14 @@ public class IpoPayFlow implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
 	}
 
 	public String getBusinessType() {
@@ -221,8 +262,5 @@ public class IpoPayFlow implements Serializable {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	
-	
-	
+
 }

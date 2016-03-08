@@ -209,22 +209,35 @@ var promptTime = 60;
 					<DIV id=tree></DIV>
 				</DIV>
 				<DIV onclick=drwSwitch(); id=div_drw_Panel align=left curDrwNo="1">
-					&nbsp; <A><IMG src="<%=basePath%>/broker/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;发售管理
+					&nbsp; <A><IMG src="<%=basePath%>/broker/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;发行客户端
 				</DIV>
 				<div id="div_drw_Content" style="display: inline;">
 					<DIV id=tree>
 					<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
-								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 运营管理","");</SCRIPT>
+								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 发行会员查询","");</SCRIPT>
 
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("交易状态管理,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/trade/systemManager.jsp");
+									M0101 = new WebFXTreeItem("产品发行查询,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/commPubQuery.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("发行货款跟踪,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/paymentTracking.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
 						        	
-					 
+					 <SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 统计报表","");</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("发行会员结算表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/settleReports.jsp");
+									M01.add(M0101);</SCRIPT>
+						
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>
 						        	        	
 				 	
 						        	

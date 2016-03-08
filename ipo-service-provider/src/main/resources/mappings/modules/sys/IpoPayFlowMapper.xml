@@ -21,6 +21,9 @@
     <result column="create_date" property="createDate"  />
     <result column="update_user" property="updateUser"  />
     <result column="update_date" property="updateDate"  />
+    <result column="endtime" property="endtime"  />
+    <result column="pubmemberid" property="pubmemberid"  />
+    <result column="commodityname" property="commodityname"  />
   </resultMap>
   
    <resultMap id="IpoPublisherSettleMap" type="com.yrdce.ipo.modules.sys.entity.IpoPublisherSettle" >
@@ -51,8 +54,8 @@
            select pg.*,rownum as row_num from (
 	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
 	        de.payee, de.amount, de.pay_mode, de.pay_channel, de.pay_date, de.remark, de.buy_back_flag,
-	        de.create_user, de.create_date, de.update_user, de.update_date 
-	        from ipo_payflow de where 1=1
+	        de.create_user, de.create_date, de.update_user, de.update_date ,c.pubmemberid ,c.endtime,c.commodityname
+	        from ipo_payflow de  left join ipo_commodity_conf c on de.commodity_id=c.commodityid where 1=1
 	        <if test="param.buyBackFlag >=0 ">
 				 and  de.buy_back_flag=#{param.buyBackFlag}
 			</if>
@@ -74,6 +77,9 @@
 			<if test="param.payee!=null and param.payee!='' ">
 				 and  de.payee=#{param.payee}
 			</if>
+			<if test="param.pubmemberid!=null and param.pubmemberid!='' ">
+				 and  c.pubmemberid=#{param.pubmemberid}
+			</if> 
 			order by de.create_date desc
 			) pg where #{endIndex} >=rownum
 		) where row_num>=#{startIndex}
@@ -81,7 +87,7 @@
   
    <select id="queryForCount" resultType="java.lang.Long"  parameterType="map" >
         select count(de.id) as count_  
-        from ipo_payflow de where 1=1
+        from ipo_payflow de left join ipo_commodity_conf c on de.commodity_id=c.commodityid where 1=1
         <if test="param.buyBackFlag >=0 ">
 			 and  de.buy_back_flag=#{param.buyBackFlag}
 		</if>
@@ -103,7 +109,9 @@
 		<if test="param.payee!=null and param.payee!='' ">
 				 and  de.payee=#{param.payee}
 		</if>
-		 
+		<if test="param.pubmemberid!=null and param.pubmemberid!='' ">
+				 and  c.pubmemberid=#{param.pubmemberid}
+	    </if>
   </select>
   
   

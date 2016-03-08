@@ -111,6 +111,12 @@
 		<if test="record.pubmemberid != null">
 			and t.PUBMEMBERID like concat(#{record.pubmemberid,jdbcType=VARCHAR},'%')
 		</if>
+		<if test="record.commodityid != null">
+			and t.COMMODITYID like concat(#{record.commodityid,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="record.commodityname != null">
+			and t.COMMODITYNAME like concat(#{record.commodityname,jdbcType=VARCHAR},'%')
+		</if>
 		order by t.PUBMEMBERID) a where a.TNO between #{beginnum} and #{endnum}
 	</select>
 	<select id="getNumsByExample" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf">

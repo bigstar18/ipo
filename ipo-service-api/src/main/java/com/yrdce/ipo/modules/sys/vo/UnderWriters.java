@@ -1,6 +1,10 @@
 package com.yrdce.ipo.modules.sys.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 发行商的承销会员查询
@@ -20,6 +24,18 @@ public class UnderWriters implements Serializable {
 	private String commodityname;// 商品姓名
 
 	private String pubmemberid;// 发行商代码
+
+	private BigDecimal price;
+
+	private long counts;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date starttime;
+
+	private Long subscribecounts;// 认购数量
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date listingdate;
 
 	public Long getSubscribeid() {
 		return subscribeid;
@@ -69,12 +85,55 @@ public class UnderWriters implements Serializable {
 		this.pubmemberid = pubmemberid;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public long getCounts() {
+		return counts;
+	}
+
+	public void setCounts(long counts) {
+		this.counts = counts;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Long getSubscribecounts() {
+		return subscribecounts;
+	}
+
+	public void setSubscribecounts(Long subscribecounts) {
+		this.subscribecounts = subscribecounts;
+	}
+
+	public Date getListingdate() {
+		return listingdate;
+	}
+
+	public void setListingdate(Date listingdate) {
+		this.listingdate = listingdate;
+	}
+
 	@Override
 	public String toString() {
-		return "UnderWriters [subscribeid=" + subscribeid + ", underwriterid="
-				+ underwriterid + ", commodityid=" + commodityid
-				+ ", underwritername=" + underwritername + ", commodityname="
-				+ commodityname + ", pubmemberid=" + pubmemberid + "]";
+		return "IpoUnderWriters [subscribeid=" + subscribeid
+				+ ", underwriterid=" + underwriterid + ", commodityid="
+				+ commodityid + ", underwritername=" + underwritername
+				+ ", commodityname=" + commodityname + ", pubmemberid="
+				+ pubmemberid + ", price=" + price + ", counts=" + counts
+				+ ", starttime=" + starttime + ", subscribecounts="
+				+ subscribecounts + ", listingdate=" + listingdate + "]";
 	}
 
 }

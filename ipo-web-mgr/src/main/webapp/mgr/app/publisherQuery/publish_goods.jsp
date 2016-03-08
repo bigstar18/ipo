@@ -4,7 +4,7 @@
  
 <html>
 <head>
-<title>付发行商货款</title>
+<title>发行货款跟踪</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
 <script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
@@ -13,7 +13,7 @@
   <script type="text/javascript">
   $(document).ready(function() {
     $('#dg').datagrid({
-      url: '<%=request.getContextPath()%>/QueryController/queryPublishGoods?t='+Math.random(), //从远程站点请求数据的 URL。
+      url: '<%=request.getContextPath()%>/PublisherController/queryPublishGoods?t='+Math.random(), //从远程站点请求数据的 URL。
       method:"post",
       loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
       iconCls: 'icon-ok', //它将显示一个背景图片
@@ -44,29 +44,33 @@
           width : 200,
           align: 'center'
         },{
+            field: 'commodityname',
+            title: '商品名称',
+            width : 200,
+            align: 'center'
+          },{
           field: 'endtime',
           title: '发售结束日期',
           width : 200,
-          align: 'center',
+          align: 'center' ,
           formatter:function(value){
         	  return value.substr(0,10);
           }
-          
         },{
           field: 'amount',
           title: '应付货款',
           width : 200,
           align: 'center' 
         },{
-          field: 'oper',
-          title: '付货款',
+          field: 'payState',
+          title: '状态',
           width : 150,
           align: 'center',
           formatter: function(value, row, index) {
         	  if(row.payState=='1'){
-        		  return "<a href=\"#\" onclick=\"pay("+row.id+")\">" + "付款" + "</a>";
+        		  return  "未付款" ;
         	  }else if(row.payState=='2'){
-        		  return "已付";
+        		  return "已付款";
         	  };
             }
         }]
@@ -80,32 +84,10 @@
     });
   });
   
-  
-  function pay(id){
-	  var url_="<%=request.getContextPath()%>/QueryController/pay?t="+Math.random();
-	  $.ajax({  
-		    url: url_,  
-		    data:{"id":id},  
-		    type: 'POST',dataType: 'text',  
-		    success : function(data, stats) {  
-	             if(data=="success"){
-	            	 alert('付款成功');
-	            	 doSearch();
-	             }else if(data=="error"){
-	            	 alert('付款失败');
-	             }
-	        },
-	  	    error: function (jqXHR, textStatus, errorThrown) {
-	              alert('系统异常!');
-	        }
-		});  
-  }
-  
-  
   function doSearch(){
     	$('#dg').datagrid('load',{
     		commodityId:$('#commodityId').val(),
-    		pubmemberid:$('#pubmemberid').val()
+    		payState:$('#payState').val()
     	});
    }
   
@@ -123,8 +105,11 @@
 		<div>
 		<form name="frm"  >
 			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:80px">&nbsp;
-			发行会员编号: <input id="pubmemberid"  class="easyui-textbox" style="width:80px">
-			<input type="hidden">
+			状态: <select id="payState" name="payState">
+			<option value="">请选择</option>
+            <option value="1">未付款</option>
+            <option value="2">已付款</option>
+			</select>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>

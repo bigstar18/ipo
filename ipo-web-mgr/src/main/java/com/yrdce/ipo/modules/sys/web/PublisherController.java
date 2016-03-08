@@ -25,12 +25,14 @@ import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
@@ -85,6 +87,9 @@ public class PublisherController {
 	private SpecialCounterFeeService specialCounterFeeService;
 	@Autowired
 	private PositionService positionService;
+
+	@Autowired
+	private PayFlowService payFlowService;
 
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
@@ -152,32 +157,33 @@ public class PublisherController {
 	}
 
 	/**
-	 * 发行货款跟踪查询
+	 * 查询发行的货款记录
 	 * 
-	 * @param
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
 	 * @return
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	@RequestMapping(value = "/findPaymentTrack", method = RequestMethod.POST)
+	@RequestMapping(value = "/queryPublishGoods")
 	@ResponseBody
-	public String findPaymentTrack(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, PubpaymentTrack example)
-			throws IOException {
-		log.info("查询发行商应付货款跟踪");
-		try {
-			log.debug(example.toString());
-			List<PubpaymentTrack> paymentlist = paymenttrackservice
-					.getTrackInfoByPage(page, rows, example);
-			int totalnum = paymenttrackservice.getTrackNum(example);
-			ResponseResult result = new ResponseResult();
-			result.setRows(paymentlist);
-			result.setTotal(totalnum);
-			log.debug(JSON.json(result));
-			return JSON.json(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
+	public String queryPublishGoods(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request)
+			throws Exception {
+
+		PayFlow payFlow = new PayFlow();
+		payFlow.setPayState(Integer.parseInt(request.getParameter("payState")));
+		payFlow.setCommodityId(request.getParameter("commodityId"));
+		long count = payFlowService.queryPublishGoodsForCount(payFlow);
+		List<PayFlow> dataList = new ArrayList<PayFlow>();
+		if (count > 0) {
+			dataList = payFlowService.queryPublishGoodsForPage(pageNo,
+					pageSize, payFlow);
 		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal(new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
 	}
 
 	/**

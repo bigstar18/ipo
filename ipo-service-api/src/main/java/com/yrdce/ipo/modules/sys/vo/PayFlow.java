@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 付款流水记录
  * 
@@ -30,6 +32,11 @@ public class PayFlow implements Serializable {
 	 * 商品编号
 	 */
 	private String commodityId;
+
+	/**
+	 * 商品名称
+	 */
+	private String commodityname;
 	/**
 	 * 单号
 	 */
@@ -84,6 +91,41 @@ public class PayFlow implements Serializable {
 	 * 修改时间
 	 */
 	private Date updateDate;
+
+	/**
+	 * 发售结束时间
+	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date endtime;
+
+	/**
+	 * 发行会员编号
+	 */
+	private String pubmemberid;
+
+	public String getCommodityname() {
+		return commodityname;
+	}
+
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getPubmemberid() {
+		return pubmemberid;
+	}
+
+	public void setPubmemberid(String pubmemberid) {
+		this.pubmemberid = pubmemberid;
+	}
 
 	public PayFlow() {
 	}

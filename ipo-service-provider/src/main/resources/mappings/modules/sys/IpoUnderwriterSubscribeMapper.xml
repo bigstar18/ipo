@@ -22,6 +22,11 @@
      <result column="NAME" property="underwritername" jdbcType="VARCHAR" />
       <result column="COMMODITYNAME" property="commodityname" jdbcType="VARCHAR" />
        <result column="PUBMEMBERID" property="pubmemberid" jdbcType="VARCHAR" />
+         <result column="PRICE" property="price" jdbcType="DECIMAL" />
+           <result column="COUNTS" property="counts" jdbcType="DECIMAL" />
+             <result column="STARTTIME" property="starttime" jdbcType="DATE" />
+              <result column="SUBSCRIBECOUNTS" property="subscribecounts" jdbcType="DECIMAL" />
+               <result column="LISTINGDATE" property="listingdate" jdbcType="DATE" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from IPO_UNDERWRITER_SUBSCRIBE
@@ -147,19 +152,33 @@
   </select>
   
    <select id="getUnderwritersByPub" resultMap="UResultMap"  parameterType="map">
-   SELECT A.* FROM( SELECT T.*,ROWNUM TNO FROM(SELECT C.PUBMEMBERID,S.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
-    ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 
-       <if test="record.pubmemberid != null" >
-       and C.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
+   SELECT A.* FROM( SELECT T.*,ROWNUM TNO FROM(SELECT C.PUBMEMBERID,C.PRICE,C.COUNTS,C.STARTTIME,C.LISTINGDATE,C.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
+    ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 and S.State=2
+       <if test="record.pubmemberid != null and record.pubmemberid != ''" >
+       and C.PUBMEMBERID =#{record.pubmemberid,jdbcType=VARCHAR}
+      </if>
+        <if test="record.commodityid != null and record.commodityid !=''" >
+       and C.COMMODITYID =#{record.commodityid,jdbcType=VARCHAR}
+      </if> 
+       <if test="record.commodityname != null and record.commodityname != ''" >
+       and C.COMMODITYNAME like concat('%', concat (#{record.commodityname,jdbcType=VARCHAR},'%'))
       </if>
        ORDER BY C.PUBMEMBERID)T) A   WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
     </select>
     
     <select id="getUnderwritersNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderWriters">
-    SELECT COUNT(*) FROM(SELECT C.PUBMEMBERID,S.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
-    ON S.UNDERWRITERID = B.BROKERID WHERE S.DELETE_FLAG=0 
-      <if test="record.pubmemberid != null" >
-       and C.PUBMEMBERID like concat (#{record.pubmemberid,jdbcType=VARCHAR},'%')
+    SELECT COUNT(*) FROM(SELECT C.PUBMEMBERID,C.PRICE,C.COUNTS,C.STARTTIME,C.LISTINGDATE,C.COMMODITYID, C.COMMODITYNAME,
+       S.UNDERWRITERID,S.SUBSCRIBECOUNTS, B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S
+        LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID = C.COMMODITYID LEFT JOIN BR_BROKER B ON S.UNDERWRITERID = B.BROKERID
+       WHERE S.DELETE_FLAG = 0 and S.State=2
+      <if test="record.pubmemberid != null and record.pubmemberid != ''" >
+       and C.PUBMEMBERID =#{record.pubmemberid,jdbcType=VARCHAR}
+      </if>
+        <if test="record.commodityid != null and record.commodityid !=''" >
+       and C.COMMODITYID =#{record.commodityid,jdbcType=VARCHAR}
+      </if> 
+       <if test="record.commodityname != null and record.commodityname != ''" >
+       and C.COMMODITYNAME like concat('%', concat (#{record.commodityname,jdbcType=VARCHAR},'%'))
       </if>
       )
     </select>
