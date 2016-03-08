@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="location" value="classpath:dubbo.properties" />
+    </bean> -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:dubbo.properties</value>
+				<value>/WEB-INF/dubbo.properties</value>
+				<value>file://${user.home}/dubbo.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<dubbo:application name="${dubbo.application.name}" owner="programmer" organization="dubbox" />
+	<dubbo:registry address="${dubbo.registry.address}" check="false" />
+	<dubbo:consumer check="false" timeout="30000" retries="0" />
+    <!--uncomment this if you want to test dubbo's monitor-->
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+	<dubbo:reference id="commodityService" interface="com.yrdce.ipo.modules.sys.service.CommodityService" />
+	<dubbo:reference id="purchase" interface="com.yrdce.ipo.modules.sys.service.Purchase" />
+	<dubbo:reference id="displayService" interface="com.yrdce.ipo.modules.sys.service.DisplayService" />
+	<dubbo:reference id="distributionService" interface="com.yrdce.ipo.modules.sys.service.DistributionService" />
+	<dubbo:reference id="orderService" interface="com.yrdce.ipo.modules.sys.service.OrderService" />
+	<dubbo:reference id="vIpoABreedService" interface="com.yrdce.ipo.modules.sys.service.VIpoABreedService" />
+	<dubbo:reference id="mBreedservice" interface="com.yrdce.ipo.modules.sys.service.MBreedService" />
+	<dubbo:reference id="tradetimeservice" interface="com.yrdce.ipo.modules.sys.service.TradetimeService" />
+	<dubbo:reference id="systemService" interface="com.yrdce.ipo.modules.sys.service.SystemService" />
+	<dubbo:reference id="brBrokerService" interface="com.yrdce.ipo.modules.sys.service.BrBrokerService" />
+	<dubbo:reference id="tCommodityService" interface="com.yrdce.ipo.modules.sys.service.TCommodityService" />
+	<dubbo:reference id="ipoCommConfService" interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" />
+	<dubbo:reference id="specialPoundageService" interface="com.yrdce.ipo.modules.sys.service.SpecialPoundageService" />
+	<dubbo:reference id="deliveryorderservice" interface="com.yrdce.ipo.modules.sys.service.DeliveryOrderService" />
+	<dubbo:reference id="ipoStorageService" interface="com.yrdce.ipo.modules.warehouse.service.IpoStorageService" />
+	<dubbo:reference id="outboundService" interface="com.yrdce.ipo.modules.sys.service.OutboundService" />
+    <dubbo:reference id="trusteeshipCommodityService" interface="com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService" />
+    <dubbo:reference id="spoService" interface="com.yrdce.ipo.modules.sys.service.SPOService" />
+    <dubbo:reference id="trusteeshipWarehouseService" interface="com.yrdce.ipo.modules.sys.service.TrusteeWarehouseService" />
+    <dubbo:reference id="biWarehouseService" interface="com.yrdce.ipo.modules.sys.service.BiWarehouseService" />
+    <dubbo:reference id="deliveryCommService" interface="com.yrdce.ipo.modules.sys.service.DeliveryCommodityService" />
+    <dubbo:reference id="dataItemService" interface="com.yrdce.ipo.modules.sys.service.DataItemService" />
+    <dubbo:reference id="chargeItemService" interface="com.yrdce.ipo.modules.sys.service.ChargeItemService" />
+    <dubbo:reference id="taskService" interface="com.yrdce.ipo.modules.sys.service.TaskService" />
+    <dubbo:reference id="chargeRoleService" interface="com.yrdce.ipo.modules.sys.service.ChargeRoleService" />
+    <dubbo:reference id="chargeUserService" interface="com.yrdce.ipo.modules.sys.service.ChargeUserService" />
+    <dubbo:reference id="warehouseStockService" interface="com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService" />
+    <dubbo:reference id="underwritersubscribeService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService" />
+    <dubbo:reference id="depositService" interface="com.yrdce.ipo.modules.sys.service.UnderwriterDepositService" />
+    <dubbo:reference id="paymenttrackservice" interface="com.yrdce.ipo.modules.sys.service.PubpaymentTrackService" />
+    <dubbo:reference id="underwritingQueryService" interface="com.yrdce.ipo.modules.sys.service.UnderwritingQueryService" />
+    <dubbo:reference id="publisherpositionService" interface="com.yrdce.ipo.modules.sys.service.PublisherPositionService" />
+    <dubbo:reference id="specialCounterFeeService" interface="com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService" />
+    <dubbo:reference id="payFlowService" interface="com.yrdce.ipo.modules.sys.service.PayFlowService" />
+    <dubbo:reference id="debitFlowService" interface="com.yrdce.ipo.modules.sys.service.DebitFlowService" />
+    <dubbo:reference id="brokerageReportService" interface="com.yrdce.ipo.modules.sys.service.BrokerageReportService" />
+    <dubbo:reference id="positionService" interface="com.yrdce.ipo.modules.sys.service.PositionService" />
+    <dubbo:reference id="customerHoldSumService" interface="com.yrdce.ipo.modules.sys.service.CustomerHoldSumService" />
+    <dubbo:reference id="distributionRuleService" interface="com.yrdce.ipo.modules.sys.service.DistributionRuleService" />
+    <dubbo:reference id="distTaskService" interface="com.yrdce.ipo.modules.sys.service.DistTaskService" />
+    <dubbo:reference id="stockTransferrecordsService" interface="com.yrdce.ipo.modules.sys.service.StockTransferrecordsService" />
+
+    
+    <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
+    <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
+</beans>
