@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="../ipoInclude.jsp"%>
-   
+  
 <html>
 <head>
 <title>添加分配方式</title>
 <style type="text/css">
+	body{TEXT-ALIGN: center;}
 	fieldset{border:1px solid #ccc;font-size:15px;font-family:"微软雅黑";}
 	.info{width:95%;margin:0 auto;height:180px;margin-bottom:15px;margin-top:20px}
 	table{width:100%}
@@ -14,9 +15,7 @@
 	p{font-size:18px;padding:6px;}
 	span{color:#f00;}
 </style>
-<script type="text/javascript">
 
-</script>
 </head>
 
 <body>
@@ -195,8 +194,7 @@
 			type:"POST",
 			url:"<%=request.getContextPath()%>/DistributionRuleController/isExistence",
 			data:{
-				commodityId:commId,
-				
+				commodityId:commId
 				},
 			success:function(data){
 				if(data){

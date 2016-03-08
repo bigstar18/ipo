@@ -35,7 +35,7 @@
           align: 'center',
           formatter:function(value,row){
         	  if(row.deleteFlag==0){
-        	  	return "<a href='addDistributionRule.jsp?commodityid="+value+"&operationType=update'>"+value+"</a>";
+        	  	return "<a href='addDistributionRule.jsp?commodityid=" + value + "&operationType=update'>"+value+"</a>";
         	  }else{
         		  return value;
         	  }
@@ -126,6 +126,10 @@
 	  $("#commodityId").val("");
   }
 
+//   function update(commId){
+// 	  var url = "/addDistributionRule.jsp?commodityid=" + comid + "&operationType=update";
+// 	  window.location.href="/addDistributionRule.jsp?commodityid=" + comid + "&operationType=update";
+//   }
 
   function deleteById(id){
 		
