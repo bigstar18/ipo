@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,8 @@ public class SettlementDeliveryController {
 	static Logger logger = LoggerFactory.getLogger(SettlementDeliveryController.class);
 	@Autowired
 	private SettlementDeliveryService settlementDeliveryService;
+
+	private final static String NOT_SUFFICIENT_FUNDS = "1003";
 
 	// 提货申请视图
 	@RequestMapping(value = "/deliveryview", method = RequestMethod.POST)
@@ -89,14 +92,19 @@ public class SettlementDeliveryController {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			deliveryOrder.setDealerId(user.getUserID());
-			// deliveryOrder.setDealerId("888888");
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
-				settlementDeliveryService.applicationByPickup(deliveryOrder);
+				String result = settlementDeliveryService.applicationByPickup(deliveryOrder);
+				if (result.equals("error")) {
+					return NOT_SUFFICIENT_FUNDS;
+				}
 				return "success";
 			} else {
 				deliveryOrder.setDeliveryMethod("在线配送");
-				settlementDeliveryService.applicationByexpress(deliveryOrder);
+				String result = settlementDeliveryService.applicationByexpress(deliveryOrder);
+				if (result.equals("error")) {
+					return NOT_SUFFICIENT_FUNDS;
+				}
 				return "success";
 			}
 		} catch (Exception e) {
@@ -165,8 +173,8 @@ public class SettlementDeliveryController {
 	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());// user.getUserID()
+			//UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			paging.setDealerId("hl");// user.getUserID()
 			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryOrder> clist = settlementDeliveryService.getRevocationList(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "no");
@@ -187,9 +195,9 @@ public class SettlementDeliveryController {
 			@RequestParam("status") String status, HttpSession session) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			//UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			if (status.equals("9")) {
-				settlementDeliveryService.determine(deliveryorderid, user.getUserID());
+				settlementDeliveryService.determine(deliveryorderid, "hl");
 				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
 						DeliveryConstant.StatusType.CONFIRM.getCode());
 				return "success";
@@ -242,7 +250,6 @@ public class SettlementDeliveryController {
 			result.setRows(clist);
 			return JSON.json(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}
@@ -311,5 +318,16 @@ public class SettlementDeliveryController {
 			e.printStackTrace();
 			return "";
 		}
+	}
+
+	//注册注销费用提示
+	@RequestMapping(value = "/getcost", method = RequestMethod.GET)
+	@ResponseBody
+	public String getCost(@RequestParam("commid") String commid, @RequestParam("quatity") String quatity,
+			@RequestParam("genre") String genre) {
+		Long quatityParam = Long.parseLong(quatity);
+		BigDecimal fee = settlementDeliveryService.costQuery(commid, quatityParam, genre);
+		String feeParam = fee.toString();
+		return feeParam;
 	}
 }

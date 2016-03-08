@@ -319,7 +319,7 @@ body {
 					}
 					else
 					{
-						ajaxpost ();
+						feeInfo ();
 					}
 				}
 				if (value == '2')
@@ -371,7 +371,7 @@ body {
 					}
 					else
 					{
-						ajaxpost ();
+						feeInfo ();
 					}
 				}
 				;
@@ -384,6 +384,31 @@ body {
 				$ ('.textbox-text').val ('');
 				$ ('.textbox-text').css ('background', '#fff');
 			});
+			
+			function feeInfo(){
+				$.ajax (
+						{
+						    type : "GET",
+						    url : '<%=request.getContextPath()%>/SettlementDeliveryController/getcost',
+						    data :
+						    {
+						        "commid" : $ ('#vcode').val (),
+						        "quatity" : $ ('#dcount').val (),
+						        "genre" : "1001",
+						        "randnum":Math.floor(Math.random()*1000000)
+						    },
+						    success : function (response)
+						    {
+							    if(confirm("应付注册费:"+response+"元，您确定提交吗?")){
+							    	ajaxpost ();
+							    }
+						    },
+						    error : function (response)
+						    {
+							    alert ("获取费用异常，请重试或联系管理员");
+						    }
+						});
+			}
 
 			function ajaxpost ()
 			{
@@ -406,7 +431,6 @@ body {
 				        "tel" : $ ('#telNum').val (),
 				        "receiver" : $ ('#receiverName').val (),
 				        "address" : $ ('#addressName').val ()
-				       /*  "unit" : $ ('#punit').val () */
 				    },
 				    success : function (response)
 				    {
@@ -423,6 +447,10 @@ body {
 					    if (response == "error")
 					    {
 						    alert ("添加失败，请稍候重试");
+					    }
+					    if (response == "1003")
+					    {
+						    alert ("资金余额不足");
 					    }
 					    ;
 				    },

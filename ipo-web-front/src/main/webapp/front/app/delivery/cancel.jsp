@@ -137,7 +137,7 @@
             align: 'center',
             formatter: function(value, row, index) {
             	if(row.approvalStatus == '001' || row.approvalStatus == '002001' || row.approvalStatus == '003001' || row.approvalStatus == '003002'){
-            		return "<a href=\"#\" onclick=\"updateStatus('"+row.deliveryorderId+"','"+row.approvalStatus+"')\">" + "撤销" + "</a>";
+            		return "<a href=\"#\" onclick=\"feeInfo("+index+")\">" + "撤销" + "</a>";
             	}else if(row.approvalStatus == '006'){
             		return "废除";
             	}else {
@@ -154,14 +154,42 @@
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
       });
     })
+    
+    function feeInfo(index){
+    	$('#dg').datagrid('selectRow',index);
+    	var row = $("#dg").datagrid("getSelected");
+    	var commid = row.commodityId;
+    	var quatity = row.deliveryQuatity;
+    	var id= row.deliveryorderId;
+    	var status = row.approvalStatus;
+		$.ajax ({
+			type : "GET",
+			url : '<%=request.getContextPath()%>/SettlementDeliveryController/getcost',
+			data :{
+					"commid" : commid,
+					"quatity" : quatity,
+					"genre" : "1002",
+					"randnum":Math.floor(Math.random()*1000000)
+				},
+			success : function (response)
+					{
+						if(confirm("应付注销费:"+response+"元，您确定提交吗?")){
+							updateStatus(id,status);
+						}
+					},
+			error : function (response)
+					{
+						alert ("获取费用异常，请重试或联系管理员");
+					}
+			});
+			}
 
     function updateStatus(deliveryorderid,status){
-    	if(confirm('确实要撤销吗?')){
     	$.ajax({
 			 type: 'post',
 		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
 		     data:{"deliveryorderid":deliveryorderid,
-		    	 	"status":status	
+		    	 	"status":status
 		    	  },
 		     success : function(data) {
 			           if(data=='success'){
@@ -173,7 +201,6 @@
 		          	   }
 			        }
 				});
-    }
     }
 
     function doSearch(){

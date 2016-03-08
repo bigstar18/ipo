@@ -77,6 +77,10 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	@Qualifier("deliveryorderservice")
 	private DeliveryOrderService deliveryorderservice;
 
+	private final static String REGISTRATION_FEE = "1001";
+
+	private final static String CANCELLATION_FEE = "1002";
+
 	@Override
 	// 获得交易商持仓信息
 	public List<Position> getListByPosition(String firmid) {
@@ -147,6 +151,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String pickupId = ipoPickup.getPickupId();
 
 		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, pickupId);
+		if (ipoDeliveryorder == null) {
+			return "error";
+		}
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
@@ -164,6 +171,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String expressId = ipoExpress.getExpressId();
 
 		IpoDeliveryorder ipoDeliveryorder = this.applicationMethod(deliveryOrder, expressId);
+		if (ipoDeliveryorder == null) {
+			return "error";
+		}
 
 		ipoDeliveryorderMapper.insert(ipoDeliveryorder);
 		return "success";
@@ -189,11 +199,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String dealername = ipoDeliveryorderMapper.selectByFrim(dealerId);
 		ipoDeliveryorder.setDealerName(dealername);
 
-		// 更新持仓量
 		long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId() + "00";
 		String commid = deliveryOrder.getCommodityId();
-		customerHoldSumService.freezeCustomerHold(quatity, firmid, commid, (short) 1);
 
 		//注册费
 		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
@@ -208,10 +216,19 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		ipoDeliveryCost.setApplyDate(new Date());
 		ipoDeliveryCost.setRegistrationFee(fee);
 		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
+		boolean statu = capital(dealerId, fee);
+		if (statu) {
+			// 更新持仓量
+			customerHoldSumService.freezeCustomerHold(quatity, firmid, commid, (short) 1);
 
-		//扣款流水
-		this.fundsFlow(ChargeConstant.ChargeType.REGISTER.getCode(), commid, primaryKey,
-				deliveryOrder.getDealerId(), fee);
+			//扣款流水
+			this.fundsFlow(ChargeConstant.ChargeType.REGISTER.getCode(), commid, primaryKey,
+					deliveryOrder.getDealerId(), fee);
+
+			return ipoDeliveryorder;
+		} else {
+			return null;
+		}
 
 		/*long quatity = deliveryOrder.getDeliveryQuatity();
 		String firmid = deliveryOrder.getDealerId();
@@ -220,7 +237,24 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		long position = ipoPosition.getPosition();
 		long num = position - quatity;
 		ipoPositionMapper.updatePosition(firmid, commid, num);*/
-		return ipoDeliveryorder;
+
+	}
+
+	//注册费
+	@Override
+	public BigDecimal costQuery(String commid, Long quatity, String type) {
+		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
+		BigDecimal cost = new BigDecimal(0);
+		if (type.equals(REGISTRATION_FEE)) {
+			cost = commodityConf.getRegistfeeradio();
+		} else if (type.equals(CANCELLATION_FEE)) {
+			cost = commodityConf.getCancelfeeradio();
+		}
+		BigDecimal valparam = cost.divide(new BigDecimal("100"));
+		BigDecimal price = commodityConf.getPrice();
+		BigDecimal quatityParam = new BigDecimal(quatity);
+		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
+		return fee;
 	}
 
 	// 自提打印
@@ -311,20 +345,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
 		String commodid = ipoDeliveryorder.getCommodityId();
 		BigDecimal cost = ipoExpress.getCost();
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("money", "");
-		param.put("userid", userid);
-		param.put("lock", 0);
-		fundsMapper.getMonery(param);
-		BigDecimal money = (BigDecimal) param.get("money");
-		if (money.compareTo(cost) != -1) {
-			float amount = cost.floatValue();
-			Map<String, Object> param1 = new HashMap<String, Object>();
-			param1.put("money", "");
-			param1.put("userid", userid);
-			param1.put("amount", amount);
-			param1.put("moduleid", "40");
-			fundsMapper.getfrozen(param1);
+		boolean statu = capital(userid, cost);
+		if (statu) {
 			this.fundsFlow(ChargeConstant.ChargeType.CARRIAGE.getCode(), commodid, deliveryorderid, userid,
 					cost);
 			return "success";
@@ -365,9 +387,15 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
 		ipoDeliveryCostMapper.updateFee(deliveryorderid, fee);
 
-		//扣款流水
-		this.fundsFlow(ChargeConstant.ChargeType.CANCEL.getCode(), commid, deliveryorderid, firmid, fee);
-		return "success";
+		boolean statu = capital(firmid, fee);
+		if (statu) {
+			//扣款流水
+			this.fundsFlow(ChargeConstant.ChargeType.CANCEL.getCode(), commid, deliveryorderid, firmid, fee);
+			return "success";
+		} else {
+			return "error";
+		}
+
 	}
 
 	// 在线配送
@@ -490,4 +518,24 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return "success";
 	}
 
+	private Boolean capital(String userid, BigDecimal cost) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("money", "");
+		param.put("userid", userid);
+		param.put("lock", 0);
+		fundsMapper.getMonery(param);
+		BigDecimal money = (BigDecimal) param.get("money");
+		if (money.compareTo(cost) != -1) {
+			float amount = cost.floatValue();
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("money", "");
+			param1.put("userid", userid);
+			param1.put("amount", amount);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param1);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
@@ -69,5 +70,14 @@ public interface SettlementDeliveryService {
 
 	// 根据提货方式和提货id查申请主表
 	public DeliveryOrder getorder(String method, String id);
+
+	/**
+	 * @Title: registration
+	 * @Description: 注册、注销提示显示的费用
+	 * @param commid
+	 * @param quatity
+	 * @param type
+	 */
+	public BigDecimal costQuery(String commid, Long quatity, String type);
 
 }
