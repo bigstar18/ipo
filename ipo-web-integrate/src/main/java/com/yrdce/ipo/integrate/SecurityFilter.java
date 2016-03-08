@@ -117,8 +117,14 @@ public class SecurityFilter implements Filter {
 					user = au.getUserManageVO();
 					if (user != null) {
 						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID, selfLogonType, selfModuleID);
-						if (logonSuccess)
+						if (logonSuccess) {
 							request.getSession().setAttribute("CurrentUser", user);
+							if ("front".equals(sysType)) {
+								// 查询 m_trader 表，获得firmid TODO
+								String firmId = null;
+								request.getSession().setAttribute("currentFirmId", firmId);
+							}
+						}
 					}
 				}
 			}
