@@ -28,9 +28,7 @@ public class Taskmanage extends TimerTask {
 	@Autowired
 	private TaskService taskService;
 	@Autowired
-	PositionService  positionService;
-	
-	
+	PositionService positionService;
 
 	@Override
 	@Transactional
@@ -50,42 +48,42 @@ public class Taskmanage extends TimerTask {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void ipoTransferGoodsPosition(){
+
+	public void ipoTransferGoodsPosition() {
 		try {
 			taskService.ipoTransferGoodsPosition();
 		} catch (Exception e) {
-			logger.error("ipo 转持仓失败:",e);
+			logger.error("ipo 转持仓失败:", e);
 		}
 	}
-	
+
 	//定期减持客户冻结数量
-	public void reduceeCustomerHold(){
+	public void reduceeCustomerHold() {
 		logger.info("开始执行减持客户冻结数量");
 		try {
 			PositionReduce positionReduce = new PositionReduce();
 			positionReduce.setState(PositionConstant.ReduceState.no_reduce.getCode());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-			java.util.Date today=sdf.parse(sdf.format(new java.util.Date()));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date today = sdf.parse(sdf.format(new java.util.Date()));
 			positionReduce.setReduceDate(today);
-			List<PositionReduce> reduceList= positionService.queryReduceForList(positionReduce);
-			if(reduceList==null||reduceList.isEmpty()){
+			List<PositionReduce> reduceList = positionService.queryReduceForList(positionReduce);
+			if (reduceList == null || reduceList.isEmpty()) {
 				logger.info("查询 持仓减持设置 记录数为 空");
-				return ;
-			};
-			for(PositionReduce item:reduceList){
+				return;
+			}
+			;
+			for (PositionReduce item : reduceList) {
 				try {
 					item.setUpdateUser("job");
 					positionService.reduceeCustomerHold(item);
 				} catch (Exception e) {
-					logger.error("客户持仓减持异常",e);
+					logger.error("客户持仓减持异常", e);
 				}
-			};
+			}
+			;
 		} catch (Exception e) {
-			logger.error("查询 持仓减持异常",e);
+			logger.error("查询 持仓减持异常", e);
 		}
 		logger.info("结束执行减持客户冻结数量");
 	}
-	
 }

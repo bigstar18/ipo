@@ -51,11 +51,10 @@ import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
- * @author hxx
- *         只能单机部署，多机的话考虑 redis
+ * @author hxx 只能单机部署，多机的话考虑 redis
  */
 @Component
-public class SystemManager extends Observable{
+public class SystemManager extends Observable {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	// statusMap.put("0", "初始化完成");
@@ -123,12 +122,12 @@ public class SystemManager extends Observable{
 	@Autowired
 	@Qualifier("firmHoldSumService")
 	private FirmHoldSumService firmHoldSumService;
-	
+
 	@Autowired
 	private IpoDebitFlowMapper debitFlowMapper;
 	@Autowired
 	private IpoFirmrewarddeailMapper ipoFirmrewarddeailMapper;
-	
+
 	public String getStatus() {
 		return status;
 	}
@@ -208,7 +207,8 @@ public class SystemManager extends Observable{
 
 		if (lockStatus.compareAndSet(false, true)) {
 			if (status.equals(STATUS_TRADE_PAUSE)) {
-				updateSysStatus(tradeDate, STATUS_TRADE_DOING, String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
+				updateSysStatus(tradeDate, STATUS_TRADE_DOING,
+						String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
 
 				lockStatus.compareAndSet(true, false);
 				listener.interrupt();
@@ -312,7 +312,7 @@ public class SystemManager extends Observable{
 			//扣仓库托管费,扣款对象:发行商,托管商品的散户
 			warehouseTrusteeSettle();
 			updateClearStatus(Short.valueOf("5"), CLEAR_STATUS_Y);
-			 //佣金结算
+			//佣金结算
 			brokerageSettle();
 			updateClearStatus(Short.valueOf("6"), CLEAR_STATUS_Y);
 			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
@@ -322,120 +322,124 @@ public class SystemManager extends Observable{
 		}
 	}
 
-
-
 	//发行手续费结算 
-	public void publishHandlingSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.PUBLISH.getCode();
-		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40002","发行手续费结算");
+	public void publishHandlingSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.PUBLISH.getCode();
+		String chargeType = ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType, chargeType, "40002", "发行手续费结算");
 	}
+
 	//散户托管商品的手续费
-	public void trusteeshipHandlingSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.TRUSTEESHIP.getCode();
-		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40002","托管手续费结算");
+	public void trusteeshipHandlingSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.TRUSTEESHIP.getCode();
+		String chargeType = ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType, chargeType, "40002", "托管手续费结算");
 	}
-	 //增发货款结算 
-	public void increasePublishGoodsSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
-		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
-		debitFlowSettle(businessType,chargeType,"40005","增发货款结算 ");
+
+	//增发货款结算 
+	public void increasePublishGoodsSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
+		String chargeType = ChargeConstant.ChargeType.GOODS.getCode();
+		debitFlowSettle(businessType, chargeType, "40005", "增发货款结算 ");
 	}
-   //增发手续费结算 
-	public void increasePublishHandlingSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
-		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40001","增发手续费结算");
+
+	//增发手续费结算 
+	public void increasePublishHandlingSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode();
+		String chargeType = ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType, chargeType, "40001", "增发手续费结算");
 	}
-	 //申购货款结算 
-	public void purchaseGoodsSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
-		String chargeType=ChargeConstant.ChargeType.GOODS.getCode();
-		debitFlowSettle(businessType,chargeType,"40005","申购货款结算 ");
+
+	//申购货款结算 
+	public void purchaseGoodsSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.PURCHASE.getCode();
+		String chargeType = ChargeConstant.ChargeType.GOODS.getCode();
+		debitFlowSettle(businessType, chargeType, "40005", "申购货款结算 ");
 	}
-	 //申购手续费结算 
-	public void purchaseHandlingSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.PURCHASE.getCode();
-		String chargeType=ChargeConstant.ChargeType.HANDLING.getCode();
-		debitFlowSettle(businessType,chargeType,"40001","申购手续费结算");
+
+	//申购手续费结算 
+	public void purchaseHandlingSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.PURCHASE.getCode();
+		String chargeType = ChargeConstant.ChargeType.HANDLING.getCode();
+		debitFlowSettle(businessType, chargeType, "40001", "申购手续费结算");
 	}
-	
+
 	//提单过户费结算
-	public void changeOwnerSettle()throws Exception{
-		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
-		String chargeType=ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
-		debitFlowSettle(businessType,chargeType,"40015","提单过户费结算");
+	public void changeOwnerSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType = ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
+		debitFlowSettle(businessType, chargeType, "40015", "提单过户费结算");
 	}
-	 
+
 	//仓储费结算
-	public void warehouseRentSettle()throws Exception {
-		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
-		String chargeType=ChargeConstant.ChargeType.WAREHOUSING.getCode();
-		debitFlowSettle(businessType,chargeType,"40010","仓库仓储费结算");
+	public void warehouseRentSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType = ChargeConstant.ChargeType.WAREHOUSING.getCode();
+		debitFlowSettle(businessType, chargeType, "40010", "仓库仓储费结算");
 	}
-	
+
 	//仓库保险费结算
-	public void warehouseInsuranceSettle()throws Exception {
-		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
-		String chargeType=ChargeConstant.ChargeType.INSURANCE.getCode();
-		debitFlowSettle(businessType,chargeType,"40009","仓库保险费结算");
+	public void warehouseInsuranceSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType = ChargeConstant.ChargeType.INSURANCE.getCode();
+		debitFlowSettle(businessType, chargeType, "40009", "仓库保险费结算");
 	}
+
 	//仓库托管费结算
-	public void warehouseTrusteeSettle()throws Exception {
-		String businessType=ChargeConstant.BusinessType.DELIVERY.getCode();
-		String chargeType=ChargeConstant.ChargeType.TRUSTEE.getCode();
-		debitFlowSettle(businessType,chargeType,"40008","仓库托管费结算");
+	public void warehouseTrusteeSettle() throws Exception {
+		String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
+		String chargeType = ChargeConstant.ChargeType.TRUSTEE.getCode();
+		debitFlowSettle(businessType, chargeType, "40008", "仓库托管费结算");
 	}
-	
+
 	//佣金结算
-	private void brokerageSettle()throws Exception  {
-		ipoFirmrewarddeailMapper.brokerRewardSettle();
+	private void brokerageSettle() throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("returnCode", "");
+		ipoFirmrewarddeailMapper.brokerRewardSettle(param);
+		Integer a = (Integer) param.get("returnCode");
+		logger.info("佣金结算返回结果:{}", a);
 	}
-	
-	public void debitFlowSettle(String businessType ,String chargeType ,String opCode,String opName) throws Exception{
+
+	public void debitFlowSettle(String businessType, String chargeType, String opCode, String opName)
+			throws Exception {
 		DebitFlow param = new DebitFlow();
 		param.setBusinessType(businessType);
 		param.setChargeType(chargeType);
 		param.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS.getCode());
 		param.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
-		List<IpoDebitFlow> debitFlowList=debitFlowMapper.queryForList(param);
-		if(debitFlowList==null||debitFlowList.isEmpty()){
-			logger.info("{}:扣款流水查询记录数为空",opName);
+		List<IpoDebitFlow> debitFlowList = debitFlowMapper.queryForList(param);
+		if (debitFlowList == null || debitFlowList.isEmpty()) {
+			logger.info("{}:扣款流水查询记录数为空", opName);
 			return;
 		}
-		for(IpoDebitFlow item:debitFlowList){
-			 String firmId=item.getPayer();
-			 String commodityId=item.getCommodityId();
-			 BigDecimal amount=item.getAmount();
-			 if (firmId == null || firmId.isEmpty()) {
-				throw new Exception(opName+"：被扣款人不存在");
-			 }
-			 // 解冻资金
-			 purchase.frozen(firmId, amount.negate());
-			 // 扣除资金
-			 updateFundsFull(firmId, opCode, amount, commodityId);
-			 DebitFlow debitFlow = new DebitFlow();
-			 BeanUtils.copyProperties(item, debitFlow);
-			 debitFlow.setUpdateDate(new Date());
-			 debitFlow.setUpdateUser("admin");
-			 debitFlow.setDebitState(ChargeConstant.DebitState.PAY_SUCCESS.getCode());
-			 debitFlow.setDebitDate(new Date());
-			 debitFlowMapper.updateState(debitFlow);
-			 logger.info("{}：商品={}，被扣款人={}，金额={}",opName, commodityId, firmId, amount.toString());
-			 //结算成功通知监听
-			 String objs=JSON.json(debitFlow);
-			 logger.info("{}:通知内容:{}",opName,objs);
-			 setChanged();
-			 notifyObservers(objs);
+		for (IpoDebitFlow item : debitFlowList) {
+			String firmId = item.getPayer();
+			String commodityId = item.getCommodityId();
+			BigDecimal amount = item.getAmount();
+			if (firmId == null || firmId.isEmpty()) {
+				throw new Exception(opName + "：被扣款人不存在");
+			}
+			// 解冻资金
+			purchase.frozen(firmId, amount.negate());
+			// 扣除资金
+			updateFundsFull(firmId, opCode, amount, commodityId);
+			DebitFlow debitFlow = new DebitFlow();
+			BeanUtils.copyProperties(item, debitFlow);
+			debitFlow.setUpdateDate(new Date());
+			debitFlow.setUpdateUser("admin");
+			debitFlow.setDebitState(ChargeConstant.DebitState.PAY_SUCCESS.getCode());
+			debitFlow.setDebitDate(new Date());
+			debitFlowMapper.updateState(debitFlow);
+			logger.info("{}：商品={}，被扣款人={}，金额={}", opName, commodityId, firmId, amount.toString());
+			//结算成功通知监听
+			String objs = JSON.json(debitFlow);
+			logger.info("{}:通知内容:{}", opName, objs);
+			setChanged();
+			notifyObservers(objs);
 		}
 	}
-	 
-	
-	
-	
-	
-	
+
 	/**
 	 * 重新载入交易节和非交易日
 	 */
@@ -501,7 +505,8 @@ public class SystemManager extends Observable{
 			if (orderService.updateOrderSettled(order.getOrderid()) < 1)
 				throw new Exception("变更申购记录为结算状态失败，全部回滚");
 
-			logger.info("申购结算：申购订单处理：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId, total.toString());
+			logger.info("申购结算：申购订单处理：商品={}，firmid={}，冻结资金={}", order.getCommodityid(), userId,
+					total.toString());
 		}
 	}
 
@@ -534,7 +539,8 @@ public class SystemManager extends Observable{
 			if (distributionService.updateOrderSettled(distribution.getOrderid()) < 1)
 				throw new Exception("变更摇号记录为结算状态失败，全部回滚");
 
-			logger.info("申购结算：配号摇号单处理：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(), fee.toString());
+			logger.info("申购结算：配号摇号单处理：商品={}，firmid={}，收货款={}，收手续费={}", commoId, userId, amount.toString(),
+					fee.toString());
 		}
 		return result;
 	}
@@ -677,7 +683,8 @@ public class SystemManager extends Observable{
 							if (isTradeDayToday(now)) {
 								switch (Integer.parseInt(status)) {
 								case 0:// opened, ready to trade
-									long tradeTime = sectionManager.getNextTradeTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									long tradeTime = sectionManager.getNextTradeTimeFromNow(
+											new Date(System.currentTimeMillis() + timeDiff));
 									try {
 										logger.info("系统已开市，离交易还差（{}）毫秒，线程开始休眠。", tradeTime);
 										Thread.currentThread().sleep(tradeTime + 1);
@@ -688,7 +695,8 @@ public class SystemManager extends Observable{
 									}
 									break;
 								case 1:// market closed, ready for next day
-									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(
+											new Date(System.currentTimeMillis() + timeDiff));
 									try {
 										logger.info("系统已闭市，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
 										Thread.currentThread().sleep(nextOpenTime + 1);
@@ -699,7 +707,8 @@ public class SystemManager extends Observable{
 									}
 									break;
 								case 3:// 发现财务结算完成，准备下个交易日的开市
-									nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									nextOpenTime = sectionManager.getOpenMarketTimeFromNow(
+											new Date(System.currentTimeMillis() + timeDiff));
 									try {
 										logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
 										Thread.currentThread().sleep(nextOpenTime + 1);
@@ -710,8 +719,8 @@ public class SystemManager extends Observable{
 									}
 									break;
 								case 5:// trading
-									long continuedTime = sectionManager.getCurSectionEndTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)),
-											section);
+									long continuedTime = sectionManager.getCurSectionEndTimeFromNow(
+											(new Date(System.currentTimeMillis() + timeDiff)), section);
 									try {
 										logger.info("系统正在交易，离这节交易结束还差（{}）毫秒，线程开始休眠。", continuedTime);
 										Thread.currentThread().sleep(continuedTime);
@@ -725,7 +734,8 @@ public class SystemManager extends Observable{
 									}
 									break;
 								case 6:// rest
-									long nextTradeTime = sectionManager.getNextTradeTimeFromNow((new Date(System.currentTimeMillis() + timeDiff)));
+									long nextTradeTime = sectionManager.getNextTradeTimeFromNow(
+											(new Date(System.currentTimeMillis() + timeDiff)));
 									// to trade
 									try {
 										logger.info("系统节间休息，离下个交易节开始还差（{}）毫秒，线程开始休眠。", nextTradeTime);
@@ -748,7 +758,8 @@ public class SystemManager extends Observable{
 							} else if (isPreTradeDayNormal(now)) {// 以前的交易日
 								switch (Integer.parseInt(status)) {
 								case 3:// 发现财务结算完成，准备今天的交易日的开市
-									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(new Date(System.currentTimeMillis() + timeDiff));
+									long nextOpenTime = sectionManager.getOpenMarketTimeFromNow(
+											new Date(System.currentTimeMillis() + timeDiff));
 									try {
 										logger.info("资金结算完成，离下次开市还差（{}）毫秒，线程开始休眠。", nextOpenTime);
 										Thread.currentThread().sleep(nextOpenTime + 1);
@@ -763,7 +774,8 @@ public class SystemManager extends Observable{
 									break;
 								}
 							} else {
-								logger.info("前一交易日没有正常结束：tradeDate={},sysStatus={},sectionId={}", tradeDate, status, section);
+								logger.info("前一交易日没有正常结束：tradeDate={},sysStatus={},sectionId={}", tradeDate,
+										status, section);
 								threadSleep(600000);// 休眠10分钟，可被打断
 							}
 						}
@@ -808,7 +820,8 @@ public class SystemManager extends Observable{
 	private void startTradeInternal() throws Exception {
 		Date date = new Date(System.currentTimeMillis() + timeDiff);
 
-		updateSysStatus(sdf.format(date), STATUS_TRADE_DOING, String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
+		updateSysStatus(sdf.format(date), STATUS_TRADE_DOING,
+				String.valueOf(sectionManager.getCurrentSectionId(date)), "交易中");
 	}
 
 	// 节间休息 section不变
@@ -829,7 +842,8 @@ public class SystemManager extends Observable{
 	}
 
 	// 状态变更入库
-	private void updateSysStatus(String tradeDate, String status, String sectionId, String remark) throws Exception {
+	private void updateSysStatus(String tradeDate, String status, String sectionId, String remark)
+			throws Exception {
 		try {
 			IpoSysStatus sysStatus = new IpoSysStatus();
 			sysStatus.setTradedate(sdf.parse(tradeDate));
@@ -864,12 +878,14 @@ public class SystemManager extends Observable{
 	}
 
 	private void logResumeStatus() {
-		logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}", Thread.currentThread().getName(), tradeDate, status, section);
+		logger.info("{} 休眠被打断，当前系统状态: tradeDate={},sysStatus={},sectionId={}",
+				Thread.currentThread().getName(), tradeDate, status, section);
 	}
 
 	// 预防多实例并发 //注解事务无效
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	private void updateSysStatusLock(String oldStatus, String toStatus, Short sectionId, String remark) throws Exception {
+	private void updateSysStatusLock(String oldStatus, String toStatus, Short sectionId, String remark)
+			throws Exception {
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 		TransactionStatus transactionStatus = transactionManager.getTransaction(def);
@@ -928,8 +944,5 @@ public class SystemManager extends Observable{
 			throw e;
 		}
 	}
-
-	 
-	
 
 }

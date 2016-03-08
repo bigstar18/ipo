@@ -16,6 +16,8 @@ import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.PickUpService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 /**
  * 提单过户Controller
  * 
@@ -80,9 +82,8 @@ public class TransferController {
 			@RequestParam("pickupPassword") String pickupPassword, HttpSession session) {
 		try {
 			log.info("确认过户");
-			/*String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();*/
-			String userId = "hl";
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			//String userId = "hl";
 			// TODO 验证是不是那条单子,密码对不对
 			DeliveryOrder deorder = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (1 == 1) {
