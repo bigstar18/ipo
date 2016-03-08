@@ -88,10 +88,8 @@
   	and #{enddate,jdbcType=VARCHAR} 
   </select>
   
-    <select id="brokerRewardSettle" statementType="CALLABLE" parameterType="java.util.HashMap">
-       <![CDATA[
-            {#{returnCode,mode=OUT,jdbcType=INTEGER} = {call FN_ipo_BrokerReward()}
-       ]]>
+  <select id="brokerRewardSettle" statementType="CALLABLE" parameterType="java.util.Map">
+            {#{returnCode,mode=OUT,jdbcType=INTEGER} = call FN_ipo_BrokerReward()}
   </select>
   
   <select id="findDisAndDea" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoFirmrewarddeail">

@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.dao;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -41,7 +42,7 @@ public interface IpoFirmrewarddeailMapper {
 	 * 
 	 * @return
 	 */
-	int brokerRewardSettle();
+	Integer brokerRewardSettle(Map<String, Object> map);
 
 	/**
 	 * @Title: findDisAndDea
