@@ -48,7 +48,7 @@
           title: '发售结束日期',
           width : 200,
           align: 'center',
-          formatter:function(value){
+          formatter:function(value, row){
         	  return value.substr(0,10);
           }
           
@@ -109,6 +109,11 @@
     	});
    }
   
+  function clearInfo(){
+		$("#commodityId").val("");
+		$("#pubmemberid").val("");
+	} 
+  
   </script>
 </head>
 <body>
@@ -125,7 +130,8 @@
 			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:80px">&nbsp;
 			发行会员编号: <input id="pubmemberid"  class="easyui-textbox" style="width:80px">
 			<input type="hidden">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>	
+			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>				
 		</form> 
 		</div>
 	</div>

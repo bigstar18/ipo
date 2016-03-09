@@ -1,14 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
+<%@ include file="../ipoInclude.jsp"%>
    
  
 <html>
 <head>
 <title>发行货款跟踪</title>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css"> 
-<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/static/jquery-easyui/jquery.easyui.min.js"  type="text/javascript"></script>
+
  
   <script type="text/javascript">
   $(document).ready(function() {
@@ -19,6 +16,7 @@
       iconCls: 'icon-ok', //它将显示一个背景图片
       fitColumns: true, //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
       nowrap: true, //设置为 true，则把数据显示在一行里。设置为 true 可提高加载性能。
+      height:400,
       singleSelect: true, //设置为 true，则只允许选中一行。
       striped: true, //设置为 true，则把行条纹化。（即奇偶行使用不同背景色）
       pagination: true, //设置为 true，则在数据网格（datagrid）底部显示分页工具栏。
@@ -33,12 +31,7 @@
           field: 'id',
           title: 'id',
           hidden:true
-         },{
-          field: 'pubmemberid',
-          title: '发行会员编号',
-          width : 200,
-          align: 'center'
-        }, {
+         }, {
           field: 'commodityId',
           title: '商品编码',
           width : 200,
@@ -98,7 +91,7 @@
 </head>
 <body>
 <div id="main_body">
-			<table class="table1_style" border="0" cellspacing="0" cellpadding="0">
+			<table class="table1_style" border="0" cellspacing="0" cellpadding="0" width="100%">
 				<tr>
 					<td>
 						<br />

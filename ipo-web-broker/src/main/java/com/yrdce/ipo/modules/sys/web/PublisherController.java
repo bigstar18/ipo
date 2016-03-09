@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
+import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.vo.PayFlow;
 import com.yrdce.ipo.modules.sys.vo.PublisherBalance;
 import com.yrdce.ipo.modules.sys.vo.PublisherSettle;
 import com.yrdce.ipo.modules.sys.vo.PubpaymentTrack;
@@ -77,6 +79,9 @@ public class PublisherController {
 	@Autowired
 	private PositionService positionService;
 
+	@Autowired
+	private PayFlowService payFlowService;
+
 	public IpoCommConfService getIpoCommConfService() {
 		return ipoCommConfService;
 	}
@@ -114,6 +119,44 @@ public class PublisherController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	/**
+	 * 查询发行的货款记录
+	 * 
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryPublishGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public String queryPublishGoods(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request)
+			throws Exception {
+
+		PayFlow payFlow = new PayFlow();
+		if (request.getParameter("payState") != null) {
+			if (!request.getParameter("payState").trim().equals("")) {
+				payFlow.setPayState(Integer.parseInt(request
+						.getParameter("payState")));
+			}
+		}
+		// payFlow.setPubmemberid(this.getLoginUserId(request));
+		payFlow.setPubmemberid("scfx");
+
+		payFlow.setCommodityId(request.getParameter("commodityId"));
+		long count = payFlowService.queryPublishGoodsForCount(payFlow);
+		List<PayFlow> dataList = new ArrayList<PayFlow>();
+		if (count > 0) {
+			dataList = payFlowService.queryPublishGoodsForPage(pageNo,
+					pageSize, payFlow);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal(new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
 	}
 
 	/**

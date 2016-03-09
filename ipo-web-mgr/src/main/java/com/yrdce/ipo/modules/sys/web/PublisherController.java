@@ -165,14 +165,19 @@ public class PublisherController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/queryPublishGoods")
+	@RequestMapping(value = "/queryPublishGoods", method = RequestMethod.POST)
 	@ResponseBody
 	public String queryPublishGoods(@RequestParam("page") String pageNo,
 			@RequestParam("rows") String pageSize, HttpServletRequest request)
 			throws Exception {
 
 		PayFlow payFlow = new PayFlow();
-		payFlow.setPayState(Integer.parseInt(request.getParameter("payState")));
+		if (request.getParameter("payState") != null) {
+			if (!request.getParameter("payState").trim().equals("")) {
+				payFlow.setPayState(Integer.parseInt(request
+						.getParameter("payState")));
+			}
+		}
 		payFlow.setCommodityId(request.getParameter("commodityId"));
 		long count = payFlowService.queryPublishGoodsForCount(payFlow);
 		List<PayFlow> dataList = new ArrayList<PayFlow>();

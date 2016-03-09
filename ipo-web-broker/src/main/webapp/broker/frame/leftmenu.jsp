@@ -222,7 +222,7 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("产品发行查询,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/commPubQuery.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("发行货款跟踪,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/paymentTracking.jsp");
+									M0101 = new WebFXTreeItem("发行货款跟踪,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/publish_goods.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
