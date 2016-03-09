@@ -98,8 +98,8 @@ public class DistributionRuleServiceImpl implements DistributionRuleService {
 
 	// 删除分配信息
 	@Override
-	public int deleteInfoByCommid(String commid) throws Exception {
-		int result = ipoDistributionRuleMapper.deleteInfoByCommid(commid);
+	public int deleteInfoByCommid(String commid, String userId) throws Exception {
+		int result = ipoDistributionRuleMapper.deleteInfoByCommid(commid, userId);
 		return result;
 	}
 

@@ -24,5 +24,5 @@ public interface IpoDistributionRuleMapper {
 
 	int updateInfoByCommId(IpoDistributionRule ipoDistributionRule);
 
-	int deleteInfoByCommid(String commodityid);
+	int deleteInfoByCommid(@Param("commodityid") String commodityid, @Param("userId") String userId);
 }

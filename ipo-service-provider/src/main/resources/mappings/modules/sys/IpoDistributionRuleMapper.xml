@@ -70,7 +70,8 @@
   	update IPO_DISTRIBUTION_RULE
   	set
   	DELETE_FLAG=1,
-  	UPDATE_DATE=sysdate
+  	UPDATE_DATE=sysdate,
+  	UPDATE_USER=#{userId,jdbcType=VARCHAR}
   	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
   	and DELETE_FLAG=0
   </update>

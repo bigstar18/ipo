@@ -2,6 +2,8 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import com.yrdce.ipo.modules.sys.service.DistributionRuleService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.DistributionRule;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
+
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 @Controller
 @RequestMapping("DistributionRuleController")
@@ -42,9 +46,11 @@ public class DistributionRuleController {
 	// 插入分配信息
 	@RequestMapping("insertRuleInfo")
 	@ResponseBody
-	public String insertRuleInfo(DistributionRule distributionRule) {
+	public String insertRuleInfo(DistributionRule distributionRule, HttpSession session) {
 		try {
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			distributionRule.setDeleteFlag((short) 0);
+			distributionRule.setCreateUser(userId);
 			int result = distributionRuleService.insertRuleInfo(distributionRule);
 			if (result > 0) {
 				return "success";
@@ -110,8 +116,10 @@ public class DistributionRuleController {
 	// 修改分配信息
 	@RequestMapping("updateInfoByCommId")
 	@ResponseBody
-	public String updateInfoByCommId(DistributionRule distributionRule) {
+	public String updateInfoByCommId(DistributionRule distributionRule, HttpSession session) {
 		try {
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			distributionRule.setUpdateUser(userId);
 			int result = distributionRuleService.updateInfoByCommId(distributionRule);
 			if (result > 0) {
 				return "success";
@@ -126,9 +134,10 @@ public class DistributionRuleController {
 
 	@RequestMapping("deleteInfoByCommId")
 	@ResponseBody
-	public String deleteInfoByCommId(@RequestParam("commodityid") String commid) {
+	public String deleteInfoByCommId(@RequestParam("commodityid") String commid, HttpSession session) {
 		try {
-			int result = distributionRuleService.deleteInfoByCommid(commid);
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			int result = distributionRuleService.deleteInfoByCommid(commid, userId);
 			if (result > 0) {
 				return "success";
 			}

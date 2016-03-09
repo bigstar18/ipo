@@ -18,5 +18,5 @@ public interface DistributionRuleService {
 
 	public int updateInfoByCommId(DistributionRule distributionRule) throws Exception;
 
-	public int deleteInfoByCommid(String commid) throws Exception;
+	public int deleteInfoByCommid(String commid, String userId) throws Exception;
 }
