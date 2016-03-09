@@ -62,16 +62,18 @@ public class SecurityFilter implements Filter {
 		}
 	}
 
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		if ((request.getHeader("X-Requested-With") != null) && (request.getHeader("X-Requested-With").equalsIgnoreCase("XMLHttpRequest"))) {
+		if ((request.getHeader("X-Requested-With") != null)
+				&& (request.getHeader("X-Requested-With").equalsIgnoreCase("XMLHttpRequest"))) {
 			request.setCharacterEncoding("UTF-8");
 		} else {
 			request.setCharacterEncoding("GBK");
 		}
-		logger.debug("FromModuleID={}, FromLogonType={},LogonType={}", request.getParameter("FromModuleID"), request.getParameter("FromLogonType"),
-				request.getParameter("LogonType"));
+		logger.debug("FromModuleID={}, FromLogonType={},LogonType={}", request.getParameter("FromModuleID"),
+				request.getParameter("FromLogonType"), request.getParameter("LogonType"));
 
 		String url = request.getServletPath();
 		request.setAttribute("currenturl", url);
@@ -113,15 +115,18 @@ public class SecurityFilter implements Filter {
 
 					ActiveUserManager.configId = configId;
 					ActiveUserManager.ds = ds;
-					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
+					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID,
+							selfLogonType, fromLogonType, selfModuleID);
 					user = au.getUserManageVO();
 					if (user != null) {
-						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID, selfLogonType, selfModuleID);
+						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID,
+								selfLogonType, selfModuleID);
 						if (logonSuccess) {
 							request.getSession().setAttribute("CurrentUser", user);
 							if ("front".equals(sysType)) {
 								// 查询 m_trader 表，获得firmid TODO
-								String firmId = null;
+								QueryDao queryDao = new QueryDao();
+								String firmId = queryDao.getFirmid(user.getUserID());
 								request.getSession().setAttribute("currentFirmId", firmId);
 							}
 						}
@@ -140,7 +145,8 @@ public class SecurityFilter implements Filter {
 			String loginURL = "/" + sysType + "/error/403.jsp";
 			logger.info("user is null, forward to : {}", loginURL);
 
-			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
+			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl)
+					.forward(request, response);
 		}
 	}
 

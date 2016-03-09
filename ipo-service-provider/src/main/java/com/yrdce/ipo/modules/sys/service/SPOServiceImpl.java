@@ -585,7 +585,7 @@ public class SPOServiceImpl implements SPOService {
 		positionFlow.setCreateDate(new Date());
 		positionFlow.setRemark("增发转持仓");
 		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
-		if (type == "retail") {
+		if (type.equals("retail")) {
 			positionFlow.setRoleCode(ChargeConstant.RoleType.TRADER.getCode());
 		} else {
 			positionFlow.setRoleCode(ChargeConstant.RoleType.UNDERWRITER.getCode());
