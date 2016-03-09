@@ -126,6 +126,7 @@ public class SecurityFilter implements Filter {
 							if ("front".equals(sysType)) {
 								// 查询 m_trader 表，获得firmid TODO
 								QueryDao queryDao = new QueryDao();
+								queryDao.setDataSource(ds);
 								String firmId = queryDao.getFirmid(user.getUserID());
 								request.getSession().setAttribute("currentFirmId", firmId);
 							}
