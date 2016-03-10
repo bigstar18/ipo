@@ -171,6 +171,7 @@ public class TrusteeshipCommodityController {
 		// 所有的商品
 		VIpoCommConf conf = new VIpoCommConf();
 		conf.setDeliveryProp((short) 1);
+		conf.setNonissuereg(new BigDecimal(0));// 非发行注册
 		List<?> commodityList = ipoCommConfService
 				.selectCommodityByExample(conf);
 		model.addAttribute("commodityList", commodityList);

@@ -153,8 +153,9 @@ function addComm(){
 	var mapperid=$("#mapperid").val();
 	var pubmemberid=$("#pubmemberid").val();
 	var commid=$("#commodityid").val();
+	var nonissuereg=$("#nonissuereg").val();
 	var flag= $('#frm').form('validate');
-	if(curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){
+	if(nonissuereg!=''&&curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){
 		var units=$("#units").val();
 		var contractfactor=$("#contractfactor").val();
 		var counts=$("#counts").val();
@@ -394,8 +395,14 @@ function setSortName(value) {
 			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0,precision:0"  style="ime-mode:disabled; width: 100" />
 										 <span class="required">*</span>
 										</td>
-            							<td align="right"></td>
-            							<td></td>
+            							<td align="right">是否非发行注册</td>
+            							<td>
+            							<select id="nonissuereg" name="nonissuereg" style="width:100">
+												<option value=""></option>
+											    <option value="0">是</option>
+												<option value="1">否</option>
+										   </select>
+            							</td>
         							</tr>
 	 							</table >
 								</span>

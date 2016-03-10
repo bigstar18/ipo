@@ -70,7 +70,7 @@ $(document).ready(function() {
                field : 'lasttradate',  
                width : 200,  
                align: "center",
-               title : '交收日期' ,
+               title : '最后交易日' ,
                formatter: function(value,row){
                    return value.substr(0,10);
            } 

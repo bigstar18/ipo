@@ -31,8 +31,9 @@
       columns: [
         [{
           field: 'id',
-          title: 'id',
-          hidden:true
+          title: '付款流水号',
+          width : 200,
+          align: 'center'
          },{
           field: 'pubmemberid',
           title: '发行会员编号',

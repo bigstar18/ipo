@@ -281,7 +281,6 @@ function on_tchange(){
         								<input type="hidden" id="breedid" name="breedid" value="${entity.breedid }"/>   
         								<input type="hidden" id="status" name="status" value="${entity.status }"/>   
         								<input type="hidden" id="codedelivery" name="codedelivery" value="${entity.codedelivery }"/>   
-        								<input type="hidden" id="nonissuereg" name="nonissuereg" value="${entity.nonissuereg }"/>   
         								<input type="hidden" id="deliveryProp" name="deliveryProp" value="${entity.deliveryProp }"/>   
         							</tr>
 									<tr>
@@ -373,14 +372,20 @@ function on_tchange(){
 			  								</span> <span class="required">*</span>   
 			  								<input type="hidden" id="contractfactorname" name="contractfactorname" value="${entity.contractfactorname }" />
             							</td> 
-            							<td align="right"></td>
-            							<td></td>   
         								<td align="right">T+N交易天数：</td>
 										<td>
 										<input type="text" id="tradedays" name="tradedays" value="${entity.tradedays }"  
 			  									class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0,precision:0"  style="ime-mode:disabled; width: 100" />          
 										 <span class="required">*</span>  
 										</td>
+										<td align="right">是否非发行注册</td>
+            							<td>
+            							<select id="nonissuereg" name="nonissuereg" style="width:100">
+												<option value=""></option>
+											    <option value="0" <c:if test="${entity.nonissuereg==0 }">selected</c:if>>是</option>
+												<option value="1" <c:if test="${entity.nonissuereg==1 }">selected</c:if>>否</option>
+										   </select>
+            							</td>
         							</tr>
 	 							</table >
 								</span>

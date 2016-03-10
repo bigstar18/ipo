@@ -357,7 +357,7 @@ public class BreedController {
 				ipocomm.setStatus(new BigDecimal(1));
 				ipocomm.setDeliveryProp((short) 2);// 表示未配置交收属性
 				ipocomm.setCodedelivery(new BigDecimal(1));
-				ipocomm.setNonissuereg(new BigDecimal(1));
+				// ipocomm.setNonissuereg(new BigDecimal(1));
 				log.debug(ipocomm.toString());
 				return ipoCommConfService.addCommodity(ipocomm);
 			}

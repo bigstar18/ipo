@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +117,7 @@ public class TrusteeshipWarehouseController {
 	public String trusteeCommodity() throws IOException {
 		VIpoCommConf example = new VIpoCommConf();
 		example.setDeliveryProp((short) 1);// 获取具有交收属性的商品
+		example.setNonissuereg(new BigDecimal(0));// 非发行注册
 		List<VIpoCommConf> commList = commodityService
 				.selectCommodityByExample(example);
 		return JSON.json(commList);

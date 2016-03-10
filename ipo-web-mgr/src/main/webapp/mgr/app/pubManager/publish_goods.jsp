@@ -34,7 +34,7 @@
           title: 'id',
           hidden:true
          },{
-          field: 'pubmemberid',
+          field: 'payee',
           title: '发行会员编号',
           width : 200,
           align: 'center'
@@ -44,14 +44,10 @@
           width : 200,
           align: 'center'
         },{
-          field: 'endtime',
-          title: '发售结束日期',
+          field: 'payDate',
+          title: '付款日期',
           width : 200,
-          align: 'center',
-          formatter:function(value, row){
-        	  return value.substr(0,10);
-          }
-          
+          align: 'center' 
         },{
           field: 'amount',
           title: '应付货款',
@@ -105,14 +101,9 @@
   function doSearch(){
     	$('#dg').datagrid('load',{
     		commodityId:$('#commodityId').val(),
-    		pubmemberid:$('#pubmemberid').val()
+    		payee:$('#payee').val()
     	});
    }
-  
-  function clearInfo(){
-		$("#commodityId").val("");
-		$("#pubmemberid").val("");
-	} 
   
   </script>
 </head>
@@ -128,10 +119,9 @@
 		<div>
 		<form name="frm"  >
 			商品编码: <input id="commodityId"  class="easyui-textbox" style="width:80px">&nbsp;
-			发行会员编号: <input id="pubmemberid"  class="easyui-textbox" style="width:80px">
+			发行会员编号: <input id="payee"  class="easyui-textbox" style="width:80px">
 			<input type="hidden">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>	
-			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" id="view" onclick="clearInfo()">重置</a>				
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>					
 		</form> 
 		</div>
 	</div>

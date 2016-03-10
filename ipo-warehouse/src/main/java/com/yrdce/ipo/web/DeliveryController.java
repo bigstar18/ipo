@@ -158,9 +158,11 @@ public class DeliveryController {
 			HttpServletResponse response) throws IOException {
 		log.info("获取具有交收属性的商品");
 		VIpoCommConf example = new VIpoCommConf();
+		// example.setNonissuereg(new BigDecimal(1));
 		example.setDeliveryProp((short) 1);
 		List<VIpoCommConf> commlist = ipoCommConfService
 				.selectCommodityByExample(example);
+
 		return JSON.json(commlist);
 	}
 
