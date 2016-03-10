@@ -80,4 +80,12 @@ public interface IpoOrderMapper {
 			@Param("unfreezefees") BigDecimal unfreezefees, @Param("userid") String userid,
 			@Param("commodityid") String commodityid);
 
+	/**
+	 * @Title: findCommidAndDate
+	 * @Description: 根据商品id和时间查询
+	 * @param commodityid
+	 * @param time
+	 */
+	List<IpoOrder> findCommidAndDate(@Param("commodityid") String commodityid, @Param("time") String time);
+
 }

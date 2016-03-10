@@ -66,7 +66,7 @@
     <dubbo:reference id="distributionRuleService" interface="com.yrdce.ipo.modules.sys.service.DistributionRuleService" />
     <dubbo:reference id="distTaskService" interface="com.yrdce.ipo.modules.sys.service.DistTaskService" />
     <dubbo:reference id="stockTransferrecordsService" interface="com.yrdce.ipo.modules.sys.service.StockTransferrecordsService" />
-
+    <dubbo:reference id="statisticsReportService" interface="com.yrdce.ipo.modules.sys.service.StatisticsReportService" />
     
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->

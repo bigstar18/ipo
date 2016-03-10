@@ -72,6 +72,7 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DistributionRuleService" ref="distributionRuleService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.DistTaskService" ref="distTaskService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.StockTransferrecordsService" ref="stockTransferrecordsService" protocol="dubbo" />
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.StatisticsReportService" ref="statisticsReportService" protocol="dubbo" />
 
 	
 
@@ -119,6 +120,7 @@
     <bean id="distributionRuleService" class="com.yrdce.ipo.modules.sys.service.DistributionRuleServiceImpl" />
     <bean id="distTaskService" class="com.yrdce.ipo.modules.sys.service.DistTaskServiceImpl" />
     <bean id="stockTransferrecordsService" class="com.yrdce.ipo.modules.sys.service.StockTransferrecordsServiceImpl" />
+    <bean id="statisticsReportService" class="com.yrdce.ipo.modules.sys.service.StatisticsReportImpl" />
 
      
 	<!-- 	当一个接口有多种实现时，可以用group区分。 

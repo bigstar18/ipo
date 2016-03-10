@@ -19,17 +19,29 @@ public class SettleResult implements Serializable {
 
 	private Object totalLoan;
 
-	private Object billfladInfo;
+	private Object billfladInfo;//经纪会员
 
-	private Object deliveryInfo;
+	private Object deliveryInfo;//经纪会员
 
-	private Object holdInfo;
+	private Object holdInfo;//经纪会员
 
-	private Object releaInfo;
+	private Object releaInfo;//经纪会员
 
 	private Object ipoSubRevenue;
 
 	private Object bolIncome;
+
+	private Object commodity;
+
+	private Object purchase;//统计报表发行申购
+
+	private Object purcount;//申购数量合计
+
+	private Object purcost;//申购金额合计
+
+	private Object purcir;//发行量合计
+
+	private Object purrate;//申购倍率合计
 
 	public Object getTotalLoan() {
 		return totalLoan;
@@ -109,6 +121,54 @@ public class SettleResult implements Serializable {
 
 	public void setBolIncome(Object bolIncome) {
 		this.bolIncome = bolIncome;
+	}
+
+	public Object getCommodity() {
+		return commodity;
+	}
+
+	public void setCommodity(Object commodity) {
+		this.commodity = commodity;
+	}
+
+	public Object getPurchase() {
+		return purchase;
+	}
+
+	public void setPurchase(Object purchase) {
+		this.purchase = purchase;
+	}
+
+	public Object getPurcount() {
+		return purcount;
+	}
+
+	public void setPurcount(Object purcount) {
+		this.purcount = purcount;
+	}
+
+	public Object getPurcost() {
+		return purcost;
+	}
+
+	public void setPurcost(Object purcost) {
+		this.purcost = purcost;
+	}
+
+	public Object getPurcir() {
+		return purcir;
+	}
+
+	public void setPurcir(Object purcir) {
+		this.purcir = purcir;
+	}
+
+	public Object getPurrate() {
+		return purrate;
+	}
+
+	public void setPurrate(Object purrate) {
+		this.purrate = purrate;
 	}
 
 	@Override

@@ -11,31 +11,31 @@ import java.util.Date;
 public class Releasesubscription {
 	private long id;
 
-	private String brokerid;
+	private String brokerid;//会员id
 
-	private String brokername;
+	private String brokername;//会员名称
 
-	private String firmid;
+	private String firmid;//交易商id
 
-	private String commodityid;
+	private String commodityid;//商品id
 
-	private String commodityname;
+	private String commodityname;//商品名称
 
-	private BigDecimal issueprice;
+	private BigDecimal issueprice;//发行价格
 
-	private Date purchasetime;
+	private Date purchasetime;//申购时间
 
-	private long purchasequantity;
+	private long purchasequantity;//申购数量
 
-	private BigDecimal purchaseamount;
+	private BigDecimal purchaseamount;//申购金额
 
-	private BigDecimal issuancefee;
+	private BigDecimal issuancefee;//发行服务费
 
-	private BigDecimal refundablepurchaseamount;
+	private BigDecimal refundablepurchaseamount;//退还申购金额
 
-	private BigDecimal refundableservicefee;
+	private BigDecimal refundableservicefee;//退还发行服务费
 
-	private Date createtime;
+	private Date createtime;//创建时间
 
 	public long getId() {
 		return id;

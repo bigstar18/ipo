@@ -628,7 +628,6 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSpoRationMapper.firmidBySales(brokerid);
 	}
 
-	// <暂不用>
 	@Override
 	public String getFirmname(String firmid) {
 		return ipoSpoRationMapper.selectFirmname(firmid);
