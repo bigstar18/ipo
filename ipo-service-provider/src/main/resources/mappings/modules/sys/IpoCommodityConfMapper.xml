@@ -291,6 +291,18 @@
 		from IPO_COMMODITY_CONF
 		where COMMODITYID = #{commodityid,jdbcType=VARCHAR}
 	</select>
+	
+	   <select id="findCommodityByWarehouse" resultMap="BaseResultMap" parameterType="map">
+		select c.* from ipo_commodity_conf c where  c.deliveryprop=1		
+		and c.nonissuereg=1  union all
+          (
+           select c.* from ipo_commodity_conf c where c.nonissuereg=0 and c.deliveryprop=1 and c.commodityid in 
+           (select w.commodity_id  from ipo_trusteeship_warehouse w 
+           where w.warehouse_id=#{warehouseId}
+           ) 
+          )
+	</select>
+
 
 	<select id="queryListingCommodity" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf">
 
