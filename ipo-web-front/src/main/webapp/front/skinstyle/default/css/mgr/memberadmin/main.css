@@ -11,7 +11,7 @@ img{ border:0px;}
 
 /***  IFRAME  ***/
 .top{ height:113px; width:100%; background:url(../../../image/mgr/memberadmin/main/bg_top.gif);}
-.left{ width:201px; min-height:100%;  float:left; background-color:#fff; overflow:hidden; }
+.left{ width:200px; min-height:100%; border-right: 1px solid #D1E3F8; float:left; background: #F3F8FD url(../../../image/mgr/memberadmin/main/left_btmbg.png) no-repeat bottom; overflow:hidden; }
 .right{ margin-left:201px; background:#f6fafd;}
 
 /* TOP */
