@@ -293,9 +293,9 @@ public class PublisherController {
 		log.debug(storage.toString());
 		try {
 			storage.setStoragestate(4);
-			List<VIpoStorageExtended> tlist = ipoStorageService.selectByPage(
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectBySale(
 					page, rows, storage);
-			int totalnums = ipoStorageService.getTotalNum(storage);
+			int totalnums = ipoStorageService.getSaleTotalNum(storage);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
 			result.setRows(tlist);

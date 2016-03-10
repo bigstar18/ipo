@@ -35,4 +35,11 @@ public interface IpoStorageService {
 	// 根据入库单ID获取入库单
 	VIpoStorageExtended getStorageByStorageId(String storageId);
 
+	// 分页查询可转持仓的入库单
+	List<VIpoStorageExtended> selectBySale(String page, String rows,
+			VIpoStorageExtended storage);
+
+	// 获取查询可转持仓的的总入库单数
+	Integer getSaleTotalNum(VIpoStorageExtended storage);
+
 }

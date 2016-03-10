@@ -86,6 +86,51 @@
        and STORAGESTATE = #{storagestate,jdbcType=DECIMAL}
       </if>
   </select>
+  
+  
+    <select id="findStoragesBySale" resultMap="SResultMap" parameterType="map">
+   select p.* from (select g.*,rownum TNO from (select a.*, b.name publishername
+    from (select t.*, c.commodityname, c.pubmemberid,c.counts,c.contractfactor,c.price from ipo_storage t  left join ipo_commodity_conf c
+    on t.commodityid = c.commodityid where c.nonissuereg=1) a left join br_broker b
+    on a.pubmemberid = b.brokerid order by a.storageid) g where 1=1
+       <if test="record.storageid != null" >
+       and g.STORAGEID like concat (#{record.storageid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.commodityid != null" >
+       and g.COMMODITYID like concat (#{record.commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="record.storagedate != null" >
+       and g.STORAGEDATE = #{record.storagedate,jdbcType=DATE}
+      </if>
+      <if test="record.storagestate != null" >
+       and g.STORAGESTATE = #{record.storagestate,jdbcType=DECIMAL}
+      </if>
+    order by g.STORAGEID)  p where p.TNO between  #{beginnum} and #{endnum}
+  </select>
+   <select id="getSaleTotalNum" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended">
+   	 select count(*) from IPO_STORAGE where 1=1
+   	    <if test="storageid != null" >
+       and STORAGEID like  concat (#{storageid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="commodityid != null" >
+       and COMMODITYID like concat (#{commodityid,jdbcType=VARCHAR},'%')
+      </if>
+       <if test="storagedate != null" >
+       and STORAGEDATE = #{storagedate,jdbcType=DATE}
+      </if>
+      <if test="storagestate != null" >
+       and STORAGESTATE = #{storagestate,jdbcType=DECIMAL}
+      </if>
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
    <select id="sequence" resultType="java.lang.Integer">
 	SELECT SEQ_IPO_STORAGE.NEXTVAL FROM dual
    </select>

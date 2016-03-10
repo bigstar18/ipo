@@ -146,4 +146,41 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	}
 
+	@Override
+	public List<VIpoStorageExtended> selectBySale(String page, String rows,
+			VIpoStorageExtended storage) {
+		Log.info("分页查询可转持仓入库单服务");
+		page = (page == null ? "1" : page);
+		rows = (rows == null ? "5" : rows);
+		int curpage = Integer.parseInt(page);
+		int pagesize = Integer.parseInt(rows);
+		if (storage != null) {
+			IpoStorageExtended example = new IpoStorageExtended();
+			BeanUtils.copyProperties(storage, example);
+			List<IpoStorageExtended> storageslist = ipoStorageMapper
+					.findStoragesBySale((curpage - 1) * pagesize + 1, curpage
+							* pagesize, example);
+			List<VIpoStorageExtended> storageslist2 = new ArrayList<VIpoStorageExtended>();
+			for (int i = 0; i < storageslist.size(); i++) {
+				VIpoStorageExtended temp = new VIpoStorageExtended();
+				BeanUtils.copyProperties(storageslist.get(i), temp);
+				storageslist2.add(temp);
+				Log.info(temp.toString());
+			}
+			return storageslist2;
+		}
+		return null;
+	}
+
+	@Override
+	public Integer getSaleTotalNum(VIpoStorageExtended storage) {
+		Log.info("获取可转持仓入库单记录数");
+		if (storage != null) {
+			IpoStorageExtended example = new IpoStorageExtended();
+			BeanUtils.copyProperties(storage, example);
+			return ipoStorageMapper.getSaleTotalNum(example);
+		}
+		return 0;
+	}
+
 }
