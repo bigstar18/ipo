@@ -2,12 +2,12 @@
 <%@ include file="../ipoInclude.jsp"%>
 <html>
 <head>
-<title>持仓过户</title>
+<title>持仓冻结/解冻</title>
 <script type="text/javascript">
 <%   String j;%> 
 $(document).ready(function() {
 	 $('#dg').datagrid({  
-        title:'持仓过户',  
+        title:'持仓冻结/解冻',  
         iconCls:'icon-ok', 
         method:"post",
         height:400,
@@ -18,7 +18,7 @@ $(document).ready(function() {
         nowrap:true,  
         striped:true,  
         collapsible:false,  
-        url:  getRootPath () + "/StockController/transferRecordList" ,  
+        url:  getRootPath () + "/StockController/freezeRecordList" ,  
         loadMsg:'数据加载中......',  
         fitColumns:true,//允许表格自动缩放,以适应父容器  
        
@@ -30,54 +30,37 @@ $(document).ready(function() {
        	 field : 'applicationId',  
             width : 200, 
             align: "center",
-            title : '申请编号'
+            title : '冻结编号'
         }, {
        	 field : 'commodityid',  
             width : 200,  
             align: "center",
             title : '商品代码'
         },  {
-       	 field : 'customeridApply',  
+       	 field : 'customerid',  
             width : 200,  
             align: "center",
-            title : '申请过户方交易商代码'
+            title : '交易商代码'
         }, {
-       	 field : 'customeridAccept',  
+       	 field : 'freezeNumber',  
             width : 200,  
             align: "center",
-            title : '接受过户方交易商代码'
-        } ,{
-       	 field : 'transferNumber',  
-            width : 200,  
-            align: "center",
-            title : '过户数量'
+            title : '冻结数量'
         }, {
        	 field : 'state',  
             width : 200,  
             align: "center",
             title : '状态',
             formatter:function(value){
-           	 if(value=='0') return "申请";
-           	 if(value=='1') return "审核通过";
-           	 if(value=='2') return "审核驳回";
+           	 if(value=='0') return "冻结";
+           	 if(value=='1') return "解冻";
             }
-        } ,{
-       	 field: 'oper',
-       	 width : 200,  
-            title: '操作',
-            align: 'center',
-            formatter: function(value, row, index) {
-           	 if(row.state=='0')
-           		 return "<a href=\"#\" onclick=\"operation("+row.applicationId+")\">" + "操作" + "</a>";
-           	 if(row.state=='1'|| row.state=='2')
-           		 return "<a href=\"#\" onclick=\"operation("+row.applicationId+")\">" + "查看" + "</a>";
-            }
-        } ,{
-       	 field : 'remarks',  
-            width : 200,  
-            align: "center",
-            title : '备注'
         }, {
+          	 field : 'freezereason',  
+             width : 200,  
+             align: "center",
+             title : '冻结原因'
+         }, {
        	 field : 'createtime',  
             width : 200,  
             align: "center",
@@ -95,6 +78,7 @@ $(document).ready(function() {
             	if(value !=null)
                  	return value.substr(0,10);
          } 
+        
         }
         ]],  
         
@@ -130,7 +114,8 @@ function doSearch(){
 		commodityid: $('#commodityid').val(),
 		state: $('#state').val(),
 		//reviewtime: $('#reviewtime').datebox('getValue'),
-		customeridApply: $('#customeridApply').val()
+		customerid: $('#customerid').val()
+		
 	});
 }
 
@@ -152,14 +137,14 @@ function check(){
 function clearInfo(){
 	$("#commodityid").val("");
 	$("#reviewtime").datebox('setValue',"")
-	$("#customeridApply").val("");
+	$("#customerid").val("");
 	 $("#state").val("");
 }
 
 
 //添加
 function add(){
-	  var url_='<%=request.getContextPath()%>/StockController/addTransfer';
+	  var url_='<%=request.getContextPath()%>/StockController/addFreeze';
 	  window.location.href=url_; 
 }
 
@@ -172,20 +157,20 @@ function deleteList(){
 	});
 	var applicationId = applicationIds.join(",");
 	if(applicationId.length != 0){
-		if(confirm("确定删除所选记录？")){
+		if(confirm("确定解冻所选记录？")){
 			  var row = $("#dg").datagrid("getSelected");
-			  $.post("<%=request.getContextPath()%>/StockController/deleteInfo",{"applicationIds":applicationId},function(data,status){
+			  $.post("<%=request.getContextPath()%>/StockController/unfreezeInfo",{"applicationIds":applicationId},function(data,status){
 				  if(data=='true'){
-					  alert("删除成功！")
+					  alert("解冻成功！")
 					  $('#dg').datagrid('reload');
 				  }
 				  if(data=='false'){
-					  alert("删除失败")
+					  alert("解冻失败，请选择冻结状态下的信息")
 				  }
 					  });
 			  }
 	}else{
-		alert("至少选择一条记录再进行删除！");
+		alert("至少选择一条记录再进行解冻！");
 	}
 
 }
@@ -201,17 +186,16 @@ function deleteList(){
 			商品代码：<input type="text" id="commodityid" name="commodityid" />
 			状         态： 	<select id="state" name="state" style="width:80">
 					<option value="">请选择</option>
-					<option value="0">申请</option>
-					<option value="1">审核通过</option>
-					<option value="2">审核驳回</option>	
+					<option value="0">冻结</option>
+					<option value="1">解冻</option>	
 					</select>
-			申请过户交易商代码：<input type="text" id="customeridApply" name="customeridApply" />
+			交易商代码：<input type="text" id="customerid" name="customeridApply" />
 			审核时间：<input type="text" id="reviewtime" name="reviewtime" class="easyui-datebox"></input> 
 			
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search"  onclick="doSearch()">查询</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-reload"  onclick="clearInfo()">重置</a><br/>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="add()">添加</a>		
-			<a href="#" class="easyui-linkbutton" iconCls="icon-remove"  onclick="deleteList();">删除</a>		
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add"  onclick="add()">冻结</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove"  onclick="deleteList();">解冻</a>		
 		</div>  
 	</div>
 	</div>

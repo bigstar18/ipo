@@ -316,6 +316,8 @@
 		insert into f_account(Code,Name,accountLevel,dCFlag)
 		select #{parentSubject,jdbcType=VARCHAR}||#{commoId,jdbcType=VARCHAR},name||#{commoId,jdbcType=VARCHAR},3,'C' from f_account where code=#{parentSubject,jdbcType=VARCHAR}
 	</update>
-
+	<select id="checkcommid"  resultType="java.lang.String">
+		select commodityname from ipo_commodity_conf where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+	</select>
 </mapper>
 

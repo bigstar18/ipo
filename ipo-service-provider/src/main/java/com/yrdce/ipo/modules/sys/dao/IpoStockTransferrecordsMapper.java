@@ -33,5 +33,7 @@ public interface IpoStockTransferrecordsMapper {
 	
 	public void update(@Param("param")StockTransferrecords stockTransferrecords);
 
+	
+
 
 }

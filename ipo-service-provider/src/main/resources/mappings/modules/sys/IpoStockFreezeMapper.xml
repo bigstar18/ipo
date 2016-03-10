@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoStockFreezeMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze" >
+    <result column="APPLICATION_ID" property="applicationId" jdbcType="DECIMAL" />
+    <result column="COMMODITYID" property="commodityid" jdbcType="OTHER" />
+    <result column="CUSTOMERID" property="customerid" jdbcType="OTHER" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="FREEZE_NUMBER" property="freezeNumber" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+    <result column="REVIEWTIME" property="reviewtime" jdbcType="DATE" />
+    <result column="OPERATOR" property="operator" jdbcType="OTHER" />
+    <result column="FREEZEREASON" jdbcType="VARCHAR" property="freezereason" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze" >
+    insert into IPO_STOCK_FREEZE (COMMODITYID, CUSTOMERID, 
+      STATE, FREEZE_NUMBER, CREATETIME, 
+      REVIEWTIME, OPERATOR,FREEZEREASON)
+    values ( #{commodityid,jdbcType=OTHER}, #{customerid,jdbcType=OTHER}, 
+      '0', #{freezeNumber,jdbcType=DECIMAL}, #{createtime,jdbcType=DATE}, 
+     '', 'TEST',#{freezereason,jdbcType=VARCHAR})
+
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select APPLICATION_ID, COMMODITYID, CUSTOMERID, STATE, FREEZE_NUMBER, CREATETIME, 
+    REVIEWTIME, OPERATOR
+    from IPO_STOCK_FREEZE
+  </select>
+  
+  <select id="findfreezerecords" resultMap="BaseResultMap" parameterType="map">
+
+    	SELECT * FROM	( select rownum as rn , ipo_stock_freeze.* from  ipo_stock_freeze where 1=1 
+    <if test="record.commodityid != null">
+			and COMMODITYID like concat(#{record.commodityid,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="record.customerid != null">
+			and  CUSTOMERID like concat ('%', concat(#{record.customerid,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="record.state != null">
+			and  state =#{record.state,jdbcType=DECIMAL}
+		</if>	
+		<if test="record.reviewtime != null">
+			and  reviewtime =#{record.reviewtime,jdbcType=DATE}
+		</if>		   		   
+    ORDER BY APPLICATION_ID ) WHERE rn >= #{beginnum} and #{endnum} >= rn
+	</select>
+	
+	<select id="getStockCommNum" resultType="java.lang.Integer" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze">
+	select count(*) from ipo_stock_freeze
+	</select>
+	
+	<select id="findById" resultMap="BaseResultMap"  parameterType="java.lang.Long" >
+     select *  from ipo_stock_freeze  where APPLICATION_ID = #{applicationId,jdbcType=DECIMAL}
+  </select>
+  <update id="update" parameterType="map" >
+     update ipo_stock_freeze set   STATE = '1',REVIEWTIME=#{param.reviewtime,jdbcType=DATE}
+     where APPLICATION_ID = #{param.applicationId}
+  </update>
+</mapper>

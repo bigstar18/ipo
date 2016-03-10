@@ -47,4 +47,6 @@ public interface TCustomerholdsumMapper {
 
 	long selectFirmHold(String firmid);
 
+	String checkCommQuatity(@Param("customerid") String firmid,@Param("commodityid") String commid);
+
 }

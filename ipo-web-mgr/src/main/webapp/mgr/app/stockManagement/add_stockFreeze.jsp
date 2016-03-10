@@ -15,44 +15,41 @@
         
         
         function back(){
-			var url_='<%=basePath%>/mgr/app/stockManagement/stock_transfer_positions.jsp';
+			var url_='<%=basePath%>/mgr/app/stockManagement/stock_freeze.jsp';
 			window.location.href=url_; 
 		}
         
         
         function save(){
     		var commodityid=String($("#commodityid").val());//入库数量
-    		var customeridApply=String($("#customeridApply").val());//发行数量
-    		var transferNumber=parseInt($("#transferNumber").val());//转发售数量
-    		var customeridAccept=String($("#customeridAccept").val());
+    		var customerid=String($("#customerid").val());//发行数量
+    		var freezeNumber=parseInt($("#freezeNumber").val());//转发售数量
+    		var freezereason=String($("#freezereason").val());
     		var createtime = new Date( );;
     	
 			 if(dataForm.purchaseRate1.value==""){
 				alert('商品代码不能为空!');return ;
 			 };
 			 if(dataForm.purchaseRate2.value==""){
-				alert('申请过户交易商代码不能为空!');return ;
-			 };
-			 if(dataForm.purchaseRate3.value==""){
-				alert('接受过户交易商代码不能为空!');return ;
+				alert('交易商代码不能为空!');return ;
 			 };
 			 if(dataForm.purchaseRate4.value==""){
-				alert('过户数量不能为空!');return ;
+				alert('冻结数量不能为空!');return ;
 			 };	
 			 if(dataForm.purchaseRate4.value<=0){
-					alert('过户数量必须大于0!');return ;
+					alert('冻结数量必须大于0!');return ;
 			};
 			if(parseInt(dataForm.purchaseRate4.value)!=dataForm.purchaseRate4.value){
-				alert('过户数量必须为整数!');return ;
+				alert('冻结数量必须为整数!');return ;
 			};
-			if(dataForm.purchaseRate2.value==dataForm.purchaseRate3.value){
-				alert('不能过户给自己');return ;
+			if(dataForm.purchaseRate5.value==""){
+				alert('冻结原因不能为空!');return ;
 			};
 			$.ajax({ 
      		   cache:false,
                 type: "post",  
-                url: "<%=request.getContextPath()%>/StockController/addNewTransfer",       
-                data:{"commodityid":commodityid,"customeridApply":customeridApply,"customeridAccept":customeridAccept,"transferNumber":transferNumber,"createtime":createtime},     
+                url: "<%=request.getContextPath()%>/StockController/addNewFreeze",       
+                data:{"commodityid":commodityid,"customerid":customerid,"freezereason":freezereason,"freezeNumber":freezeNumber,"createtime":createtime},     
                
                 success: function(data) { 
              	   if(data=='true'){
@@ -66,12 +63,8 @@
          			} 
              	  	else if(data=='nofirmid')
            			{
-           		  	alert("请输入正确的申请过户交易商！"); 
-           			}
-             	 	else if(data=='nofirmid2')
-          			{
-          		  	alert("请输入正确的接受过户交易商！"); 
-          			}
+           		  	alert("请输入正确的交易商！"); 
+           			}         	 	
              	   	else if(data=='noquatity')
              		{
              		  alert("该用户持该商品不足！"); 
@@ -107,20 +100,20 @@
             							</td> 
             						</tr>
             						<tr style="height: 30px">
-        	  							<td align="right" >申请过户交易商ID:&nbsp;&nbsp;</td>
-            							<td> <input id='customeridApply' name="purchaseRate2" type="text" size="28" style="height: 24px;"  onkeyup="value=value.replace(/[/W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d]/g,''))" value="${entity.customeridApply }"/>
+        	  							<td align="right" >交易商ID:&nbsp;&nbsp;</td>
+            							<td> <input id='customerid' name="purchaseRate2" type="text" size="28" style="height: 24px;"  onkeyup="value=value.replace(/[/W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d]/g,''))" value="${entity.customerid }"/>
 			  								<font style="color:red">*</font> 
             							</td> 
             						</tr>
         							<tr style="height: 30px">
-        	  							<td align="right" >接受过户交易商ID:&nbsp;&nbsp;</td>
-            							<td> <input id='customeridAccept' name="purchaseRate3" type="text" size="28" style="height: 24px;"  onkeyup="value=value.replace(/[/W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^/d]/g,''))" value="${entity.customeridAccept }"/>
+        	  							<td align="right" >冻结数量:&nbsp;&nbsp;</td>
+            							<td> <input id='freezeNumber' name="purchaseRate4" type="text" size="28" style="height: 24px;"   onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="${entity.freezeNumber }"/>
 			  								<font style="color:red">*</font> 
             							</td> 
             						</tr>
-        							<tr style="height: 30px">
-        	  							<td align="right" >过户数量:&nbsp;&nbsp;</td>
-            							<td> <input id='transferNumber' name="purchaseRate4" type="text" size="28" style="height: 24px;"   onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="${entity.transferNumber }"/>
+            						<tr style="height: 30px">
+        	  							<td align="right" >冻结原因:&nbsp;&nbsp;</td>
+            							<td> <input id='freezereason' name="purchaseRate5" type="text" size="28" style="height: 24px;"    value="${entity.freezereason }"/>
 			  								<font style="color:red">*</font> 
             							</td> 
             						</tr>
@@ -132,7 +125,7 @@
 						<tr>
 							<td colspan="4" align="center">
 								<div class="div_gn">
-								    <input type="button" value="申请" onclick="save();" class="anniu_btn"   />&nbsp;&nbsp;
+								    <input type="button" value="冻结" onclick="save();" class="anniu_btn"   />&nbsp;&nbsp;
 									<input type="button" value="返回" onclick="back();" class="anniu_btn"   />
 								</div>
 							</td>

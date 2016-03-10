@@ -25,18 +25,19 @@ public interface StockTransferrecordsService {
 		public Integer insertTransfer(StockTransferrecords example);
 
 		public String deleteInfo(String applicationIds);
-
+		
 
 		StockTransferrecords findById(Long applicationIds);
 
 		public void update(StockTransferrecords stockTransferrecords);
 
+		public boolean checkCommQuatity(Long quatity, String firmid, String commid);
 
-		/**
-		 * 查找一般费用
-		 * @param id
-		 * @return
-		 */
+		public boolean checkfirmid(String firmid);
+
+		public boolean checkcommid(String commid);
+
+
 
 
 

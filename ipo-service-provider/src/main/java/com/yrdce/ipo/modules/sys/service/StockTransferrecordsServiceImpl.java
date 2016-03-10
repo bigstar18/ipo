@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.common.utils.PageUtil;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoStockTransferrecordsMapper;
+import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoChargeRole;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoPubpaymentTrack;
@@ -34,6 +37,14 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 @Service
 public class StockTransferrecordsServiceImpl implements StockTransferrecordsService {
+	
+	
+	@Autowired
+	private TCustomerholdsumMapper customerholdsumMapper;
+	@Autowired
+	private IpoDeliveryorderMapper ipoDeliveryorderMapper;
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfMapper;
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IpoStockTransferrecordsMapper stocktransferrecordmapper;
@@ -151,7 +162,45 @@ public class StockTransferrecordsServiceImpl implements StockTransferrecordsServ
 		stockTransferrecords.setReviewtime(new Date());
 		stocktransferrecordmapper.update(stockTransferrecords);
 	}
-
-
-
+	/**
+	 * 对比持仓
+	 * @return 
+	 */
+	@Override
+	public boolean checkCommQuatity(Long quatity, String firmid, String commid) {
+		String check = customerholdsumMapper.checkCommQuatity(firmid,commid);
+ 		if(check==null)
+		{
+			return false;
+		}else{
+		if(Long.parseLong(check)>=quatity){
+			return true;
+		}
+		}
+		return false;
+	}
+	/**
+	 * 对比客户
+	 * @return 
+	 */
+	@Override
+	public boolean checkfirmid(String firmid) {
+		String check = ipoDeliveryorderMapper.selectByFrim(firmid);
+		if(check!=null){
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 对比商品
+	 * @return 
+	 */
+	@Override
+	public boolean checkcommid(String commid) {
+		String check = ipoCommodityConfMapper.checkcommid(commid);
+		if(check!=null){
+			return true;
+		}
+		return false;
+	}
 }

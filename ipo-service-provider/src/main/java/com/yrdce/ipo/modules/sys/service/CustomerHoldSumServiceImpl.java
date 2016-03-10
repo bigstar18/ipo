@@ -93,5 +93,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		// TODO Auto-generated method stub
 
 	}
+	@Override
+	public void myfreezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
+		freezeCustomerHold(frozenqty,customerid,commodityid,bsFlag.shortValue());
 
+	}
 }

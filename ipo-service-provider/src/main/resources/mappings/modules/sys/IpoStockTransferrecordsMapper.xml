@@ -20,7 +20,7 @@
       OPERATOR)
     values ( #{commodityid,jdbcType=VARCHAR}, #{customeridApply,jdbcType=VARCHAR}, 
       #{customeridAccept,jdbcType=VARCHAR}, #{transferNumber,jdbcType=DECIMAL},'0', 
-     '',to_date('2015-10-08 16:52:49','YYYY-MM-DD HH24:MI:SS'),'','sc')
+     '',#{createtime,jdbcType=DATE},'','TEST')
   </insert>
   <select id="selectAll" resultMap="BaseResultMap" >
     select APPLICATION_ID, COMMODITYID, CUSTOMERID_APPLY, CUSTOMERID_ACCEPT, TRANSFER_NUMBER, 
@@ -40,6 +40,9 @@
 		</if>
 		<if test="record.state != null">
 			and  state =#{record.state,jdbcType=DECIMAL}
+		</if>	
+		<if test="record.reviewtime != null">
+			and  state =#{record.reviewtime,jdbcType=DATE}
 		</if>		   		   
     ORDER BY APPLICATION_ID ) WHERE rn >= #{beginnum} and #{endnum} >= rn
   
