@@ -15,6 +15,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
+import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
 
 @Service("ipoCommConfService")
 public class CommoConfServiceImpl implements IpoCommConfService {
@@ -26,6 +27,9 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 
 	@Autowired
 	private IpoCommodityMapper commoditymapper;
+
+	@Autowired
+	private IpoStorageMapper ipoStorageMapper;
 
 	public IpoCommodityMapper getCommoditymapper() {
 		return commoditymapper;
@@ -244,5 +248,24 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			BeanUtils.copyProperties(example, record);
 		}
 		return ipoCommodityConfmapper.getNumsByExample(record);
+	}
+
+	@Override
+	public List<VIpoCommConf> selectCommodityByWarehouse(String wareManagerId) {
+		Long warehouseId = ipoStorageMapper
+				.getWarehousePrimaryKey(wareManagerId);
+		if (warehouseId != null) {
+			List<IpoCommodityConf> ipocomcoflist = ipoCommodityConfmapper
+					.findCommodityByWarehouse(ipoStorageMapper
+							.getWarehousePrimaryKey(wareManagerId));
+			List<VIpoCommConf> ipocomcoflist2 = new ArrayList<VIpoCommConf>();
+			for (int i = 0; i < ipocomcoflist.size(); i++) {
+				VIpoCommConf vipocomconf = new VIpoCommConf();
+				BeanUtils.copyProperties(ipocomcoflist.get(i), vipocomconf);
+				ipocomcoflist2.add(vipocomconf);
+			}
+			return ipocomcoflist2;
+		}
+		return null;
 	}
 }

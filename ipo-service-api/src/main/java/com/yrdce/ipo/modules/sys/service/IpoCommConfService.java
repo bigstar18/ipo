@@ -47,7 +47,10 @@ public interface IpoCommConfService {
 	// 根据条件获取商品数
 	public int getNumsByExample(VIpoCommConf example);
 
-	// 获取设置交收属性和托管属性的商品
+	// 获取商品
 	public List<VIpoCommConf> selectCommodityByExample(VIpoCommConf example);
+
+	// 获取在某仓库可入库的商品
+	public List<VIpoCommConf> selectCommodityByWarehouse(String wareManagerId);
 
 }

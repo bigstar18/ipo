@@ -146,7 +146,7 @@ public class DeliveryController {
 	}
 
 	/**
-	 * 获取具有交收属性的商品
+	 * 获取某仓库具有交收属性的商品
 	 * 
 	 * @param
 	 * @return
@@ -157,12 +157,8 @@ public class DeliveryController {
 	public String getDeliveryCommodity(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		log.info("获取具有交收属性的商品");
-		VIpoCommConf example = new VIpoCommConf();
-		// example.setNonissuereg(new BigDecimal(1));
-		example.setDeliveryProp((short) 1);
 		List<VIpoCommConf> commlist = ipoCommConfService
-				.selectCommodityByExample(example);
-
+				.selectCommodityByWarehouse(this.getloginUserId(request));
 		return JSON.json(commlist);
 	}
 
@@ -340,5 +336,14 @@ public class DeliveryController {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	private String getloginUserId(HttpServletRequest request) {
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
+				"CurrentUser");
+		if (user != null) {
+			return user.getUserID();
+		}
+		return "nologin";
 	}
 }
