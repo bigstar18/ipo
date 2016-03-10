@@ -50,4 +50,6 @@ public interface CustomerHoldSumService {
 	 */
 	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag);
 
+	public void myfreezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag);
+
 }

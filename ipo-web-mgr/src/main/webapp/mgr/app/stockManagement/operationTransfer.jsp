@@ -144,10 +144,10 @@
             								<label id='state' name="purchaseRate5"  size="28"   style="height: 24px;" maxlength="5">申请</label>
             							</c:if>
             							<c:if test="${entity.state  == 1}">
-            								<label id='state' name="purchaseRate5"  size="28"   style="height: 24px;" maxlength="5">审核通过</label>
+            								<label id='state' name="purchaseRate5"  size="28"   style="height: 24px;"   maxlength="5">审核通过</label>
             							</c:if>
             							<c:if test="${entity.state  == 2}">
-            								<label id='state' name="purchaseRate5"  size="28"   style="height: 24px;" maxlength="5">审核驳回</label>
+            								<label id='state' name="purchaseRate5"  size="28"   style="height: 24px;"  maxlength="5">审核驳回</label>
             							</c:if>
 			  								
             							</td> 
@@ -156,8 +156,8 @@
             						<c:if test="${entity.state  == 0}">
         	  							<td align="right" >审核:&nbsp;&nbsp;</td>
             							<td id='btnSubmit'> 
-            								<input  name="myradiobtn" type="radio" size="28"  style="height: 24px;" maxlength="5" value="1">审核通过
-            								<input  name="myradiobtn" type="radio" size="28"   style="height: 24px;" maxlength="5" value="2">审核驳回	
+            								<input  name="myradiobtn" type="radio" size="28"  style="height: 24px;height:15px;vertical-align:bottom;margin-bottom:-1px;margin-bottom:-2px\9;*margin-bottom:0px;" maxlength="5" value="1" id="rad1">审核通过
+            								<input  name="myradiobtn" type="radio" size="28"   style="height: 24px;height:15px;vertical-align:bottom;margin-bottom:-1px;margin-bottom:-2px\9;*margin-bottom:0px;" maxlength="5" value="2" >审核驳回
             							</td> 
             						</c:if>
             						<c:if test="${entity.state  == 1 ||entity.state  == 2}">

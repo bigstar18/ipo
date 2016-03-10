@@ -61,4 +61,6 @@ public interface IpoCommodityConfMapper {
 	// hxx
 	int addFeeSubject(@Param("parentSubject") String parentSubject, @Param("commoId") String commoId);
 
+	String checkcommid(String commid);
+
 }

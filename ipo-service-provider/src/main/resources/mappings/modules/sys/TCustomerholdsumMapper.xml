@@ -103,5 +103,8 @@
   	where
   	FIRMID= #{firmid,jdbcType=VARCHAR}
   </select>
-  
+  <select id="checkCommQuatity" resultType="String" parameterType="map" >
+  	select (holdqty-frozenqty)  from T_CUSTOMERHOLDSUM where  CUSTOMERID = #{customerid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
 </mapper>
