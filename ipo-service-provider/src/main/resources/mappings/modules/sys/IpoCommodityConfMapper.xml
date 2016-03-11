@@ -125,7 +125,14 @@
 			and PUBMEMBERID like concat(#{pubmemberid,jdbcType=VARCHAR},'%')
 		</if>
 	</select>
-
+ <select id="findAvaiSubscribeCommoditys"  resultMap="BaseResultMap"  >
+    select 
+     <include refid="Base_Column_List" />
+     from IPO_COMMODITY_CONF c where c.commodityid in (select t.commodityid
+                           from ipo_publisher_position t
+                          group by t.commodityid
+                         having sum(t.subscricounts) > 0) order by c.COMMODITYID
+  </select>
 
 	<select id="findIpoCommConfByCommid" resultType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf" parameterType="String">
 		select
