@@ -164,29 +164,32 @@ legend {
 			var type = $(".listselect").find("option:selected").val();
 			var firmid = $('#firmid').val();
 			var counts = $('#count').val();
-			$.ajax({
-				type : "POST",
-				url : "<%=request.getContextPath()%>/SPOController/adddir",
-				data : {
-				//数据要传的在这里
-				"spoid":spoid,
-				"type":type,
-				"firmid":firmid,
-				"counts":counts
-				},
-				success : function(response) {
-					if (response == "success") {
-						alert("添加成功");
-						loadData();
+			var notRationCounts = $('#notRationCounts').val();
+			if(counts < notRationCounts ){
+				$.ajax({
+					type : "POST",
+					url : "<%=request.getContextPath()%>/SPOController/adddir",
+					data : {
+					//数据要传的在这里
+					"spoid":spoid,
+					"type":type,
+					"firmid":firmid,
+					"counts":counts
+					},
+					success : function(response) {
+						if (response == "success") {
+							alert("添加成功");
+							loadData();
+						}
+						if (response == "1001") {
+							alert("客户代码没有权限");
+						}
+					},
+					error : function(response) {
+						alert("提交失败，请重试或联系管理员");
 					}
-					if (response == "1001") {
-						alert("客户代码没有权限");
-					}
-				},
-				error : function(response) {
-					alert("提交失败，请重试或联系管理员");
-				}
-			});
+				});
+			} 
 		}
 
 		$('.codeselect').change(function() {
@@ -246,8 +249,12 @@ legend {
 		
 		function countFocus(){
 			var count = $("#count").val();
+			var notRationCounts = $('#notRationCounts').val();
 			if($.trim(count) == '' || count == ""){
 				$("#errorMsg2").html("不能为空");
+				 $("#errorMsg2").show();
+			}else if(count > notRationCounts){
+				$("#errorMsg2").html("配售量应小于未配售量");
 				 $("#errorMsg2").show();
 			}else{
 				$("#errorMsg2").hide();

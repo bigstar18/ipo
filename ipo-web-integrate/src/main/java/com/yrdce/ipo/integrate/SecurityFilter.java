@@ -34,6 +34,7 @@ public class SecurityFilter implements Filter {
 	int configId = 223001;
 	int moduleId = 40;
 	String sysType = "front";
+	QueryDao queryDao;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		String tmp = filterConfig.getInitParameter("sysType");
@@ -55,6 +56,9 @@ public class SecurityFilter implements Filter {
 			auExpireTimeMap.put("web", 7200000l);
 			auExpireTimeMap.put("pc", 7200000l);
 			auExpireTimeMap.put("mobile", 7200000l);
+
+			queryDao = new QueryDao();
+			queryDao.setDataSource(ds);
 
 			LogonActualize.createInstance(moduleId, 0, ds, auExpireTimeMap, 200, 3, sysType);
 		} catch (Exception e) {
@@ -125,8 +129,7 @@ public class SecurityFilter implements Filter {
 							request.getSession().setAttribute("CurrentUser", user);
 							if ("front".equals(sysType)) {
 								// 查询 m_trader 表，获得firmid TODO
-								QueryDao queryDao = new QueryDao();
-								queryDao.setDataSource(ds);
+
 								String firmId = queryDao.getFirmid(user.getUserID());
 								request.getSession().setAttribute("currentFirmId", firmId);
 							}

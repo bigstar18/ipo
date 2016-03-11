@@ -62,16 +62,20 @@ public class SPOServiceImpl implements SPOService {
 	@Autowired
 	private IpoPositionFlowMapper positionFlowMapper;
 
-	private static final String BROKER_NOT_EXIST = "1001";
+	private static final String BROKER_NOT_EXIST = "1001";//账号不存在或不符合要求
 
-	private static final String UNDERWRITING_MEMBER = "1";
+	private static final String INSUFFICIENT_FUNDS = "1002";//资金不足
 
-	private static final String TRADING_CLIENTS = "0";
+	private static final String UNDERWRITING_MEMBER = "1";//承销商
+
+	private static final String TRADING_CLIENTS = "0";//交易商
+
+	private static final String PROPORTION_PLACING = "1";//比例配售
+
+	private static final String DIRECTIONAL_PLACEMENT = "2";//定向配售
 
 	@Override
 	public List<SpoRation> getMyRationInfo(SpoCommoditymanmaagement spoCommo, String page, String rows) {
-		// TODO Auto-generated method stub
-
 		if (spoCommo == null)
 			return null;
 		page = (page == null ? "1" : page);
@@ -148,7 +152,6 @@ public class SPOServiceImpl implements SPOService {
 	@Override
 	public List<SpoCommoditymanmaagement> getSPOList(String page, String rows,
 			SpoCommoditymanmaagement spoComm) throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("分页获得增发列表");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -393,36 +396,50 @@ public class SPOServiceImpl implements SPOService {
 	public String add(String spoid, String type, String firmid, String count) {
 		logger.info("定向配售前台传向后台，type：" + type);
 		IpoSpoCommoditymanmaagement ipoSpoCom = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		long notCount = ipoSpoCom.getNotRationCounts();
+		BigDecimal countsParam = new BigDecimal(count);
+		BigDecimal price = ipoSpoCom.getSpoPrice();
+		BigDecimal cost = countsParam.multiply(price);
 		long all = 0;
 		if (type.equals(UNDERWRITING_MEMBER)) {
 			IpoSpoRation ipoSpoRation = ipoSpoRationMapper.findFirm(spoid, firmid);
 			if (ipoSpoRation == null) {
 				return BROKER_NOT_EXIST;
 			} else {
-				long rationid = ipoSpoRation.getRationid();
-				long rationCounts = ipoSpoRation.getRationcounts();
-				all = Long.parseLong(count) + rationCounts;
-				ipoSpoRationMapper.updateCounts(all, rationid);
+				String id = getFirmid(firmid);
+				boolean value = capital(id, cost);
+				if (value) {
+					long rationid = ipoSpoRation.getRationid();
+					long rationCounts = ipoSpoRation.getRationcounts();
+					all = Long.parseLong(count) + rationCounts;
+					ipoSpoRationMapper.updateCounts(all, rationid);
+				}
 			}
-		} else {
+		} else if (type.equals(TRADING_CLIENTS)) {
 			String name = ipoSpoRationMapper.selectFirmname(firmid);
 			if (name == null) {
 				return BROKER_NOT_EXIST;
 			} else {
-				all = Long.parseLong(count);
-				IpoSpoRation record = new IpoSpoRation();
-				record.setSpoid(spoid);
-				record.setRationcounts(Long.parseLong(count));
-				record.setFirmid(firmid);
-				record.setOperationdate(new Date());
-				record.setFirmname(name);
-				record.setRationSate(2);
-				ipoSpoRationMapper.insert(record);
+				boolean value = capital(firmid, cost);
+				if (value) {
+					all = Long.parseLong(count);
+					IpoSpoRation record = new IpoSpoRation();
+					record.setSpoid(spoid);
+					record.setRationcounts(Long.parseLong(count));
+					record.setFirmid(firmid);
+					record.setOperationdate(new Date());
+					record.setFirmname(name);
+					record.setRationSate(2);
+					ipoSpoRationMapper.insert(record);
+				} else {
+					return INSUFFICIENT_FUNDS;
+				}
 			}
 		}
-		long notCount = ipoSpoCom.getNotRationCounts();
+
 		long spoCount = ipoSpoCom.getSpoCounts();
 		long balance = notCount - all;
+
 		ipoSPOCommMapper.updatePlscingNum(spoCount - balance, balance, spoid);
 		return "success";
 	}
@@ -485,88 +502,121 @@ public class SPOServiceImpl implements SPOService {
 		return spoComm;
 	}
 
-	// 更新状态
+	// 增发成功
 	@Override
 	@Transactional
-	public int updateStatus(Integer rationSate, String spoid) throws Exception {
+	public int spoSuccess(Integer rationSate, String spoid) throws Exception {
 		logger.info("更新状态" + "rationSate:" + rationSate + "SPOID:" + spoid);
 		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		// 增发价格
-		BigDecimal price = ipoSpoComm.getPositionsPrice();
-		// 商品代码
-		String commid = ipoSpoComm.getCommodityId();
-		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
-		String pubmemberid = ipoCommodityConf.getPubmemberid();
-		//BrBroker brBroker = brBrokerMapper.selectById(pubmemberid);
-		short tradealgr = 0;
-		BigDecimal buy = new BigDecimal(0);
-		BigDecimal fee = new BigDecimal(0);
-
+		BigDecimal price = ipoSpoComm.getPositionsPrice();// 增发价格
+		String commid = ipoSpoComm.getCommodityId();// 商品代码
+		String type = ipoSpoComm.getRationType();
 		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
-		for (IpoSpoRation ipoSpoRation : list2) {
-			// 承销商id
-			String salesid = ipoSpoRation.getSalesid();
-			long rationId = ipoSpoRation.getRationid();
-			String rationIdparam = Long.toString(rationId);
-			String userid = ipoSpoRation.getFirmid();
-			if (salesid != null) {
-				// 交易商id
-				String firmid = ipoSpoRation.getFirmid();
-				// 买了多少
-				long counts = ipoSpoRation.getRationcounts();
-				BigDecimal countsparam = new BigDecimal(counts);
-				// 计算应冻结多少
-				BigDecimal money = countsparam.multiply(price);
-				IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid,
-						commid, ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
-				if (ipoSpecialcounterfee != null) {
-					tradealgr = ipoSpecialcounterfee.getTradealgr();
-					buy = ipoSpecialcounterfee.getCounterfee();
-					if (tradealgr == 1) {
-						BigDecimal valparam = buy.divide(new BigDecimal("100"));
-						fee = money.multiply(valparam);
-						logger.debug("特殊比例手续费：" + fee);
-					} else {
-						fee = countsparam.multiply(buy);
-						logger.debug("特殊绝对值手续费：" + fee);
-					}
+		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
+		if (type.equals(PROPORTION_PLACING)) {
+			for (IpoSpoRation ipoSpoRation : list2) {
+				String salesid = ipoSpoRation.getSalesid();// 承销商id
+				String userid = ipoSpoRation.getFirmid();
+				if (salesid != null) {
+					underwriter(ipoSpoRation, price, ipoCommodityConf, commid, userid);//承销商设置
 				} else {
-					// 手续费
-					tradealgr = ipoCommodityConf.getTradealgr();
-					buy = ipoCommodityConf.getBuy();
-					if (tradealgr == 1) {
-						BigDecimal valparam = buy.divide(new BigDecimal("100"));
-						fee = money.multiply(valparam);
-					} else {
-						fee = countsparam.multiply(buy);
-					}
+					logger.info("散户调用转持仓");
+					long countsparam = ipoSpoRation.getRationcounts();
+					this.transferPosition(userid, ipoCommodityConf, countsparam, price, "retail");
 				}
-				BigDecimal moneyPaeam = money.add(fee);
-				float allmoney = moneyPaeam.floatValue();
-				// 资金冻结
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("money", "");
-				param.put("userid", firmid);
-				param.put("amount", allmoney);
-				param.put("moduleid", "40");
-				fundsMapper.getfrozen(param);
-
-				// 更新手续费
-				ipoSpoRationMapper.updateServicefee(fee, rationId);
-				String value = this.fundsFlow(commid, rationIdparam, userid, money, fee, pubmemberid);
-				if (value != "success") {
+			}
+		} else if (type.equals(DIRECTIONAL_PLACEMENT)) {
+			for (IpoSpoRation ipoSpoRation : list2) {
+				String rationIdparam = ipoSpoRation.getRationid().toString();
+				String userid = ipoSpoRation.getFirmid();
+				BigDecimal money = ipoSpoRation.getRationloan();
+				BigDecimal fee = ipoSpoRation.getServicefee();
+				String pubmemberid = ipoCommodityConf.getPubmemberid();
+				String value = this.fundsFlow(commid, rationIdparam, userid, money, fee, pubmemberid);//资金流水
+				if (!"success".equals(value)) {
 					return 0;
 				}
-				logger.info("承销商调用转持仓");
-				this.transferPosition(userid, ipoCommodityConf, counts, price, "underwriter");
-			} else {
-				logger.info("散户调用转持仓");
+				String salesid = ipoSpoRation.getSalesid();// 承销商id
 				long countsparam = ipoSpoRation.getRationcounts();
-				this.transferPosition(userid, ipoCommodityConf, countsparam, price, "retail");
+				if (salesid != null) {
+					this.transferPosition(userid, ipoCommodityConf, countsparam, price, "underwriter");
+				} else {
+					logger.info("散户调用转持仓");
+					this.transferPosition(userid, ipoCommodityConf, countsparam, price, "retail");
+				}
 			}
 		}
 		logger.info("增发状态更新成功");
 		return ipoSPOCommMapper.updateByStatus(rationSate, spoid);
+	}
+
+	//承销商设置
+	private boolean underwriter(IpoSpoRation ipoSpoRation, BigDecimal price,
+			IpoCommodityConf ipoCommodityConf, String commid, String userid) {
+		String pubmemberid = ipoCommodityConf.getPubmemberid();
+		String firmid = ipoSpoRation.getFirmid();// 交易商id
+		long counts = ipoSpoRation.getRationcounts();// 买了多少
+		long rationId = ipoSpoRation.getRationid();
+		String rationIdparam = Long.toString(rationId);
+		BigDecimal countsparam = new BigDecimal(counts);
+		BigDecimal money = countsparam.multiply(price);// 计算应冻结多少
+		BigDecimal fee = getFee(firmid, commid, money, countsparam, ipoCommodityConf);//调用手续费算法
+		BigDecimal moneyPaeam = money.add(fee);
+		float allmoney = moneyPaeam.floatValue();
+		// 资金冻结
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("money", "");
+		param.put("userid", firmid);
+		param.put("amount", allmoney);
+		param.put("moduleid", "40");
+		fundsMapper.getfrozen(param);
+		ipoSpoRationMapper.updateServicefee(fee, rationId);// 更新手续费
+		String value = this.fundsFlow(commid, rationIdparam, userid, money, fee, pubmemberid);
+		if (!"success".equals(value)) {
+			return false;
+		} else {
+			logger.info("承销商调用转持仓");
+			try {
+				this.transferPosition(userid, ipoCommodityConf, counts, price, "underwriter");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+
+	}
+
+	//手续费算法(返回手续费)
+	private BigDecimal getFee(String firmid, String commid, BigDecimal money, BigDecimal countsparam,
+			IpoCommodityConf ipoCommodityConf) {
+		IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid, commid,
+				ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		short tradealgr = 0;
+		BigDecimal buy = new BigDecimal(0);
+		BigDecimal fee = new BigDecimal(0);
+		if (ipoSpecialcounterfee != null) {
+			tradealgr = ipoSpecialcounterfee.getTradealgr();
+			buy = ipoSpecialcounterfee.getCounterfee();
+			if (tradealgr == 1) {
+				BigDecimal valparam = buy.divide(new BigDecimal("100"));
+				fee = money.multiply(valparam);
+				logger.debug("特殊比例手续费：" + fee);
+			} else {
+				fee = countsparam.multiply(buy);
+				logger.debug("特殊绝对值手续费：" + fee);
+			}
+		} else {
+			// 手续费
+			tradealgr = ipoCommodityConf.getTradealgr();
+			buy = ipoCommodityConf.getBuy();
+			if (tradealgr == 1) {
+				BigDecimal valparam = buy.divide(new BigDecimal("100"));
+				fee = money.multiply(valparam);
+			} else {
+				fee = countsparam.multiply(buy);
+			}
+		}
+		return fee;
 	}
 
 	private void transferPosition(String userid, IpoCommodityConf ipoCommodityConf, Long position,
@@ -587,10 +637,36 @@ public class SPOServiceImpl implements SPOService {
 		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
 		if (type.equals("retail")) {
 			positionFlow.setRoleCode(ChargeConstant.RoleType.TRADER.getCode());
-		} else {
+		} else if (type.equals("underwriter")) {
 			positionFlow.setRoleCode(ChargeConstant.RoleType.UNDERWRITER.getCode());
 		}
 		positionFlowMapper.insert(positionFlow);
+	}
+
+	//增发失败
+	@Override
+	@Transactional
+	public int spoFail(Integer rationSate, String spoid) {
+		//TODO
+		List<IpoSpoRation> list1 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
+		for (IpoSpoRation spoRation : list1) {
+			BigDecimal count = spoRation.getRationloan();
+			BigDecimal fee = spoRation.getServicefee();
+			BigDecimal all = count.add(fee);
+			String userid = spoRation.getFirmid();
+			float amount = 0 - all.floatValue();
+			try {
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("money", "");
+				param.put("userid", userid);
+				param.put("amount", amount);
+				param.put("moduleid", "40");
+				fundsMapper.getfrozen(param);
+			} catch (Exception e) {
+				return 0;
+			}
+		}
+		return ipoSPOCommMapper.updateByStatus(rationSate, spoid);
 	}
 
 	// 修改增发商品
@@ -603,16 +679,6 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSPOCommMapper.updateByComm(ipospoComm);
 	}
 
-	// 根据增发ID查询增发总量<暂不用>
-	@Override
-	public SpoCommoditymanmaagement circulation(String spoid) throws Exception {
-		logger.info("根据增发ID查询增发总量" + "spoid:" + spoid);
-		IpoSpoCommoditymanmaagement ipoSPOComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		SpoCommoditymanmaagement spoComm = new SpoCommoditymanmaagement();
-		BeanUtils.copyProperties(ipoSPOComm, spoComm);
-		return spoComm;
-	}
-
 	// 更新已配售和未配售
 	@Override
 	@Transactional
@@ -622,7 +688,7 @@ public class SPOServiceImpl implements SPOService {
 		return ipoSPOCommMapper.updatePlscingNum(success, balance, spoid);
 	}
 
-	// 根据会员id查询交易商id<暂不用>
+	// 根据会员id查询交易商id
 	@Override
 	public String getFirmid(String brokerid) {
 		return ipoSpoRationMapper.firmidBySales(brokerid);
@@ -684,5 +750,26 @@ public class SPOServiceImpl implements SPOService {
 		payFlow.setCreateDate(new Date());
 		ipoPayFlowMapper.insert(payFlow);
 		return "success";
+	}
+
+	public Boolean capital(String userid, BigDecimal cost) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("money", "");
+		param.put("userid", userid);
+		param.put("lock", 0);
+		fundsMapper.getMonery(param);
+		BigDecimal money = (BigDecimal) param.get("money");
+		if (money.compareTo(cost) != -1) {
+			float amount = cost.floatValue();
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("money", "");
+			param1.put("userid", userid);
+			param1.put("amount", amount);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param1);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

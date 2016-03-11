@@ -60,7 +60,6 @@ public class SPOController {
 				return "error";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error("添加商品增发信息", e);
 			return "error";
 		}
@@ -89,7 +88,6 @@ public class SPOController {
 				return "null";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return "error";
 		}
@@ -148,7 +146,6 @@ public class SPOController {
 			// System.out.println(resultJson);
 			return resultJson;
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error("获取商品增发信息", e);
 			return "error";
 		}
@@ -170,7 +167,6 @@ public class SPOController {
 			// System.out.println(resultJson);
 			return resultJson;
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error("获取定向配售信息", e);
 			return "error";
 		}
@@ -190,7 +186,6 @@ public class SPOController {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error("删除定向配售信息", e);
 			return "error";
 		}
@@ -211,7 +206,6 @@ public class SPOController {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "error";
 		}
 
@@ -222,16 +216,25 @@ public class SPOController {
 	@ResponseBody
 	public String updateSPOSate(@RequestParam("spoId") String spoId,
 			@RequestParam("rationSate") String rationSate) {
-		logger.info("删除增发商品信息");
+		logger.info("更改增发状态");
 		try {
-			int result = spoService.updateStatus(Integer.parseInt(rationSate), spoId);
-			if (result > 0) {
-				return "success";
-			} else {
-				return "error";
+			if (rationSate.equals("2")) {
+				int result = spoService.spoSuccess(Integer.parseInt(rationSate), spoId);
+				if (result > 0) {
+					return "success";
+				} else {
+					return "error";
+				}
+			} else if (rationSate.equals("3")) {
+				int result = spoService.spoFail(Integer.parseInt(rationSate), spoId);
+				if (result > 0) {
+					return "success";
+				} else {
+					return "error";
+				}
 			}
+			return "";
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "error";
 		}
 	}
@@ -247,7 +250,6 @@ public class SPOController {
 			logger.info(result);
 			return result;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "error";
 		}
 	}
@@ -265,7 +267,6 @@ public class SPOController {
 				return "error";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return "error";
 		}
@@ -285,7 +286,6 @@ public class SPOController {
 			logger.info("承销商配售信息" + jsonResult);
 			return jsonResult;
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.error("承销商配售信息异常！");
 			return "error";
 		}
@@ -300,8 +300,7 @@ public class SPOController {
 			spoService.insertByRation((ArrayList) spoRationList);
 			return "success";
 		} catch (Exception e) {
-			// TODO: handle exception
-			logger.info("承销商配售信息插入", e);
+			logger.error("承销商配售信息插入", e);
 			return "error";
 		}
 	}
@@ -315,7 +314,7 @@ public class SPOController {
 		try {
 			Long sum1 = 0L;
 			String spoid = spoRationList.get(0).getSpoid();
-			long counts = spoService.circulation(spoid).getSpoCounts();
+			long counts = spoService.getListBySpocom(spoid).getSpoCounts();
 			logger.info("更新增发总量：" + counts);
 			for (SpoRation spoRation : spoRationList) {
 				String brokerid = spoRation.getBrokerid();
@@ -343,7 +342,6 @@ public class SPOController {
 				return "fail";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.info("承销商配售信息修改", e);
 			return "error";
 		}
@@ -367,6 +365,7 @@ public class SPOController {
 	public String addDir(@RequestParam("spoid") String spoid, @RequestParam("type") String type,
 			@RequestParam("firmid") String firmid, @RequestParam("counts") String counts,
 			HttpServletRequest request) {
+
 		String status = spoService.add(spoid, type, firmid, counts);
 		return status;
 	}

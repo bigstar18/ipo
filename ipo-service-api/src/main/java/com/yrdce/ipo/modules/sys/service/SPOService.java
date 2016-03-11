@@ -64,14 +64,14 @@ public interface SPOService {
 	// 根据增发id查增发信息
 	public SpoCommoditymanmaagement getListBySpocom(String spoid);
 
-	// 跟新状态
-	public int updateStatus(Integer rationSate, String spoid) throws Exception;
+	// 增发成功
+	public int spoSuccess(Integer rationSate, String spoid) throws Exception;
+
+	// 增发失败
+	public int spoFail(Integer rationSate, String spoid);
 
 	// 修改增发商品
 	public int updateComm(SpoCommoditymanmaagement spoComm) throws Exception;
-
-	// 获取增发总量
-	public SpoCommoditymanmaagement circulation(String spoid) throws Exception;
 
 	// 更新已配售和未配售
 	public int updatePlscingNum(Long success, Long balance, String spoid) throws Exception;
@@ -89,4 +89,5 @@ public interface SPOService {
 	public List<SpoCommoditymanmaagement> getInfo();
 
 	public String add(String spoid, String type, String firmid, String count);
+
 }

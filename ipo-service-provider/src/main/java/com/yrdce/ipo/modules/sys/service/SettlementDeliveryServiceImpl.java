@@ -518,7 +518,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		return "success";
 	}
 
-	private Boolean capital(String userid, BigDecimal cost) {
+	public Boolean capital(String userid, BigDecimal cost) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("money", "");
 		param.put("userid", userid);
