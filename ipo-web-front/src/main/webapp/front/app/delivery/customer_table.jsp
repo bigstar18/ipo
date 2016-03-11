@@ -188,8 +188,8 @@
 	  var status = '0';
  	  var deliveryorderid = $('#deliveryorderId').html();
  	  var approvalStatus = $('#approvalStatus').val();
- 	  if(approvalStatus == 2){
- 		  status = 4;
+ 	  if(approvalStatus == '002001'){
+ 		  status = '003001';
  	  }else{
  		  status = approvalStatus;
  	  }

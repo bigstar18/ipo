@@ -16,16 +16,19 @@ import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPickupMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
+import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoPickup;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
+import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
@@ -52,6 +55,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	private IpoOutboundMapper ipoOutboundMapper;
 	@Autowired
 	private IpoPositionFlowMapper ipopositionmapper;
+
+	@Autowired
+	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
 
 	@Autowired
 	private IpoDebitFlowMapper debitFlowMapper;
@@ -439,5 +445,17 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			return "true";
 		}
 		return "false";
+	}
+
+	@Override
+	public DeliveryCost getCostByDeliveryOrder(DeliveryOrder order) {
+		IpoDeliveryCost record = ipoDeliveryCostMapper.selectByPrimaryKey(order
+				.getDeliveryorderId());
+		if (record != null) {
+			DeliveryCost result = new DeliveryCost();
+			BeanUtils.copyProperties(record, result);
+			return result;
+		}
+		return null;
 	}
 }
