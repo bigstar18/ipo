@@ -304,19 +304,4 @@ public class CommodityServiceImpl implements CommodityService {
 				Integer.valueOf(SALE_STATUS_SETTLED), commoId);
 	}
 
-	@Override
-	public List<Commodity> findAvaiSubscribeCommoditys() {
-		logger.info("获取可供承销认购的商品");
-		List<Commodity> commlist2 = new ArrayList<Commodity>();
-		List<IpoCommodity> commlist = ipoCommodityMapper
-				.findAvaiSubscribeCommoditys();
-		for (int i = 0; i < commlist.size(); i++) {
-			Commodity commo = new Commodity();
-			BeanUtils.copyProperties(commlist.get(i), commo);
-			commo.setPrice(commlist.get(i).getPrice().doubleValue());
-			commlist2.add(commo);
-		}
-		return commlist2;
-	}
-
 }

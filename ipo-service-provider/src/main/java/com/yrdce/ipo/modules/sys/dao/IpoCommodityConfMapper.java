@@ -76,4 +76,6 @@ public interface IpoCommodityConfMapper {
 	List<IpoCommodityConf> findCommodityByWarehouse(
 			@Param("warehouseId") long warehouseId);// 获取在某仓库可入库的商品
 
+	List<IpoCommodityConf> findAvaiSubscribeCommoditys();// 获取可供承销认购的商品
+
 }

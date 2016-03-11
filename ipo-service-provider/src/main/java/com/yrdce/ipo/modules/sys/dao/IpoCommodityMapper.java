@@ -37,8 +37,6 @@ public interface IpoCommodityMapper {
 
 	List<IpoCommodity> selectAll();
 
-	List<IpoCommodity> findAvaiSubscribeCommoditys();
-
 	List<IpoCommodity> getAllByPage(@Param("beginnum") int beginnum,
 			@Param("endnum") int endnum);// 分页获取发售商品
 

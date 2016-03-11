@@ -268,4 +268,18 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<VIpoCommConf> findAvaiSubscribeCommoditys() {
+		log.info("获取可供承销认购的商品");
+		List<VIpoCommConf> commlist2 = new ArrayList<VIpoCommConf>();
+		List<IpoCommodityConf> commlist = ipoCommodityConfmapper
+				.findAvaiSubscribeCommoditys();
+		for (int i = 0; i < commlist.size(); i++) {
+			VIpoCommConf commo = new VIpoCommConf();
+			BeanUtils.copyProperties(commlist.get(i), commo);
+			commlist2.add(commo);
+		}
+		return commlist2;
+	}
 }

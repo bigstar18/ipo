@@ -62,9 +62,6 @@ public interface CommodityService {
 	// 根据id获取商品对象
 	Commodity queryByComid(String comid);
 
-	// 获取可供承销认购的商品
-	public List<Commodity> findAvaiSubscribeCommoditys();
-
 	/**
 	 * 根据状态查所有发售的商品 hxx
 	 * 

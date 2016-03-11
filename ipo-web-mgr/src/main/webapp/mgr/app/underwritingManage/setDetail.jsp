@@ -38,6 +38,12 @@ function add(){
 	}
 	var flag= $('#frm').form('validate');
 	if(flag==true){
+		var subscribecounts=parseFloat($("#subscribecounts").numberbox("getValue"));
+		var contractfactor=parseFloat($("#contractfactor").val());
+		if(subscribecounts%contractfactor!=0){
+			alert("认购数量必须是交易单位"+contractfactor+"的整倍数");
+			return ;
+		}
 		var proportion=parseFloat($("#proportion").numberbox("getValue"));
 		var maxproportion=parseFloat($("#maxproportion").val());
 		if(proportion>maxproportion){
@@ -120,6 +126,7 @@ function setSortName(value) {
 	 for(var o in commList){  
 	        if (value == commList[o].commodityid ) {
 				$("#subscribeprice").numberbox("setValue",commList[o].price);
+				$("#contractfactor").val(commList[o].contractfactor);
 				break;
 		}
 	 } 
@@ -186,6 +193,7 @@ function setSortName(value) {
 	        	<td align="left" width="60%">
 	        	 <input style="width:150px;" id="subscribecounts" name="subscribecounts"
 	        	  class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正数',min:0"/>
+	        	  <input type="hidden" name="contractfactor" id="contractfactor">
 	        	  <span class="required">*</span>
 	        	</td>
 	        </tr> 

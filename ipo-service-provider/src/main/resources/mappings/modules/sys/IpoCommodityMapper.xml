@@ -374,14 +374,7 @@
     from  IPO_COMMODITY_SALE  where UPPER(COMMODITYID) = #{comid,jdbcType=VARCHAR} and ENDTIME >=trunc(sysdate)
   </select>
   
-   <select id="findAvaiSubscribeCommoditys"  resultMap="BaseResultMap"  >
-    select 
-     <include refid="Base_Column_List" />
-     from IPO_COMMODITY_SALE c where c.commodityid in (select t.commodityid
-                           from ipo_publisher_position t
-                          group by t.commodityid
-                         having sum(t.subscricounts) > 0) order by c.COMMODITYID
-  </select>
+  
   <select id="queryByComid"  resultMap="BaseResultMap"  parameterType="String" >
     select 
      <include refid="Base_Column_List" />

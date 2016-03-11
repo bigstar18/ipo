@@ -22,11 +22,10 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
-import com.yrdce.ipo.modules.sys.service.CommodityService;
+import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterDepositService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
-import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
@@ -34,6 +33,7 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterDeposit;
 import com.yrdce.ipo.modules.sys.vo.UnderwriterSubscribe;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
+import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 
 /**
  * 承销设置
@@ -52,7 +52,7 @@ public class UnderwriterSetController {
 	private UnderwriterSubscribeService underwritersubscribeService;
 
 	@Autowired
-	private CommodityService commodityService;
+	private IpoCommConfService ipoCommConfService;
 
 	@Autowired
 	private BrBrokerService brBrokerService;
@@ -154,7 +154,7 @@ public class UnderwriterSetController {
 	@RequestMapping(value = "/addInfo", method = RequestMethod.GET)
 	public String addInfo(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		List<Commodity> commist = commodityService
+		List<VIpoCommConf> commist = ipoCommConfService
 				.findAvaiSubscribeCommoditys();
 		request.setAttribute("commList", commist);
 		request.setAttribute("commlist", JSON.json(commist));

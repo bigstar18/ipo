@@ -53,4 +53,7 @@ public interface IpoCommConfService {
 	// 获取在某仓库可入库的商品
 	public List<VIpoCommConf> selectCommodityByWarehouse(String wareManagerId);
 
+	// 获取可供承销认购的商品
+	public List<VIpoCommConf> findAvaiSubscribeCommoditys();
+
 }
