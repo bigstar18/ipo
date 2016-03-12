@@ -394,4 +394,15 @@ public class UnderwriterSubscribeServiceImpl implements
 		positionFlowMapper.insert(positionFlow);
 	}
 
+	@Override
+	public void unfreeFunds(String firmId, BigDecimal amount) {
+		Map<String, Object> param1 = new HashMap<String, Object>();
+		param1.put("money", "");
+		param1.put("userid", firmId);
+		param1.put("amount", new BigDecimal(0).subtract(amount));
+		param1.put("moduleid", "40");
+		fundsMapper.getfrozen(param1);
+
+	}
+
 }

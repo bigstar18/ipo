@@ -22,7 +22,9 @@ import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
+import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.MProperty;
@@ -63,6 +65,9 @@ public class DeliveryController {
 
 	@Autowired
 	private CustomerHoldSumService customerHoldSumService;
+
+	@Autowired
+	private UnderwriterSubscribeService underwritersubscribeService;
 
 	public OutboundService getOutboundService() {
 		return outboundService;
@@ -338,7 +343,6 @@ public class DeliveryController {
 						deorder, userId);
 				if (result.equals("true")) {
 					deliveryorderservice.frozenStock(deorder);
-					// 扣持仓
 					return "true";
 				}
 			}
@@ -351,6 +355,13 @@ public class DeliveryController {
 							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
 									deorder.getDealerId() + "00",
 									deorder.getCommodityId(), (short) 1);
+					DeliveryCost cost = deliveryorderservice
+							.getCostByDeliveryOrder(deorder);
+					if (cost != null) {
+						underwritersubscribeService.unfreeFunds(
+								deorder.getDealerId(),
+								cost.getRegistrationFee());
+					}
 					return "true";
 				}
 			}

@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.service;
 
 import java.util.List;
 
+import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
@@ -166,4 +167,11 @@ public interface DeliveryOrderService {
 	 */
 	public String setExpressFee(DeliveryOrder order, Express express);
 
+	/**
+	 * 获取提货单的各项费用
+	 * 
+	 * @param order
+	 * @return
+	 */
+	public DeliveryCost getCostByDeliveryOrder(DeliveryOrder order);
 }

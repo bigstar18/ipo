@@ -32,6 +32,26 @@ public class DeliveryCost implements Serializable {
 
 	private Date deliveryDate;
 
+	public BigDecimal registrationFee;// 注册费
+
+	public BigDecimal cancellationFee;// 注销费
+
+	public BigDecimal getRegistrationFee() {
+		return registrationFee;
+	}
+
+	public void setRegistrationFee(BigDecimal registrationFee) {
+		this.registrationFee = registrationFee;
+	}
+
+	public BigDecimal getCancellationFee() {
+		return cancellationFee;
+	}
+
+	public void setCancellationFee(BigDecimal cancellationFee) {
+		this.cancellationFee = cancellationFee;
+	}
+
 	public String getDeliveryId() {
 		return deliveryId;
 	}
@@ -45,7 +65,8 @@ public class DeliveryCost implements Serializable {
 	}
 
 	public void setDeliveryMethod(String deliveryMethod) {
-		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod.trim();
+		this.deliveryMethod = deliveryMethod == null ? null : deliveryMethod
+				.trim();
 	}
 
 	public Date getApplyDate() {

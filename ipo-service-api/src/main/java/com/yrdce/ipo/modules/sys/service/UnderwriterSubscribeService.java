@@ -117,4 +117,13 @@ public interface UnderwriterSubscribeService {
 	 */
 	public List<UnderwriterSubscribe> selectUnFrozeSet(String brokerid);
 
+	/**
+	 * 解冻客户资金
+	 * 
+	 * @param firmId
+	 * @param amount
+	 *            amount （传正值）
+	 */
+	public void unfreeFunds(String firmId, BigDecimal amount);
+
 }

@@ -122,6 +122,8 @@
                     return '仓库驳回';
                   }if (value == '003002') {
                     return '已设置配置费用';
+                  }if (value == '003001001') {
+                    return '已货权过户';
                   }if (value == '003002001') {
                     return '已确认';
                   }if (value == '006') {
@@ -139,9 +141,7 @@
             	if(row.approvalStatus == '001' || row.approvalStatus == '002001' || row.approvalStatus == '003001' || row.approvalStatus == '003002'){
             		return "<a href=\"#\" onclick=\"feeInfo("+index+")\">" + "撤销" + "</a>";
             	}else if(row.approvalStatus == '006'){
-            		return "废除";
-            	}else {
-            		return "撤销";
+            		return "已废除";
             	}
             }
           }]

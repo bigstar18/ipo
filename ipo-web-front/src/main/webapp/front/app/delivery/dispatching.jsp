@@ -98,7 +98,7 @@
                   }if (value == '003001001') {
                     return '已过户';
                   }if (value == '003001') {
-                    return '打印';
+                    return '已打印';
                   }if (value == '004001') {
                     return '仓库通过';
                   }if (value == '004002') {
@@ -107,6 +107,8 @@
                     return '已设置配置费用';
                   }if (value == '003002001') {
                     return '已确认';
+                  }if (value == '003001001') {
+                    return '已货权过户';
                   }if (value == '006') {
                     return '已废除';
                   }if (value == '005') {
@@ -120,7 +122,7 @@
             align: 'center'
           }, {
         	field: 'deliveryQuatity',
-            title: '发货件数',
+            title: '发货数量',
             width: 100,
             align: 'center'
           }, {
@@ -151,7 +153,7 @@
         	$.ajax({
     			 type: 'post',
     		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-    		     data:{"deliveryorderid":deliveryorderid,"status":"9"},
+    		     data:{"deliveryorderid":deliveryorderid,"status":"003002001"},
     		     success : function(data) {
     			           if(data=='success'){
     			        	   alert("确认成功");
