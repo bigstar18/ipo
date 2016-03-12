@@ -91,10 +91,7 @@ $(document).ready(function() {
 				title : '操作',
 				formatter:function(value,row){
 					var str="";
-					if(row.status==1){
-						str+= "<a href=\"#\" onclick=\"javascript:distribution('"+row.commodityid+"',this)\">" + "手动配号 " +"</a>";
-					};
-					if(row.status==2||row.status==3){
+					if(row.status==2||row.status==3||row.status==1){
 						str+= "<a href=\"#\" onclick=\"javascript:constructionManager('"+row.commodityid+"',this)\">" + "手动摇号" + "</a>&nbsp;";
 					};
 					if(row.status==3){
