@@ -231,6 +231,13 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 
 	}
 
+	/**
+	 * 转IPO持仓（此方法废弃）
+	 * 
+	 * @param publisherid
+	 * @param money
+	 * @return
+	 */
 	@Override
 	@Transactional
 	public String transferPosition(PublisherPosition example) {

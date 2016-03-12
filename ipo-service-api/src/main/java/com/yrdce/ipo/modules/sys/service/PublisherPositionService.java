@@ -94,7 +94,7 @@ public interface PublisherPositionService {
 	public String updateStatus(PublisherPosition example);
 
 	/**
-	 * 转IPO持仓
+	 * 转IPO持仓（此方法废弃）
 	 * 
 	 * @param publisherid
 	 * @param money

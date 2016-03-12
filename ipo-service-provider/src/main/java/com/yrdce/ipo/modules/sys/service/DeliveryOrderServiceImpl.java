@@ -3,7 +3,9 @@ package com.yrdce.ipo.modules.sys.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
+import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -61,6 +64,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Autowired
 	private IpoDebitFlowMapper debitFlowMapper;
+
+	@Autowired
+	private FFirmfundsMapper fundsMapper;
 
 	@Autowired
 	private IpoCommodityConfMapper ipoCommodityConfmapper;
@@ -324,7 +330,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	}
 
 	/**
-	 * li
+	 * li 出库
 	 */
 	@Override
 	@Transactional
@@ -336,6 +342,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					.selectByPrimaryKey(deliveryOrder.getDeliveryorderId());
 			String tempCommId = deliveryorderInfo.getCommodityId();
 			String wareHouseId = deliveryorderInfo.getWarehouseId();
+			// 扣仓库库存
 			IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
 					.selectByCommoId(tempCommId, Long.parseLong(wareHouseId));
 			long forzennum = ipoWarehouseStock.getForzennum()
@@ -345,15 +352,35 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			ipoWarehouseStock.setForzennum(forzennum);
 			ipoWarehouseStock.setOutboundnum(outboundnum);
 			BeanUtils.copyProperties(deliveryOrder, deliveryorder2);
-			deliveryordermapper.updateStatus(deliveryorder2);
 			ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
 			log.info("冻结数量：" + ipoWarehouseStock.getForzennum() + "有效数量："
 					+ ipoWarehouseStock.getAvailablenum() + "入库数量："
 					+ ipoWarehouseStock.getStoragenum() + "出库数量："
 					+ ipoWarehouseStock.getOutboundnum());
+			// 改提货单状态
+			deliveryordermapper.updateStatus(deliveryorder2);
+			// 改出库单状态
 			ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
+			// TODO 扣除客户持仓
+
+			// 插入注册费用流水
+			BeanUtils.copyProperties(deliveryorderInfo, deliveryOrder);
+			String flag = this.insertRegisterFee(deliveryOrder);
+			// 配送的单子需插入配送费流水
+			if (deliveryorderInfo.getDeliveryMethod().equals("在线配送")) {
+				DeliveryOrder order = new DeliveryOrder();
+				BeanUtils.copyProperties(deliveryorderInfo, order);
+				String mark = this.insertExpressFee(order);
+				if (mark.equals("true") && flag.equals("true")) {
+					return 1;
+				}
+			} else {
+				if (flag.equals("true")) {
+					return 1;
+				}
+			}
 		}
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -367,7 +394,16 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			deliveryordermapper.updateByPrimaryKey(example);
 			DeliveryOrder order = new DeliveryOrder();
 			BeanUtils.copyProperties(example, order);
-			return this.unfrozenStock(order);
+			// TODO b现货持仓增加
+			String result0 = this.insertRegisterFee(order);// 插入a注册费流水
+			order.setDealerId(userId);
+			String result1 = this.insertTransferFee(order);// 冻结B的过户费并插入过户费流水
+			String result2 = this.unfrozenStock(order);// 解冻库存
+			if (result0.equals("true") && result1.equals("true")
+					&& result2.equals("true")) {
+				return "true";
+			}
+			return "false";
 		}
 		return null;
 
@@ -418,18 +454,86 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Override
 	@Transactional
 	public String insertTransferFee(DeliveryOrder order) {
-		// 过户费流水
+		// 冻结过户费并插入过户费流水
 		DebitFlow debitFlow = new DebitFlow();
 		IpoCommodityConf commodity = ipoCommodityConfmapper
 				.findIpoCommConfByCommid(order.getCommodityId());
 		if (commodity != null) {
 			BigDecimal transferFee = commodity.getTransferfeeradio();
 			BigDecimal funds = new BigDecimal(order.getDeliveryQuatity())
-					.multiply(commodity.getPrice()).multiply(transferFee);
+					.multiply(commodity.getPrice()).multiply(transferFee)
+					.divide(new BigDecimal(100));
+			String flag = this.freezenFunds(order.getDealerId(), funds);
+			if (flag.equals("false")) {
+				return "false";
+			}
 			debitFlow.setAmount(funds);
 			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
 					.getCode());
 			debitFlow.setChargeType(ChargeConstant.ChargeType.CHANGE_OWNER
+					.getCode());
+			debitFlow.setCommodityId(order.getCommodityId());
+			debitFlow.setOrderId(String.valueOf(order.getDeliveryorderId()));
+			debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS
+					.getCode());
+			debitFlow.setPayer(order.getDealerId());
+			debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+			debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT
+					.getCode());
+			debitFlow.setCreateUser(order.getDealerId());
+			debitFlow.setCreateDate(new Date());
+			debitFlowMapper.insert(debitFlow);
+
+			return "true";
+		}
+		return "false";
+	}
+
+	@Transactional
+	public String insertRegisterFee(DeliveryOrder order) {
+		// 注册费流水
+		DebitFlow debitFlow = new DebitFlow();
+		IpoCommodityConf commodity = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(order.getCommodityId());
+		IpoDeliveryCost cost = ipoDeliveryCostMapper.selectByPrimaryKey(order
+				.getDeliveryorderId());
+		if (commodity != null && cost != null) {
+			BigDecimal funds = cost.getRegistrationFee();
+			debitFlow.setAmount(funds);
+			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
+					.getCode());
+			debitFlow.setChargeType(ChargeConstant.ChargeType.REGISTER
+					.getCode());
+			debitFlow.setCommodityId(order.getCommodityId());
+			debitFlow.setOrderId(String.valueOf(order.getDeliveryorderId()));
+			debitFlow.setDebitState(ChargeConstant.DebitState.FROZEN_SUCCESS
+					.getCode());
+			debitFlow.setPayer(order.getDealerId());
+			debitFlow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
+			debitFlow.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT
+					.getCode());
+			debitFlow.setCreateUser(order.getDealerId());
+			debitFlow.setCreateDate(new Date());
+			debitFlowMapper.insert(debitFlow);
+			return "true";
+		}
+		return "false";
+	}
+
+	@Transactional
+	public String insertExpressFee(DeliveryOrder order) {
+		// 配送费流水
+		DebitFlow debitFlow = new DebitFlow();
+		IpoCommodityConf commodity = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(order.getCommodityId());
+		IpoExpress express = ipoexpressmapper.selectByPrimaryKey(order
+				.getMethodId());
+		if (commodity != null && express != null) {
+			BigDecimal funds = express.getCost();
+			debitFlow.setAmount(funds);
+			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
+					.getCode());
+			debitFlow.setChargeType(ChargeConstant.ChargeType.CARRIAGE
 					.getCode());
 			debitFlow.setCommodityId(order.getCommodityId());
 			debitFlow.setOrderId(String.valueOf(order.getDeliveryorderId()));
@@ -457,5 +561,26 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			return result;
 		}
 		return null;
+	}
+
+	@Override
+	public String freezenFunds(String firmId, BigDecimal amount) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("money", "");
+		param.put("userid", firmId);
+		param.put("lock", 0);
+		fundsMapper.getMonery(param);
+		BigDecimal money = (BigDecimal) param.get("money");
+		if (money.compareTo(amount) != -1) {
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("money", "");
+			param1.put("userid", firmId);
+			param1.put("amount", amount);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param1);
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 }

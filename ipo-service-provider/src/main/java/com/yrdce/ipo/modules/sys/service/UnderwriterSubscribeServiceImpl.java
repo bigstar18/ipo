@@ -402,7 +402,6 @@ public class UnderwriterSubscribeServiceImpl implements
 		param1.put("amount", new BigDecimal(0).subtract(amount));
 		param1.put("moduleid", "40");
 		fundsMapper.getfrozen(param1);
-
 	}
 
 }

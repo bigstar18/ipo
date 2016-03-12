@@ -389,34 +389,45 @@ public class DeliveryController {
 					.getUserID();
 			DeliveryOrder deorder = deliveryorderservice
 					.getDeliveryOrderByDeliOrderID(deorderId);
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.REGISTER.getCode())) {
-				String result = deliveryorderservice.cancelDeorder(deorderId,
-						userId);
-				if (result.equals("true")) {
-					customerHoldSumService
-							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
-									deorder.getDealerId() + "00",
-									deorder.getCommodityId(), (short) 1);
-					return "true";
+			DeliveryCost cost = deliveryorderservice
+					.getCostByDeliveryOrder(deorder);
+			if (deorder != null && cost != null) {
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.REGISTER.getCode())) {
+					String result = deliveryorderservice.cancelDeorder(
+							deorderId, userId);
+					if (result.equals("true")) {
+						customerHoldSumService.unfreezeCustomerHold(
+								deorder.getDeliveryQuatity(),
+								deorder.getDealerId() + "00",
+								deorder.getCommodityId(), (short) 1);
+						underwritersubscribeService.unfreeFunds(
+								deorder.getDealerId(),
+								cost.getRegistrationFee());
+						return "true";
+
+					}
 				}
-			}
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.MARKETPASS.getCode())
-					|| deorder.getApprovalStatus().equals(
-							DeliveryConstant.StatusType.PRINTED.getCode())
-					|| deorder.getApprovalStatus().equals(
-							DeliveryConstant.StatusType.EXPRESSCOSTSET
-									.getCode())) {
-				String result = deliveryorderservice.cancelDeorder(deorderId,
-						userId);
-				if (result.equals("true")) {
-					customerHoldSumService
-							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
-									deorder.getDealerId() + "00",
-									deorder.getCommodityId(), (short) 1);
-					deliveryorderservice.unfrozenStock(deorder);
-					return "true";
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETPASS.getCode())
+						|| deorder.getApprovalStatus().equals(
+								DeliveryConstant.StatusType.PRINTED.getCode())
+						|| deorder.getApprovalStatus().equals(
+								DeliveryConstant.StatusType.EXPRESSCOSTSET
+										.getCode())) {
+					String result = deliveryorderservice.cancelDeorder(
+							deorderId, userId);
+					if (result.equals("true")) {
+						customerHoldSumService.unfreezeCustomerHold(
+								deorder.getDeliveryQuatity(),
+								deorder.getDealerId() + "00",
+								deorder.getCommodityId(), (short) 1);
+						deliveryorderservice.unfrozenStock(deorder);
+						underwritersubscribeService.unfreeFunds(
+								deorder.getDealerId(),
+								cost.getRegistrationFee());
+						return "true";
+					}
 				}
 			}
 			return "false";

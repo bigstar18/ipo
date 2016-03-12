@@ -48,42 +48,40 @@ function doSearch(){
 				
 				
 				switch(data.approvalStatus){
-				case 1:
+				case "001":
 					$("#approvalStatus").val("申请");
 					break;
-				case 2:
+				case "002001":
 					$("#approvalStatus").val("市场通过");
 					break;
-				case 3:
+				case "002002":
 					$("#approvalStatus").val("市场驳回");
 					break;
-				case 4:
+				case "003001":
 					$("#approvalStatus").val("已打印");
-					break;
-				case 5:
-					$("#approvalStatus").val("已过户");
 					$("#add").val("添加");
 					break;
-				case 6:
+				case "003001001":
+					$("#approvalStatus").val("已过户");
+					break;
+				case "004001":
 					$("#approvalStatus").val("仓库通过");
 					break;
-				case 7:
+				case "004002":
 					$("#approvalStatus").val("仓库驳回");
 					break;
-				case 8:
+				case "003002":
 					$("#approvalStatus").val("已设置配置费用");
 					break;
-				case 9:
+				case "003002001":
 					$("#approvalStatus").val("已确认");
+					$("#add").val("添加");
 					break;
-				case 10:
+				case "006":
 					$("#approvalStatus").val("已废除");
 					break;
-				case 11:
+				case "005":
 					$("#approvalStatus").val("已出库");
-					break;
-				case 12:
-					$("#approvalStatus").val("已收货");
 					break;
 				}
 				if(data.deliveryMethod=="在线配送"){

@@ -108,15 +108,8 @@ public class TransferController {
 						|| deorder.getApprovalStatus().equals(
 								DeliveryConstant.StatusType.MARKETPASS
 										.getCode())) {
-					deliveryOrderService.transferDeliveryOrder(deliveryorderId,
-							userId);
-					// TODO b现货持仓增加 扣过户费
-					deorder.setDealerId(userId);
-					customerHoldSumService
-							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
-									deorder.getDealerId() + "00",
-									deorder.getCommodityId(), (short) 1);
-					return deliveryOrderService.insertTransferFee(deorder);
+					return deliveryOrderService.transferDeliveryOrder(
+							deliveryorderId, userId);
 				}
 			}
 			return "false";

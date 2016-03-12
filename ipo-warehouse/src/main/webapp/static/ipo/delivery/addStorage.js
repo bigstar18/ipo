@@ -41,6 +41,10 @@ function saveStorage(){
 		alert("请选择商品并填写入库件数！");
 		return false;
 	}
+	if($("#storagenum").val().length>11){
+		alert("入库件数数值过大！");
+		return false;
+	}
                    	   $.ajax({ 
                    		   cache:false,
                               type: "post", 

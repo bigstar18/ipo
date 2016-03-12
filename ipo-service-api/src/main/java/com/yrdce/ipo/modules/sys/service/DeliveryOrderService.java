@@ -1,5 +1,6 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
@@ -174,4 +175,13 @@ public interface DeliveryOrderService {
 	 * @return
 	 */
 	public DeliveryCost getCostByDeliveryOrder(DeliveryOrder order);
+
+	/**
+	 * 冻结客户资金
+	 * 
+	 * @param firmId
+	 * @param amount
+	 *            amount （传正值）
+	 */
+	public String freezenFunds(String firmId, BigDecimal amount);
 }
