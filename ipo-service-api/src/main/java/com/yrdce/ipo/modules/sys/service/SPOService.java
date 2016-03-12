@@ -90,4 +90,7 @@ public interface SPOService {
 
 	public String add(String spoid, String type, String firmid, String count);
 
+	//获取手续费(mgr)
+	public BigDecimal getFee(String firmid, String commid, BigDecimal money, BigDecimal countsparam);
+
 }

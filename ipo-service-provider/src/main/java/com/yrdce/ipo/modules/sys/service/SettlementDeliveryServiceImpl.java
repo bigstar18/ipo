@@ -339,20 +339,21 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	 */
 	@Override
 	@Transactional
-	public String determine(String deliveryorderid, String userid) {
+	public boolean determine(String deliveryorderid, String userid) {
 		logger.info("客户确认配售收取货款:" + "deliveryorderid:" + deliveryorderid + "userid:" + userid);
 		IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
 		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
-		String commodid = ipoDeliveryorder.getCommodityId();
+		//String commodid = ipoDeliveryorder.getCommodityId();
 		BigDecimal cost = ipoExpress.getCost();
 		boolean statu = capital(userid, cost);
-		if (statu) {
+		/*if (statu) {
 			this.fundsFlow(ChargeConstant.ChargeType.CARRIAGE.getCode(), commodid, deliveryorderid, userid,
 					cost);
 			return "success";
 		} else {
 			return "error";
-		}
+		}*/
+		return statu;
 	}
 
 	/**

@@ -560,7 +560,7 @@ public class SPOServiceImpl implements SPOService {
 		String rationIdparam = Long.toString(rationId);
 		BigDecimal countsparam = new BigDecimal(counts);
 		BigDecimal money = countsparam.multiply(price);// 计算应冻结多少
-		BigDecimal fee = getFee(firmid, commid, money, countsparam, ipoCommodityConf);//调用手续费算法
+		BigDecimal fee = getFee(firmid, commid, money, countsparam);//调用手续费算法
 		BigDecimal moneyPaeam = money.add(fee);
 		float allmoney = moneyPaeam.floatValue();
 		// 资金冻结
@@ -587,10 +587,11 @@ public class SPOServiceImpl implements SPOService {
 	}
 
 	//手续费算法(返回手续费)
-	private BigDecimal getFee(String firmid, String commid, BigDecimal money, BigDecimal countsparam,
-			IpoCommodityConf ipoCommodityConf) {
+	@Override
+	public BigDecimal getFee(String firmid, String commid, BigDecimal money, BigDecimal countsparam) {
 		IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid, commid,
 				ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
 		short tradealgr = 0;
 		BigDecimal buy = new BigDecimal(0);
 		BigDecimal fee = new BigDecimal(0);

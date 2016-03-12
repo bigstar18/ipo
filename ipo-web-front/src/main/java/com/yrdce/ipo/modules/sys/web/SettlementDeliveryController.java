@@ -31,7 +31,6 @@ import com.yrdce.ipo.modules.sys.vo.Position;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
 import gnnt.MEBS.logonService.vo.UserManageVO;
-import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 
@@ -173,8 +172,8 @@ public class SettlementDeliveryController {
 	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			//UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId("hl");// user.getUserID()
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			paging.setDealerId(user.getUserID());// user.getUserID()
 			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryOrder> clist = settlementDeliveryService.getRevocationList(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "no");
@@ -195,9 +194,14 @@ public class SettlementDeliveryController {
 			@RequestParam("status") String status, HttpSession session) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
 		try {
-			//UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			if (status.equals("9")) {
-				settlementDeliveryService.determine(deliveryorderid, "hl");
+			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
+			if (status.equals(DeliveryConstant.StatusType.PRINTED.getCode())) {
+				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+						DeliveryConstant.StatusType.PRINTED.getCode());
+				return "success";
+			}
+			if (status.equals(DeliveryConstant.StatusType.CONFIRM.getCode())) {
+				settlementDeliveryService.determine(deliveryorderid, user.getUserID());
 				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
 						DeliveryConstant.StatusType.CONFIRM.getCode());
 				return "success";
@@ -320,7 +324,7 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	//注册注销费用提示
+	// 注册注销费用提示
 	@RequestMapping(value = "/getcost", method = RequestMethod.GET)
 	@ResponseBody
 	public String getCost(@RequestParam("commid") String commid, @RequestParam("quatity") String quatity,

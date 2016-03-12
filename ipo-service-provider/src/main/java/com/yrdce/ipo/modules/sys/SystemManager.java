@@ -316,6 +316,7 @@ public class SystemManager extends Observable {
 			brokerageSettle();
 			updateClearStatus(Short.valueOf("6"), CLEAR_STATUS_Y);
 			updateSysStatus(tradeDate, STATUS_FINANCE_SETTLED, null, "");
+			updateClearStatus(Short.valueOf("7"), CLEAR_STATUS_Y);
 		} catch (Throwable e) {
 			updateSysStatusLock(STATUS_MARKET_SETTLING, STATUS_MARKET_CLOSE, null, "已闭市");
 			throw new Exception(e);

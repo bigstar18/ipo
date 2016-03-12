@@ -43,7 +43,7 @@ public interface SettlementDeliveryService {
 	public String updateRevocationStatus(String deliveryorderid, String status) throws Exception;
 
 	// 客户确认配售收取货款
-	public String determine(String deliveryorderid, String userid);
+	public boolean determine(String deliveryorderid, String userid);
 
 	// 撤销申请
 	public String revoke(String deliveryorderid, String status);

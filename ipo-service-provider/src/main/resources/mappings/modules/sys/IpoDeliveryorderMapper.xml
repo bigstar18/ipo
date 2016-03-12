@@ -210,7 +210,7 @@
                    and DELIVERY_METHOD = '自提'
         
                    <![CDATA[
-                   and d.approval_status in ('001','002001')
+                   and d.approval_status in ('003001','002001')
                    ]]>
                    ) t) c
  	where c.TNO between #{beginnum} and #{endnum}
@@ -298,6 +298,7 @@
           d.position,d.delivery_quatity,d.unit, d.apply_date,d.delivery_date,
             d.approval_status,d.delivery_method,d.warehouse_name
     from ipo_deliveryorder d where d.dealer_id = #{paging.dealerId,jdbcType=VARCHAR}
+    and d.approval_status in ('001','002001','003001','003002','006')
     and d.DELIVERYORDER_ID like concat (concat('%',#{paging.deliveryorderId,jdbcType=VARCHAR}),'%')
  	) t) c
  	where c.TNO between #{beginnum} and #{endnum}

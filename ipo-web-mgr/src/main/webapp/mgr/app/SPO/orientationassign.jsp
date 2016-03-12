@@ -159,6 +159,33 @@ legend {
 			initial();
 		}
 
+		function getCost(){
+			var spoid = $('#spoid').val();
+			var firmid = $('#firmid').val();
+			var counts = $('#count').val();
+			$.ajax({
+				type : "GET",
+				url : "<%=request.getContextPath()%>/SPOController/amountandfee",
+				data : {
+				//数据要传的在这里
+				"spoid":spoid,
+				"firmid":firmid,
+				"counts":counts
+				},
+				success : function(response) {
+					var json = eval('(' + response + ')');
+					var capital = json.capital;
+					var fee = json.fee;
+					if(confirm("货款为:"+capital+"元，手续费为:"+fee+"元。你确定提交吗?")){
+						ajaxpost();
+					}
+				},
+				error : function(response) {
+					alert("提交失败，请重试或联系管理员");
+				}
+			});	
+		}
+		
 		function ajaxpost() {
 			var spoid = $('#spoid').val();
 			var type = $(".listselect").find("option:selected").val();
@@ -223,7 +250,7 @@ legend {
 				$("#errorMsg2").html("不能为空");
 				$("#errorMsg2").show();
 			}else{
-				ajaxpost();
+				getCost();
 			}
 		});
 		

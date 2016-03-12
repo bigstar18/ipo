@@ -1,5 +1,8 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.checkLogon.util.MD5;
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,7 @@ import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.PickUpService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
-
-import gnnt.MEBS.logonService.vo.UserManageVO;
+import com.yrdce.ipo.modules.sys.vo.Pickup;
 
 /**
  * 提单过户Controller
@@ -37,7 +39,8 @@ public class TransferController {
 	@Autowired
 	private CustomerHoldSumService customerHoldSumService;
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TransferController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(TransferController.class);
 
 	@RequestMapping(value = "/getDeliveryInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -46,7 +49,8 @@ public class TransferController {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
 			if (!order.getPickupPassword().equals("")) {
-				deliveryOrder = deliveryOrderService.getPickupDeliveryInfo(order);
+				deliveryOrder = deliveryOrderService
+						.getPickupDeliveryInfo(order);
 				return JSON.json(deliveryOrder);
 			}
 			return "";
@@ -60,14 +64,16 @@ public class TransferController {
 	// 设置密码
 	@RequestMapping(value = "/setPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String setPassword(@RequestParam("deliveryorderid") String deliveryorderId,
+	public String setPassword(
+			@RequestParam("deliveryorderid") String deliveryorderId,
 			@RequestParam("pickupPassword") String pickupPassword) {
 		if (pickupPassword.equals("")) {
 			return "fail";
 		}
-		// TODO 加密
-		DeliveryOrder order = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
-		int num = pickupservice.setPassword(order.getMethodId(), pickupPassword);
+		DeliveryOrder order = deliveryOrderService
+				.getDeliveryOrderByDeliOrderID(deliveryorderId);
+		int num = pickupservice.setPassword(order.getMethodId(),
+				MD5.getMD5(deliveryorderId, pickupPassword));
 		if (num == 1) {
 			return "success";
 		}
@@ -78,23 +84,38 @@ public class TransferController {
 	// 过户
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSate(@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("pickupPassword") String pickupPassword, HttpSession session) {
+	public String updateSate(
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("pickupPassword") String pickupPassword,
+			HttpSession session) {
 		try {
 			log.info("确认过户");
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			//String userId = "hl";
-			// TODO 验证是不是那条单子,密码对不对
-			DeliveryOrder deorder = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
-			if (1 == 1) {
-				if (deorder.getApprovalStatus().equals(DeliveryConstant.StatusType.PRINTED.getCode())
-						|| deorder.getApprovalStatus()
-								.equals(DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					deliveryOrderService.transferDeliveryOrder(deliveryorderId, userId);
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
+					.getUserID();
+			DeliveryOrder deorder = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryorderId);
+			if (deorder != null) {
+				Pickup pickup = pickupservice.getPickUpByPid(deorder
+						.getMethodId());
+				String password = MD5.getMD5(deliveryorderId, pickupPassword);
+				if (pickup != null) {
+					if (pickup.getPickupPassword().equals(password)) {
+						return "false";
+					}
+				}
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.PRINTED.getCode())
+						|| deorder.getApprovalStatus().equals(
+								DeliveryConstant.StatusType.MARKETPASS
+										.getCode())) {
+					deliveryOrderService.transferDeliveryOrder(deliveryorderId,
+							userId);
 					// TODO b现货持仓增加 扣过户费
 					deorder.setDealerId(userId);
-					customerHoldSumService.unfreezeCustomerHold(0 - deorder.getDeliveryQuatity(),
-							deorder.getDealerId() + "00", deorder.getCommodityId(), (short) 1);
+					customerHoldSumService
+							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
+									deorder.getDealerId() + "00",
+									deorder.getCommodityId(), (short) 1);
 					return deliveryOrderService.insertTransferFee(deorder);
 				}
 			}

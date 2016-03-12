@@ -3,6 +3,7 @@ package com.yrdce.ipo.modules.sys.web;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -368,6 +369,28 @@ public class SPOController {
 
 		String status = spoService.add(spoid, type, firmid, counts);
 		return status;
+	}
+
+	@RequestMapping(value = "/amountandfee", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String aMountAndFee(@RequestParam("spoid") String spoid, @RequestParam("firmid") String firmid,
+			@RequestParam("counts") String counts, HttpServletRequest request) {
+		//TODO   增发前台显示费用
+		SpoCommoditymanmaagement spoCom = spoService.getListBySpocom(spoid);
+		String commid = spoCom.getCommodityId();
+		BigDecimal price = spoCom.getSpoPrice();
+		BigDecimal countParam = new BigDecimal(counts);
+		BigDecimal all = price.multiply(countParam);
+		BigDecimal fee = spoService.getFee(firmid, commid, all, countParam);
+		Map<String, BigDecimal> costMap = new HashMap<String, BigDecimal>();
+		costMap.put("capital", all);
+		costMap.put("fee", fee);
+		try {
+			return JSON.json(costMap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
 	// 散户手动配
