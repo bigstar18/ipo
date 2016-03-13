@@ -158,12 +158,13 @@ function rationConfirm(rationid){
         	if(data=="success"){
         	   alert("确认配售成功！");
         	  $('#depositInfo').datagrid('reload');
+        	}else if(data=="funds"){
+        		alert("资金余额不足！");
         	}
         	else if(data=="error")
         		alert("操作失败，请稍后再试");
          }
 	});
-	//alert(spoId);
 }
 //确认消息
 function sure(){

@@ -152,8 +152,8 @@
     	if(confirm('是否确定?')){
         	$.ajax({
     			 type: 'post',
-    		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-    		     data:{"deliveryorderid":deliveryorderid,"status":"003002001"},
+    		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByConfirm",
+    		     data:{"deliveryorderid":deliveryorderid },
     		     success : function(data) {
     			           if(data=='success'){
     			        	   alert("确认成功");

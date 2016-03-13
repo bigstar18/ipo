@@ -187,30 +187,51 @@ public class SettlementDeliveryController {
 		}
 	}
 
-	// 提货单状态修改(撤销提货、提货确认)
-	@RequestMapping(value = "/updateByStatus", method = RequestMethod.POST)
+	//自提打印
+	@RequestMapping(value = "/updatePrinted", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateByStatus(@RequestParam("deliveryorderid") String deliveryorderid,
-			@RequestParam("status") String status, HttpSession session) {
-		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid + "status:" + status);
+	public String updatePrinted(@RequestParam("deliveryorderid") String deliveryorderid,
+			HttpSession session) {
+		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid);
+		try {
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+					DeliveryConstant.StatusType.PRINTED.getCode());
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	//确认
+	@RequestMapping(value = "/updateByConfirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateByConfirm(@RequestParam("deliveryorderid") String deliveryorderid,
+			HttpSession session) {
+		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid);
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			if (status.equals(DeliveryConstant.StatusType.PRINTED.getCode())) {
-				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
-						DeliveryConstant.StatusType.PRINTED.getCode());
-				return "success";
-			}
-			if (status.equals(DeliveryConstant.StatusType.CONFIRM.getCode())) {
-				settlementDeliveryService.determine(deliveryorderid, user.getUserID());
-				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
-						DeliveryConstant.StatusType.CONFIRM.getCode());
-				return "success";
-			} else {
-				settlementDeliveryService.revoke(deliveryorderid, status);
-				settlementDeliveryService.updateRevocationStatus(deliveryorderid,
-						DeliveryConstant.StatusType.CANCEL.getCode());
-				return "success";
-			}
+			settlementDeliveryService.determine(deliveryorderid, user.getUserID());
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+					DeliveryConstant.StatusType.CONFIRM.getCode());
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	//废除
+	@RequestMapping(value = "/updateByCancel", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateByCancel(@RequestParam("deliveryorderid") String deliveryorderid,
+			HttpSession session) {
+		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid);
+		try {
+			settlementDeliveryService.revoke(deliveryorderid, DeliveryConstant.StatusType.CANCEL.getCode());
+			settlementDeliveryService.updateRevocationStatus(deliveryorderid,
+					DeliveryConstant.StatusType.CANCEL.getCode());
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

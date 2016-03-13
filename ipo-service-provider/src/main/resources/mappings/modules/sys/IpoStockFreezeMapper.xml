@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoStockFreezeMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze" >
-    <result column="APPLICATION_ID" property="applicationId" jdbcType="DECIMAL" />
+    <id column="APPLICATION_ID" property="applicationId" jdbcType="DECIMAL" />
     <result column="COMMODITYID" property="commodityid" jdbcType="OTHER" />
     <result column="CUSTOMERID" property="customerid" jdbcType="OTHER" />
     <result column="STATE" property="state" jdbcType="DECIMAL" />
@@ -13,10 +13,10 @@
     <result column="FREEZEREASON" jdbcType="VARCHAR" property="freezereason" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze" >
-    insert into IPO_STOCK_FREEZE (COMMODITYID, CUSTOMERID, 
+    insert into IPO_STOCK_FREEZE (APPLICATION_ID,COMMODITYID, CUSTOMERID, 
       STATE, FREEZE_NUMBER, CREATETIME, 
       REVIEWTIME, OPERATOR,FREEZEREASON)
-    values ( #{commodityid,jdbcType=OTHER}, #{customerid,jdbcType=OTHER}, 
+    values (seq_on_test.nextval, #{commodityid,jdbcType=OTHER}, #{customerid,jdbcType=OTHER}, 
       '0', #{freezeNumber,jdbcType=DECIMAL}, #{createtime,jdbcType=DATE}, 
      '', 'TEST',#{freezereason,jdbcType=VARCHAR})
 

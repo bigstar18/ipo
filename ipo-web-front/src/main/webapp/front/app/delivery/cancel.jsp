@@ -161,7 +161,6 @@
     	var commid = row.commodityId;
     	var quatity = row.deliveryQuatity;
     	var id= row.deliveryorderId;
-    	var status = row.approvalStatus;
 		$.ajax ({
 			type : "GET",
 			url : '<%=request.getContextPath()%>/SettlementDeliveryController/getcost',
@@ -174,7 +173,7 @@
 			success : function (response)
 					{
 						if(confirm("应付注销费:"+response+"元，您确定提交吗?")){
-							updateStatus(id,status);
+							updateStatus(id);
 						}
 					},
 			error : function (response)
@@ -184,10 +183,10 @@
 			});
 			}
 
-    function updateStatus(deliveryorderid,status){
+    function updateStatus(deliveryorderid){
     	$.ajax({
 			 type: 'post',
-		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
+		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByCancel",
 		     data:{"deliveryorderid":deliveryorderid,
 		    	 	"status":status
 		    	  },

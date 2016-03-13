@@ -117,8 +117,10 @@ public class SPOServiceImpl implements SPOService {
 		fundsMapper.getMonery(param);
 		BigDecimal money1 = (BigDecimal) param.get("money");
 		IpoSpoRation ipoSpoRation = ipoSpoRationMapper.selectByPrimaryKey(rationId);
-		BigDecimal money = ipoSpoRation.getRationloan();
-		BigDecimal fee = ipoSpoRation.getServicefee();
+		BigDecimal money = ipoSpoRation.getRationloan() != null ? ipoSpoRation.getRationloan()
+				: new BigDecimal(0);
+		BigDecimal fee = ipoSpoRation.getServicefee() != null ? ipoSpoRation.getServicefee()
+				: new BigDecimal(0);
 		String spoid = ipoSpoRation.getSpoid();
 		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
 		String commodityid = ipoSpoComm.getCommodityId();
@@ -138,6 +140,7 @@ public class SPOServiceImpl implements SPOService {
 			fundsMapper.getfrozen(param1);
 			String rationIdparam = Long.toString(rationId);
 			this.fundsFlow(commodityid, rationIdparam, dealerId, money, fee, pubmemberid);
+			//TODO  没有更新钱
 			int result = ipoSpoRationMapper.updateRationType(rationId);
 			if (result > 0) {
 				return 1;
@@ -145,7 +148,8 @@ public class SPOServiceImpl implements SPOService {
 				return 0;
 			}
 		}
-		return 0;
+		logger.debug("冻结结束3");
+		return 2;
 	}
 
 	// 分页获得增发列表

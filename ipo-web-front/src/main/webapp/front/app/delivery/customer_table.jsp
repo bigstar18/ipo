@@ -195,9 +195,8 @@
  	  }
   	  $.ajax({
   			 type: 'post',
-  		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updateByStatus",
-  		     data:{"deliveryorderid":deliveryorderid,
-  		    	 	"status":status
+  		      url: "<%=request.getContextPath()%>/SettlementDeliveryController/updatePrinted",
+  		     data:{"deliveryorderid":deliveryorderid
   		    	  },
   		     success : function(data) {
   			           if(data=='success'){

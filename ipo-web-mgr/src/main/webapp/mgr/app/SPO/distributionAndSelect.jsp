@@ -144,7 +144,6 @@ $(document).ready(function(){
      	   		return;
      	   	}
      	   	if(sales != 100){
-     	   	alert("sales"+sales);
      	   		alert("返佣比例总和为100");
  	   			return;
      	   	}

@@ -60,11 +60,12 @@ public class SpoRationController {
 			int result = spoService.updateRationType(Long.parseLong(rationId), dealerId);
 			if (result == 1) {
 				return "success";
+			} else if (result == 2) {
+				return "funds";
 			} else {
 				return "error";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return "error";
 		}
