@@ -133,7 +133,7 @@ function getAllInfo(){
             	 if(row.outboundstate==1){
      	      	   return "<a href=\"#\" onclick=\"audit('"+row.deliveryorderid+"','"+row.outboundorderid+"',2)\">通过</a>  <a href=\"#\" onclick=\"audit('"+row.deliveryorderid+"','"+row.outboundorderid+"',3)\">驳回</a>";
             	 }else if(row.outboundstate==2){
-            		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"','"+row.outboundorderid+"')\">已出库</a>";
+            		 return "<a href=\"#\" onclick=\"confirmOut('"+row.deliveryorderid+"','"+row.outboundorderid+"')\">出库</a>";
             	 }else{
             		 return"";
             	 }
