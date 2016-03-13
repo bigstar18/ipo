@@ -1,5 +1,8 @@
 package com.yrdce.ipo.web;
 
+import gnnt.MEBS.checkLogon.util.MD5;
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,8 +24,6 @@ import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * 入库申请Controller
  * 
@@ -39,18 +40,23 @@ public class OutBoundController {
 	@Autowired
 	private IpoStorageService ipoStorageService;
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OutBoundController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(OutBoundController.class);
 
 	@RequestMapping(value = "/geOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String geOutBoundInfo(@RequestParam("page") String page, @RequestParam("rows") String rows,
-			OutboundExtended outbound, HttpSession session) {
+	public String geOutBoundInfo(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, OutboundExtended outbound,
+			HttpSession session) {
 		try {
 			System.out.println("start");
-			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			Long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
+			String operatorid = ((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID();
+			Long wareHouseId = ipoStorageService
+					.getWarehousePrimary(operatorid);
 			outbound.setWarehouseid(String.valueOf(wareHouseId));
-			List<OutboundExtended> slist = outboundService.getAllOutboundInfo(page, rows, outbound);
+			List<OutboundExtended> slist = outboundService.getAllOutboundInfo(
+					page, rows, outbound);
 			int counts = outboundService.getTotalNum(outbound);
 			ResponseResult result = new ResponseResult();
 			result.setRows(slist);
@@ -69,15 +75,21 @@ public class OutBoundController {
 		try {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
-			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			Long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
+			String operatorid = ((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID();
+			Long wareHouseId = ipoStorageService
+					.getWarehousePrimary(operatorid);
 			order.setWarehouseId(String.valueOf(wareHouseId));
-			if (!"".equals(order.getPickupPassword())) {
-				deliveryOrder = deliveryOrderService.getPickupDeliveryInfo(order);
+			if (!order.getPickupPassword().equals("")) {
+				String password = order.getPickupPassword();
+				order.setPickupPassword(MD5.getMD5(order.getDeliveryorderId(),
+						password));
+				deliveryOrder = deliveryOrderService
+						.getPickupDeliveryInfo(order);
 			} else {
-				deliveryOrder = deliveryOrderService.getExpressDeliveryInfo(order);
+				deliveryOrder = deliveryOrderService
+						.getExpressDeliveryInfo(order);
 			}
-			System.out.println(deliveryOrder);
 			if (deliveryOrder != null) {
 				String request = JSON.json(deliveryOrder);
 				return request;
@@ -97,7 +109,8 @@ public class OutBoundController {
 	public String updateOutBoundInfo(Outbound outbound, HttpSession session) {
 		try {
 			log.info("出库单审核");
-			String auditorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String auditorid = ((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID();
 			long wareHouseId = ipoStorageService.getWarehousePrimary(auditorid);
 			outbound.setAuditorid(auditorid);
 			outbound.setWarehouseid(String.valueOf(wareHouseId));
@@ -119,8 +132,10 @@ public class OutBoundController {
 	public String addOutBoundOrder(Outbound outBound, HttpSession session) {
 		try {
 			log.info("出库单添加");
-			String operatorid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			long wareHouseId = ipoStorageService.getWarehousePrimary(operatorid);
+			String operatorid = ((UserManageVO) session
+					.getAttribute("CurrentUser")).getUserID();
+			long wareHouseId = ipoStorageService
+					.getWarehousePrimary(operatorid);
 			outBound.setWarehouseid(String.valueOf(wareHouseId));
 			log.info(outBound.getIdnum());
 			outBound.setOperatorid(operatorid);
@@ -139,19 +154,26 @@ public class OutBoundController {
 	// 修改提货单状态
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSate(@RequestParam("deliveryorderId") String deliveryorderId,
+	public String updateSate(
+			@RequestParam("deliveryorderId") String deliveryorderId,
 			@RequestParam("outboundorderid") String outboundorderid) {
 		try {
 			log.info("确认出库");
-			DeliveryOrder temp = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
+			DeliveryOrder temp = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (temp.getDeliveryMethod().equals("在线配送")
-					&& temp.getApprovalStatus() != DeliveryConstant.StatusType.CONFIRM.getCode()) {
+					&& !temp.getApprovalStatus()
+							.equals(DeliveryConstant.StatusType.WAREHOUSEPASS
+									.getCode())) {
 				return "no";
 			}
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
 			deliveryOrder.setDeliveryorderId(deliveryorderId);
-			deliveryOrder.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEOUT.getCode());
-			int result = deliveryOrderService.updateStatus(deliveryOrder, outboundorderid);
+			deliveryOrder
+					.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEOUT
+							.getCode());
+			int result = deliveryOrderService.updateStatus(deliveryOrder,
+					outboundorderid);
 			if (result == 1) {
 				return "success";
 			} else {
@@ -166,7 +188,8 @@ public class OutBoundController {
 
 	@RequestMapping(value = "/getOutboundorder")
 	@ResponseBody
-	public boolean getOutboundorder(@RequestParam("deliveryorderId") String outboundId) {
+	public boolean getOutboundorder(
+			@RequestParam("deliveryorderId") String outboundId) {
 		try {
 			log.info("验证出库单是否存在");
 			Outbound outBound = outboundService.getOutboundOrder(outboundId);
