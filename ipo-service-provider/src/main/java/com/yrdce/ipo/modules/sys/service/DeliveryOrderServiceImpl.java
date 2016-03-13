@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +68,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+
+	@Autowired
+	@Qualifier("customerHoldSumService")
+	private CustomerHoldSumService customerHoldSumService;
 
 	@Autowired
 	private IpoCommodityConfMapper ipoCommodityConfmapper;
@@ -362,7 +367,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			// 改出库单状态
 			ipoOutboundMapper.updateOutBoundState(4, outboundorderid);
 			// TODO 扣除客户持仓
-
+			customerHoldSumService.reduceCustomerHold(
+					deliveryorderInfo.getDeliveryQuatity(),
+					deliveryorderInfo.getDealerId() + "00", tempCommId,
+					(short) 1);
 			// 插入注册费用流水
 			BeanUtils.copyProperties(deliveryorderInfo, deliveryOrder);
 			String flag = this.insertRegisterFee(deliveryOrder);
@@ -395,6 +403,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			DeliveryOrder order = new DeliveryOrder();
 			BeanUtils.copyProperties(example, order);
 			// TODO b现货持仓增加
+			customerHoldSumService.increaseCustomerHold(
+					order.getDeliveryQuatity(), userId + "00",
+					order.getCommodityId(), (short) 1);
 			String result0 = this.insertRegisterFee(order);// 插入a注册费流水
 			order.setDealerId(userId);
 			String result1 = this.insertTransferFee(order);// 冻结B的过户费并插入过户费流水
