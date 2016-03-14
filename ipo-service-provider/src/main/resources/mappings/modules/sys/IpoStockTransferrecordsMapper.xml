@@ -14,11 +14,14 @@
     <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStockTransferrecords" >
+  <selectKey resultType="DECIMAL" order="BEFORE" keyProperty="applicationId">
+	SELECT seq_on_test2.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_STOCK_TRANSFERRECORDS (APPLICATION_ID, COMMODITYID, CUSTOMERID_APPLY, 
       CUSTOMERID_ACCEPT, TRANSFER_NUMBER, STATE, 
       REMARKS, CREATETIME, REVIEWTIME, 
       OPERATOR)
-    values (seq_on_test2.nextval,#{commodityid,jdbcType=VARCHAR}, #{customeridApply,jdbcType=VARCHAR}, 
+    values (#{applicationId,jdbcType=DECIMAL},#{commodityid,jdbcType=VARCHAR}, #{customeridApply,jdbcType=VARCHAR}, 
       #{customeridAccept,jdbcType=VARCHAR}, #{transferNumber,jdbcType=DECIMAL},'0', 
      '',#{createtime,jdbcType=DATE},'','TEST')
   </insert>

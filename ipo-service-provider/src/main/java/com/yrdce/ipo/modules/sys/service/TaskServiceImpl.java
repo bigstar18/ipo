@@ -27,6 +27,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
@@ -36,6 +37,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoCommodityExtended;
 import com.yrdce.ipo.modules.sys.entity.IpoDistribution;
 import com.yrdce.ipo.modules.sys.entity.IpoNumberofrecords;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
+import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoRation;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
@@ -87,6 +89,8 @@ public class TaskServiceImpl implements TaskService {
 	private IpoPayFlowMapper ipoPayFlowMapper;
 	@Autowired
 	private FFirmfundsMapper fundsMapper;
+	@Autowired
+	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
 	/**
 	 * 配号
@@ -278,7 +282,6 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Transactional
 	public void orderBalance() throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("申购结算开始");
 		logger.info("开始获取所有未结算的中签记录");
 
@@ -301,7 +304,6 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional
 	private void transferPosition(IpoCommodityExtended comm, IpoDistribution dst,
 			IpoCommodityConf commodityConf) throws Exception {
-		// TODO Auto-generated method stub
 		logger.info("转持仓开始");
 		/*String userid = dst.getUserid();
 		String commid = comm.getCommodityid();
@@ -420,11 +422,18 @@ public class TaskServiceImpl implements TaskService {
 		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 			String spoid = ipospocomm.getSpoId();
 			logger.debug(">>>>>>>>>>>>>>>>>>spoid：" + spoid);
-			int sate = ipospocomm.getSpoSate();//
+			int sate = ipospocomm.getSpoSate();
+			// 单价
+			BigDecimal price = ipospocomm.getSpoPrice();
+			logger.debug("单价price：" + price);
 			if (sate == 1) {
 				// 获得增发商品id
 				String commodityid = ipospocomm.getCommodityId();
 				logger.debug(">>>>>>>>>>>>>>>>>>commodityid:" + commodityid);
+				// 手续费算法
+				IpoCommodityConf ipoCommodityConf = commodityConfMapper.selectCommUnit(commodityid);
+				short mode = ipoCommodityConf.getTradealgr();
+				BigDecimal val = ipoCommodityConf.getBuy();
 				// 获得未增发的量
 				long otration = ipospocomm.getNotRationCounts();
 				logger.debug(">>>>>>>>>>>>>>>>>>otration:" + otration);
@@ -442,6 +451,39 @@ public class TaskServiceImpl implements TaskService {
 					logger.debug(">>>>>>>>>>>>>>>>>>value:" + value);
 					// 增发量
 					long num = (long) (otration * value);
+					BigDecimal counts1 = new BigDecimal(num);
+					logger.debug("数量counts1：" + counts1);
+					// 货款
+					BigDecimal money = price.multiply(counts1);
+					logger.debug("商品费用Monery：" + money);
+					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid,
+							commodityid, ChargeConstant.BusinessType.PUBLISH.getCode());
+					BigDecimal fee = new BigDecimal(0);
+					BigDecimal buy = new BigDecimal(0);
+					short tradealgr = 0;
+					if (ipoSpecialcounterfee != null) {
+						tradealgr = ipoSpecialcounterfee.getTradealgr();
+						buy = ipoSpecialcounterfee.getCounterfee();
+						if (tradealgr == 1) {
+							BigDecimal valparam = buy.divide(new BigDecimal("100"));
+							fee = money.multiply(valparam);
+							logger.debug("特殊比例手续费：" + fee);
+						} else {
+							fee = counts1.multiply(buy);
+							logger.debug("特殊绝对值手续费：" + fee);
+						}
+					} else {
+						// 服务费
+						if (mode == 1) {
+							BigDecimal valparam = val.divide(new BigDecimal("100"));
+							fee = money.multiply(valparam);
+							logger.debug("比例手续费：" + fee);
+						} else {
+							fee = counts1.multiply(val);
+							logger.debug("绝对值手续费：" + fee);
+						}
+					}
+
 					IpoSpoRation ipoSpoRation = new IpoSpoRation();
 					ipoSpoRation.setSpoid(spoid);
 					ipoSpoRation.setRationcounts(num);
@@ -450,11 +492,13 @@ public class TaskServiceImpl implements TaskService {
 					String firmname = ipoSpoRationMapper.selectFirmname(firmid);
 					ipoSpoRation.setFirmname(firmname);
 					ipoSpoRation.setRationSate(1);
+					ipoSpoRation.setServicefee(fee);
+					ipoSpoRation.setRationloan(money);
 					ipoSpoRationMapper.insert(ipoSpoRation);
-					ipoSPOCommMapper.updateByStatus(5, spoid);
 					logger.info("散户增发定时任务结束");
 				}
 			}
+			ipoSPOCommMapper.updateByStatus(5, spoid);
 		}
 	}
 

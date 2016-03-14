@@ -143,6 +143,7 @@ legend {
 		}
 
 		function loadData() {
+			$('.codeselect option').remove();
 			$.ajax({
 				type : "GET",
 				cache : false,
@@ -211,6 +212,9 @@ legend {
 						if (response == "1001") {
 							alert("客户代码没有权限");
 						}
+						$('#customer_type').val("");
+						$('#firmid').val("");
+						$('#count').val("");
 					},
 					error : function(response) {
 						alert("提交失败，请重试或联系管理员");

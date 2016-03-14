@@ -2,6 +2,7 @@ package com.yrdce.ipo.modules.sys.web;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -352,7 +353,8 @@ public class SettlementDeliveryController {
 			@RequestParam("genre") String genre) {
 		Long quatityParam = Long.parseLong(quatity);
 		BigDecimal fee = settlementDeliveryService.costQuery(commid, quatityParam, genre);
-		String feeParam = fee.toString();
+		DecimalFormat df = new DecimalFormat("0.00");
+		String feeParam = df.format(fee);
 		return feeParam;
 	}
 }

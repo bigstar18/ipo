@@ -13,10 +13,13 @@
     <result column="FREEZEREASON" jdbcType="VARCHAR" property="freezereason" />
   </resultMap>
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.IpoStockFreeze" >
+  <selectKey resultType="DECIMAL" order="BEFORE" keyProperty="applicationId">
+	SELECT seq_on_test.NEXTVAL FROM dual
+	</selectKey>
     insert into IPO_STOCK_FREEZE (APPLICATION_ID,COMMODITYID, CUSTOMERID, 
       STATE, FREEZE_NUMBER, CREATETIME, 
       REVIEWTIME, OPERATOR,FREEZEREASON)
-    values (seq_on_test.nextval, #{commodityid,jdbcType=OTHER}, #{customerid,jdbcType=OTHER}, 
+    values (#{applicationId,jdbcType=DECIMAL}, #{commodityid,jdbcType=OTHER}, #{customerid,jdbcType=OTHER}, 
       '0', #{freezeNumber,jdbcType=DECIMAL}, #{createtime,jdbcType=DATE}, 
      '', 'TEST',#{freezereason,jdbcType=VARCHAR})
 
