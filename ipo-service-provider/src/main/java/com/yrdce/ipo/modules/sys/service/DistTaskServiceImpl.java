@@ -84,27 +84,46 @@ public class DistTaskServiceImpl implements DistTaskService {
 					}
 					firmdistInfoList.add(firmDistInfo);
 				}
-				for (int i = 0; i < firmdistInfoList.size(); i++) {
-					FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
-					if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
-						firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
-					} else if (i + 1 == firmdistInfoList.size()) {
-						int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
-						firmDistInfo.setDistNum(disNum);
-					}
-					IpoDistribution ipoDistribution = new IpoDistribution();
-					IpoDistribution tempDistribution = ipoDistributionMapper.selectByPrimaryKey(firmDistInfo.getId());
-					ipoDistribution.setZcounts(firmDistInfo.getDistNum());
-					ipoDistribution.setId(firmDistInfo.getId());
-					ipoDistribution.setCommodityid(commodity.getCommodityid());
-					ipoDistribution.setCommodityname(commodity.getCommodityname());
-					ipoDistribution.setUserid(firmDistInfo.getFirmId());
-					if (tempDistribution == null) {
-						ipoDistributionMapper.insert(ipoDistribution);
-					} else {
-						ipoDistributionMapper.updateByPrimaryKey(ipoDistribution);
+				while (firmdistInfoList.size() == 0 || commodityDistribution.getAlldistNum() == 0) {
+					for (int i = 0; i < firmdistInfoList.size(); i++) {
+						FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
+						if (firmDistInfo.isFull()) {
+							if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
+								firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
+							} else if (i + 1 == firmdistInfoList.size()) {
+								int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
+								if (disNum > firmDistInfo.getBuyNum()) {
+									int tempNum = firmDistInfo.getBuyNum() - firmDistInfo.getDistNum();
+									firmDistInfo.setDistNum(firmDistInfo.getBuyNum());
+									commodityDistribution
+											.setAlldistNum(commodityDistribution.getAlldistNum() - tempNum);
+									firmDistInfo.setFull(false);
+								} else {
+									firmDistInfo.setDistNum(disNum);
+									commodityDistribution.setAlldistNum(0);
+								}
+							}
+						}
+						IpoDistribution ipoDistribution = new IpoDistribution();
+						IpoDistribution tempDistribution = ipoDistributionMapper
+								.selectByPrimaryKey(firmDistInfo.getId());
+						ipoDistribution.setZcounts(firmDistInfo.getDistNum());
+						ipoDistribution.setId(firmDistInfo.getId());
+						ipoDistribution.setCommodityid(commodity.getCommodityid());
+						ipoDistribution.setCommodityname(commodity.getCommodityname());
+						ipoDistribution.setUserid(firmDistInfo.getFirmId());
+						if (tempDistribution == null) {
+							ipoDistributionMapper.insert(ipoDistribution);
+						} else {
+							ipoDistributionMapper.updateByPrimaryKey(ipoDistribution);
+						}
+
+						if (!firmDistInfo.isFull()) {
+							firmdistInfoList.remove(i);
+						}
 					}
 				}
+
 			}
 			commodityMapper.updateByStatus(3, commid);
 			logger.info("摇号结束");
@@ -134,8 +153,14 @@ public class DistTaskServiceImpl implements DistTaskService {
 		distInfo.setFirmCapitalRatio(firmCapitalRatio);
 		distInfo.setFirmId(ipoOrder.getUserid());
 		distInfo.setId(ipoOrder.getOrderid());
+		distInfo.setBuyNum(ipoOrder.getCounts());
 		if (distributionRule != null) {
-			distInfo.setMaxdistNum(distributionRule.getMaxqty().intValue());
+			if (distributionRule.getMaxqty().intValue() > ipoOrder.getCounts()) {
+				distInfo.setMaxdistNum(ipoOrder.getCounts());
+			} else {
+				distInfo.setMaxdistNum(distributionRule.getMaxqty().intValue());
+			}
+
 		}
 		distInfo.setFirmPositionRatio(firmPositionRatio);
 		return distInfo;

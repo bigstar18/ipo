@@ -52,6 +52,9 @@ public class CommodityDistribution {
 			firmDistInfo.setDistNum(result);
 			this.alldistNum -= result;
 		}
+		if (firmDistInfo.getDistNum() == firmDistInfo.getBuyNum()) {
+			firmDistInfo.setFull(false);
+		}
 
 	}
 
@@ -74,7 +77,9 @@ public class CommodityDistribution {
 			firmDistInfo.setDistNum(result);
 			this.alldistNum -= firmDistInfo.getMaxdistNum();
 		}
-
+		if (firmDistInfo.getDistNum() == firmDistInfo.getBuyNum()) {
+			firmDistInfo.setFull(false);
+		}
 	}
 
 	// 随机分配数量（再次分配）
@@ -83,8 +88,15 @@ public class CommodityDistribution {
 			Random random = new Random();
 			int result = random.nextInt(this.alldistNum);
 			int tempDistNum = firmDistInfo.getDistNum() + result;
+			if (tempDistNum > firmDistInfo.getBuyNum()) {
+				tempDistNum = firmDistInfo.getBuyNum();
+				result = firmDistInfo.getBuyNum() - firmDistInfo.getDistNum();
+			}
 			firmDistInfo.setDistNum(tempDistNum);
 			this.alldistNum -= result;
+		}
+		if (firmDistInfo.getDistNum() == firmDistInfo.getBuyNum()) {
+			firmDistInfo.setFull(false);
 		}
 		return firmDistInfo;
 	}

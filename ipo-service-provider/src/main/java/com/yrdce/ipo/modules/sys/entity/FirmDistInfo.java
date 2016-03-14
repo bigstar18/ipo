@@ -8,8 +8,18 @@ public class FirmDistInfo {
 	private String firmId;// 交易商id
 	private double firmPositionRatio;// 交易商的持仓比例
 	private double firmCapitalRatio;// 交易商资金比例
+	private int buyNum;// 申购数量
 	private int distNum;// 中签数量
 	private int maxdistNum;
+	private boolean isFull = true;// 是否分满
+
+	public boolean isFull() {
+		return isFull;
+	}
+
+	public void setFull(boolean isFull) {
+		this.isFull = isFull;
+	}
 
 	public String getId() {
 		return id;
@@ -17,6 +27,14 @@ public class FirmDistInfo {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getBuyNum() {
+		return buyNum;
+	}
+
+	public void setBuyNum(int buyNum) {
+		this.buyNum = buyNum;
 	}
 
 	public int getMaxdistNum() {
