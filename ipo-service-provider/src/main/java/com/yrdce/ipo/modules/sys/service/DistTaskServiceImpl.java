@@ -84,7 +84,7 @@ public class DistTaskServiceImpl implements DistTaskService {
 					}
 					firmdistInfoList.add(firmDistInfo);
 				}
-				while (firmdistInfoList.size() > 0 || commodityDistribution.getAlldistNum() > 0) {
+				while (firmdistInfoList.size() > 0 && commodityDistribution.getAlldistNum() > 0) {
 					for (int i = 0; i < firmdistInfoList.size(); i++) {
 						FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
 						if (firmDistInfo.isFull()) {
