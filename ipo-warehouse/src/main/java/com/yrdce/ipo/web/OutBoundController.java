@@ -1,6 +1,5 @@
 package com.yrdce.ipo.web;
 
-import gnnt.MEBS.checkLogon.util.MD5;
 import gnnt.MEBS.logonService.vo.UserManageVO;
 
 import java.util.List;
@@ -23,6 +22,7 @@ import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
+import com.yrdce.ipo.util.DESCodec;
 
 /**
  * 入库申请Controller
@@ -81,8 +81,7 @@ public class OutBoundController {
 			order.setWarehouseId(String.valueOf(wareHouseId));
 			if (!order.getPickupPassword().equals("")) {
 				String password = order.getPickupPassword();
-				order.setPickupPassword(MD5.getMD5(order.getDeliveryorderId(),
-						password));
+				order.setPickupPassword(DESCodec.encrypt(password, "csj"));
 				deliveryOrder = deliveryOrderService
 						.getPickupDeliveryInfo(order);
 			} else {
