@@ -81,10 +81,14 @@ public class DistTaskServiceImpl implements DistTaskService {
 					logger.info("创建分配对象成功");
 					if (commodityDistribution.getAlldistNum() > 0) {
 						firmDistInfo = commodityDistribution.distributionMain(firmDistInfo);
+					} else {
+						firmDistInfo.setDistNum(0);
 					}
 					firmdistInfoList.add(firmDistInfo);
+					logger.info("第一轮分配成功");
 				}
 				if (commodityDistribution.getAlldistNum() > 0) {
+					logger.info("随机分配开始");
 					while (firmdistInfoList.size() > 0 && commodityDistribution.getAlldistNum() > 0) {
 						for (int i = 0; i < firmdistInfoList.size(); i++) {
 							FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
@@ -115,7 +119,9 @@ public class DistTaskServiceImpl implements DistTaskService {
 					for (FirmDistInfo firmDistInfo : firmdistInfoList) {
 						addDistributionInfo(firmDistInfo, commodity);
 					}
+					logger.info("记录成功");
 				}
+
 			}
 			commodityMapper.updateByStatus(3, commid);
 			logger.info("摇号结束");
