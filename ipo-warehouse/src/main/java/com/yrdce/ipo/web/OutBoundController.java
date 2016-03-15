@@ -49,7 +49,6 @@ public class OutBoundController {
 			@RequestParam("rows") String rows, OutboundExtended outbound,
 			HttpSession session) {
 		try {
-			System.out.println("start");
 			String operatorid = ((UserManageVO) session
 					.getAttribute("CurrentUser")).getUserID();
 			Long wareHouseId = ipoStorageService
@@ -61,7 +60,7 @@ public class OutBoundController {
 			ResponseResult result = new ResponseResult();
 			result.setRows(slist);
 			result.setTotal(counts);
-			System.out.println(JSON.json(result));
+			log.debug(JSON.json(result));
 			return JSON.json(result);
 		} catch (Exception e) {
 			log.error("获取出库信息异常", e);
