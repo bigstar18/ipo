@@ -84,7 +84,7 @@ public class DistTaskServiceImpl implements DistTaskService {
 					}
 					firmdistInfoList.add(firmDistInfo);
 				}
-				while (firmdistInfoList.size() == 0 || commodityDistribution.getAlldistNum() == 0) {
+				while (firmdistInfoList.size() > 0 || commodityDistribution.getAlldistNum() > 0) {
 					for (int i = 0; i < firmdistInfoList.size(); i++) {
 						FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
 						if (firmDistInfo.isFull()) {
@@ -104,21 +104,20 @@ public class DistTaskServiceImpl implements DistTaskService {
 								}
 							}
 						}
-						IpoDistribution ipoDistribution = new IpoDistribution();
-						IpoDistribution tempDistribution = ipoDistributionMapper
-								.selectByPrimaryKey(firmDistInfo.getId());
-						ipoDistribution.setZcounts(firmDistInfo.getDistNum());
-						ipoDistribution.setId(firmDistInfo.getId());
-						ipoDistribution.setCommodityid(commodity.getCommodityid());
-						ipoDistribution.setCommodityname(commodity.getCommodityname());
-						ipoDistribution.setUserid(firmDistInfo.getFirmId());
-						if (tempDistribution == null) {
-							ipoDistributionMapper.insert(ipoDistribution);
-						} else {
-							ipoDistributionMapper.updateByPrimaryKey(ipoDistribution);
-						}
-
 						if (!firmDistInfo.isFull()) {
+							IpoDistribution ipoDistribution = new IpoDistribution();
+							IpoDistribution tempDistribution = ipoDistributionMapper
+									.selectByPrimaryKey(firmDistInfo.getId());
+							ipoDistribution.setZcounts(firmDistInfo.getDistNum());
+							ipoDistribution.setId(firmDistInfo.getId());
+							ipoDistribution.setCommodityid(commodity.getCommodityid());
+							ipoDistribution.setCommodityname(commodity.getCommodityname());
+							ipoDistribution.setUserid(firmDistInfo.getFirmId());
+							if (tempDistribution == null) {
+								ipoDistributionMapper.insert(ipoDistribution);
+							} else {
+								ipoDistributionMapper.updateByPrimaryKey(ipoDistribution);
+							}
 							firmdistInfoList.remove(i);
 						}
 					}
