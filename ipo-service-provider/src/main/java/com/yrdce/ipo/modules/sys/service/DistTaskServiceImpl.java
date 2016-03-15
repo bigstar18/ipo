@@ -67,11 +67,11 @@ public class DistTaskServiceImpl implements DistTaskService {
 			IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
 			CommodityDistribution commodityDistribution;
 			if (distributionRule == null) {
-				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 100, 0);
+				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 0, 100);
 			} else {
 				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
-						distributionRule.getPurchaseRatio().doubleValue(),
-						distributionRule.getHoldRatio().doubleValue());
+						distributionRule.getHoldRatio().doubleValue(),
+						distributionRule.getPurchaseRatio().doubleValue());
 			}
 			if (orderList.size() != 0) {
 				firmdistInfoList = new ArrayList<FirmDistInfo>();
@@ -115,7 +115,8 @@ public class DistTaskServiceImpl implements DistTaskService {
 							}
 						}
 					}
-				} else {
+				}
+				if (commodityDistribution.getAlldistNum() == 0) {
 					for (FirmDistInfo firmDistInfo : firmdistInfoList) {
 						addDistributionInfo(firmDistInfo, commodity);
 					}

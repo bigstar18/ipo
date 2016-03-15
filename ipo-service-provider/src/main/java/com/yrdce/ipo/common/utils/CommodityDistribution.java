@@ -7,6 +7,8 @@ import com.yrdce.ipo.modules.sys.entity.FirmDistInfo;
 public class CommodityDistribution {
 
 	private int alldistNum;// 分配商品总量
+	private int positionRatioNum;
+	private int capitalRatioNum;
 	private double distPositionRatio;// 分配持仓比例
 	private double distCapitalRatio;// 分配资金比例
 
@@ -23,6 +25,8 @@ public class CommodityDistribution {
 		this.alldistNum = alldistNum;
 		this.distPositionRatio = distPositionRatio / 100;
 		this.distCapitalRatio = distCapitalRatio / 100;
+		this.capitalRatioNum = (int) (alldistNum * distCapitalRatio);
+		this.positionRatioNum = (int) (alldistNum * distPositionRatio);
 	}
 
 	// 初次分配主函数
@@ -34,8 +38,7 @@ public class CommodityDistribution {
 
 	// 按持仓比例分配数量
 	private void disCommodityByPosition(FirmDistInfo firmDistInfo) {
-		int tempDistNumByPosition = (int) (this.alldistNum * this.distPositionRatio
-				* firmDistInfo.getFirmPositionRatio());
+		int tempDistNumByPosition = (int) (this.positionRatioNum * firmDistInfo.getFirmPositionRatio());
 		int result = firmDistInfo.getDistNum() + tempDistNumByPosition;
 		if (this.alldistNum == 0) {
 			return;
@@ -60,7 +63,7 @@ public class CommodityDistribution {
 
 	// 按资金比例分配数量
 	private void disCommodityByCapital(FirmDistInfo firmDistInfo) {
-		int tempDistNumByCapital = (int) (this.alldistNum * this.distCapitalRatio * firmDistInfo.getFirmCapitalRatio());
+		int tempDistNumByCapital = (int) (this.capitalRatioNum * firmDistInfo.getFirmCapitalRatio());
 		int result = firmDistInfo.getDistNum() + tempDistNumByCapital;
 		if (this.alldistNum == 0) {
 			return;
