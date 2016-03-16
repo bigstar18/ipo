@@ -158,7 +158,9 @@ function getPosition(){
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">发行会员代码：</td>
 	        	<td>
-	        	<input type="text" id="publisherid" name="publisherid" value="${entity.pubmemberid }" readonly="readonly"/>
+	        	
+	        	<input type="text" id="publisherid" name="publisherid" value="<c:if test="${flag=='add' }">${entity.pubmemberid }</c:if><c:if test="${flag=='update' }">${entity.publisherid }</c:if>" readonly="readonly"/>
+	        	
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">发行会员名称：</td>
 	        	<td>
@@ -168,11 +170,11 @@ function getPosition(){
 	        <tr>
 	            <td style="font-size:15px" align="right" width="20%">发行数量：</td>
 	        	<td>
-	        	<input type="text" id="counts" name="counts"  value="${entity.counts }" readonly="readonly"/>
+	        	<input type="text" id="counts" name="counts"  value="<c:if test="${flag=='add' }">${entity.counts }</c:if><c:if test="${flag=='update' }">${comm.counts }</c:if>" readonly="readonly"/>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
-	        	<input type="text" id="totalcounts" name="totalcounts"  value="${entity.storagecounts }" readonly="readonly"/>
+	        	<input type="text" id="totalcounts" name="totalcounts"  value="<c:if test="${flag=='add' }">${entity.storagecounts }</c:if><c:if test="${flag=='update' }">${entity.totalcounts }</c:if>" readonly="readonly"/>
 	        	</td>
 	        </tr>
 	        <tr>
@@ -182,23 +184,23 @@ function getPosition(){
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"/><span class="required">*</span>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"  value="${entity.totalvalue }/><span class="required">*</span>
 	        	</td>
 	        </tr>  
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
-	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"/><span class="required">*</span>
+	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"  value="${entity.salecounts }"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
+	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="${entity.pubposition }"/><span class="required">*</span>
 	        	</td>
 	        </tr> 
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
 	        	<td>
-	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'"/><span class="required">*</span>
+	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="${entity.subscricounts }"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%"></td>
 	        	<td>

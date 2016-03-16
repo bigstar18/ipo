@@ -308,7 +308,7 @@ public class PublisherController {
 	}
 
 	/**
-	 * 跳转到转持仓视图
+	 * 跳转到新增转持仓视图
 	 * 
 	 * @param
 	 * @return
@@ -324,7 +324,30 @@ public class PublisherController {
 		BigDecimal contractor = ipoCommConfService.getVIpoCommConfByCommid(
 				storage.getCommodityid()).getContractfactor();
 		request.setAttribute("entity", storage);
+		request.setAttribute("flag", "add");
 		request.setAttribute("contractor", contractor);
+		return "app/publisherQuery/addTransferPosition";
+	}
+
+	/**
+	 * 跳转到更改转持仓视图
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateTransferPosition", method = RequestMethod.GET)
+	public String updateTransferPosition(
+			@RequestParam("storageid") String storageid,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		PublisherPosition tposition = publisherpositionService
+				.getInfoByStorageId(storageid);
+		VIpoCommConf comm = ipoCommConfService
+				.getVIpoCommConfByCommid(tposition.getCommodityid());
+		request.setAttribute("entity", tposition);
+		request.setAttribute("flag", "update");
+		request.setAttribute("comm", comm);
 		return "app/publisherQuery/addTransferPosition";
 	}
 

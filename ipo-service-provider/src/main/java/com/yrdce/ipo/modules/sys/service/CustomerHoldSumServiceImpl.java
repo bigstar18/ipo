@@ -30,10 +30,11 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
+	public void freezeCustomerHold(Long frozenqty, String customerid,
+			String commodityid, Short bsFlag) {
 
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
-				bsFlag);
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper
+				.selectByPrimaryKey(customerid, commodityid, bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("冻结客户持仓记录不存在");
 		}
@@ -58,9 +59,10 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, Short bsFlag) {
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
-				bsFlag);
+	public void unfreezeCustomerHold(Long unfreezeqty, String customerid,
+			String commodityid, Short bsFlag) {
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper
+				.selectByPrimaryKey(customerid, commodityid, bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("解冻客户持仓记录不存在");
 		}
@@ -80,22 +82,27 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 增加客户持仓
 	 */
 	@Transactional
-	public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
+	public void increaseCustomerHold(Long frozenqty, String customerid,
+			String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-
+		System.out.println("**********");
 	}
 
 	/**
 	 * 减少客户持仓
 	 */
 	@Transactional
-	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, short bsFlag) {
+	public void reduceCustomerHold(Long frozenqty, String customerid,
+			String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-
+		System.out.println("**********");
 	}
+
 	@Override
-	public void myfreezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
-		freezeCustomerHold(frozenqty,customerid,commodityid,bsFlag.shortValue());
+	public void myfreezeCustomerHold(Long frozenqty, String customerid,
+			String commodityid, Short bsFlag) {
+		freezeCustomerHold(frozenqty, customerid, commodityid,
+				bsFlag.shortValue());
 
 	}
 }

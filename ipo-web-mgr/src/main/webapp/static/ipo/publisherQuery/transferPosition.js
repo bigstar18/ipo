@@ -18,7 +18,13 @@ $(document).ready(function() {
         	 field : 'storageid',  
              width : 250,  
              align: "center",
-             title : '入库单号'
+             title : '入库单号',
+             formatter:function(value,row){
+             	if(row.transferstate==1){
+             		return "<a href=\""+getRootPath ()+ '/PublisherController/updateTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000)+"\">"+value+"</a>";
+             	}
+             	return value;
+             }
          }, {
         	 field : 'pubmemberid',  
              width : 250,  
@@ -104,6 +110,11 @@ function setInfo(value){
 
 }
 
+
+function changeInfo(value){
+	document.location.href = getRootPath ()+ '/PublisherController/updateTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000);
+
+}
 
 function forzen(value){
 	                        $.ajax({ 
