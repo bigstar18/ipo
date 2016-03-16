@@ -58,6 +58,7 @@ function add(){
 			        	   return ;
 			           }
                        if(data=='true'){
+                    	   if($("#flag").val()=='add'){
                             	   $.ajax({ 
                             		   cache:false,
                                        type: "post",  
@@ -75,6 +76,26 @@ function add(){
                                            alert("请求失败！");  
                                        }  
                                    }) ;
+                    	   }
+                    	   if($("#flag").val()=='update'){
+                        	   $.ajax({ 
+                        		   cache:false,
+                                   type: "post",  
+                                   url: "<%=request.getContextPath()%>/PublisherController/updatePublisherPosition",       
+                                   data: $("#frm").serialize(),      
+                                   success: function(data) { 
+                                	   if(data=='true'){
+                                       alert("修改成功！"); 
+                                       returntoList();
+                                	   }else{
+                                		   alert("修改失败！");  
+                                	   }
+                                   },  
+                                   error: function(data) {  
+                                       alert("请求失败！");  
+                                   }  
+                               }) ;
+                	   }
                        }
 			        }    
 				}); }
@@ -153,6 +174,11 @@ function getPosition(){
 	        	<td>
 	        	<input type="text" id="commodityname" name="commodityname" value="${entity.commodityname }" readonly="readonly"/>
 	        	<input type="hidden" id="storageid" name="storageid" value="${entity.storageid }" readonly="readonly"/>
+	           	<input type="hidden" id="flag" name="flag" value="${flag }" readonly="readonly"/>
+	           <c:if test="${flag=='update' }">	<input type="hidden" id="positionid" name="positionid" value="${entity.positionid }" readonly="readonly"/>
+	        	<input type="hidden" id="status" name="status" value="${entity.status }" readonly="readonly"/>
+	        	</c:if>
+	        	
 	        	</td>
 	        </tr> 
 	         <tr>
@@ -174,33 +200,33 @@ function getPosition(){
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
 	        	<td>
-	        	<input type="text" id="totalcounts" name="totalcounts"  value="<c:if test="${flag=='add' }">${entity.storagecounts }</c:if><c:if test="${flag=='update' }">${entity.totalcounts }</c:if>" readonly="readonly"/>
+	        	<input type="text" id="totalcounts" name="totalcounts"  value="<c:if test="${flag=='add' }">${entity.storagecounts }</c:if><c:if test="${flag=='update' }">${entity.totalcounts }</c:if>" readonly="readonly"/><span class="required">${comm.contractfactorname }</span>
 	        	</td>
 	        </tr>
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">交易单位：</td>
 	        	<td>
-	        	<input type="text" id="contractor" name="contractor" value="${contractor }" readonly="readonly"/>
+	        	<input type="text" id="contractor" name="contractor" value="${comm.contractfactor }" readonly="readonly"/><span class="required">${comm.contractfactorname }/批</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
 	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'"  value="${entity.totalvalue }/><span class="required">*</span>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.totalvalue }</c:if>"/><span class="required">元*</span>
 	        	</td>
 	        </tr>  
 	         <tr>
 	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
 	        	<td>
-	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"  value="${entity.salecounts }"/><span class="required">*</span>
+	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"  value="<c:if test="${flag=='update' }">${entity.salecounts }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="${entity.pubposition }"/><span class="required">*</span>
+	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.pubposition }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
 	        	</td>
 	        </tr> 
 	        <tr>
 	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
 	        	<td>
-	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="${entity.subscricounts }"/><span class="required">*</span>
+	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.subscricounts }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%"></td>
 	        	<td>

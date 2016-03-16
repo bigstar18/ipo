@@ -2,7 +2,7 @@
 <%@ include file="../ipoInclude.jsp"%>
 <html>
 <head>
-<title>发行库存转持仓</title>
+<title>库存转持仓查询</title>
 <script src="<%=request.getContextPath()%>/static/ipo/publisherQuery/transferQuery.js" type="text/javascript"></script>
 </head>
 <body>

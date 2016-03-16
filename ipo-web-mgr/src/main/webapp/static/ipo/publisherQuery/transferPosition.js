@@ -21,7 +21,7 @@ $(document).ready(function() {
              title : '入库单号',
              formatter:function(value,row){
              	if(row.transferstate==1){
-             		return "<a href=\""+getRootPath ()+ '/PublisherController/updateTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000)+"\">"+value+"</a>";
+             		return "<a href=\""+ getRootPath ()+ '/PublisherController/updateTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000)+"\">"+value+"</a>"
              	}
              	return value;
              }
@@ -107,12 +107,6 @@ function clearInfo(){
 
 function setInfo(value){
 	document.location.href = getRootPath ()+ '/PublisherController/addTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000);
-
-}
-
-
-function changeInfo(value){
-	document.location.href = getRootPath ()+ '/PublisherController/updateTransferPosition?storageid='+value+'&&randnum='+Math.floor(Math.random()*1000000);
 
 }
 

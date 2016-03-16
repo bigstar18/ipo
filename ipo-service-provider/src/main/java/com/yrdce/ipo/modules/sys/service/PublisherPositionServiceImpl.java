@@ -130,6 +130,20 @@ public class PublisherPositionServiceImpl implements PublisherPositionService,
 	}
 
 	@Override
+	@Transactional
+	public Integer updatePubPoition(PublisherPosition example) {
+		if (example != null) {
+			IpoPublisherPosition record = new IpoPublisherPosition();
+			BeanUtils.copyProperties(example, record);
+			int inum = publisherPositionmapper.updateByPrimaryKey(record);
+			if (inum == 1) {
+				return 1;
+			}
+		}
+		return 0;
+	}
+
+	@Override
 	public Long getSaleCounts(String commodityid) {
 		Long num = publisherPositionmapper.getSaleCounts(commodityid);
 		if (num != null) {

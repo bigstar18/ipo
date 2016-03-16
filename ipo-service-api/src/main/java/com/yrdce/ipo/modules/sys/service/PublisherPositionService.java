@@ -35,6 +35,14 @@ public interface PublisherPositionService {
 	public Integer insertPubPoition(PublisherPosition example);
 
 	/**
+	 * 修改一条转持仓信息
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public Integer updatePubPoition(PublisherPosition example);
+
+	/**
 	 * 获取已经转成功的发售总量
 	 * 
 	 * @param commodityid

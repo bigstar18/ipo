@@ -321,11 +321,11 @@ public class PublisherController {
 			throws IOException {
 		VIpoStorageExtended storage = ipoStorageService
 				.getStorageByStorageId(storageid);
-		BigDecimal contractor = ipoCommConfService.getVIpoCommConfByCommid(
-				storage.getCommodityid()).getContractfactor();
+		VIpoCommConf comm = ipoCommConfService.getVIpoCommConfByCommid(storage
+				.getCommodityid());
 		request.setAttribute("entity", storage);
 		request.setAttribute("flag", "add");
-		request.setAttribute("contractor", contractor);
+		request.setAttribute("comm", comm);
 		return "app/publisherQuery/addTransferPosition";
 	}
 
@@ -383,16 +383,39 @@ public class PublisherController {
 	@RequestMapping(value = "/addPublisherPosition", method = RequestMethod.POST)
 	@ResponseBody
 	public String addPublisherPosition(PublisherPosition example,
-			HttpSession session) {
+			HttpServletRequest request) {
 
-		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-				.getUserID();
+		String userId = this.getLoginUserId(request);
 		example.setStatus((short) 1);
 		example.setCreater(userId);
 		example.setCreatedate(new Date());
 		int num = publisherpositionService.insertPubPoition(example);
 		if (num == 1) {
 			return "true";
+		}
+		return "false";
+	}
+
+	/**
+	 * 新增转持仓信息
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updatePublisherPosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String updatePublisherPosition(PublisherPosition example,
+			HttpServletRequest request) {
+		if (example.getStatus() == 1) {
+			String userId = this.getLoginUserId(request);
+			// example.setStatus((short) 1);
+			example.setUpdater(userId);
+			example.setUpdatedate(new Date());
+			int num = publisherpositionService.updatePubPoition(example);
+			if (num == 1) {
+				return "true";
+			}
 		}
 		return "false";
 	}
@@ -686,6 +709,15 @@ public class PublisherController {
 		result.setList(paylist);
 		return result;
 
+	}
+
+	private String getLoginUserId(HttpServletRequest request) {
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
+				"CurrentUser");
+		if (user != null) {
+			return user.getUserID();
+		}
+		return "nologin";
 	}
 
 }

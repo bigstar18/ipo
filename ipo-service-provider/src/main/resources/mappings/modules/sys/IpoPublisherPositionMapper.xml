@@ -88,10 +88,9 @@
     select sum(t.salecounts) from ipo_publisher_position t where  t.commodityid=#{commodityid,jdbcType=VARCHAR}
   </select> 
     <select id="getInfoByStorageId" resultType="com.yrdce.ipo.modules.sys.entity.IpoPublisherPosition" parameterType="String">
-        select POSITIONID, PUBLISHERID, COMMODITYID, TOTALVALUE,SUBSCRIBERATIO, PUBPOSITION, SALECOUNTS, 
-        TOTALCOUNTS, STATUS, CREATER, CREATEDATE, UPDATER, UPDATEDATE,STORAGEID,SUBSCRICOUNTS
-        from IPO_PUBLISHER_POSITION
-        where STORAGEID = #{storageid,jdbcType=VARCHAR}
+        select P.*,B.NAME PUBLISHERNAME,C.COMMODITYNAME COMMODITYNAME
+        from IPO_PUBLISHER_POSITION P LEFT JOIN BR_BROKER B ON B.BROKERID=P.PUBLISHERID LEFT JOIN IPO_COMMODITY_CONF C ON P.COMMODITYID=C.COMMODITYID
+        where P.STORAGEID = #{storageid,jdbcType=VARCHAR}
   </select> 
   
   
