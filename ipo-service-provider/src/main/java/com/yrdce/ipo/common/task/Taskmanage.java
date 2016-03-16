@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.PositionConstant;
+import com.yrdce.ipo.modules.sys.service.DistTaskService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
@@ -29,12 +30,14 @@ public class Taskmanage extends TimerTask {
 	private TaskService taskService;
 	@Autowired
 	PositionService positionService;
+	@Autowired
+	private DistTaskService distTaskService;
 
 	@Override
 	@Transactional
 	public void run() {
 		try {
-			taskService.distribution();
+			// taskService.distribution();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,7 +45,7 @@ public class Taskmanage extends TimerTask {
 
 	public void lottery() {
 		try {
-			taskService.lottery();
+			distTaskService.getCommodityInfos();
 			taskService.orderBalance();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +60,7 @@ public class Taskmanage extends TimerTask {
 		}
 	}
 
-	//定期减持客户冻结数量
+	// 定期减持客户冻结数量
 	public void reduceeCustomerHold() {
 		logger.info("开始执行减持客户冻结数量");
 		try {
