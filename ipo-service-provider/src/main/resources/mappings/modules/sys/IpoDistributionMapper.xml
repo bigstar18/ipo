@@ -134,7 +134,7 @@
       STARTNUMBER, PCOUNTS, PTIME, 
       ZCOUNTS, NUMBERS,COMMODITYID)
     values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{commodityname,jdbcType=VARCHAR}, 
-      #{startnumber,jdbcType=BIGINT}, #{pcounts,jdbcType=INTEGER}, #{ptime,jdbcType=TIMESTAMP}, 
+      #{startnumber,jdbcType=BIGINT}, #{pcounts,jdbcType=INTEGER}, sysdate, 
       #{zcounts,jdbcType=INTEGER}, #{numbers,jdbcType=BLOB},#{commodityid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
@@ -276,8 +276,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.yrdce.ipo.modules.sys.entity.IpoDistribution" >
     update IPO_DISTRIBUTION
     <set >
+     	PTIME = sysdate
       <if test="userid != null" >
-        USERID = #{userid,jdbcType=VARCHAR},
+        ,USERID = #{userid,jdbcType=VARCHAR},
       </if>
       <if test="commodityname != null" >
         COMMODITYNAME = #{commodityname,jdbcType=VARCHAR},
@@ -287,9 +288,6 @@
       </if>
       <if test="pcounts != null" >
         PCOUNTS = #{pcounts,jdbcType=INTEGER},
-      </if>
-      <if test="ptime != null" >
-        PTIME = #{ptime,jdbcType=TIMESTAMP},
       </if>
       <if test="zcounts != null" >
         ZCOUNTS = #{zcounts,jdbcType=INTEGER},
