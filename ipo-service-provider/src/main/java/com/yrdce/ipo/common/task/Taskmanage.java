@@ -45,7 +45,7 @@ public class Taskmanage extends TimerTask {
 
 	public void lottery() {
 		try {
-			distTaskService.getCommodityInfos();
+			distTaskService.lottery();
 			taskService.orderBalance();
 		} catch (Exception e) {
 			e.printStackTrace();

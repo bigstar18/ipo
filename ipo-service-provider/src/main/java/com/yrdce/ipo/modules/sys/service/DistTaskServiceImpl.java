@@ -41,7 +41,7 @@ public class DistTaskServiceImpl implements DistTaskService {
 	private List<IpoOrder> orderList;
 
 	@Transactional()
-	public void hgetCommodityInfos() throws Exception {
+	public void lottery() throws Exception {
 		logger.info("分配开始，开始获取商品信息");
 		String time = DateUtil.getTime(1);
 		// 查询发售表
@@ -64,28 +64,23 @@ public class DistTaskServiceImpl implements DistTaskService {
 			st = commodity.getStatus();
 			commodityMapper.updateByStatus(31, commid);// 31表示摇号中
 			orderList = ipoOrderMapper.selectByCid(commid);
-			IpoDistributionRule distributionRule = ipoDistributionRuleMapper
-					.selectInfoByCommId(commid);
+			IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
 			CommodityDistribution commodityDistribution;
 			if (distributionRule == null) {
-				commodityDistribution = new CommodityDistribution(
-						(int) commodity.getCounts(), 0, 100);
+				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 0, 100);
 			} else {
-				commodityDistribution = new CommodityDistribution(
-						(int) commodity.getCounts(), distributionRule
-								.getHoldRatio().doubleValue(), distributionRule
-								.getPurchaseRatio().doubleValue());
+				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
+						distributionRule.getHoldRatio().doubleValue(),
+						distributionRule.getPurchaseRatio().doubleValue());
 			}
 			if (orderList.size() != 0) {
 				firmdistInfoList = new ArrayList<FirmDistInfo>();
 				for (IpoOrder ipoOrder : orderList) {
 					logger.info("创建分配对象");
-					FirmDistInfo firmDistInfo = creatFirmObj(commodity,
-							ipoOrder, distributionRule);
+					FirmDistInfo firmDistInfo = creatFirmObj(commodity, ipoOrder, distributionRule);
 					logger.info("创建分配对象成功");
 					if (commodityDistribution.getAlldistNum() > 0) {
-						firmDistInfo = commodityDistribution
-								.distributionMain(firmDistInfo);
+						firmDistInfo = commodityDistribution.distributionMain(firmDistInfo);
 					} else {
 						firmDistInfo.setDistNum(0);
 					}
@@ -94,28 +89,19 @@ public class DistTaskServiceImpl implements DistTaskService {
 				}
 				if (commodityDistribution.getAlldistNum() > 0) {
 					logger.info("随机分配开始");
-					while (firmdistInfoList.size() > 0
-							&& commodityDistribution.getAlldistNum() > 0) {
+					while (firmdistInfoList.size() > 0 && commodityDistribution.getAlldistNum() > 0) {
 						for (int i = 0; i < firmdistInfoList.size(); i++) {
 							FirmDistInfo firmDistInfo = firmdistInfoList.get(i);
 							if (firmDistInfo.isFull()) {
-								if (commodityDistribution.getAlldistNum() > 0
-										&& i + 1 != firmdistInfoList.size()) {
-									firmDistInfo = commodityDistribution
-											.disCommodityByRandom(firmDistInfo);
+								if (commodityDistribution.getAlldistNum() > 0 && i + 1 != firmdistInfoList.size()) {
+									firmDistInfo = commodityDistribution.disCommodityByRandom(firmDistInfo);
 								} else if (i + 1 == firmdistInfoList.size()) {
-									int disNum = firmDistInfo.getDistNum()
-											+ commodityDistribution
-													.getAlldistNum();
+									int disNum = firmDistInfo.getDistNum() + commodityDistribution.getAlldistNum();
 									if (disNum > firmDistInfo.getBuyNum()) {
-										int tempNum = firmDistInfo.getBuyNum()
-												- firmDistInfo.getDistNum();
-										firmDistInfo.setDistNum(firmDistInfo
-												.getBuyNum());
+										int tempNum = firmDistInfo.getBuyNum() - firmDistInfo.getDistNum();
+										firmDistInfo.setDistNum(firmDistInfo.getBuyNum());
 										commodityDistribution
-												.setAlldistNum(commodityDistribution
-														.getAlldistNum()
-														- tempNum);
+												.setAlldistNum(commodityDistribution.getAlldistNum() - tempNum);
 										firmDistInfo.setFull(false);
 									} else {
 										firmDistInfo.setDistNum(disNum);
@@ -148,11 +134,9 @@ public class DistTaskServiceImpl implements DistTaskService {
 	}
 
 	// 添加摇号记录
-	private void addDistributionInfo(FirmDistInfo firmDistInfo,
-			IpoCommodity commodity) {
+	private void addDistributionInfo(FirmDistInfo firmDistInfo, IpoCommodity commodity) {
 		IpoDistribution ipoDistribution = new IpoDistribution();
-		IpoDistribution tempDistribution = ipoDistributionMapper
-				.selectByPrimaryKey(firmDistInfo.getId());
+		IpoDistribution tempDistribution = ipoDistributionMapper.selectByPrimaryKey(firmDistInfo.getId());
 		ipoDistribution.setZcounts(firmDistInfo.getDistNum());
 		ipoDistribution.setId(firmDistInfo.getId());
 		ipoDistribution.setCommodityid(commodity.getCommodityid());
@@ -166,12 +150,11 @@ public class DistTaskServiceImpl implements DistTaskService {
 	}
 
 	// 实例化一个等待摇号的交易商对象
-	private FirmDistInfo creatFirmObj(IpoCommodity ipoCommodity,
-			IpoOrder ipoOrder, IpoDistributionRule distributionRule) {
+	private FirmDistInfo creatFirmObj(IpoCommodity ipoCommodity, IpoOrder ipoOrder,
+			IpoDistributionRule distributionRule) {
 		int countsBuy = ipoOrderMapper.selectbysid(ipoOrder.getCommodityid());
 		long holdCounts = tcustomerholdsumMapper.selectByCommId(orderList);
-		long firmhoidCounts = tcustomerholdsumMapper.selectFirmHold(ipoOrder
-				.getUserid());
+		long firmhoidCounts = tcustomerholdsumMapper.selectFirmHold(ipoOrder.getUserid());
 		long tempCountsBuy = countsBuy / ipoCommodity.getUnits();
 		long tempCountsOrder = ipoOrder.getCounts() / ipoCommodity.getUnits();
 		double firmCapitalRatio = tempCountsOrder / tempCountsBuy;

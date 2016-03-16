@@ -338,5 +338,12 @@
 	<select id="checkcommid"  resultType="java.lang.String">
 		select commodityname from ipo_commodity_conf where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="getcommIdAndName" resultMap="BaseResultMap" parameterType="com.yrdce.ipo.modules.sys.entity.IpoCommodityConf">
+		select
+		COMMODITYID, COMMODITYNAME
+		from 
+		ipo_commodity_conf
+	</select>
 </mapper>
 

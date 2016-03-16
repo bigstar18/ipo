@@ -284,7 +284,7 @@
 	function getCommInfo(){
 		$.ajax({
 			type:"GET",
-			url:"<%=request.getContextPath()%>/SPOController/getIPOCommonity",
+			url:"<%=request.getContextPath()%>/SpecialCounterFeeController/getCommonity?randnum="+Math.floor(Math.random()*1000000),
 			success:function(data){
 	        	if(data!="error"&&data!=""&&data!="null"){
 	        		var temp = data.split("|");

@@ -1,11 +1,14 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +23,33 @@ public class SpecialCounterFeeController {
 	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SpecialCounterFeeController.class);
 	@Autowired
 	private SpecialCounterFeeService specialCounterFeeService;
+
+	// 获取发售商品信息
+	@RequestMapping(value = "/getCommonity", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getCommonity() throws IOException {
+		logger.info("获取商品信息");
+		String result = "";
+		try {
+			Map<String, String> commonityInfo = specialCounterFeeService.getCommodityidByAll();
+			if (commonityInfo.size() != 0) {
+				for (Map.Entry<String, String> temp : commonityInfo.entrySet()) {
+					String tempStr = "";
+					String commId = temp.getKey();
+					String commName = temp.getValue();
+					tempStr = commName + "(" + commId + ")" + "|";
+					result += tempStr;
+				}
+				logger.info(result);
+				return result;
+			} else {
+				return "null";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
 
 	// 添加特殊手续费
 	@RequestMapping(value = "/addSpecialCounterfeeInfo")

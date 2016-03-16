@@ -3,20 +3,29 @@ package com.yrdce.ipo.modules.sys.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.vo.Specialcounterfee;
 
 @Service
 public class SpecialCounterFeeImpl implements SpecialCounterFeeService {
+
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SpecialCounterFeeImpl.class);
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
+
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfMapper;
 
 	@Override
 	public int insertSpecialcounterfeeInfo(Specialcounterfee specialcounterfee) throws Exception {
@@ -89,6 +98,20 @@ public class SpecialCounterFeeImpl implements SpecialCounterFeeService {
 	@Override
 	public int selectCountsById(String id) throws Exception {
 		return ipoSpecialcounterfeeMapper.selectCountsById(id);
+	}
+
+	// 获得商品名称以及商品代码
+	@Override
+	public Map<String, String> getCommodityidByAll() throws Exception {
+		logger.info("获取商品名称和编号");
+		List<IpoCommodityConf> listComms = ipoCommodityConfMapper.getcommIdAndName();
+		Map<String, String> map = new HashMap<String, String>();
+		for (IpoCommodityConf ipoCommodity : listComms) {
+			String id = ipoCommodity.getCommodityid();
+			String name = ipoCommodity.getCommodityname();
+			map.put(id, name);
+		}
+		return map;
 	}
 
 }
