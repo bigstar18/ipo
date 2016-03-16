@@ -43,11 +43,19 @@
             align: 'center'
           },{
           field: 'endtime',
-          title: '发售结束日期',
+          title: '摇号日期',
           width : 200,
           align: 'center' ,
           formatter:function(value, row){
-        	  return value.substr(0,10);
+        	   var arr1 = value.split(" "); 
+        	   var sdate = arr1[0].split('-');
+        	   var date = new Date(sdate[0], sdate[1]-1, sdate[2],"", "",""); 
+        	   var AddDayNumber = 1;          
+        	   date.setDate(date.getDate() + AddDayNumber); 
+        	   var y = date.getFullYear();
+		       var m = date.getMonth() + 1;
+		       var d = date.getDate();
+		       return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
           }
         },{
           field: 'amount',
