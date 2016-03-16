@@ -490,6 +490,41 @@ public class PublisherController {
 	}
 
 	/**
+	 * 库存转持仓列表
+	 * 
+	 * @param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/transferQuery", method = RequestMethod.POST)
+	@ResponseBody
+	public String transferQuery(@RequestParam("page") String page,
+			@RequestParam("rows") String rows, PublisherPosition transposition)
+			throws IOException {
+		log.info("分页查询已设置的转持仓信息");
+		log.debug(transposition.toString());
+		try {
+			ResponseResult result = new ResponseResult();
+			int totalnums = publisherpositionService
+					.getPubPositionNum(transposition);
+			if (totalnums == 0) {
+				result.setTotal(0);
+				result.setRows(null);
+			} else {
+				List<PublisherPosition> tlist = publisherpositionService
+						.getInfoByPage(page, rows, transposition);
+				result.setTotal(totalnums);
+				result.setRows(tlist);
+			}
+			log.debug(JSON.json(result));
+			return JSON.json(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	/**
 	 * 减持设置查询
 	 * 
 	 * @param

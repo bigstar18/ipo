@@ -369,6 +369,9 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("发行商转持仓,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/transferPosition.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("库存转持仓查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/transferQuery.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("发行商减持设置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/publisherQuery/reduce.jsp");
 									M01.add(M0101);</SCRIPT>
 									
