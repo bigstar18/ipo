@@ -18,7 +18,7 @@ public interface ChargeConstant {
 
 	// 业务类型
 	public static enum BusinessType {
-		UNDERWRITE("001", "承销业务"), PUBLISH("002", "发行业务"), MEMBER("003", "经济业务"), INCREASE_PUBLISH(
+		UNDERWRITE("001", "承销业务"), PUBLISH("002", "发行业务"), MEMBER("003", "经纪业务"), INCREASE_PUBLISH(
 				"004", "增发业务"), DELIVERY("005", "交收业务"), PURCHASE("006", "申购业务"), TRUSTEESHIP(
 				"007", "库转交易业务");
 
