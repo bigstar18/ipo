@@ -67,7 +67,8 @@
 							         <tr>
         			 					<td align="right" width="110">入库件数：</td>
 	      								<td width="110" class="required">
-	      								    <input id="storagenum" type="text" name="storagenum" style="background-color: white;" onfocus="checkCommodity()" onblur="getStorageCounts()"/>*
+	      								    <input id="storagenum" type="text" name="storagenum" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" style="background-color: white;" onfocus="checkCommodity()" onblur="getStorageCounts()"/>*
 		          						</td>
 		          						<td align="right" width="110">入库数量：</td>     
             							<td width="110">
