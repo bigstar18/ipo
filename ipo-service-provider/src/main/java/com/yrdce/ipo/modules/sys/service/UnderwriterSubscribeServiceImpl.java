@@ -259,14 +259,16 @@ public class UnderwriterSubscribeServiceImpl implements
 	}
 
 	@Override
-	public String checkTotalCounts(String commodityId) {
+	public String checkTotalCounts(String commodityId, Long quantity) {
 		Long subcounts = underwriterSubscribrmapper
 				.selectSubscibedCounts(commodityId);// 已认购的数量
 		Long totalcounts = underwriterSubscribrmapper
 				.selectTotalCounts(commodityId);// 供认购的总数
 		if (totalcounts != null) {
 			if (subcounts == null) {
-				subcounts = (long) 0;
+				subcounts = quantity;
+			} else {
+				subcounts = subcounts + quantity;
 			}
 			if (subcounts < totalcounts) {
 				return "true";

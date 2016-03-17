@@ -71,7 +71,7 @@ public interface UnderwriterSubscribeService {
 	 * @param example
 	 * @return
 	 */
-	public String checkTotalCounts(String commodityId);
+	public String checkTotalCounts(String commodityId, Long quantity);
 
 	/**
 	 * 查询认购的商品是否超出冻结资金

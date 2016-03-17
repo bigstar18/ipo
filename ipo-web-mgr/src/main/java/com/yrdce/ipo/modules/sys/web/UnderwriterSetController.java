@@ -195,8 +195,9 @@ public class UnderwriterSetController {
 					return "existed";
 				}
 				if (flag.equals("false")) {
-					String tag = underwritersubscribeService
-							.checkTotalCounts(example.getCommodityid());
+					String tag = underwritersubscribeService.checkTotalCounts(
+							example.getCommodityid(),
+							example.getSubscribecounts());
 					if (tag != null) {
 						if (tag.equals("false")) {
 							return "full";
