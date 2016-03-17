@@ -1,9 +1,12 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class TCustomerholdsum {
-	private String customerid;//交易员id
+public class THFirmholdsum {
+	private Date cleardate;//创建时间
+
+	private String firmid;//交易商id
 
 	private String commodityid;//商品id
 
@@ -17,28 +20,26 @@ public class TCustomerholdsum {
 
 	private BigDecimal evenprice;//持仓均价
 
-	private Long frozenqty;//冻结数量
-
 	private BigDecimal holdmargin;//实时保证金
 
 	private Long gageqty;//抵顶数量
 
-	private BigDecimal holdassure;//持仓担保金
+	private BigDecimal holdassure;//持仓保证金
 
-	private String firmid;//交易商id
-
-	private Long gagefrozenqty;//抵顶冻结数量
-
-	private String warehouseName;
-
-	private String warehouseId;
-
-	public String getCustomerid() {
-		return customerid;
+	public Date getCleardate() {
+		return cleardate;
 	}
 
-	public void setCustomerid(String customerid) {
-		this.customerid = customerid == null ? null : customerid.trim();
+	public void setCleardate(Date cleardate) {
+		this.cleardate = cleardate;
+	}
+
+	public String getFirmid() {
+		return firmid;
+	}
+
+	public void setFirmid(String firmid) {
+		this.firmid = firmid == null ? null : firmid.trim();
 	}
 
 	public String getCommodityid() {
@@ -89,14 +90,6 @@ public class TCustomerholdsum {
 		this.evenprice = evenprice;
 	}
 
-	public Long getFrozenqty() {
-		return frozenqty;
-	}
-
-	public void setFrozenqty(Long frozenqty) {
-		this.frozenqty = frozenqty;
-	}
-
 	public BigDecimal getHoldmargin() {
 		return holdmargin;
 	}
@@ -120,37 +113,4 @@ public class TCustomerholdsum {
 	public void setHoldassure(BigDecimal holdassure) {
 		this.holdassure = holdassure;
 	}
-
-	public String getFirmid() {
-		return firmid;
-	}
-
-	public void setFirmid(String firmid) {
-		this.firmid = firmid == null ? null : firmid.trim();
-	}
-
-	public Long getGagefrozenqty() {
-		return gagefrozenqty;
-	}
-
-	public void setGagefrozenqty(Long gagefrozenqty) {
-		this.gagefrozenqty = gagefrozenqty;
-	}
-
-	public String getWarehouseName() {
-		return warehouseName;
-	}
-
-	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName;
-	}
-
-	public String getWarehouseId() {
-		return warehouseId;
-	}
-
-	public void setWarehouseId(String warehouseId) {
-		this.warehouseId = warehouseId;
-	}
-
 }

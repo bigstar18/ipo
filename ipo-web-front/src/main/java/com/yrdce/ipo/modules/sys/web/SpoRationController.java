@@ -35,7 +35,7 @@ public class SpoRationController {
 		logger.info("配售信息");
 		try {
 			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			spo.setFirmid(dealerId);
+			spo.setFirmid(dealerId);//dealerId
 			List<SpoRation> spoList = spoService.getMyRationInfo(spo, page, rows);
 			int counts = spoService.getRationInfoCounts(spo);
 			logger.info(String.valueOf(counts));
@@ -57,6 +57,7 @@ public class SpoRationController {
 		logger.info("确认配售");
 		try {
 			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			//String dealerId = "hl";
 			int result = spoService.updateRationType(Long.parseLong(rationId), dealerId);
 			if (result == 1) {
 				return "success";

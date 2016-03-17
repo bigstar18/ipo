@@ -335,4 +335,9 @@
   <select id="selectFirmid" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select <include refid="Base_Column_List"/> from IPO_DELIVERYORDER where DEALER_ID = #{dealerId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="findByFirmIdAndDate" resultMap="BaseResultMap" parameterType="map">
+  	select <include refid="Base_Column_List"/> from IPO_DELIVERYORDER where DEALER_ID = #{dealerId,jdbcType=VARCHAR}
+  	and to_char(APPLY_DATE,'yyyy-MM-dd') = #{date,jdbcType=VARCHAR}
+  </select>
 </mapper>

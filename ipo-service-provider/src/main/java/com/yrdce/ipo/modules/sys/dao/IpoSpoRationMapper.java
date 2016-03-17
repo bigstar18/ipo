@@ -67,6 +67,24 @@ public interface IpoSpoRationMapper {
 	 * @param rationid
 	 * @return 参数说明
 	 */
-	int updateCounts(@Param("rationCounts") long rationCounts, @Param("rationId") long rationid);
+	int updateCounts(@Param("rationCounts") long rationCounts, @Param("rationloan") BigDecimal rationloan,
+			@Param("servicefee") BigDecimal servicefee, @Param("rationSate") int rationSate,
+			@Param("rationId") long rationid);
+
+	/**
+	 * @Title: findRationInfo
+	 * @Description: 客户端确认配售列表
+	 * @param beginnum
+	 * @param endnum
+	 * @param ipospocomm
+	 */
+	List<IpoSpoRation> findRationInfo(@Param("beginnum") int beginnum, @Param("endnum") int endnum,
+			@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
+
+	/**
+	 * @Title: findRationInfoCounts
+	 * @Description: 客户端确认配售列表条数
+	 */
+	int findRationInfoCounts(@Param("IpoSpoComm") IpoSpoCommoditymanmaagement ipospocomm);
 
 }

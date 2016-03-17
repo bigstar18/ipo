@@ -36,7 +36,7 @@ public class StatisticsReportController {
 
 	@RequestMapping(value = "/purchase", method = RequestMethod.GET)
 	public String purchase(Model model) {
-		Map<String, String> comMap = statisticsReportService.getCommIdList();
+		Map<String, String> comMap = statisticsReportService.cGetCommIdList();
 		model.addAttribute("comMap", comMap);
 		return "app/statisticsReport/purchaseindex";
 	}
@@ -51,7 +51,7 @@ public class StatisticsReportController {
 				settles.add(result);
 			}
 		} else {
-			Map<String, String> comMap = statisticsReportService.getCommIdList();
+			Map<String, String> comMap = statisticsReportService.cGetCommIdList();
 			for (String id : comMap.keySet()) {
 				SettleResult result = setPurchase(id, time);
 				settles.add(result);
@@ -63,8 +63,8 @@ public class StatisticsReportController {
 	}
 
 	private SettleResult setPurchase(String commid, String time) {
-		Commodity commod = statisticsReportService.getCommd(commid);
-		List<Order> list1 = statisticsReportService.getOrderList(commid, time);
+		Commodity commod = statisticsReportService.cGetCommd(commid);
+		List<Order> list1 = statisticsReportService.oGetOrderList(commid, time);
 		List<Purchase> list = new ArrayList<Purchase>();
 		int purCount = 0;
 		BigDecimal purCost = new BigDecimal(0);

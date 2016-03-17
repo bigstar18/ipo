@@ -82,6 +82,11 @@
 		<div class="menu_3" id="2001001010" action="<%=request.getContextPath()%>/front/app/SPO/rationInfo_determine.jsp">确认配售</div>
 		<div class="menu_3" id="2001001010" action="<%=request.getContextPath()%>/front/app/SPO/rationInfo.jsp">配售查询</div>
 	</div>
+	
+	<div class="menu_1" id="3001001000">报表查询</div>
+	<div id="3001001000Div" style="display: none;">
+		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/BillingReportController/getInfo">资金结算信息</div>
+	</div>
 	<%-- <div class="menu_1" id="3001001000">交收提货</div>
 	<div id="3001001000Div" style="display: none;">
 		<div class="menu_3" id="3001001010" action="<%=request.getContextPath()%>/SettlementDeliveryController/deliveryview">提货申请</div>

@@ -143,7 +143,8 @@
   		  remark,create_user, create_date 
   		  from ipo_debitflow t where t.business_type = #{businessType} and t.charge_type=#{chargeType} and t.payer=#{payer}
   </select>
-      <select id="selectDebitFlowByPublisher" resultMap="IpoDebitFlowResultMap"  parameterType="map" >
+  
+  <select id="selectDebitFlowByPublisher" resultMap="IpoDebitFlowResultMap"  parameterType="map" >
       	select a.commodity_id,sum(a.amount) from(select p.*  from ipo_commodity_conf t  left join ipo_debitflow p
     on p.commodity_id = t.commodityid  where t.pubmemberid =#{pubmemberid,jdbcType=VARCHAR}  and p.business_type = '002'  and p.charge_type = '001'
    and p.debit_state = '2'   and p.debit_mode='1'   and p.debit_channel='1' and to_char(p.debit_date,'yyyy-mm-dd')=#{queryDate,jdbcType=VARCHAR} )a group by a.commodity_id
@@ -158,52 +159,52 @@
 		and de.id = #{param.id}
 	</if>
 	<if test="param.businessType != null">
-		and de.id = #{param.businessType}
+		and de.business_type = #{param.businessType}
 	</if>
 	<if test="param.chargeType != null">
-		and de.id = #{param.chargeType}
+		and de.charge_type = #{param.chargeType}
 	</if>
 	<if test="param.commodityId != null">
-		and de.id = #{param.commodityId}
+		and de.commodity_id = #{param.commodityId}
 	</if>
 	<if test="param.orderId != null">
-		and de.id = #{param.orderId}
+		and de.order_id = #{param.orderId}
 	</if>
 	<if test="param.debitState != null">
-		and de.id = #{param.debitState}
+		and de.debit_state = #{param.debitState}
 	</if>
 	<if test="param.payer != null">
-		and de.id = #{param.payer}
+		and de.payer = #{param.payer}
 	</if>
 	<if test="param.amount != null">
-		and de.id = #{param.amount}
+		and de.amount = #{param.amount}
 	</if>
 	<if test="param.debitMode != null">
-		and de.id = #{param.debitMode}
+		and de.debit_mode = #{param.debitMode}
 	</if>
 	<if test="param.debitChannel != null">
-		and de.id = #{param.debitChannel}
+		and de.debit_channel = #{param.debitChannel}
 	</if>
 	<if test="param.debitDate != null">
-		and de.id = #{param.debitDate}
+		and (de.debit_date,'yyyy-MM-dd') = to_char(#{param.debitDate},'yyyy-MM-dd')
 	</if>
 	<if test="param.remark != null">
-		and de.id = #{param.remark}
+		and de.remark = #{param.remark}
 	</if>
 	<if test="param.buyBackFlag != null">
-		and de.id = #{param.buyBackFlag}
+		and de.buy_back_flag = #{param.buyBackFlag}
 	</if>
 	<if test="param.createUser != null">
-		and de.id = #{param.createUser}
+		and de.create_user = #{param.createUser}
 	</if>
 	<if test="param.createDate != null">
-		and de.id = #{param.createDate}
+		and to_char(de.create_date,'yyyy-MM-dd') = to_char(#{param.createDate},'yyyy-MM-dd')
 	</if>
 	<if test="param.updateUser != null">
-		and de.id = #{param.updateUser}
+		and de.update_user = #{param.updateUser}
 	</if>
 	<if test="param.updateDate != null">
-		and de.id = #{param.updateDate}
+		and to_char(de.update_date,'yyyy-MM-dd') = to_char(#{param.updateDate},'yyyy-MM-dd')
 	</if>
   </select>
 </mapper>

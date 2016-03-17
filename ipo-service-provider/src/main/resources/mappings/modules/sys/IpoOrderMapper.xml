@@ -397,5 +397,10 @@
 		select * from IPO_ORDER t where t.commodityid = #{commodityid,jdbcType=VARCHAR} 
 		and to_char(t.createtime,'yyyy-MM-dd')= #{time,jdbcType=VARCHAR} 
 	</select>
+	
+	<select id="findFirmIdAndDate" resultMap="BaseResultMap" parameterType="map">
+		select * from IPO_ORDER t where t.userid = #{firmid,jdbcType=VARCHAR} 
+		and to_char(t.createtime,'yyyy-MM-dd')= #{time,jdbcType=VARCHAR} 
+	</select>
    
 </mapper>

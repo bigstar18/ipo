@@ -84,7 +84,7 @@ public class SPOServiceImpl implements SPOService {
 		int endNum = Integer.parseInt(page) * Integer.parseInt(rows);
 		IpoSpoCommoditymanmaagement ipoSpoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoCommo, ipoSpoComm);
-		List<IpoSpoRation> ipoSpos = ipoSpoRationMapper.getMyRationInfo(beginNum, endNum, ipoSpoComm);
+		List<IpoSpoRation> ipoSpos = ipoSpoRationMapper.findRationInfo(beginNum, endNum, ipoSpoComm);
 		List<SpoRation> spos = new ArrayList<SpoRation>();
 		for (IpoSpoRation ipoSpo2 : ipoSpos) {
 			SpoRation tempSpo = new SpoRation();
@@ -101,7 +101,7 @@ public class SPOServiceImpl implements SPOService {
 		}
 		IpoSpoCommoditymanmaagement ipoSpoComm = new IpoSpoCommoditymanmaagement();
 		BeanUtils.copyProperties(spoComm, ipoSpoComm);
-		int counts = ipoSpoRationMapper.getRationInfoCounts(ipoSpoComm);
+		int counts = ipoSpoRationMapper.findRationInfoCounts(ipoSpoComm);
 		return counts;
 	}
 
@@ -140,7 +140,6 @@ public class SPOServiceImpl implements SPOService {
 			fundsMapper.getfrozen(param1);
 			String rationIdparam = Long.toString(rationId);
 			this.fundsFlow(commodityid, rationIdparam, dealerId, money, fee, pubmemberid);
-			//TODO  没有更新钱
 			int result = ipoSpoRationMapper.updateRationType(rationId);
 			if (result > 0) {
 				return 1;
@@ -302,30 +301,38 @@ public class SPOServiceImpl implements SPOService {
 		} else {
 			//比例配售
 			BigDecimal price = ipoSPOComm.getSpoPrice();
+			String comid = ipoSPOComm.getCommodityId();
 			for (SpoRation spoRation : spoRationList) {
 				IpoSpoRation ipoSpoRation = new IpoSpoRation();
 				BeanUtils.copyProperties(spoRation, ipoSpoRation);
-				String rationid = ipoSpoRation.getRationid().toString();
-				Map<String, Integer> paramMap = setProportion(ipoSpoRation, rationid, counts, price);
+
+				Map<String, Integer> paramMap = setProportion(ipoSpoRation, counts, price, comid);
 				int sumParam = paramMap.get("sum");
 				sum += sumParam;
 				int resultParam = paramMap.get("result");
+				if (resultParam == 0)
+					return resultParam;
 				result += resultParam;
+				// 更新已配售和未配售
+				Long balance = counts - sum;
+				logger.info("共计和：" + sum);
+				ipoSPOCommMapper.updatePlscingNum(sum, balance, spoid);
 			}
 		}
-		// 更新已配售和未配售
-		Long balance = counts - sum;
-		logger.info("共计和：" + sum);
-		ipoSPOCommMapper.updatePlscingNum(sum, balance, spoid);
 		return result;
 	}
 
 	//比例配售配置
-	private Map<String, Integer> setProportion(IpoSpoRation ipoSpoRation, String rationid, long counts,
-			BigDecimal price) {
+	private Map<String, Integer> setProportion(IpoSpoRation ipoSpoRation, long counts, BigDecimal price,
+			String comid) {
 		int result = 0;
 		int sum = 0;
+		String rationid = ipoSpoRation.getRationid().toString();
 		if (!rationid.equals("0")) {
+			String firmId = ipoSpoRation.getFirmid();
+			BigDecimal money = ipoSpoRation.getRationloan();
+			BigDecimal fee = ipoSpoRation.getServicefee();
+			fThaw(firmId, money.add(fee));
 			ipoSpoRationMapper.deleteByPrimaryKey(Long.parseLong(rationid));
 		}
 		String brokerid = ipoSpoRation.getBrokerid();
@@ -341,13 +348,19 @@ public class SPOServiceImpl implements SPOService {
 		long sumparam = (long) (counts * (pro / 100));
 		BigDecimal priceparam = new BigDecimal(sumparam);
 		BigDecimal rationloan = price.multiply(priceparam);
+		BigDecimal fee = getFee(firmid, comid, rationloan, priceparam);//调用手续费算法
 		ipoSpoRation.setRationloan(rationloan);
+		ipoSpoRation.setServicefee(fee);
 		ipoSpoRation.setRationcounts(sumparam);
 		ipoSpoRation.setOperationdate(new Date());
 		ipoSpoRation.setRationSate(1);
-		logger.info("插入承销商配售总数：" + sumparam);
-		sum += sumparam;
-		result += ipoSpoRationMapper.insert(ipoSpoRation);
+		boolean value = capital(firmid, rationloan.add(fee));
+		if (value) {
+			logger.info("插入承销商配售总数：" + sumparam);
+			sum += sumparam;
+			result += ipoSpoRationMapper.insert(ipoSpoRation);
+		}
+
 		/*} else {
 			// 获取以配售总和
 			BigDecimal proportion = ipoSpoRation.getSalesAllocationratio();
@@ -411,12 +424,13 @@ public class SPOServiceImpl implements SPOService {
 				return BROKER_NOT_EXIST;
 			} else {
 				String id = getFirmid(firmid);
-				boolean value = capital(id, cost);
+				BigDecimal fee = getFee(id, ipoSpoCom.getCommodityId(), cost, countsParam);//调用手续费算法
+				boolean value = capital(id, cost.add(fee));
 				if (value) {
 					long rationid = ipoSpoRation.getRationid();
 					long rationCounts = ipoSpoRation.getRationcounts();
 					all = Long.parseLong(count) + rationCounts;
-					ipoSpoRationMapper.updateCounts(all, rationid);
+					ipoSpoRationMapper.updateCounts(all, cost, fee, 2, rationid);
 				}
 			}
 		} else if (type.equals(TRADING_CLIENTS)) {
@@ -424,7 +438,8 @@ public class SPOServiceImpl implements SPOService {
 			if (name == null) {
 				return BROKER_NOT_EXIST;
 			} else {
-				boolean value = capital(firmid, cost);
+				BigDecimal fee = getFee(firmid, ipoSpoCom.getCommodityId(), cost, countsParam);//调用手续费算法
+				boolean value = capital(firmid, cost.add(fee));
 				if (value) {
 					all = Long.parseLong(count);
 					IpoSpoRation record = new IpoSpoRation();
@@ -434,6 +449,8 @@ public class SPOServiceImpl implements SPOService {
 					record.setOperationdate(new Date());
 					record.setFirmname(name);
 					record.setRationSate(2);
+					record.setServicefee(fee);
+					record.setRationloan(cost);
 					ipoSpoRationMapper.insert(record);
 				} else {
 					return INSUFFICIENT_FUNDS;
@@ -517,6 +534,7 @@ public class SPOServiceImpl implements SPOService {
 		String type = ipoSpoComm.getRationType();
 		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
+		//比例配售
 		if (type.equals(PROPORTION_PLACING)) {
 			for (IpoSpoRation ipoSpoRation : list2) {
 				String salesid = ipoSpoRation.getSalesid();// 承销商id
@@ -524,6 +542,14 @@ public class SPOServiceImpl implements SPOService {
 				if (salesid != null) {
 					underwriter(ipoSpoRation, price, ipoCommodityConf, commid, userid);//承销商设置
 				} else {
+					String rationid = ipoSpoRation.getRationid().toString();
+					BigDecimal money = ipoSpoRation.getRationloan();
+					BigDecimal fee = ipoSpoRation.getServicefee();
+					String pubmemberid = ipoCommodityConf.getPubmemberid();
+					String value = this.fundsFlow(commid, rationid, userid, money, fee, pubmemberid);
+					if (!"success".equals(value)) {
+						return 0;
+					}
 					logger.info("散户调用转持仓");
 					long countsparam = ipoSpoRation.getRationcounts();
 					this.transferPosition(userid, ipoCommodityConf, countsparam, price, "retail");
@@ -558,23 +584,25 @@ public class SPOServiceImpl implements SPOService {
 	private boolean underwriter(IpoSpoRation ipoSpoRation, BigDecimal price,
 			IpoCommodityConf ipoCommodityConf, String commid, String userid) {
 		String pubmemberid = ipoCommodityConf.getPubmemberid();
-		String firmid = ipoSpoRation.getFirmid();// 交易商id
+		//String firmid = ipoSpoRation.getFirmid();// 交易商id
 		long counts = ipoSpoRation.getRationcounts();// 买了多少
 		long rationId = ipoSpoRation.getRationid();
 		String rationIdparam = Long.toString(rationId);
 		BigDecimal countsparam = new BigDecimal(counts);
-		BigDecimal money = countsparam.multiply(price);// 计算应冻结多少
-		BigDecimal fee = getFee(firmid, commid, money, countsparam);//调用手续费算法
-		BigDecimal moneyPaeam = money.add(fee);
-		float allmoney = moneyPaeam.floatValue();
+		BigDecimal money = ipoSpoRation.getRationloan();
+		BigDecimal fee = ipoSpoRation.getServicefee();
+		//BigDecimal money = countsparam.multiply(price);// 计算应冻结多少
+		//BigDecimal fee = getFee(firmid, commid, money, countsparam);//调用手续费算法
+		//BigDecimal moneyPaeam = money.add(fee);
+		//float allmoney = moneyPaeam.floatValue();
 		// 资金冻结
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("money", "");
-		param.put("userid", firmid);
-		param.put("amount", allmoney);
-		param.put("moduleid", "40");
-		fundsMapper.getfrozen(param);
-		ipoSpoRationMapper.updateServicefee(fee, rationId);// 更新手续费
+		//Map<String, Object> param = new HashMap<String, Object>();
+		//param.put("money", "");
+		//param.put("userid", firmid);
+		//param.put("amount", allmoney);
+		//param.put("moduleid", "40");
+		//fundsMapper.getfrozen(param);
+		//ipoSpoRationMapper.updateServicefee(fee, rationId);// 更新手续费
 		String value = this.fundsFlow(commid, rationIdparam, userid, money, fee, pubmemberid);
 		if (!"success".equals(value)) {
 			return false;
@@ -652,7 +680,6 @@ public class SPOServiceImpl implements SPOService {
 	@Override
 	@Transactional
 	public int spoFail(Integer rationSate, String spoid) {
-		//TODO
 		List<IpoSpoRation> list1 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
 		for (IpoSpoRation spoRation : list1) {
 			BigDecimal count = spoRation.getRationloan();
@@ -761,7 +788,7 @@ public class SPOServiceImpl implements SPOService {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("money", "");
 		param.put("userid", userid);
-		param.put("lock", 0);
+		param.put("lock", 1);
 		fundsMapper.getMonery(param);
 		BigDecimal money = (BigDecimal) param.get("money");
 		if (money.compareTo(cost) != -1) {
@@ -776,5 +803,21 @@ public class SPOServiceImpl implements SPOService {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean fThaw(String userid, BigDecimal cost) {
+		try {
+			float amount = 0 - cost.floatValue();
+			Map<String, Object> param1 = new HashMap<String, Object>();
+			param1.put("money", "");
+			param1.put("userid", userid);
+			param1.put("amount", amount);
+			param1.put("moduleid", "40");
+			fundsMapper.getfrozen(param1);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 }

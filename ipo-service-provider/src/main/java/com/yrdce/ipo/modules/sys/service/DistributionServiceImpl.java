@@ -42,11 +42,13 @@ public class DistributionServiceImpl implements DistributionService {
 		int pagesize = Integer.parseInt(rows);
 		List<Distribution> list2 = new ArrayList<Distribution>();
 		List<IpoDistributionExtended> list;
-		String time = DateUtil.getTime(1);
+		String time = DateUtil.getTime(0);
 		if (condition.equals("yes")) {
-			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize, userid, time);
+			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize,
+					userid, time);
 		} else {
-			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize, userid, null);
+			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize,
+					userid, null);
 		}
 		for (int i = 0; i < list.size(); i++) {
 			Distribution distrib = new Distribution();

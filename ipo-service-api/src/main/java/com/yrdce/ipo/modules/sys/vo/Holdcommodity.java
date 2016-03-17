@@ -11,33 +11,33 @@ import java.util.Date;
 public class Holdcommodity {
 	private long id;
 
-	private String brokerid;
+	private String brokerid;//会员id
 
-	private String brokername;
+	private String brokername;//会员名称
 
-	private String firmid;
+	private String firmid;//交易商id
 
-	private String commodityid;
+	private String commodityid;//商品id
 
-	private String commodityname;
+	private String commodityname;//商品名称
 
-	private Short bsFlag;
+	private Short bsFlag;//买卖标志
 
-	private long holdqty;
+	private long holdqty;//持仓量
 
-	private long frozenqty;
+	private long frozenqty;//冻结量
 
-	private long quantityavailable;
+	private long quantityavailable;//可用数量
 
-	private BigDecimal evenprice;
+	private BigDecimal evenprice;//持仓均价
 
-	private BigDecimal price;
+	private BigDecimal price;//持仓价
 
-	private BigDecimal holdinggainsandlosses;
+	private BigDecimal holdinggainsandlosses;//持有盈亏
 
-	private BigDecimal marketvalue;
+	private BigDecimal marketvalue;//持有市值
 
-	private Date createtime;
+	private Date createtime;//创建时间
 
 	public long getId() {
 		return id;

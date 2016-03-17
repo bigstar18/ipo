@@ -164,32 +164,38 @@ public class SPOTask {
 	public void automaticFail() {
 		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("1", new Date(), 3);
 		logger.info("list长度{}", list.size());
-		int a = 0;
-		for (IpoSpoCommoditymanmaagement ipospocomm : list) {
-			String spoid = ipospocomm.getSpoId();
-			long notcounts = ipospocomm.getNotRationCounts();
-			long mincounts = ipospocomm.getMinRationCounts();
-			if (notcounts > mincounts) {
-				a = ipoSPOCommMapper.updateByStatus(3, spoid);
-				List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
-				for (IpoSpoRation ipoSpoRation : list2) {
-					String firmid = ipoSpoRation.getFirmid();
-					BigDecimal rationLoan = ipoSpoRation.getRationloan() != null
-							? ipoSpoRation.getRationloan() : new BigDecimal(0);
-					BigDecimal serviceFee = ipoSpoRation.getServicefee() != null
-							? ipoSpoRation.getServicefee() : new BigDecimal(0);
-					BigDecimal all = rationLoan.add(serviceFee);
-					float allmoney = 0 - all.floatValue();
-					logger.info("解冻资金共计：{},交易商代码：{}", allmoney, firmid);
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("money", "");
-					param.put("userid", firmid);
-					param.put("amount", allmoney);
-					param.put("moduleid", "40");
-					fundsMapper.getfrozen(param);
+		try {
+			int a = 0;
+			for (IpoSpoCommoditymanmaagement ipospocomm : list) {
+				String spoid = ipospocomm.getSpoId();
+				long notcounts = (long) ipospocomm.getNotRationCounts();
+				long mincounts = (long) ipospocomm.getMinRationCounts();
+				if (notcounts > mincounts) {
+					ipoSPOCommMapper.updateByStatus(3, spoid);
+					List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
+					if (list2.size() != 0 || !list2.isEmpty())
+						for (IpoSpoRation ipoSpoRation : list2) {
+							String firmid = ipoSpoRation.getFirmid();
+							BigDecimal rationLoan = ipoSpoRation.getRationloan() != null
+									? ipoSpoRation.getRationloan() : new BigDecimal(0);
+							BigDecimal serviceFee = ipoSpoRation.getServicefee() != null
+									? ipoSpoRation.getServicefee() : new BigDecimal(0);
+							BigDecimal all = rationLoan.add(serviceFee);
+							float allmoney = 0 - all.floatValue();
+							logger.info("解冻资金共计：{},交易商代码：{}", allmoney, firmid);
+							Map<String, Object> param = new HashMap<String, Object>();
+							param.put("money", "");
+							param.put("userid", firmid);
+							param.put("amount", allmoney);
+							param.put("moduleid", "40");
+							fundsMapper.getfrozen(param);
+						}
 				}
 			}
+			logger.info("更新{}数据", a);
+		} catch (Exception e) {
+			logger.error("异常{}", e);
 		}
-		logger.info("更新{}数据", a);
 	}
+
 }

@@ -193,7 +193,7 @@ legend {
 			var firmid = $('#firmid').val();
 			var counts = $('#count').val();
 			var notRationCounts = $('#notRationCounts').val();
-			if(counts < notRationCounts ){
+			if(counts != 0 && counts <= notRationCounts ){
 				$.ajax({
 					type : "POST",
 					url : "<%=request.getContextPath()%>/SPOController/adddir",

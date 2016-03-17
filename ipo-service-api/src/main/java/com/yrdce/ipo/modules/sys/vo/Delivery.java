@@ -11,25 +11,25 @@ import java.util.Date;
 public class Delivery {
 	private long id;
 
-	private String brokerid;
+	private String brokerid;//会员id
 
-	private String brokername;
+	private String brokername;//会员名称
 
-	private String firmid;
+	private String firmid;//交易商id
 
-	private String commodityid;
+	private String commodityid;//商品id
 
-	private String commodityname;
+	private String commodityname;//商品名称
 
-	private long quantity;
+	private long quantity;//数量
 
-	private long counts;
+	private long counts;//件数
 
-	private String deliverytype;
+	private String deliverytype;//类型
 
-	private BigDecimal transferfee;
+	private BigDecimal transferfee;//过户费
 
-	private BigDecimal postage;
+	private BigDecimal postage;//运费
 
 	private Date transferdate;
 

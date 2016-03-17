@@ -108,11 +108,14 @@
   	SELECT COUNT(r.rationid) FROM
 	 IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
   	 WHERE 1=1
-  	 <if test="IpoSpoComm.commodityId != null" >
+  	 <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId != ''" >
        AND c.COMMODITY_ID = #{IpoSpoComm.commodityId} 
      </if>
      <if test="IpoSpoComm.registerDateSart !=null and IpoSpoComm.registerDateEnd!=null">
      	and c.register_date between to_date(#{IpoSpoComm.registerDateSart},'yyyy-mm-dd') and to_date(#{IpoSpoComm.registerDateEnd},'yyyy-mm-dd')
+     </if>
+     <if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
+     	and r.FIRMID = #{IpoSpoComm.firmid}
      </if>
   </select>
   
@@ -122,7 +125,10 @@
 	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.COMMODITY_ID,c.register_date,
 	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
 	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
-	where  r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
+	where  1=1
+	<if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
+	and r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
+	</if>
     <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId !=''">
     and c.COMMODITY_ID = #{IpoSpoComm.commodityId,jdbcType=VARCHAR}
     </if>
@@ -131,6 +137,30 @@
      </if>
      ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
+  
+  <select id="findRationInfo" resultMap="BaseResultMap" parameterType="map">
+  select * from (
+    select r.RATIONID, r.SPOID, r.RATIONCOUNTS, r.FIRMID, r.OPERATIONDATE, r.RATIONLOAN, r.SERVICEFEE, 
+	r.SALES_ALLOCATIONRATIO, r.SALES_REBATERATIO, r.FIRMNAME, r.SALESID,r.RATION_SATE,c.COMMODITY_ID,c.register_date,
+	c.SPO_COUNTS,c.SPO_PRICE,c.SPO_DATE,c.IPO_DATE,
+	rownum TNO from IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
+	where  c.ration_type ='1'
+	<if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
+	and r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
+	</if>
+	
+     ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
+  </select>
+  
+  <select id="findRationInfoCounts" resultType="java.lang.Integer" parameterType="map">
+  	SELECT COUNT(r.rationid) FROM
+	 IPO_SPO_RATION r left join ipo_spo_commoditymanmaagement c on r.spoid = c.spo_id
+  	 WHERE c.ration_type ='1'
+     <if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
+     	and r.FIRMID = #{IpoSpoComm.firmid}
+     </if>
+  </select>
+  
   <update id="updateRationType" parameterType="java.lang.Long" >
     update IPO_SPO_RATION
     set 
@@ -188,6 +218,10 @@
   
   <update id="updateCounts" parameterType="map">
   	update IPO_SPO_RATION
-    set RATIONCOUNTS = #{rationCounts,jdbcType=DECIMAL} where RATIONID = #{rationId,jdbcType=DECIMAL}
+    set RATIONCOUNTS = #{rationCounts,jdbcType=DECIMAL},
+    	RATIONLOAN = #{rationloan,jdbcType=DECIMAL},
+     	SERVICEFEE = #{servicefee,jdbcType=DECIMAL},
+     	RATION_SATE = #{rationSate,jdbcType=DECIMAL}
+    	 where RATIONID = #{rationId,jdbcType=DECIMAL}
   </update>
 </mapper>

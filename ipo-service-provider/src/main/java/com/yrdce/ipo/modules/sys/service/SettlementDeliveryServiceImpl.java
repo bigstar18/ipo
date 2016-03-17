@@ -342,7 +342,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 	public boolean determine(String deliveryorderid, String userid) {
 		logger.info("客户确认配售收取货款:" + "deliveryorderid:" + deliveryorderid + "userid:" + userid);
 		IpoExpress ipoExpress = ipoExpressMapper.selectExpress(deliveryorderid);
-		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
+		//IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderid);
 		//String commodid = ipoDeliveryorder.getCommodityId();
 		BigDecimal cost = ipoExpress.getCost();
 		boolean statu = capital(userid, cost);
@@ -373,7 +373,9 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String commid = ipoDeliveryorder.getCommodityId();
 		long quatity = ipoDeliveryorder.getDeliveryQuatity();
 		customerHoldSumService.unfreezeCustomerHold(quatity, firmid + "00", commid, (short) 1);
-		if (status == DeliveryConstant.StatusType.MARKETPASS.getCode()) {
+		if (status == DeliveryConstant.StatusType.MARKETPASS.getCode()
+				|| status == DeliveryConstant.StatusType.REGISTER.getCode()
+				|| status == DeliveryConstant.StatusType.EXPRESSCOSTSET.getCode()) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
 			BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
 			deliveryorderservice.unfrozenStock(deliveryOrder);

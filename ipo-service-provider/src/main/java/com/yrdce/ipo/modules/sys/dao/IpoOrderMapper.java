@@ -88,4 +88,12 @@ public interface IpoOrderMapper {
 	 */
 	List<IpoOrder> findCommidAndDate(@Param("commodityid") String commodityid, @Param("time") String time);
 
+	/**
+	 * @Title: findCommidAndDate
+	 * @Description: 根据交易商id和时间查询
+	 * @param firmid
+	 * @param time
+	 */
+	List<IpoOrder> findFirmIdAndDate(@Param("firmid") String firmid, @Param("time") String time);
+
 }

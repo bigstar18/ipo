@@ -24,8 +24,8 @@ function getAllInfo(){
          iconCls:'icon-ok',
          method:"get",
          height:400,
-         pageSize:5,
-         pageList:[5,10,15],
+         pageSize:15,
+         pageList:[10,15,20],
          nowrap:true,
          singleSelect:true,
          striped:true,
@@ -78,6 +78,7 @@ function getAllInfo(){
              align: "center",
              title : '登记日期',
              formatter: function(value,row){
+            	 if(value != null)
                  return value.substr(0,10);
              }
          }, {
@@ -86,6 +87,7 @@ function getAllInfo(){
              align: "center",
              title : '增发日期',
              formatter: function(value,row){
+            	 if(value != null)
                  return value.substr(0,10);
              }
          }, {
@@ -94,6 +96,7 @@ function getAllInfo(){
              align: "center",
              title : '上市日期',
            	 formatter: function(value,row){
+           		if(value != null)
                      return value.substr(0,10);
            	 }
          }, {

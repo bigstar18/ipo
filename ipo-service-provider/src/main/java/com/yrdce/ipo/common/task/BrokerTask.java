@@ -130,17 +130,28 @@ public class BrokerTask {
 			List<IpoDeliveryorder> deliveryOrderList = DeliveryorderMapper.selectFirmid(firmid);
 			for (IpoDeliveryorder ipoDeliveryorder : deliveryOrderList) {
 				String id = ipoDeliveryorder.getDeliveryorderId();
+				logger.info("String id={}", id);
 				String commodityId = ipoDeliveryorder.getCommodityId();
+				logger.info("String commodityId={}", commodityId);
 				String commodityName = ipoDeliveryorder.getCommodityName();
-				long counts = ipoDeliveryorder.getDeliveryCounts();
+				logger.info("String commodityName ={}", commodityName);
+				//TODO  三目运算应拿掉，数据空缺，零时放置
+				long counts = ipoDeliveryorder.getDeliveryCounts() != null
+						? ipoDeliveryorder.getDeliveryCounts() : 0;
+				logger.info("long counts ={}", counts);
 				long quatity = ipoDeliveryorder.getDeliveryQuatity();
+				logger.info("long quatity ={}", quatity);
 				String method = ipoDeliveryorder.getDeliveryMethod();
 				Date apply = ipoDeliveryorder.getApplyDate();
 				IpoDeliveryCost ipoDeliveryCost = ipoDeliveryCostMapper.selectByPrimaryKey(id);
-				BigDecimal deliveryFee = ipoDeliveryCost.getDeliveryFee();
-				BigDecimal insurance = ipoDeliveryCost.getInsurance();
-				BigDecimal trudteeFee = ipoDeliveryCost.getTrusteeFee();
-				BigDecimal warehouseFee = ipoDeliveryCost.getWarehousingFee();
+				BigDecimal deliveryFee = ipoDeliveryCost.getDeliveryFee() != null
+						? ipoDeliveryCost.getDeliveryFee() : new BigDecimal(0);
+				BigDecimal insurance = ipoDeliveryCost.getInsurance() != null ? ipoDeliveryCost.getInsurance()
+						: new BigDecimal(0);
+				BigDecimal trudteeFee = ipoDeliveryCost.getTrusteeFee() != null
+						? ipoDeliveryCost.getTrusteeFee() : new BigDecimal(0);
+				BigDecimal warehouseFee = ipoDeliveryCost.getWarehousingFee() != null
+						? ipoDeliveryCost.getWarehousingFee() : new BigDecimal(0);
 				IpoBilloflading ipoBilloflading = new IpoBilloflading();
 				ipoBilloflading.setBrokerid(brokerid);
 				ipoBilloflading.setBrokername(brokername);
@@ -180,11 +191,16 @@ public class BrokerTask {
 			for (IpoDebitFlow ipoDebitFlow : bebitFlowList) {
 				String id = ipoDebitFlow.getOrderId();
 				BigDecimal amount = ipoDebitFlow.getAmount();
+				logger.info("BigDecimal amount ={}", amount);
 				IpoDeliveryorder deliveryOrder = DeliveryorderMapper.selectByPrimaryKey(id);
 				String commodityId = deliveryOrder.getCommodityId();
 				String commodityName = deliveryOrder.getCommodityName();
-				long counts = deliveryOrder.getDeliveryCounts();
+				logger.info("String commodityName ={}", commodityName);
+				long counts = deliveryOrder.getDeliveryCounts() != null ? deliveryOrder.getDeliveryCounts()
+						: 0;
+				logger.info("long counts ={}", counts);
 				long quatity = deliveryOrder.getDeliveryQuatity();
+				logger.info("long quatity = {}", quatity);
 				String method = deliveryOrder.getDeliveryMethod();
 				Date apply = deliveryOrder.getApplyDate();
 				IpoExpress ipoExpress = ipoExpressMapper.selectExpress(id);

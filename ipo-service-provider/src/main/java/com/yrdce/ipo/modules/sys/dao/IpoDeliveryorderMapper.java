@@ -186,4 +186,13 @@ public interface IpoDeliveryorderMapper {
 	 */
 	List<IpoDeliveryorder> selectFirmid(String dealerId);
 
+	/**
+	 * @Title: findByFirmIdAndDate
+	 * @Description: 交易商id和申请日期查询
+	 * @param dealerId
+	 * @param date
+	 */
+	List<IpoDeliveryorder> findByFirmIdAndDate(@Param("dealerId") String dealerId,
+			@Param("date") String date);
+
 }

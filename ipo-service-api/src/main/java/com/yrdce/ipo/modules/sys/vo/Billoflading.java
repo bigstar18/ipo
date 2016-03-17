@@ -11,29 +11,29 @@ import java.util.Date;
 public class Billoflading {
 	private long id;
 
-	private String brokerid;
+	private String brokerid;//会员id
 
-	private String brokername;
+	private String brokername;//会员名称
 
-	private String firmid;
+	private String firmid;//交易商id
 
-	private String commodityid;
+	private String commodityid;//商品id
 
-	private String commodityname;
+	private String commodityname;//商品名称
 
-	private long quantity;
+	private long quantity;//数量
 
-	private long counts;
+	private long counts;//件数
 
-	private String deliverytype;
+	private String deliverytype;//类型
 
-	private BigDecimal billofladingfee;
+	private BigDecimal billofladingfee;//提货单手续费
 
-	private BigDecimal warehousingfee;
+	private BigDecimal warehousingfee;//仓储费
 
-	private BigDecimal insurance;
+	private BigDecimal insurance;//保险费
 
-	private BigDecimal trusteefee;
+	private BigDecimal trusteefee;//托管费
 
 	private Date registrationdate;
 

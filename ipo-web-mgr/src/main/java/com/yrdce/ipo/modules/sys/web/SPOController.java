@@ -298,7 +298,9 @@ public class SPOController {
 	public String addUnderwriterRationInfo(@RequestBody List<SpoRation> spoRationList) {
 		logger.info("承销商配售信息插入");
 		try {
-			spoService.insertByRation((ArrayList) spoRationList);
+			int result = spoService.insertByRation((ArrayList) spoRationList);
+			if (result == 0)
+				return "1001";
 			return "success";
 		} catch (Exception e) {
 			logger.error("承销商配售信息插入", e);
@@ -396,14 +398,14 @@ public class SPOController {
 	// 散户手动配
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody
-	public boolean orderBalance() {
+	public String orderBalance() {
 		try {
 			taskService.placing();
 		} catch (Exception e) {
 			logger.error("orderBalance error:", e);
-			return false;
+			return "false";
 		}
-		return true;
+		return "true";
 	}
 
 	/**

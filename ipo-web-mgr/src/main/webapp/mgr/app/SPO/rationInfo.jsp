@@ -258,6 +258,7 @@ function myparser(s){
  }
 //修改增发状态
 function updateSPOSate(spoid,spoSate){
+	
 	if(!sure("是否确认更改增发状态？"))
 		return;
 	$.ajax({
@@ -381,11 +382,12 @@ function orderBalance(spoid){
 	$.ajax({
 		type:"get",
 		url:"<%=request.getContextPath()%>/SPOController/orderBalance",
+		data:{"t":Math.random()},
 		success:function(data){
-        	if(data=="success"){
+        	if(data==="true"){
         		alert("配售成功！");
         	}
-        	else if(data=="error")
+        	else if(data==="false")
         		alert("配售失败 ");
          }
 	});

@@ -139,15 +139,15 @@ $(document).ready(function(){
      	   	if(counts>100){
      	   		alert("所分配的比例总和不能大于100");
      	   		return;
-     	   	}else if(counts==0){
+     	   	}else if(counts=='0'){
      	   		alert("分配比例总和不能为0");
      	   		return;
      	   	}
-     	   	if(sales != 100){
+     	   	if(sales != '100'){
      	   		alert("返佣比例总和为100");
  	   			return;
      	   	}
-     	   if(hidrationType == 2){
+     	   if(hidrationType == '2'){
        		if(hidipodate == "true"){
        			alert("已到上市日期，该配售方案已被采用，不能再次修改！");
        			return;
@@ -171,6 +171,9 @@ $(document).ready(function(){
             					return;
             				}else if(data=="error"){
             					alert("系统异常！");
+            					return;
+            				}else if(data=="1001"){
+            					alert("资金不足");
             					return;
             				}else if(data=="success"){
             					alert("分配成功！");

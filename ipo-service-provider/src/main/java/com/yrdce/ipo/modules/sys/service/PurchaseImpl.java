@@ -90,8 +90,7 @@ public class PurchaseImpl implements Purchase {
 	// 申购
 	@Override
 	@Transactional
-	public int apply(String userId, String commodityid, Integer counts, Integer id)
-			throws Exception {
+	public int apply(String userId, String commodityid, Integer counts, Integer id) throws Exception {
 		if (applyUser.get() != null)
 			return REPEAT;
 
@@ -107,8 +106,7 @@ public class PurchaseImpl implements Purchase {
 					logger.info("进入重复申购");
 					// 获取商品信息
 					logger.info("获取商品信息");
-					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper
-							.selectCommUnit(commodityid);
+					IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
 					//IpoCommodity commodity = ipoComMapper.selectByComid(ID);
 					// 获取商品名称
 					//String name = commodity.getCommodityname();
@@ -121,13 +119,13 @@ public class PurchaseImpl implements Purchase {
 					long credits = ipoCommodityConf.getMaxapplynum();
 					// 发售单位
 					//int units = commodity.getUnits();
-					String pubmemberid = ipoCommodityConf.getPubmemberid();
+					//String pubmemberid = ipoCommodityConf.getPubmemberid();
 					// 获取客户可用资金
 					logger.info("调用资金存储函数");
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("money", "");
 					param.put("userid", userId);
-					param.put("lock", 0);
+					param.put("lock", 1);
 					fundsMapper.getMonery(param);
 					BigDecimal money = (BigDecimal) param.get("money");
 					// int类型转换
@@ -136,9 +134,8 @@ public class PurchaseImpl implements Purchase {
 					BigDecimal allMoney = num.multiply(price);
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
-					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper
-							.selectInfo(userId, commodityid,
-									ChargeConstant.BusinessType.PUBLISH.getCode());
+					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(userId,
+							commodityid, ChargeConstant.BusinessType.PUBLISH.getCode());
 					BigDecimal fee = new BigDecimal(0);
 					BigDecimal buy = new BigDecimal(0);
 					short tradealgr = 0;

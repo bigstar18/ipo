@@ -31,7 +31,6 @@ public interface TCustomerholdsumMapper {
 	 * @Title: selectByFirmId
 	 * @Description: 根据交易商id查询
 	 * @param firmid
-	 * @return 参数说明
 	 */
 	List<TCustomerholdsum> selectByFirmId(String firmid);
 
@@ -39,7 +38,6 @@ public interface TCustomerholdsumMapper {
 	 * @Title: selectHQT
 	 * @Description: 聚合查询（商品id，持仓量）
 	 * @param firmid
-	 * @return 参数说明
 	 */
 	List<TCustomerholdsum> selectHQT(String firmid);
 
@@ -47,6 +45,14 @@ public interface TCustomerholdsumMapper {
 
 	long selectFirmHold(String firmid);
 
-	String checkCommQuatity(@Param("customerid") String firmid,@Param("commodityid") String commid);
+	String checkCommQuatity(@Param("customerid") String firmid, @Param("commodityid") String commid);
+
+	/**
+	 * @Title: findFirmIdAndDate
+	 * @Description: 根据交易商id和时间查询(查询历史表)
+	 * @param firmid
+	 * @param date
+	 */
+	List<TCustomerholdsum> findFirmIdAndDate(@Param("firmid") String firmid, @Param("date") String date);
 
 }

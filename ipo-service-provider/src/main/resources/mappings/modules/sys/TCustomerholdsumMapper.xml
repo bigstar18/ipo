@@ -16,12 +16,14 @@
     <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
     <result column="GAGEFROZENQTY" property="gagefrozenqty" jdbcType="DECIMAL" />
   </resultMap>
+  
   <delete id="deleteByPrimaryKey" parameterType="map" >
     delete from T_CUSTOMERHOLDSUM
     where CUSTOMERID = #{customerid,jdbcType=VARCHAR}
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
       and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
   </delete>
+  
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.TCustomerholdsum" >
     insert into T_CUSTOMERHOLDSUM (CUSTOMERID, COMMODITYID, BS_FLAG, 
       HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
@@ -34,6 +36,7 @@
       #{gageqty,jdbcType=DECIMAL}, #{holdassure,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, 
       #{gagefrozenqty,jdbcType=DECIMAL})
   </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.TCustomerholdsum" >
     update T_CUSTOMERHOLDSUM
     set HOLDQTY = #{holdqty,jdbcType=DECIMAL},
@@ -50,6 +53,7 @@
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
       and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
   </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
     select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
     FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
@@ -58,6 +62,7 @@
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
       and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
   </select>
+  
   <select id="selectAll" resultMap="BaseResultMap" >
     select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
     FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
@@ -87,6 +92,7 @@
    and p.bs_flag = '1'
    group by p.commodityid,p.HOLDQTY
   </select>
+  
   <select id="selectByCommId" resultType="java.lang.Long" parameterType="list" >
   	select nvl(sum(HOLDQTY),0) from T_CUSTOMERHOLDSUM
   	where
@@ -103,8 +109,14 @@
   	where
   	FIRMID= #{firmid,jdbcType=VARCHAR}
   </select>
+  
   <select id="checkCommQuatity" resultType="String" parameterType="map" >
   	select (holdqty-frozenqty)  from T_CUSTOMERHOLDSUM where  CUSTOMERID = #{customerid,jdbcType=VARCHAR}
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findFirmIdAndDate" resultMap="BaseResultMap" parameterType="map">
+  	select * from t_h_customerholdsum t where t.firmid = #{firmid,jdbcType=VARCHAR} 
+  	and to_char(t.cleardate,'yyyy-MM-dd') = #{date,jdbcType=VARCHAR}
   </select>
 </mapper>
