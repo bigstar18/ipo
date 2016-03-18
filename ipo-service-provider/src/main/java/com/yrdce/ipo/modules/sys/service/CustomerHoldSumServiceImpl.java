@@ -105,4 +105,15 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 				bsFlag.shortValue());
 
 	}
+
+	/**
+	 * 更新交易商持仓合计信息，根据数量平均分配金额
+	 */
+	@Transactional
+	public String updateFirmHold(Long frozenqty, String firmid,
+			String commodityid, short bsFlag) {
+
+		return commodityid;
+	}
+
 }

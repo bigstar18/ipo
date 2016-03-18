@@ -77,8 +77,8 @@ public class TransferController {
 		}
 		DeliveryOrder order = deliveryOrderService
 				.getDeliveryOrderByDeliOrderID(deliveryorderId);
-		int num = pickupservice.setPassword(order.getMethodId(),
-				DESCodec.encrypt(pickupPassword, "csj"));
+		String password = DESCodec.encrypt(pickupPassword, "csjcsjcsjcsj");
+		int num = pickupservice.setPassword(order.getMethodId(), password);
 		if (num == 1) {
 			return "success";
 		}

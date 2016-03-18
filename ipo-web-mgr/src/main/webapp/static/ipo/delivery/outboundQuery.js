@@ -88,6 +88,7 @@ $(document).ready(function() {
             	 if(value=='1') return "申请";
             	 if(value=='2') return "审核通过";
             	 if(value=='3') return "审核驳回";
+            	 if(value=='4') return "已出库";
            }
          },{
         	 field : 'outbounddate',  
