@@ -270,7 +270,7 @@ public class UnderwriterSubscribeServiceImpl implements
 			} else {
 				subcounts = subcounts + quantity;
 			}
-			if (subcounts < totalcounts) {
+			if (subcounts <= totalcounts) {
 				return "true";
 			}
 		}
