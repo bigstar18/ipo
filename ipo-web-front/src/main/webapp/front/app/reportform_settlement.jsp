@@ -24,7 +24,7 @@
 	
 function queryData(){
 	var time = $("#queryTime").datebox("getValue");
-	document.location.href="<%=request.getContextPath()%>/BillingReportController/getInfo";
+	document.location.href="<%=request.getContextPath()%>/BillingReportController/fundsforward?date="+time;
 	<%-- $.ajax({
 		type: "GET",
         url: "<%=request.getContextPath()%>/BillingReportController/getInfo",
@@ -39,6 +39,7 @@ function queryData(){
 	}) --%>
 }
 	
+
 //修改日期格式
 function myformatter(date){
 		 var y = date.getFullYear();
@@ -117,7 +118,7 @@ function getDateNow(){
 		<tr>
 			<td>
 				<div id=ediv>
-					<table align="center" width="800px" height="400px" border="0"
+					<table align="center" width="1000px" height="400px" border="0"
 						id="tableList">
 						<tr>
 							<td valign="top">
@@ -125,7 +126,7 @@ function getDateNow(){
 									<h2>资金结算信息</h2>
 								</center> <br />
 								<div class="table-c">
-									<table width="800px" border="1" cellspacing="0" cellpadding="0"
+									<table width="1000px" border="1" cellspacing="0" cellpadding="0"
 										align="center">
 										<tr>
 											<td class="td_reportMdHead_Right" align="center">上日资金余额（元）:</td>
@@ -186,7 +187,7 @@ function getDateNow(){
 								</center> <br>
 								<div class="table-c">
 									<table border="1" cellspacing="0" cellpadding="0"
-										align="center" width="800px">
+										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead">序号</td>
 											<td class="td_reportMdHead">商品代码</td>
@@ -198,7 +199,6 @@ function getDateNow(){
 											<td class="td_reportMdHead">发行服务费</td>
 											<td class="td_reportMdHead">退还申购金额</td>
 											<td class="td_reportRdHead">退还发行服务费</td>
-											<td>${fn:length(rList)}</td>
 										</tr>
 										<c:forEach  items="${rList}" var = "Relea" varStatus="status">
 											<tr>
@@ -223,7 +223,7 @@ function getDateNow(){
 								</center> <br>
 								<div class="table-c">
 									<table border="1" cellspacing="0" cellpadding="0"
-										align="center" width="800px">
+										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
 											<td class="td_reportMdHead" align="center">商品代码</td>
@@ -259,7 +259,7 @@ function getDateNow(){
 								</center> <br>
 								<div class="table-c">
 									<table border="1" cellspacing="0" cellpadding="0"
-										align="center" width="800px">
+										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
 											<td class="td_reportMdHead" align="center">商品代码</td>
@@ -294,7 +294,7 @@ function getDateNow(){
 								</center> <br>
 								<div class="table-c">
 									<table border="1" cellspacing="0" cellpadding="0"
-										align="center" width="800px">
+										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
 											<td class="td_reportMdHead" align="center">商品代码</td>

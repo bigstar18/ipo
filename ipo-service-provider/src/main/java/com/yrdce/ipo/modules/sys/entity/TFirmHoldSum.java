@@ -1,15 +1,18 @@
 package com.yrdce.ipo.modules.sys.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * 交易商持仓汇总
+ * 
  * @author wq 2016-1-12
  *
  */
 public class TFirmHoldSum {
 	/**
-     * 交易商id
-     */
+	 * 交易商id
+	 */
 	private String firmId;
 	/**
 	 * 商品代码
@@ -20,35 +23,37 @@ public class TFirmHoldSum {
 	 */
 	private int bsFlag;
 	/**
-	 * 持仓数量 		
+	 * 持仓数量
 	 */
-	private Long  holdqty;
+	private Long holdqty;
 	/**
 	 * 持仓金额
 	 */
 	private BigDecimal holdFunds;
 	/**
-	 * 浮动盈亏 		
+	 * 浮动盈亏
 	 */
 	private BigDecimal floatingLoss;
 	/**
 	 * 持仓均价
 	 */
-	private BigDecimal evenPrice;	 	
+	private BigDecimal evenPrice;
 	/**
 	 * 实时保证金
 	 */
-	private BigDecimal holdMargin;	 
+	private BigDecimal holdMargin;
 	/**
 	 * 抵顶数量
 	 */
-	private Long  gageqty;	 
+	private Long gageqty;
 	/**
 	 * 持仓担保金
 	 */
 	private BigDecimal holdAssure;
 
-    public TFirmHoldSum() {
+	private Date cleardate;//创建时间
+
+	public TFirmHoldSum() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -131,7 +136,13 @@ public class TFirmHoldSum {
 	public void setHoldAssure(BigDecimal holdAssure) {
 		this.holdAssure = holdAssure;
 	}
-    
-    
-    
+
+	public Date getCleardate() {
+		return cleardate;
+	}
+
+	public void setCleardate(Date cleardate) {
+		this.cleardate = cleardate;
+	}
+
 }

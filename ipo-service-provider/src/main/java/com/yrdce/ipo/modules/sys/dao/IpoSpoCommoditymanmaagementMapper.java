@@ -30,12 +30,25 @@ public interface IpoSpoCommoditymanmaagementMapper {
 	List<IpoSpoCommoditymanmaagement> select(@Param("rationtype") String rationtype,
 			@Param("ipoDate") Date ipoDate, @Param("spoSate") Integer spoSate);
 
-	int updateByCounts(@Param("spoId") String spoId, @Param("notRationCounts") long notRationCounts,
-			@Param("successRationCounts") long successRationCounts);
-
 	int updatePlscingNum(@Param("successRationCounts") long success, @Param("notRationCounts") long balance,
 			@Param("spoId") String spoid);
 
 	List<IpoSpoCommoditymanmaagement> findByDate(@Param("rationtype") String rationtype,
 			@Param("ipoDate") Date ipoDate);
+
+	/**
+	 * @Title: updateForListed
+	 * @Description: 更新上市状态
+	 * @param listed
+	 * @param spoid
+	 */
+	int updateForListed(@Param("listed") int listed, @Param("spoid") String spoid);
+
+	/**
+	 * @Title: findSuccess
+	 * @Description: 根据增发状态查询
+	 * @param spoSate
+	 * @return 参数说明
+	 */
+	List<IpoSpoCommoditymanmaagement> findBySpoDate(Integer spoSate);
 }

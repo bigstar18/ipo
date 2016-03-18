@@ -73,6 +73,7 @@ $(document).ready(function() {
 			align: "center",
 			title :  '成交时间',
 			formatter: function(value,row){
+				if(value != null)
 	              return value.substr(0,10);
 	          }
 		 },{

@@ -176,4 +176,15 @@
   	]]>
   	and RATION_TYPE = #{rationtype,jdbcType=VARCHAR}
   </select>
+  
+  <update id="updateForListed" parameterType="map">
+   update IPO_SPO_COMMODITYMANMAAGEMENT
+    set BE_LISTED = #{listed,jdbcType=DECIMAL}
+    where SPO_ID = #{spoid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findBySpoDate" parameterType="Integer" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" /> from IPO_SPO_COMMODITYMANMAAGEMENT spocom 
+  where  SPO_SATE = #{spoSate,jdbcType=DECIMAL}
+  </select>
 </mapper>

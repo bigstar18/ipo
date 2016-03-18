@@ -46,9 +46,8 @@ public class SPOTask {
 	@Autowired
 	private IpoSpecialcounterfeeMapper ipoSpecialcounterfeeMapper;
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
-	@Transactional
 	public void runSPO() {
 		logger.info("增发状态定时任务启动");
 		String time = sdf.format(new Date());
@@ -62,6 +61,26 @@ public class SPOTask {
 			if (time == ipotime) {
 				ipoSpoRationMapper.updateByStatus(1, spoid);
 				logger.info("配售状态更新成功");
+			}
+		}
+	}
+
+	@Transactional
+	public void updateStatu() {
+		logger.info("增发状态定时任务启动");
+		//String time = sdf.format(new Date());
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.findBySpoDate(2);
+		// 遍历增发商品管理列表
+		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
+			String spoid = ipoSPOComm.getSpoId();
+			Date ipoDate = ipoSPOComm.getIpoDate();
+			//String ipotime = sdf.format(ipoDate);
+			int time = Integer.parseInt(sdf.format(new Date()));
+			int ipotime = Integer.parseInt(sdf.format(ipoDate));
+			// 时间判断，更新配售表状态
+			if (time >= ipotime) {
+				ipoSPOCommMapper.updateForListed(1, spoid);
+				logger.info("上市状态更新成功");
 			}
 		}
 	}
@@ -168,10 +187,10 @@ public class SPOTask {
 			int a = 0;
 			for (IpoSpoCommoditymanmaagement ipospocomm : list) {
 				String spoid = ipospocomm.getSpoId();
-				long notcounts = (long) ipospocomm.getNotRationCounts();
-				long mincounts = (long) ipospocomm.getMinRationCounts();
-				if (notcounts > mincounts) {
-					ipoSPOCommMapper.updateByStatus(3, spoid);
+				long sucCounts = (long) ipospocomm.getSuccessRationCounts();
+				long minCounts = (long) ipospocomm.getMinRationCounts();
+				if (minCounts > sucCounts) {
+					a = ipoSPOCommMapper.updateByStatus(3, spoid);
 					List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
 					if (list2.size() != 0 || !list2.isEmpty())
 						for (IpoSpoRation ipoSpoRation : list2) {

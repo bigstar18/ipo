@@ -97,7 +97,7 @@
   </select>
   
   <select id="selectSubscibedCounts" resultType="Long" parameterType="String">
-    select sum(t.subscribecounts) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR}  group by t.commodityid 
+    select sum(t.subscribecounts) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR} and t.DELETE_FLAG=0  group by t.commodityid 
   </select>
   
    <select id="selectTotalCounts" resultType="Long" parameterType="String">
@@ -105,7 +105,7 @@
   </select>
   
     <select id="checkRatioSum" resultType="Float" parameterType="String">
-   select sum(t.proportion) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR} group by t.commodityid  
+   select sum(t.proportion) from ipo_underwriter_subscribe t where t.commodityid=#{commodityId,jdbcType=VARCHAR} and t.DELETE_FLAG=0  group by t.commodityid  
   </select>
   
   <select id="getInfosByPage" resultMap="BaseResultMap"  parameterType="map">
@@ -121,6 +121,27 @@
     
     <select id="getQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
    SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0 and T.STATE=1
+      <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    </select>
+    
+    <select id="findInfosByPage" resultMap="BaseResultMap"  parameterType="map">
+    SELECT A.* FROM(SELECT T.*,ROWNUM TNO FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
+       <if test="record.underwriterid != null" >
+       and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="record.commodityid != null" >
+       and T.COMMODITYID like concat ( concat ('%',#{record.commodityid ,jdbcType=VARCHAR}),'%')
+      </if>
+    ORDER BY T.SUBSCRIBEID)A  WHERE A.TNO BETWEEN #{beginnum} AND #{endnum}
+    </select>
+    
+    <select id="findQueryNum" resultType="Integer"  parameterType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
+   SELECT COUNT(*) FROM IPO_UNDERWRITER_SUBSCRIBE T WHERE T.DELETE_FLAG=0
       <if test="record.underwriterid != null" >
        and T.UNDERWRITERID like concat ( concat ('%',#{record.underwriterid,jdbcType=VARCHAR}),'%')
       </if>

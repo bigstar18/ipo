@@ -6,15 +6,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yrdce.ipo.common.dao.MyBatisDao;
-import com.yrdce.ipo.modules.sys.entity.THFirmholdsum;
+import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 
 @MyBatisDao
 public interface THFirmholdsumMapper {
 
-	THFirmholdsum selectByPrimaryKey(@Param("cleardate") Date cleardate, @Param("firmid") String firmid,
+	TFirmHoldSum selectByPrimaryKey(@Param("cleardate") Date cleardate, @Param("firmid") String firmid,
 			@Param("commodityid") String commodityid, @Param("bsFlag") Short bsFlag);
 
-	List<THFirmholdsum> selectAll();
+	List<TFirmHoldSum> selectAll();
 
 	/**
 	 * @Title: findByComIdAndFirmId
@@ -26,7 +26,7 @@ public interface THFirmholdsumMapper {
 	 * @param commodityid
 	 *            商品id
 	 */
-	List<THFirmholdsum> findByComIdAndFirmId(@Param("cleardate") String cleardate,
+	List<TFirmHoldSum> findByComIdAndFirmId(@Param("cleardate") String cleardate,
 			@Param("firmid") String firmid, @Param("commodityid") String commodityid);
 
 }

@@ -32,6 +32,7 @@ import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
+import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 import com.yrdce.ipo.modules.sys.vo.Billoflading;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Delivery;
@@ -53,7 +54,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 	@Autowired
 	private IpoOrderMapper ipoOrderMapper;
 	@Autowired
-	private THFirmholdsumMapper firmholdsumMapper;
+	private THFirmholdsumMapper hFirmholdsumMapper;
 	@Autowired
 	private IpoCommodityConfMapper ipoComConfMapper;
 	@Autowired
@@ -108,9 +109,16 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		return commodity;
 	}
 
-	public Holdcommodity hGetHold(String date, String firmid, String comid) {
-		Holdcommodity holdcommodity = new Holdcommodity();
-		return holdcommodity;
+	public List<Holdcommodity> hGetHold(String date, String firmid, String comid) {
+		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, firmid, null);
+		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
+		if (holdList.size() != 0)
+			for (TFirmHoldSum tFirmHoldSum : holdList) {
+				Holdcommodity holdcommodity = new Holdcommodity();
+				BeanUtils.copyProperties(tFirmHoldSum, holdcommodity);
+				list.add(holdcommodity);
+			}
+		return list;
 	}
 
 	/**

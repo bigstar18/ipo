@@ -68,7 +68,7 @@ public class StatisticsReportController {
 		List<Purchase> list = new ArrayList<Purchase>();
 		int purCount = 0;
 		BigDecimal purCost = new BigDecimal(0);
-		long purCir = 0;
+		long purCir = list1.size() != 0 ? list1.get(0).getCounts() : 0L;
 		double purRate = 0;
 		for (Order order : list1) {
 			Purchase purchase = new Purchase();
@@ -85,7 +85,7 @@ public class StatisticsReportController {
 			list.add(purchase);
 			purCount += count;
 			purCost = (order.getFrozenfunds()).add(purCost);
-			purCir += circulation;
+			//purCir += circulation;
 			purRate += rate;
 		}
 		SettleResult result = new SettleResult();

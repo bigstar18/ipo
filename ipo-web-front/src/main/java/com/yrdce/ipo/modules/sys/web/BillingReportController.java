@@ -45,11 +45,13 @@ public class BillingReportController {
 	 * @Description: 资金结算
 	 */
 	@RequestMapping(value = "/getInfo", method = RequestMethod.POST)
-	public String getInfo(HttpSession session, @RequestParam(value = "date", required = false) String date,
-			Model model, HttpServletRequest request) {
-		if (date == null) {
-			date = sdf.format(new Date());
-		}
+	public String getInfo(HttpSession session, HttpServletRequest request) {
+		String date = sdf.format(new Date());
+		querySet(date, request, session);
+		return "app/reportform_settlement";
+	}
+
+	private void querySet(String date, HttpServletRequest request, HttpSession session) {
 		logger.info("查询时间：{}", date);
 		String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 		//String userid = "hl";
@@ -81,6 +83,13 @@ public class BillingReportController {
 		request.setAttribute("bList", bList);
 		request.setAttribute("hList", hList);
 		request.setAttribute("dList", dList);
+	}
+
+	@RequestMapping(value = "/fundsforward", method = RequestMethod.GET)
+	public String fundsforward(HttpSession session,
+			@RequestParam(value = "date", required = false) String date, Model model,
+			HttpServletRequest request) {
+		querySet(date, request, session);
 		return "app/reportform_settlement";
 	}
 

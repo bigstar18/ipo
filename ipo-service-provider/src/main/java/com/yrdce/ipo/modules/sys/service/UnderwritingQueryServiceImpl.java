@@ -32,7 +32,8 @@ public class UnderwritingQueryServiceImpl implements UnderwritingQueryService {
 
 	// 商品承销信息
 	@Override
-	public List<UnderwritingQuery> getUnderInfo(String page, String rows, UnderwritingQuery underwriting) throws Exception {
+	public List<UnderwritingQuery> getUnderInfo(String page, String rows, UnderwritingQuery underwriting)
+			throws Exception {
 		logger.info("商品承销信息");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -40,8 +41,8 @@ public class UnderwritingQueryServiceImpl implements UnderwritingQueryService {
 		int pagesize = Integer.parseInt(rows);
 		IpoUnderwriterSubscribe ipoUnderwriterSub = new IpoUnderwriterSubscribe();
 		BeanUtils.copyProperties(underwriting, ipoUnderwriterSub);
-		List<IpoUnderwriterSubscribe> list1 = ipoUnderwriterSubscribeMapper.getInfosByPage((curpage - 1) * pagesize + 1, curpage * pagesize,
-				ipoUnderwriterSub);
+		List<IpoUnderwriterSubscribe> list1 = ipoUnderwriterSubscribeMapper
+				.findInfosByPage((curpage - 1) * pagesize + 1, curpage * pagesize, ipoUnderwriterSub);
 		List<UnderwritingQuery> list2 = new ArrayList<UnderwritingQuery>();
 		for (IpoUnderwriterSubscribe ipoUnderwriterSubscribe : list1) {
 			String commodityid = ipoUnderwriterSubscribe.getCommodityid();
@@ -58,6 +59,6 @@ public class UnderwritingQueryServiceImpl implements UnderwritingQueryService {
 	public Integer getQueryNum(UnderwritingQuery example) {
 		IpoUnderwriterSubscribe record = new IpoUnderwriterSubscribe();
 		BeanUtils.copyProperties(example, record);
-		return ipoUnderwriterSubscribeMapper.getQueryNum(record);
+		return ipoUnderwriterSubscribeMapper.findQueryNum(record);
 	}
 }
