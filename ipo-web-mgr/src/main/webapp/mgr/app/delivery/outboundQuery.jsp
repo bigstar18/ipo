@@ -22,6 +22,7 @@
 					<option value="1">申请</option>
 					<option value="2">审核通过</option>
 					<option value="3">审核驳回</option>
+					<option value="4">已出库</option>
 					</select>
 			提货单号：<input type="text" id="deliveryorderid" name="deliveryorderid" />
 			提货类型：<select id="deliveryMethod" name="deliveryMethod" style="width:80">

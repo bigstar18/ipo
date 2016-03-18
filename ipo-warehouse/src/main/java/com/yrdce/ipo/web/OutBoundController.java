@@ -81,7 +81,8 @@ public class OutBoundController {
 			order.setWarehouseId(String.valueOf(wareHouseId));
 			if (!order.getPickupPassword().equals("")) {
 				String password = order.getPickupPassword();
-				order.setPickupPassword(DESCodec.encrypt(password, "csj"));
+				order.setPickupPassword(DESCodec.encrypt(password,
+						"csjcsjcsjcsj"));
 				deliveryOrder = deliveryOrderService
 						.getPickupDeliveryInfo(order);
 			} else {
