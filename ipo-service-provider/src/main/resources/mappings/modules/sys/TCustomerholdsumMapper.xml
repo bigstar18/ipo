@@ -54,6 +54,19 @@
       and BS_FLAG = #{bsFlag,jdbcType=DECIMAL}
   </update>
   
+   <select id="selectFirmHoldByFirmId" resultType="Long" parameterType="map">
+  	select HOLDQTY
+    from t_firmholdsum where FIRMID = #{firmid,jdbcType=VARCHAR} and COMMODITYID= #{commodityid,jdbcType=VARCHAR} and BS_FLAG=#{bs_flag,jdbcType=DECIMAL}
+  </select> 
+  
+  <update id="updateFirmHoldSum" parameterType="map" >
+    update t_firmholdsum
+    set HOLDQTY = #{holdqty,jdbcType=DECIMAL}
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+      and BS_FLAG = #{bs_flag,jdbcType=DECIMAL}
+  </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
     select CUSTOMERID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, EVENPRICE, 
     FROZENQTY, HOLDMARGIN, GAGEQTY, HOLDASSURE, FIRMID, GAGEFROZENQTY
@@ -108,6 +121,18 @@
   	select nvl(sum(HOLDQTY),0) from T_CUSTOMERHOLDSUM
   	where
   	FIRMID= #{firmid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectFirmId" resultType="java.lang.String" parameterType="String">
+  	select FIRMID from T_CUSTOMERHOLDSUM
+  	where
+  	CUSTOMERID = #{customerid,jdbcType=VARCHAR}
+  </select>
+  
+  
+   <select id="updateFirmHold" statementType="CALLABLE" parameterType = "java.util.Map">
+  	{#{flag,mode=OUT,jdbcType=DECIMAL} = call FN_IPO_ChgFirmHoldByQty(#{firmid,mode=IN,jdbcType=VARCHAR},
+  	#{commodityid,mode=IN,jdbcType=VARCHAR},#{bsflag,mode=IN,jdbcType=DECIMAL},#{tradeqty,mode=IN,jdbcType=DECIMAL},#{gagemode,mode=IN,jdbcType=DECIMAL})}
   </select>
   
   <select id="checkCommQuatity" resultType="String" parameterType="map" >

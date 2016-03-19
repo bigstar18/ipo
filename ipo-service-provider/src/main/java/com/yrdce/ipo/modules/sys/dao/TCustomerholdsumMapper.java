@@ -1,6 +1,7 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -15,13 +16,15 @@ import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
  */
 @MyBatisDao
 public interface TCustomerholdsumMapper {
-	int deleteByPrimaryKey(@Param("customerid") String customerid, @Param("commodityid") String commodityid,
+	int deleteByPrimaryKey(@Param("customerid") String customerid,
+			@Param("commodityid") String commodityid,
 			@Param("bsFlag") Short bsFlag);
 
 	int insert(TCustomerholdsum record);
 
 	TCustomerholdsum selectByPrimaryKey(@Param("customerid") String customerid,
-			@Param("commodityid") String commodityid, @Param("bsFlag") Short bsFlag);
+			@Param("commodityid") String commodityid,
+			@Param("bsFlag") Short bsFlag);
 
 	List<TCustomerholdsum> selectAll();
 
@@ -45,7 +48,20 @@ public interface TCustomerholdsumMapper {
 
 	long selectFirmHold(String firmid);
 
-	String checkCommQuatity(@Param("customerid") String firmid, @Param("commodityid") String commid);
+	int updateFirmHoldSum(@Param("firmid") String firmid,
+			@Param("commodityid") String commodityid,
+			@Param("bs_flag") short bs_flag, @Param("newqty") long newqty);
+
+	long selectFirmHoldByFirmId(@Param("firmid") String firmid,
+			@Param("commodityid") String commodityid,
+			@Param("bs_flag") short bs_flag);
+
+	void updateFirmHold(Map<String, Object> map);
+
+	String selectFirmId(String customerid);
+
+	String checkCommQuatity(@Param("customerid") String firmid,
+			@Param("commodityid") String commid);
 
 	/**
 	 * @Title: findFirmIdAndDate
@@ -53,6 +69,7 @@ public interface TCustomerholdsumMapper {
 	 * @param firmid
 	 * @param date
 	 */
-	List<TCustomerholdsum> findFirmIdAndDate(@Param("firmid") String firmid, @Param("date") String date);
+	List<TCustomerholdsum> findFirmIdAndDate(@Param("firmid") String firmid,
+			@Param("date") String date);
 
 }

@@ -107,13 +107,40 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	}
 
 	/**
-	 * 更新交易商持仓合计信息，根据数量平均分配金额
+	 * 更新交易用户持仓合计信息，根据数量平均分配金额 扣持仓传正值 加持仓传负值
 	 */
 	@Transactional
-	public String updateFirmHold(Long frozenqty, String firmid,
+	public String updateFirmHold(Long tradeqty, String customerid,
 			String commodityid, short bsFlag) {
+		// 解冻T_CUSTOMERHOLDSUM持仓后扣持仓
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper
+				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		if (dbCustomerHold == null) {
+			throw new RuntimeException("扣除客户持仓记录不存在");
+		}
+		long newfrozenqty = dbCustomerHold.getFrozenqty() - tradeqty;
+		long newholdqty = dbCustomerHold.getHoldqty() - tradeqty;
+		dbCustomerHold.setFrozenqty(newfrozenqty);
+		dbCustomerHold.setHoldqty(newholdqty);
+		int num = customerholdsumMapper.updateByPrimaryKey(dbCustomerHold);
+		String firmid = customerholdsumMapper.selectFirmId(customerid);
+		long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(
+				firmid, commodityid, (short) 1) - tradeqty;
+		int result = customerholdsumMapper.updateFirmHoldSum(firmid,
+				commodityid, (short) 1, newFirmHoldqty);
+		// 现货方式的更改交易商持仓
+		/*
+		 * Map<String, Object> param1 = new HashMap<String, Object>();
+		 * param1.put("flag", ""); param1.put("firmid", firmid);
+		 * param1.put("commodityid", commodityid); param1.put("bsflag", 1);
+		 * param1.put("tradeqty", tradeqty); param1.put("gagemode", 0);
+		 * customerholdsumMapper.updateFirmHold(param1); Integer result =
+		 * (Integer) param1.get("flag");
+		 */
 
-		return commodityid;
+		if (result == 1 && num == 1) {
+			return "success";
+		}
+		return "false";
 	}
-
 }

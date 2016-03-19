@@ -36,8 +36,8 @@
 				 if(dataForm.listingChargeRate.value==""){
 					alert('挂牌费比例不能为空!');return ;
 				 };
-				 if(dataForm.remark.value.length>200){
-					 alert('备注不能超过200个字符');return ;
+				 if(dataForm.remark.value.length>100){
+					 alert('备注过长');return ;
 				 };
 		    	  $.ajax({  
 		  		    url: "<%=request.getContextPath()%>/trusteeshipCommodityController/savePlan",  
