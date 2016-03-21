@@ -3,104 +3,106 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class StockTransferrecords {
-    private BigDecimal applicationId;
+	private BigDecimal applicationId;
 
-    private Object commodityid;
+	private Object commodityid;
 
-    private Object customeridApply;
+	private Object customeridApply;
 
-    private Object customeridAccept;
+	private Object customeridAccept;
 
-    private BigDecimal transferNumber;
+	private BigDecimal transferNumber;
 
-    private Short state;
+	private Short state;
 
-    private Object remarks;
+	private Object remarks;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date createtime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date reviewtime;
 
-    private Date createtime;
+	private Object operator;
 
-    private Date reviewtime;
+	public BigDecimal getApplicationId() {
+		return applicationId;
+	}
 
-    private Object operator;
+	public void setApplicationId(BigDecimal applicationId) {
+		this.applicationId = applicationId;
+	}
 
-    public BigDecimal getApplicationId() {
-        return applicationId;
-    }
+	public Object getCommodityid() {
+		return commodityid;
+	}
 
-    public void setApplicationId(BigDecimal applicationId) {
-        this.applicationId = applicationId;
-    }
+	public void setCommodityid(Object commodityid) {
+		this.commodityid = commodityid;
+	}
 
-    public Object getCommodityid() {
-        return commodityid;
-    }
+	public Object getCustomeridApply() {
+		return customeridApply;
+	}
 
-    public void setCommodityid(Object commodityid) {
-        this.commodityid = commodityid;
-    }
+	public void setCustomeridApply(Object customeridApply) {
+		this.customeridApply = customeridApply;
+	}
 
-    public Object getCustomeridApply() {
-        return customeridApply;
-    }
+	public Object getCustomeridAccept() {
+		return customeridAccept;
+	}
 
-    public void setCustomeridApply(Object customeridApply) {
-        this.customeridApply = customeridApply;
-    }
+	public void setCustomeridAccept(Object customeridAccept) {
+		this.customeridAccept = customeridAccept;
+	}
 
-    public Object getCustomeridAccept() {
-        return customeridAccept;
-    }
+	public BigDecimal getTransferNumber() {
+		return transferNumber;
+	}
 
-    public void setCustomeridAccept(Object customeridAccept) {
-        this.customeridAccept = customeridAccept;
-    }
+	public void setTransferNumber(BigDecimal transferNumber) {
+		this.transferNumber = transferNumber;
+	}
 
-    public BigDecimal getTransferNumber() {
-        return transferNumber;
-    }
+	public Short getState() {
+		return state;
+	}
 
-    public void setTransferNumber(BigDecimal transferNumber) {
-        this.transferNumber = transferNumber;
-    }
+	public void setState(Short state) {
+		this.state = state;
+	}
 
-    public Short getState() {
-        return state;
-    }
+	public Object getRemarks() {
+		return remarks;
+	}
 
-    public void setState(Short state) {
-        this.state = state;
-    }
+	public void setRemarks(Object remarks) {
+		this.remarks = remarks;
+	}
 
-    public Object getRemarks() {
-        return remarks;
-    }
+	public Date getCreatetime() {
+		return createtime;
+	}
 
-    public void setRemarks(Object remarks) {
-        this.remarks = remarks;
-    }
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public Date getReviewtime() {
+		return reviewtime;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public void setReviewtime(Date reviewtime) {
+		this.reviewtime = reviewtime;
+	}
 
-    public Date getReviewtime() {
-        return reviewtime;
-    }
+	public Object getOperator() {
+		return operator;
+	}
 
-    public void setReviewtime(Date reviewtime) {
-        this.reviewtime = reviewtime;
-    }
-
-    public Object getOperator() {
-        return operator;
-    }
-
-    public void setOperator(Object operator) {
-        this.operator = operator;
-    }
+	public void setOperator(Object operator) {
+		this.operator = operator;
+	}
 }

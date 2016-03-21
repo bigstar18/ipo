@@ -367,7 +367,7 @@ public class UnderwriterSubscribeServiceImpl implements
 		if (deposit != null) {
 			BigDecimal frozenFunds = depositmapper.selectInfoByBrokerId(
 					example.getUnderwriterid()).getAmount();
-			if (totalvalue.compareTo(frozenFunds) < 0) {
+			if (totalvalue.compareTo(frozenFunds) <= 0) {
 				return "true";
 			}
 		}

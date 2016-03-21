@@ -113,7 +113,7 @@ function doSearch(){
 	$('#dg').datagrid('load',{
 		commodityid: $('#commodityid').val(),
 		state: $('#state').val(),
-		//reviewtime: $('#reviewtime').datebox('getValue'),
+		reviewtime: $('#reviewtime').datebox('getValue'),
 		customerid: $('#customerid').val()
 		
 	});

@@ -107,13 +107,29 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	}
 
 	/**
-	 * 更新交易商持仓合计信息，根据数量平均分配金额
+	 * 更新交易用户持仓合计信息，根据数量平均分配金额 扣持仓传正值 加持仓传负值
 	 */
 	@Transactional
-	public String updateFirmHold(Long frozenqty, String firmid,
+	public String updateFirmHold(Long tradeqty, String customerid,
 			String commodityid, short bsFlag) {
-
-		return commodityid;
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper
+				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		if (dbCustomerHold == null) {
+			throw new RuntimeException("扣除客户持仓记录不存在");
+		}
+		long newfrozenqty = dbCustomerHold.getFrozenqty() - tradeqty;
+		long newholdqty = dbCustomerHold.getHoldqty() - tradeqty;
+		dbCustomerHold.setFrozenqty(newfrozenqty);
+		dbCustomerHold.setHoldqty(newholdqty);
+		int num = customerholdsumMapper.updateByPrimaryKey(dbCustomerHold);
+		String firmid = customerholdsumMapper.selectFirmId(customerid);
+		long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(
+				firmid, commodityid, (short) 1) - tradeqty;
+		int result = customerholdsumMapper.updateFirmHoldSum(firmid,
+				commodityid, (short) 1, newFirmHoldqty);
+		if (result == 1 && num == 1) {
+			return "success";
+		}
+		return "false";
 	}
-
 }
