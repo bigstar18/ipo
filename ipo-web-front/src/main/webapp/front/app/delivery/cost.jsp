@@ -3,7 +3,6 @@
 <%@page import="gnnt.MEBS.logonService.vo.UserManageVO"%>
 <%@page import="java.lang.String"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%String dealerId =((UserManageVO)session.getAttribute("CurrentUser")).getUserID();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,7 +94,7 @@
             width: 130,
             align: 'center'
           }, {
-            field: 'deliverFee',
+            field: 'deliveryFee',
             title: '提货单费用',
             width: 130,
             align: 'center'

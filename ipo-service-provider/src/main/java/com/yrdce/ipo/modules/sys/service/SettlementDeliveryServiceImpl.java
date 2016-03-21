@@ -488,6 +488,11 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 				.selectByUserid((curpage - 1) * pagesize + 1, curpage * pagesize, paging);
 		List<DeliveryCost> list2 = new ArrayList<DeliveryCost>();
 		for (IpoDeliveryCost ipodeliveryCost : list1) {
+			BigDecimal registr = ipodeliveryCost.getRegistrationFee() != null
+					? ipodeliveryCost.getRegistrationFee() : new BigDecimal(0);
+			BigDecimal cance = ipodeliveryCost.getCancellationFee() != null
+					? ipodeliveryCost.getCancellationFee() : new BigDecimal(0);
+			ipodeliveryCost.setDeliveryFee(cance.add(registr));
 			DeliveryCost deliveryCost = new DeliveryCost();
 			BeanUtils.copyProperties(ipodeliveryCost, deliveryCost);
 			list2.add(deliveryCost);

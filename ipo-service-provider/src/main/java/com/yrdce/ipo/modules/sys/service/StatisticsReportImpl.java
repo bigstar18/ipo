@@ -109,13 +109,33 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		return commodity;
 	}
 
-	public List<Holdcommodity> hGetHold(String date, String firmid, String comid) {
+	@Override
+	public List<String> findAllFirmid() {
+		List<String> firmIdList = DeliveryorderMapper.queryAllFrimId();
+		return firmIdList;
+	}
+
+	public String firmName(String firmId) {
+		String firmName = DeliveryorderMapper.selectByFrim(firmId);
+		return firmName;
+	}
+
+	@Override
+	public List<Holdcommodity> hGetHold(String date, String firmid) {
 		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, firmid, null);
 		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
 		if (holdList.size() != 0)
 			for (TFirmHoldSum tFirmHoldSum : holdList) {
+				String commodityid = tFirmHoldSum.getCommodityId();
+				IpoCommodityConf ipoCommodityConf = ipoComConfMapper.findIpoCommConfByCommid(commodityid);
+				String commodityName = ipoCommodityConf.getCommodityname();
 				Holdcommodity holdcommodity = new Holdcommodity();
-				BeanUtils.copyProperties(tFirmHoldSum, holdcommodity);
+				holdcommodity.setFirmid(tFirmHoldSum.getFirmId());
+				holdcommodity.setCommodityid(tFirmHoldSum.getCommodityId());
+				holdcommodity.setEvenprice(tFirmHoldSum.getEvenPrice());
+				holdcommodity.setHoldqty(tFirmHoldSum.getHoldqty());
+				holdcommodity.setHoldinggainsandlosses(tFirmHoldSum.getFloatingLoss());
+				holdcommodity.setCommodityname(commodityName);
 				list.add(holdcommodity);
 			}
 		return list;

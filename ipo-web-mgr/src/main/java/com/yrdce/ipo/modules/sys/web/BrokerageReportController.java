@@ -293,7 +293,11 @@ public class BrokerageReportController {
 					firmrewarddeail.getCommodityid());
 			Brokers brokers1 = brokerageReportService.getIntermediary(brokerid, firmrewarddeail.getFirmid());
 			String firmName = brokerageReportService.getFirmName(firmrewarddeail.getFirmid());
-			String intermediaryName = brokerageReportService.getFirmName(brokers1.getBrokerageid());
+			logger.info("brokers1.getBrokerageid():{}", brokers1.getBrokerageid());
+			String intermediaryName = null;
+			if (brokers1.getBrokerageid() != null) {
+				intermediaryName = brokerageReportService.getFirmName(brokers1.getBrokerageid());
+			}
 			IpoSubRevenue ipoSubRevenue = new IpoSubRevenue();
 			ipoSubRevenue.setAmount(distribution.getTradingamount());
 			ipoSubRevenue.setBrokerIncome(firmrewarddeail.getReward());

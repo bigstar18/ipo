@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityMapper;
@@ -135,7 +134,7 @@ public class PurchaseImpl implements Purchase {
 					// 获取算法方式，比例值 1：百分比 2：绝对值
 					//IpoCommodityConf ipoCommodityConf = ipoCommConfMapper.selectCommUnit(commodityid);
 					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(userId,
-							commodityid, ChargeConstant.BusinessType.PUBLISH.getCode());
+							commodityid, "1");
 					BigDecimal fee = new BigDecimal(0);
 					BigDecimal buy = new BigDecimal(0);
 					short tradealgr = 0;

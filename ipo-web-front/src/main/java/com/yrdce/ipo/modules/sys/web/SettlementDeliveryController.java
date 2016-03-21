@@ -332,7 +332,7 @@ public class SettlementDeliveryController {
 			Paging paging, HttpSession session) {
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());
+			paging.setDealerId(user.getUserID());//user.getUserID()
 			logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryCost> clist = settlementDeliveryService.getListByDeliveryCost(page, rows, paging);
 			int totalnums = settlementDeliveryService.countsByCost(paging);

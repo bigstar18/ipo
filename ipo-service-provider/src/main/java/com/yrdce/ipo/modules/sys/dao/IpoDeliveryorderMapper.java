@@ -195,4 +195,10 @@ public interface IpoDeliveryorderMapper {
 	List<IpoDeliveryorder> findByFirmIdAndDate(@Param("dealerId") String dealerId,
 			@Param("date") String date);
 
+	/**
+	 * @Title: queryAllFrimId
+	 * @Description:查询所有交易商的id
+	 */
+	public List<String> queryAllFrimId();
+
 }

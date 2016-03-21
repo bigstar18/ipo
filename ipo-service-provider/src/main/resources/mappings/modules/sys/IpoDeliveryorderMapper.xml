@@ -291,6 +291,10 @@
   	select name from m_firm where firmid =#{firmid,jdbcType=VARCHAR}
   </select>
   
+  <select id="queryAllFrimId" resultType="java.lang.String">
+  	select firmid from m_firm 
+  </select>
+  
   <select id="selectRevocation" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder">
  	select *
   	from (select t.*, rownum TNO from (

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.StatisticsReportService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
+import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.Purchase;
 import com.yrdce.ipo.modules.sys.vo.SettleResult;
@@ -68,12 +69,12 @@ public class StatisticsReportController {
 		List<Purchase> list = new ArrayList<Purchase>();
 		int purCount = 0;
 		BigDecimal purCost = new BigDecimal(0);
-		long purCir = list1.size() != 0 ? list1.get(0).getCounts() : 0L;
+		long circulation = commod.getCounts();
 		double purRate = 0;
 		for (Order order : list1) {
 			Purchase purchase = new Purchase();
 			int count = order.getCounts();
-			long circulation = commod.getCounts();
+
 			purchase.setFirmId(order.getUserid());
 			purchase.setCount(count);
 			purchase.setCost(order.getFrozenfunds());
@@ -91,11 +92,41 @@ public class StatisticsReportController {
 		SettleResult result = new SettleResult();
 		result.setCommodity(commod);
 		result.setPurchase(list);
-		result.setPurcir(purCir);
+		result.setPurcir(circulation);
 		result.setPurcount(purCount);
 		result.setPurcost(purCost);
 		result.setPurrate(purRate);
 		return result;
+	}
+
+	@RequestMapping(value = "/firmForHold", method = RequestMethod.GET)
+	public String firmForHold(@RequestParam(value = "firmId", required = false) String firmId,
+			@RequestParam("date") String date, Model model) {
+		List<SettleResult> resultList = new ArrayList<SettleResult>();
+		if (firmId != null && firmId != "") {
+			List<Holdcommodity> list = statisticsReportService.hGetHold(date, firmId);
+			String firmName = statisticsReportService.firmName(firmId);
+			SettleResult result = new SettleResult();
+			result.setHoldInfo(list);
+			result.setBroker(firmName);
+			result.setList(firmId);
+			resultList.add(result);
+		} else {
+			List<String> firmIdList = statisticsReportService.findAllFirmid();
+			for (String id : firmIdList) {
+				logger.debug("遍历id：{}", id);
+				List<Holdcommodity> list = statisticsReportService.hGetHold(date, id);
+				String firmName = statisticsReportService.firmName(id);
+				SettleResult result = new SettleResult();
+				result.setBroker(firmName);
+				result.setList(id);
+				result.setHoldInfo(list);
+				resultList.add(result);
+			}
+		}
+		model.addAttribute("holdList", resultList);
+		model.addAttribute("time", date);
+		return "app/statisticsReport/info_hold_firm";
 	}
 
 }

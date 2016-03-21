@@ -249,26 +249,6 @@ public class BrokerageReportServiceImpl implements BrokerageReportService {
 		return ipoDeliveryorderMapper.selectByFrim(firmid);
 	}
 
-	/*@Override
-	public List<Firmrewarddeail> getFirmrewarddeail(String date, String brokerid, String business,
-			String charge) {
-		List<BrBroker> brBrokers = brokerMapper.findTraderByBrokerid(brokerid);
-		List<Firmrewarddeail> list2 = new ArrayList<Firmrewarddeail>();
-		for (BrBroker broker : brBrokers) {
-			String firmid = broker.getFirmid();
-			List<IpoFirmrewarddeail> list1 = FirmrewarddeailMapper.findDisAndDea(date, firmid, business,
-					charge);
-			if (list1 != null && list1.size() != 0) {
-				for (IpoFirmrewarddeail ipoFirmrewarddeail : list1) {
-					Firmrewarddeail firmrewarddeail = new Firmrewarddeail();
-					BeanUtils.copyProperties(ipoFirmrewarddeail, firmrewarddeail);
-					list2.add(firmrewarddeail);
-				}
-			}
-		}
-		return list2;
-	}*/
-
 	@Override
 	public DeliveryOrder getOrder(String deliveryorderId) {
 		IpoDeliveryorder ipoDeliveryorder = ipoDeliveryorderMapper.selectByPrimaryKey(deliveryorderId);

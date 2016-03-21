@@ -77,8 +77,5 @@ public interface BrokerageReportService {
 
 	public String getFirmName(String firmid);
 
-	/*public List<Firmrewarddeail> getFirmrewarddeail(String date, String brokerid, String business,
-			String charge);*/
-
 	public DeliveryOrder getOrder(String deliveryorderId);
 }

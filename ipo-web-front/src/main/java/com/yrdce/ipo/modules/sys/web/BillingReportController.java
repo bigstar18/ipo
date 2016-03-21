@@ -57,13 +57,13 @@ public class BillingReportController {
 		//String userid = "hl";
 		FundSettlement funs = statisticsReportService.fGetFund(userid, date);
 		List<Releasesubscription> rList = statisticsReportService.rGetReleaInfo(userid, date);
-		logger.info("rlist长度：{}", rList.size());
+		logger.debug("rlist长度：{}", rList.size());
 		List<Billoflading> bList = statisticsReportService.bGetBillfladInfo(userid, date);
-		logger.info("blist长度：{}", bList.size());
+		logger.debug("blist长度：{}", bList.size());
 		List<Holdcommodity> hList = statisticsReportService.hGetHoldInfo(userid, date);
-		logger.info("hlist长度：{}", hList.size());
+		logger.debug("hlist长度：{}", hList.size());
 		List<Delivery> dList = statisticsReportService.dGetDeliveryInfo(userid, date);
-		logger.info("dlist长度：{}", dList.size());
+		logger.debug("dlist长度：{}", dList.size());
 
 		/*List<Object> list = new ArrayList<Object>();
 		list.add(rList);

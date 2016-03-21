@@ -35,6 +35,27 @@ public interface StatisticsReportService {
 	public Commodity cGetCommd(String commid);
 
 	/**
+	 * @Title: hGetHold
+	 * @Description: 时间、交易商查询
+	 * @param date
+	 * @param firmid
+	 */
+	public List<Holdcommodity> hGetHold(String date, String firmid);
+
+	/**
+	 * @Title: findAllFirmid
+	 * @Description: 查询所有交易商id
+	 */
+	public List<String> findAllFirmid();
+
+	/**
+	 * @Title: firmName
+	 * @Description: 查询交易商名字
+	 * @param firmId
+	 */
+	public String firmName(String firmId);
+
+	/**
 	 * @Title: getFund
 	 * @Description: 资金结算信息（客户端）
 	 * @param firmId
