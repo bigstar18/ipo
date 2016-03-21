@@ -85,7 +85,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	public void increaseCustomerHold(Long frozenqty, String customerid,
 			String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		System.out.println("**********");
+
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	public void reduceCustomerHold(Long frozenqty, String customerid,
 			String commodityid, short bsFlag) {
 		// TODO Auto-generated method stub
-		System.out.println("**********");
+
 	}
 
 	@Override

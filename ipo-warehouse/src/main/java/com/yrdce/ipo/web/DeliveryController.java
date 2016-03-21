@@ -5,12 +5,17 @@ import gnnt.MEBS.logonService.vo.UserManageVO;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -43,9 +50,40 @@ import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 @Controller
 @RequestMapping("DeliveryController")
 public class DeliveryController {
+	public static Map statusMap = new HashMap();
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+	static {
+		statusMap.put("0", "初始化完成");
+		statusMap.put("1", "闭市状态");
+		statusMap.put("2", "结算中");
+		statusMap.put("3", "资金结算完成");
+		statusMap.put("4", "暂停交易");
+		statusMap.put("5", "交易中");
+		statusMap.put("6", "节间休息");
+		statusMap.put("7", "交易结束");
+		statusMap.put("8", "集合竞价交易中");
+		statusMap.put("9", "集合竞价交易结束");
+		statusMap.put("10", "交易结算完成");
+
+		statusMap.put("05", "暂停交易");
+		statusMap.put("06", "恢复交易");
+		statusMap.put("07", "闭市操作");
+		statusMap.put("08", "开市准备");
+		statusMap.put("09", "交易结束");
+	}
+
+	public static final int SYS_LOG_CATALOGID = 4001;
+	public static final int SYS_LOG_OPE_SUCC = 1;
+	public static final int SYS_LOG_OPE_FAILURE = 0;
+
+	private static Logger log = org.slf4j.LoggerFactory
 			.getLogger(DeliveryController.class);
+	@Autowired
+	private SystemService systemService;
+	private ExecutorService executorService = Executors
+			.newCachedThreadPool(new ThreadFactoryBuilder()
+					.setNameFormat("writeOperateLog-%d").setDaemon(true)
+					.build());
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
