@@ -3,93 +3,96 @@ package com.yrdce.ipo.modules.sys.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class StockFreeze {
-    private BigDecimal applicationId;
+	private BigDecimal applicationId;
 
-    private Object commodityid;
+	private Object commodityid;
 
-    private Object customerid;
+	private Object customerid;
 
-    private Short state;
+	private Short state;
 
-    private BigDecimal freezeNumber;
+	private BigDecimal freezeNumber;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date createtime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date reviewtime;
 
-    private Date createtime;
+	private Object operator;
 
-    private Date reviewtime;
+	private String freezereason;
 
-    private Object operator;
-    
-    private String freezereason;
+	public BigDecimal getApplicationId() {
+		return applicationId;
+	}
 
-    public BigDecimal getApplicationId() {
-        return applicationId;
-    }
+	public void setApplicationId(BigDecimal applicationId) {
+		this.applicationId = applicationId;
+	}
 
-    public void setApplicationId(BigDecimal applicationId) {
-        this.applicationId = applicationId;
-    }
+	public Object getCommodityid() {
+		return commodityid;
+	}
 
-    public Object getCommodityid() {
-        return commodityid;
-    }
+	public void setCommodityid(Object commodityid) {
+		this.commodityid = commodityid;
+	}
 
-    public void setCommodityid(Object commodityid) {
-        this.commodityid = commodityid;
-    }
+	public Object getCustomerid() {
+		return customerid;
+	}
 
-    public Object getCustomerid() {
-        return customerid;
-    }
+	public void setCustomerid(Object customerid) {
+		this.customerid = customerid;
+	}
 
-    public void setCustomerid(Object customerid) {
-        this.customerid = customerid;
-    }
+	public Short getState() {
+		return state;
+	}
 
-    public Short getState() {
-        return state;
-    }
+	public void setState(Short state) {
+		this.state = state;
+	}
 
-    public void setState(Short state) {
-        this.state = state;
-    }
+	public BigDecimal getFreezeNumber() {
+		return freezeNumber;
+	}
 
-    public BigDecimal getFreezeNumber() {
-        return freezeNumber;
-    }
+	public void setFreezeNumber(BigDecimal freezeNumber) {
+		this.freezeNumber = freezeNumber;
+	}
 
-    public void setFreezeNumber(BigDecimal freezeNumber) {
-        this.freezeNumber = freezeNumber;
-    }
+	public Date getCreatetime() {
+		return createtime;
+	}
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public Date getReviewtime() {
+		return reviewtime;
+	}
 
-    public Date getReviewtime() {
-        return reviewtime;
-    }
+	public void setReviewtime(Date reviewtime) {
+		this.reviewtime = reviewtime;
+	}
 
-    public void setReviewtime(Date reviewtime) {
-        this.reviewtime = reviewtime;
-    }
+	public Object getOperator() {
+		return operator;
+	}
 
-    public Object getOperator() {
-        return operator;
-    }
+	public void setOperator(Object operator) {
+		this.operator = operator;
+	}
 
-    public void setOperator(Object operator) {
-        this.operator = operator;
-    }
-    public String getFreezereason() {
-        return freezereason;
-    }
+	public String getFreezereason() {
+		return freezereason;
+	}
 
-    public void setFreezereason(String freezereason) {
-        this.freezereason = freezereason == null ? null : freezereason.trim();
-    }
+	public void setFreezereason(String freezereason) {
+		this.freezereason = freezereason == null ? null : freezereason.trim();
+	}
 }

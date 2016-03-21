@@ -129,12 +129,6 @@
   	CUSTOMERID = #{customerid,jdbcType=VARCHAR}
   </select>
   
-  
-   <select id="updateFirmHold" statementType="CALLABLE" parameterType = "java.util.Map">
-  	{#{flag,mode=OUT,jdbcType=DECIMAL} = call FN_IPO_ChgFirmHoldByQty(#{firmid,mode=IN,jdbcType=VARCHAR},
-  	#{commodityid,mode=IN,jdbcType=VARCHAR},#{bsflag,mode=IN,jdbcType=DECIMAL},#{tradeqty,mode=IN,jdbcType=DECIMAL},#{gagemode,mode=IN,jdbcType=DECIMAL})}
-  </select>
-  
   <select id="checkCommQuatity" resultType="String" parameterType="map" >
   	select (holdqty-frozenqty)  from T_CUSTOMERHOLDSUM where  CUSTOMERID = #{customerid,jdbcType=VARCHAR}
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}

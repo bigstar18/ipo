@@ -45,7 +45,7 @@
 			and  state =#{record.state,jdbcType=DECIMAL}
 		</if>	
 		<if test="record.reviewtime != null">
-			and  state =#{record.reviewtime,jdbcType=DATE}
+			and  reviewtime =#{record.reviewtime,jdbcType=DATE}
 		</if>		   		   
     ORDER BY APPLICATION_ID ) WHERE rn >= #{beginnum} and #{endnum} >= rn
   

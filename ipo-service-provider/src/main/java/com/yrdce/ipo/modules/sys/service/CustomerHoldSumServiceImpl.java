@@ -112,7 +112,6 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	@Transactional
 	public String updateFirmHold(Long tradeqty, String customerid,
 			String commodityid, short bsFlag) {
-		// 解冻T_CUSTOMERHOLDSUM持仓后扣持仓
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper
 				.selectByPrimaryKey(customerid, commodityid, bsFlag);
 		if (dbCustomerHold == null) {
@@ -128,16 +127,6 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 				firmid, commodityid, (short) 1) - tradeqty;
 		int result = customerholdsumMapper.updateFirmHoldSum(firmid,
 				commodityid, (short) 1, newFirmHoldqty);
-		// 现货方式的更改交易商持仓
-		/*
-		 * Map<String, Object> param1 = new HashMap<String, Object>();
-		 * param1.put("flag", ""); param1.put("firmid", firmid);
-		 * param1.put("commodityid", commodityid); param1.put("bsflag", 1);
-		 * param1.put("tradeqty", tradeqty); param1.put("gagemode", 0);
-		 * customerholdsumMapper.updateFirmHold(param1); Integer result =
-		 * (Integer) param1.get("flag");
-		 */
-
 		if (result == 1 && num == 1) {
 			return "success";
 		}

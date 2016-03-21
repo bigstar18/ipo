@@ -1,7 +1,6 @@
 package com.yrdce.ipo.modules.sys.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -55,8 +54,6 @@ public interface TCustomerholdsumMapper {
 	long selectFirmHoldByFirmId(@Param("firmid") String firmid,
 			@Param("commodityid") String commodityid,
 			@Param("bs_flag") short bs_flag);
-
-	void updateFirmHold(Map<String, Object> map);
 
 	String selectFirmId(String customerid);
 
