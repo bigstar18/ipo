@@ -373,7 +373,8 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/addCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public String addCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String addCommodity(VIpoCommConf ipocomm, HttpSession session)
+			throws IOException {
 		log.info("新增商品");
 		try {
 			if (ipocomm != null) {
@@ -382,11 +383,21 @@ public class BreedController {
 				ipocomm.setCodedelivery(new BigDecimal(1));
 				// ipocomm.setNonissuereg(new BigDecimal(1));
 				log.debug(ipocomm.toString());
-				return ipoCommConfService.addCommodity(ipocomm);
+				String result = ipoCommConfService.addCommodity(ipocomm);
+				if (result.equals("success")) {
+					WriteLog.writeOperateLog(
+							WriteLog.SYS_LOG_COMMODITY_CATALOGID, "ipo新增商品成功",
+							WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					return result;
+				}
 			}
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
+					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "false";
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("新增商品error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
+					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}
@@ -400,16 +411,30 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/updateCommodity", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateCommodity(VIpoCommConf ipocomm) throws IOException {
+	public String updateCommodity(VIpoCommConf ipocomm, HttpSession session)
+			throws IOException {
 		log.info("修改商品");
 		try {
 			if (ipocomm != null) {
 				log.debug(ipocomm.toString());
-				return ipoCommConfService.updateCommodity(ipocomm);
+				String result = ipoCommConfService.updateCommodity(ipocomm);
+				if (result.equals("success")) {
+					WriteLog.writeOperateLog(
+							WriteLog.SYS_LOG_COMMODITY_CATALOGID, "ipo修改商品"
+									+ ipocomm.getCommodityid() + "成功",
+							WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					return result;
+				}
 			}
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
+					"ipo修改商品" + ipocomm.getCommodityid() + "失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "false";
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("新增商品error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
+					"ipo修改商品" + ipocomm.getCommodityid() + "失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}

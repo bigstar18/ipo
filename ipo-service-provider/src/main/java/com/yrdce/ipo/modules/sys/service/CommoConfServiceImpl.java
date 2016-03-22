@@ -142,7 +142,6 @@ public class CommoConfServiceImpl implements IpoCommConfService {
 			if (cnum != 0 && inum != 0) {
 				return "success";
 			}
-			return "false";
 		}
 		return "false";
 	}
