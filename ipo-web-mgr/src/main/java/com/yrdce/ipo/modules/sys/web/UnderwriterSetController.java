@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterDepositService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
+import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.PositionFlow;
 import com.yrdce.ipo.modules.sys.vo.PositionReduce;
 import com.yrdce.ipo.modules.sys.vo.PubPositionFlow;
@@ -138,10 +140,19 @@ public class UnderwriterSetController {
 	 */
 	@RequestMapping(value = "/deleteInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteInfo(@RequestParam("ids") String ids)
-			throws IOException {
+	public String deleteInfo(@RequestParam("ids") String ids,
+			HttpSession session) throws IOException {
 		log.info("批量删除承销设置信息:" + ids);
-		return underwritersubscribeService.deleteInfo(ids);
+		String result = underwritersubscribeService.deleteInfo(ids);
+		if (result.equals("true")) {
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"删除承销设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+		} else {
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"删除承销设置信息失败" + ids, WriteLog.SYS_LOG_OPE_FAILURE, "",
+					session);
+		}
+		return result;
 	}
 
 	/**
@@ -216,6 +227,11 @@ public class UnderwriterSetController {
 									example.setCreateDate(new Date());
 									underwritersubscribeService
 											.insertInfo(example);
+									WriteLog.writeOperateLog(
+											WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+											"新增承销设置信息成功",
+											WriteLog.SYS_LOG_OPE_SUCC, "",
+											request.getSession());
 									return "true";
 								}
 
@@ -225,6 +241,9 @@ public class UnderwriterSetController {
 				}
 			}
 		}
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+				"新增承销设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+				request.getSession());
 		return "false";
 	}
 
@@ -277,11 +296,26 @@ public class UnderwriterSetController {
 	@ResponseBody
 	public String deductMoney(UnderwriterDeposit deposit,
 			HttpServletRequest request) throws IOException {
-		String userId = getLoginUserId(request);
-		deposit.setCreateDate(new Date());
-		deposit.setCreateUser(userId);
-		depositService.insertInfo(deposit);
-		return "true";
+		try {
+			String userId = getLoginUserId(request);
+			deposit.setCreateDate(new Date());
+			deposit.setCreateUser(userId);
+			depositService.insertInfo(deposit);
+			WriteLog.writeOperateLog(
+					WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"暂扣承销商" + deposit.getBrokerid() + "货款"
+							+ deposit.getAmount() + "元",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+			return "true";
+		} catch (Exception e) {
+			log.error("暂扣承销商货款 error:" + e);
+			WriteLog.writeOperateLog(
+					WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"暂扣承销商" + deposit.getBrokerid() + "货款"
+							+ deposit.getAmount() + "元",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+			return "false";
+		}
 	}
 
 	/**
@@ -351,9 +385,15 @@ public class UnderwriterSetController {
 					.selectInfoByBrokerId(example.getUnderwriterid());
 			underwritersubscribeService.unfrozen(example, record.getAmount(),
 					userId);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"解冻承销商" + example.getUnderwriterid() + "认购资金",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
 			return "true";
 		} catch (Exception e) {
 			log.error("认购资金解冻 error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
+					"解冻承销商" + example.getUnderwriterid() + "认购资金",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
 			return "false";
 		}
 	}
