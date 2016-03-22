@@ -45,9 +45,7 @@
 	 </if>
   </select>
   
-  
-  
-  
-   
-  
+  <select id="findAllCom" resultType="java.lang.String">
+  	 select distinct(t.commodityid) from T_FirmHoldSum t 
+  </select>
 </mapper>

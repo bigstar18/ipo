@@ -39,6 +39,8 @@ public class Holdcommodity {
 
 	private Date createtime;//创建时间
 
+	private String firmName;
+
 	public long getId() {
 		return id;
 	}
@@ -157,5 +159,13 @@ public class Holdcommodity {
 
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
+	}
+
+	public String getFirmName() {
+		return firmName;
+	}
+
+	public void setFirmName(String firmName) {
+		this.firmName = firmName;
 	}
 }

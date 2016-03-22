@@ -56,6 +56,27 @@ public interface StatisticsReportService {
 	public String firmName(String firmId);
 
 	/**
+	 * @Title: nGetComName
+	 * @Description: 查询商品名称
+	 * @param comid
+	 */
+	public String nGetComName(String comid);
+
+	/**
+	 * @Title: holdByCom
+	 * @Description: 时间、商品id查询
+	 * @param date
+	 * @param comid
+	 */
+	public List<Holdcommodity> holdByCom(String date, String comid);
+
+	/**
+	 * @Title: findAllComid
+	 * @Description: 查询持仓中所有商品的名称
+	 */
+	public Map<String, String> findAllComid();
+
+	/**
 	 * @Title: getFund
 	 * @Description: 资金结算信息（客户端）
 	 * @param firmId

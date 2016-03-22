@@ -129,4 +129,48 @@ public class StatisticsReportController {
 		return "app/statisticsReport/info_hold_firm";
 	}
 
+	@RequestMapping(value = "/allComid", method = RequestMethod.GET)
+	public String allComid(Model model) {
+		Map<String, String> comIdList = statisticsReportService.findAllComid();
+		model.addAttribute("comidList", comIdList);
+		return "app/statisticsReport/index_hold_commodity";
+	}
+
+	@RequestMapping(value = "/comidForHold", method = RequestMethod.GET)
+	public String comidForHold(@RequestParam(value = "comid", required = false) String comid,
+			@RequestParam("date") String date, Model model) {
+		List<SettleResult> resultList = new ArrayList<SettleResult>();
+		if (comid != null && comid != "") {
+			List<Holdcommodity> list = statisticsReportService.hGetHold(date, comid);
+			for (Holdcommodity hold : list) {
+				String firmName = statisticsReportService.firmName(hold.getFirmid());
+				hold.setFirmName(firmName);
+			}
+			String comName = statisticsReportService.nGetComName(comid);
+			SettleResult result = new SettleResult();
+			result.setHoldInfo(list);
+			result.setList(comid);
+			result.setBroker(comName);
+			resultList.add(result);
+		} else {
+			Map<String, String> comIdMap = statisticsReportService.findAllComid();
+			for (Map.Entry<String, String> entry : comIdMap.entrySet()) {
+				logger.debug("遍历id：{}", entry.getKey());
+				List<Holdcommodity> list = statisticsReportService.hGetHold(date, entry.getKey());
+				for (Holdcommodity hold : list) {
+					String firmName = statisticsReportService.firmName(hold.getFirmid());
+					hold.setFirmName(firmName);
+				}
+				SettleResult result = new SettleResult();
+				result.setHoldInfo(list);
+				result.setList(entry.getKey());
+				result.setBroker(entry.getValue());
+				resultList.add(result);
+			}
+		}
+		model.addAttribute("holdList", resultList);
+		model.addAttribute("time", date);
+		return "app/statisticsReport/info_hold_commodity";
+	}
+
 }

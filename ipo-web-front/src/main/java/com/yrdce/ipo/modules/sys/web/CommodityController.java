@@ -109,8 +109,7 @@ public class CommodityController {
 	 * 配号查询视图
 	 */
 	@RequestMapping(value = "/DistribQuery", method = RequestMethod.POST)
-	public String DistribQuery(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+	public String DistribQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/DistribQuery";
 	}
 
@@ -118,8 +117,7 @@ public class CommodityController {
 	 * 中签查询视图
 	 */
 	@RequestMapping(value = "/SelectedQuery", method = RequestMethod.POST)
-	public String SelectedQuery(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+	public String SelectedQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/SelectedQuery";
 	}
 
@@ -127,8 +125,7 @@ public class CommodityController {
 	 * 订单查询视图
 	 */
 	@RequestMapping(value = "/OrderQuery", method = RequestMethod.POST)
-	public String OrderQuery(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+	public String OrderQuery(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "app/OrderQuery";
 	}
 
@@ -167,8 +164,8 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/QueryByConditionsFront", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditionsFront(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, @RequestParam("commodityname") String commodityname,
+	public String QueryByConditionsFront(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("commodityname") String commodityname,
 			@RequestParam("commodityid") String commodityid) throws IOException {
 		log.info("条件查询发售商品信息");
 		try {
@@ -201,8 +198,8 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/QueryByConditions", method = RequestMethod.POST)
 	@ResponseBody
-	public String QueryByConditions(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, @RequestParam("commodityname") String commodityname,
+	public String QueryByConditions(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("commodityname") String commodityname,
 			@RequestParam("commodityid") String commodityid) throws IOException {
 		log.info("条件查询发售商品信息");
 		try {
@@ -237,7 +234,8 @@ public class CommodityController {
 	@ResponseBody
 	public String getUserInfo(HttpSession session) throws IOException {
 		try {
-			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			//String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String userid = "hl";
 
 			return displayService.userInfo(userid);
 		} catch (Exception e) {
@@ -281,8 +279,7 @@ public class CommodityController {
 			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 
 			log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity + " " + id);
-			return purchase.apply(userid, commodityid, Integer.parseInt(quantity),
-					Integer.parseInt(id)) + "";
+			return purchase.apply(userid, commodityid, Integer.parseInt(quantity), Integer.parseInt(id)) + "";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
@@ -299,15 +296,13 @@ public class CommodityController {
 	 */
 	@RequestMapping(value = "/findApplyNums", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String findApplyNums(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, @RequestParam("status") String status,
-			HttpSession session) throws IOException {
+	public String findApplyNums(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("status") String status, HttpSession session) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
 			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
 			String userid = user.getUserID();
-			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid,
-					status);
+			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid, status);
 			int totalnums = distributionService.getAllDistris(userid, status);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);

@@ -24,6 +24,7 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
+import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
 import com.yrdce.ipo.modules.sys.dao.THFirmholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
@@ -69,6 +70,8 @@ public class StatisticsReportImpl implements StatisticsReportService {
 	private IpoExpressMapper ipoExpressMapper;
 	@Autowired
 	private IpoDeliveryMapper ipoDeliveryMapper;
+	@Autowired
+	private TFirmHoldSumMaper tFirmHoldSumMaper;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -115,14 +118,42 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		return firmIdList;
 	}
 
+	@Override
 	public String firmName(String firmId) {
 		String firmName = DeliveryorderMapper.selectByFrim(firmId);
 		return firmName;
 	}
 
 	@Override
+	public String nGetComName(String comid) {
+		IpoCommodityConf ipoCommodityConf = ipoComConfMapper.findIpoCommConfByCommid(comid);
+		String commodityName = ipoCommodityConf.getCommodityname();
+		return commodityName;
+	}
+
+	@Override
 	public List<Holdcommodity> hGetHold(String date, String firmid) {
 		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, firmid, null);
+		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
+		if (holdList.size() != 0)
+			for (TFirmHoldSum tFirmHoldSum : holdList) {
+				String commodityid = tFirmHoldSum.getCommodityId();
+				String commodityName = nGetComName(commodityid);
+				Holdcommodity holdcommodity = new Holdcommodity();
+				holdcommodity.setFirmid(tFirmHoldSum.getFirmId());
+				holdcommodity.setCommodityid(tFirmHoldSum.getCommodityId());
+				holdcommodity.setEvenprice(tFirmHoldSum.getEvenPrice());
+				holdcommodity.setHoldqty(tFirmHoldSum.getHoldqty());
+				holdcommodity.setHoldinggainsandlosses(tFirmHoldSum.getFloatingLoss());
+				holdcommodity.setCommodityname(commodityName);
+				list.add(holdcommodity);
+			}
+		return list;
+	}
+
+	@Override
+	public List<Holdcommodity> holdByCom(String date, String comid) {
+		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, null, comid);
 		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
 		if (holdList.size() != 0)
 			for (TFirmHoldSum tFirmHoldSum : holdList) {
@@ -139,6 +170,20 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				list.add(holdcommodity);
 			}
 		return list;
+	}
+
+	@Override
+	public Map<String, String> findAllComid() {
+		Map<String, String> comMap = new HashMap<String, String>();
+		List<String> comidList = tFirmHoldSumMaper.findAllCom();
+		for (String id : comidList) {
+			IpoCommodityConf ipoCommodityConf = ipoComConfMapper.findIpoCommConfByCommid(id);
+			if (ipoCommodityConf != null) {
+				String commodityName = ipoCommodityConf.getCommodityname();
+				comMap.put(id, commodityName);
+			}
+		}
+		return comMap;
 	}
 
 	/**

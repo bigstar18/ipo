@@ -11,10 +11,10 @@ import com.yrdce.ipo.modules.sys.vo.FirmHoldSum;
 @MyBatisDao
 public interface TFirmHoldSumMaper {
 
-	
-	public long queryForCount( @Param("param")FirmHoldSum firmHoldSum);
-	
-	public List<TFirmHoldSum> queryForList(@Param("param")FirmHoldSum firmHoldSum) ;
-	
-	
+	public long queryForCount(@Param("param") FirmHoldSum firmHoldSum);
+
+	public List<TFirmHoldSum> queryForList(@Param("param") FirmHoldSum firmHoldSum);
+
+	public List<String> findAllCom();
+
 }

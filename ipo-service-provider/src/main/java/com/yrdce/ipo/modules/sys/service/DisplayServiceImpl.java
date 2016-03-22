@@ -53,11 +53,13 @@ public class DisplayServiceImpl implements DisplayService {
 			if (com != null) {
 				// 获取商品单价
 				BigDecimal price = com.getPrice();
+				logger.info("商品价格：{}", price);
 				BigDecimal sum = this.getFee(sId, money, price);
 				logger.info("比例单价：" + sum);
 				logger.info("总金额：" + money);
 				// 计算可购买多少
 				Integer number = (money.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
+				logger.info("可购买：{}", number);
 				return number;
 			} else {
 				return null;
