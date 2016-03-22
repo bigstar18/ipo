@@ -23,8 +23,6 @@ import com.yrdce.ipo.modules.sys.vo.FundSettlement;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
 import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * @ClassName: BillingReportController
  * @Description: 资金结算报表
@@ -53,7 +51,7 @@ public class BillingReportController {
 
 	private void querySet(String date, HttpServletRequest request, HttpSession session) {
 		logger.info("查询时间：{}", date);
-		String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+		String userid = (String) session.getAttribute("currentFirmId");
 		//String userid = "hl";
 		FundSettlement funs = statisticsReportService.fGetFund(userid, date);
 		List<Releasesubscription> rList = statisticsReportService.rGetReleaInfo(userid, date);

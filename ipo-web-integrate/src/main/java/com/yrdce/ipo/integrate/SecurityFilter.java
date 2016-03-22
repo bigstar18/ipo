@@ -129,9 +129,11 @@ public class SecurityFilter implements Filter {
 							request.getSession().setAttribute("CurrentUser", user);
 							if ("front".equals(sysType)) {
 								// 查询 m_trader 表，获得firmid TODO
-
 								String firmId = queryDao.getFirmid(user.getUserID());
+								logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>firmId:{}", firmId);
 								request.getSession().setAttribute("currentFirmId", firmId);
+								String firmid = (String) request.getSession().getAttribute("currentFirmId");
+								logger.info(">>>>>>>>>>>>>>>>>>>>>>getSession.firmId:{}", firmid);
 							}
 						}
 					}

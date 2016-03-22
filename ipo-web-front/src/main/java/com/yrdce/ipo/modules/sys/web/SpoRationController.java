@@ -19,8 +19,6 @@ import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.SpoCommoditymanmaagement;
 import com.yrdce.ipo.modules.sys.vo.SpoRation;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 @Controller
 @RequestMapping("spoRationController")
 public class SpoRationController {
@@ -34,8 +32,8 @@ public class SpoRationController {
 			SpoCommoditymanmaagement spo, HttpSession session) {
 		logger.info("配售信息");
 		try {
-			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			spo.setFirmid(dealerId);//dealerId
+			String firmId = (String) session.getAttribute("currentFirmId");
+			spo.setFirmid(firmId);//dealerId
 			List<SpoRation> spoList = spoService.getMyRationInfo(spo, page, rows);
 			int counts = spoService.getRationInfoCounts(spo);
 			logger.info(String.valueOf(counts));
@@ -56,9 +54,9 @@ public class SpoRationController {
 	public String UpdateRationType(@RequestParam("rationId") String rationId, HttpSession session) {
 		logger.info("确认配售");
 		try {
-			String dealerId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String firmId = (String) session.getAttribute("currentFirmId");
 			//String dealerId = "hl";
-			int result = spoService.updateRationType(Long.parseLong(rationId), dealerId);
+			int result = spoService.updateRationType(Long.parseLong(rationId), firmId);
 			if (result == 1) {
 				return "success";
 			} else if (result == 2) {

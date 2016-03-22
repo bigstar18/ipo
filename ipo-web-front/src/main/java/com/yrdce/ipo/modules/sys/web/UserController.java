@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yrdce.ipo.integrate.ActiveUserManager;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * 用户
  * 
@@ -37,11 +35,12 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/checkneedless/communications/sessionGetUser.action", method = RequestMethod.GET)
-	public @ResponseBody String sessionGetUser(HttpServletRequest request, HttpServletResponse response, Model model) {
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+	public @ResponseBody String sessionGetUser(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+		String firmId = (String) request.getSession().getAttribute("currentFirmId");
 		String callback = request.getParameter("jsoncallback");
 
-		if (user == null) {
+		if (firmId == null) {
 			logger.error("用户信息为空，并且未重新加载");
 			return result(callback, "[false]");
 		}
@@ -71,7 +70,8 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/checkneedless/communications/logout.action", method = RequestMethod.GET)
-	public @ResponseBody boolean logout(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public @ResponseBody boolean logout(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 		try {
 			ActiveUserManager.logoff(request);
 			logger.info("ipo front logout success !");

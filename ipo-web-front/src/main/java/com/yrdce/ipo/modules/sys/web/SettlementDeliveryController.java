@@ -31,8 +31,6 @@ import com.yrdce.ipo.modules.sys.vo.Pickup;
 import com.yrdce.ipo.modules.sys.vo.Position;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * 
  * @author Bob
@@ -90,8 +88,8 @@ public class SettlementDeliveryController {
 	public String deliveryApply(DeliveryOrder deliveryOrder, HttpSession session) {
 		String method = deliveryOrder.getDeliveryMethod();
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			deliveryOrder.setDealerId(user.getUserID());
+			String firmId = (String) session.getAttribute("currentFirmId");
+			deliveryOrder.setDealerId(firmId);
 			if (method.equals("1")) {
 				deliveryOrder.setDeliveryMethod("自提");
 				String result = settlementDeliveryService.applicationByPickup(deliveryOrder);
@@ -119,8 +117,8 @@ public class SettlementDeliveryController {
 	public String deliveryInfo(HttpSession session) {
 		logger.info("提货申请(初始化数据)");
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			List<Position> list = settlementDeliveryService.getListByPosition(user.getUserID());// user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			List<Position> list = settlementDeliveryService.getListByPosition(firmId);// user.getUserID()
 			return JSON.json(list);
 		} catch (IOException e) {
 			logger.error("error", e);
@@ -134,8 +132,8 @@ public class SettlementDeliveryController {
 	public String print(@RequestParam("page") String page, @RequestParam("rows") String rows, Paging paging,
 			HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());// user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			paging.setDealerId(firmId);// user.getUserID()
 			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryOrder> clist = settlementDeliveryService.getPrint(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "自提");
@@ -173,8 +171,8 @@ public class SettlementDeliveryController {
 	public String revocation(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());// user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			paging.setDealerId(firmId);// user.getUserID()
 			logger.info("自提打印" + "userid:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryOrder> clist = settlementDeliveryService.getRevocationList(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "no");
@@ -211,8 +209,8 @@ public class SettlementDeliveryController {
 			HttpSession session) {
 		logger.info("提货单状态修改(撤销提货、提货确认)" + "deliveryorderid:" + deliveryorderid);
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			settlementDeliveryService.determine(deliveryorderid, user.getUserID());
+			String firmId = (String) session.getAttribute("currentFirmId");
+			settlementDeliveryService.determine(deliveryorderid, firmId);
 			settlementDeliveryService.updateRevocationStatus(deliveryorderid,
 					DeliveryConstant.StatusType.CONFIRM.getCode());
 			return "success";
@@ -245,8 +243,8 @@ public class SettlementDeliveryController {
 	public String getDispatching(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());// user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			paging.setDealerId(firmId);// user.getUserID()
 			logger.info("在线配送" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<Express> clist = settlementDeliveryService.getListByExpress(page, rows, paging);
 			int totalnums = settlementDeliveryService.counts(paging, "在线配送");
@@ -266,8 +264,8 @@ public class SettlementDeliveryController {
 	public String delivery(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());// user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			paging.setDealerId(firmId);// user.getUserID()
 			logger.info("提货查询" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryOrder> clist = settlementDeliveryService.getListByOrder(page, rows, paging);
 			int totalnums = settlementDeliveryService.countsByAll(paging);
@@ -319,7 +317,6 @@ public class SettlementDeliveryController {
 			Express express = settlementDeliveryService.getDetailByExpress(methodid);
 			return JSON.json(express);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}
@@ -331,8 +328,8 @@ public class SettlementDeliveryController {
 	public String costQuery(@RequestParam("page") String page, @RequestParam("rows") String rows,
 			Paging paging, HttpSession session) {
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			paging.setDealerId(user.getUserID());//user.getUserID()
+			String firmId = (String) session.getAttribute("currentFirmId");
+			paging.setDealerId(firmId);//user.getUserID()
 			logger.info("费用查询" + "用户ID:" + paging.getDealerId() + "单号：" + paging.getDeliveryorderId());
 			List<DeliveryCost> clist = settlementDeliveryService.getListByDeliveryCost(page, rows, paging);
 			int totalnums = settlementDeliveryService.countsByCost(paging);

@@ -1,7 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +24,10 @@ import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
 import com.yrdce.ipo.modules.sys.vo.TrusteeshipCommodity;
+
 /**
  * 托管商品
+ * 
  * @author wq
  *
  */
@@ -41,9 +41,10 @@ public class TrusteeshipCommodityController {
 	private BiWarehouseService biWarehouseService;
 	@Autowired
 	private TrusteeWarehouseService trusteeshipWarehouseService;
-	
+
 	/**
 	 * 查询可申购的托管计划
+	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @return
@@ -51,51 +52,51 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/queryPlan")
 	@ResponseBody
-	public String queryPlan(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
-			HttpServletRequest request) 
-			throws Exception {
+	public String queryPlan(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize,
+			HttpServletRequest request) throws Exception {
 		TrusteeshipCommodity commodity = new TrusteeshipCommodity();
 		commodity.setCommodityId(request.getParameter("commodityId"));
 		commodity.setCommodityName(request.getParameter("commodityName"));
 		//进行中的计划 
 		commodity.setState(TrusteeshipConstant.PlanState.STARTING.getCode());
-		long count=trusteeshipCommodityService.queryPlanForCount(commodity);
-		List<TrusteeshipCommodity> dataList=new ArrayList<TrusteeshipCommodity>();
-		if(count>0){
-			dataList=trusteeshipCommodityService.queryPlanForPage(pageNo, pageSize, commodity);
+		long count = trusteeshipCommodityService.queryPlanForCount(commodity);
+		List<TrusteeshipCommodity> dataList = new ArrayList<TrusteeshipCommodity>();
+		if (count > 0) {
+			dataList = trusteeshipCommodityService.queryPlanForPage(pageNo, pageSize, commodity);
 		}
 		ResponseResult result = new ResponseResult();
-		result.setTotal( new Long(count).intValue());
+		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
-	
-	
-	
+
 	/**
 	 * 跳转到新增申请界面
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/addApply")
-	public String addApply(HttpServletRequest request,Model model){
-		String commodityId=request.getParameter("commodityId");
+	public String addApply(HttpServletRequest request, Model model) {
+		String commodityId = request.getParameter("commodityId");
 		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
-		model.addAttribute("trusteeWarehouseList", trusteeshipWarehouseService.getTrusteeshipWarehouseByCommId(commodityId));
+		model.addAttribute("trusteeWarehouseList",
+				trusteeshipWarehouseService.getTrusteeshipWarehouseByCommId(commodityId));
 		return "app/trusteeship/add_apply";
 	}
-	
+
 	/**
 	 * 新增商户申购的托管商品
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@RequestMapping(value = "/saveApply")
 	@ResponseBody
-	public boolean saveApply( HttpServletRequest request,HttpServletResponse response) {
-			
+	public boolean saveApply(HttpServletRequest request, HttpServletResponse response) {
+
 		Trusteeship trusteeship = new Trusteeship();
 		trusteeship.setApplyAmount(Long.valueOf(request.getParameter("applyAmount")));
 		trusteeship.setCommodityId(request.getParameter("commodityId"));
@@ -106,32 +107,30 @@ public class TrusteeshipCommodityController {
 		try {
 			trusteeshipCommodityService.saveApply(trusteeship);
 		} catch (Exception e) {
-			logger.error("saveApply error:"+e);
-		   return false;
+			logger.error("saveApply error:" + e);
+			return false;
 		}
 		return true;
 	}
-	
-	
+
 	/**
 	 * 跳转到申请界面
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/apply")
-	public String apply(HttpServletRequest request,Model model){
-		
+	public String apply(HttpServletRequest request, Model model) {
+
 		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
 		model.addAttribute("stateList", TrusteeshipConstant.State.values());
 		return "app/trusteeship/apply";
 	}
-	
-	
-	
-	
+
 	/**
 	 * 查询商户提交的申请
+	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @param request
@@ -140,16 +139,15 @@ public class TrusteeshipCommodityController {
 	 */
 	@RequestMapping(value = "/queryApply")
 	@ResponseBody
-	public String queryApply(@RequestParam("page") String pageNo,@RequestParam("rows")String pageSize,
-			HttpServletRequest request) 
-			throws Exception {
+	public String queryApply(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize,
+			HttpServletRequest request) throws Exception {
 		Trusteeship ship = new Trusteeship();
 		ship.setCommodityId(request.getParameter("commodityId"));
 		ship.setCommodityName(request.getParameter("commodityName"));
-		if(request.getParameter("state")!=null){
+		if (request.getParameter("state") != null) {
 			ship.setState(Integer.parseInt(request.getParameter("state")));
 		}
-		if(request.getParameter("warehouseId")!=null){
+		if (request.getParameter("warehouseId") != null) {
 			ship.setWarehouseId(Long.parseLong(request.getParameter("warehouseId")));
 		}
 		ship.setBeginCreateDate(request.getParameter("beginCreateDate"));
@@ -157,54 +155,55 @@ public class TrusteeshipCommodityController {
 		ship.setBeginAuditingDate(request.getParameter("beginAuditingDate"));
 		ship.setEndAuditingDate(request.getParameter("endAuditingDate"));
 		ship.setCreateUser(getLoginUserId(request));
-		long count=trusteeshipCommodityService.queryApplyForCount(ship);
-		List<Trusteeship> dataList=new ArrayList<Trusteeship>();
-		if(count>0){
-			dataList=trusteeshipCommodityService.queryApplyForPage(pageNo, pageSize, ship);
+		long count = trusteeshipCommodityService.queryApplyForCount(ship);
+		List<Trusteeship> dataList = new ArrayList<Trusteeship>();
+		if (count > 0) {
+			dataList = trusteeshipCommodityService.queryApplyForPage(pageNo, pageSize, ship);
 		}
 		ResponseResult result = new ResponseResult();
-		result.setTotal( new Long(count).intValue());
+		result.setTotal(new Long(count).intValue());
 		result.setRows(dataList);
 		return JSON.json(result);
 	}
-	
-	
+
 	/**
 	 * 撤销操作
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@RequestMapping(value = "/cancelApply")
 	@ResponseBody
-	public String cancelApply(HttpServletRequest request,HttpServletResponse response){
+	public String cancelApply(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Long id=Long.valueOf(request.getParameter("id"));
+			Long id = Long.valueOf(request.getParameter("id"));
 			Trusteeship ship = new Trusteeship();
 			ship.setId(id);
 			ship.setUpdateUser(getLoginUserId(request));
-			Trusteeship dbTrusteeship =trusteeshipCommodityService.findTrusteeshipById(id);
-			if(dbTrusteeship.getState()!=TrusteeshipConstant.State.APPLY.getCode()){
+			Trusteeship dbTrusteeship = trusteeshipCommodityService.findTrusteeshipById(id);
+			if (dbTrusteeship.getState() != TrusteeshipConstant.State.APPLY.getCode()) {
 				return "001";
-			};
+			}
+			;
 			trusteeshipCommodityService.cancelApply(ship);
 		} catch (Exception e) {
-			logger.error("cancelApply error:"+e);
-		   return "error";
+			logger.error("cancelApply error:" + e);
+			return "error";
 		}
 		return "success";
 	}
-	
-	
+
 	/**
 	 * 跳转到挂牌费列表 界面
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/listingCharge")
-	public String listingCharge(HttpServletRequest request,Model model){
-		
+	public String listingCharge(HttpServletRequest request, Model model) {
+
 		model.addAttribute("warehouseList", biWarehouseService.findAllWarehuses());
 		List stateList = new ArrayList();
 		stateList.add(TrusteeshipConstant.State.FINAL_PASS);
@@ -212,15 +211,13 @@ public class TrusteeshipCommodityController {
 		model.addAttribute("stateList", stateList);
 		return "app/trusteeship/listingcharge";
 	}
-	
-	
-	private String getLoginUserId(HttpServletRequest request){
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
-		if(user!=null){
-			return user.getUserID();
+
+	private String getLoginUserId(HttpServletRequest request) {
+		String firmId = (String) request.getSession().getAttribute("currentFirmId");
+		if (firmId != null) {
+			return firmId;
 		}
 		return "nologin";
 	}
-	
-	
+
 }

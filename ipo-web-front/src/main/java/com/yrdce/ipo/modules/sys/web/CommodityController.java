@@ -28,8 +28,6 @@ import com.yrdce.ipo.modules.sys.vo.Distribution;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * 查询商品Controller
  * 
@@ -234,8 +232,9 @@ public class CommodityController {
 	@ResponseBody
 	public String getUserInfo(HttpSession session) throws IOException {
 		try {
-			//String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-			String userid = "hl";
+			log.info("获取用户资金");
+			String userid = (String) session.getAttribute("currentFirmId");
+			//String userid = "hl";
 
 			return displayService.userInfo(userid);
 		} catch (Exception e) {
@@ -257,6 +256,7 @@ public class CommodityController {
 			@RequestParam("money") String money) throws IOException {
 		log.info("获取商品和用户信息");
 		try {
+			log.info("用户资金{}", money);
 			return JSON.json(displayService.display(commodityid, money));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,7 +276,7 @@ public class CommodityController {
 	public String purchApply(@RequestParam("commodityid") String commodityid, HttpSession session,
 			@RequestParam("quantity") String quantity, @RequestParam("id") String id) {
 		try {
-			String userid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			String userid = (String) session.getAttribute("currentFirmId");
 
 			log.info("调用申购服务" + userid + "  " + commodityid + " " + quantity + " " + id);
 			return purchase.apply(userid, commodityid, Integer.parseInt(quantity), Integer.parseInt(id)) + "";
@@ -300,8 +300,7 @@ public class CommodityController {
 			@RequestParam("status") String status, HttpSession session) throws IOException {
 		log.info("分页查询客户配号信息");
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			String userid = user.getUserID();
+			String userid = (String) session.getAttribute("currentFirmId");
 			List<Distribution> dlist = distributionService.getDistriList(page, rows, userid, status);
 			int totalnums = distributionService.getAllDistris(userid, status);
 			ResponseResult result = new ResponseResult();
@@ -324,8 +323,7 @@ public class CommodityController {
 			HttpSession session) throws IOException {
 		log.info("根据用户ID查询订单信息");
 		try {
-			UserManageVO user = (UserManageVO) session.getAttribute("CurrentUser");
-			String userid = user.getUserID();
+			String userid = (String) session.getAttribute("currentFirmId");
 			List<Order> clist = orderService.getOrderInfo(page, rows, userid);
 			int totalnums = orderService.getAll(userid);
 			ResponseResult result = new ResponseResult();

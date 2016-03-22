@@ -43,7 +43,7 @@ public class DisplayServiceImpl implements DisplayService {
 		return money1;
 	}
 
-	public Integer display(String sId, String money1) {
+	public Long display(String sId, String money1) {
 
 		if (sId != null && money1 != null) {
 			String ID = sId.toUpperCase();
@@ -58,7 +58,7 @@ public class DisplayServiceImpl implements DisplayService {
 				logger.info("比例单价：" + sum);
 				logger.info("总金额：" + money);
 				// 计算可购买多少
-				Integer number = (money.divide(sum, 0, BigDecimal.ROUND_DOWN)).intValue();
+				Long number = (money.divide(sum, 0, BigDecimal.ROUND_DOWN)).longValue();
 				logger.info("可购买：{}", number);
 				return number;
 			} else {

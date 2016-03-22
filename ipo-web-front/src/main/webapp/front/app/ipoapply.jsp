@@ -112,6 +112,7 @@ $(document).ready(function() {
 		    type: 'GET',
 		    url: "<%=request.getContextPath()%>/CommodityController/getUserInfo",
 		    contentType: "application/json; charset=utf-8",
+		    data:{"randnum":Math.floor(Math.random()*1000000)},
 		    dataType: 'json',
 		    async: true,
 		    success : function(data, stats) {
