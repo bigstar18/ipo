@@ -33,7 +33,7 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 
 	@Override
 	@Transactional
-	public int insert(IpoStorageVo record) {
+	public Integer insert(IpoStorageVo record) {
 		IpoStorage ipoStorage = new IpoStorage();
 		if (record != null) {
 			BeanUtils.copyProperties(record, ipoStorage);

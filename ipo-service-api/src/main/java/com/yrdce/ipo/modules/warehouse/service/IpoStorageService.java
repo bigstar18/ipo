@@ -21,7 +21,7 @@ public interface IpoStorageService {
 	Integer getTotalNum(VIpoStorageExtended storage);
 
 	// 插入指定的对象
-	int insert(IpoStorageVo record);
+	Integer insert(IpoStorageVo record);
 
 	// 根据仓库管理员获取仓库编号
 	String getWarehouseId(String userID);

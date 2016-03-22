@@ -23,6 +23,7 @@ import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
+import com.yrdce.ipo.util.WriteLog;
 
 /**
  * 托管审核
@@ -137,8 +138,14 @@ public class TrusteeshipCommodityController {
 			ship.setId(Long.valueOf(request.getParameter("id")));
 			ship.setUpdateUser(getloginUserId(request));
 			trusteeshipCommodityService.warehouseFirstAuditPass(ship);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
 		} catch (Exception e) {
 			logger.error("warehouseFirstAuditPass error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
 			return false;
 		}
 		return true;
@@ -160,8 +167,14 @@ public class TrusteeshipCommodityController {
 			ship.setId(Long.valueOf(request.getParameter("id")));
 			ship.setUpdateUser(getloginUserId(request));
 			trusteeshipCommodityService.warehouseFirstAuditNoPass(ship);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
 		} catch (Exception e) {
 			logger.error("warehouseFirstAuditNoPass error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
 			return false;
 		}
 		return true;
@@ -183,9 +196,14 @@ public class TrusteeshipCommodityController {
 			ship.setId(Long.valueOf(request.getParameter("id")));
 			ship.setUpdateUser(getloginUserId(request));
 			trusteeshipCommodityService.warehouseLastAuditPass(ship);
-			;
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
 		} catch (Exception e) {
 			logger.error("warehouseLastAuditPass error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
 			return false;
 		}
 		return true;
@@ -207,8 +225,14 @@ public class TrusteeshipCommodityController {
 			ship.setId(Long.valueOf(request.getParameter("id")));
 			ship.setUpdateUser(getloginUserId(request));
 			trusteeshipCommodityService.warehouseLastAuditNoPass(ship);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
 		} catch (Exception e) {
 			logger.error("warehouseLastAuditNoPass error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
 			return false;
 		}
 		return true;

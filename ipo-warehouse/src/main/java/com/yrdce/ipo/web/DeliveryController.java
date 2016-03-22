@@ -5,11 +5,7 @@ import gnnt.MEBS.logonService.vo.UserManageVO;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
-import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -40,6 +34,7 @@ import com.yrdce.ipo.modules.warehouse.service.IpoWarehouseStockService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
 import com.yrdce.ipo.modules.warehouse.vo.IpoWarehouseStock;
 import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
+import com.yrdce.ipo.util.WriteLog;
 
 /**
  * 交收管理Controller
@@ -50,40 +45,9 @@ import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 @Controller
 @RequestMapping("DeliveryController")
 public class DeliveryController {
-	public static Map statusMap = new HashMap();
-
-	static {
-		statusMap.put("0", "初始化完成");
-		statusMap.put("1", "闭市状态");
-		statusMap.put("2", "结算中");
-		statusMap.put("3", "资金结算完成");
-		statusMap.put("4", "暂停交易");
-		statusMap.put("5", "交易中");
-		statusMap.put("6", "节间休息");
-		statusMap.put("7", "交易结束");
-		statusMap.put("8", "集合竞价交易中");
-		statusMap.put("9", "集合竞价交易结束");
-		statusMap.put("10", "交易结算完成");
-
-		statusMap.put("05", "暂停交易");
-		statusMap.put("06", "恢复交易");
-		statusMap.put("07", "闭市操作");
-		statusMap.put("08", "开市准备");
-		statusMap.put("09", "交易结束");
-	}
-
-	public static final int SYS_LOG_CATALOGID = 4001;
-	public static final int SYS_LOG_OPE_SUCC = 1;
-	public static final int SYS_LOG_OPE_FAILURE = 0;
 
 	private static Logger log = org.slf4j.LoggerFactory
 			.getLogger(DeliveryController.class);
-	@Autowired
-	private SystemService systemService;
-	private ExecutorService executorService = Executors
-			.newCachedThreadPool(new ThreadFactoryBuilder()
-					.setNameFormat("writeOperateLog-%d").setDaemon(true)
-					.build());
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
@@ -219,8 +183,14 @@ public class DeliveryController {
 		storage.setWarehouseid(ipoStorageService.getWarehousePrimary(inserter));
 		int num = ipoStorageService.insert(storage);
 		if (num != 0) {
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
+					"IPO申请入库: 入库单号" + storage.getStorageid() + "增加成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", session);
 			return "true";
 		}
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
+				"IPO申请入库: 入库单号" + storage.getStorageid() + "增加失败",
+				WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 		return "false";
 	}
 
@@ -238,9 +208,10 @@ public class DeliveryController {
 		log.info("审核入库单");
 		String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID();
-		// String userId = "111";
-		flag = "warehouse" + flag;
-		ipoStorageService.checkStorage(storageId, flag, userId);
+		ipoStorageService.checkStorage(storageId, "warehouse" + flag, userId);
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
+				"IPO入库审核: 入库单号" + storageId + " 审核结果：" + flag,
+				WriteLog.SYS_LOG_OPE_SUCC, "", session);
 		return "app/storage/storageApprove";
 	}
 
@@ -362,16 +333,32 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "/checkEorders", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkEorders(DeliveryOrder deorder, Express detail)
-			throws IOException {
+	public String checkEorders(DeliveryOrder deorder, Express detail,
+			HttpSession session) throws IOException {
 		log.info("设置配送费用");
 		try {
 			log.debug(detail.getCost().toString());
 			deorder.setApprovalStatus(DeliveryConstant.StatusType.EXPRESSCOSTSET
 					.getCode());
-			return deliveryorderservice.setExpressFee(deorder, detail);
+			String result = deliveryorderservice.setExpressFee(deorder, detail);
+			if (result.equals("true")) {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
+						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
+								+ "设置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+						session);
+			} else {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
+						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
+								+ "设置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+						session);
+			}
+			return result;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("error:", e);
+			WriteLog.writeOperateLog(
+					WriteLog.SYS_LOG_EXPRESS_CATALOGID,
+					"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId() + "设置失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}
@@ -384,4 +371,5 @@ public class DeliveryController {
 		}
 		return "nologin";
 	}
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
+import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.VIpoABreed;
@@ -158,18 +160,25 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/addBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public String addBreed(VIpoABreed vipoabreed) throws IOException {
+	public String addBreed(VIpoABreed vipoabreed, HttpSession session)
+			throws IOException {
 		log.info("增加一个品种");
 		log.debug(vipoabreed.toString());
 		try {
 			int num = vIpoABreedService.addBreed(vipoabreed);
 			if (num != 0) {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+						"ipo新增品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
 				return "true";
 			} else {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+						"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 				return "false";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("新增品种error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+					"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}
@@ -183,17 +192,24 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/updateBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateBreed(VIpoABreed vipoabreed) throws IOException {
+	public String updateBreed(VIpoABreed vipoabreed, HttpSession session)
+			throws IOException {
 		log.info("修改一个品种");
 		try {
 			int num = vIpoABreedService.updateBreed(vipoabreed);
 			if (num != 0) {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+						"ipo修改品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
 				return "true";
 			} else {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+						"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 				return "false";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("修改品种error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+					"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}
@@ -207,8 +223,8 @@ public class BreedController {
 	 */
 	@RequestMapping(value = "/deleteBreed", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteBreed(@RequestParam("breedid") String breedid)
-			throws IOException {
+	public String deleteBreed(@RequestParam("breedid") String breedid,
+			HttpSession session) throws IOException {
 		log.info("删除品种");
 		try {
 
@@ -218,14 +234,21 @@ public class BreedController {
 				int num = vIpoABreedService
 						.deleteBreed(Long.parseLong(breedid));
 				if (num != 0) {
+					WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+							"ipo删除品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
 					return "true";
 				} else {
+					WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+							"ipo删除品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+							session);
 					return "false";
 				}
 			}
 			return "false";
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("修改品种error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
+					"ipo删除品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return "error";
 		}
 	}
