@@ -22,6 +22,7 @@ public class WriteLog {
 	public static final int SYS_LOG_COMMODITY_CATALOGID = 4005;
 	public static final int SYS_LOG_PUBLISH_CATALOGID = 4006;
 	public static final int SYS_LOG_UNDERWRITERSUB_CATALOGID = 4007;
+	public static final int SYS_LOG_DELIVERY_CATALOGID = 4008;
 	public static final int SYS_LOG_OUTBOUND_CATALOGID = 4010;
 	public static final int SYS_LOG_OPE_SUCC = 1;
 	public static final int SYS_LOG_OPE_FAILURE = 0;

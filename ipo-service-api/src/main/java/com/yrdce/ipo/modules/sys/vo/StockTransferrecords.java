@@ -1,11 +1,12 @@
 package com.yrdce.ipo.modules.sys.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class StockTransferrecords {
+public class StockTransferrecords implements Serializable {
 	private BigDecimal applicationId;
 
 	private Object commodityid;

@@ -18,7 +18,21 @@
 			var url_='<%=basePath%>/mgr/app/stockManagement/stock_freeze.jsp';
 			window.location.href=url_; 
 		}
-        
+        /** 
+         *转换日期对象为日期字符串 
+         * @param l long值 
+         * @param pattern 格式字符串,例如：yyyy-MM-dd hh:mm:ss 
+         * @return 符合要求的日期字符串 
+         */ 
+         function getFormatDate(date, pattern) {
+             if (date == undefined) {
+                 date = new Date();
+             }
+             if (pattern == undefined) {
+                 pattern = "yyyy-MM-dd";
+             }
+             return date.format(pattern);
+         }
         
         function save(){
     		var commodityid=String($("#commodityid").val());//入库数量
@@ -49,7 +63,7 @@
      		   cache:false,
                 type: "post",  
                 url: "<%=request.getContextPath()%>/StockController/addNewFreeze",       
-                data:{"commodityid":commodityid,"customerid":customerid,"freezereason":freezereason,"freezeNumber":freezeNumber,"createtime":createtime},     
+                data:{"commodityid":commodityid,"customerid":customerid,"freezereason":freezereason,"freezeNumber":freezeNumber,"createtime":getFormatDate(createtime,'yyyy-MM-dd')},     
                
                 success: function(data) { 
              	   if(data=='true'){

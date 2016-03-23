@@ -19,13 +19,30 @@
 			window.location.href=url_; 
 		}
         
+        /** 
+        *转换日期对象为日期字符串 
+        * @param l long值 
+        * @param pattern 格式字符串,例如：yyyy-MM-dd hh:mm:ss 
+        * @return 符合要求的日期字符串 
+        */ 
+        function getFormatDate(date, pattern) {
+            if (date == undefined) {
+                date = new Date();
+            }
+            if (pattern == undefined) {
+                pattern = "yyyy-MM-dd";
+            }
+            return date.format(pattern);
+        }
+        
         
         function save(){
     		var commodityid=String($("#commodityid").val());//入库数量
     		var customeridApply=String($("#customeridApply").val());//发行数量
     		var transferNumber=parseInt($("#transferNumber").val());//转发售数量
     		var customeridAccept=String($("#customeridAccept").val());
-    		var createtime = new Date( );;
+    		var createtime = new Date( );
+    		
     	
 			 if(dataForm.purchaseRate1.value==""){
 				alert('商品代码不能为空!');return ;
@@ -52,7 +69,7 @@
      		   cache:false,
                 type: "post",  
                 url: "<%=request.getContextPath()%>/StockController/addNewTransfer",       
-                data:{"commodityid":commodityid,"customeridApply":customeridApply,"customeridAccept":customeridAccept,"transferNumber":transferNumber,"createtime":createtime},     
+                data:{"commodityid":commodityid,"customeridApply":customeridApply,"customeridAccept":customeridAccept,"transferNumber":transferNumber,"createtime":getFormatDate(createtime,'yyyy-MM-dd')},     
                
                 success: function(data) { 
              	   if(data=='true'){
