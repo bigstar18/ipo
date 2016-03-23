@@ -24,6 +24,13 @@ public class WriteLog {
 	public static final int SYS_LOG_UNDERWRITERSUB_CATALOGID = 4007;
 	public static final int SYS_LOG_DELIVERY_CATALOGID = 4008;
 	public static final int SYS_LOG_OUTBOUND_CATALOGID = 4010;
+	public static final int SYS_LOG_ChargeUser_CATALOGID = 4011;
+	public static final int SYS_LOG_ChargeItem_CATALOGID = 4012;
+	public static final int SYS_LOG_ChargeRole_CATALOGID = 4013;
+	public static final int SYS_LOG_DEBITFLOW_CATALOGID = 4014;
+	public static final int SYS_LOG_PAYFLOW_CATALOGID = 4015;
+	public static final int SYS_LOG_DATAITEM_CATALOGID = 4016;
+	public static final int SYS_LOG_LOTTERY_CATALOGID = 4017;
 	public static final int SYS_LOG_OPE_SUCC = 1;
 	public static final int SYS_LOG_OPE_FAILURE = 0;
 

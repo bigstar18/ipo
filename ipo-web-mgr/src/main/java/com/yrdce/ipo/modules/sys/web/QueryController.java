@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.PayFlowService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
+import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Order;
 import com.yrdce.ipo.modules.sys.vo.Paging;
@@ -242,8 +244,14 @@ public class QueryController {
 		payFlow.setUpdateUser(getLoginUserId(request));
 		try {
 			payFlowService.pay(payFlow);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PAYFLOW_CATALOGID,
+					"IPO根据付款流水付款成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+					request.getSession());
 		} catch (Exception e) {
 			logger.error("pay error:" + e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PAYFLOW_CATALOGID,
+					"IPO根据付款流水付款失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+					request.getSession());
 			return "error";
 		}
 		return "success";
@@ -255,11 +263,16 @@ public class QueryController {
 	@RequestMapping(value = "/rock")
 	@ResponseBody
 	public boolean rock(
-			@RequestParam(value = "commodityid", required = true) String commodityid) {
+			@RequestParam(value = "commodityid", required = true) String commodityid,
+			HttpSession session) {
 		try {
 			distTaskService.distCommodity(commodityid);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_LOTTERY_CATALOGID,
+					"IPO手动摇号成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
 		} catch (Exception e) {
 			logger.error("rock error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_LOTTERY_CATALOGID,
+					"IPO手动摇号失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return false;
 		}
 		return true;
