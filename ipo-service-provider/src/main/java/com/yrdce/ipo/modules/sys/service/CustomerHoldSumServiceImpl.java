@@ -79,22 +79,21 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	}
 
 	/**
-	 * 增加客户持仓
+	 * 增加客户持仓 传正值
 	 */
 	@Transactional
 	public void increaseCustomerHold(Long frozenqty, String customerid,
 			String commodityid, short bsFlag) {
-		// TODO Auto-generated method stub
-
+		this.updateFirmHold(0 - frozenqty, customerid, commodityid, bsFlag);
 	}
 
 	/**
-	 * 减少客户持仓
+	 * 减少客户持仓 传正值
 	 */
 	@Transactional
 	public void reduceCustomerHold(Long frozenqty, String customerid,
 			String commodityid, short bsFlag) {
-		// TODO Auto-generated method stub
+		this.updateFirmHold(frozenqty, customerid, commodityid, bsFlag);
 
 	}
 

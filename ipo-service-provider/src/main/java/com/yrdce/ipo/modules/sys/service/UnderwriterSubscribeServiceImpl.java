@@ -195,7 +195,7 @@ public class UnderwriterSubscribeServiceImpl implements
 		debitflow.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
 		debitflow
 				.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT.getCode());
-		debitflow.setCreateUser(example.getCreateUser());
+		debitflow.setCreateUser(updater);
 		debitflow.setCreateDate(new Date());
 		debitFlowMapper.insert(debitflow);
 		// 新增手续费流水
@@ -212,7 +212,7 @@ public class UnderwriterSubscribeServiceImpl implements
 		debitflow2.setDebitMode(ChargeConstant.DebitMode.ONLINE.getCode());
 		debitflow2.setDebitChannel(ChargeConstant.DebitChannel.DEPOSIT
 				.getCode());
-		debitflow2.setCreateUser(example.getCreateUser());
+		debitflow2.setCreateUser(updater);
 		debitflow2.setCreateDate(new Date());
 		debitFlowMapper.insert(debitflow2);
 
