@@ -339,12 +339,12 @@ public class TaskServiceImpl implements TaskService {
 		logger.debug("配售单位" + unit);
 		BigDecimal counts = new BigDecimal(dst.getZcounts());
 		logger.debug("中签数量：" + counts);
-		long num = (unit.multiply(counts)).intValue();
+		//long num = (unit.multiply(counts)).intValue();
 		PositionFlow positionFlow = new PositionFlow();
 		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
 		positionFlow.setCommodityId(dst.getCommodityid());
 		positionFlow.setFirmId(dst.getUserid());
-		positionFlow.setHoldqty(num);
+		positionFlow.setHoldqty((long) dst.getZcounts());
 		positionFlow.setPrice(comm.getPrice());
 		positionFlow.setFrozenqty(0L);
 		positionFlow.setCreateUser(dst.getUserid());

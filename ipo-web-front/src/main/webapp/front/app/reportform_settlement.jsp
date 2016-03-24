@@ -7,7 +7,8 @@
 <script src="${ctxStatic}/jquery-easyui/jquery.easyui.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
-<link href="../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
+<!-- <link href="../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" /> -->
+<link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
 <%-- $(document).ready(function(){

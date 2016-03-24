@@ -308,8 +308,12 @@ public class StatisticsReportImpl implements StatisticsReportService {
 			long quatity = ipoDeliveryorder.getDeliveryQuatity();
 			String method = ipoDeliveryorder.getDeliveryMethod();
 			IpoDeliveryCost ipoDeliveryCost = ipoDeliveryCostMapper.selectByPrimaryKey(id);
-			BigDecimal deliveryFee = ipoDeliveryCost.getDeliveryFee() != null
-					? ipoDeliveryCost.getDeliveryFee() : new BigDecimal(0);
+			//BigDecimal deliveryFee = ipoDeliveryCost.getDeliveryFee() != null
+			//		? ipoDeliveryCost.getDeliveryFee() : new BigDecimal(0);
+			BigDecimal rFee = ipoDeliveryCost.getRegistrationFee() != null
+					? ipoDeliveryCost.getRegistrationFee() : new BigDecimal(0);
+			BigDecimal cFee = ipoDeliveryCost.getCancellationFee() != null
+					? ipoDeliveryCost.getCancellationFee() : new BigDecimal(0);
 			BigDecimal insurance = ipoDeliveryCost.getInsurance() != null ? ipoDeliveryCost.getInsurance()
 					: new BigDecimal(0);
 			BigDecimal trudteeFee = ipoDeliveryCost.getTrusteeFee() != null ? ipoDeliveryCost.getTrusteeFee()
@@ -322,7 +326,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 			ipoBilloflading.setCounts(counts);
 			ipoBilloflading.setQuantity(quatity);
 			ipoBilloflading.setDeliverytype(method);
-			ipoBilloflading.setBillofladingfee(deliveryFee);
+			ipoBilloflading.setBillofladingfee(rFee.add(cFee));
 			ipoBilloflading.setWarehousingfee(warehouseFee);
 			ipoBilloflading.setInsurance(insurance);
 			ipoBilloflading.setTrusteefee(trudteeFee);

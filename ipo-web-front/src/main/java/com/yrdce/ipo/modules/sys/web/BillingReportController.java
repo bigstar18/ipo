@@ -52,7 +52,7 @@ public class BillingReportController {
 	private void querySet(String date, HttpServletRequest request, HttpSession session) {
 		logger.info("查询时间：{}", date);
 		String userid = (String) session.getAttribute("currentFirmId");
-		//String userid = "hl";
+		//String userid = "SC";
 		FundSettlement funs = statisticsReportService.fGetFund(userid, date);
 		List<Releasesubscription> rList = statisticsReportService.rGetReleaInfo(userid, date);
 		logger.debug("rlist长度：{}", rList.size());
