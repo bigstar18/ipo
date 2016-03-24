@@ -229,8 +229,8 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			customerHoldSumService.freezeCustomerHold(quatity, firmid, commid,
 					(short) 1);
 
-			// 扣款流水
 			/*
+			 * //扣款流水
 			 * this.fundsFlow(ChargeConstant.ChargeType.REGISTER.getCode(),
 			 * commid, primaryKey, deliveryOrder.getDealerId(), fee);
 			 */

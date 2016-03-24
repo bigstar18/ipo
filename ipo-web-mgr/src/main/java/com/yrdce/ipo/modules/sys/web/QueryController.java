@@ -300,11 +300,16 @@ public class QueryController {
 	@RequestMapping(value = "/orderBalance")
 	@ResponseBody
 	public boolean orderBalance(
-			@RequestParam(value = "commodityid", required = true) String commodityid) {
+			@RequestParam(value = "commodityid", required = true) String commodityid,
+			HttpSession session) {
 		try {
 			taskService.orderBalance(commodityid);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_TRANSPOSITION_CATALOGID,
+					"IPO费用计算转持仓成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
 		} catch (Exception e) {
 			logger.error("orderBalance error:", e);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_TRANSPOSITION_CATALOGID,
+					"IPO费用计算转持仓失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return false;
 		}
 		return true;
@@ -315,11 +320,17 @@ public class QueryController {
 	 */
 	@RequestMapping(value = "/ipoTransferGoodsPosition")
 	@ResponseBody
-	public boolean ipoTransferGoodsPosition() {
+	public boolean ipoTransferGoodsPosition(HttpSession session) {
 		try {
 			taskService.ipoTransferGoodsPosition();
+			WriteLog.writeOperateLog(
+					WriteLog.SYS_LOG_TRANSTIMEBARGIN_CATALOGID, "IPO转现货持仓成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", session);
 		} catch (Exception e) {
 			logger.error("ipoTransferGoodsPosition error:", e);
+			WriteLog.writeOperateLog(
+					WriteLog.SYS_LOG_TRANSTIMEBARGIN_CATALOGID, "IPO转现货持仓失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
 			return false;
 		}
 		return true;

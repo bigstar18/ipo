@@ -31,6 +31,9 @@ public class WriteLog {
 	public static final int SYS_LOG_PAYFLOW_CATALOGID = 4015;
 	public static final int SYS_LOG_DATAITEM_CATALOGID = 4016;
 	public static final int SYS_LOG_LOTTERY_CATALOGID = 4017;
+	public static final int SYS_LOG_TRANSPOSITION_CATALOGID = 4018;
+	public static final int SYS_LOG_TRANSTIMEBARGIN_CATALOGID = 4019;
+	public static final int SYS_LOG_DISTRIRULE_CATALOGID = 4020;
 	public static final int SYS_LOG_OPE_SUCC = 1;
 	public static final int SYS_LOG_OPE_FAILURE = 0;
 
