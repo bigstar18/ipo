@@ -18,8 +18,6 @@ import com.yrdce.ipo.modules.sys.util.DESCodec;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Pickup;
 
-import gnnt.MEBS.checkLogon.util.MD5;
-
 /**
  * 提单过户Controller
  * 
@@ -39,7 +37,8 @@ public class TransferController {
 	@Autowired
 	private CustomerHoldSumService customerHoldSumService;
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TransferController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory
+			.getLogger(TransferController.class);
 
 	@RequestMapping(value = "/getDeliveryInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -48,9 +47,11 @@ public class TransferController {
 			log.info("获取提货单信息");
 			DeliveryOrder deliveryOrder;
 			if (!order.getPickupPassword().equals("")) {
-				String password = MD5.getMD5(order.getDeliveryorderId(), order.getPickupPassword());
+				String password = DESCodec.encrypt(order.getPickupPassword(),
+						"csjcsjcsjcsj");
 				order.setPickupPassword(password);
-				deliveryOrder = deliveryOrderService.getPickupDeliveryInfo(order);
+				deliveryOrder = deliveryOrderService
+						.getPickupDeliveryInfo(order);
 				return JSON.json(deliveryOrder);
 			}
 			return "";
@@ -64,12 +65,15 @@ public class TransferController {
 	// 设置密码
 	@RequestMapping(value = "/setPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String setPassword(@RequestParam("deliveryorderid") String deliveryorderId,
-			@RequestParam("pickupPassword") String pickupPassword) throws Exception {
+	public String setPassword(
+			@RequestParam("deliveryorderid") String deliveryorderId,
+			@RequestParam("pickupPassword") String pickupPassword)
+			throws Exception {
 		if (pickupPassword.equals("")) {
 			return "fail";
 		}
-		DeliveryOrder order = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
+		DeliveryOrder order = deliveryOrderService
+				.getDeliveryOrderByDeliOrderID(deliveryorderId);
 		String password = DESCodec.encrypt(pickupPassword, "csjcsjcsjcsj");
 		int num = pickupservice.setPassword(order.getMethodId(), password);
 		if (num == 1) {
@@ -82,24 +86,32 @@ public class TransferController {
 	// 过户
 	@RequestMapping(value = "/updateSate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String updateSate(@RequestParam("deliveryorderId") String deliveryorderId,
-			@RequestParam("pickupPassword") String pickupPassword, HttpSession session) {
+	public String updateSate(
+			@RequestParam("deliveryorderId") String deliveryorderId,
+			@RequestParam("pickupPassword") String pickupPassword,
+			HttpSession session) {
 		try {
 			log.info("确认过户");
 			String firmId = (String) session.getAttribute("currentFirmId");
-			DeliveryOrder deorder = deliveryOrderService.getDeliveryOrderByDeliOrderID(deliveryorderId);
+			DeliveryOrder deorder = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (deorder != null) {
-				Pickup pickup = pickupservice.getPickUpByPid(deorder.getMethodId());
-				String password = DESCodec.encrypt(pickupPassword, "csj");
+				Pickup pickup = pickupservice.getPickUpByPid(deorder
+						.getMethodId());
+				String password = DESCodec.encrypt(pickupPassword,
+						"csjcsjcsjcsj");
 				if (pickup != null) {
 					if (!pickup.getPickupPassword().equals(password)) {
 						return "false";
 					}
 				}
-				if (deorder.getApprovalStatus().equals(DeliveryConstant.StatusType.PRINTED.getCode())
-						|| deorder.getApprovalStatus()
-								.equals(DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					return deliveryOrderService.transferDeliveryOrder(deliveryorderId, firmId);
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.PRINTED.getCode())
+						|| deorder.getApprovalStatus().equals(
+								DeliveryConstant.StatusType.MARKETPASS
+										.getCode())) {
+					return deliveryOrderService.transferDeliveryOrder(
+							deliveryorderId, firmId);
 				}
 			}
 			return "false";
