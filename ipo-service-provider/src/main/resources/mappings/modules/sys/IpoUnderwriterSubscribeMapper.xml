@@ -150,27 +150,6 @@
       </if>
     </select>
   
-  <select id="selectFunds" parameterType="map" resultType="com.yrdce.ipo.modules.sys.entity.IpoUnderwriterSubscribe">
-  select * from (
-    select t.*, rownum TNO from (
-  select sub.underwriterid,sub.commodityid,sub.subscribecounts,sub.proportion,deposit.amount,v.user_balance from ipo_underwriter_subscribe sub 
-  left join (select dep.subscribeid,sum(dep.amount)amount from ipo_underwriter_deposit dep group by dep.subscribeid)deposit
-  on sub.subscribeid = deposit.subscribeid
-  left join BR_BROKER bro
-  on bro.brokerid = sub.underwriterid
-  left join V_F_FIRMCURFUNDS v
-  on bro.firmid = v.firmId
-  where 
-  UNDERWRITERID like concat (concat('%',#{underwriterid,jdbcType=VARCHAR}),'%')
-  ) t) c
-  where c.TNO between #{beginnum} and #{endnum}
-  order by  underwriterid
-  </select>
-  
-  <select id="selectPage" parameterType="java.lang.String" resultType="java.lang.Integer">
-  select count(*) from IPO_UNDERWRITER_SUBSCRIBE where 
-  UNDERWRITERID like concat (concat('%',#{underwriterid,jdbcType=VARCHAR}),'%')
-  </select>
   
    <select id="getUnderwritersByPub" resultMap="UResultMap"  parameterType="map">
    SELECT A.* FROM( SELECT T.*,ROWNUM TNO FROM(SELECT C.PUBMEMBERID,C.PRICE,C.COUNTS,C.STARTTIME,C.LISTINGDATE,C.COMMODITYID,C.COMMODITYNAME,S.UNDERWRITERID,B.NAME FROM IPO_UNDERWRITER_SUBSCRIBE S  LEFT JOIN IPO_COMMODITY_CONF C ON S.COMMODITYID=C.COMMODITYID  LEFT JOIN BR_BROKER B
@@ -205,11 +184,11 @@
     </select>
   
     <select id="selectUnFrozeSetExcpt" resultMap="BaseResultMap"  parameterType="map">
-     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL} and t.subscribeid != #{subscribeid,jdbcType=DECIMAL}
+     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL} and t.delete_flag=0 and t.subscribeid != #{subscribeid,jdbcType=DECIMAL}
     </select>
   
    <select id="selectUnFrozeSet" resultMap="BaseResultMap"  parameterType="map">
-     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL}
+     select t.* from ipo_underwriter_subscribe t where t.underwriterid=#{brokerid,jdbcType=VARCHAR} and t.state=#{state,jdbcType=DECIMAL} and t.delete_flag=0
     </select>
     
     
