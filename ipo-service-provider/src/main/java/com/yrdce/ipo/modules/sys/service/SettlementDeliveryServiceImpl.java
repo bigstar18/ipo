@@ -398,7 +398,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		customerHoldSumService.unfreezeCustomerHold(quatity, firmid + "00",
 				commid, (short) 1);
 		if (status == DeliveryConstant.StatusType.MARKETPASS.getCode()
-				|| status == DeliveryConstant.StatusType.REGISTER.getCode()
+				|| status == DeliveryConstant.StatusType.PRINTED.getCode()
 				|| status == DeliveryConstant.StatusType.EXPRESSCOSTSET
 						.getCode()) {
 			DeliveryOrder deliveryOrder = new DeliveryOrder();
