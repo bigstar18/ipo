@@ -396,7 +396,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 			this.fundsFlow(ChargeConstant.ChargeType.CANCEL.getCode(), commid, deliveryorderid, firmid, fee);
 			return "success";
 		} else {
-			return "success";
+			return "error";
 		}
 
 	}
