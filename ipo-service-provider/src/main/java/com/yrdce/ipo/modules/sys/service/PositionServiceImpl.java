@@ -47,14 +47,12 @@ public class PositionServiceImpl implements PositionService {
 	 * @return
 	 */
 	public List<PositionFlow> queryFlowForList(PositionFlow positionFlow) {
-		List<IpoPositionFlow> dbList = positionFlowMapper
-				.queryForList(positionFlow);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForList(positionFlow);
 		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
 		for (IpoPositionFlow item : dbList) {
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.FlowState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			dataList.add(entity);
 		}
 		return dataList;
@@ -69,14 +67,12 @@ public class PositionServiceImpl implements PositionService {
 	public PositionFlow findFlow(Long id) {
 		PositionFlow positionFlow = new PositionFlow();
 		positionFlow.setId(id);
-		List<IpoPositionFlow> dbList = positionFlowMapper
-				.queryForList(positionFlow);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForList(positionFlow);
 		if (dbList != null && !dbList.isEmpty()) {
 			IpoPositionFlow item = dbList.get(0);
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.FlowState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			return entity;
 		}
 		return null;
@@ -90,18 +86,16 @@ public class PositionServiceImpl implements PositionService {
 	 * @param positionFlow
 	 * @return
 	 */
-	public List<PositionFlow> queryFlowForPage(String pageNoStr,
-			String pageSizeStr, PositionFlow positionFlow) {
+	public List<PositionFlow> queryFlowForPage(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow) {
 		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
 		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
-		List<IpoPositionFlow> dbList = positionFlowMapper.queryForPage(
-				startIndex, endIndex, positionFlow);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForPage(startIndex, endIndex, positionFlow);
 		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
 		for (IpoPositionFlow item : dbList) {
 			PositionFlow entity = new PositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.FlowState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			dataList.add(entity);
 		}
 		return dataList;
@@ -119,6 +113,76 @@ public class PositionServiceImpl implements PositionService {
 	}
 
 	/**
+	 * 分页查询 ipo 持仓流水(承销商)
+	 * 
+	 * @param pageNoStr
+	 * @param pageSizeStr
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public List<PositionFlow> queryFlowForUnderwriter(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow) {
+		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
+		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForUnderwriter(startIndex, endIndex,
+				positionFlow);
+		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
+		for (IpoPositionFlow item : dbList) {
+			PositionFlow entity = new PositionFlow();
+			BeanUtils.copyProperties(item, entity);
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
+			dataList.add(entity);
+		}
+		return dataList;
+	}
+
+	/**
+	 * 查询 ipo 持仓流水数量(承销商)
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public long findForCount(PositionFlow positionFlow) {
+		long count = positionFlowMapper.underwriterForCount(positionFlow);
+		return count;
+	}
+
+	/**
+	 * 分页查询 ipo 持仓流水(客户)
+	 * 
+	 * @param pageNoStr
+	 * @param pageSizeStr
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public List<PositionFlow> queryFlowForCustomer(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow) {
+		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
+		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
+		List<IpoPositionFlow> dbList = positionFlowMapper.queryForCustomer(startIndex, endIndex,
+				positionFlow);
+		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
+		for (IpoPositionFlow item : dbList) {
+			PositionFlow entity = new PositionFlow();
+			BeanUtils.copyProperties(item, entity);
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
+			dataList.add(entity);
+		}
+		return dataList;
+	}
+
+	/**
+	 * 查询 ipo 持仓流水数量(客户)
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public long customerForCount(PositionFlow positionFlow) {
+		long count = positionFlowMapper.customerForCount(positionFlow);
+		return count;
+	}
+
+	/**
 	 * 新增 ipo 持仓流水
 	 * 
 	 * @param positionFlow
@@ -126,8 +190,7 @@ public class PositionServiceImpl implements PositionService {
 	 */
 	@Transactional
 	public int savePositionFlow(PositionFlow positionFlow) {
-		positionFlow.setState(PositionConstant.FlowState.no_turn_goods
-				.getCode());
+		positionFlow.setState(PositionConstant.FlowState.no_turn_goods.getCode());
 		return positionFlowMapper.insert(positionFlow);
 	}
 
@@ -138,14 +201,12 @@ public class PositionServiceImpl implements PositionService {
 	 * @return
 	 */
 	public List<PositionReduce> queryReduceForList(PositionReduce positionReduce) {
-		List<IpoPositionReduce> dbList = positionReduceMapper
-				.queryForList(positionReduce);
+		List<IpoPositionReduce> dbList = positionReduceMapper.queryForList(positionReduce);
 		List<PositionReduce> dataList = new ArrayList<PositionReduce>();
 		for (IpoPositionReduce item : dbList) {
 			PositionReduce entity = new PositionReduce();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.ReduceState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.ReduceState.getName(entity.getState()));
 			dataList.add(entity);
 		}
 		return dataList;
@@ -157,18 +218,17 @@ public class PositionServiceImpl implements PositionService {
 	 * @param positionReduce
 	 * @return
 	 */
-	public List<PositionReduce> queryReduceForListByPage(String page,
-			String row, PositionReduce positionReduce) {
+	public List<PositionReduce> queryReduceForListByPage(String page, String row,
+			PositionReduce positionReduce) {
 		int startIndex = PageUtil.getStartIndex(page, row);
 		int endIndex = PageUtil.getEndIndex(page, row);
-		List<IpoPositionReduce> dbList = positionReduceMapper
-				.queryForPositionId(startIndex, endIndex, positionReduce);
+		List<IpoPositionReduce> dbList = positionReduceMapper.queryForPositionId(startIndex, endIndex,
+				positionReduce);
 		List<PositionReduce> dataList = new ArrayList<PositionReduce>();
 		for (IpoPositionReduce item : dbList) {
 			PositionReduce entity = new PositionReduce();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.ReduceState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.ReduceState.getName(entity.getState()));
 			dataList.add(entity);
 		}
 		return dataList;
@@ -182,8 +242,7 @@ public class PositionServiceImpl implements PositionService {
 	 */
 	@Transactional
 	public int savePositionReduce(PositionReduce positionReduce) {
-		positionReduce.setState(PositionConstant.ReduceState.no_reduce
-				.getCode());
+		positionReduce.setState(PositionConstant.ReduceState.no_reduce.getCode());
 		if (positionReduce.getCreateDate() == null) {
 			positionReduce.setCreateDate(new Date());
 		}
@@ -229,18 +288,16 @@ public class PositionServiceImpl implements PositionService {
 		String customerid = positionReduce.getFirmId() + "00";
 		String commodityid = positionReduce.getCommodityId();
 		short bsFlag = 1; // 买卖标志 1:买 buy，2:卖 sell
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper
-				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
 		if (dbCustomerHold == null) {
-			throw new RuntimeException("解冻客户持仓记录不存在,[reduceId:" + reduceId
-					+ ",customerid:" + customerid + "," + "commodityid:"
-					+ commodityid + ",bsFlag:" + bsFlag + "]");
+			throw new RuntimeException("解冻客户持仓记录不存在,[reduceId:" + reduceId + ",customerid:" + customerid + ","
+					+ "commodityid:" + commodityid + ",bsFlag:" + bsFlag + "]");
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
 		BeanUtils.copyProperties(dbCustomerHold, param);
-		Long frozenqty = dbCustomerHold.getFrozenqty()
-				- positionReduce.getReduceqty();
+		Long frozenqty = dbCustomerHold.getFrozenqty() - positionReduce.getReduceqty();
 		if (frozenqty < 0) {
 			frozenqty = 0L;
 		}
@@ -271,18 +328,17 @@ public class PositionServiceImpl implements PositionService {
 	}
 
 	@Override
-	public List<PubPositionFlow> queryPubFlowForPage(String pageNoStr,
-			String pageSizeStr, PubPositionFlow positionFlow) {
+	public List<PubPositionFlow> queryPubFlowForPage(String pageNoStr, String pageSizeStr,
+			PubPositionFlow positionFlow) {
 		int startIndex = PageUtil.getStartIndex(pageNoStr, pageSizeStr);
 		int endIndex = PageUtil.getEndIndex(pageNoStr, pageSizeStr);
-		List<IpoPubPositionFlow> dbList = positionFlowMapper
-				.queryPubFlowForPage(startIndex, endIndex, positionFlow);
+		List<IpoPubPositionFlow> dbList = positionFlowMapper.queryPubFlowForPage(startIndex, endIndex,
+				positionFlow);
 		List<PubPositionFlow> dataList = new ArrayList<PubPositionFlow>();
 		for (IpoPubPositionFlow item : dbList) {
 			PubPositionFlow entity = new PubPositionFlow();
 			BeanUtils.copyProperties(item, entity);
-			entity.setStateName(PositionConstant.FlowState.getName(entity
-					.getState()));
+			entity.setStateName(PositionConstant.FlowState.getName(entity.getState()));
 			dataList.add(entity);
 		}
 		return dataList;

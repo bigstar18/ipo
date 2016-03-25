@@ -52,7 +52,9 @@ public class DeliveryTask {
 				if (deliveryDate < nowTime) {
 					String id = ipoDeliveryorder.getDeliveryorderId();
 					String status = ipoDeliveryorder.getApprovalStatus();
-					if (status.equals(DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+					if (status.equals(DeliveryConstant.StatusType.MARKETPASS.getCode())
+							|| status.equals(DeliveryConstant.StatusType.PRINTED.getCode())
+							|| status.equals(DeliveryConstant.StatusType.EXPRESSCOSTSET.getCode())) {
 						DeliveryOrder deliveryOrder = new DeliveryOrder();
 						BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
 						deliveryorderservice.unfrozenStock(deliveryOrder);

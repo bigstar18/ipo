@@ -13,7 +13,7 @@
   
   function initial(){
 	  $('#dg').datagrid({
-	      url: '<%=request.getContextPath()%>/SPOController/queryPositionFlow?t='+Math.random(), //从远程站点请求数据的 URL。
+	      url: '<%=request.getContextPath()%>/SPOController/positionFlowByUnderwriter?t='+Math.random(), //从远程站点请求数据的 URL。
 	      method:"post",
 	      loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
 	      iconCls: 'icon-ok', //它将显示一个背景图片
@@ -36,7 +36,7 @@
 	          width : '200',
 	          align: 'center'
 	        }, {
-	          field: 'firmId',
+	          field: 'brokerid',
 	          title: '承销商代码',
 	          width : '200',
 	          align: 'center'
@@ -75,7 +75,7 @@
   
   function retail(){
 	  $('#dg').datagrid({
-	      url: '<%=request.getContextPath()%>/SPOController/queryPositionFlow?t='+Math.random(), //从远程站点请求数据的 URL。
+	      url: '<%=request.getContextPath()%>/SPOController/positionFlowByCustomer?t='+Math.random(), //从远程站点请求数据的 URL。
 	      method:"post",
 	      loadMsg: '加载中', //当从远程站点加载数据时，显示的提示消息。
 	      iconCls: 'icon-ok', //它将显示一个背景图片
@@ -155,8 +155,8 @@
 					<td>
 						<br />
 	<div class="div_list">
-	<!-- <a href="javascript:void(0)" onclick="initial()"> 承销会员减持设置</a>&nbsp; &nbsp; &nbsp; &nbsp;
-	<a href="javascript:void(0)" onclick="retail()">客户减持设置</a> -->
+	<a href="javascript:void(0)" onclick="initial()"> 承销会员减持设置</a>&nbsp; &nbsp; &nbsp; &nbsp;
+	<a href="javascript:void(0)" onclick="retail()">客户减持设置</a>
 	<table id="dg" width="100%"></table>
 		<div id="tb" style="padding:5px;height:auto">
 		<div>

@@ -37,8 +37,7 @@ public interface IpoPositionFlowMapper {
 	 * @param positionFlow
 	 * @return
 	 */
-	List<IpoPositionFlow> queryForPage(@Param("startIndex") int startIndex,
-			@Param("endIndex") int endIndex,
+	List<IpoPositionFlow> queryForPage(@Param("startIndex") int startIndex, @Param("endIndex") int endIndex,
 			@Param("param") PositionFlow positionFlow);
 
 	/**
@@ -56,10 +55,8 @@ public interface IpoPositionFlowMapper {
 	 * @param positionFlow
 	 * @return
 	 */
-	List<IpoPubPositionFlow> queryPubFlowForPage(
-			@Param("startIndex") int startIndex,
-			@Param("endIndex") int endIndex,
-			@Param("param") PubPositionFlow positionFlow);
+	List<IpoPubPositionFlow> queryPubFlowForPage(@Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex, @Param("param") PubPositionFlow positionFlow);
 
 	/**
 	 * 发行商转持仓流水记录数
@@ -83,7 +80,41 @@ public interface IpoPositionFlowMapper {
 	 * @param commodityid
 	 * @param operUser
 	 */
-	void transferGoodsPosition(@Param("commodityid") String commodityid,
-			@Param("operUser") String operUser);
+	void transferGoodsPosition(@Param("commodityid") String commodityid, @Param("operUser") String operUser);
 
+	/**
+	 * 增发承销商减持
+	 * 
+	 * @param startIndex
+	 * @param endIndex
+	 * @param positionFlow
+	 * @author bob
+	 */
+	List<IpoPositionFlow> queryForUnderwriter(@Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex, @Param("param") PositionFlow positionFlow);
+
+	/**
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	long underwriterForCount(@Param("param") PositionFlow positionFlow);
+
+	/**
+	 * 增发客户减持
+	 * 
+	 * @param startIndex
+	 * @param endIndex
+	 * @param positionFlow
+	 * @author bob
+	 */
+	List<IpoPositionFlow> queryForCustomer(@Param("startIndex") int startIndex,
+			@Param("endIndex") int endIndex, @Param("param") PositionFlow positionFlow);
+
+	/**
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	long customerForCount(@Param("param") PositionFlow positionFlow);
 }

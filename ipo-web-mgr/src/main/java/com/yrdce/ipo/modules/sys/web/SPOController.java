@@ -377,7 +377,6 @@ public class SPOController {
 	@ResponseBody
 	public String aMountAndFee(@RequestParam("spoid") String spoid, @RequestParam("firmid") String firmid,
 			@RequestParam("counts") String counts, HttpServletRequest request) {
-		//TODO   增发前台显示费用
 		SpoCommoditymanmaagement spoCom = spoService.getListBySpocom(spoid);
 		String commid = spoCom.getCommodityId();
 		BigDecimal price = spoCom.getSpoPrice();
@@ -466,25 +465,52 @@ public class SPOController {
 	}
 
 	/**
-	 * 查询持仓流水
+	 * 查询持仓流水(承销商)
 	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @param request
 	 */
-	@RequestMapping(value = "/queryPositionFlow")
+	@RequestMapping(value = "/positionFlowByUnderwriter")
 	@ResponseBody
-	public String queryPositionFlow(@RequestParam("page") String pageNo,
+	public String positionFlowByUnderwriter(@RequestParam("page") String pageNo,
 			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
 		PositionFlow positionFlow = new PositionFlow();
 		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
 		positionFlow.setState(PositionConstant.FlowState.turn_goods.getCode());
 		positionFlow.setCommodityId(request.getParameter("commodityId"));
 		positionFlow.setFirmId(request.getParameter("firmId"));
-		long count = positionService.queryFlowForCount(positionFlow);
+		long count = positionService.findForCount(positionFlow);
 		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
 		if (count > 0) {
-			dataList = positionService.queryFlowForPage(pageNo, pageSize, positionFlow);
+			dataList = positionService.queryFlowForUnderwriter(pageNo, pageSize, positionFlow);
+		}
+		ResponseResult result = new ResponseResult();
+		result.setTotal(new Long(count).intValue());
+		result.setRows(dataList);
+		return JSON.json(result);
+	}
+
+	/**
+	 * 查询持仓流水(客户)
+	 * 
+	 * @param pageNo
+	 * @param pageSize
+	 * @param request
+	 */
+	@RequestMapping(value = "/positionFlowByCustomer")
+	@ResponseBody
+	public String positionFlowByCustomer(@RequestParam("page") String pageNo,
+			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
+		PositionFlow positionFlow = new PositionFlow();
+		positionFlow.setBusinessCode(ChargeConstant.BusinessType.INCREASE_PUBLISH.getCode());
+		positionFlow.setState(PositionConstant.FlowState.turn_goods.getCode());
+		positionFlow.setCommodityId(request.getParameter("commodityId"));
+		positionFlow.setFirmId(request.getParameter("firmId"));
+		long count = positionService.customerForCount(positionFlow);
+		List<PositionFlow> dataList = new ArrayList<PositionFlow>();
+		if (count > 0) {
+			dataList = positionService.queryFlowForCustomer(pageNo, pageSize, positionFlow);
 		}
 		ResponseResult result = new ResponseResult();
 		result.setTotal(new Long(count).intValue());

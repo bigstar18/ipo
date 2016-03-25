@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
@@ -133,7 +132,7 @@ public class SPOTask {
 					BigDecimal money = price.multiply(counts1);
 					logger.debug("商品费用Monery：" + money);
 					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid,
-							commodityid, ChargeConstant.BusinessType.PUBLISH.getCode());
+							commodityid, "1");
 					BigDecimal fee = new BigDecimal(0);
 					BigDecimal buy = new BigDecimal(0);
 					short tradealgr = 0;

@@ -90,10 +90,10 @@
 										<tr>
 											<td colspan="2" height="3"></td>
 										</tr>
-										<tr>
+										<!-- <tr>
 											<td align="left" width="35%" height="35">&nbsp;&nbsp; <font color=red>●</font>&nbsp;<button class="btn_sec" name="ok11" id="ok11" onclick="javascript:balanceChk_onclick('07');">闭市操作</button>
 											</td>
-										</tr>
+										</tr> -->
 										<tr>
 											<td colspan="2" height="3"></td>
 										</tr>

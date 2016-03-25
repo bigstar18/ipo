@@ -193,5 +193,111 @@
        ]]>
  
   </select>
+  
+  <select id="queryForUnderwriter" resultType="com.yrdce.ipo.modules.sys.entity.IpoPositionFlow"  parameterType="map" >
+       select * from (
+           select pg.*,rownum as row_num from (
+	            select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
+                   pf.commodityid,pf.price,pf.create_user,pf.create_date,
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark,
+			       pf.freeqty,br.brokerid
+				from ipo_positionflow pf
+				join (select b.firmid, b.brokerid from br_broker b where b.membertype = 2) br
+    			on pf.firmid = br.firmid
+		        where 1=1
+				<if test="param.businessCode!=null and param.businessCode!='' ">
+					 and pf.business_code=#{param.businessCode}
+				</if>
+				<if test="param.roleCode!=null and param.roleCode!='' ">
+					 and pf.role_code=#{param.roleCode}
+				</if>
+				<if test="param.firmId!=null and param.firmId!='' ">
+					 and pf.firmid=#{param.firmId}
+				</if>
+				<if test="param.commodityId!=null and param.commodityId!='' ">
+					 and pf.commodityid=#{param.commodityId}
+				</if>
+				<if test="param.state>0 ">
+					and  pf.state=#{param.state} 
+				</if>
+				order by pf.create_date desc
+			) pg where #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
+		 
+  </select>
+  
+   <select id="underwriterForCount" resultType="java.lang.Long"    parameterType="map" >
+      select count(pf.id) as count_   from ipo_positionflow pf
+      join (select b.firmid, b.brokerid from br_broker b where b.membertype = 2) br
+      on pf.firmid = br.firmid
+      where 1=1
+	 <if test="param.businessCode!=null and param.businessCode!='' ">
+		 and pf.business_code=#{param.businessCode}
+	 </if>
+	 <if test="param.roleCode!=null and param.roleCode!='' ">
+		and pf.role_code=#{param.roleCode}
+	 </if>
+	 <if test="param.firmId!=null and param.firmId!='' ">
+		 and pf.firmid=#{param.firmId}
+	 </if>
+	 <if test="param.commodityId!=null and param.commodityId!='' ">
+		 and pf.commodityid=#{param.commodityId}
+	 </if>
+	 <if test="param.state>0 ">
+		and  pf.state=#{param.state} 
+	 </if>
+  </select>
+  
+  <select id="queryForCustomer" resultMap="PositionFlowResultMap"  parameterType="map" >
+       select * from (
+           select pg.*,rownum as row_num from (
+	            select pf.id,pf.firmid,pf.holdqty,pf.business_code, pf.role_code,
+                   pf.commodityid,pf.price,pf.create_user,pf.create_date,
+			       pf.update_user,pf.update_date,pf.state,pf.frozenqty,pf.remark,
+			       pf.freeqty
+				from ipo_positionflow pf
+		        where pf.firmid not in
+       			(select b.firmid from br_broker b where b.membertype = '2')
+				<if test="param.businessCode!=null and param.businessCode!='' ">
+					 and pf.business_code=#{param.businessCode}
+				</if>
+				<if test="param.roleCode!=null and param.roleCode!='' ">
+					 and pf.role_code=#{param.roleCode}
+				</if>
+				<if test="param.firmId!=null and param.firmId!='' ">
+					 and pf.firmid=#{param.firmId}
+				</if>
+				<if test="param.commodityId!=null and param.commodityId!='' ">
+					 and pf.commodityid=#{param.commodityId}
+				</if>
+				<if test="param.state>0 ">
+					and  pf.state=#{param.state} 
+				</if>
+				order by pf.create_date desc
+			) pg where #{endIndex} >=rownum
+		) where row_num>=#{startIndex}
+		 
+  </select>
+  
+   <select id="customerForCount" resultType="java.lang.Long"    parameterType="map" >
+      select count(pf.id) as count_   from ipo_positionflow pf
+      where  pf.firmid not in
+       (select b.firmid from br_broker b where b.membertype = '2')
+	 <if test="param.businessCode!=null and param.businessCode!='' ">
+		 and pf.business_code=#{param.businessCode}
+	 </if>
+	 <if test="param.roleCode!=null and param.roleCode!='' ">
+		and pf.role_code=#{param.roleCode}
+	 </if>
+	 <if test="param.firmId!=null and param.firmId!='' ">
+		 and pf.firmid=#{param.firmId}
+	 </if>
+	 <if test="param.commodityId!=null and param.commodityId!='' ">
+		 and pf.commodityid=#{param.commodityId}
+	 </if>
+	 <if test="param.state>0 ">
+		and  pf.state=#{param.state} 
+	 </if>
+  </select>
 
 </mapper>

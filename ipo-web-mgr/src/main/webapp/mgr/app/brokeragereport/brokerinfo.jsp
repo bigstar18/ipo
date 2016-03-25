@@ -154,7 +154,7 @@
 													<td class="td_reportMdHead" align="center">${releaInfo.commodityid}</td>
 													<td class="td_reportMdHead" align="center">${releaInfo.commodityname}</td>
 													<td class="td_reportMdHead" align="center">${releaInfo.issueprice}</td>
-													<td class="td_reportMdHead" align="center">${releaInfo.purchasetime }</td>
+													<td class="td_reportMdHead" align="center"><fmt:formatDate value="${releaInfo.purchasetime }" pattern="yyyy-MM-dd"/> </td>
 													<td class="td_reportMdHead" align="center">${releaInfo.purchasequantity}</td>
 													<td class="td_reportMdHead" align="center">${releaInfo.purchaseamount}</td>
 													<td class="td_reportRdHead" align="center">${releaInfo.issuancefee}</td>

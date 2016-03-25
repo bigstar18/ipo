@@ -1,6 +1,7 @@
 package com.yrdce.ipo.common.task;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -69,6 +70,10 @@ public class BrokerTask {
 	@Autowired
 	private IpoHoldcommodityMapper ipoHoldcommodityMapper;
 
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+	String date = sdf.format(new Date());
+
 	/**
 	 * @Title: releasesub
 	 * @Description: 发行申购明细
@@ -81,7 +86,7 @@ public class BrokerTask {
 			String brokerid = ipoBroker.getBrokerid();
 			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
-			List<IpoOrder> orderList = orderMapper.selectByfirmid(firmid);
+			List<IpoOrder> orderList = orderMapper.findFirmIdAndDate(firmid, date);
 			if (orderList != null || !orderList.isEmpty()) {
 				for (IpoOrder ipoOrder : orderList) {
 					String commodityId = ipoOrder.getCommodityid();
@@ -127,7 +132,7 @@ public class BrokerTask {
 			String brokerid = ipoBroker.getBrokerid();
 			String brokername = ipoBroker.getName();
 			String firmid = ipoBroker.getFirmid();
-			List<IpoDeliveryorder> deliveryOrderList = DeliveryorderMapper.selectFirmid(firmid);
+			List<IpoDeliveryorder> deliveryOrderList = DeliveryorderMapper.findByFirmIdAndDate(firmid, date);
 			for (IpoDeliveryorder ipoDeliveryorder : deliveryOrderList) {
 				String id = ipoDeliveryorder.getDeliveryorderId();
 				logger.info("String id={}", id);
@@ -186,8 +191,8 @@ public class BrokerTask {
 			String firmid = ipoBroker.getFirmid();
 			String businessType = ChargeConstant.BusinessType.DELIVERY.getCode();
 			String chargeType = ChargeConstant.ChargeType.CHANGE_OWNER.getCode();
-			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.selectInfo(businessType, chargeType,
-					firmid);
+			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.selectInfo(businessType, chargeType, firmid,
+					date);
 			for (IpoDebitFlow ipoDebitFlow : bebitFlowList) {
 				String id = ipoDebitFlow.getOrderId();
 				BigDecimal amount = ipoDebitFlow.getAmount();

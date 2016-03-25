@@ -37,8 +37,8 @@ public interface PositionService {
 	 * @param positionFlow
 	 * @return
 	 */
-	public List<PositionFlow> queryFlowForPage(String pageNoStr,
-			String pageSizeStr, PositionFlow positionFlow);
+	public List<PositionFlow> queryFlowForPage(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow);
 
 	/**
 	 * 查询 ipo 持仓流水数量
@@ -70,8 +70,8 @@ public interface PositionService {
 	 * @param positionReduce
 	 * @return
 	 */
-	public List<PositionReduce> queryReduceForListByPage(String page,
-			String row, PositionReduce positionReduce);
+	public List<PositionReduce> queryReduceForListByPage(String page, String row,
+			PositionReduce positionReduce);
 
 	/**
 	 * 查询减持仓设置记录数
@@ -120,8 +120,8 @@ public interface PositionService {
 	 * @param positionFlow
 	 * @return
 	 */
-	public List<PubPositionFlow> queryPubFlowForPage(String pageNoStr,
-			String pageSizeStr, PubPositionFlow positionFlow);
+	public List<PubPositionFlow> queryPubFlowForPage(String pageNoStr, String pageSizeStr,
+			PubPositionFlow positionFlow);
 
 	/**
 	 * 查询发行商 ipo 持仓流水数量
@@ -130,5 +130,43 @@ public interface PositionService {
 	 * @return
 	 */
 	public long queryPubFlowForCount(PubPositionFlow positionFlow);
+
+	/**
+	 * 分页查询 ipo 持仓流水(承销商)
+	 * 
+	 * @param pageNoStr
+	 * @param pageSizeStr
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public List<PositionFlow> queryFlowForUnderwriter(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow);
+
+	/**
+	 * 查询 ipo 持仓流水数量(承销商)
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public long findForCount(PositionFlow positionFlow);
+
+	/**
+	 * 分页查询 ipo 持仓流水(客户)
+	 * 
+	 * @param pageNoStr
+	 * @param pageSizeStr
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public List<PositionFlow> queryFlowForCustomer(String pageNoStr, String pageSizeStr,
+			PositionFlow positionFlow);
+
+	/**
+	 * 查询 ipo 持仓流水数量(客户)
+	 * 
+	 * @param positionFlow
+	 * @author bob
+	 */
+	public long customerForCount(PositionFlow positionFlow);
 
 }

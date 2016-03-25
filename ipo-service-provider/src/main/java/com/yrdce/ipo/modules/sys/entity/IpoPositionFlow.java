@@ -3,33 +3,35 @@ package com.yrdce.ipo.modules.sys.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * ipo 持仓流水
+ * 
  * @author wq 2016-2-16
- *  
+ * 
  */
 public class IpoPositionFlow implements Serializable {
-	 
+
 	private static final long serialVersionUID = -2150996681051195132L;
 
 	/**
 	 * 持仓单号
 	 */
 	private Long id;
-	
+
 	/**
 	 * 交易商id
 	 */
-	private String  firmId;
-	
+	private String firmId;
+
 	/**
 	 * 持仓量
 	 */
-	private Long holdqty; 
+	private Long holdqty;
 	/**
 	 * 冻结数量
 	 */
-	private Long frozenqty; 
+	private Long frozenqty;
 	/**
 	 * 释放数量
 	 */
@@ -37,20 +39,20 @@ public class IpoPositionFlow implements Serializable {
 	/**
 	 * 业务类型
 	 */
-	private String  businessCode;
+	private String businessCode;
 	/**
 	 * 角色类型
 	 */
-	private String  roleCode;
+	private String roleCode;
 	/**
 	 * 商品编码
 	 */
-	private String  commodityId;
+	private String commodityId;
 	/**
 	 * 持仓价
 	 */
-	private BigDecimal  price;
-	
+	private BigDecimal price;
+
 	/**
 	 * 状态 1:待转现货 2:已转现货
 	 */
@@ -75,7 +77,12 @@ public class IpoPositionFlow implements Serializable {
 	 * 备注
 	 */
 	private String remark;
-	
+
+	/**
+	 * 会员id(扩展字段)
+	 */
+	private String brokerid;
+
 	public IpoPositionFlow() {
 	}
 
@@ -111,7 +118,6 @@ public class IpoPositionFlow implements Serializable {
 		this.frozenqty = frozenqty;
 	}
 
-	
 	public Long getFreeqty() {
 		return freeqty;
 	}
@@ -199,8 +205,13 @@ public class IpoPositionFlow implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
-	
-	
+
+	public String getBrokerid() {
+		return brokerid;
+	}
+
+	public void setBrokerid(String brokerid) {
+		this.brokerid = brokerid;
+	}
+
 }
