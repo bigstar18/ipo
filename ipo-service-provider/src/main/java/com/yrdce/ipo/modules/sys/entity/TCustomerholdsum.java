@@ -1,33 +1,34 @@
 package com.yrdce.ipo.modules.sys.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TCustomerholdsum {
-	private String customerid;//交易员id
+public class TCustomerholdsum implements Serializable {
+	private String customerid;// 交易员id
 
-	private String commodityid;//商品id
+	private String commodityid;// 商品id
 
-	private Short bsFlag;//买卖标志
+	private Short bsFlag;// 买卖标志
 
-	private Long holdqty;//持仓量
+	private Long holdqty;// 持仓量
 
-	private BigDecimal holdfunds;//持仓金额
+	private BigDecimal holdfunds;// 持仓金额
 
-	private BigDecimal floatingloss;//浮动盈亏
+	private BigDecimal floatingloss;// 浮动盈亏
 
-	private BigDecimal evenprice;//持仓均价
+	private BigDecimal evenprice;// 持仓均价
 
-	private Long frozenqty;//冻结数量
+	private Long frozenqty;// 冻结数量
 
-	private BigDecimal holdmargin;//实时保证金
+	private BigDecimal holdmargin;// 实时保证金
 
-	private Long gageqty;//抵顶数量
+	private Long gageqty;// 抵顶数量
 
-	private BigDecimal holdassure;//持仓担保金
+	private BigDecimal holdassure;// 持仓担保金
 
-	private String firmid;//交易商id
+	private String firmid;// 交易商id
 
-	private Long gagefrozenqty;//抵顶冻结数量
+	private Long gagefrozenqty;// 抵顶冻结数量
 
 	private String warehouseName;
 

@@ -61,7 +61,7 @@
   
   <update id="updateFirmHoldSum" parameterType="map" >
     update t_firmholdsum
-    set HOLDQTY = #{holdqty,jdbcType=DECIMAL}
+    set HOLDQTY = #{newqty,jdbcType=DECIMAL}
     where FIRMID = #{firmid,jdbcType=VARCHAR}
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
       and BS_FLAG = #{bs_flag,jdbcType=DECIMAL}

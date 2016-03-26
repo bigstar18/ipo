@@ -1,5 +1,7 @@
 package com.yrdce.ipo.modules.sys.service;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -83,8 +85,8 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 */
 	@Transactional
 	public void increaseCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
-		this.updateFirmHold(0 - frozenqty, customerid, commodityid, bsFlag);
+			String commodityid, Short bsFlag) {
+		this.incraseFirmHold(frozenqty, customerid, commodityid, bsFlag);
 	}
 
 	/**
@@ -92,8 +94,8 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 */
 	@Transactional
 	public void reduceCustomerHold(Long frozenqty, String customerid,
-			String commodityid, short bsFlag) {
-		this.updateFirmHold(frozenqty, customerid, commodityid, bsFlag);
+			String commodityid, Short bsFlag) {
+		this.reduceFirmHold(frozenqty, customerid, commodityid, bsFlag);
 
 	}
 
@@ -106,10 +108,10 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	}
 
 	/**
-	 * 更新交易用户持仓合计信息，根据数量平均分配金额 扣持仓传正值 加持仓传负值
+	 * 扣持仓 更新交易用户持仓合计信息，根据数量平均分配金额传正值
 	 */
 	@Transactional
-	public String updateFirmHold(Long tradeqty, String customerid,
+	public String reduceFirmHold(Long tradeqty, String customerid,
 			String commodityid, short bsFlag) {
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper
 				.selectByPrimaryKey(customerid, commodityid, bsFlag);
@@ -131,4 +133,52 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		}
 		return "false";
 	}
+
+	/**
+	 * 加持仓 更新交易用户持仓合计信息，根据数量平均分配金额 传正值
+	 */
+	@Transactional
+	public String incraseFirmHold(Long tradeqty, String customerid,
+			String commodityid, short bsFlag) {
+		String firmid = customerholdsumMapper.selectFirmId(customerid);
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper
+				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		if (dbCustomerHold == null) {
+			TCustomerholdsum record = new TCustomerholdsum();
+			record.setCustomerid(customerid);
+			record.setCommodityid(commodityid);
+			record.setBsFlag(bsFlag);
+			record.setHoldqty(tradeqty);
+			BigDecimal orivalue = new BigDecimal(0);
+			record.setHoldfunds(orivalue);
+			record.setGagefrozenqty((long) 0);
+			record.setFirmid(firmid);
+			record.setHoldassure(orivalue);
+			record.setGageqty((long) 0);
+			record.setHoldmargin(orivalue);
+			record.setFrozenqty((long) 0);
+			record.setFloatingloss(orivalue);
+			record.setEvenprice(orivalue);
+			int result = customerholdsumMapper.insert(record);
+			// TODO 获取firm持仓是否为空
+			if (result == 1) {
+				return "success";
+			}
+			return "false";
+		} else {
+			long newholdqty = dbCustomerHold.getHoldqty() + tradeqty;
+			dbCustomerHold.setHoldqty(newholdqty);
+			int num = customerholdsumMapper.updateByPrimaryKey(dbCustomerHold);
+
+			long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(
+					firmid, commodityid, (short) 1) + tradeqty;
+			int result = customerholdsumMapper.updateFirmHoldSum(firmid,
+					commodityid, (short) 1, newFirmHoldqty);
+			if (result == 1 && num == 1) {
+				return "success";
+			}
+			return "false";
+		}
+	}
+
 }
