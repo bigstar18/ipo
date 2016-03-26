@@ -31,6 +31,7 @@ import com.yrdce.ipo.modules.sys.service.PublisherPositionService;
 import com.yrdce.ipo.modules.sys.service.PubpaymentTrackService;
 import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.SpecialCounterFeeService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.PayFlow;
@@ -65,6 +66,9 @@ public class PublisherController {
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private IpoStorageService ipoStorageService;
@@ -254,11 +258,13 @@ public class PublisherController {
 			int num = paymenttrackservice.insertTrack(example);
 			if (num == 1) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-						"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+						"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
 				return "true";
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-					"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,12 +404,12 @@ public class PublisherController {
 		if (num == 1) {
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
 					"IPO发行库存转持仓新增设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "true";
 		}
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
 				"IPO发行库存转持仓新增设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-				request.getSession());
+				request.getSession(), systemService);
 		return "false";
 	}
 
@@ -427,13 +433,13 @@ public class PublisherController {
 			if (num == 1) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
 						"IPO发行库存转持仓修改设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						request.getSession());
+						request.getSession(), systemService);
 				return "true";
 			}
 		}
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
 				"IPO发行库存转持仓修改设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-				request.getSession());
+				request.getSession(), systemService);
 		return "false";
 	}
 
@@ -493,11 +499,13 @@ public class PublisherController {
 			// 插入持仓流水记录
 			publisherpositionService.insertPositionFlow(record);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-					"IPO发行库存转持仓冻结费用成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					"IPO发行库存转持仓冻结费用成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+					systemService);
 			return "true";
 		}
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-				"IPO发行库存转持仓冻结费用失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+				"IPO发行库存转持仓冻结费用失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+				systemService);
 		return "false";
 	}
 

@@ -20,6 +20,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.ChargeItemService;
 import com.yrdce.ipo.modules.sys.service.ChargeRoleService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.ChargeRole;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -40,6 +41,9 @@ public class ChargeRoleController {
 	private ChargeRoleService chargeRoleService;
 	@Autowired
 	private ChargeItemService chargeItemService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 查询一般费用
@@ -120,12 +124,12 @@ public class ChargeRoleController {
 			chargeRoleService.save(chargeRole);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeRole_CATALOGID,
 					"IPO保存一般费用配置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("save error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeRole_CATALOGID,
 					"IPO保存一般费用配置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "error";
 		}
 		return "success";
@@ -175,12 +179,12 @@ public class ChargeRoleController {
 			chargeRoleService.update(chargeRole);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeRole_CATALOGID,
 					"IPO更新一般费用配置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("update error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeRole_CATALOGID,
 					"IPO更新一般费用配置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return false;
 		}
 		return true;

@@ -20,6 +20,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.ChargeItemService;
 import com.yrdce.ipo.modules.sys.service.ChargeUserService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.ChargeUser;
 import com.yrdce.ipo.modules.sys.vo.DataItem;
@@ -41,6 +42,9 @@ public class ChargeUserController {
 	private ChargeUserService chargeUserService;
 	@Autowired
 	private ChargeItemService chargeItemService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 查询
@@ -121,12 +125,12 @@ public class ChargeUserController {
 			chargeUserService.save(chargeUser);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeUser_CATALOGID,
 					"ipo保存特殊费用配置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("save error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeUser_CATALOGID,
 					"ipo保存特殊费用配置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "error";
 		}
 		return "success";
@@ -178,12 +182,12 @@ public class ChargeUserController {
 			chargeUserService.update(chargeUser);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeUser_CATALOGID,
 					"ipo更新特殊费用配置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("update error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeUser_CATALOGID,
 					"ipo更新特殊费用配置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return false;
 		}
 		return true;

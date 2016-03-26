@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.modules.sys.service.SystemService;
@@ -40,8 +39,6 @@ public class WriteLog {
 	private static Logger log = org.slf4j.LoggerFactory
 			.getLogger(WriteLog.class);
 
-	@Autowired
-	private static SystemService systemService;
 	private static ExecutorService executorService = Executors
 			.newCachedThreadPool(new ThreadFactoryBuilder()
 					.setNameFormat("writeOperateLog-%d").setDaemon(true)
@@ -65,7 +62,7 @@ public class WriteLog {
 	 */
 	public static void writeOperateLog(final int catalogID,
 			final String content, final int operateResult, final String mark,
-			final HttpSession session) {
+			final HttpSession session, final SystemService systemService) {
 		executorService.submit(new Runnable() {
 			@Override
 			public void run() {
@@ -76,6 +73,7 @@ public class WriteLog {
 							.getAttribute("CurrentUser");
 
 					// 设置日志内容
+
 					operateLog.setOperator(user.getUserID());
 					operateLog.setOperateip(user.getLogonIp());
 					operateLog.setOperatetime(systemService.getDBTime());

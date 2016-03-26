@@ -22,6 +22,7 @@ import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
@@ -51,6 +52,9 @@ public class DeliveryController {
 
 	@Autowired
 	private DeliveryOrderService deliveryorderservice;
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private IpoStorageService ipoStorageService;
@@ -206,18 +210,20 @@ public class DeliveryController {
 				if (result.equals("true")) {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_DELIVERY_CATALOGID, "ipo设置交收属性成功",
-							WriteLog.SYS_LOG_OPE_SUCC, "", session);
+							WriteLog.SYS_LOG_OPE_SUCC, "", session,
+							systemService);
 				}
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 						"ipo设置交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
+						session, systemService);
 				return result;
 			}
 			return "false";
 		} catch (Exception e) {
 			log.error("设置商品交收属性error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo设置交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo设置交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -243,17 +249,19 @@ public class DeliveryController {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 							"ipo删除商品交收属性成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-							session);
+							session, systemService);
 					return result;
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo删除商品交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo删除商品交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "false";
 		} catch (Exception e) {
 			log.error("删除商品交收属性error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo删除商品交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo删除商品交收属性失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 
@@ -311,16 +319,18 @@ public class DeliveryController {
 			if (result == 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 						"ipo市场审核入库单失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
+						session, systemService);
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-						"ipo市场审核入库单成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+						"ipo市场审核入库单成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
 			}
 			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		} catch (Exception e) {
 			log.error("市场审核入库单error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场审核入库单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo市场审核入库单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return new ModelAndView("redirect:/IpoController/StorageApprove");
 		}
 	}
@@ -381,7 +391,7 @@ public class DeliveryController {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 							"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-							session);
+							session, systemService);
 					return "true";
 				}
 			}
@@ -404,17 +414,19 @@ public class DeliveryController {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 							"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-							session);
+							session, systemService);
 					return "true";
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场审核提货单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo市场审核提货单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "false";
 		} catch (Exception e) {
 			log.error("市场审核提货单error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场审核入库单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo市场审核入库单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -454,7 +466,7 @@ public class DeliveryController {
 						WriteLog.writeOperateLog(
 								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 								"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session);
+								session, systemService);
 						return "true";
 
 					}
@@ -480,18 +492,20 @@ public class DeliveryController {
 						WriteLog.writeOperateLog(
 								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 								"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session);
+								session, systemService);
 						return "true";
 					}
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "false";
 		} catch (Exception e) {
 			log.error("ipo撤销审核单error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}

@@ -124,7 +124,7 @@
   </select>
   
    <select id="selectFirmId" resultType="java.lang.String" parameterType="String">
-  	select FIRMID from T_CUSTOMERHOLDSUM
+  	select distinct(FIRMID) from T_CUSTOMERHOLDSUM
   	where
   	CUSTOMERID = #{customerid,jdbcType=VARCHAR}
   </select>

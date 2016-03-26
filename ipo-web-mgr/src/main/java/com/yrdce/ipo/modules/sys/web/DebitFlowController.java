@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.DebitFlowService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.DebitFlow;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -40,6 +41,9 @@ public class DebitFlowController {
 
 	@Autowired
 	private DebitFlowService debitFlowService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 首页
@@ -147,12 +151,12 @@ public class DebitFlowController {
 			debitFlowService.saveOffline(debitFlow);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DEBITFLOW_CATALOGID,
 					"IPO保存线下扣款流水成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("save error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DEBITFLOW_CATALOGID,
 					"IPO保存线下扣款流水失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "error";
 		}
 		return "success";

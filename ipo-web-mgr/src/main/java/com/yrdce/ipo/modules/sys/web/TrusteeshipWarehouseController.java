@@ -163,7 +163,6 @@ public class TrusteeshipWarehouseController {
 			@RequestParam("warehouse") String warehouse) throws IOException {
 		log.info("新增托管仓库的商品");
 		return trusteeshipWarehouseService.addTrusteeWare(commId, warehouse);
-
 	}
 
 	/**

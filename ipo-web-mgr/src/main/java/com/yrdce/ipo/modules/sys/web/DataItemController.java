@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.DataItemService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.DataItem;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -30,6 +31,9 @@ public class DataItemController {
 
 	@Autowired
 	DataItemService dataItemService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 查询
@@ -93,12 +97,12 @@ public class DataItemController {
 			dataItemService.save(dataItem);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DATAITEM_CATALOGID,
 					"IPO添加数据项成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("save error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DATAITEM_CATALOGID,
 					"IPO添加数据项失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "error";
 		}
 		return "success";
@@ -139,12 +143,12 @@ public class DataItemController {
 			dataItemService.update(dataItem);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DATAITEM_CATALOGID,
 					"IPO更新数据项成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("update error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DATAITEM_CATALOGID,
 					"IPO更新数据项失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return false;
 		}
 		return true;

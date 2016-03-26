@@ -24,6 +24,7 @@ import com.yrdce.ipo.modules.sys.service.DistTaskService;
 import com.yrdce.ipo.modules.sys.service.DistributionService;
 import com.yrdce.ipo.modules.sys.service.OrderService;
 import com.yrdce.ipo.modules.sys.service.PayFlowService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.TaskService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
@@ -41,6 +42,9 @@ public class QueryController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private CommodityService commodityService;
@@ -246,12 +250,12 @@ public class QueryController {
 			payFlowService.pay(payFlow);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PAYFLOW_CATALOGID,
 					"IPO根据付款流水付款成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("pay error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PAYFLOW_CATALOGID,
 					"IPO根据付款流水付款失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return "error";
 		}
 		return "success";
@@ -268,11 +272,13 @@ public class QueryController {
 		try {
 			distTaskService.distCommodity(commodityid);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_LOTTERY_CATALOGID,
-					"IPO手动摇号成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					"IPO手动摇号成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+					systemService);
 		} catch (Exception e) {
 			logger.error("rock error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_LOTTERY_CATALOGID,
-					"IPO手动摇号失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"IPO手动摇号失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return false;
 		}
 		return true;
@@ -305,11 +311,13 @@ public class QueryController {
 		try {
 			taskService.orderBalance(commodityid);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_TRANSPOSITION_CATALOGID,
-					"IPO费用计算转持仓成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					"IPO费用计算转持仓成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+					systemService);
 		} catch (Exception e) {
 			logger.error("orderBalance error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_TRANSPOSITION_CATALOGID,
-					"IPO费用计算转持仓失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"IPO费用计算转持仓失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return false;
 		}
 		return true;
@@ -325,12 +333,12 @@ public class QueryController {
 			taskService.ipoTransferGoodsPosition();
 			WriteLog.writeOperateLog(
 					WriteLog.SYS_LOG_TRANSTIMEBARGIN_CATALOGID, "IPO转现货持仓成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 		} catch (Exception e) {
 			logger.error("ipoTransferGoodsPosition error:", e);
 			WriteLog.writeOperateLog(
 					WriteLog.SYS_LOG_TRANSTIMEBARGIN_CATALOGID, "IPO转现货持仓失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return false;
 		}
 		return true;

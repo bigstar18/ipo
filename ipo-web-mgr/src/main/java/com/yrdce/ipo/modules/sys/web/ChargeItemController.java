@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.service.ChargeItemService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.ChargeItem;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -36,6 +37,9 @@ public class ChargeItemController {
 
 	@Autowired
 	private ChargeItemService chargeItemService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 查询顶级费用项
@@ -132,12 +136,12 @@ public class ChargeItemController {
 			chargeItemService.save(chargeItem);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeItem_CATALOGID,
 					"ipo添加费用成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("save error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeItem_CATALOGID,
 					"ipo添加费用失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return false;
 		}
 		return true;
@@ -186,12 +190,12 @@ public class ChargeItemController {
 			chargeItemService.update(chargeItem);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeItem_CATALOGID,
 					"ipo更新费用成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession());
+					request.getSession(), systemService);
 		} catch (Exception e) {
 			logger.error("update error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeItem_CATALOGID,
 					"ipo更新费用失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					request.getSession());
+					request.getSession(), systemService);
 			return false;
 		}
 		return true;
@@ -219,7 +223,7 @@ public class ChargeItemController {
 				chargeItemService.delete(chargeItem);
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_ChargeItem_CATALOGID,
 						"ipo删除费用项成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						request.getSession());
+						request.getSession(), systemService);
 			} else {
 				messageCode = "002";
 			}

@@ -25,6 +25,7 @@ import com.yrdce.ipo.common.constant.PositionConstant;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.PositionService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterDepositService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
@@ -52,6 +53,9 @@ public class UnderwriterSetController {
 
 	@Autowired
 	private UnderwriterSubscribeService underwritersubscribeService;
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
@@ -146,11 +150,12 @@ public class UnderwriterSetController {
 		String result = underwritersubscribeService.deleteInfo(ids);
 		if (result.equals("true")) {
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-					"删除承销设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					"IPO删除承销设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+					systemService);
 		} else {
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-					"删除承销设置信息失败" + ids, WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					"IPO删除承销设置信息失败" + ids, WriteLog.SYS_LOG_OPE_FAILURE, "",
+					session, systemService);
 		}
 		return result;
 	}
@@ -229,9 +234,9 @@ public class UnderwriterSetController {
 											.insertInfo(example);
 									WriteLog.writeOperateLog(
 											WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-											"新增承销设置信息成功",
+											"IPO新增承销设置信息成功",
 											WriteLog.SYS_LOG_OPE_SUCC, "",
-											request.getSession());
+											request.getSession(), systemService);
 									return "true";
 								}
 
@@ -242,8 +247,8 @@ public class UnderwriterSetController {
 			}
 		}
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-				"新增承销设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-				request.getSession());
+				"IPO新增承销设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+				request.getSession(), systemService);
 		return "false";
 	}
 
@@ -303,17 +308,19 @@ public class UnderwriterSetController {
 			depositService.insertInfo(deposit);
 			WriteLog.writeOperateLog(
 					WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-					"暂扣承销商" + deposit.getBrokerid() + "货款"
+					"IPO暂扣承销商" + deposit.getBrokerid() + "货款"
 							+ deposit.getAmount() + "元",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 			return "true";
 		} catch (Exception e) {
-			log.error("暂扣承销商货款 error:" + e);
+			log.error("IPO暂扣承销商货款 error:" + e);
 			WriteLog.writeOperateLog(
 					WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
 					"暂扣承销商" + deposit.getBrokerid() + "货款"
 							+ deposit.getAmount() + "元",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return "false";
 		}
 	}
@@ -386,14 +393,16 @@ public class UnderwriterSetController {
 			underwritersubscribeService.unfrozen(example, record.getAmount(),
 					userId);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-					"解冻承销商" + example.getUnderwriterid() + "认购资金",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					"IPO解冻承销商" + example.getUnderwriterid() + "认购资金",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 			return "true";
 		} catch (Exception e) {
 			log.error("认购资金解冻 error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_UNDERWRITERSUB_CATALOGID,
-					"解冻承销商" + example.getUnderwriterid() + "认购资金",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					"IPO解冻承销商" + example.getUnderwriterid() + "认购资金",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return "false";
 		}
 	}

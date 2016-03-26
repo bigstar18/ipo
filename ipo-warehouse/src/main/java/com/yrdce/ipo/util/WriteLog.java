@@ -9,11 +9,13 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 
+@Controller
 public class WriteLog {
 
 	public static final int SYS_LOG_STORAGE_CATALOGID = 4002;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.MBreedService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.VIpoABreedService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.MBreed;
@@ -37,6 +38,9 @@ public class BreedController {
 
 	static org.slf4j.Logger log = org.slf4j.LoggerFactory
 			.getLogger(BreedController.class);
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private VIpoABreedService vIpoABreedService;
@@ -168,17 +172,20 @@ public class BreedController {
 			int num = vIpoABreedService.addBreed(vipoabreed);
 			if (num != 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-						"ipo新增品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+						"ipo新增品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
 				return "true";
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-						"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+						"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+						systemService);
 				return "false";
 			}
 		} catch (Exception e) {
 			log.error("新增品种error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-					"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo新增品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -199,17 +206,20 @@ public class BreedController {
 			int num = vIpoABreedService.updateBreed(vipoabreed);
 			if (num != 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-						"ipo修改品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+						"ipo修改品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
 				return "true";
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-						"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+						"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+						systemService);
 				return "false";
 			}
 		} catch (Exception e) {
 			log.error("修改品种error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-					"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo修改品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -235,12 +245,13 @@ public class BreedController {
 						.deleteBreed(Long.parseLong(breedid));
 				if (num != 0) {
 					WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-							"ipo删除品种成功", WriteLog.SYS_LOG_OPE_SUCC, "", session);
+							"ipo删除品种成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+							session, systemService);
 					return "true";
 				} else {
 					WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
 							"ipo删除品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-							session);
+							session, systemService);
 					return "false";
 				}
 			}
@@ -248,7 +259,8 @@ public class BreedController {
 		} catch (Exception e) {
 			log.error("修改品种error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_BREED_CATALOGID,
-					"ipo删除品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo删除品种失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -387,17 +399,20 @@ public class BreedController {
 				if (result.equals("success")) {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_COMMODITY_CATALOGID, "ipo新增商品成功",
-							WriteLog.SYS_LOG_OPE_SUCC, "", session);
+							WriteLog.SYS_LOG_OPE_SUCC, "", session,
+							systemService);
 					return result;
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
-					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "false";
 		} catch (Exception e) {
 			log.error("新增商品error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
-					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					"ipo新增商品失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					systemService);
 			return "error";
 		}
 	}
@@ -422,19 +437,20 @@ public class BreedController {
 					WriteLog.writeOperateLog(
 							WriteLog.SYS_LOG_COMMODITY_CATALOGID, "ipo修改商品"
 									+ ipocomm.getCommodityid() + "成功",
-							WriteLog.SYS_LOG_OPE_SUCC, "", session);
+							WriteLog.SYS_LOG_OPE_SUCC, "", session,
+							systemService);
 					return result;
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
 					"ipo修改商品" + ipocomm.getCommodityid() + "失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "false";
 		} catch (Exception e) {
 			log.error("新增商品error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_COMMODITY_CATALOGID,
 					"ipo修改商品" + ipocomm.getCommodityid() + "失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.CommodityService;
 import com.yrdce.ipo.modules.sys.service.DistributionRuleService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.DistributionRule;
@@ -30,6 +31,9 @@ public class DistributionRuleController {
 	private CommodityService commodityService;
 	@Autowired
 	private DistributionRuleService distributionRuleService;
+
+	@Autowired
+	private SystemService systemService;
 
 	// 获取商品信息
 	@RequestMapping("getCommonityById")
@@ -60,18 +64,18 @@ public class DistributionRuleController {
 			if (result > 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 						"ipo插入摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
+						session, systemService);
 				return "success";
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 					"ipo插入摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					session, systemService);
 			return "fail";
 		} catch (Exception e) {
 			log.error("插入分配方式异常：", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 					"ipo插入摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					session, systemService);
 			return "error";
 		}
 	}
@@ -144,20 +148,20 @@ public class DistributionRuleController {
 			if (result > 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 						"ipo修改摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
+						session, systemService);
 				return "success";
 
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 						"ipo修改摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
+						session, systemService);
 				return "fail";
 			}
 		} catch (Exception e) {
 			log.error("修改分配信息异常：", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 					"ipo修改摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					session, systemService);
 			return "error";
 		}
 	}
@@ -174,18 +178,18 @@ public class DistributionRuleController {
 			if (result > 0) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 						"ipo删除摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
+						session, systemService);
 				return "success";
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 					"ipo删除摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					session, systemService);
 			return "fail";
 		} catch (Exception e) {
 			log.error("删除配置信息异常：", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
 					"ipo删除摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session);
+					session, systemService);
 			return "error";
 		}
 	}
