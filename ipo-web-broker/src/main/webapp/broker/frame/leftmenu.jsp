@@ -2,7 +2,8 @@
 <%@ include file="/broker/public/includefiles/allincludefiles.jsp"%>
 
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
-<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />
+<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css"
+	type="text/css" />
 <html>
 <head>
 <script type="text/javascript">
@@ -172,20 +173,24 @@ var promptTime = 60;
 }
 
 .webfx-tree-item1 {
-	font-size: 13px; line-height: 25px; color: #26548B;
+	font-size: 13px;
+	line-height: 25px;
+	color: #26548B;
 }
 </style>
 </head>
 <body class="leftframe" onLoad="start();" onselectstart="return false">
 	<form action="" method="post" name="frm" id="frm"></form>
 	<div id="div_BackGround">
-		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" align="right">
+		<table width="100%" height="100%" border="0" cellspacing="0"
+			cellpadding="0" align="right">
 			<tr height="100%">
 				<td></td>
 			</tr>
 			<tr height="25">
 				<td>
-					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+					<table border="0" cellspacing="0" cellpadding="0" width="100%"
+						height="100%">
 						<tr>
 							<td align="center" valign="middle"></td>
 						</tr>
@@ -195,14 +200,16 @@ var promptTime = 60;
 		</table>
 	</div>
 	<div id="div_Drawer">
-		<div id="div_entry" align="left" onClick="collaspe();" curstatus="hide">
+		<div id="div_entry" align="left" onClick="collaspe();"
+			curstatus="hide">
 			<img src="${skinPath}/image/frame/menu/menu_top.gif" />
 		</div>
 		<div style="clear: both;"></div>
 		<div id="div_Container" align="left">
 			<c:set var="pictureLayerNumber" value="0" />
 			<div class="leftMenu_div">
-				<div id="div_drw_Panel" align="left" curDrwNo="0" onClick="drwSwitch();">
+				<div id="div_drw_Panel" align="left" curDrwNo="0"
+					onClick="drwSwitch();">
 					&nbsp; <a><img src="<%=skinPath%>/image/frame/menu/06.gif" align="top" curDrwNo="0" /> </a> &nbsp;我的菜单&nbsp;&nbsp;
 				</div>
 				<div id="div_drw_Content" style="display: none;">
@@ -213,7 +220,7 @@ var promptTime = 60;
 				</DIV>
 				<div id="div_drw_Content" style="display: inline;">
 					<DIV id=tree>
-					<SCRIPT type=text/javascript>
+						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 发行会员查询","");</SCRIPT>
@@ -226,8 +233,8 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	
-					 <SCRIPT type=text/javascript>
+
+						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
 								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 统计报表","");</SCRIPT>
@@ -235,20 +242,37 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("发行会员结算表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/publisherQuery/settleReports.jsp");
 									M01.add(M0101);</SCRIPT>
-						
+
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
-						        	        	
-				 	
-						        	
-					 
-						 
-						        	
-					 
-						        	
-						     
-						        	
-						        	    	
+					</DIV>
+				</DIV>
+				
+				<DIV onclick=drwSwitch(); id=div_drw_Panel align=left curDrwNo="1">
+					&nbsp; <A><IMG src="<%=basePath%>/broker/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;经纪会员客户端
+				</DIV>
+				<div id="div_drw_Content" style="display: inline;">
+					<DIV id=tree>
+						<SCRIPT type=text/javascript>
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 经纪会员查询","");</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("经纪会员结算表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/queryindex.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("经纪会员经纪收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/incomeindex.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("经纪会员申购收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/purchaseincomeindex.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("经纪会员提货单收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/billofladingincome_index.jsp");
+									M01.add(M0101);</SCRIPT>
+
+						<SCRIPT type=text/javascript>
+						        	document.write(M01);</SCRIPT>
 					</DIV>
 				</DIV>
 			</DIV>
@@ -256,8 +280,10 @@ var promptTime = 60;
 		</div>
 		<c:if test="${pictureLayerNumber==0 }">
 			<div>
-				<div id="div_drw_Content" align="center" class="div_drwContent" style="display: none;"></div>
-				<div id="div_drw_Panel" align="center" class="div_drwContent" style="display: none;"></div>
+				<div id="div_drw_Content" align="center" class="div_drwContent"
+					style="display: none;"></div>
+				<div id="div_drw_Panel" align="center" class="div_drwContent"
+					style="display: none;"></div>
 			</div>
 		</c:if>
 		<c:if test="${fn:length(myMenuList)>0}">

@@ -48,7 +48,7 @@ public class SPOTask {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	public void runSPO() {
-		logger.info("增发状态定时任务启动");
+		logger.info("增发配售状态定时任务启动");
 		String time = sdf.format(new Date());
 		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select(null, null, null);
 		// 遍历增发商品管理列表
@@ -66,7 +66,7 @@ public class SPOTask {
 
 	@Transactional
 	public void updateStatu() {
-		logger.info("增发状态定时任务启动");
+		logger.info("增发上市状态定时任务启动");
 		//String time = sdf.format(new Date());
 		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.findBySpoDate(2);
 		// 遍历增发商品管理列表
@@ -172,8 +172,8 @@ public class SPOTask {
 					ipoSpoRationMapper.insert(ipoSpoRation);
 					logger.info("散户增发定时任务结束");
 				}
+				ipoSPOCommMapper.updateByStatus(5, spoid);
 			}
-			ipoSPOCommMapper.updateByStatus(5, spoid);
 		}
 	}
 

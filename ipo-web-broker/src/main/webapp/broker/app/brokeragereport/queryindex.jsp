@@ -14,7 +14,6 @@
 	
 	function examine(){
 		  var time = $("#payables").datebox("getValue");
-		  var brokerid = $("#firm").val();
 		  if(time == "" || time == null){
 			  alert("请选择查询时间");
 		  }else{
@@ -22,7 +21,7 @@
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
 		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+"&&brokerid="+brokerid,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/brokerinfoforward?time="+time+","报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
  	
@@ -58,26 +57,6 @@
 							<tr>
 								<td align="center" colspan="2" style="color: red">(填空为查询全部)</td>
 							</tr>
-							<!-- <tr>
-								<td align="right" style="font-size: 15px" width="50%"></td>
-								<td align="left" width="60%">
-									<span class="required"></span>
-								</td>
-							</tr> -->
-							<tr>
-								<td align="right">经纪会员账号：</td>
-								<td>
-									<input id="firm" name="firm" type="text" size=10 maxlength=8 />
-								  
-									<select name="userid"  onchange="setFirmid(value)">
-										<option value="">请选择</option>
-										<c:forEach items="${firmid}" var="firm">
-											<option value="${firm}">${firm}</option>
-										</c:forEach>
-									</select>
-									<span class="req">*</span>
-								</td>
-							</tr> 
 							<tr>
 								<td align="right">查询日期：</td>
 								<td>
