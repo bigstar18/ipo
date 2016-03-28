@@ -56,8 +56,10 @@ public class SPOTask {
 			String spoid = ipoSPOComm.getSpoId();
 			Date ipoDate = ipoSPOComm.getIpoDate();
 			String ipotime = sdf.format(ipoDate);
+			int timeParam = Integer.parseInt(time);
+			int ipotimeParam = Integer.parseInt(ipotime);
 			// 时间判断，更新配售表状态
-			if (time == ipotime) {
+			if (timeParam >= ipotimeParam) {
 				ipoSpoRationMapper.updateByStatus(1, spoid);
 				logger.info("配售状态更新成功");
 			}
@@ -67,19 +69,39 @@ public class SPOTask {
 	@Transactional
 	public void updateStatu() {
 		logger.info("增发上市状态定时任务启动");
-		//String time = sdf.format(new Date());
+		String time = sdf.format(new Date());
 		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.findBySpoDate(2);
 		// 遍历增发商品管理列表
 		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
 			String spoid = ipoSPOComm.getSpoId();
 			Date ipoDate = ipoSPOComm.getIpoDate();
 			//String ipotime = sdf.format(ipoDate);
-			int time = Integer.parseInt(sdf.format(new Date()));
+			int timeParam = Integer.parseInt(time);
 			int ipotime = Integer.parseInt(sdf.format(ipoDate));
 			// 时间判断，更新配售表状态
-			if (time >= ipotime) {
+			if (timeParam >= ipotime) {
 				ipoSPOCommMapper.updateForListed(1, spoid);
 				logger.info("上市状态更新成功");
+			}
+		}
+	}
+
+	@Transactional
+	public void updateSpoSateStatu() {
+		logger.info("比例增发未到增发日期状态定时任务启动");
+		String time = sdf.format(new Date());
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.findBySpoDate(4);
+		// 遍历增发商品管理列表
+		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
+			String spoid = ipoSPOComm.getSpoId();
+			Date spoDate = ipoSPOComm.getSpoDate();
+			//String ipotime = sdf.format(ipoDate);
+			int timeParam = Integer.parseInt(time);
+			int ipotime = Integer.parseInt(sdf.format(spoDate));
+			// 时间判断，更新配售表状态
+			if (timeParam >= ipotime) {
+				ipoSPOCommMapper.updateByStatus(1, spoid);
+				logger.info("状态更新成功");
 			}
 		}
 	}

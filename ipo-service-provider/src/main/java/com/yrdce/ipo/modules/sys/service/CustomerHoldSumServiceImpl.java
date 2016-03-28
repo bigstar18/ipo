@@ -32,17 +32,17 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void freezeCustomerHold(Long frozenqty, String customerid,
-			String commodityid, Short bsFlag) {
+	public void freezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
 
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper
-				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("冻结客户持仓记录不存在");
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
 		Long frozen = dbCustomerHold.getFrozenqty() + frozenqty;
+		logger.info("持仓冻结数量{}", frozen);
 		BeanUtils.copyProperties(dbCustomerHold, param);
 		param.setFrozenqty(frozen);
 		customerholdsumMapper.updateByPrimaryKey(param);
@@ -61,10 +61,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 *            买卖标记
 	 */
 	@Transactional
-	public void unfreezeCustomerHold(Long unfreezeqty, String customerid,
-			String commodityid, Short bsFlag) {
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper
-				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+	public void unfreezeCustomerHold(Long unfreezeqty, String customerid, String commodityid, Short bsFlag) {
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("解冻客户持仓记录不存在");
 		}
@@ -84,8 +83,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 增加客户持仓 传正值
 	 */
 	@Transactional
-	public void increaseCustomerHold(Long frozenqty, String customerid,
-			String commodityid, Short bsFlag) {
+	public void increaseCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
 		this.incraseFirmHold(frozenqty, customerid, commodityid, bsFlag);
 	}
 
@@ -93,17 +91,14 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 减少客户持仓 传正值
 	 */
 	@Transactional
-	public void reduceCustomerHold(Long frozenqty, String customerid,
-			String commodityid, Short bsFlag) {
+	public void reduceCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
 		this.reduceFirmHold(frozenqty, customerid, commodityid, bsFlag);
 
 	}
 
 	@Override
-	public void myfreezeCustomerHold(Long frozenqty, String customerid,
-			String commodityid, Short bsFlag) {
-		freezeCustomerHold(frozenqty, customerid, commodityid,
-				bsFlag.shortValue());
+	public void myfreezeCustomerHold(Long frozenqty, String customerid, String commodityid, Short bsFlag) {
+		freezeCustomerHold(frozenqty, customerid, commodityid, bsFlag.shortValue());
 
 	}
 
@@ -111,10 +106,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 扣持仓 更新交易用户持仓合计信息，根据数量平均分配金额传正值
 	 */
 	@Transactional
-	public String reduceFirmHold(Long tradeqty, String customerid,
-			String commodityid, short bsFlag) {
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper
-				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+	public String reduceFirmHold(Long tradeqty, String customerid, String commodityid, short bsFlag) {
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("扣除客户持仓记录不存在");
 		}
@@ -124,10 +118,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		dbCustomerHold.setHoldqty(newholdqty);
 		int num = customerholdsumMapper.updateByPrimaryKey(dbCustomerHold);
 		String firmid = customerholdsumMapper.selectFirmId(customerid);
-		long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(
-				firmid, commodityid, (short) 1) - tradeqty;
-		int result = customerholdsumMapper.updateFirmHoldSum(firmid,
-				commodityid, (short) 1, newFirmHoldqty);
+		long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(firmid, commodityid, (short) 1)
+				- tradeqty;
+		int result = customerholdsumMapper.updateFirmHoldSum(firmid, commodityid, (short) 1, newFirmHoldqty);
 		if (result == 1 && num == 1) {
 			return "success";
 		}
@@ -138,11 +131,10 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 加持仓 更新交易用户持仓合计信息，根据数量平均分配金额 传正值
 	 */
 	@Transactional
-	public String incraseFirmHold(Long tradeqty, String customerid,
-			String commodityid, short bsFlag) {
+	public String incraseFirmHold(Long tradeqty, String customerid, String commodityid, short bsFlag) {
 		String firmid = customerholdsumMapper.selectFirmId(customerid);
-		TCustomerholdsum dbCustomerHold = customerholdsumMapper
-				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		TCustomerholdsum dbCustomerHold = customerholdsumMapper.selectByPrimaryKey(customerid, commodityid,
+				bsFlag);
 		if (dbCustomerHold == null) {
 			TCustomerholdsum record = new TCustomerholdsum();
 			record.setCustomerid(customerid);
@@ -170,10 +162,10 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 			dbCustomerHold.setHoldqty(newholdqty);
 			int num = customerholdsumMapper.updateByPrimaryKey(dbCustomerHold);
 
-			long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(
-					firmid, commodityid, (short) 1) + tradeqty;
-			int result = customerholdsumMapper.updateFirmHoldSum(firmid,
-					commodityid, (short) 1, newFirmHoldqty);
+			long newFirmHoldqty = customerholdsumMapper.selectFirmHoldByFirmId(firmid, commodityid, (short) 1)
+					+ tradeqty;
+			int result = customerholdsumMapper.updateFirmHoldSum(firmid, commodityid, (short) 1,
+					newFirmHoldqty);
 			if (result == 1 && num == 1) {
 				return "success";
 			}

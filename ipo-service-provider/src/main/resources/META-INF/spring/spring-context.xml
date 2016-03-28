@@ -71,7 +71,8 @@
     <task:scheduled ref="IPOTask" method="reduceeCustomerHold" cron="0 0/15 * * * ?" />
     
     <!-- 增发相关任务   -->
-    <task:scheduled ref="SPOTask" method="runSPO" cron="0 5 0 * * ?" /> 
+    <task:scheduled ref="SPOTask" method="updateSpoSateStatu" cron="0 3 0 * * ?" />
+    <task:scheduled ref="SPOTask" method="runSPO" cron="0 6 0 * * ?" /> 
     <task:scheduled ref="SPOTask" method="placing" cron="0 10 0 * * ?" />
     <task:scheduled ref="SPOTask" method="automaticFail" cron="0 15 0 * * ?" />
     <task:scheduled ref="SPOTask" method="updateStatu" cron="0 17 0 * * ?" />

@@ -90,20 +90,30 @@
   
   <select id="selectHQT" resultMap="BaseResultMap" parameterType="String">
   	select p.commodityid,
-  	   sum(p.frozenqty) as frozenqty,
-       sum(p.HOLDQTY) as HOLDQTY,
-       wm_concat(w.warehousename) as warehousename,
-       wm_concat(w.id) as warehouseid
-    from T_CUSTOMERHOLDSUM p
-    left join ipo_warehouse_stock t
-      on p.commodityid = t.commodityid
-    left join bi_warehouse w
-      on w.id = t.warehouseid
-    left join ipo_commodity_conf comm
-      on comm.commodityid = t.commodityid
-   where FIRMID = #{firmid,jdbcType=VARCHAR} and comm.deliveryprop = 1
-   and p.bs_flag = '1'
-   group by p.commodityid,p.HOLDQTY
+       p.frozenqty,
+       p.HOLDQTY,
+       wa.warehousename,
+       wa.warehouseid
+  from (select t.firmid,
+               t.commodityid,
+               sum(t.frozenqty) as frozenqty,
+               sum(t.HOLDQTY) as HOLDQTY
+          from T_CUSTOMERHOLDSUM t
+         where t.bs_flag = '1'
+           and FIRMID = #{firmid,jdbcType=VARCHAR} 
+         group by t.firmid, t.commodityid) p
+  left join (select t.commodityid,
+                    wm_concat(t.stockid) as stockid,
+                    wm_concat(bi.warehousename) as warehousename,
+                    wm_concat(bi.id) as warehouseid
+               from ipo_warehouse_stock t
+               left join bi_warehouse bi
+                 on bi.id = t.warehouseid
+              group by t.commodityid) wa
+    on wa.commodityid = p.commodityid
+  left join ipo_commodity_conf comm
+    on comm.commodityid = wa.commodityid
+     where comm.deliveryprop = '1'
   </select>
   
   <select id="selectByCommId" resultType="java.lang.Long" parameterType="list" >

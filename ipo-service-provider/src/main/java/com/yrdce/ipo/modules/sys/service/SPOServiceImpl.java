@@ -138,8 +138,8 @@ public class SPOServiceImpl implements SPOService {
 			param1.put("amount", moneyParam);
 			param1.put("moduleid", "40");
 			fundsMapper.getfrozen(param1);
-			String rationIdparam = Long.toString(rationId);
-			this.fundsFlow(commodityid, rationIdparam, dealerId, money, fee, pubmemberid);
+			//String rationIdparam = Long.toString(rationId);
+			//this.fundsFlow(commodityid, rationIdparam, dealerId, money, fee, pubmemberid);
 			int result = ipoSpoRationMapper.updateRationType(rationId);
 			if (result > 0) {
 				return 1;

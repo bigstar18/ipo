@@ -216,6 +216,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		boolean statu = capital(dealerId, fee);
 		if (statu) {
 			// 更新持仓量
+			logger.info("交收提货提出数量{}", quatity);
 			customerHoldSumService.freezeCustomerHold(quatity, firmid, commid, (short) 1);
 
 			/*

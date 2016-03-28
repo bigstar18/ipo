@@ -118,7 +118,7 @@ public class SettlementDeliveryController {
 		logger.info("提货申请(初始化数据)");
 		try {
 			String firmId = (String) session.getAttribute("currentFirmId");
-			List<Position> list = settlementDeliveryService.getListByPosition(firmId);// user.getUserID()
+			List<Position> list = settlementDeliveryService.getListByPosition(firmId);// firmId
 			return JSON.json(list);
 		} catch (IOException e) {
 			logger.error("error", e);
