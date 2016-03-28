@@ -86,7 +86,7 @@ body {
 						</select><b>*</b></td>
 					</tr>
 					<tr>
-						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;持仓数量： </span></td>
+						<td align="center" height="35" width="100"><span> &nbsp;&nbsp;持仓数量(批)： </span></td>
 						<td><input id="vcount" type="text" name="position" style="width: 150px;" readonly="readonly"><b>*</b></td>
 					</tr>
 					<tr>

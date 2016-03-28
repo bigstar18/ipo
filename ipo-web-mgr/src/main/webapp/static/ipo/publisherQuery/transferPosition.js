@@ -51,6 +51,14 @@ $(document).ready(function() {
              align: "center",
              title : '入库数量'
          },{
+        	 field : 'contractfactor',  
+             width : 280,  
+             align: "center",
+             title : '入库批数(批)',
+              formatter:function(value,row){
+              return parseInt(row.storagecounts)/parseInt(value);
+              }
+         },{
         	 field : 'storagedate',  
              width : 250,  
              align: "center",

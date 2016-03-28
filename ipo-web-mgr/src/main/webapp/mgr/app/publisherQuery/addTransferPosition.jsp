@@ -18,21 +18,16 @@
 function add(){
 	var flag= $('#frm').form('validate');
 	if(flag==true){
-		var totalcounts=parseInt($("#totalcounts").val());//入库数量
+		var totalcount=parseInt($("#totalcount").val());//入库批数
 		var counts=parseInt($("#counts").val());//发行数量
 		var salecounts=parseInt($("#salecounts").val());//转发售数量
 		var pubposition=parseInt($("#pubposition").val());//转持仓数量
 		var subscricounts=parseInt($("#subscricounts").val());//转认购数量
-		var contractor=parseInt($("#contractor").val());
-		if(salecounts%contractor!=0||pubposition%contractor!=0||subscricounts%contractor!=0){
-			alert("转发售、转持仓、供认购数量均需为交易单位的整数倍！");
-			return;
-		}
-		if(salecounts+pubposition+subscricounts>totalcounts){
+		if(salecounts+pubposition+subscricounts>totalcount){
 			alert("转发售、转持仓和转供承销认购量之和不可大于总入库量！");
 			return;
 		}
-		if(totalcounts<counts&&salecounts!=0){
+		if(totalcount<counts&&salecounts!=0){
 			alert("总入库量小于发行量，只能转持仓或供承销认购！");
 			$("#salecounts").numberbox('setValue','0');
 			$("#pubposition").numberbox('setValue','');
@@ -44,7 +39,7 @@ function add(){
 			$("#salecounts").numberbox('setValue',$("#counts").val());
 			return ;
 		}
-		if(salecounts+pubposition+subscricounts<totalcounts){
+		if(salecounts+pubposition+subscricounts<totalcount){
 			alert("转发售、转持仓和转供承销认购量总和小于总入库量，仍有商品未分配");
 		}
 		if(confirm("确定添加本记录吗？")){
@@ -129,11 +124,11 @@ function returntoList(){
 	
 function getPosition(){
 	
-	var totalcounts=parseInt($("#totalcounts").val());
+	var totalcount=parseInt($("#totalcount").val());
 	if($("#salecounts").val()!='')
 	{
 		var salecounts=parseInt($("#salecounts").val());
-		$("#pubposition").val(totalcounts-salecounts);
+		$("#pubposition").val(totalcount-salecounts);
 	}else{
 	$("#pubposition").val("");
 	}
@@ -194,39 +189,44 @@ function getPosition(){
 	        	</td>
 	        </tr> 
 	        <tr>
-	            <td style="font-size:15px" align="right" width="20%">发行数量：</td>
+	            <td style="font-size:15px" align="right" width="20%">发行数量(批)：</td>
 	        	<td>
 	        	<input type="text" id="counts" name="counts"  value="<c:if test="${flag=='add' }">${entity.counts }</c:if><c:if test="${flag=='update' }">${comm.counts }</c:if>" readonly="readonly"/>
 	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">入库数量：</td>
+	        	<td style="font-size:15px" align="right" width="20%">入库数量(${comm.contractfactorname })：</td>
 	        	<td>
-	        	<input type="text" id="totalcounts" name="totalcounts"  value="<c:if test="${flag=='add' }">${entity.storagecounts }</c:if><c:if test="${flag=='update' }">${entity.totalcounts }</c:if>" readonly="readonly"/><span class="required">${comm.contractfactorname }</span>
+	        	<input type="text" id="totalcounts" name="totalcounts"  value="<c:if test="${flag=='add' }">${entity.storagecounts }</c:if><c:if test="${flag=='update' }">${entity.totalcounts }</c:if>" readonly="readonly"/>
 	        	</td>
 	        </tr>
 	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">交易单位：</td>
+	        	<td style="font-size:15px" align="right" width="20%">交易单位(${comm.contractfactorname }/批)：</td>
 	        	<td>
-	        	<input type="text" id="contractor" name="contractor" value="${comm.contractfactor }" readonly="readonly"/><span class="required">${comm.contractfactorname }/批</span>
+	        	<input type="text" id="contractor" name="contractor" value="${comm.contractfactor }" readonly="readonly"/>
 	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">鉴定总值：</td>
+	        	  <td style="font-size:15px" align="right" width="20%">入库批数(批)：</td>
 	        	<td>
-	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.totalvalue }</c:if>"/><span class="required">元*</span>
+	        	<input type="text" id="totalcount" name="totalcount"  value="<c:if test="${flag=='add' }">${entity.storagecounts/comm.contractfactor }</c:if><c:if test="${flag=='update' }">${entity.totalcounts/comm.contractfactor }</c:if>" readonly="readonly"/>
 	        	</td>
 	        </tr>  
 	         <tr>
-	        	<td style="font-size:15px" align="right" width="20%">转发售量：</td>
+	            <td style="font-size:15px" align="right" width="20%">鉴定总值(元)：</td>
 	        	<td>
-	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"  value="<c:if test="${flag=='update' }">${entity.salecounts }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
+	        	<input type="text" id="totalvalue" name="totalvalue" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.totalvalue }</c:if>"/><span class="required">*</span>
 	        	</td>
-	        	<td style="font-size:15px" align="right" width="20%">转持仓量：</td>
+	        	<td style="font-size:15px" align="right" width="20%">转发售量(批)：</td>
 	        	<td>
-	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.pubposition }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
+	        	<input type="text" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" id="salecounts" name="salecounts"  value="<c:if test="${flag=='update' }">${entity.salecounts }</c:if>"/><span class="required">*</span>
 	        	</td>
+	        	
 	        </tr> 
 	        <tr>
-	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量：</td>
+	            <td style="font-size:15px" align="right" width="20%">转持仓量(批)：</td>
 	        	<td>
-	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.subscricounts }</c:if>"/><span class="required">${comm.contractfactorname }*</span>
+	        	<input type="text" id="pubposition" name="pubposition"  class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.pubposition }</c:if>"/><span class="required">*</span>
+	        	</td>
+	        	<td style="font-size:15px" align="right" width="20%">供承销会员认购量(批)：</td>
+	        	<td>
+	        	<input type="text" id="subscricounts" name="subscricounts" class="easyui-numberbox" data-options="required:true,min:0,missingMessage:'必填'" value="<c:if test="${flag=='update' }">${entity.subscricounts }</c:if>"/><span class="required">*</span>
 	        	</td>
 	        	<td style="font-size:15px" align="right" width="20%"></td>
 	        	<td>

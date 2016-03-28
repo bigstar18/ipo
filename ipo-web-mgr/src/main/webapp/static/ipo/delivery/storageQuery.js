@@ -53,7 +53,7 @@ $(document).ready(function() {
         	 field : 'storagecounts',  
              width : 200,  
              align: "center",
-             title : '入库数量（批）'
+             title : '入库数量'
          }, {
         	 field : 'startnum',  
              width : 200,  

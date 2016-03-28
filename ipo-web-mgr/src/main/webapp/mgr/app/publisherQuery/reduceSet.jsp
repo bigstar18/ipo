@@ -52,7 +52,7 @@ $(document).ready(function() {
        	 field : 'reduceqty',  
             width : 200,  
             align: "center",
-            title : '减持数量'
+            title : '减持数量(批)'
         } ,{
           	 field : 'stateName',  
              width : 200,  

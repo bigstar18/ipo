@@ -49,12 +49,12 @@ $(document).ready(function() {
        	 field : 'holdqty',  
             width : 200,  
             align: "center",
-            title : '转持仓数量'
+            title : '转持仓数量(批)'
         } ,{
        	 field : 'frozenqty',  
             width : 200,  
             align: "center",
-            title : '冻结数量',
+            title : '冻结数量(批)',
             formatter: function(value,row) {
             	if(row.freeqty==null){
             		return value;
@@ -65,7 +65,7 @@ $(document).ready(function() {
        	 field : 'freeqty',  
             width : 200,  
             align: "center",
-            title : '释放数量',
+            title : '释放数量(批)',
             formatter: function(value,row) {
             	if(value==null){
             		return 0;

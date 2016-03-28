@@ -48,17 +48,17 @@ $(document).ready(function() {
         	 field : 'pubposition',  
              width : 250,  
              align: "center",
-             title : '转持仓量'
+             title : '转持仓量(批)'
          },{
         	 field : 'salecounts',  
              width : 250,  
              align: "center",
-             title : '转公开发行量'
+             title : '转公开发行量(批)'
          },{
         	 field : 'subscricounts',  
              width : 250,  
              align: "center",
-             title : '供承销认购量'
+             title : '供承销认购量(批)'
          },{
         	 field : 'status',  
              width : 250,  
