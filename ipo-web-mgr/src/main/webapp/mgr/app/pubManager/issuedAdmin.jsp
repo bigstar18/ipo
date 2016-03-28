@@ -5,7 +5,7 @@
 <head>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
-<title>发行摇号</title>
+<title>摇号规则配置</title>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/default/easyui.css"> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/jquery-easyui/themes/icon.css">
@@ -19,7 +19,7 @@
 $(document).ready(function() {
 
 	 $('#tt').datagrid({  
-         title:'发行摇号',  
+         title:'摇号规则配置',  
          iconCls:'icon-ok', 
          method:"get",
          height:400,

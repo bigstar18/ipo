@@ -272,7 +272,10 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("发行摇号,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/QueryController/IssuedManage");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("摇号规则,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/pubManager/distributionRule.jsp");
+									M0101 = new WebFXTreeItem("摇号规则配置,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/pubManager/distributionRule.jsp");
+									M01.add(M0101);</SCRIPT>
+						<SCRIPT type=text/javascript>
+									M0101 = new WebFXTreeItem("摇号规则,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/pubManager/issuedAdmin.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("申购成交,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/QueryController/ApplySuccManage");
