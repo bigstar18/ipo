@@ -92,7 +92,16 @@
 	<select id="findIpoCommConfByBreedid" resultMap="BaseResultMap" parameterType="map">
 		select
 		<include refid="Base_Column_List" />
-		from (select t.*,rownum TNO from IPO_COMMODITY_CONF t where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between #{beginnum} and #{endnum}
+		from (select t.COMMODITYID, t.COMMODITYNAME, t.PRICE, t.UNITS, t.COUNTS, t.STARTTIME, t.ENDTIME, t.MAXAPPLYNUM,
+		 t.BREEDID, t.TRADEDAYS, t.CODEDELIVERY, t.NONISSUEREG, t.PUBMEMBERID, t.MINAPPLYNUM,
+		t.MINAPPLYQUAMOVE, t.PUBLISHALGR, t.DEALERPUBCHARATIO, t.MKTDEAPUBCHARATIO, t.PUBLISHERCHARATIO,
+		t.MKTPUBCHARATIO, t.CURRSTATUS, t.SUPERVISEDPRICE, t.LISTINGDATE, t.LASTTRADATE, t.CONTRACTFACTOR,
+		t.MINPRICEMOVE, t.MINQUANTITYMOVE, t.SPREADALGR, t.SPREADUPLMT, t.SPREADDOWNLMT,t.CONTRACTFACTORNAME,t.MAPPERID,
+		t.TRADEALGR, t.BUY, t.SELL, t.MKTBUYFEERADIO, t.MKTSELLFEERADIO, t.WAREHOUSEDAILYRENT,
+		t.WAREHOUSESTARTDAY, t.TRUSTEEDAILYRENT, t.INSURANCEDAILYRENT, t.INSURANCESTARTDAY, t.FREETRUSTEEDAYS, t.DELIVERYUNIT,
+		t.DELIUNITTOCONTRACT, t.DELIVERYSTARTDAY, t.REGISTFEERADIO, t.MKTREGISTFEERADIO, t.CANCELFEERADIO, t.MKTCANCELFEERADIO,
+		t.DELIVERYCOSTBEFORE,t.TRANSFERFEERADIO ,t.COMMDETAILS,t.DELIVERYPROP
+		,s.STATUS,rownum TNO from IPO_COMMODITY_CONF t left join ipo_commodity_sale s on t.commodityid=s.commodityid where t.BREEDID = #{breedid} order by t.COMMODITYID ) a where a.TNO between #{beginnum} and #{endnum}
 	</select>
 	<select id="findAllIpoCommConfsByPage" resultMap="BaseResultMap" parameterType="map">
 		select
@@ -128,7 +137,7 @@
 		t.WAREHOUSESTARTDAY, t.TRUSTEEDAILYRENT, t.INSURANCEDAILYRENT, t.INSURANCESTARTDAY, t.FREETRUSTEEDAYS, t.DELIVERYUNIT,
 		t.DELIUNITTOCONTRACT, t.DELIVERYSTARTDAY, t.REGISTFEERADIO, t.MKTREGISTFEERADIO, t.CANCELFEERADIO, t.MKTCANCELFEERADIO,
 		t.DELIVERYCOSTBEFORE,t.TRANSFERFEERADIO ,t.COMMDETAILS,t.DELIVERYPROP
-		,s.status,rownum TNO from IPO_COMMODITY_CONF t left join ipo_commodity_sale s on t.commodityid=s.commodityid
+		,s.STATUS,rownum TNO from IPO_COMMODITY_CONF t left join ipo_commodity_sale s on t.commodityid=s.commodityid
 		 where 1=1
 		<if test="record.pubmemberid != null">
 			and t.PUBMEMBERID like concat(#{record.pubmemberid,jdbcType=VARCHAR},'%')
