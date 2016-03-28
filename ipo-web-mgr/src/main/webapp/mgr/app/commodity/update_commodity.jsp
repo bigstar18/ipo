@@ -308,7 +308,7 @@ function on_tchange(){
             								class="easyui-textbox" data-options="required:true"  style="width: 100; background-color: gray"  readonly="readonly"/>          
 			  								<span class="required">&nbsp;</span>   
             							</td>
-							            <td align="right">当前状态</td>
+							            <td align="right">当前状态：</td>
 										<td>
 										<select id="currstatus" name="currstatus" style="width:100">
 												<option value=""></option>
@@ -328,13 +328,13 @@ function on_tchange(){
             							<td>
 			  							<input type="text" id="price" name="price"  value="${entity.price }"  readonly="readonly"
 			  									style="ime-mode:disabled; width: 100; background-color: gray" class="easyui-numberbox" data-options="required:true,min:0,precision:2,missingMessage:'请输入精度为2的正数'"/>          
-            						   <span class="required">*</span>  
+            						   <span class="required">(元/批)*</span>  
             							</td>
-            							<td align="right">发售单位</td>
+            							<td align="right">发售单位：</td>
             							<td>
             							<input type="text" id="units" name="units"  value="${entity.units }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正整数',min:0"/>          
-            							 <span class="required">*</span>  
+            							 <span class="required">(批/单位)*</span>  
             							</td>
             							<td align="right">最后交易日：</td>
             							<td><input type="hidden" id="lasttime" value="${lasttrade }">
@@ -422,7 +422,7 @@ function on_tchange(){
             							<td> 
 			  								<input id="maxapplynum" name="maxapplynum"  value="${entity.maxapplynum }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入正整数',min:0"/>
-            							 <span class="required">*</span>  
+            							 <span class="required">(批)*</span>  
             							</td>  
         								<td align="right" >发行开始日期：</td> 
             							<td> <input type="hidden" id="stime" value="${start }">
@@ -435,13 +435,13 @@ function on_tchange(){
         	  							<td align="right">最小申购数量：</td>
             							<td><input id="minapplynum" name="minapplynum" value="${entity.minapplynum }"
             								 class="easyui-numberbox" data-options="required:true,missingMessage:'请填入10位以内的正整数',min:0,max:9999999999"  style="width: 100"/>          
-            							 <span class="required">*</span>  
+            							 <span class="required">(批)*</span>  
             							</td>    
             							<td align="right">最小申购变动量：</td>
 										<td>
 										<input id="minapplyquamove" name="minapplyquamove"  value="${entity.minapplyquamove }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请填入8位以内的正整数',min:0,max:99999999"/>
-										 <span class="required">*</span>  
+										 <span class="required">(批)*</span>  
 										</td>
 										<td align="right">发行结束日期：</td>
 										<td>
@@ -481,7 +481,7 @@ function on_tchange(){
             							<td>
             							<input type="text" id="counts" name="counts"  value="${entity.counts }"
 			  									style="ime-mode:disabled; width: 100" class="easyui-numberbox" data-options="required:true,missingMessage:'请输入正数',min:0,max:999999999"/>          
-            							 <span class="required">*</span>  
+            							 <span class="required">(批)*</span>  
             							</td>
             							<td align="right">发行商发行手续费比例：</td>
             							<td>
