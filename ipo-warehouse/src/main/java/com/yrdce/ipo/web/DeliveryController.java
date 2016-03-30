@@ -25,6 +25,7 @@ import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.IpoCommConfService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Express;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
@@ -48,6 +49,9 @@ public class DeliveryController {
 
 	private static Logger log = org.slf4j.LoggerFactory
 			.getLogger(DeliveryController.class);
+
+	@Autowired
+	private SystemService systemService;
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
@@ -185,12 +189,12 @@ public class DeliveryController {
 		if (num != 0) {
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
 					"IPO申请入库: 入库单号" + storage.getStorageid() + "增加成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", session);
+					WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 			return "true";
 		}
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
 				"IPO申请入库: 入库单号" + storage.getStorageid() + "增加失败",
-				WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+				WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 		return "false";
 	}
 
@@ -211,7 +215,7 @@ public class DeliveryController {
 		ipoStorageService.checkStorage(storageId, "warehouse" + flag, userId);
 		WriteLog.writeOperateLog(WriteLog.SYS_LOG_STORAGE_CATALOGID,
 				"IPO入库审核: 入库单号" + storageId + " 审核结果：" + flag,
-				WriteLog.SYS_LOG_OPE_SUCC, "", session);
+				WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 		return "app/storage/storageApprove";
 	}
 
@@ -345,12 +349,12 @@ public class DeliveryController {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
 						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
 								+ "设置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
+						session, systemService);
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
 						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
 								+ "设置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
+						session, systemService);
 			}
 			return result;
 		} catch (Exception e) {
@@ -358,7 +362,7 @@ public class DeliveryController {
 			WriteLog.writeOperateLog(
 					WriteLog.SYS_LOG_EXPRESS_CATALOGID,
 					"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId() + "设置失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}

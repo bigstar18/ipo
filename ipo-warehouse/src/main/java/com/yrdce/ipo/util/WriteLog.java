@@ -9,18 +9,31 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.CGloballogAll;
 
-@Controller
 public class WriteLog {
 
 	public static final int SYS_LOG_STORAGE_CATALOGID = 4002;
 	public static final int SYS_LOG_EXPRESS_CATALOGID = 4003;
+	public static final int SYS_LOG_BREED_CATALOGID = 4004;
+	public static final int SYS_LOG_COMMODITY_CATALOGID = 4005;
+	public static final int SYS_LOG_PUBLISH_CATALOGID = 4006;
+	public static final int SYS_LOG_UNDERWRITERSUB_CATALOGID = 4007;
+	public static final int SYS_LOG_DELIVERY_CATALOGID = 4008;
 	public static final int SYS_LOG_OUTBOUND_CATALOGID = 4010;
+	public static final int SYS_LOG_ChargeUser_CATALOGID = 4011;
+	public static final int SYS_LOG_ChargeItem_CATALOGID = 4012;
+	public static final int SYS_LOG_ChargeRole_CATALOGID = 4013;
+	public static final int SYS_LOG_DEBITFLOW_CATALOGID = 4014;
+	public static final int SYS_LOG_PAYFLOW_CATALOGID = 4015;
+	public static final int SYS_LOG_DATAITEM_CATALOGID = 4016;
+	public static final int SYS_LOG_LOTTERY_CATALOGID = 4017;
+	public static final int SYS_LOG_TRANSPOSITION_CATALOGID = 4018;
+	public static final int SYS_LOG_TRANSTIMEBARGIN_CATALOGID = 4019;
+	public static final int SYS_LOG_DISTRIRULE_CATALOGID = 4020;
 	public static final int SYS_LOG_OPE_SUCC = 1;
 	public static final int SYS_LOG_OPE_FAILURE = 0;
 
@@ -28,7 +41,6 @@ public class WriteLog {
 			.getLogger(WriteLog.class);
 
 	@Autowired
-	private static SystemService systemService;
 	private static ExecutorService executorService = Executors
 			.newCachedThreadPool(new ThreadFactoryBuilder()
 					.setNameFormat("writeOperateLog-%d").setDaemon(true)
@@ -52,7 +64,7 @@ public class WriteLog {
 	 */
 	public static void writeOperateLog(final int catalogID,
 			final String content, final int operateResult, final String mark,
-			final HttpSession session) {
+			final HttpSession session, final SystemService systemService) {
 		executorService.submit(new Runnable() {
 			@Override
 			public void run() {

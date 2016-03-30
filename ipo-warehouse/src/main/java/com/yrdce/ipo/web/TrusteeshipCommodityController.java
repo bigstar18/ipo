@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.dubbo.common.json.JSON;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.modules.sys.service.BiWarehouseService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.TrusteeshipCommodityService;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 import com.yrdce.ipo.modules.sys.vo.Trusteeship;
@@ -41,6 +42,9 @@ public class TrusteeshipCommodityController {
 
 	@Autowired
 	private BiWarehouseService biWarehouseService;
+
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 跳转到初审界面
@@ -140,12 +144,14 @@ public class TrusteeshipCommodityController {
 			trusteeshipCommodityService.warehouseFirstAuditPass(ship);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 		} catch (Exception e) {
 			logger.error("warehouseFirstAuditPass error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return false;
 		}
 		return true;
@@ -169,12 +175,14 @@ public class TrusteeshipCommodityController {
 			trusteeshipCommodityService.warehouseFirstAuditNoPass(ship);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 		} catch (Exception e) {
 			logger.error("warehouseFirstAuditNoPass error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "初审失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return false;
 		}
 		return true;
@@ -198,12 +206,14 @@ public class TrusteeshipCommodityController {
 			trusteeshipCommodityService.warehouseLastAuditPass(ship);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 		} catch (Exception e) {
 			logger.error("warehouseLastAuditPass error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return false;
 		}
 		return true;
@@ -227,12 +237,14 @@ public class TrusteeshipCommodityController {
 			trusteeshipCommodityService.warehouseLastAuditNoPass(ship);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审成功",
-					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(),
+					systemService);
 		} catch (Exception e) {
 			logger.error("warehouseLastAuditNoPass error:" + e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 托管申请单号" + request.getParameter("id") + "终审失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession());
+					WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(),
+					systemService);
 			return false;
 		}
 		return true;

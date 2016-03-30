@@ -16,6 +16,7 @@ import com.yrdce.ipo.modules.warehouse.dao.IpoStorageMapper;
 import com.yrdce.ipo.modules.warehouse.dao.IpoWarehouseStockMapper;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorage;
 import com.yrdce.ipo.modules.warehouse.entity.IpoStorageExtended;
+import com.yrdce.ipo.modules.warehouse.entity.IpoWarehouseStock;
 import com.yrdce.ipo.modules.warehouse.entity.WarehouseStock;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.vo.IpoStorageVo;
@@ -103,13 +104,26 @@ public class IpoStorageServiceImpl implements IpoStorageService {
 				WarehouseStock record = new WarehouseStock();
 				IpoStorage example = ipoStorageMapper
 						.getStorageByPrimary(storageId);
-				record.setCommodityid(example.getCommodityid());
-				record.setStoragenum(example.getStoragecounts());
-				record.setForzennum((long) 0);
-				record.setOutboundnum((long) 0);
-				record.setAvailablenum(example.getStoragecounts());
-				record.setWarehouseid(example.getWarehouseid());
-				ipowarehousestockmapper.insert(record);
+				IpoWarehouseStock stock = ipowarehousestockmapper
+						.selectByCommoId(example.getCommodityid(),
+								example.getWarehouseid());
+				if (stock == null) {
+					record.setCommodityid(example.getCommodityid());
+					record.setStoragenum(example.getStoragecounts());
+					record.setForzennum((long) 0);
+					record.setOutboundnum((long) 0);
+					record.setAvailablenum(example.getStoragecounts());
+					record.setWarehouseid(example.getWarehouseid());
+					ipowarehousestockmapper.insert(record);
+				} else {
+					long newstoragenum = stock.getStoragenum()
+							+ example.getStoragecounts();
+					long newavailablenum = stock.getAvailablenum()
+							+ example.getStoragecounts();
+					stock.setStoragenum(newstoragenum);
+					stock.setAvailablenum(newavailablenum);
+					ipowarehousestockmapper.updateInfo(stock);
+				}
 				return ipoStorageMapper.updateStorageState(storageId, checker,
 						"4");// 市场通过
 			}

@@ -18,6 +18,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.service.OutboundService;
+import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.Outbound;
 import com.yrdce.ipo.modules.sys.vo.OutboundExtended;
@@ -45,6 +46,8 @@ public class OutBoundController {
 	private DeliveryOrderService deliveryOrderService;
 	@Autowired
 	private IpoStorageService ipoStorageService;
+	@Autowired
+	private SystemService systemService;
 
 	@RequestMapping(value = "/geOutBoundInfo", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -111,30 +114,45 @@ public class OutBoundController {
 	public String updateOutBoundInfo(Outbound outbound, HttpSession session) {
 		try {
 			log.info("出库单审核");
-			String auditorid = ((UserManageVO) session
-					.getAttribute("CurrentUser")).getUserID();
-			long wareHouseId = ipoStorageService.getWarehousePrimary(auditorid);
-			outbound.setAuditorid(auditorid);
-			outbound.setWarehouseid(String.valueOf(wareHouseId));
-			int result = outboundService.updateOutBoundInfo(outbound);
-			if (result > 0) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
-						"IPO出库审核: 出库单号" + outbound.getOutboundorderid()
-								+ "审核成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
-				return "success";
-			} else {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
-						"IPO出库审核: 出库单号" + outbound.getOutboundorderid()
-								+ "审核失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
-				return "fail";
+			String deliveryid = outbound.getDeliveryorderid();
+			DeliveryOrder deliveryOrder = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryid);
+			if (deliveryOrder != null) {
+				if (deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.PRINTED
+						.getCode()
+						|| deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.CONFIRM
+								.getCode()) {
+					String auditorid = ((UserManageVO) session
+							.getAttribute("CurrentUser")).getUserID();
+					long wareHouseId = ipoStorageService
+							.getWarehousePrimary(auditorid);
+					outbound.setAuditorid(auditorid);
+					outbound.setWarehouseid(String.valueOf(wareHouseId));
+					int result = outboundService.updateOutBoundInfo(outbound);
+					if (result > 0) {
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+								"IPO出库审核: 出库单号" + outbound.getOutboundorderid()
+										+ "审核成功", WriteLog.SYS_LOG_OPE_SUCC,
+								"", session, systemService);
+						return "success";
+					} else {
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+								"IPO出库审核: 出库单号" + outbound.getOutboundorderid()
+										+ "审核失败", WriteLog.SYS_LOG_OPE_FAILURE,
+								"", session, systemService);
+						return "fail";
+					}
+				}
+				return "nopermisson";
 			}
+			return "noexist";
 		} catch (Exception e) {
 			log.error("出库单审核", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库审核: 出库单号" + outbound.getOutboundorderid() + "审核失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}
@@ -145,32 +163,46 @@ public class OutBoundController {
 	public String addOutBoundOrder(Outbound outBound, HttpSession session) {
 		try {
 			log.info("出库单添加");
-			String operatorid = ((UserManageVO) session
-					.getAttribute("CurrentUser")).getUserID();
-			long wareHouseId = ipoStorageService
-					.getWarehousePrimary(operatorid);
-			outBound.setWarehouseid(String.valueOf(wareHouseId));
-			log.info(outBound.getIdnum());
-			outBound.setOperatorid(operatorid);
-			int result = outboundService.addOutBoundOrder(outBound);
-			if (result == 1) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
-						"IPO出库添加: 出库单号" + outBound.getOutboundorderid()
-								+ "添加成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session);
-				return "success";
-			} else {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
-						"IPO出库添加: 出库单号" + outBound.getOutboundorderid()
-								+ "添加失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session);
-				return "fail";
+			String deliveryid = outBound.getDeliveryorderid();
+			DeliveryOrder deliveryOrder = deliveryOrderService
+					.getDeliveryOrderByDeliOrderID(deliveryid);
+			if (deliveryOrder != null) {
+				if (deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.PRINTED
+						.getCode()
+						|| deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.CONFIRM
+								.getCode()) {
+					String operatorid = ((UserManageVO) session
+							.getAttribute("CurrentUser")).getUserID();
+					long wareHouseId = ipoStorageService
+							.getWarehousePrimary(operatorid);
+					outBound.setWarehouseid(String.valueOf(wareHouseId));
+					log.info(outBound.getIdnum());
+					outBound.setOperatorid(operatorid);
+					int result = outboundService.addOutBoundOrder(outBound);
+					if (result == 1) {
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+								"IPO出库添加: 出库单号" + outBound.getOutboundorderid()
+										+ "添加成功", WriteLog.SYS_LOG_OPE_SUCC,
+								"", session, systemService);
+						return "success";
+					} else {
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
+								"IPO出库添加: 出库单号" + outBound.getOutboundorderid()
+										+ "添加失败", WriteLog.SYS_LOG_OPE_FAILURE,
+								"", session, systemService);
+						return "fail";
+					}
+				}
+				return "nopermisson";
 			}
+			return "noexist";
 		} catch (Exception e) {
 			log.error("出库单添加", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO出库添加: 出库单号" + outBound.getOutboundorderid() + "添加失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}
@@ -202,12 +234,13 @@ public class OutBoundController {
 			if (result == 1) {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 						"IPO确认出库: 出库单号 " + outboundorderid + "出库成功",
-						WriteLog.SYS_LOG_OPE_SUCC, "", session);
+						WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 				return "success";
 			} else {
 				WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 						"IPO确认出库: 出库单号" + outboundorderid + "出库失败",
-						WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+						WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+						systemService);
 				return "fail";
 			}
 
@@ -215,7 +248,7 @@ public class OutBoundController {
 			log.error("修改出库单状态", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_OUTBOUND_CATALOGID,
 					"IPO确认出库: 出库单号" + outboundorderid + "出库失败",
-					WriteLog.SYS_LOG_OPE_FAILURE, "", session);
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}

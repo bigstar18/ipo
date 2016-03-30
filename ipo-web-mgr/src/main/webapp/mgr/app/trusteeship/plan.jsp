@@ -50,12 +50,12 @@
           align: 'center' 
         }, {
           field: 'counts',
-          title: '发行数量',
+          title: '发行数量(批)',
           width : 200,
           align: 'center' 
         },{
           field: 'price',
-          title: '上市指导价',
+          title: '上市指导价(元/批)',
           width : 200,
           align: 'center'
         },{

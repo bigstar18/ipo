@@ -198,6 +198,12 @@ function audit(deliveryorderid,outboundorderid,outboundstate){
 			case "fail":
 				alert("审核失败，请稍后再试！");
 				break;
+			case "nopermisson":
+				alert("该提货单没有出库权限！");
+				break;
+			case "noexist":
+				alert("提货单不存在！");
+				break;
 			case "error":
 				alert("系统异常！");
 				break;

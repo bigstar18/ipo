@@ -135,7 +135,7 @@ function doAdd(){
 			deliveryperson:deliveryperson,
 			sex:sex,
 			idtype:idtype,
-			idnum:11
+			idnum:idnum
 		},
 		success:function(data){
 			if(data=="success"){
@@ -145,6 +145,12 @@ function doAdd(){
 			}
 			if(data=="fail"){
 				alert("添加失败！");
+			}
+			if(data=="noexist"){
+				alert("提货单不存在！");
+			}
+			if(data=="nopermisson"){
+				alert("该提货单没有出库权限！");
 			}
 			if(data=="error"){
 				alert("系统异常!");
