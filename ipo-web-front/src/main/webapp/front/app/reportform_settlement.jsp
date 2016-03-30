@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css"  href="${ctxStatic}/jquery-easyui/themes/icon.css">
 <!-- <link href="../skinstyle/default/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" /> -->
 <link href="${skinPath}/css/mgr/memberadmin/module.css" rel="stylesheet" type="text/css" />
-
+<script type="text/javascript" src="${ctxStatic}/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 <%-- $(document).ready(function(){
 	var time = getDateNow();
@@ -22,7 +22,7 @@
         }
 	})
 	}); --%>
-	
+
 function queryData(){
 	var time = $("#queryTime").datebox("getValue");
 	document.location.href="<%=request.getContextPath()%>/BillingReportController/fundsforward?date="+time;
@@ -32,14 +32,14 @@ function queryData(){
         data:{date:time},
         dataType:'json',
         success:function(date){
-        	
+
         },
         error:function(date){
         	alert("页面加载失败，请稍后重试");
         }
 	}) --%>
 }
-	
+
 
 //修改日期格式
 function myformatter(date){
@@ -60,7 +60,7 @@ function myparser(s){
 		return new Date();
 	}
  }
-    
+
 //获取当前日期
 function getDateNow(){
     var date = new Date();
@@ -76,18 +76,55 @@ function getDateNow(){
     }
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
     return currentdate;
-} 
+}
 </script>
 
 <style type="text/css">
+
+.btnsearch{
+	border: 1px solid #95B8E7;
+	margin-left: 20px;
+	width: 80px;
+  height: 25px;
+  border-radius: 3px;
+  background: #fff;
+}
 .td_reportMdHead_Right{
 	width:200px;
 }
 
 .td_reportMd1{
 	width: 200px;
-	
+
 }
+
+#tableList td{
+	font-size: 13px;
+	padding: 4px;
+}
+
+.tb_total{
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border: 1px solid #95B8E7;
+}
+.tb_total td{
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.tb_total tr:hover, .tb_total tr:nth-child(2n){
+	background-color: #f9f9f9;
+}
+.mbodytop{
+	padding: 5px;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+  border-top: 1px solid #95B8E7;
+  border-left: 1px solid #95B8E7;
+  border-right: 1px solid #95B8E7;
+  background: #EFF5FF;
+}
+
 </style>
 
 </head>
@@ -105,12 +142,13 @@ function getDateNow(){
 	<div class="sort">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td align="right">查询日期：</td>
-				<td width="600px">
+				<!-- <td align="right">查询日期：</td> -->
+				<td width="600px" align="center">
+				查询日期：
 				<input id="queryTime" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
-				 
+				<input type="button" value="查询" onclick="queryData()" class="btnsearch" />
 				</td>
-				<td align="left"><input type="button" value="查询" onclick="queryData()"/></td>
+				<!-- <td align="left"><input type="button" value="查询" onclick="queryData()" class="btnsearch" /></td> -->
 			</tr>
 		</table>
 	</div>
@@ -127,7 +165,8 @@ function getDateNow(){
 									<h2>资金结算信息</h2>
 								</center> <br />
 								<div class="table-c">
-									<table width="1000px" border="1" cellspacing="0" cellpadding="0"
+									<div class="mbodytop">资金明细</div>
+									<table width="1000px" class="tb_total" cellspacing="0" cellpadding="0"
 										align="center">
 										<tr>
 											<td class="td_reportMdHead_Right" align="center">上日资金余额（元）:</td>
@@ -184,22 +223,23 @@ function getDateNow(){
 									</table>
 								</div> <br>
 								<center class="reportHead">
-									<b>发行申购明细表</b>
+									<!-- <b>发行申购明细表</b> -->
 								</center> <br>
 								<div class="table-c">
-									<table border="1" cellspacing="0" cellpadding="0"
+									<div class="mbodytop">发行申购明细表</div>
+									<table class="tb_total" cellspacing="0" cellpadding="0"
 										align="center" width="1000px">
 										<tr>
-											<td class="td_reportMdHead">序号</td>
-											<td class="td_reportMdHead">商品代码</td>
-											<td class="td_reportMdHead">商品名称</td>
-											<td class="td_reportMdHead">发行价格</td>
-											<td class="td_reportMdHead">申购时间</td>
-											<td class="td_reportMdHead">申购数量</td>
-											<td class="td_reportMdHead">申购金额</td>
-											<td class="td_reportMdHead">发行服务费</td>
-											<td class="td_reportMdHead">退还申购金额</td>
-											<td class="td_reportRdHead">退还发行服务费</td>
+											<td class="td_reportMdHead" align="center">序号</td>
+											<td class="td_reportMdHead" align="center">商品代码</td>
+											<td class="td_reportMdHead" align="center">商品名称</td>
+											<td class="td_reportMdHead" align="center">发行价格</td>
+											<td class="td_reportMdHead" align="center">申购时间</td>
+											<td class="td_reportMdHead" align="center">申购数量</td>
+											<td class="td_reportMdHead" align="center">申购金额</td>
+											<td class="td_reportMdHead" align="center">发行服务费</td>
+											<td class="td_reportMdHead" align="center">退还申购金额</td>
+											<td class="td_reportRdHead" align="center">退还发行服务费</td>
 										</tr>
 										<c:forEach  items="${rList}" var = "Relea" varStatus="status">
 											<tr>
@@ -215,15 +255,16 @@ function getDateNow(){
 												<td class="td_reportRdHead" align="center">${Relea.refundableservicefee}</td>
 											</tr>
 										</c:forEach>
-										
+
 									</table>
 								</div> <br>
-								
+
 								<center class="reportHead">
-									<b>商品持有表</b>
+									<!-- <b>商品持有表</b> -->
 								</center> <br>
 								<div class="table-c">
-									<table border="1" cellspacing="0" cellpadding="0"
+									<div class="mbodytop">商品持有表</div>
+									<table class="tb_total" cellspacing="0" cellpadding="0"
 										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
@@ -251,15 +292,16 @@ function getDateNow(){
 												<td class="td_reportRdHead" align="center">${hold.marketvalue}</td>
 											</tr>
 										</c:forEach>
-										
+
 									</table>
 								</div> <br>
 
 								<center class="reportHead">
-									<b>商品注册/注销提货单表</b>
+									<!-- <b>商品注册/注销提货单表</b> -->
 								</center> <br>
 								<div class="table-c">
-									<table border="1" cellspacing="0" cellpadding="0"
+									<div class="mbodytop">商品注册/注销提货单表</div>
+									<table class="tb_total" cellspacing="0" cellpadding="0"
 										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
@@ -291,10 +333,11 @@ function getDateNow(){
 								</div> <br>
 
 								<center class="reportHead">
-									<b>商品过户、提货表</b>
+									<!-- <b>商品过户、提货表</b> -->
 								</center> <br>
 								<div class="table-c">
-									<table border="1" cellspacing="0" cellpadding="0"
+									<div class="mbodytop">商品过户、提货表</div>
+									<table class="tb_total" cellspacing="0" cellpadding="0"
 										align="center" width="1000px">
 										<tr>
 											<td class="td_reportMdHead" align="center">序号</td>
