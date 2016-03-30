@@ -42,7 +42,7 @@ public class DistTaskServiceImpl implements DistTaskService {
 
 	@Transactional()
 	public void lottery() throws Exception {
-		logger.info("分配开始，开始获取商品信息");
+		logger.info("摇号开始，开始获取商品信息");
 		String time = DateUtil.getTime(1);
 		// 查询发售表
 		List<IpoCommodity> ipoCommodities = commodityMapper.selectByEnd(time);
@@ -56,20 +56,22 @@ public class DistTaskServiceImpl implements DistTaskService {
 
 	// 摇号过程
 	@Override
-	@Transactional()
+	@Transactional
 	public void distCommodity(String commid) {
 		int st = 1;
 		try {
 			IpoCommodity commodity = commodityMapper.queryByComid(commid);
 			st = commodity.getStatus();
+			int tempCounts = (int) (commodity.getCounts() / commodity.getUnits());
+			logger.info("市场发售数量：" + tempCounts);
 			commodityMapper.updateByStatus(31, commid);// 31表示摇号中
 			orderList = ipoOrderMapper.selectByCid(commid);
 			IpoDistributionRule distributionRule = ipoDistributionRuleMapper.selectInfoByCommId(commid);
 			CommodityDistribution commodityDistribution;
 			if (distributionRule == null) {
-				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(), 0, 100);
+				commodityDistribution = new CommodityDistribution(tempCounts, 0, 100);
 			} else {
-				commodityDistribution = new CommodityDistribution((int) commodity.getCounts(),
+				commodityDistribution = new CommodityDistribution(tempCounts,
 						distributionRule.getHoldRatio().doubleValue(),
 						distributionRule.getPurchaseRatio().doubleValue());
 			}
@@ -85,8 +87,9 @@ public class DistTaskServiceImpl implements DistTaskService {
 						firmDistInfo.setDistNum(0);
 					}
 					firmdistInfoList.add(firmDistInfo);
-					logger.info("第一轮分配成功");
+					logger.info("第一轮分配成功,分配数量：" + firmDistInfo.getDistNum());
 				}
+				System.out.println("剩余量：" + commodityDistribution.getAlldistNum());
 				if (commodityDistribution.getAlldistNum() > 0) {
 					logger.info("随机分配开始");
 					while (firmdistInfoList.size() > 0 && commodityDistribution.getAlldistNum() > 0) {
@@ -157,12 +160,11 @@ public class DistTaskServiceImpl implements DistTaskService {
 		long firmhoidCounts = tcustomerholdsumMapper.selectFirmHold(ipoOrder.getUserid());
 		long tempCountsBuy = countsBuy / ipoCommodity.getUnits();
 		long tempCountsOrder = ipoOrder.getCounts() / ipoCommodity.getUnits();
-		double firmCapitalRatio = tempCountsOrder / tempCountsBuy;
-		double firmPositionRatio;
+		logger.info("申购量：" + ipoOrder.getCounts() + "单位：" + ipoCommodity.getUnits() + "交易商购买量：" + tempCountsBuy);
+		double firmCapitalRatio = (double) tempCountsOrder / (double) tempCountsBuy;
+		double firmPositionRatio = 0;
 		if (holdCounts != 0) {
-			firmPositionRatio = firmhoidCounts / holdCounts;
-		} else {
-			firmPositionRatio = 0;
+			firmPositionRatio = (double) firmhoidCounts / (double) holdCounts;
 		}
 		FirmDistInfo distInfo = new FirmDistInfo();
 		distInfo.setFirmCapitalRatio(firmCapitalRatio);
@@ -178,6 +180,8 @@ public class DistTaskServiceImpl implements DistTaskService {
 
 		}
 		distInfo.setFirmPositionRatio(firmPositionRatio);
+		logger.info(
+				"创建交易商[" + distInfo.getFirmId() + "]成功，申购比例[" + firmCapitalRatio + "]持仓比例[" + firmPositionRatio + "]");
 		return distInfo;
 	}
 

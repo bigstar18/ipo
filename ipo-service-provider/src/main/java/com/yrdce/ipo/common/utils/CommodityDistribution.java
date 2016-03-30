@@ -25,8 +25,10 @@ public class CommodityDistribution {
 		this.alldistNum = alldistNum;
 		this.distPositionRatio = distPositionRatio / 100;
 		this.distCapitalRatio = distCapitalRatio / 100;
-		this.capitalRatioNum = (int) (alldistNum * distCapitalRatio);
-		this.positionRatioNum = (int) (alldistNum * distPositionRatio);
+		this.capitalRatioNum = (int) (alldistNum * this.distCapitalRatio);
+		this.positionRatioNum = alldistNum - this.capitalRatioNum;
+		System.out.println("按持仓比例分配个数：" + positionRatioNum);
+		System.out.println("按申购比例分配个数：" + capitalRatioNum);
 	}
 
 	// 初次分配主函数
@@ -38,22 +40,26 @@ public class CommodityDistribution {
 
 	// 按持仓比例分配数量
 	private void disCommodityByPosition(FirmDistInfo firmDistInfo) {
-		int tempDistNumByPosition = (int) (this.positionRatioNum * firmDistInfo.getFirmPositionRatio());
-		int result = firmDistInfo.getDistNum() + tempDistNumByPosition;
+		if (this.positionRatioNum == 0) {
+			return;
+		}
 		if (this.alldistNum == 0) {
 			return;
 		}
+		int tempDistNumByPosition = (int) (this.positionRatioNum * firmDistInfo.getFirmPositionRatio());
+		int result = firmDistInfo.getDistNum() + tempDistNumByPosition;
 		if (this.alldistNum < tempDistNumByPosition) {
 			firmDistInfo.setDistNum(this.alldistNum);
 			this.alldistNum = 0;
 			return;
 		}
 		if (result > firmDistInfo.getMaxdistNum() && firmDistInfo.getMaxdistNum() != 0) {
+			this.alldistNum -= (firmDistInfo.getMaxdistNum() - firmDistInfo.getDistNum());
 			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
-			this.alldistNum -= firmDistInfo.getMaxdistNum();
 		} else {
+			this.alldistNum -= tempDistNumByPosition;
 			firmDistInfo.setDistNum(result);
-			this.alldistNum -= result;
+
 		}
 		if (firmDistInfo.getDistNum() == firmDistInfo.getBuyNum()) {
 			firmDistInfo.setFull(false);
@@ -63,22 +69,27 @@ public class CommodityDistribution {
 
 	// 按资金比例分配数量
 	private void disCommodityByCapital(FirmDistInfo firmDistInfo) {
-		int tempDistNumByCapital = (int) (this.capitalRatioNum * firmDistInfo.getFirmCapitalRatio());
-		int result = firmDistInfo.getDistNum() + tempDistNumByCapital;
+		if (capitalRatioNum == 0) {
+			return;
+		}
 		if (this.alldistNum == 0) {
 			return;
 		}
+		int tempDistNumByCapital = (int) (this.capitalRatioNum * firmDistInfo.getFirmCapitalRatio());
+		int result = firmDistInfo.getDistNum() + tempDistNumByCapital;
+
 		if (this.alldistNum < tempDistNumByCapital) {
 			firmDistInfo.setDistNum(this.alldistNum);
 			this.alldistNum = 0;
 			return;
 		}
 		if (result > firmDistInfo.getMaxdistNum() && firmDistInfo.getMaxdistNum() != 0) {
+			this.alldistNum -= (firmDistInfo.getMaxdistNum() - firmDistInfo.getDistNum());
 			firmDistInfo.setDistNum(firmDistInfo.getMaxdistNum());
-			this.alldistNum -= firmDistInfo.getMaxdistNum();
 		} else {
+			this.alldistNum -= tempDistNumByCapital;
 			firmDistInfo.setDistNum(result);
-			this.alldistNum -= firmDistInfo.getMaxdistNum();
+
 		}
 		if (firmDistInfo.getDistNum() == firmDistInfo.getBuyNum()) {
 			firmDistInfo.setFull(false);
