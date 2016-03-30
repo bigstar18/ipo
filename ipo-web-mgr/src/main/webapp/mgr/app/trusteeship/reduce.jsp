@@ -37,22 +37,22 @@
         [{
           field: 'positionFlowId',
           title: '持仓单号',
-          width : '200',
+          width : '150',
           align: 'center'
         },{
           field: 'firmId',
           title: '客户代码',
-          width : '200',
+          width : '150',
           align: 'center'
         }, {
           field: 'commodityId',
           title: '商品代码',
-          width : '200',
+          width : '150',
           align: 'center' 
         },{
           field: 'reduceDate',
           title: '减持日期',
-          width : '200',
+          width : '150',
           align: 'center',
           formatter: function(value, row, index) {
        	   if(row.reduceDate!='null'&&row.reduceDate!=null){
@@ -62,17 +62,17 @@
         },{
           field: 'ratio',
           title: '减持比例(%)',
-          width : '200',
+          width : '150',
           align: 'center' 
         },{
           field: 'reduceqty',
           title: '减持数量',
-          width : '200',
+          width : '150',
           align: 'center' 
         },{
           field: 'stateName',
           title: '状态',
-          width : '200',
+          width : '150',
           align: 'center' 
         },{
             field: 'oper',
@@ -127,7 +127,8 @@
    }
   
   function back(){
-	  history.go(-1);
+	  var url_='<%=request.getContextPath()%>/mgr/app/trusteeship/positionflow.jsp';
+		window.location.href=url_; 
   };
   
   
@@ -155,7 +156,7 @@
 			<input type="hidden">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add();" id="add">添加</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="view" onclick="doSearch()">查询</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="back()">返还</a>							
+			<a href="#" class="easyui-linkbutton" iconCls="icon-back" id="view" onclick="back()">返回</a>							
 		</form> 
 		</div>
 	</div>

@@ -1,7 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,12 +19,13 @@ import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.DistributionRule;
 import com.yrdce.ipo.modules.sys.vo.ResponseResult;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 @Controller
 @RequestMapping("DistributionRuleController")
 public class DistributionRuleController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(DistributionRuleController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DistributionRuleController.class);
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
@@ -52,30 +51,24 @@ public class DistributionRuleController {
 	// 插入分配信息
 	@RequestMapping("insertRuleInfo")
 	@ResponseBody
-	public String insertRuleInfo(DistributionRule distributionRule,
-			HttpSession session) {
+	public String insertRuleInfo(DistributionRule distributionRule, HttpSession session) {
 		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			distributionRule.setDeleteFlag((short) 0);
 			distributionRule.setCreateUser(userId);
-			int result = distributionRuleService
-					.insertRuleInfo(distributionRule);
+			int result = distributionRuleService.insertRuleInfo(distributionRule);
 			if (result > 0) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-						"ipo插入摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session, systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo插入摇号规则分配信息成功",
+						WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 				return "success";
 			}
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-					"ipo插入摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session, systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo插入摇号规则分配信息失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "fail";
 		} catch (Exception e) {
 			log.error("插入分配方式异常：", e);
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-					"ipo插入摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session, systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo插入摇号规则分配信息失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}
@@ -99,13 +92,12 @@ public class DistributionRuleController {
 	// 分页查询分配设置信息
 	@RequestMapping("getRuleInfoByPages")
 	@ResponseBody
-	public String getRuleInfoByPages(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, DistributionRule distributionRule) {
+	public String getRuleInfoByPages(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			DistributionRule distributionRule) {
 		try {
-			List<DistributionRule> distributionRules = distributionRuleService
-					.selectRuleInfoByPages(page, rows, distributionRule);
-			int result = distributionRuleService
-					.selectInfoCounts(distributionRule);
+			List<DistributionRule> distributionRules = distributionRuleService.selectRuleInfoByPages(page,
+					rows, distributionRule);
+			int result = distributionRuleService.selectInfoCounts(distributionRule);
 			ResponseResult responseResult = new ResponseResult();
 			responseResult.setTotal(result);
 			responseResult.setRows(distributionRules);
@@ -120,11 +112,9 @@ public class DistributionRuleController {
 	// 根据商品id查询分配信息
 	@RequestMapping("getRuleInfoByCommId")
 	@ResponseBody
-	public String getRuleInfoByCommId(
-			@RequestParam("commodityId") String commonityId) {
+	public String getRuleInfoByCommId(@RequestParam("commodityId") String commonityId) {
 		try {
-			DistributionRule distributionRule = distributionRuleService
-					.selectInfoByCommId(commonityId);
+			DistributionRule distributionRule = distributionRuleService.selectInfoByCommId(commonityId);
 			String result = JSON.json(distributionRule);
 			return result;
 		} catch (Exception e) {
@@ -137,59 +127,48 @@ public class DistributionRuleController {
 	// 修改分配信息
 	@RequestMapping("updateInfoByCommId")
 	@ResponseBody
-	public String updateInfoByCommId(DistributionRule distributionRule,
-			HttpSession session) {
+	public String updateInfoByCommId(DistributionRule distributionRule, HttpSession session) {
 		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			log.info("用户id{}", userId);
 			distributionRule.setUpdateUser(userId);
-			int result = distributionRuleService
-					.updateInfoByCommId(distributionRule);
+			int result = distributionRuleService.updateInfoByCommId(distributionRule);
 			if (result > 0) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-						"ipo修改摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session, systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo修改摇号规则分配信息成功",
+						WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 				return "success";
 
 			} else {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-						"ipo修改摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session, systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo修改摇号规则分配信息失败",
+						WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 				return "fail";
 			}
 		} catch (Exception e) {
 			log.error("修改分配信息异常：", e);
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-					"ipo修改摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session, systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo修改摇号规则分配信息失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}
 
 	@RequestMapping("deleteInfoByCommId")
 	@ResponseBody
-	public String deleteInfoByCommId(
-			@RequestParam("commodityid") String commid, HttpSession session) {
+	public String deleteInfoByCommId(@RequestParam("commodityid") String commid, HttpSession session) {
 		try {
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
-			int result = distributionRuleService.deleteInfoByCommid(commid,
-					userId);
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+			int result = distributionRuleService.deleteInfoByCommid(commid, userId);
 			if (result > 0) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-						"ipo删除摇号规则分配信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session, systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo删除摇号规则分配信息成功",
+						WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 				return "success";
 			}
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-					"ipo删除摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session, systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo删除摇号规则分配信息失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "fail";
 		} catch (Exception e) {
 			log.error("删除配置信息异常：", e);
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID,
-					"ipo删除摇号规则分配信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-					session, systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DISTRIRULE_CATALOGID, "ipo删除摇号规则分配信息失败",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "error";
 		}
 	}

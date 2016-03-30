@@ -62,6 +62,7 @@
   	HOLD_RATIO=#{holdRatio,jdbcType=DECIMAL},
   	PURCHASE_RATIO=#{purchaseRatio,jdbcType=DECIMAL},
   	MAXQTY=#{maxqty,jdbcType=DECIMAL},
+  	UPDATE_USER=#{updateUser,jdbcType=VARCHAR},
   	UPDATE_DATE=sysdate
   	where COMMODITYID=#{commodityid,jdbcType=VARCHAR}
   	and DELETE_FLAG=0
