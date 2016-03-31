@@ -23,9 +23,9 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
+import com.yrdce.ipo.modules.sys.dao.IpoRfFirmholdsumMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
-import com.yrdce.ipo.modules.sys.dao.THFirmholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
@@ -54,7 +54,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 	@Autowired
 	private IpoOrderMapper ipoOrderMapper;
 	@Autowired
-	private THFirmholdsumMapper hFirmholdsumMapper;
+	private IpoRfFirmholdsumMapper ipoRfFirmholdsumMapper;
 	@Autowired
 	private IpoCommodityConfMapper ipoComConfMapper;
 	@Autowired
@@ -132,7 +132,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 
 	@Override
 	public List<Holdcommodity> hGetHold(String date, String firmid) {
-		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, firmid, null);
+		List<TFirmHoldSum> holdList = ipoRfFirmholdsumMapper.findByComIdAndFirmId(date, firmid, null);
 		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
 		if (holdList.size() != 0)
 			for (TFirmHoldSum tFirmHoldSum : holdList) {
@@ -152,7 +152,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 
 	@Override
 	public List<Holdcommodity> holdByCom(String date, String comid) {
-		List<TFirmHoldSum> holdList = hFirmholdsumMapper.findByComIdAndFirmId(date, null, comid);
+		List<TFirmHoldSum> holdList = ipoRfFirmholdsumMapper.findByComIdAndFirmId(date, null, comid);
 		List<Holdcommodity> list = new ArrayList<Holdcommodity>();
 		if (holdList.size() != 0)
 			for (TFirmHoldSum tFirmHoldSum : holdList) {

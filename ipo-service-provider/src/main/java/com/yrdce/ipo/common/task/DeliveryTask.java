@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
@@ -38,6 +39,7 @@ public class DeliveryTask {
 	 * @Title: cancellation
 	 * @Description: 查询出库前的所有订单过了提货日期修改为失效
 	 */
+	@Transactional
 	public void cancellation() {
 		List<String> statusList = new ArrayList<String>();
 		statusList.add(DeliveryConstant.StatusType.REGISTER.getCode());

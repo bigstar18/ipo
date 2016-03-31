@@ -61,6 +61,7 @@
     <bean id="IPOTask" class="com.yrdce.ipo.common.task.Taskmanage"></bean>
     <bean id="SPOTask" class="com.yrdce.ipo.common.task.SPOTask"></bean>
     <bean id="brokerTask" class="com.yrdce.ipo.common.task.BrokerTask"></bean>
+    <bean id="reportFormTask" class="com.yrdce.ipo.common.task.ReportFormTask"></bean>
     
     <task:scheduled-tasks>  
     <!-- 这里表示的是几点开始执行任务-->  
@@ -82,6 +83,9 @@
 	<task:scheduled ref="brokerTask" method="billoFlading" cron="0 5 22 * * ?" />
 	<task:scheduled ref="brokerTask" method="delivery" cron="0 10 22 * * ?" />
 	<task:scheduled ref="brokerTask" method="holdCommodity" cron="0 15 22 * * ?" />
+	
+	<!-- 持仓每日记录任务   -->
+	<task:scheduled ref="reportFormTask" method="allHold" cron="0 30 0 * * ?" />
     </task:scheduled-tasks>
 	<!-- <task:executor id="executor" pool-size="10" /> -->
 	<!-- <task:scheduler id="scheduler" pool-size="10" />-->

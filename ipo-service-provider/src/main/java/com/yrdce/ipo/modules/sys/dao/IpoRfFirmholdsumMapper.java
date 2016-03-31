@@ -9,10 +9,12 @@ import com.yrdce.ipo.common.dao.MyBatisDao;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
 
 @MyBatisDao
-public interface THFirmholdsumMapper {
+public interface IpoRfFirmholdsumMapper {
 
 	TFirmHoldSum selectByPrimaryKey(@Param("cleardate") Date cleardate, @Param("firmid") String firmid,
 			@Param("commodityid") String commodityid, @Param("bsFlag") Short bsFlag);
+
+	int insert(TFirmHoldSum record);
 
 	List<TFirmHoldSum> selectAll();
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yrdce.ipo.modules.sys.dao.THFirmholdsumMapper" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.IpoRfFirmholdsumMapper" >
   <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.TFirmHoldSum" >
     <id column="CLEARDATE" property="cleardate" jdbcType="DATE" />
     <id column="FIRMID" property="firmId" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
     select CLEARDATE, FIRMID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
     EVENPRICE, HOLDMARGIN, GAGEQTY, HOLDASSURE
-    from T_H_FIRMHOLDSUM
+    from IPO_RF_FIRMHOLDSUM
     where CLEARDATE = #{cleardate,jdbcType=DATE}
       and FIRMID = #{firmid,jdbcType=VARCHAR}
       and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
@@ -28,13 +28,13 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select CLEARDATE, FIRMID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
     EVENPRICE, HOLDMARGIN, GAGEQTY, HOLDASSURE
-    from T_H_FIRMHOLDSUM
+    from IPO_RF_FIRMHOLDSUM
   </select>
   
   <select id="findByComIdAndFirmId" resultMap="BaseResultMap" parameterType="map">
     select CLEARDATE, FIRMID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
     EVENPRICE, HOLDMARGIN, GAGEQTY, HOLDASSURE
-    from T_H_FIRMHOLDSUM 
+    from IPO_RF_FIRMHOLDSUM 
     where to_char(CLEARDATE,'yyyy-MM-dd') = #{cleardate,jdbcType=VARCHAR}
     <if test="firmid != null and firmid != ''">
     	and FIRMID = #{firmid,jdbcType=VARCHAR}
@@ -43,4 +43,15 @@
     	and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
     </if>
   </select>
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.TFirmHoldSum">
+  	insert into IPO_RF_FIRMHOLDSUM ( CLEARDATE, FIRMID, COMMODITYID, BS_FLAG, HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
+    EVENPRICE, HOLDMARGIN, GAGEQTY, HOLDASSURE
+      )
+    values (#{cleardate,jdbcType=DATE}, #{firmId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, 
+      #{bsFlag,jdbcType=DECIMAL}, #{holdqty,jdbcType=DECIMAL}, #{holdFunds,jdbcType=DECIMAL}, 
+      #{floatingLoss,jdbcType=DECIMAL}, #{evenPrice,jdbcType=DECIMAL}, #{holdMargin,jdbcType=DECIMAL}, 
+      #{gageqty,jdbcType=DECIMAL}, #{holdAssure,jdbcType=DECIMAL} 
+      )
+  </insert>
 </mapper>
