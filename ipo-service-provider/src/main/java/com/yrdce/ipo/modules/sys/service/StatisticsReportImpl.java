@@ -28,7 +28,6 @@ import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
 import com.yrdce.ipo.modules.sys.dao.THFirmholdsumMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
-import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
@@ -296,43 +295,182 @@ public class StatisticsReportImpl implements StatisticsReportService {
 	@Override
 	public List<Billoflading> bGetBillfladInfo(String firmId, String date) {
 		logger.info("商品提货单表（客户端）");
-		List<IpoDeliveryorder> deliveryOrderList = DeliveryorderMapper.findByFirmIdAndDate(firmId, date);
-		List<Billoflading> list = new ArrayList<Billoflading>();
-		for (IpoDeliveryorder ipoDeliveryorder : deliveryOrderList) {
-			String id = ipoDeliveryorder.getDeliveryorderId();
-			String commodityId = ipoDeliveryorder.getCommodityId();
-			String commodityName = ipoDeliveryorder.getCommodityName();
-			//TODO  三目运算应拿掉，数据空缺，零时放置
-			long counts = ipoDeliveryorder.getDeliveryCounts() != null ? ipoDeliveryorder.getDeliveryCounts()
-					: 0;
-			long quatity = ipoDeliveryorder.getDeliveryQuatity();
-			String method = ipoDeliveryorder.getDeliveryMethod();
-			IpoDeliveryCost ipoDeliveryCost = ipoDeliveryCostMapper.selectByPrimaryKey(id);
-			//BigDecimal deliveryFee = ipoDeliveryCost.getDeliveryFee() != null
-			//		? ipoDeliveryCost.getDeliveryFee() : new BigDecimal(0);
-			BigDecimal rFee = ipoDeliveryCost.getRegistrationFee() != null
-					? ipoDeliveryCost.getRegistrationFee() : new BigDecimal(0);
-			BigDecimal cFee = ipoDeliveryCost.getCancellationFee() != null
-					? ipoDeliveryCost.getCancellationFee() : new BigDecimal(0);
-			BigDecimal insurance = ipoDeliveryCost.getInsurance() != null ? ipoDeliveryCost.getInsurance()
-					: new BigDecimal(0);
-			BigDecimal trudteeFee = ipoDeliveryCost.getTrusteeFee() != null ? ipoDeliveryCost.getTrusteeFee()
-					: new BigDecimal(0);
-			BigDecimal warehouseFee = ipoDeliveryCost.getWarehousingFee() != null
-					? ipoDeliveryCost.getWarehousingFee() : new BigDecimal(0);
-			Billoflading ipoBilloflading = new Billoflading();
-			ipoBilloflading.setCommodityid(commodityId);
-			ipoBilloflading.setCommodityname(commodityName);
-			ipoBilloflading.setCounts(counts);
-			ipoBilloflading.setQuantity(quatity);
-			ipoBilloflading.setDeliverytype(method);
-			ipoBilloflading.setBillofladingfee(rFee.add(cFee));
-			ipoBilloflading.setWarehousingfee(warehouseFee);
-			ipoBilloflading.setInsurance(insurance);
-			ipoBilloflading.setTrusteefee(trudteeFee);
-			list.add(ipoBilloflading);
+
+		IpoDebitFlow ipoDebitFlow = new IpoDebitFlow();
+		Date time = null;
+		try {
+			time = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		return list;
+		ipoDebitFlow.setCreateDate(time);
+		ipoDebitFlow.setPayer(firmId);
+		//注册费
+		String delivery = ChargeConstant.BusinessType.DELIVERY.getCode();
+		String register = ChargeConstant.ChargeType.REGISTER.getCode();
+		ipoDebitFlow.setBusinessType(delivery);
+		ipoDebitFlow.setChargeType(register);
+		List<IpoDebitFlow> debitFlowList1 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
+		//注销费
+		String cancel = ChargeConstant.ChargeType.CANCEL.getCode();
+		ipoDebitFlow.setChargeType(cancel);
+		List<IpoDebitFlow> debitFlowList2 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
+		//仓储费
+		String warehousing = ChargeConstant.ChargeType.WAREHOUSING.getCode();
+		ipoDebitFlow.setChargeType(warehousing);
+		List<IpoDebitFlow> debitFlowList3 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
+		//保险费
+		String insurance = ChargeConstant.ChargeType.INSURANCE.getCode();
+		ipoDebitFlow.setChargeType(insurance);
+		List<IpoDebitFlow> debitFlowList4 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
+		//托管费
+		String trustee = ChargeConstant.ChargeType.TRUSTEE.getCode();
+		ipoDebitFlow.setChargeType(trustee);
+		List<IpoDebitFlow> debitFlowList5 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
+
+		List<Billoflading> bIpoBillofladings = new ArrayList<Billoflading>();
+		if (debitFlowList1.size() != 0) {
+			for (IpoDebitFlow register1 : debitFlowList1) {
+				String id = register1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				String deliveryId = register1.getOrderId();
+				BigDecimal deliveryMoery = register1.getAmount();
+				ipoBilloflading.setBillofladingfee(deliveryMoery);
+				for (IpoDebitFlow cancel1 : debitFlowList2) {
+					String cancelId = cancel1.getOrderId();
+					if (deliveryId.equals(cancelId)) {
+						BigDecimal cancelMoney = cancel1.getAmount();
+						ipoBilloflading
+								.setBillofladingfee(ipoBilloflading.getBillofladingfee().add(cancelMoney));
+					}
+				}
+				for (IpoDebitFlow warehousing1 : debitFlowList3) {
+					String warehousingId = warehousing1.getOrderId();
+					if (deliveryId.equals(warehousingId)) {
+						BigDecimal warehousingMoney = warehousing1.getAmount();
+						ipoBilloflading.setWarehousingfee(warehousingMoney);
+					}
+				}
+				for (IpoDebitFlow insurance1 : debitFlowList4) {
+					String insuranceId = insurance1.getOrderId();
+					if (deliveryId.equals(insuranceId)) {
+						BigDecimal insuranceMoney = insurance1.getAmount();
+						ipoBilloflading.setInsurance(insuranceMoney);
+					}
+				}
+				for (IpoDebitFlow trustee1 : debitFlowList5) {
+					String trusteeId = trustee1.getOrderId();
+					if (deliveryId.equals(trusteeId)) {
+						BigDecimal trusteeMoney = trustee1.getAmount();
+						ipoBilloflading.setTrusteefee(trusteeMoney);
+					}
+				}
+				bIpoBillofladings.add(ipoBilloflading);
+			}
+		} else if (debitFlowList2.size() != 0) {
+			for (IpoDebitFlow cancel1 : debitFlowList2) {
+				String id = cancel1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				String deliveryId = cancel1.getOrderId();
+				String cancelId = cancel1.getOrderId();
+				if (deliveryId.equals(cancelId)) {
+					BigDecimal cancelMoney = cancel1.getAmount();
+					ipoBilloflading.setBillofladingfee(ipoBilloflading.getBillofladingfee().add(cancelMoney));
+				}
+
+				for (IpoDebitFlow warehousing1 : debitFlowList3) {
+					String warehousingId = warehousing1.getOrderId();
+					if (deliveryId.equals(warehousingId)) {
+						BigDecimal warehousingMoney = warehousing1.getAmount();
+						ipoBilloflading.setWarehousingfee(warehousingMoney);
+					}
+				}
+				for (IpoDebitFlow insurance1 : debitFlowList4) {
+					String insuranceId = insurance1.getOrderId();
+					if (deliveryId.equals(insuranceId)) {
+						BigDecimal insuranceMoney = insurance1.getAmount();
+						ipoBilloflading.setInsurance(insuranceMoney);
+					}
+				}
+				for (IpoDebitFlow trustee1 : debitFlowList5) {
+					String trusteeId = trustee1.getOrderId();
+					if (deliveryId.equals(trusteeId)) {
+						BigDecimal trusteeMoney = trustee1.getAmount();
+						ipoBilloflading.setTrusteefee(trusteeMoney);
+					}
+				}
+				bIpoBillofladings.add(ipoBilloflading);
+			}
+		} else if (debitFlowList3.size() != 0) {
+			for (IpoDebitFlow warehousing1 : debitFlowList3) {
+				String id = warehousing1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				String deliveryId = warehousing1.getOrderId();
+				String warehousingId = warehousing1.getOrderId();
+				if (deliveryId.equals(warehousingId)) {
+					BigDecimal warehousingMoney = warehousing1.getAmount();
+					ipoBilloflading.setWarehousingfee(warehousingMoney);
+				}
+				for (IpoDebitFlow insurance1 : debitFlowList4) {
+					String insuranceId = insurance1.getOrderId();
+					if (deliveryId.equals(insuranceId)) {
+						BigDecimal insuranceMoney = insurance1.getAmount();
+						ipoBilloflading.setInsurance(insuranceMoney);
+					}
+				}
+				for (IpoDebitFlow trustee1 : debitFlowList5) {
+					String trusteeId = trustee1.getOrderId();
+					if (deliveryId.equals(trusteeId)) {
+						BigDecimal trusteeMoney = trustee1.getAmount();
+						ipoBilloflading.setTrusteefee(trusteeMoney);
+					}
+				}
+				bIpoBillofladings.add(ipoBilloflading);
+			}
+		} else if (debitFlowList4.size() != 0) {
+			for (IpoDebitFlow insurance1 : debitFlowList4) {
+				String id = insurance1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				String deliveryId = insurance1.getOrderId();
+				String insuranceId = insurance1.getOrderId();
+				if (deliveryId.equals(insuranceId)) {
+					BigDecimal insuranceMoney = insurance1.getAmount();
+					ipoBilloflading.setInsurance(insuranceMoney);
+				}
+				for (IpoDebitFlow trustee1 : debitFlowList5) {
+					String trusteeId = trustee1.getOrderId();
+					if (deliveryId.equals(trusteeId)) {
+						BigDecimal trusteeMoney = trustee1.getAmount();
+						ipoBilloflading.setTrusteefee(trusteeMoney);
+					}
+				}
+				bIpoBillofladings.add(ipoBilloflading);
+			}
+		} else if (debitFlowList5.size() != 0) {
+			for (IpoDebitFlow trustee1 : debitFlowList5) {
+				String id = trustee1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
+				BigDecimal trusteeMoney = trustee1.getAmount();
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				ipoBilloflading.setTrusteefee(trusteeMoney);
+				bIpoBillofladings.add(ipoBilloflading);
+			}
+		}
+		return bIpoBillofladings;
+	}
+
+	private Billoflading setBilloflading(IpoDeliveryorder deliveryorder) {
+		Billoflading ipoBilloflading = new Billoflading();
+		ipoBilloflading.setCommodityid(deliveryorder.getCommodityId());
+		ipoBilloflading.setCommodityname(deliveryorder.getCommodityName());
+		ipoBilloflading.setCounts(deliveryorder.getDeliveryCounts());
+		ipoBilloflading.setQuantity(deliveryorder.getDeliveryQuatity());
+		ipoBilloflading.setDeliverytype(deliveryorder.deliveryMethod);
+		return ipoBilloflading;
 	}
 
 	/**
@@ -353,6 +491,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		try {
 			Date time = sdf.parse(date);
 			ipoDelivery.setCreateDate(time);
+			ipoDelivery.setPayer(firmId);
 			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.findInfo(ipoDelivery);
 			for (IpoDebitFlow ipoDebitFlow : bebitFlowList) {
 				String id = ipoDebitFlow.getOrderId();
@@ -365,7 +504,10 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				long quatity = deliveryOrder.getDeliveryQuatity();
 				String method = deliveryOrder.getDeliveryMethod();
 				IpoExpress ipoExpress = ipoExpressMapper.selectExpress(id);
-				BigDecimal cost = ipoExpress.getCost();
+				BigDecimal cost = new BigDecimal(0);
+				if (ipoExpress != null) {
+					cost = ipoExpress.getCost();
+				}
 				Delivery delivery = new Delivery();
 				delivery.setCommodityid(commodityId);
 				delivery.setCommodityname(commodityName);

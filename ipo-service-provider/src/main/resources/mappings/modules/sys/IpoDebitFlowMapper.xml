@@ -171,7 +171,7 @@
 	<if test="param.orderId != null">
 		and de.order_id = #{param.orderId}
 	</if>
-	<if test="param.debitState != null">
+	<if test="param.debitState != 0">
 		and de.debit_state = #{param.debitState}
 	</if>
 	<if test="param.payer != null">
@@ -180,10 +180,10 @@
 	<if test="param.amount != null">
 		and de.amount = #{param.amount}
 	</if>
-	<if test="param.debitMode != null">
+	<if test="param.debitMode != 0">
 		and de.debit_mode = #{param.debitMode}
 	</if>
-	<if test="param.debitChannel != null">
+	<if test="param.debitChannel != 0">
 		and de.debit_channel = #{param.debitChannel}
 	</if>
 	<if test="param.debitDate != null">
@@ -192,7 +192,7 @@
 	<if test="param.remark != null">
 		and de.remark = #{param.remark}
 	</if>
-	<if test="param.buyBackFlag != null">
+	<if test="param.buyBackFlag != 0">
 		and de.buy_back_flag = #{param.buyBackFlag}
 	</if>
 	<if test="param.createUser != null">
