@@ -397,7 +397,7 @@ var promptTime = 60;
 									M0101 = new WebFXTreeItem("交易商商品持有表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/statisticsReport/index_hold_firm.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-						            M0101 = new WebFXTreeItem("商品交易商持有表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/statisticsReportController/allComid");
+									M0101 = new WebFXTreeItem("商品交易商持有表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/statisticsReportController/allComid");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
@@ -432,7 +432,7 @@ var promptTime = 60;
 									M01.add(M0101);</SCRIPT>
 
 						 <SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("提货单查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryQuery");
+									M0101 = new WebFXTreeItem("注册提货单查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/IpoController/DeliveryQuery");
 									M01.add(M0101);</SCRIPT>
                          <SCRIPT type=text/javascript>
 									M0101 = new WebFXTreeItem("库存查询,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/mgr/app/delivery/stockQuery.jsp");
