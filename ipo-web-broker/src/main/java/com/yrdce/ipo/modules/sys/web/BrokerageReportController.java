@@ -31,6 +31,8 @@ import com.yrdce.ipo.modules.sys.vo.Releasesubscription;
 import com.yrdce.ipo.modules.sys.vo.SettleResult;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 /**
  * @ClassName: BrokerageReportController
  * @Description: 经纪会员报表查询
@@ -55,7 +57,7 @@ public class BrokerageReportController {
 	 */
 	@RequestMapping(value = "/brokerinfoforward", method = RequestMethod.GET)
 	public String brokerInfoForward(HttpSession session, Model model, @RequestParam("time") String time) {
-		String brokerid = (String) session.getAttribute("currentFirmId");
+		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 		List<VBrBroker> brokers = brokerageReportService.getBroker();
 		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(brokerid)) {
@@ -98,7 +100,7 @@ public class BrokerageReportController {
 	@RequestMapping(value = "/incomeForward", method = RequestMethod.GET)
 	public String incomeForward(HttpSession session, Model model, @RequestParam("starttime") String starttime,
 			@RequestParam("endtime") String endtime) {
-		String brokerid = (String) session.getAttribute("currentFirmId");
+		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 		List<VBrBroker> brokers = brokerageReportService.getBroker();
 		if (!"".equals(brokerid)) {
 			logger.info("有账号查询");
@@ -152,7 +154,7 @@ public class BrokerageReportController {
 
 	@RequestMapping(value = "/purchaseincomeinfo", method = RequestMethod.GET)
 	public String purchaseIncomeInfo(HttpSession session, Model model, @RequestParam("time") String time) {
-		String brokerid = (String) session.getAttribute("currentFirmId");
+		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 		List<VBrBroker> brokers = brokerageReportService.getBroker();
 		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(brokerid)) {
@@ -203,7 +205,7 @@ public class BrokerageReportController {
 
 	@RequestMapping(value = "/deliveryIncomeInfo", method = RequestMethod.GET)
 	public String deliveryIncomeInfo(HttpSession session, Model model, @RequestParam("time") String time) {
-		String brokerid = (String) session.getAttribute("currentFirmId");
+		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 		List<VBrBroker> vBrBrokers = brokerageReportService.getBroker();
 		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(brokerid)) {

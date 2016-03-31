@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/broker/public/includefiles/allincludefiles.jsp"%>
+<%@page import="java.lang.String" %>
 
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
+<script src="<%=request.getContextPath()%>/static/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="<%=skinPath%>/css/xtree.css"
 	type="text/css" />
 <html>
@@ -135,7 +137,6 @@ var promptTime = 60;
 				//correctPNG();
 				collaspe("show");
 			}
-
 			
 			function chgFont()
 			{
@@ -162,6 +163,7 @@ var promptTime = 60;
 					frm.submit();
 				};
 				}
+			
 </script>
 <style>
 .a {
@@ -215,6 +217,7 @@ var promptTime = 60;
 				<div id="div_drw_Content" style="display: none;">
 					<DIV id=tree></DIV>
 				</DIV>
+				<c:if test='${brokertype eq "1" }'>
 				<DIV onclick=drwSwitch(); id=div_drw_Panel align=left curDrwNo="1">
 					&nbsp; <A><IMG src="<%=basePath%>/broker/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;发行客户端
 				</DIV>
@@ -247,7 +250,9 @@ var promptTime = 60;
 						        	document.write(M01);</SCRIPT>
 					</DIV>
 				</DIV>
+				</c:if>
 				
+				<c:if test='${brokertype eq "0"}'>
 				<DIV onclick=drwSwitch(); id=div_drw_Panel align=left curDrwNo="1">
 					&nbsp; <A><IMG src="<%=basePath%>/broker/skinstyle/default/image/frame/menu/06.gif" align=top curDrwNo="1"> </A>&nbsp;经纪会员客户端
 				</DIV>
@@ -256,25 +261,26 @@ var promptTime = 60;
 						<SCRIPT type=text/javascript>
 								var M01;
 								var M0101;
-								M01 = new WebFXTree("<img src='<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 经纪会员查询","");</SCRIPT>
+								M01 = new WebFXTree("<img src='<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/42_42.gif'> 经纪会员查询","");</SCRIPT>
 
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("经纪会员结算表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/queryindex.jsp");
+									M0101 = new WebFXTreeItem("经纪会员结算表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/queryindex.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("经纪会员经纪收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/incomeindex.jsp");
+									M0101 = new WebFXTreeItem("经纪会员经纪收入表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/incomeindex.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("经纪会员申购收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/purchaseincomeindex.jsp");
+									M0101 = new WebFXTreeItem("经纪会员申购收入表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/purchaseincomeindex.jsp");
 									M01.add(M0101);</SCRIPT>
 						<SCRIPT type=text/javascript>
-									M0101 = new WebFXTreeItem("经纪会员提货单收入表,<%=basePath%>/mgr/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/billofladingincome_index.jsp");
+									M0101 = new WebFXTreeItem("经纪会员提货单收入表,<%=basePath%>/broker/skinstyle/default/image/app/timebargain_mgr/menu/29_29.gif","<%=basePath%>/broker/app/brokeragereport/billofladingincome_index.jsp");
 									M01.add(M0101);</SCRIPT>
 
 						<SCRIPT type=text/javascript>
 						        	document.write(M01);</SCRIPT>
 					</DIV>
 				</DIV>
+				</c:if>
 			</DIV>
 			<DIV class=menu_bottom></DIV>
 		</div>

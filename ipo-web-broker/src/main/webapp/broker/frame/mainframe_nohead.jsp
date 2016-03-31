@@ -9,7 +9,7 @@
 	</head>
 	<frameset id=middle cols="185,10,*" frameborder="NO" border="0"
 		framespacing="0">
-		<frame src="<%=basePath%>/broker/frame/leftmenu.jsp" name="leftFrame"
+		<frame src="<%=basePath%>/UserController/brokerType" name="leftFrame"
 			scrolling="NO" noresize APPLICATION="yes">
 		<frame src="<%=framePath%>/shrinkbar.jsp" name="mainSwitch"
 			scrolling="NO" noresize APPLICATION="yes" id="mainSwitch">

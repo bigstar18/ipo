@@ -43,7 +43,7 @@ public class DistributionServiceImpl implements DistributionService {
 		List<Distribution> list2 = new ArrayList<Distribution>();
 		List<IpoDistributionExtended> list;
 		String time = DateUtil.getTime(0);
-		if (condition.equals("yes")) {
+		if ("yes".equals(condition)) {
 			list = ipoDistributionMapper.getAllByPage((curpage - 1) * pagesize + 1, curpage * pagesize,
 					userid, time);
 		} else {
@@ -60,7 +60,7 @@ public class DistributionServiceImpl implements DistributionService {
 
 	@Override
 	public int getAllDistris(String userid, String condition) throws Exception {
-		if (condition.equals("yes")) {
+		if ("yes".equals(condition)) {
 			String time = DateUtil.getTime(1);
 			return ipoDistributionMapper.countByExample(userid, time);
 		} else {
