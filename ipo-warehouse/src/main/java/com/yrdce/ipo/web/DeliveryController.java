@@ -342,21 +342,31 @@ public class DeliveryController {
 		log.info("设置配送费用");
 		try {
 			log.debug(detail.getCost().toString());
-			deorder.setApprovalStatus(DeliveryConstant.StatusType.EXPRESSCOSTSET
-					.getCode());
-			String result = deliveryorderservice.setExpressFee(deorder, detail);
-			if (result.equals("true")) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
-						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
-								+ "设置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						session, systemService);
+			DeliveryOrder record = deliveryorderservice
+					.getDeliveryOrderByDeliOrderID(deorder.getDeliveryorderId());
+			if ((DeliveryConstant.StatusType.MARKETPASS.getCode())
+					.equals(record.getApprovalStatus())) {
+				deorder.setApprovalStatus(DeliveryConstant.StatusType.EXPRESSCOSTSET
+						.getCode());
+				String result = deliveryorderservice.setExpressFee(deorder,
+						detail);
+				if (result.equals("true")) {
+					WriteLog.writeOperateLog(
+							WriteLog.SYS_LOG_EXPRESS_CATALOGID,
+							"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
+									+ "设置成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+							session, systemService);
+				} else {
+					WriteLog.writeOperateLog(
+							WriteLog.SYS_LOG_EXPRESS_CATALOGID,
+							"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
+									+ "设置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
+							session, systemService);
+				}
+				return result;
 			} else {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_EXPRESS_CATALOGID,
-						"IPO仓库端设置配送费: 提货单号" + deorder.getDeliveryorderId()
-								+ "设置失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-						session, systemService);
+				return "nopermission";
 			}
-			return result;
 		} catch (Exception e) {
 			log.error("error:", e);
 			WriteLog.writeOperateLog(
