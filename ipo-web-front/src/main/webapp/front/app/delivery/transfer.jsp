@@ -111,6 +111,9 @@ function doAdd(){
 			if(data=="false"){
 				alert("过户失败！");
 			}
+			if(data=="fundshort"){
+				alert("资金不足，无法过户！");
+			}
 			if(data=="error"){
 				alert("系统异常!");
 			}

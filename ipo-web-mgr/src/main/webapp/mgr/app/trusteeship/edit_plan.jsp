@@ -32,6 +32,9 @@
 				 if(dataForm.purchaseRate.value==""){
 					alert('申购发行比例不能为空!');return ;
 				 };
+				 if(parseInt(dataForm.purchaseRate.value)>100){
+						alert('申购发行比例不能大于100%!');return ;
+				 };
 				 if(dataForm.listingChargeRate.value==""){
 					alert('挂牌费比例不能为空!');return ;
 				 };

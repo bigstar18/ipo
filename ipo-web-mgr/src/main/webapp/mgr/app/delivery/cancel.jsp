@@ -142,7 +142,7 @@ function cancel(id){
                                    	   if(data=='true'){
                                           alert("撤销成功！"); 
                                    	   }else{
-                                   		   alert("系统异常，撤销失败，请联系管理员");  
+                                   		   alert("撤销失败！");  
                                    	   }
                                    	   returntoList();
                                       },  

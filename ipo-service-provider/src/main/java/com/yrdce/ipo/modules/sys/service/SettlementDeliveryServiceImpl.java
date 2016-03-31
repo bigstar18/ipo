@@ -201,18 +201,14 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		String commid = deliveryOrder.getCommodityId();
 
 		// 注册费
-		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
-		BigDecimal registfeeradio = commodityConf.getRegistfeeradio();
-		BigDecimal valparam = registfeeradio.divide(new BigDecimal("100"));
-		BigDecimal price = commodityConf.getPrice();
-		BigDecimal quatityParam = new BigDecimal(quatity);
-		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
+		BigDecimal fee = costQuery(commid, quatity, REGISTRATION_FEE);
 		IpoDeliveryCost ipoDeliveryCost = new IpoDeliveryCost();
 		ipoDeliveryCost.setDeliveryId(primaryKey);
 		ipoDeliveryCost.setDeliveryMethod(deliveryOrder.getDeliveryMethod());
 		ipoDeliveryCost.setApplyDate(new Date());
 		ipoDeliveryCost.setRegistrationFee(fee);
 		ipoDeliveryCostMapper.insert(ipoDeliveryCost);
+
 		boolean statu = capital(dealerId, fee);
 		if (statu) {
 			// 更新持仓量
@@ -229,16 +225,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		} else {
 			return null;
 		}
-
-		/*
-		 * long quatity = deliveryOrder.getDeliveryQuatity(); String firmid =
-		 * deliveryOrder.getDealerId(); String commid =
-		 * deliveryOrder.getCommodityId(); IpoPosition ipoPosition =
-		 * ipoPositionMapper.selectPosition(firmid, commid); long position =
-		 * ipoPosition.getPosition(); long num = position - quatity;
-		 * ipoPositionMapper.updatePosition(firmid, commid, num);
-		 */
-
 	}
 
 	// 注册费
@@ -383,12 +369,7 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		}
 
 		// 注销费
-		IpoCommodityConf commodityConf = commodityConfMapper.findIpoCommConfByCommid(commid);
-		BigDecimal cancelfeeradio = commodityConf.getCancelfeeradio();
-		BigDecimal valparam = cancelfeeradio.divide(new BigDecimal("100"));
-		BigDecimal price = commodityConf.getPrice();
-		BigDecimal quatityParam = new BigDecimal(quatity);
-		BigDecimal fee = valparam.multiply(price.multiply(quatityParam));
+		BigDecimal fee = costQuery(commid, quatity, CANCELLATION_FEE);
 		ipoDeliveryCostMapper.updateFee(deliveryorderid, fee);
 
 		boolean statu = capital(firmid, fee);
@@ -399,7 +380,6 @@ public class SettlementDeliveryServiceImpl implements SettlementDeliveryService 
 		} else {
 			return "error";
 		}
-
 	}
 
 	// 在线配送
