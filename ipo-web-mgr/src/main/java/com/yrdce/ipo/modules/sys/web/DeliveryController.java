@@ -350,8 +350,10 @@ public class DeliveryController {
 		log.info("模糊查询提货单");
 		try {
 			log.debug(record.toString());
-			record.setApprovalStatus(DeliveryConstant.StatusType.REGISTER
-					.getCode());
+			/*
+			 * record.setApprovalStatus(DeliveryConstant.StatusType.REGISTER
+			 * .getCode());
+			 */
 			List<DeliveryOrder> dlist = deliveryorderservice
 					.queryAllDeliOrdersByPage(page, rows, record);// 提货单号是以输入数字开头的模糊查询
 			int totalnums = deliveryorderservice.getQueryNum(record).intValue();
@@ -382,40 +384,46 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-				String result = deliveryorderservice.updateDeliveryOrder(
-						deorder, userId);
-				if (result.equals("true")) {
-					deliveryorderservice.frozenStock(deorder);
-					WriteLog.writeOperateLog(
-							WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-							"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-							session, systemService);
-					return "true";
-				}
-			}
-			if (deorder.getApprovalStatus().equals(
-					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-				String result = deliveryorderservice.updateDeliveryOrder(
-						deorder, userId);
-				if (result.equals("true")) {
-					customerHoldSumService
-							.unfreezeCustomerHold(deorder.getDeliveryQuatity(),
-									deorder.getDealerId() + "00",
-									deorder.getCommodityId(), (short) 1);
-					DeliveryCost cost = deliveryorderservice
-							.getCostByDeliveryOrder(deorder);
-					if (cost != null) {
-						underwritersubscribeService.unfreeFunds(
-								deorder.getDealerId(),
-								cost.getRegistrationFee());
+			String deliveryid = deorder.getDeliveryorderId();
+			DeliveryOrder record = deliveryorderservice
+					.getDeliveryOrderByDeliOrderID(deliveryid);
+			if ((DeliveryConstant.StatusType.REGISTER.getCode()).equals(record
+					.getApprovalStatus())) {
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+					String result = deliveryorderservice.updateDeliveryOrder(
+							deorder, userId);
+					if (result.equals("true")) {
+						deliveryorderservice.frozenStock(deorder);
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
+								"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+								session, systemService);
+						return "true";
 					}
-					WriteLog.writeOperateLog(
-							WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-							"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-							session, systemService);
-					return "true";
+				}
+				if (deorder.getApprovalStatus().equals(
+						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+					String result = deliveryorderservice.updateDeliveryOrder(
+							deorder, userId);
+					if (result.equals("true")) {
+						customerHoldSumService.unfreezeCustomerHold(
+								deorder.getDeliveryQuatity(),
+								deorder.getDealerId() + "00",
+								deorder.getCommodityId(), (short) 1);
+						DeliveryCost cost = deliveryorderservice
+								.getCostByDeliveryOrder(deorder);
+						if (cost != null) {
+							underwritersubscribeService.unfreeFunds(
+									deorder.getDealerId(),
+									cost.getRegistrationFee());
+						}
+						WriteLog.writeOperateLog(
+								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
+								"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
+								session, systemService);
+						return "true";
+					}
 				}
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,

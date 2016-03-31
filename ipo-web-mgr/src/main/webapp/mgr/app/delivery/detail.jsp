@@ -88,11 +88,11 @@ function updateDelivery(){
                                         alert("审核完成！"); 
                                         returntoList();
                                  	   }else{
-                                 		   alert("审核失败！");  
+                                 		   alert("该提货单已撤销，审核失败！");  
                                  	   }
                                     },  
                                     error: function(data) {  
-                                        alert("系统异常，请联系管理员!");  
+                                        alert("请求失败!");  
                                     }  
                                 }); 
          }else{

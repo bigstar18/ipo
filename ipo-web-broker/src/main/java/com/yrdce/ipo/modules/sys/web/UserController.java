@@ -56,10 +56,7 @@ public class UserController {
 
 	@RequestMapping(value = "/brokerType", method = RequestMethod.GET)
 	public String brokerType(HttpSession session, Model model) {
-		logger.info("会员属性判断");
 		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
-		logger.info("会员id{}", brokerid);
-		//String brokerid = "hl";
 		VBrBroker broker = brBrokerService.queryBrokerById(brokerid);
 		//0：经纪会员 1：发行会员  2：承销会员
 		String type = broker.getMembertype().toString();
