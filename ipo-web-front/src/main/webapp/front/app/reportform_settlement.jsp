@@ -61,22 +61,16 @@ function myparser(s){
 	}
  }
 
-//获取当前日期
-function getDateNow(){
-    var date = new Date();
-    var seperator1 = "-";
-    var seperator2 = ":";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-    return currentdate;
-}
+formatterDate = function(date) {
+	var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+	var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+	+ (date.getMonth() + 1);
+	return date.getFullYear() + '-' + month + '-' + day;
+	};
+
+	window.onload = function () { 
+	$('#queryTime').datebox('setValue', formatterDate(new Date()));
+	}
 </script>
 
 <style type="text/css">
@@ -142,13 +136,11 @@ function getDateNow(){
 	<div class="sort">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<!-- <td align="right">查询日期：</td> -->
 				<td width="600px" align="center">
 				查询日期：
 				<input id="queryTime" class="easyui-datebox" style="width:150px" editable="false" data-options="formatter:myformatter,parser:myparser">
 				<input type="button" value="查询" onclick="queryData()" class="btnsearch" />
 				</td>
-				<!-- <td align="left"><input type="button" value="查询" onclick="queryData()" class="btnsearch" /></td> -->
 			</tr>
 		</table>
 	</div>
@@ -163,6 +155,7 @@ function getDateNow(){
 							<td valign="top">
 								<center class="reportHead">
 									<h2>资金结算信息</h2>
+									<h3>${time}</h3>
 								</center> <br />
 								<div class="table-c">
 									<div class="mbodytop">资金明细</div>

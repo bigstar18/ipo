@@ -29,7 +29,6 @@ import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoDebitFlow;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
-import com.yrdce.ipo.modules.sys.entity.IpoExpress;
 import com.yrdce.ipo.modules.sys.entity.IpoOrder;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 import com.yrdce.ipo.modules.sys.entity.TFirmHoldSum;
@@ -310,6 +309,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		String register = ChargeConstant.ChargeType.REGISTER.getCode();
 		ipoDebitFlow.setBusinessType(delivery);
 		ipoDebitFlow.setChargeType(register);
+		ipoDebitFlow.setDebitState(2);
 		List<IpoDebitFlow> debitFlowList1 = ipoDebitFlowMapper.findInfo(ipoDebitFlow);
 		//注销费
 		String cancel = ChargeConstant.ChargeType.CANCEL.getCode();
@@ -487,15 +487,16 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		IpoDebitFlow ipoDelivery = new IpoDebitFlow();
 		ipoDelivery.setBusinessType(businessType);
 		ipoDelivery.setChargeType(chargeType);
+		ipoDelivery.setDebitState(2);
 		List<Delivery> list = new ArrayList<Delivery>();
 		try {
 			Date time = sdf.parse(date);
 			ipoDelivery.setCreateDate(time);
 			ipoDelivery.setPayer(firmId);
-			List<IpoDebitFlow> bebitFlowList = ipoDebitFlowMapper.findInfo(ipoDelivery);
-			for (IpoDebitFlow ipoDebitFlow : bebitFlowList) {
-				String id = ipoDebitFlow.getOrderId();
-				BigDecimal amount = ipoDebitFlow.getAmount();
+			List<IpoDebitFlow> changeOwnerList = ipoDebitFlowMapper.findInfo(ipoDelivery);
+			for (IpoDebitFlow changeOwner : changeOwnerList) {
+				String id = changeOwner.getOrderId();
+				BigDecimal amount = changeOwner.getAmount();
 				IpoDeliveryorder deliveryOrder = DeliveryorderMapper.selectByPrimaryKey(id);
 				String commodityId = deliveryOrder.getCommodityId();
 				String commodityName = deliveryOrder.getCommodityName();
@@ -503,11 +504,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 						: 0;
 				long quatity = deliveryOrder.getDeliveryQuatity();
 				String method = deliveryOrder.getDeliveryMethod();
-				IpoExpress ipoExpress = ipoExpressMapper.selectExpress(id);
-				BigDecimal cost = new BigDecimal(0);
-				if (ipoExpress != null) {
-					cost = ipoExpress.getCost();
-				}
+
 				Delivery delivery = new Delivery();
 				delivery.setCommodityid(commodityId);
 				delivery.setCommodityname(commodityName);
@@ -515,7 +512,29 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				delivery.setQuantity(quatity);
 				delivery.setDeliverytype(method);
 				delivery.setTransferfee(amount);
-				delivery.setPostage(cost);
+				list.add(delivery);
+			}
+
+			String carriage = ChargeConstant.ChargeType.CARRIAGE.getCode();
+			ipoDelivery.setChargeType(carriage);
+			List<IpoDebitFlow> carriageList = ipoDebitFlowMapper.findInfo(ipoDelivery);
+			for (IpoDebitFlow carriage1 : carriageList) {
+				String id = carriage1.getOrderId();
+				BigDecimal amount = carriage1.getAmount();
+				IpoDeliveryorder deliveryOrder = DeliveryorderMapper.selectByPrimaryKey(id);
+				String commodityId = deliveryOrder.getCommodityId();
+				String commodityName = deliveryOrder.getCommodityName();
+				long counts = deliveryOrder.getDeliveryCounts() != null ? deliveryOrder.getDeliveryCounts()
+						: 0;
+				long quatity = deliveryOrder.getDeliveryQuatity();
+				String method = deliveryOrder.getDeliveryMethod();
+				Delivery delivery = new Delivery();
+				delivery.setCommodityid(commodityId);
+				delivery.setCommodityname(commodityName);
+				delivery.setCounts(counts);
+				delivery.setQuantity(quatity);
+				delivery.setDeliverytype(method);
+				delivery.setPostage(amount);
 				list.add(delivery);
 			}
 			return list;

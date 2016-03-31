@@ -81,6 +81,7 @@ public class BillingReportController {
 		request.setAttribute("bList", bList);
 		request.setAttribute("hList", hList);
 		request.setAttribute("dList", dList);
+		request.setAttribute("time", date);
 	}
 
 	@RequestMapping(value = "/fundsforward", method = RequestMethod.GET)
