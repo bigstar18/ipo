@@ -178,7 +178,7 @@ public class PublisherController {
 
 		PayFlow payFlow = new PayFlow();
 		if (request.getParameter("payState") != null) {
-			if (!request.getParameter("payState").trim().equals("")) {
+			if (!(request.getParameter("payState").trim().equals(""))) {
 				payFlow.setPayState(Integer.parseInt(request
 						.getParameter("payState")));
 			}
@@ -462,7 +462,8 @@ public class PublisherController {
 		VIpoCommConf commodity = ipoCommConfService
 				.getVIpoCommConfByCommid(record.getCommodityid());
 		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
-		BigDecimal funds = new BigDecimal(record.getSalecounts())
+		BigDecimal funds = (new BigDecimal(record.getSalecounts())
+				.add(new BigDecimal(record.getSubscricounts())))
 				.multiply(commodity.getPrice());// 货款
 		BigDecimal interest = new BigDecimal(0);// 发行手续费
 		if (specialfee != null) {
@@ -494,7 +495,7 @@ public class PublisherController {
 			record.setUpdater(((UserManageVO) session
 					.getAttribute("CurrentUser")).getUserID());
 			publisherpositionService.updateStatus(record);
-			publisherpositionService.insertPoundage(record, totalValue);
+			publisherpositionService.insertPoundage(record, interest);
 			publisherpositionService.insertLoan(record, funds);
 			// 插入持仓流水记录
 			publisherpositionService.insertPositionFlow(record);

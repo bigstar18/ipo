@@ -93,12 +93,17 @@ function updateExpress(){
                                  	  if(data=='true'){
                                         alert("设置成功！"); 
                                         returntoList();
-                                 	   }if(data=='false'||data=='error'){
-                                 		   alert("系统异常，请联系管理员");  
+                                 	   }
+                                 	 if(data=='nopermission'){
+                                         alert("该提货单没有设置配送费用权限！"); 
+                                         returntoList();
+                                  	   }
+                                 	  if(data=='false'||data=='error'){
+                                 		   alert("设置失败！");  
                                  	   } 
                                     },  
                                     error: function(data) {  
-                                    	   alert("系统异常，请联系管理员!");  
+                                    	   alert("请求失败！");  
                                     }  
                                 }); 
          }

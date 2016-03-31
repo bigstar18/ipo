@@ -83,7 +83,7 @@ function getAllInfo(){
              field : 'deliveryQuatity',  
              width : 200, 
              align: "center",
-             title : '交割数量(批)'
+             title : '交割数量'
          }, {  
              field : 'deliveryMethod',  
              width : 200, 
