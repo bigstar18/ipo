@@ -41,8 +41,11 @@
 		  	            	 back();
 		  	             }else if (data=="001"){
 		  	            	 alert('减持比例超出范围!');
+		  	             }else if (data=="error"){
+		  	            	 alert('设置失败!');
 		  	             }else {
-		  	            	alert('设置失败');
+		  	            	alert('最后一次设置必须减持所有未减持的持仓量');
+		  	               $("#reduceqty").val(data);
 		  	             }
 		  	        },
 			  	    error: function (jqXHR, textStatus, errorThrown) {
@@ -108,7 +111,7 @@
         							<tr style="height: 30px">   
         								<td align="right" >减持数量:&nbsp;&nbsp;</td>
             							<td> 
-            							    <input name="reduceqty"  size="23"   value="0" readonly="readonly" />  
+            							    <input id="reduceqty" name="reduceqty"  size="23"   value="0" readonly="readonly" />  
             							</td> 
         							</tr>  
         							<tr style="height: 30px">   

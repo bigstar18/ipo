@@ -2,7 +2,7 @@ $(function(){
 $('#commodityid').combobox({  
     url:getRootPath()+ "/DeliveryController/getDeliveryCommodity",    
     valueField:'commodityid',    
-    textField:'commodityname',
+    textField:'commodityid',
     editable:false,
     onSelect:function(param){
     $("#commodityname").val(param.commodityname);

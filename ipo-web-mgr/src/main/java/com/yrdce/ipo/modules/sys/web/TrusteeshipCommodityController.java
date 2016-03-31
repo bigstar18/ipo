@@ -572,17 +572,25 @@ public class TrusteeshipCommodityController {
 			positionReduce.setPositionFlowId(positionFlowId);
 			List<PositionReduce> dataList = positionService
 					.queryReduceForList(positionReduce);
+			PositionFlow flow = positionService.findFlow(positionFlowId);
 			BigDecimal ratioSum = new BigDecimal("0");
+			Long reduceqtySum = (long) 0;
 			if (dataList != null && !dataList.isEmpty()) {
 				for (PositionReduce item : dataList) {
 					ratioSum = ratioSum.add(item.getRatio());
+					reduceqtySum = reduceqtySum + item.getReduceqty();
 				}
 			}
 			;
 			if (ratioSum.add(ratio).intValue() > 100) {
 				return "001";
 			}
-			;
+			if (ratioSum.add(ratio).intValue() == 100
+					&& (Long.parseLong(reduceqty) + reduceqtySum < flow
+							.getHoldqty())) {
+				long reduceqtyLeft = flow.getHoldqty() - reduceqtySum;
+				return reduceqtyLeft + "";
+			}
 
 			PositionReduce param = new PositionReduce();
 			param.setPositionFlowId(positionFlowId);

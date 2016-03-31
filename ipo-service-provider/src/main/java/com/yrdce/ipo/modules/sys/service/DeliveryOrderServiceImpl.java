@@ -415,8 +415,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 					.getCode());
 			deliveryordermapper.updateByPrimaryKey(example);
 
-			if (result0.equals("true") && result1.equals("true")
-					&& result2.equals("true")) {
+			if (("true").equals(result0) && ("true").equals(result1)
+					&& ("true").equals(result2)) {
 				return "true";
 			}
 			return "false";

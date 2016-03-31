@@ -15,6 +15,17 @@
     <result column="holdassure" property="holdAssure"  />
   </resultMap>
   
+   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.vo.FirmHoldSum" >
+    insert into t_firmholdsum (FIRMID, COMMODITYID, BS_FLAG, 
+      HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
+      EVENPRICE, HOLDMARGIN, 
+      GAGEQTY, HOLDASSURE)
+    values (#{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, 
+      #{holdqty,jdbcType=DECIMAL}, #{holdfunds,jdbcType=DECIMAL}, #{floatingloss,jdbcType=DECIMAL}, 
+      #{evenprice,jdbcType=DECIMAL}, #{holdmargin,jdbcType=DECIMAL}, 
+      #{gageqty,jdbcType=DECIMAL}, #{holdassure,jdbcType=DECIMAL})
+  </insert>
+  
   
   <select id="queryForList" resultMap="TFirmHoldSumResultMap"  parameterType="map" >
          select t.firmid, t.commodityid, t.bs_flag, t.holdqty, t.holdfunds, t.floatingloss, t.evenprice,
@@ -48,4 +59,5 @@
   <select id="findAllCom" resultType="java.lang.String">
   	 select distinct(t.commodityid) from T_FirmHoldSum t 
   </select>
+ 
 </mapper>

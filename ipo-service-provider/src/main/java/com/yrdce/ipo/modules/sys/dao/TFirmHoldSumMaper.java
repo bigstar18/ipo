@@ -13,8 +13,11 @@ public interface TFirmHoldSumMaper {
 
 	public long queryForCount(@Param("param") FirmHoldSum firmHoldSum);
 
-	public List<TFirmHoldSum> queryForList(@Param("param") FirmHoldSum firmHoldSum);
+	public List<TFirmHoldSum> queryForList(
+			@Param("param") FirmHoldSum firmHoldSum);
 
 	public List<String> findAllCom();
+
+	public int insert(@Param("param") FirmHoldSum firmHoldSum);
 
 }
