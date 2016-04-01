@@ -6,10 +6,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.modules.sys.dao.SysFirmPermissionMapper;
 import com.yrdce.ipo.modules.sys.entity.SysFirmPermission;
 
+@Service
 public class FirmAuthorityServiceImpl {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -17,7 +19,6 @@ public class FirmAuthorityServiceImpl {
 	private SysFirmPermissionMapper sysFirmPermissionMapper;
 
 	public String getFirmAuthority(String frimId) {
-		logger.info("方法调用成功");
 		List<String> modeList = new ArrayList<String>();
 		List<SysFirmPermission> permissions = sysFirmPermissionMapper.selectByFirmId(frimId);
 		if (permissions.size() != 0) {
@@ -35,6 +36,5 @@ public class FirmAuthorityServiceImpl {
 			return "3";
 		}
 		return null;
-
 	}
 }
