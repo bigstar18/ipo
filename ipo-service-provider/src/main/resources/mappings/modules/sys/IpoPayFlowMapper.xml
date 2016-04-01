@@ -50,12 +50,11 @@
    </insert>
    
    <select id="queryForPage" resultMap="IpoPayFlowResultMap"  parameterType="map" >
-    select * from (
-           select pg.*,rownum as row_num from (
-	        select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
-	        de.payee, de.amount, de.pay_mode, de.pay_channel, de.pay_date, de.remark, de.buy_back_flag,
-	        de.create_user, de.create_date, de.update_user, de.update_date ,c.pubmemberid ,c.endtime,c.commodityname
-	        from ipo_payflow de  left join ipo_commodity_conf c on de.commodity_id=c.commodityid where 1=1
+    select t.* from( select pg.*,rownum as row_num from (
+          select de.id, de.business_type, de.charge_type, de.commodity_id, de.order_id, de.pay_state, 
+          de.payee, de.amount, de.pay_mode, de.pay_channel, de.pay_date, de.remark, de.buy_back_flag,
+          de.create_user, de.create_date, de.update_user, de.update_date ,c.pubmemberid ,c.endtime,c.commodityname
+          from ipo_payflow de  left join ipo_commodity_conf c on de.commodity_id=c.commodityid where 1=1
 	        <if test="param.buyBackFlag >=0 ">
 				 and  de.buy_back_flag=#{param.buyBackFlag}
 			</if>
@@ -81,8 +80,7 @@
 				 and  c.pubmemberid=#{param.pubmemberid}
 			</if> 
 			order by de.create_date desc
-			) pg where #{endIndex} >=rownum
-		) where row_num>=#{startIndex}
+		  ) pg)t where t.row_num between #{startIndex} and #{endIndex}
   </select>
   
    <select id="queryForCount" resultType="java.lang.Long"  parameterType="map" >

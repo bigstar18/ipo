@@ -55,6 +55,7 @@
           width : 200,
           align: 'center' ,
           formatter:function(value, row){
+        	  if(value!=null){
         	   var arr1 = value.split(" "); 
         	   var sdate = arr1[0].split('-');
         	   var date = new Date(sdate[0], sdate[1]-1, sdate[2],"", "",""); 
@@ -64,6 +65,8 @@
 		       var m = date.getMonth() + 1;
 		       var d = date.getDate();
 		       return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+        	  }
+        	  return null;
           }
         },{
           field: 'amount',
