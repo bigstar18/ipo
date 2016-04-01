@@ -195,8 +195,8 @@ body {
 					selname.append ('<option logix =' + i + '>' + commodities[i].commodityname + '</option>');
 				}
 				$ ("#vcode").val (commodities[0].commodityid);
-				$ ("#vcount").val (commodities[0].position);
-				$ ("#punit").val (commodities[0].positionUnit);
+				$ ("#vcount").val (commodities[0].position);//持仓数量
+				$ ("#punit").val (commodities[0].positionUnit);//持仓单位
 				$ ("#vdate").val (commodities[0].settlementdate.substr(0, 10));
 				var warehouses = commodities[0].warehouse;
 				var warehouseId = commodities[0].warehouseid;
@@ -204,7 +204,7 @@ body {
 				{
 					selhouse.append ("<option value ='" + warehouseId[i] + "'>" + warehouses[i] + "</option>");
 				}
-		        $ ('#dcount').attr ('min', 1);
+		        $ ('#dcount').attr ('min', 1);//交割数量
 			}
 			// 选择其他商品名称是变化
 			$ ('#nametext').change (function ()
@@ -216,7 +216,7 @@ body {
 				$ ("#vcount").val (commodities[logic].position);
 				$ ("#punit").val (commodities[logic].positionUnit); 
 				$ ("#vdate").val (commodities[logic].settlementdate.substr(0, 10));
-				$ ("#pickcount").val ('');
+				$ ("#pickcount").val ('');//交割件数
 				$ ("#dcount").val ('');
 				var warehouses = commodities[logic].warehouse;
 				var warehouseId = commodities[logic].warehouseid;
@@ -244,7 +244,7 @@ body {
 
 			$('#pickcount').change (function ()
 			{
-				$('#dcount').val($('#pickcount').val() * parseFloat($('#punit').val()));
+				$('#dcount').val(parseInt($('#pickcount').val()) * parseFloat($('#punit').val()));
 				console.log($('#ddate').datebox ('getValue'));
 			});
 
@@ -292,7 +292,8 @@ body {
           {
             $ ('#addressName').val ('');
           }
-					if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
+					
+                 if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
 						$ ('#dcount').attr ('placeholder', '交割数量需小于持仓数量');
@@ -300,6 +301,10 @@ body {
 						$ ('#pickcount').attr ('placeholder', '请重新填写');
 						return false;
 					}
+					
+					
+					
+					
 					if ($ ('.textbox-text').val () == '')
 					{
 						$ ('.textbox-text').css ('background', '#EEEE00');
