@@ -229,9 +229,11 @@ public class TaskServiceImpl implements TaskService {
 				logger.info("获取发售商品信息" + ipodb.getCommodityid());
 				IpoCommodityExtended commodityExtended = commodity
 						.selectPriceByCommodityid(ipodb.getCommodityid());
-				List<IpoOrder> counterFeeInfo = ipoOrderMapper.selectCounterFeeInfo(ipodb.getCommodityid());
-				short tradealgr = counterFeeInfo.get(0).getTradealgr();
-				BigDecimal buyfee = counterFeeInfo.get(0).getBuy();
+				/*List<IpoOrder> counterFeeInfo = ipoOrderMapper.selectCounterFeeInfo(ipodb.getCommodityid());*/
+				IpoOrder counterFeeInfo = ipoOrderMapper.selectByid(ipodb.getUserid(),
+						ipodb.getCommodityid());
+				short tradealgr = counterFeeInfo.getTradealgr();
+				BigDecimal buyfee = counterFeeInfo.getBuy();
 				IpoCommodityConf commodityConf = commodityConfMapper.selectCommUnit(ipodb.getCommodityid());
 				if (commodityConf != null) {
 					BigDecimal bigDecimal = commodityExtended.getPrice();
@@ -239,7 +241,7 @@ public class TaskServiceImpl implements TaskService {
 					BigDecimal tempPrice = bigDecimal.multiply(new BigDecimal(ipodb.getZcounts()));
 					logger.info("成交金额" + tempPrice);
 					ipodb.setTradingamount(tempPrice);
-					logger.info("计算手续费" + counterFeeInfo.get(0).getTradealgr());
+					logger.info("计算手续费" + counterFeeInfo.getTradealgr());
 
 					logger.info("计算手续费算法" + tradealgr);
 					BigDecimal counterfee = new BigDecimal(0);

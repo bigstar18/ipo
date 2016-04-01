@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.modules.sys.dao.SysFirmPermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.modules.sys.entity.SysFirmPermission" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FIRMID" property="firmid" jdbcType="VARCHAR" />
+    <result column="MODEID" property="modeid" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SYS_FIRM_PERMISSION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.SysFirmPermission" >
+    insert into SYS_FIRM_PERMISSION (ID, FIRMID, MODEID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{modeid,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.modules.sys.entity.SysFirmPermission" >
+    update SYS_FIRM_PERMISSION
+    set FIRMID = #{firmid,jdbcType=VARCHAR},
+      MODEID = #{modeid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select ID, FIRMID, MODEID
+    from SYS_FIRM_PERMISSION
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select ID, FIRMID, MODEID
+    from SYS_FIRM_PERMISSION
+  </select>
+  
+  <select id="selectByFirmId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select ID, FIRMID, MODEID
+    from SYS_FIRM_PERMISSION
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </select>
+</mapper>
