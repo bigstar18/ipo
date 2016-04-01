@@ -293,7 +293,24 @@ body {
             $ ('#addressName').val ('');
           }
 					
-                 if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
+          $.ajax({  
+	  		    url: "<%=request.getContextPath()%>/SettlementDeliveryController/checkDeliveryQuantity",  
+	  		    data:   {"commid" : $ ('#vcode').val (),
+		                 "pcount" : $ ("#pickcount").val (),
+		                 "position":$ ("#vcount").val() },  
+	  		    type: 'POST',
+	  		    success : function(data, stats) {  
+	  	             if(data=="false"){
+	  	            	alert('交割量超过持仓量，请重新填写！');
+	  	            	return ;
+	  	             }
+	  	        },
+		  	    error: function (jqXHR, textStatus, errorThrown) {
+		              alert('系统异常!');
+		        }
+	  		});  
+          
+               /*   if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
 						$ ('#dcount').attr ('placeholder', '交割数量需小于持仓数量');
@@ -301,7 +318,7 @@ body {
 						$ ('#pickcount').attr ('placeholder', '请重新填写');
 						return false;
 					}
-					
+					 */
 					
 					
 					
