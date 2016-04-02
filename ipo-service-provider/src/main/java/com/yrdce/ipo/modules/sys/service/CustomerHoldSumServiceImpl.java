@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
 import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
+import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.TCustomerholdsum;
 import com.yrdce.ipo.modules.sys.vo.FirmHoldSum;
 
@@ -23,6 +25,9 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 
 	@Autowired
 	private TFirmHoldSumMaper frimholdsumMapper;
+
+	@Autowired
+	private IpoCommodityConfMapper ipoCommodityConfmapper;
 
 	/**
 	 * 冻结客户持仓
@@ -47,7 +52,11 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
-		Long frozen = dbCustomerHold.getFrozenqty() + frozenqty;
+		IpoCommodityConf comm = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(commodityid);
+		Long frozenPositionQty = frozenqty
+				/ (comm.getContractfactor().longValue());
+		Long frozen = dbCustomerHold.getFrozenqty() + frozenPositionQty;
 		logger.info("持仓冻结数量{}", frozen);
 		BeanUtils.copyProperties(dbCustomerHold, param);
 		param.setFrozenqty(frozen);
@@ -76,8 +85,12 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 		}
 		;
 		TCustomerholdsum param = new TCustomerholdsum();
+		IpoCommodityConf comm = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(commodityid);
+		Long unfreezePositionQty = unfreezeqty
+				/ (comm.getContractfactor().longValue());
 		BeanUtils.copyProperties(dbCustomerHold, param);
-		Long frozenqty = dbCustomerHold.getFrozenqty() - unfreezeqty;
+		Long frozenqty = dbCustomerHold.getFrozenqty() - unfreezePositionQty;
 		if (frozenqty < 0) {
 			frozenqty = 0L;
 		}
@@ -117,13 +130,17 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 扣持仓 更新交易用户持仓合计信息，根据数量平均分配金额传正值
 	 */
 	@Transactional
-	public String reduceFirmHold(Long tradeqty, String customerid,
+	public String reduceFirmHold(Long tradePositionQty, String customerid,
 			String commodityid, short bsFlag) {
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper
 				.selectByPrimaryKey(customerid, commodityid, bsFlag);
 		if (dbCustomerHold == null) {
 			throw new RuntimeException("扣除客户持仓记录不存在");
 		}
+		IpoCommodityConf comm = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(commodityid);
+		Long tradeqty = tradePositionQty
+				/ (comm.getContractfactor().longValue());
 		long newfrozenqty = dbCustomerHold.getFrozenqty() - tradeqty;
 		long newholdqty = dbCustomerHold.getHoldqty() - tradeqty;
 		dbCustomerHold.setFrozenqty(newfrozenqty);
@@ -144,11 +161,15 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 	 * 加持仓 更新交易用户持仓合计信息，根据数量平均分配金额 传正值
 	 */
 	@Transactional
-	public String incraseFirmHold(Long tradeqty, String customerid,
+	public String incraseFirmHold(Long tradePositionQty, String customerid,
 			String commodityid, short bsFlag) {
 		String firmid = customerholdsumMapper.selectFirmId(customerid);
 		TCustomerholdsum dbCustomerHold = customerholdsumMapper
 				.selectByPrimaryKey(customerid, commodityid, bsFlag);
+		IpoCommodityConf comm = ipoCommodityConfmapper
+				.findIpoCommConfByCommid(commodityid);
+		Long tradeqty = tradePositionQty
+				/ (comm.getContractfactor().longValue());
 		if (dbCustomerHold == null) {
 			TCustomerholdsum record = new TCustomerholdsum();
 			record.setCustomerid(customerid);

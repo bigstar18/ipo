@@ -245,6 +245,8 @@ body {
 			$('#pickcount').change (function ()
 			{
 				$('#dcount').val(parseInt($('#pickcount').val()) * parseFloat($('#punit').val()));
+			
+				
 				console.log($('#ddate').datebox ('getValue'));
 			});
 
@@ -293,22 +295,7 @@ body {
             $ ('#addressName').val ('');
           }
 					
-          $.ajax({  
-	  		    url: "<%=request.getContextPath()%>/SettlementDeliveryController/checkDeliveryQuantity",  
-	  		    data:   {"commid" : $ ('#vcode').val (),
-		                 "pcount" : $ ("#pickcount").val (),
-		                 "position":$ ("#vcount").val() },  
-	  		    type: 'POST',
-	  		    success : function(data, stats) {  
-	  	             if(data=="false"){
-	  	            	alert('交割量超过持仓量，请重新填写！');
-	  	            	return ;
-	  	             }
-	  	        },
-		  	    error: function (jqXHR, textStatus, errorThrown) {
-		              alert('系统异常!');
-		        }
-	  		});  
+         
           
                /*   if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) <= 0)
 					{
@@ -356,14 +343,14 @@ body {
 					{
 						$ ('#cardNum').val ('');
 					}
-					if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) < 0)
+					/* if ($ ('#dcount').val () == '' || Number ($ ('#dcount').val ()) > vcount || Number ($ ('#dcount').val ()) < 0)
 					{
 						$ ('#dcount').css ('background', '#EEEE00');
 						$ ('#dcount').attr ('placeholder', '交割数量需小于持仓数量');
 						$ ('#pickcount').css ('background', '#EEEE00');
 						$ ('#pickcount').attr ('placeholder', '请重新填写');
 						return false;
-					}
+					} */
 					if ($ ('.textbox-text').val () == '')
 					{
 						$ ('.textbox-text').css ('background', '#EEEE00');
@@ -408,28 +395,47 @@ body {
 			});
 			
 			function feeInfo(){
-				$.ajax (
-						{
-						    type : "GET",
-						    url : '<%=request.getContextPath()%>/SettlementDeliveryController/getcost',
-						    data :
-						    {
-						        "commid" : $ ('#vcode').val (),
-						        "quatity" : $ ('#dcount').val (),
-						        "genre" : "1001",
-						        "randnum":Math.floor(Math.random()*1000000)
-						    },
-						    success : function (response)
-						    {
-							    if(confirm("应付注册费:"+response+"元，您确定提交吗?")){
-							    	ajaxpost ();
-							    }
-						    },
-						    error : function (response)
-						    {
-							    alert ("获取费用异常，请重试或联系管理员");
-						    }
-						});
+				  $.ajax({  
+			  		    url: "<%=request.getContextPath()%>/SettlementDeliveryController/checkDeliveryQuantity",  
+			  		    data:   {"commid" : $ ('#vcode').val (),
+				                 "pcount" : $ ("#pickcount").val (),
+				                 "position":$ ("#vcount").val() },  
+			  		    type: 'POST',
+			  		    success : function(data, stats) {  
+			  	             if(data=="false"){
+			  	            	alert('交割量超过持仓量，请重新填写！');
+			  	            	return ;
+			  	             }
+			  	             if(data=="true"){
+			  	            	$.ajax (
+			  							{
+			  							    type : "GET",
+			  							    url : '<%=request.getContextPath()%>/SettlementDeliveryController/getcost',
+			  							    data :
+			  							    {
+			  							        "commid" : $ ('#vcode').val (),
+			  							        "quatity" : $ ('#dcount').val (),
+			  							        "genre" : "1001",
+			  							        "randnum":Math.floor(Math.random()*1000000)
+			  							    },
+			  							    success : function (response)
+			  							    {
+			  								    if(confirm("应付注册费:"+response+"元，您确定提交吗?")){
+			  								    	ajaxpost ();
+			  								    }
+			  							    },
+			  							    error : function (response)
+			  							    {
+			  								    alert ("获取费用异常，请重试或联系管理员");
+			  							    }
+			  							});
+			  	             }
+			  	        },
+				  	    error: function (jqXHR, textStatus, errorThrown) {
+				              alert('系统异常!');
+				        }
+			  		}); 
+				
 			}
 
 			function ajaxpost ()
