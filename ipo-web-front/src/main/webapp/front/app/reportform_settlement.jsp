@@ -68,7 +68,7 @@ formatterDate = function(date) {
 	return date.getFullYear() + '-' + month + '-' + day;
 	};
 
-	window.onload = function () { 
+	window.onload = function () {
 	$('#queryTime').datebox('setValue', formatterDate(new Date()));
 	}
 </script>
@@ -82,6 +82,10 @@ formatterDate = function(date) {
   height: 25px;
   border-radius: 3px;
   background: #fff;
+}
+.btnsearch:hover{
+	cursor: hand;
+  background: #EAEAEA;
 }
 .td_reportMdHead_Right{
 	width:200px;
