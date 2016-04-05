@@ -15,7 +15,7 @@
   <insert id="insert" parameterType="com.yrdce.ipo.modules.sys.entity.SysFirmPermission" >
     insert into SYS_FIRM_PERMISSION (ID, FIRMID, MODEID
       )
-    values (#{id,jdbcType=DECIMAL}, #{firmid,jdbcType=VARCHAR}, #{modeid,jdbcType=VARCHAR}
+    values (SEQ_SYS_FIRM_PERMISSION.NEXTVAL, #{firmid,jdbcType=VARCHAR}, #{modeid,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -42,4 +42,9 @@
     from SYS_FIRM_PERMISSION
     where FIRMID = #{firmid,jdbcType=VARCHAR}
   </select>
+  
+  <delete id="deleteByFirmId" parameterType="java.lang.String" >
+    delete from SYS_FIRM_PERMISSION
+    where FIRMID = #{firmid,jdbcType=VARCHAR}
+  </delete>
 </mapper>

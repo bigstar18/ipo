@@ -45,7 +45,8 @@ public class TradetimeController {
 	// 交易节信息展示
 	@RequestMapping(value = "/getTradetimeList", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String getTradetimeList(@RequestParam("page") String page, @RequestParam("rows") String rows) throws IOException {
+	public String getTradetimeList(@RequestParam("page") String page, @RequestParam("rows") String rows)
+			throws IOException {
 		logger.info("交易节信息展示" + "page:" + page + "rows:" + rows);
 		try {
 			List<Tradetime> clist = tradetimeService.selectByPage(page, rows);
@@ -63,10 +64,10 @@ public class TradetimeController {
 
 	// 修改交易节
 	@RequestMapping(value = "/updateTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public String updateTradetime(HttpServletRequest request, HttpServletResponse response, Model model, Tradetime tradetime,
-			@RequestParam(value = "comms", required = false) String comms) {
+	public String updateTradetime(HttpServletRequest request, HttpServletResponse response, Model model,
+			Tradetime tradetime, @RequestParam(value = "comms", required = false) String comms) {
 		logger.info("修改交易节" + "tradetime:" + tradetime + comms);
-		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		try {
 			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
 			tradetime.setName(name);
@@ -87,8 +88,9 @@ public class TradetimeController {
 	// 添加交易节
 
 	@RequestMapping(value = "/addTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-	public String addTradetime(Tradetime tradetime, @RequestParam(value = "comms", required = false) String comms) {
-		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
+	public String addTradetime(Tradetime tradetime,
+			@RequestParam(value = "comms", required = false) String comms) {
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>tradetime:" + tradetime.getName());
 		try {
 			String name = new String(tradetime.getName().getBytes("gbk"), "utf-8");
 			tradetime.setName(name);
@@ -112,11 +114,11 @@ public class TradetimeController {
 	@RequestMapping(value = "/deleteTradetime", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String deleteTradetime(String ids) {
-		logger.info("进入删除交易节" + "ids:" + ids);
+		logger.debug("进入删除交易节" + "ids:" + ids);
 		// 根据交易节id查询与商品的关联
 		try {
 			Boolean falg = tradetimeService.tradeTimeAndCom(ids);
-			logger.info(falg + "");
+			logger.debug(falg + "");
 			// 判断是否有关联
 			if (falg) {
 
@@ -127,7 +129,6 @@ public class TradetimeController {
 				return "error";
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "error";
 		}
@@ -143,8 +144,8 @@ public class TradetimeController {
 
 	// 修改交易节视图
 	@RequestMapping(value = "/updateTradetimeforward", method = RequestMethod.GET)
-	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model,
-			@RequestParam("sectionid") String sectionid) throws IOException {
+	public String updateTradetimeforward(HttpServletRequest request, HttpServletResponse response,
+			Model model, @RequestParam("sectionid") String sectionid) throws IOException {
 		logger.info("进入修改视图");
 		short id = Short.parseShort(sectionid);
 		List<TradetimeComm> list;
@@ -156,7 +157,6 @@ public class TradetimeController {
 			request.setAttribute("commlist", comlist);
 			return "app/tradetime/update_tradetime";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "error/500";
 		}
@@ -167,20 +167,21 @@ public class TradetimeController {
 	public String addTradetimeforward(HttpServletRequest request, HttpServletResponse response, Model model) {
 		logger.info("进入新增视图");
 		List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfs();
-		logger.info("" + comlist.size());
+		logger.debug("" + comlist.size());
 		request.setAttribute("commlist", comlist);
 		return "app/tradetime/add_tradeTime";
 	}
 
 	// 非交易节视图
 	@RequestMapping(value = "/getNottradedayforward", method = RequestMethod.GET)
-	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String getNottradedayforward(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 		logger.info("进入非交易日视图");
 		Nottradeday nottradeday;
 		try {
 			nottradeday = tradetimeService.select();
 
-			logger.info("nottradeday:" + nottradeday);
+			logger.debug("nottradeday:" + nottradeday);
 			if (nottradeday != null) {
 				String week = nottradeday.getWeek();
 				String day = nottradeday.getDay();
@@ -201,7 +202,6 @@ public class TradetimeController {
 				return "app/tradetime/notTradeDay";
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "error/500";
 		}
@@ -224,7 +224,8 @@ public class TradetimeController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String update(Nottradeday notTradeDay) {
-		logger.info("week:" + notTradeDay.getWeek() + "day:" + notTradeDay.getDay() + "id:" + notTradeDay.getId());
+		logger.debug("week:" + notTradeDay.getWeek() + "day:" + notTradeDay.getDay() + "id:"
+				+ notTradeDay.getId());
 		try {
 			tradetimeService.insertByNottradeday(notTradeDay);
 			return "success";

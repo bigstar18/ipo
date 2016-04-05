@@ -19,4 +19,6 @@ public interface SysFirmPermissionMapper {
 	int updateByPrimaryKey(SysFirmPermission record);
 
 	List<SysFirmPermission> selectByFirmId(String firmId);
+
+	int deleteByFirmId(String firmid);
 }

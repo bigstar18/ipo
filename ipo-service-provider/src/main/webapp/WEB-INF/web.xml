@@ -27,14 +27,4 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
-    
-  <servlet>
-  	<servlet-name>ModularServlet</servlet-name>
-  	<servlet-class>com.yrdce.ipo.modules.sys.service.ModularServlet</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-  	<servlet-name>ModularServlet</servlet-name>
-  	<url-pattern>/ModularServlet</url-pattern>
-  </servlet-mapping>
 </web-app>

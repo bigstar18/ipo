@@ -41,7 +41,7 @@
     <dubbo:reference id="customerHoldSumService" interface="com.yrdce.ipo.modules.sys.service.CustomerHoldSumService" />
     <dubbo:reference id="statisticsReportService" interface="com.yrdce.ipo.modules.sys.service.StatisticsReportService" />
     <dubbo:reference id="ipoCommConfService" interface="com.yrdce.ipo.modules.sys.service.IpoCommConfService" />
-    
+    <dubbo:reference id="firmAuthorityService" interface="com.yrdce.ipo.modules.sys.service.FirmAuthorityService" />
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
 	<!-- <dubbo:reference id="xxxService" interface="com.alibaba.xxx.XxxService" url="dubbo://localhost:44400" /> -->

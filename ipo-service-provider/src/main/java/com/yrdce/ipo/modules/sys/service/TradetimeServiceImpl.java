@@ -83,7 +83,8 @@ public class TradetimeServiceImpl implements TradetimeService {
 			int curpage = Integer.parseInt(page);
 			int pagesize = Integer.parseInt(rows);
 			List<Tradetime> tradetime2 = new ArrayList<Tradetime>();
-			List<IpoTradetime> tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1, curpage * pagesize);
+			List<IpoTradetime> tradetime1 = tradetimeMapper.selectByAll((curpage - 1) * pagesize + 1,
+					curpage * pagesize);
 			for (int i = 0; i < tradetime1.size(); i++) {
 				Tradetime tradetime = new Tradetime();
 				BeanUtils.copyProperties(tradetime1.get(i), tradetime);
@@ -221,7 +222,7 @@ public class TradetimeServiceImpl implements TradetimeService {
 	@Transactional
 	public int insertByNottradeday(Nottradeday notTradeDay) throws Exception {
 		logger.info("非交易节设置");
-		int seccess = 1;
+		int success = 1;
 		IpoNottradeday nottradeday = new IpoNottradeday();
 		BeanUtils.copyProperties(notTradeDay, nottradeday);
 		nottradeday.setModifytime(new Date());
@@ -229,11 +230,11 @@ public class TradetimeServiceImpl implements TradetimeService {
 		logger.info(status + "");
 		if (status == 1) {
 			notTradeTimeMapper.updateByPrimaryKeySelective(nottradeday);
-			return seccess;
+			return success;
 		} else {
 			nottradeday.setId(1L);
 			notTradeTimeMapper.insert(nottradeday);
-			return seccess;
+			return success;
 		}
 	}
 
