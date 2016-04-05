@@ -24,9 +24,7 @@
 				 if(parseInt(dataForm.ratio.value)>100){
 					 alert('减持比例不能大于100!');return ;
 				 };
-				 if(dataForm.reduceqty.value=="0"){
-					alert('减持数量不能为0!');return ;
-				 };
+				
 				 var reduceDateVal= $("#reduceDate").datebox("getValue");
 				 if(reduceDateVal==""||reduceDateVal==""){
 					alert('减持日期不能为空!');return ;
