@@ -361,13 +361,16 @@ body {
 						$ ('#telNum').css ('background', '#EEEE00');
 						return false;
 					}
-					if (Number ($ ('#telNum').val ()) <= 6)
-					{
-						$ ('#telNum').css ('background', '#EEEE00');
-						$ ('#telNum').attr ('placeholder', '请输入正确的电话格式');
-						$ ('#telNum').val ('');
-						return false;
-					}
+					 var re = /^1[3|4|5|8][0-9]\d{4,8}$/;
+					 if(re.test($ ('#telNum').val ())){
+					       
+					    }else{
+					    	$ ('#telNum').css ('background', '#EEEE00');
+							$ ('#telNum').attr ('placeholder', '请输入正确的电话格式');
+							$ ('#telNum').val ('');
+							return false;
+					    } 
+					
 					if ($ ('#receiverName').val () == '')
 					{
 						$ ('#receiverName').css ('background', '#EEEE00');

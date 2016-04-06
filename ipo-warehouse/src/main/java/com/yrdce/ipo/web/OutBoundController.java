@@ -118,10 +118,10 @@ public class OutBoundController {
 			DeliveryOrder deliveryOrder = deliveryOrderService
 					.getDeliveryOrderByDeliOrderID(deliveryid);
 			if (deliveryOrder != null) {
-				if (deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.PRINTED
-						.getCode()
-						|| deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.CONFIRM
-								.getCode()) {
+				if ((DeliveryConstant.StatusType.PRINTED.getCode())
+						.equals(deliveryOrder.getApprovalStatus())
+						|| (DeliveryConstant.StatusType.CONFIRM.getCode())
+								.equals(deliveryOrder.getApprovalStatus())) {
 					String auditorid = ((UserManageVO) session
 							.getAttribute("CurrentUser")).getUserID();
 					long wareHouseId = ipoStorageService
@@ -167,10 +167,10 @@ public class OutBoundController {
 			DeliveryOrder deliveryOrder = deliveryOrderService
 					.getDeliveryOrderByDeliOrderID(deliveryid);
 			if (deliveryOrder != null) {
-				if (deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.PRINTED
-						.getCode()
-						|| deliveryOrder.getApprovalStatus() == DeliveryConstant.StatusType.CONFIRM
-								.getCode()) {
+				if ((DeliveryConstant.StatusType.PRINTED.getCode())
+						.equals(deliveryOrder.getApprovalStatus())
+						|| (DeliveryConstant.StatusType.CONFIRM.getCode())
+								.equals(deliveryOrder.getApprovalStatus())) {
 					String operatorid = ((UserManageVO) session
 							.getAttribute("CurrentUser")).getUserID();
 					long wareHouseId = ipoStorageService
