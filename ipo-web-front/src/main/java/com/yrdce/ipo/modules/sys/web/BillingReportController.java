@@ -63,19 +63,6 @@ public class BillingReportController {
 		List<Delivery> dList = statisticsReportService.dGetDeliveryInfo(userid, date);
 		logger.debug("dlist长度：{}", dList.size());
 
-		/*List<Object> list = new ArrayList<Object>();
-		list.add(rList);
-		list.add(bList);
-		list.add(hList);
-		list.add(dList);
-		
-		try {
-			return JSON.json(list);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "error";
-		}*/
-
 		request.setAttribute("funs", funs);
 		request.setAttribute("rList", rList);
 		request.setAttribute("bList", bList);

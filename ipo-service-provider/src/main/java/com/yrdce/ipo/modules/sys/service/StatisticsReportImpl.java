@@ -331,10 +331,9 @@ public class StatisticsReportImpl implements StatisticsReportService {
 		List<Billoflading> bIpoBillofladings = new ArrayList<Billoflading>();
 		if (debitFlowList1.size() != 0) {
 			for (IpoDebitFlow register1 : debitFlowList1) {
-				String id = register1.getOrderId();
-				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
-				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				String deliveryId = register1.getOrderId();
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				BigDecimal deliveryMoery = register1.getAmount();
 				ipoBilloflading.setBillofladingfee(deliveryMoery);
 				for (IpoDebitFlow cancel1 : debitFlowList2) {
@@ -370,15 +369,9 @@ public class StatisticsReportImpl implements StatisticsReportService {
 			}
 		} else if (debitFlowList2.size() != 0) {
 			for (IpoDebitFlow cancel1 : debitFlowList2) {
-				String id = cancel1.getOrderId();
-				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
-				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				String deliveryId = cancel1.getOrderId();
-				String cancelId = cancel1.getOrderId();
-				if (deliveryId.equals(cancelId)) {
-					BigDecimal cancelMoney = cancel1.getAmount();
-					ipoBilloflading.setBillofladingfee(ipoBilloflading.getBillofladingfee().add(cancelMoney));
-				}
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 
 				for (IpoDebitFlow warehousing1 : debitFlowList3) {
 					String warehousingId = warehousing1.getOrderId();
@@ -405,15 +398,9 @@ public class StatisticsReportImpl implements StatisticsReportService {
 			}
 		} else if (debitFlowList3.size() != 0) {
 			for (IpoDebitFlow warehousing1 : debitFlowList3) {
-				String id = warehousing1.getOrderId();
-				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
-				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				String deliveryId = warehousing1.getOrderId();
-				String warehousingId = warehousing1.getOrderId();
-				if (deliveryId.equals(warehousingId)) {
-					BigDecimal warehousingMoney = warehousing1.getAmount();
-					ipoBilloflading.setWarehousingfee(warehousingMoney);
-				}
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				for (IpoDebitFlow insurance1 : debitFlowList4) {
 					String insuranceId = insurance1.getOrderId();
 					if (deliveryId.equals(insuranceId)) {
@@ -432,15 +419,9 @@ public class StatisticsReportImpl implements StatisticsReportService {
 			}
 		} else if (debitFlowList4.size() != 0) {
 			for (IpoDebitFlow insurance1 : debitFlowList4) {
-				String id = insurance1.getOrderId();
-				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(id);
-				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				String deliveryId = insurance1.getOrderId();
-				String insuranceId = insurance1.getOrderId();
-				if (deliveryId.equals(insuranceId)) {
-					BigDecimal insuranceMoney = insurance1.getAmount();
-					ipoBilloflading.setInsurance(insuranceMoney);
-				}
+				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
+				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
 				for (IpoDebitFlow trustee1 : debitFlowList5) {
 					String trusteeId = trustee1.getOrderId();
 					if (deliveryId.equals(trusteeId)) {
