@@ -52,7 +52,7 @@ public class SettlementDeliveryController {
 	private final static String NOT_SUFFICIENT_FUNDS = "1003";
 
 	// 提货申请视图
-	@RequestMapping(value = "/deliveryview", method = RequestMethod.GET)
+	@RequestMapping(value = "/deliveryview", method = RequestMethod.POST)
 	public String deliveryView(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		return "app/delivery/withdraw";
@@ -130,8 +130,7 @@ public class SettlementDeliveryController {
 	public String deliveryInfo(HttpSession session) {
 		logger.info("提货申请(初始化数据)");
 		try {
-			// String firmId = (String) session.getAttribute("currentFirmId");
-			String firmId = "sc";
+			String firmId = (String) session.getAttribute("currentFirmId");
 			List<Position> list = settlementDeliveryService
 					.getListByPosition(firmId);// firmId
 			return JSON.json(list);

@@ -454,56 +454,13 @@ public class DeliveryController {
 		try {
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			DeliveryOrder deorder = deliveryorderservice
-					.getDeliveryOrderByDeliOrderID(deorderId);
-			DeliveryCost cost = deliveryorderservice
-					.getCostByDeliveryOrder(deorder);
-			if (deorder != null && cost != null) {
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.REGISTER.getCode())) {
-					String result = deliveryorderservice.cancelDeorder(
-							deorderId, userId);
-					if (result.equals("true")) {
-						customerHoldSumService.unfreezeCustomerHold(
-								deorder.getDeliveryQuatity(),
-								deorder.getDealerId() + "00",
-								deorder.getCommodityId(), (short) 1);
-						underwritersubscribeService.unfreeFunds(
-								deorder.getDealerId(),
-								cost.getRegistrationFee());
-						WriteLog.writeOperateLog(
-								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-								"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session, systemService);
-						return "true";
-
-					}
-				}
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETPASS.getCode())
-						|| deorder.getApprovalStatus().equals(
-								DeliveryConstant.StatusType.PRINTED.getCode())
-						|| deorder.getApprovalStatus().equals(
-								DeliveryConstant.StatusType.EXPRESSCOSTSET
-										.getCode())) {
-					String result = deliveryorderservice.cancelDeorder(
-							deorderId, userId);
-					if (result.equals("true")) {
-						customerHoldSumService.unfreezeCustomerHold(
-								deorder.getDeliveryQuatity(),
-								deorder.getDealerId() + "00",
-								deorder.getCommodityId(), (short) 1);
-						deliveryorderservice.unfrozenStock(deorder);
-						underwritersubscribeService.unfreeFunds(
-								deorder.getDealerId(),
-								cost.getRegistrationFee());
-						WriteLog.writeOperateLog(
-								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-								"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session, systemService);
-						return "true";
-					}
-				}
+			String result = deliveryorderservice.cancelDeorder(deorderId,
+					userId);
+			if ("true".equals(result)) {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
+						"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
+				return result;
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,

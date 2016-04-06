@@ -74,6 +74,10 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	private CustomerHoldSumService customerHoldSumService;
 
 	@Autowired
+	@Qualifier("underwritersubscribeService")
+	private UnderwriterSubscribeService underwritersubscribeService;
+
+	@Autowired
 	private IpoCommodityConfMapper ipoCommodityConfmapper;
 
 	public IpoDeliveryorderMapper getDeliveryordermapper() {
@@ -242,9 +246,46 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	@Transactional
 	public String cancelDeorder(String deOrderId, String cancellId) {
 		Log.info("撤销提货单服务");
-		deliveryordermapper.cancelDeorder(deOrderId,
-				DeliveryConstant.StatusType.CANCEL.getCode(), cancellId);
-		return "true";
+		IpoDeliveryorder deorder = deliveryordermapper
+				.selectByPrimaryKey(deOrderId);
+		IpoDeliveryCost cost = ipoDeliveryCostMapper
+				.selectByPrimaryKey(deOrderId);
+		if (deorder != null && cost != null) {
+			if ((DeliveryConstant.StatusType.REGISTER.getCode()).equals(deorder
+					.getApprovalStatus())) {
+				deliveryordermapper
+						.cancelDeorder(deOrderId,
+								DeliveryConstant.StatusType.CANCEL.getCode(),
+								cancellId);
+				customerHoldSumService.unfreezeCustomerHold(
+						deorder.getDeliveryQuatity(), deorder.getDealerId()
+								+ "00", deorder.getCommodityId(), (short) 1);
+				underwritersubscribeService.unfreeFunds(deorder.getDealerId(),
+						cost.getRegistrationFee());
+				return "true";
+			}
+			if ((DeliveryConstant.StatusType.MARKETPASS.getCode())
+					.equals(deorder.getApprovalStatus())
+					|| (DeliveryConstant.StatusType.PRINTED.getCode())
+							.equals(deorder.getApprovalStatus())
+					|| (DeliveryConstant.StatusType.EXPRESSCOSTSET.getCode())
+							.equals(deorder.getApprovalStatus())) {
+				deliveryordermapper
+						.cancelDeorder(deOrderId,
+								DeliveryConstant.StatusType.CANCEL.getCode(),
+								cancellId);
+				customerHoldSumService.unfreezeCustomerHold(
+						deorder.getDeliveryQuatity(), deorder.getDealerId()
+								+ "00", deorder.getCommodityId(), (short) 1);
+				DeliveryOrder order = new DeliveryOrder();
+				BeanUtils.copyProperties(deorder, order);
+				this.unfrozenStock(order);
+				underwritersubscribeService.unfreeFunds(deorder.getDealerId(),
+						cost.getRegistrationFee());
+				return "true";
+			}
+		}
+		return "false";
 	}
 
 	@Override
