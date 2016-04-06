@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yrdce.ipo.modules.sys.service.FirmAuthorityService;
+import com.yrdce.ipo.modules.sys.service.StatisticsReportService;
 
 /**
  * @ClassName: AuthorityController
@@ -25,11 +26,17 @@ public class AuthorityController {
 
 	@Autowired
 	private FirmAuthorityService firmAuthorityService;
+	@Autowired
+	private StatisticsReportService statisticsReportService;
 
 	@RequestMapping(value = "getMoudel", method = RequestMethod.GET)
 	@ResponseBody
 	public String getMoudel(@RequestParam("firmid") String firmid) throws IOException {
 		logger.info("查询模块");
+		String firmName = statisticsReportService.firmName(firmid);
+		if (firmName == null) {
+			return "error";
+		}
 		List<String> models = firmAuthorityService.getFirmAuthority(firmid);
 		return JSON.json(models);
 	}

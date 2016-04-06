@@ -147,7 +147,6 @@ public class SPOServiceImpl implements SPOService {
 				return 0;
 			}
 		}
-		logger.debug("冻结结束3");
 		return 2;
 	}
 
@@ -353,7 +352,7 @@ public class SPOServiceImpl implements SPOService {
 		ipoSpoRation.setServicefee(fee);
 		ipoSpoRation.setRationcounts(sumparam);
 		ipoSpoRation.setOperationdate(new Date());
-		ipoSpoRation.setRationSate(1);
+		ipoSpoRation.setRationSate(2);
 		boolean value = capital(firmid, rationloan.add(fee));
 		if (value) {
 			logger.info("插入承销商配售总数：" + sumparam);
@@ -529,7 +528,7 @@ public class SPOServiceImpl implements SPOService {
 		BigDecimal price = ipoSpoComm.getPositionsPrice();// 增发价格
 		String commid = ipoSpoComm.getCommodityId();// 商品代码
 		String type = ipoSpoComm.getRationType();
-		List<IpoSpoRation> list2 = ipoSpoRationMapper.selectInfoBySPOid(spoid);
+		List<IpoSpoRation> list2 = ipoSpoRationMapper.findBySpoidAndStatu(spoid, 2);
 		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commid);
 		// 比例配售
 		if (PROPORTION_PLACING.equals(type)) {

@@ -17,3 +17,10 @@ CREATE TABLE SYS_FIRM_PERMISSION
    CONSTRAINT PK_SYS_FIRM_PERMISSION PRIMARY KEY (ID)
 );
 
+-- Create sequence 
+create sequence SEQ_SYS_FIRM_PERMISSION
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;

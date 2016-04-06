@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoDeliveryMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoRfFirmholdsumMapper;
 import com.yrdce.ipo.modules.sys.dao.TCustomerholdsumMapper;
@@ -61,13 +58,7 @@ public class StatisticsReportImpl implements StatisticsReportService {
 	@Autowired
 	private IpoDeliveryorderMapper DeliveryorderMapper;
 	@Autowired
-	private IpoDeliveryCostMapper ipoDeliveryCostMapper;
-	@Autowired
 	private IpoDebitFlowMapper ipoDebitFlowMapper;
-	@Autowired
-	private IpoExpressMapper ipoExpressMapper;
-	@Autowired
-	private IpoDeliveryMapper ipoDeliveryMapper;
 	@Autowired
 	private TFirmHoldSumMaper tFirmHoldSumMaper;
 
@@ -372,6 +363,8 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				String deliveryId = cancel1.getOrderId();
 				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
 				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				BigDecimal deliveryMoery = cancel1.getAmount();
+				ipoBilloflading.setBillofladingfee(deliveryMoery);
 
 				for (IpoDebitFlow warehousing1 : debitFlowList3) {
 					String warehousingId = warehousing1.getOrderId();
@@ -401,6 +394,8 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				String deliveryId = warehousing1.getOrderId();
 				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
 				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				BigDecimal warehousingfeeMoery = warehousing1.getAmount();
+				ipoBilloflading.setWarehousingfee(warehousingfeeMoery);
 				for (IpoDebitFlow insurance1 : debitFlowList4) {
 					String insuranceId = insurance1.getOrderId();
 					if (deliveryId.equals(insuranceId)) {
@@ -422,6 +417,8 @@ public class StatisticsReportImpl implements StatisticsReportService {
 				String deliveryId = insurance1.getOrderId();
 				IpoDeliveryorder ipoDeliveryorder = DeliveryorderMapper.selectByPrimaryKey(deliveryId);
 				Billoflading ipoBilloflading = setBilloflading(ipoDeliveryorder);
+				BigDecimal insuranceMoery = insurance1.getAmount();
+				ipoBilloflading.setInsurance(insuranceMoery);
 				for (IpoDebitFlow trustee1 : debitFlowList5) {
 					String trusteeId = trustee1.getOrderId();
 					if (deliveryId.equals(trusteeId)) {

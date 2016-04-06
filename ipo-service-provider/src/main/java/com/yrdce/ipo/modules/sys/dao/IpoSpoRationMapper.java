@@ -52,6 +52,14 @@ public interface IpoSpoRationMapper {
 	int updateServicefee(@Param("servicefee") BigDecimal servicefee, @Param("rationId") long rationId);
 
 	/**
+	 * @Title: findBySpoidAndStatu
+	 * @Description: 通过增发id查询确认的配售信息
+	 * @param spoid
+	 * @param status
+	 */
+	List<IpoSpoRation> findBySpoidAndStatu(@Param("spoid") String spoid, @Param("status") int status);
+
+	/**
 	 * @Title: findFirm
 	 * @Description: 定向配售是否有此会员
 	 * @param spoid

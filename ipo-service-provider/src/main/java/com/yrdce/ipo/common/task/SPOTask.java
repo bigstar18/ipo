@@ -50,7 +50,7 @@ public class SPOTask {
 	public void runSPO() {
 		logger.info("增发配售状态定时任务启动");
 		String time = sdf.format(new Date());
-		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select(null, null, null);
+		List<IpoSpoCommoditymanmaagement> list = ipoSPOCommMapper.select("2", null, null);
 		// 遍历增发商品管理列表
 		for (IpoSpoCommoditymanmaagement ipoSPOComm : list) {
 			String spoid = ipoSPOComm.getSpoId();
@@ -60,7 +60,7 @@ public class SPOTask {
 			int ipotimeParam = Integer.parseInt(ipotime);
 			// 时间判断，更新配售表状态
 			if (timeParam >= ipotimeParam) {
-				ipoSpoRationMapper.updateByStatus(1, spoid);
+				ipoSpoRationMapper.updateByStatus(2, spoid);
 				logger.info("配售状态更新成功");
 			}
 		}
@@ -139,15 +139,26 @@ public class SPOTask {
 				logger.debug(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
 				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
-				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
-					String firmid = tFirmholdsums.getFirmId();
+				for (int i = 0; i < tFirmholdsumslist.size(); i++) {
+					//for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
+					//String firmid = tFirmholdsums.getFirmId();
+					String firmid = tFirmholdsumslist.get(i).getFirmId();
 					logger.debug(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
-					double position = tFirmholdsums.getHoldqty();
+					//double position = tFirmholdsums.getHoldqty();
+					double position = tFirmholdsumslist.get(i).getHoldqty();
 					logger.debug(">>>>>>>>>>>>>>>>>>position:" + position);
 					double value = position / (double) sum;
 					logger.debug(">>>>>>>>>>>>>>>>>>value:" + value);
-					// 增发量
-					long num = (long) (otration * value);
+					// 增发量?????????????
+					long num = 0;
+					long count = 0;
+					if (i == tFirmholdsumslist.size()) {
+						num = otration - count;
+						//num = (long) (otration * value);
+					} else {
+						num = (long) (otration * value);
+						count = count + num;
+					}
 					BigDecimal counts1 = new BigDecimal(num);
 					logger.debug("数量counts1：" + counts1);
 					// 货款

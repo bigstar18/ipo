@@ -224,4 +224,12 @@
      	RATION_SATE = #{rationSate,jdbcType=DECIMAL}
     	 where RATIONID = #{rationId,jdbcType=DECIMAL}
   </update>
+  
+  <select id="findBySpoidAndStatu" resultMap="BaseResultMap" parameterType="map">
+  	select RATIONID, SPOID,nvl(RATIONCOUNTS,0), FIRMID, OPERATIONDATE,
+	RATIONLOAN,  SERVICEFEE,SALES_ALLOCATIONRATIO,SALES_REBATERATIO,
+	FIRMNAME,SALESID, RATION_SATE from IPO_SPO_RATION 
+	where SPOID = #{spoid,jdbcType=VARCHAR}
+  	and RATION_SATE = #{status,jdbcType=DECIMAL}
+  </select>
 </mapper>

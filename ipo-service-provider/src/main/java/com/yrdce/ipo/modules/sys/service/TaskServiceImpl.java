@@ -499,8 +499,8 @@ public class TaskServiceImpl implements TaskService {
 					ipoSpoRationMapper.insert(ipoSpoRation);
 					logger.info("散户增发定时任务结束");
 				}
+				ipoSPOCommMapper.updateByStatus(5, spoid);
 			}
-			ipoSPOCommMapper.updateByStatus(5, spoid);
 		}
 	}
 

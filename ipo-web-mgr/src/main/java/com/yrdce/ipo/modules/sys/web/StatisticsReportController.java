@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.yrdce.ipo.modules.sys.service.SPOService;
 import com.yrdce.ipo.modules.sys.service.StatisticsReportService;
 import com.yrdce.ipo.modules.sys.vo.Commodity;
 import com.yrdce.ipo.modules.sys.vo.Holdcommodity;
@@ -32,8 +31,6 @@ public class StatisticsReportController {
 	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(StatisticsReportController.class);
 	@Autowired
 	private StatisticsReportService statisticsReportService;
-	@Autowired
-	private SPOService spoSerivice;//调用查找交易商名称方法
 
 	@RequestMapping(value = "/purchase", method = RequestMethod.GET)
 	public String purchase(Model model) {
@@ -81,7 +78,7 @@ public class StatisticsReportController {
 			purchase.setCirculation(circulation);
 			double rate = (count / circulation) * 100;
 			purchase.setRate(rate);
-			String name = spoSerivice.getFirmname(order.getUserid());
+			String name = statisticsReportService.firmName(order.getUserid());
 			purchase.setFirmName(name);
 			list.add(purchase);
 			purCount += count;
@@ -141,7 +138,7 @@ public class StatisticsReportController {
 			@RequestParam("date") String date, Model model) {
 		List<SettleResult> resultList = new ArrayList<SettleResult>();
 		if (comid != null && comid != "") {
-			List<Holdcommodity> list = statisticsReportService.hGetHold(date, comid);
+			List<Holdcommodity> list = statisticsReportService.holdByCom(date, comid);
 			for (Holdcommodity hold : list) {
 				String firmName = statisticsReportService.firmName(hold.getFirmid());
 				hold.setFirmName(firmName);
@@ -156,7 +153,7 @@ public class StatisticsReportController {
 			Map<String, String> comIdMap = statisticsReportService.findAllComid();
 			for (Map.Entry<String, String> entry : comIdMap.entrySet()) {
 				logger.debug("遍历id：{}", entry.getKey());
-				List<Holdcommodity> list = statisticsReportService.hGetHold(date, entry.getKey());
+				List<Holdcommodity> list = statisticsReportService.holdByCom(date, entry.getKey());
 				for (Holdcommodity hold : list) {
 					String firmName = statisticsReportService.firmName(hold.getFirmid());
 					hold.setFirmName(firmName);

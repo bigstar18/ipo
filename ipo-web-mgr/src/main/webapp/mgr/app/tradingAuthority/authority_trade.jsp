@@ -21,33 +21,45 @@
 	      }
 
 	function getModel(firmid){
-		$.ajax({
-			type : "GET",
-			 url : "<%=request.getContextPath()%>/authorityController/getMoudel",
-			data : {"firmid" : firmid,
-				"randnum":Math.floor(Math.random()*1000000)},
-			success : function(data){
-				$(":checkbox").attr("checked",false);
-				if (data) {
-			    	var models = eval(data);
-			    	var model = $(":checkbox");
-			    	for (j = 0; j < models.length; j++) {
-			    		for (i = 0; i < model.length; i++) {
-			    			if (models[j] == model[i].value) {
-			    				model[i].checked = true;
-			    			}
-			    		}
-			    	}
-			    }
-			}
-		});
+		if(firmid != ''){
+			$.ajax({
+				type : "GET",
+				 url : "<%=request.getContextPath()%>/authorityController/getMoudel",
+				data : {"firmid" : firmid,
+					"randnum":Math.floor(Math.random()*1000000)},
+				success : function(data){
+					if(data == "error"){
+						alert("交易商不存在");
+					}else{
+						$(":checkbox").attr("checked",false);
+						if (data) {
+					    	var models = eval(data);
+					    	var model = $(":checkbox");
+					    	for (j = 0; j < models.length; j++) {
+					    		for (i = 0; i < model.length; i++) {
+					    			if (models[j] == model[i].value) {
+					    				model[i].checked = true;
+					    			}
+					    		}
+					    	}
+					    }
+					}
+				}
+			});
+		}
 	}
 	
 	function saves(){
 		$('#frm').form({
 	                url:'<%=request.getContextPath()%>/authorityController/update',
 	                onSubmit:function(){
-	                 return $(this).form('validate');
+	                	var firmid = $("#firmid").val();
+	                	if(firmid != null && firmid != ''){
+	                		return true;
+	                	}else{
+	                		alert("交易商账号不可为空");
+	                		return false;
+	                	}
 	                  },
 	                success:function(data){
 	                  		alert("提交成功！");
@@ -75,7 +87,7 @@
 							<tr>
 								<td align="right">交易商账号：</td>
 								<td>
-									<input id="firmid" name="firmid" type="text" size=10 maxlength=8 onblur="getModel(value);"/>
+									<input id="firmid" name="firmid" type="text" size=10 maxlength=8 onblur="getModel(value);" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
 									<span class="req">*</span>
 								</td>
 							</tr> 
