@@ -16,8 +16,7 @@ public interface PublisherPositionService {
 	 * @param example
 	 * @return
 	 */
-	public List<PublisherPosition> getInfoByPage(String page, String rows,
-			PublisherPosition example);
+	public List<PublisherPosition> getInfoByPage(String page, String rows, PublisherPosition example);
 
 	/**
 	 * 获取符合条件的转持仓记录数
@@ -108,7 +107,7 @@ public interface PublisherPositionService {
 	 * @param money
 	 * @return
 	 */
-	public String transferPosition(PublisherPosition example);
+	//public String transferPosition(PublisherPosition example);
 
 	/**
 	 * 查找特殊手续费
@@ -117,7 +116,7 @@ public interface PublisherPositionService {
 	 * @param money
 	 * @return
 	 */
-	public Specialcounterfee getSpecialCounterfee(String publisherid,
-			String commodityid, String counterfeetype);
+	public Specialcounterfee getSpecialCounterfee(String publisherid, String commodityid,
+			String counterfeetype);
 
 }

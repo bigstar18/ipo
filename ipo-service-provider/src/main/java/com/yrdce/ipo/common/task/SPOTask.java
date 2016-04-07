@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
+import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
 import com.yrdce.ipo.modules.sys.entity.IpoSpecialcounterfee;
 import com.yrdce.ipo.modules.sys.entity.IpoSpoCommoditymanmaagement;
@@ -37,7 +37,7 @@ public class SPOTask {
 	@Autowired
 	private IpoSpoCommoditymanmaagementMapper ipoSPOCommMapper;
 	@Autowired
-	private IpoPositionMapper ipoPositionMapper;
+	private TFirmHoldSumMaper tFirmHoldSumMaper;
 	@Autowired
 	private IpoCommodityConfMapper ipoCommConfMapper;
 	@Autowired
@@ -135,10 +135,10 @@ public class SPOTask {
 				long otration = ipospocomm.getNotRationCounts();
 				logger.debug(">>>>>>>>>>>>>>>>>>otration:" + otration);
 				// 商品在持仓中的总量(现货持仓)
-				int sum = ipoPositionMapper.selectSumByComm(commodityid);
+				int sum = tFirmHoldSumMaper.selectSumByComm(commodityid);
 				logger.debug(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
-				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				List<TFirmHoldSum> tFirmholdsumslist = tFirmHoldSumMaper.selectPositionList(commodityid);
 				for (int i = 0; i < tFirmholdsumslist.size(); i++) {
 					//for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
 					//String firmid = tFirmholdsums.getFirmId();

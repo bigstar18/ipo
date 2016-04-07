@@ -1,7 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,6 +49,8 @@ import com.yrdce.ipo.modules.sys.vo.VIpoCommConf;
 import com.yrdce.ipo.modules.warehouse.service.IpoStorageService;
 import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 /**
  * 发行会员查询Controller
  * 
@@ -61,8 +61,7 @@ import com.yrdce.ipo.modules.warehouse.vo.VIpoStorageExtended;
 @RequestMapping("PublisherController")
 public class PublisherController {
 
-	static org.slf4j.Logger log = org.slf4j.LoggerFactory
-			.getLogger(PublisherController.class);
+	static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PublisherController.class);
 
 	@Autowired
 	private IpoCommConfService ipoCommConfService;
@@ -113,13 +112,11 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/findAllCommsByExample", method = RequestMethod.POST)
 	@ResponseBody
-	public String findAllCommsByExample(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, VIpoCommConf example)
-			throws IOException {
+	public String findAllCommsByExample(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			VIpoCommConf example) throws IOException {
 		log.info("查询所有商品列表");
 		try {
-			List<VIpoCommConf> comlist = ipoCommConfService
-					.findIpoCommConfsByExample(page, rows, example);
+			List<VIpoCommConf> comlist = ipoCommConfService.findIpoCommConfsByExample(page, rows, example);
 			int totalnum = ipoCommConfService.getNumsByExample(example);
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
@@ -141,15 +138,12 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/findUnderwriters", method = RequestMethod.POST)
 	@ResponseBody
-	public String findUnderwriters(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, UnderWriters example)
-			throws IOException {
+	public String findUnderwriters(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			UnderWriters example) throws IOException {
 		log.info("查询发行商的承销会员列表");
 		try {
-			List<UnderWriters> comlist = underwritersubscribeService
-					.findUnderwriters(page, rows, example);
-			int totalnum = underwritersubscribeService
-					.getUnderwritersNum(example);
+			List<UnderWriters> comlist = underwritersubscribeService.findUnderwriters(page, rows, example);
+			int totalnum = underwritersubscribeService.getUnderwritersNum(example);
 			ResponseResult result = new ResponseResult();
 			result.setRows(comlist);
 			result.setTotal(totalnum);
@@ -173,22 +167,19 @@ public class PublisherController {
 	@RequestMapping(value = "/queryPublishGoods", method = RequestMethod.POST)
 	@ResponseBody
 	public String queryPublishGoods(@RequestParam("page") String pageNo,
-			@RequestParam("rows") String pageSize, HttpServletRequest request)
-			throws Exception {
+			@RequestParam("rows") String pageSize, HttpServletRequest request) throws Exception {
 
 		PayFlow payFlow = new PayFlow();
 		if (request.getParameter("payState") != null) {
 			if (!(request.getParameter("payState").trim().equals(""))) {
-				payFlow.setPayState(Integer.parseInt(request
-						.getParameter("payState")));
+				payFlow.setPayState(Integer.parseInt(request.getParameter("payState")));
 			}
 		}
 		payFlow.setCommodityId(request.getParameter("commodityId"));
 		long count = payFlowService.queryPublishGoodsForCount(payFlow);
 		List<PayFlow> dataList = new ArrayList<PayFlow>();
 		if (count > 0) {
-			dataList = payFlowService.queryPublishGoodsForPage(pageNo,
-					pageSize, payFlow);
+			dataList = payFlowService.queryPublishGoodsForPage(pageNo, pageSize, payFlow);
 		}
 		ResponseResult result = new ResponseResult();
 		result.setTotal(new Long(count).intValue());
@@ -204,8 +195,8 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/addInfo", method = RequestMethod.GET)
-	public String addInfo(PubpaymentTrack patmentTrack,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String addInfo(PubpaymentTrack patmentTrack, HttpServletRequest request,
+			HttpServletResponse response) {
 		List<VIpoCommConf> commlist = ipoCommConfService.findIpoCommConfs();
 		request.setAttribute("commlist", commlist);
 		return "app/publisherQuery/setDetail";
@@ -220,13 +211,12 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/checkExsitPaymentTrack", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkExsitPaymentTrack(
-			@RequestParam("commodityid") String commodityid) throws IOException {
+	public String checkExsitPaymentTrack(@RequestParam("commodityid") String commodityid) throws IOException {
 		PubpaymentTrack example = new PubpaymentTrack();
 		example.setDeleteflag((short) 0);
 		int totalnum = paymenttrackservice.getTrackNum(example);
-		List<PubpaymentTrack> paymentlist = paymenttrackservice
-				.getTrackInfoByPage(1 + "", totalnum + "", example);
+		List<PubpaymentTrack> paymentlist = paymenttrackservice.getTrackInfoByPage(1 + "", totalnum + "",
+				example);
 		for (PubpaymentTrack temp : paymentlist) {
 			if (commodityid.equals(temp.getCommodityid())) {
 				return "true";
@@ -245,26 +235,22 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/addPaymentTrack", method = RequestMethod.POST)
 	@ResponseBody
-	public String addPaymentTrack(PubpaymentTrack example, HttpSession session)
-			throws IOException {
+	public String addPaymentTrack(PubpaymentTrack example, HttpSession session) throws IOException {
 		log.info("增加发行货款跟踪信息");
 		try {
 			log.debug(example.toString());
-			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
-					.getUserID();
+			String userId = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
 			example.setDeleteflag((short) 0);
 			example.setCreateperson(userId);
 			example.setCreatedate(new Date());
 			int num = paymenttrackservice.insertTrack(example);
 			if (num == 1) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-						"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_SUCC, "", session,
-						systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行商货款跟踪",
+						WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 				return "true";
 			}
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-					"IPO发行商货款跟踪", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
-					systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行商货款跟踪",
+					WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 			return "false";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -281,8 +267,7 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/checkFundsAvailable", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkFundsAvailable(
-			@RequestParam("brokerid") String brokerid,
+	public String checkFundsAvailable(@RequestParam("brokerid") String brokerid,
 			@RequestParam("amount") String amount) {
 		String dealId = spoService.getFirmid(brokerid);
 		return spoService.checkFundsAvailable(dealId, new BigDecimal(amount));
@@ -297,15 +282,13 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/transferPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String transferPosition(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, VIpoStorageExtended storage)
-			throws IOException {
+	public String transferPosition(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			VIpoStorageExtended storage) throws IOException {
 		log.info("分页查询转持仓信息");
 		log.debug(storage.toString());
 		try {
 			storage.setStoragestate(4);
-			List<VIpoStorageExtended> tlist = ipoStorageService.selectBySale(
-					page, rows, storage);
+			List<VIpoStorageExtended> tlist = ipoStorageService.selectBySale(page, rows, storage);
 			int totalnums = ipoStorageService.getSaleTotalNum(storage);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(totalnums);
@@ -326,14 +309,10 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/addTransferPosition", method = RequestMethod.GET)
-	public String addTransferPosition(
-			@RequestParam("storageid") String storageid,
-			HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		VIpoStorageExtended storage = ipoStorageService
-				.getStorageByStorageId(storageid);
-		VIpoCommConf comm = ipoCommConfService.getVIpoCommConfByCommid(storage
-				.getCommodityid());
+	public String addTransferPosition(@RequestParam("storageid") String storageid, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		VIpoStorageExtended storage = ipoStorageService.getStorageByStorageId(storageid);
+		VIpoCommConf comm = ipoCommConfService.getVIpoCommConfByCommid(storage.getCommodityid());
 		request.setAttribute("entity", storage);
 		request.setAttribute("flag", "add");
 		request.setAttribute("comm", comm);
@@ -348,14 +327,10 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/updateTransferPosition", method = RequestMethod.GET)
-	public String updateTransferPosition(
-			@RequestParam("storageid") String storageid,
-			HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		PublisherPosition tposition = publisherpositionService
-				.getInfoByStorageId(storageid);
-		VIpoCommConf comm = ipoCommConfService
-				.getVIpoCommConfByCommid(tposition.getCommodityid());
+	public String updateTransferPosition(@RequestParam("storageid") String storageid,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PublisherPosition tposition = publisherpositionService.getInfoByStorageId(storageid);
+		VIpoCommConf comm = ipoCommConfService.getVIpoCommConfByCommid(tposition.getCommodityid());
 		request.setAttribute("entity", tposition);
 		request.setAttribute("flag", "update");
 		request.setAttribute("comm", comm);
@@ -371,10 +346,8 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/checkSaleCounts", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkSaleCounts(
-			@RequestParam("salecounts") String salecounts,
-			@RequestParam("commodityid") String commodityid,
-			@RequestParam("counts") String counts) {
+	public String checkSaleCounts(@RequestParam("salecounts") String salecounts,
+			@RequestParam("commodityid") String commodityid, @RequestParam("counts") String counts) {
 		long lnum = publisherpositionService.getSaleCounts(commodityid);
 		long lcounts = Long.parseLong(counts);
 		long lsalecounts = Long.parseLong(salecounts);
@@ -393,8 +366,7 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/addPublisherPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String addPublisherPosition(PublisherPosition example,
-			HttpServletRequest request) {
+	public String addPublisherPosition(PublisherPosition example, HttpServletRequest request) {
 
 		String userId = this.getLoginUserId(request);
 		example.setStatus((short) 1);
@@ -402,14 +374,12 @@ public class PublisherController {
 		example.setCreatedate(new Date());
 		int num = publisherpositionService.insertPubPoition(example);
 		if (num == 1) {
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-					"IPO发行库存转持仓新增设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-					request.getSession(), systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓新增设置信息成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(), systemService);
 			return "true";
 		}
-		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-				"IPO发行库存转持仓新增设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-				request.getSession(), systemService);
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓新增设置信息失败",
+				WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(), systemService);
 		return "false";
 	}
 
@@ -422,8 +392,7 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/updatePublisherPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String updatePublisherPosition(PublisherPosition example,
-			HttpServletRequest request) {
+	public String updatePublisherPosition(PublisherPosition example, HttpServletRequest request) {
 		if (example.getStatus() == 1) {
 			String userId = this.getLoginUserId(request);
 			// example.setStatus((short) 1);
@@ -431,15 +400,13 @@ public class PublisherController {
 			example.setUpdatedate(new Date());
 			int num = publisherpositionService.updatePubPoition(example);
 			if (num == 1) {
-				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-						"IPO发行库存转持仓修改设置信息成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-						request.getSession(), systemService);
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓修改设置信息成功",
+						WriteLog.SYS_LOG_OPE_SUCC, "", request.getSession(), systemService);
 				return "true";
 			}
 		}
-		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-				"IPO发行库存转持仓修改设置信息失败", WriteLog.SYS_LOG_OPE_FAILURE, "",
-				request.getSession(), systemService);
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓修改设置信息失败",
+				WriteLog.SYS_LOG_OPE_FAILURE, "", request.getSession(), systemService);
 		return "false";
 	}
 
@@ -452,26 +419,20 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/frozenFunds", method = RequestMethod.POST)
 	@ResponseBody
-	public String frozenFunds(@RequestParam("storageid") String storageid,
-			HttpSession session) {
-		PublisherPosition record = publisherpositionService
-				.getInfoByStorageId(storageid);
-		Specialcounterfee specialfee = publisherpositionService
-				.getSpecialCounterfee(record.getPublisherid(),
-						record.getCommodityid(), "3");// 获取交易商的特殊发行手续费比例
-		VIpoCommConf commodity = ipoCommConfService
-				.getVIpoCommConfByCommid(record.getCommodityid());
+	public String frozenFunds(@RequestParam("storageid") String storageid, HttpSession session) {
+		PublisherPosition record = publisherpositionService.getInfoByStorageId(storageid);
+		Specialcounterfee specialfee = publisherpositionService.getSpecialCounterfee(record.getPublisherid(),
+				record.getCommodityid(), "3");// 获取交易商的特殊发行手续费比例
+		VIpoCommConf commodity = ipoCommConfService.getVIpoCommConfByCommid(record.getCommodityid());
 		BigDecimal totalValue = record.getTotalvalue();// 鉴定总值
 		BigDecimal funds = (new BigDecimal(record.getSalecounts())
-				.add(new BigDecimal(record.getSubscricounts())))
-				.multiply(commodity.getPrice());// 货款
+				.add(new BigDecimal(record.getSubscricounts()))).multiply(commodity.getPrice());// 货款
 		BigDecimal interest = new BigDecimal(0);// 发行手续费
 		if (specialfee != null) {
 			Short tradealgr = specialfee.getTradealgr();
 			BigDecimal ratio = specialfee.getCounterfee();
 			if (tradealgr == 1) {// 百分比算法
-				interest = totalValue.multiply(ratio).divide(
-						new BigDecimal(100));
+				interest = totalValue.multiply(ratio).divide(new BigDecimal(100));
 			}
 			if (tradealgr == 2) {// 绝对值算法
 				interest = ratio;
@@ -480,33 +441,28 @@ public class PublisherController {
 			Short publishalgr = commodity.getPublishalgr();// 发行手续费算法
 			BigDecimal ratio = commodity.getPublishercharatio();// 发行商发行手续费比例
 			if (publishalgr == 1) {// 百分比算法
-				interest = totalValue.multiply(ratio).divide(
-						new BigDecimal(100));
+				interest = totalValue.multiply(ratio).divide(new BigDecimal(100));
 			}
 			if (publishalgr == 2) {// 绝对值算法
 				interest = ratio;
 			}
 		}
-		String message = publisherpositionService.frozenFunds(
-				record.getPublisherid(), interest);// 冻结客户手续费
+		String message = publisherpositionService.frozenFunds(record.getPublisherid(), interest);// 冻结客户手续费
 		if ("true".equals(message)) {
 			record.setStatus((short) 2);
 			record.setUpdatedate(new Date());
-			record.setUpdater(((UserManageVO) session
-					.getAttribute("CurrentUser")).getUserID());
+			record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser")).getUserID());
 			publisherpositionService.updateStatus(record);
 			publisherpositionService.insertPoundage(record, interest);
 			publisherpositionService.insertLoan(record, funds);
 			// 插入持仓流水记录
 			publisherpositionService.insertPositionFlow(record);
-			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-					"IPO发行库存转持仓冻结费用成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
-					systemService);
+			WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓冻结费用成功",
+					WriteLog.SYS_LOG_OPE_SUCC, "", session, systemService);
 			return "true";
 		}
-		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID,
-				"IPO发行库存转持仓冻结费用失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
-				systemService);
+		WriteLog.writeOperateLog(WriteLog.SYS_LOG_PUBLISH_CATALOGID, "IPO发行库存转持仓冻结费用失败",
+				WriteLog.SYS_LOG_OPE_FAILURE, "", session, systemService);
 		return "false";
 	}
 
@@ -517,7 +473,7 @@ public class PublisherController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/transfer", method = RequestMethod.POST)
 	@ResponseBody
 	public String transferPosition(@RequestParam("storageid") String storageid,
 			HttpSession session) {
@@ -529,7 +485,7 @@ public class PublisherController {
 		record.setUpdater(((UserManageVO) session.getAttribute("CurrentUser"))
 				.getUserID());
 		return publisherpositionService.transferPosition(record);
-	}
+	}*/
 
 	/**
 	 * 减持设置查询
@@ -540,20 +496,17 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/reduceHoldPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String reduceHoldPosition(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, PubPositionFlow example)
-			throws IOException {
+	public String reduceHoldPosition(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			PubPositionFlow example) throws IOException {
 		log.info("查询发行商转持仓流水记录");
 		try {
-			example.setBusinessCode(ChargeConstant.BusinessType.PUBLISH
-					.getCode());
+			example.setBusinessCode(ChargeConstant.BusinessType.PUBLISH.getCode());
 			example.setRoleCode(ChargeConstant.RoleType.PUBLISHER.getCode());
 			example.setState(PositionConstant.FlowState.turn_goods.getCode());
 			long count = positionService.queryPubFlowForCount(example);
 			List<PubPositionFlow> dataList = new ArrayList<PubPositionFlow>();
 			if (count > 0) {
-				dataList = positionService.queryPubFlowForPage(page, rows,
-						example);
+				dataList = positionService.queryPubFlowForPage(page, rows, example);
 			}
 			ResponseResult result = new ResponseResult();
 			result.setTotal(new Long(count).intValue());
@@ -574,21 +527,19 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/transferQuery", method = RequestMethod.POST)
 	@ResponseBody
-	public String transferQuery(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, PublisherPosition transposition)
-			throws IOException {
+	public String transferQuery(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			PublisherPosition transposition) throws IOException {
 		log.info("分页查询已设置的转持仓信息");
 		log.debug(transposition.toString());
 		try {
 			ResponseResult result = new ResponseResult();
-			int totalnums = publisherpositionService
-					.getPubPositionNum(transposition);
+			int totalnums = publisherpositionService.getPubPositionNum(transposition);
 			if (totalnums == 0) {
 				result.setTotal(0);
 				result.setRows(null);
 			} else {
-				List<PublisherPosition> tlist = publisherpositionService
-						.getInfoByPage(page, rows, transposition);
+				List<PublisherPosition> tlist = publisherpositionService.getInfoByPage(page, rows,
+						transposition);
 				result.setTotal(totalnums);
 				result.setRows(tlist);
 			}
@@ -608,8 +559,7 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/reduceSet", method = RequestMethod.GET)
-	public String reduceSet(@RequestParam("id") String id,
-			HttpServletRequest request) throws IOException {
+	public String reduceSet(@RequestParam("id") String id, HttpServletRequest request) throws IOException {
 		log.info("跳转持仓单号对应的减持设置信息视图");
 		try {
 			request.setAttribute("id", id);
@@ -629,16 +579,14 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/reduceSetList", method = RequestMethod.GET)
 	@ResponseBody
-	public String reduceSetList(@RequestParam("page") String page,
-			@RequestParam("rows") String rows, @RequestParam("id") String id)
-			throws IOException {
+	public String reduceSetList(@RequestParam("page") String page, @RequestParam("rows") String rows,
+			@RequestParam("id") String id) throws IOException {
 		log.info("查询持仓单号对应的减持设置列表");
 		try {
 			PositionReduce positionReduce = new PositionReduce();
 			positionReduce.setPositionFlowId(Long.valueOf(id));
 			List<PositionReduce> dataList = new ArrayList<PositionReduce>();
-			dataList = positionService.queryReduceForListByPage(page, rows,
-					positionReduce);
+			dataList = positionService.queryReduceForListByPage(page, rows, positionReduce);
 			ResponseResult result = new ResponseResult();
 			result.setTotal(positionService.queryReduceCount(positionReduce));
 			result.setRows(dataList);
@@ -658,8 +606,7 @@ public class PublisherController {
 	 */
 	@RequestMapping(value = "/addReduce")
 	public String addReduce(HttpServletRequest request, Model model) {
-		Long positionFlowId = Long.valueOf(request
-				.getParameter("positionFlowId"));
+		Long positionFlowId = Long.valueOf(request.getParameter("positionFlowId"));
 		PositionFlow flow = positionService.findFlow(positionFlowId);
 		model.addAttribute("flow", flow);
 
@@ -674,8 +621,7 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/settleReports", method = RequestMethod.GET)
-	public String settleReports(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String settleReports(HttpServletRequest request, HttpServletResponse response) {
 		List<VBrBroker> brokers = brBrokerService.findAllPublisher();
 		request.setAttribute("brokerlist", brokers);
 		return "app/publisherQuery/settleReports";
@@ -689,10 +635,8 @@ public class PublisherController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/showSettleLists", method = RequestMethod.GET)
-	public String showSettleLists(HttpServletRequest request,
-			HttpServletResponse response,
-			@RequestParam("publisherid") String publisherid,
-			@RequestParam("queryDate") String queryDate) {
+	public String showSettleLists(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("publisherid") String publisherid, @RequestParam("queryDate") String queryDate) {
 		List<VBrBroker> brokers = brBrokerService.findAllPublisher();
 		List<SettleResult> settles = new ArrayList<SettleResult>();
 		if (!"".equals(publisherid)) {
@@ -720,11 +664,9 @@ public class PublisherController {
 	 * 获取每个交易商的报表内容
 	 */
 	public SettleResult getSettle(String publisherid, String queryDate) {
-		PublisherBalance balance = brBrokerService.findBalance(publisherid,
-				queryDate);// 上日和今日资金余额
+		PublisherBalance balance = brBrokerService.findBalance(publisherid, queryDate);// 上日和今日资金余额
 		// 获取货款和手续费
-		List<PublisherSettle> paylist = brBrokerService.findLoanAndHandling(
-				publisherid, queryDate);
+		List<PublisherSettle> paylist = brBrokerService.findLoanAndHandling(publisherid, queryDate);
 		BigDecimal totalLoan = new BigDecimal(0);
 		for (PublisherSettle temp : paylist) {
 			if (temp.getLoan() == null) {
@@ -742,8 +684,7 @@ public class PublisherController {
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
-				"CurrentUser");
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
 			return user.getUserID();
 		}

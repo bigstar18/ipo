@@ -59,5 +59,13 @@
   <select id="findAllCom" resultType="java.lang.String">
   	 select distinct(t.commodityid) from T_FirmHoldSum t 
   </select>
+  
+  <select id="selectSumByComm" resultType="java.lang.Integer" parameterType="java.lang.String">
+ 	select nvl(sum(t.holdqty),0) from T_FirmHoldSum t where t.commodityid = #{commodityid,jdbcType=VARCHAR}
+  </select>
+ 
+  <select id="selectPositionList" resultType="com.yrdce.ipo.modules.sys.entity.TFirmHoldSum" parameterType="java.lang.String">
+	 select * from T_FirmHoldSum t where COMMODITYID = #{commodityid,jdbcType=VARCHAR} 
+  </select>
  
 </mapper>

@@ -192,5 +192,15 @@
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error/404.jsp</location>
 	</error-page>
+	
+	<servlet>
+  		<servlet-name>ModularServlet</servlet-name>
+  		<servlet-class>com.yrdce.ipo.modules.sys.web.ModularServlet</servlet-class>
+  	</servlet>
+  
+  	<servlet-mapping>
+  		<servlet-name>ModularServlet</servlet-name>
+  		<url-pattern>/ModularServlet</url-pattern>
+ 	</servlet-mapping>
 
 </web-app>

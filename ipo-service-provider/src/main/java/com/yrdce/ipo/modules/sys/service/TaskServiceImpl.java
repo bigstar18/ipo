@@ -26,10 +26,10 @@ import com.yrdce.ipo.modules.sys.dao.IpoNumberofrecordsMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOrderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPayFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoPositionFlowMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpecialcounterfeeMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoCommoditymanmaagementMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSpoRationMapper;
+import com.yrdce.ipo.modules.sys.dao.TFirmHoldSumMaper;
 import com.yrdce.ipo.modules.sys.entity.IpoBallotNoInfo;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodity;
 import com.yrdce.ipo.modules.sys.entity.IpoCommodityConf;
@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	private IpoCommodityConfMapper commodityConfMapper;
 	@Autowired
-	private IpoPositionMapper ipoPositionMapper;
+	private TFirmHoldSumMaper tFirmHoldSumMaper;
 	@Autowired
 	private IpoPositionFlowMapper positionFlowMapper;
 	@Autowired
@@ -440,10 +440,10 @@ public class TaskServiceImpl implements TaskService {
 				long otration = ipospocomm.getNotRationCounts();
 				logger.debug(">>>>>>>>>>>>>>>>>>otration:" + otration);
 				// 商品在持仓中的总量(现货持仓)
-				int sum = ipoPositionMapper.selectSumByComm(commodityid);
+				int sum = tFirmHoldSumMaper.selectSumByComm(commodityid);
 				logger.debug(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
-				List<TFirmHoldSum> tFirmholdsumslist = ipoPositionMapper.selectPositionList(commodityid);
+				List<TFirmHoldSum> tFirmholdsumslist = tFirmHoldSumMaper.selectPositionList(commodityid);
 				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
 					String firmid = tFirmholdsums.getFirmId();
 					logger.debug(">>>>>>>>>>>>>>>>>>firmid:" + firmid);

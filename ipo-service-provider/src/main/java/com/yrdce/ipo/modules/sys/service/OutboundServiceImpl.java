@@ -15,7 +15,6 @@ import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoExpressMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoOutboundMapper;
-import com.yrdce.ipo.modules.sys.dao.IpoPositionMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryCost;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
 import com.yrdce.ipo.modules.sys.entity.IpoExpress;
@@ -39,8 +38,6 @@ public class OutboundServiceImpl implements OutboundService {
 
 	@Autowired
 	private IpoWarehouseStockMapper ipoWarehouseStockMapper;
-	@Autowired
-	private IpoPositionMapper ipoPositionMapper;
 
 	@Autowired
 	@Qualifier("customerHoldSumService")
@@ -57,8 +54,7 @@ public class OutboundServiceImpl implements OutboundService {
 	private IpoExpressMapper ipoExpressMapper;
 
 	@Override
-	public List<OutboundExtended> getAllOutboundInfo(String page, String rows,
-			OutboundExtended record) {
+	public List<OutboundExtended> getAllOutboundInfo(String page, String rows, OutboundExtended record) {
 		Log.info("分页查询出库单服务");
 		page = (page == null ? "1" : page);
 		rows = (rows == null ? "5" : rows);
@@ -76,8 +72,7 @@ public class OutboundServiceImpl implements OutboundService {
 			}
 			Log.info("调用后台服务" + example.toString());
 			List<IpoOutboundExtended> storageslist = ipoOutboundMapper
-					.findOutboundsByPage((curpage - 1) * pagesize + 1, curpage
-							* pagesize, example);
+					.findOutboundsByPage((curpage - 1) * pagesize + 1, curpage * pagesize, example);
 			List<OutboundExtended> storageslist2 = new ArrayList<OutboundExtended>();
 			for (int i = 0; i < storageslist.size(); i++) {
 				OutboundExtended temp = new OutboundExtended();
@@ -121,18 +116,14 @@ public class OutboundServiceImpl implements OutboundService {
 			ipoOutboundMapper.updateOutBoundInfo(ipoOutbound);
 			Log.info("修改出库单状态" + ipoOutbound.getOutboundstate());
 			if (ipoOutbound.getOutboundstate() == 2) {
-				deliveryorder.setDeliveryorderId(ipoOutbound
-						.getOutboundorderid());
-				deliveryorder
-						.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEPASS
-								.getCode());
+				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
+				deliveryorder.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSEPASS.getCode());
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 			} else if (ipoOutbound.getOutboundstate() == 3) {
 				IpoDeliveryorder deliveryorderInfo = ipoDeliveryorderMapper
 						.selectByPrimaryKey(outbound.getDeliveryorderid());
 				IpoDeliveryCost cost = ipoDeliveryCostMapper
-						.selectByPrimaryKey(deliveryorderInfo
-								.getDeliveryorderId());
+						.selectByPrimaryKey(deliveryorderInfo.getDeliveryorderId());
 				if (cost == null) {
 					return 0;
 				}
@@ -140,38 +131,29 @@ public class OutboundServiceImpl implements OutboundService {
 				String wareHouseId = deliveryorderInfo.getWarehouseId();
 				String firmId = deliveryorderInfo.getDealerId();
 				// 解冻客户持仓
-				customerHoldSumService.unfreezeCustomerHold(
-						deliveryorderInfo.getDeliveryQuatity(), firmId + "00",
-						tempCommId, (short) 1);
+				customerHoldSumService.unfreezeCustomerHold(deliveryorderInfo.getDeliveryQuatity(),
+						firmId + "00", tempCommId, (short) 1);
 				// 解冻库存
-				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper
-						.selectByCommoId(tempCommId,
-								Long.parseLong(wareHouseId));
-				long forzennum = ipoWarehouseStock.getForzennum()
-						- deliveryorderInfo.getDeliveryQuatity();
+				IpoWarehouseStock ipoWarehouseStock = ipoWarehouseStockMapper.selectByCommoId(tempCommId,
+						Long.parseLong(wareHouseId));
+				long forzennum = ipoWarehouseStock.getForzennum() - deliveryorderInfo.getDeliveryQuatity();
 				long availablenum = ipoWarehouseStock.getAvailablenum()
 						+ deliveryorderInfo.getDeliveryQuatity();
 				ipoWarehouseStock.setAvailablenum(availablenum);
 				ipoWarehouseStock.setForzennum(forzennum);
 				ipoWarehouseStockMapper.updateInfo(ipoWarehouseStock);
 				// 修改状态
-				deliveryorder.setDeliveryorderId(ipoOutbound
-						.getOutboundorderid());
-				deliveryorder
-						.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSENOPASS
-								.getCode());
+				deliveryorder.setDeliveryorderId(ipoOutbound.getOutboundorderid());
+				deliveryorder.setApprovalStatus(DeliveryConstant.StatusType.WAREHOUSENOPASS.getCode());
 				ipoDeliveryorderMapper.updateStatus(deliveryorder);
 				// 解冻注册费
-				underwritersubscribeService.unfreeFunds(firmId,
-						cost.getRegistrationFee());
+				underwritersubscribeService.unfreeFunds(firmId, cost.getRegistrationFee());
 				// 配送的单子还需解冻配送费
 				String method = deliveryorderInfo.getDeliveryMethod();
 				if (method.equals("在线配送")) {
-					IpoExpress express = ipoExpressMapper
-							.selectByPrimaryKey(deliveryorderInfo.getMethodId());
+					IpoExpress express = ipoExpressMapper.selectByPrimaryKey(deliveryorderInfo.getMethodId());
 					if (express != null) {
-						underwritersubscribeService.unfreeFunds(firmId,
-								express.getCost());
+						underwritersubscribeService.unfreeFunds(firmId, express.getCost());
 					}
 				}
 			}
@@ -199,15 +181,13 @@ public class OutboundServiceImpl implements OutboundService {
 
 	@Override
 	public int updateOutBoundState(Integer outboundstate, String outboundorderid) {
-		return ipoOutboundMapper.updateOutBoundState(outboundstate,
-				outboundorderid);
+		return ipoOutboundMapper.updateOutBoundState(outboundstate, outboundorderid);
 	}
 
 	@Override
 	public Outbound getOutboundOrder(String outboundOrderId) {
 		Outbound outbound = null;
-		IpoOutbound ipoOutbound = ipoOutboundMapper
-				.selectByPrimaryKey(outboundOrderId);
+		IpoOutbound ipoOutbound = ipoOutboundMapper.selectByPrimaryKey(outboundOrderId);
 		Log.info("ipoOutbound.id[" + outboundOrderId + "]:" + ipoOutbound);
 		if (ipoOutbound != null) {
 			outbound = new Outbound();
