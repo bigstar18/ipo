@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryCommodityService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
@@ -26,7 +25,6 @@ import com.yrdce.ipo.modules.sys.service.SystemService;
 import com.yrdce.ipo.modules.sys.service.UnderwriterSubscribeService;
 import com.yrdce.ipo.modules.sys.util.WriteLog;
 import com.yrdce.ipo.modules.sys.vo.DeliveryCommodity;
-import com.yrdce.ipo.modules.sys.vo.DeliveryCost;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 import com.yrdce.ipo.modules.sys.vo.IpoDeliveryProp;
 import com.yrdce.ipo.modules.sys.vo.MProperty;
@@ -384,52 +382,18 @@ public class DeliveryController {
 
 			String userId = ((UserManageVO) session.getAttribute("CurrentUser"))
 					.getUserID();
-			String deliveryid = deorder.getDeliveryorderId();
-			DeliveryOrder record = deliveryorderservice
-					.getDeliveryOrderByDeliOrderID(deliveryid);
-			if ((DeliveryConstant.StatusType.REGISTER.getCode()).equals(record
-					.getApprovalStatus())) {
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETPASS.getCode())) {
-					String result = deliveryorderservice.updateDeliveryOrder(
-							deorder, userId);
-					if (result.equals("true")) {
-						deliveryorderservice.frozenStock(deorder);
-						WriteLog.writeOperateLog(
-								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-								"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session, systemService);
-						return "true";
-					}
-				}
-				if (deorder.getApprovalStatus().equals(
-						DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
-					String result = deliveryorderservice.updateDeliveryOrder(
-							deorder, userId);
-					if (result.equals("true")) {
-						customerHoldSumService.unfreezeCustomerHold(
-								deorder.getDeliveryQuatity(),
-								deorder.getDealerId() + "00",
-								deorder.getCommodityId(), (short) 1);
-						DeliveryCost cost = deliveryorderservice
-								.getCostByDeliveryOrder(deorder);
-						if (cost != null) {
-							underwritersubscribeService.unfreeFunds(
-									deorder.getDealerId(),
-									cost.getRegistrationFee());
-						}
-						WriteLog.writeOperateLog(
-								WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-								"ipo市场审核提货单成功", WriteLog.SYS_LOG_OPE_SUCC, "",
-								session, systemService);
-						return "true";
-					}
-				}
+			String result = deliveryorderservice.updateDeliveryOrder(deorder,
+					userId);
+			if ("true".equals(result)) {
+				WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
+						"ipo市场撤销审核单成功", WriteLog.SYS_LOG_OPE_SUCC, "", session,
+						systemService);
+				return result;
 			}
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
-					"ipo市场审核提货单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
+					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
 					systemService);
-			return "false";
+			return result;
 		} catch (Exception e) {
 			log.error("市场审核提货单error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
@@ -465,7 +429,7 @@ public class DeliveryController {
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,
 					"ipo市场撤销审核单失败", WriteLog.SYS_LOG_OPE_FAILURE, "", session,
 					systemService);
-			return "false";
+			return result;
 		} catch (Exception e) {
 			log.error("ipo撤销审核单error:", e);
 			WriteLog.writeOperateLog(WriteLog.SYS_LOG_DELIVERY_CATALOGID,

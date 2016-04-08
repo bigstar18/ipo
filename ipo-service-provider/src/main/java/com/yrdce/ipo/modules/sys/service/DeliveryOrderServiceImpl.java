@@ -159,15 +159,36 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Override
 	@Transactional
-	public String updateDeliveryOrder(DeliveryOrder order, String managerId) {
+	public String updateDeliveryOrder(DeliveryOrder deorder, String managerId) {
 		Log.info("审核提货单服务");
-		IpoDeliveryorder deorder = new IpoDeliveryorder();
-		if (order != null) {
-			BeanUtils.copyProperties(order, deorder);
-			deorder.setApproveDate(new Date());
-			deorder.setApprovers(managerId);
-			deliveryordermapper.updateByPrimaryKey(deorder);
-			return "true";
+		String deliveryid = deorder.getDeliveryorderId();
+		IpoDeliveryorder record = deliveryordermapper
+				.selectByPrimaryKey(deliveryid);
+		if ((DeliveryConstant.StatusType.REGISTER.getCode()).equals(record
+				.getApprovalStatus())) {
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+				record.setApproveDate(new Date());
+				record.setApprovers(managerId);
+				deliveryordermapper.updateByPrimaryKey(record);
+				this.frozenStock(deorder);
+				return "true";
+			}
+			if (deorder.getApprovalStatus().equals(
+					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+				record.setApproveDate(new Date());
+				record.setApprovers(managerId);
+				deliveryordermapper.updateByPrimaryKey(record);
+				customerHoldSumService.unfreezeCustomerHold(
+						deorder.getDeliveryQuatity(), deorder.getDealerId()
+								+ "00", deorder.getCommodityId(), (short) 1);
+				DeliveryCost cost = this.getCostByDeliveryOrder(deorder);
+				if (cost != null) {
+					underwritersubscribeService.unfreeFunds(
+							deorder.getDealerId(), cost.getRegistrationFee());
+				}
+				return "true";
+			}
 		}
 		return "false";
 	}

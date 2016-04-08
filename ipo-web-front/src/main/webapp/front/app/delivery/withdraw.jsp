@@ -57,7 +57,7 @@ body {
 		</div>
 		<div class="warning">
 			<div class="title font_orange_14b">温馨提示 :</div>
-			<div class="content">在此页面上提交提货单，星号为必填项，请选择合适提货日期。</div>
+			<div class="content">在此页面上提交提货单，*号为必填项，请选择合适提货日期。</div>
 		</div>
 		<div class="mbodytop">
 			<div class="panel-title panel-with-icon">提货信息</div>
