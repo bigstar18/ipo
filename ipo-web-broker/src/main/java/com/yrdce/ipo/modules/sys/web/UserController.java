@@ -17,8 +17,6 @@ import com.yrdce.ipo.integrate.ActiveUserManager;
 import com.yrdce.ipo.modules.sys.service.BrBrokerService;
 import com.yrdce.ipo.modules.sys.vo.VBrBroker;
 
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 /**
  * 用户
  * 
@@ -56,7 +54,8 @@ public class UserController {
 
 	@RequestMapping(value = "/brokerType", method = RequestMethod.GET)
 	public String brokerType(HttpSession session, Model model) {
-		String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+		//String brokerid = ((UserManageVO) session.getAttribute("CurrentUser")).getUserID();
+		String brokerid = "SC";
 		VBrBroker broker = brBrokerService.queryBrokerById(brokerid);
 		//0：经纪会员 1：发行会员  2：承销会员
 		String type = broker.getMembertype().toString();

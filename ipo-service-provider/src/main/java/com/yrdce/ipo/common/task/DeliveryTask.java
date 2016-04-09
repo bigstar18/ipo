@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryorderMapper;
 import com.yrdce.ipo.modules.sys.entity.IpoDeliveryorder;
+import com.yrdce.ipo.modules.sys.service.CustomerHoldSumService;
 import com.yrdce.ipo.modules.sys.service.DeliveryOrderService;
 import com.yrdce.ipo.modules.sys.vo.DeliveryOrder;
 
@@ -32,6 +33,9 @@ public class DeliveryTask {
 	@Autowired
 	@Qualifier("deliveryorderservice")
 	private DeliveryOrderService deliveryorderservice;
+	@Autowired
+	@Qualifier("customerHoldSumService")
+	private CustomerHoldSumService customerHoldSumService;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -60,6 +64,11 @@ public class DeliveryTask {
 						DeliveryOrder deliveryOrder = new DeliveryOrder();
 						BeanUtils.copyProperties(ipoDeliveryorder, deliveryOrder);
 						deliveryorderservice.unfrozenStock(deliveryOrder);
+						long quatity = ipoDeliveryorder.getDeliveryQuatity();
+						String firmid = ipoDeliveryorder.getDealerId();
+						String commodityid = ipoDeliveryorder.getCommodityId();
+						customerHoldSumService.unfreezeCustomerHold(quatity, firmid + "00", commodityid,
+								(short) 1);
 					}
 					ipoDeliveryorderMapper.updateByStatus(id, DeliveryConstant.StatusType.CANCEL.getCode());
 				}

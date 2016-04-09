@@ -62,6 +62,7 @@
     <bean id="SPOTask" class="com.yrdce.ipo.common.task.SPOTask"></bean>
     <bean id="brokerTask" class="com.yrdce.ipo.common.task.BrokerTask"></bean>
     <bean id="reportFormTask" class="com.yrdce.ipo.common.task.ReportFormTask"></bean>
+    <bean id="deliveryTask" class="com.yrdce.ipo.common.task.DeliveryTask"></bean>
     
     <task:scheduled-tasks>  
     <!-- 这里表示的是几点开始执行任务-->  
@@ -77,6 +78,9 @@
     <task:scheduled ref="SPOTask" method="placing" cron="0 10 0 * * ?" />
     <task:scheduled ref="SPOTask" method="automaticFail" cron="0 15 0 * * ?" />
     <task:scheduled ref="SPOTask" method="updateStatu" cron="0 17 0 * * ?" />
+    
+    <!-- 交收任务 -->
+    <task:scheduled ref="deliveryTask" method="cancellation" cron="0 1 0 * * ?" />
     
     <!-- 经纪会员 报表汇总相关任务   -->
     <task:scheduled ref="brokerTask" method="releasesub" cron="0 0 22 * * ?" />
