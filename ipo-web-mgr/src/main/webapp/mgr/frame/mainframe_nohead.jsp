@@ -7,12 +7,10 @@
 	<% response.addHeader("P3P","CP=CAO PSA OUR"); %>
 		<title>交易管理系统</title>
 	</head>
-	<frameset id=middle cols="185,10,*" frameborder="NO" border="0"
+	<frameset id="middle" cols="220,*" frameborder="NO" border="0"
 		framespacing="0">
 		<frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
-			scrolling="NO" noresize APPLICATION="yes">
-		<frame src="<%=framePath%>/shrinkbar.jsp" name="mainSwitch"
-			scrolling="NO" noresize APPLICATION="yes" id="mainSwitch">
+			scrolling="yes" marginwidth="0" marginheight="0" noresize APPLICATION="yes">
 		<frame src="<%=framePath%>/rightframe.jsp"
 			name="workspace" APPLICATION="yes">
 	</frameset>
