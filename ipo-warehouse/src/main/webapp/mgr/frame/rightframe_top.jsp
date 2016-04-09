@@ -4,8 +4,8 @@
 <input type="hidden" name="tree" id="tree"/>
 <table width="100%" border="0" cellspacing="0" class="rightframe_top" cellpadding="0">
   <tr>
-    <td height="20" align="left">&nbsp;&nbsp;&nbsp;当前位置：(商品发售系统)<span id="loc"></span></td>
+    <td height="20" align="left"><span id="loc"></span></td>
   </tr>
 </table>
- 
+
 </body>
