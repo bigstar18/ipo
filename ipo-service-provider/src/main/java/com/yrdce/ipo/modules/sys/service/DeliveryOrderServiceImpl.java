@@ -18,6 +18,7 @@ import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
+import com.yrdce.ipo.modules.sys.dao.HistorydaydataMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -50,6 +51,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
 	@Autowired
 	private IpoExpressMapper ipoexpressmapper;
+
+	@Autowired
+	private HistorydaydataMapper historydaydatamapper;
 
 	@Autowired
 	private IpoPickupMapper ipopickupmapper;
@@ -545,6 +549,9 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			if (("false").equals(flag)) {
 				return "fundshort";
 			}
+			com.yrdce.ipo.modules.sys.entity.Historydaydata example = new com.yrdce.ipo.modules.sys.entity.Historydaydata();
+			example.setCommodityid(commodity.getCommodityid());
+			historydaydatamapper.selectByExample(example);
 			debitFlow.setAmount(funds);
 			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
 					.getCode());

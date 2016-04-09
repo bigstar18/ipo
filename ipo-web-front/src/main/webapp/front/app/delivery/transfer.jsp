@@ -57,6 +57,7 @@ function doSearch(){
 					break;
 				case "003001":
 					$("#approvalStatus").val("已打印");
+					$("#add").val("过户");
 					break;
 				case "003001001":
 					$("#approvalStatus").val("已过户");

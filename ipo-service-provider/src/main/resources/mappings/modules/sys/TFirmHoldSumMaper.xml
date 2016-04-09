@@ -46,7 +46,7 @@
      select count(1) as count_ from T_FirmHoldSum t where 1=1 
       
      <if test="param.firmId!=null and param.firmId!='' ">
-		   t.firmid=#{param.firmId}
+		and   t.firmid=#{param.firmId}
 	 </if>
      <if test="param.bsFlag>0">
 		  and t.bs_flag=#{param.bsFlag}
