@@ -17,8 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esotericsoftware.minlog.Log;
 import com.yrdce.ipo.common.constant.ChargeConstant;
 import com.yrdce.ipo.common.constant.DeliveryConstant;
+import com.yrdce.ipo.hq.dao.CurrentdataMapper;
+import com.yrdce.ipo.hq.entity.Currentdata;
 import com.yrdce.ipo.modules.sys.dao.FFirmfundsMapper;
-import com.yrdce.ipo.modules.sys.dao.HistorydaydataMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoCommodityConfMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDebitFlowMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoDeliveryCostMapper;
@@ -53,7 +54,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 	private IpoExpressMapper ipoexpressmapper;
 
 	@Autowired
-	private HistorydaydataMapper historydaydatamapper;
+	private CurrentdataMapper currentdatamapper;
 
 	@Autowired
 	private IpoPickupMapper ipopickupmapper;
@@ -542,16 +543,31 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				.findIpoCommConfByCommid(order.getCommodityId());
 		if (commodity != null) {
 			BigDecimal transferFee = commodity.getTransferfeeradio();
-			BigDecimal funds = new BigDecimal(order.getDeliveryQuatity())
-					.multiply(commodity.getPrice()).multiply(transferFee)
-					.divide(new BigDecimal(100));
+			List<Currentdata> daydatalist = currentdatamapper
+					.selectTransferPrice(order.getCommodityId(),
+							commodity.getDeliverycostbefore());
+			BigDecimal funds = new BigDecimal(0);
+			if (daydatalist == null || daydatalist.size() == 0) {
+				funds = new BigDecimal(order.getDeliveryQuatity())
+						.multiply(commodity.getPrice()).multiply(transferFee)
+						.divide(new BigDecimal(100));
+			} else {
+				BigDecimal transferPrice = new BigDecimal(0);
+				for (Currentdata temp : daydatalist) {
+					transferPrice = transferPrice.add(temp
+							.getYesterbalanceprice());
+				}
+				funds = new BigDecimal(order.getDeliveryQuatity())
+						.multiply(
+								transferPrice.divide(
+										new BigDecimal(daydatalist.size()), 2,
+										BigDecimal.ROUND_HALF_UP))
+						.multiply(transferFee).divide(new BigDecimal(100));
+			}
 			String flag = this.freezenFunds(order.getDealerId(), funds);
 			if (("false").equals(flag)) {
 				return "fundshort";
 			}
-			com.yrdce.ipo.modules.sys.entity.Historydaydata example = new com.yrdce.ipo.modules.sys.entity.Historydaydata();
-			example.setCommodityid(commodity.getCommodityid());
-			historydaydatamapper.selectByExample(example);
 			debitFlow.setAmount(funds);
 			debitFlow.setBusinessType(ChargeConstant.BusinessType.DELIVERY
 					.getCode());

@@ -20,10 +20,10 @@
       HOLDQTY, HOLDFUNDS, FLOATINGLOSS, 
       EVENPRICE, HOLDMARGIN, 
       GAGEQTY, HOLDASSURE)
-    values (#{firmid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, 
-      #{holdqty,jdbcType=DECIMAL}, #{holdfunds,jdbcType=DECIMAL}, #{floatingloss,jdbcType=DECIMAL}, 
-      #{evenprice,jdbcType=DECIMAL}, #{holdmargin,jdbcType=DECIMAL}, 
-      #{gageqty,jdbcType=DECIMAL}, #{holdassure,jdbcType=DECIMAL})
+    values (#{firmId,jdbcType=VARCHAR}, #{commodityId,jdbcType=VARCHAR}, #{bsFlag,jdbcType=DECIMAL}, 
+      #{holdqty,jdbcType=DECIMAL}, #{holdFunds,jdbcType=DECIMAL}, #{floatingLoss,jdbcType=DECIMAL}, 
+      #{evenPrice,jdbcType=DECIMAL}, #{holdMargin,jdbcType=DECIMAL}, 
+      #{gageqty,jdbcType=DECIMAL}, #{holdAssure,jdbcType=DECIMAL})
   </insert>
   
   

@@ -189,7 +189,7 @@ public class CustomerHoldSumServiceImpl implements CustomerHoldSumService {
 			int cresult = customerholdsumMapper.insert(record);
 			FirmHoldSum example = new FirmHoldSum();
 			example.setCommodityId(commodityid);
-			example.setFirmId(firmid);
+			example.setFirmId(customerid.substring(0, customerid.length() - 2));
 			example.setBsFlag(1);
 			long fnum = frimholdsumMapper.queryForCount(example);
 			int fresult = 0;

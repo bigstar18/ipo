@@ -93,6 +93,7 @@ public class TransferController {
 		try {
 			log.info("确认过户");
 			String firmId = (String) session.getAttribute("currentFirmId");
+			// String firmId = "000000003";
 			DeliveryOrder deorder = deliveryOrderService
 					.getDeliveryOrderByDeliOrderID(deliveryorderId);
 			if (deorder != null) {

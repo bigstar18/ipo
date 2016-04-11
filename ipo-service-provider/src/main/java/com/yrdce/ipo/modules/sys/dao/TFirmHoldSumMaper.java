@@ -13,16 +13,17 @@ public interface TFirmHoldSumMaper {
 
 	public long queryForCount(@Param("param") FirmHoldSum firmHoldSum);
 
-	public List<TFirmHoldSum> queryForList(@Param("param") FirmHoldSum firmHoldSum);
+	public List<TFirmHoldSum> queryForList(
+			@Param("param") FirmHoldSum firmHoldSum);
 
 	public List<String> findAllCom();
 
-	public int insert(@Param("param") FirmHoldSum firmHoldSum);
+	public int insert(FirmHoldSum firmHoldSum);
 
 	// 商品在持仓中的总量(现货持仓)
 	int selectSumByComm(@Param("commodityid") String commodityid);
 
-	//现货持仓信息
+	// 现货持仓信息
 	List<TFirmHoldSum> selectPositionList(String commodityid);
 
 }

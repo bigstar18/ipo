@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yrdce.ipo.hq.dao.CurrentdataMapper" >
+  <resultMap id="BaseResultMap" type="com.yrdce.ipo.hq.entity.Currentdata" >
+    <id column="MARKETID" property="marketid" jdbcType="VARCHAR" />
+    <id column="COMMODITYID" property="commodityid" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="DATE" />
+    <result column="YESTERBALANCEPRICE" property="yesterbalanceprice" jdbcType="DECIMAL" />
+    <result column="CLOSEPRICE" property="closeprice" jdbcType="DECIMAL" />
+    <result column="OPENPRICE" property="openprice" jdbcType="DECIMAL" />
+    <result column="BALANCEPRICE" property="balanceprice" jdbcType="DECIMAL" />
+    <result column="HIGHPRICE" property="highprice" jdbcType="DECIMAL" />
+    <result column="LOWPRICE" property="lowprice" jdbcType="DECIMAL" />
+    <result column="CURPRICE" property="curprice" jdbcType="DECIMAL" />
+    <result column="CURAMOUNT" property="curamount" jdbcType="DECIMAL" />
+    <result column="OPENAMOUNT" property="openamount" jdbcType="DECIMAL" />
+    <result column="CLOSEAMOUNT" property="closeamount" jdbcType="DECIMAL" />
+    <result column="RESERVECOUNT" property="reservecount" jdbcType="DECIMAL" />
+    <result column="RESERVECHANGE" property="reservechange" jdbcType="DECIMAL" />
+    <result column="TOTALMONEY" property="totalmoney" jdbcType="DECIMAL" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+    <result column="BUYPRICE1" property="buyprice1" jdbcType="DECIMAL" />
+    <result column="SELLPRICE1" property="sellprice1" jdbcType="DECIMAL" />
+    <result column="BUYAMOUNT1" property="buyamount1" jdbcType="DECIMAL" />
+    <result column="SELLAMOUNT1" property="sellamount1" jdbcType="DECIMAL" />
+    <result column="BUYPRICE2" property="buyprice2" jdbcType="DECIMAL" />
+    <result column="SELLPRICE2" property="sellprice2" jdbcType="DECIMAL" />
+    <result column="BUYAMOUNT2" property="buyamount2" jdbcType="DECIMAL" />
+    <result column="SELLAMOUNT2" property="sellamount2" jdbcType="DECIMAL" />
+    <result column="BUYPRICE3" property="buyprice3" jdbcType="DECIMAL" />
+    <result column="SELLPRICE3" property="sellprice3" jdbcType="DECIMAL" />
+    <result column="BUYAMOUNT3" property="buyamount3" jdbcType="DECIMAL" />
+    <result column="SELLAMOUNT3" property="sellamount3" jdbcType="DECIMAL" />
+    <result column="BUYPRICE4" property="buyprice4" jdbcType="DECIMAL" />
+    <result column="SELLPRICE4" property="sellprice4" jdbcType="DECIMAL" />
+    <result column="BUYAMOUNT4" property="buyamount4" jdbcType="DECIMAL" />
+    <result column="SELLAMOUNT4" property="sellamount4" jdbcType="DECIMAL" />
+    <result column="BUYPRICE5" property="buyprice5" jdbcType="DECIMAL" />
+    <result column="SELLPRICE5" property="sellprice5" jdbcType="DECIMAL" />
+    <result column="BUYAMOUNT5" property="buyamount5" jdbcType="DECIMAL" />
+    <result column="SELLAMOUNT5" property="sellamount5" jdbcType="DECIMAL" />
+    <result column="OUTAMOUNT" property="outamount" jdbcType="DECIMAL" />
+    <result column="INAMOUNT" property="inamount" jdbcType="DECIMAL" />
+    <result column="TRADECUE" property="tradecue" jdbcType="DECIMAL" />
+    <result column="NO" property="no" jdbcType="DECIMAL" />
+    <result column="TRADENO" property="tradeno" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from CURRENTDATA
+    where MARKETID = #{marketid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yrdce.ipo.hq.entity.Currentdata" >
+    insert into CURRENTDATA (MARKETID, COMMODITYID, TIME, 
+      YESTERBALANCEPRICE, CLOSEPRICE, OPENPRICE, 
+      BALANCEPRICE, HIGHPRICE, LOWPRICE, 
+      CURPRICE, CURAMOUNT, OPENAMOUNT, 
+      CLOSEAMOUNT, RESERVECOUNT, RESERVECHANGE, 
+      TOTALMONEY, TOTALAMOUNT, BUYPRICE1, 
+      SELLPRICE1, BUYAMOUNT1, SELLAMOUNT1, 
+      BUYPRICE2, SELLPRICE2, BUYAMOUNT2, 
+      SELLAMOUNT2, BUYPRICE3, SELLPRICE3, 
+      BUYAMOUNT3, SELLAMOUNT3, BUYPRICE4, 
+      SELLPRICE4, BUYAMOUNT4, SELLAMOUNT4, 
+      BUYPRICE5, SELLPRICE5, BUYAMOUNT5, 
+      SELLAMOUNT5, OUTAMOUNT, INAMOUNT, 
+      TRADECUE, NO, TRADENO
+      )
+    values (#{marketid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR}, #{time,jdbcType=DATE}, 
+      #{yesterbalanceprice,jdbcType=DECIMAL}, #{closeprice,jdbcType=DECIMAL}, #{openprice,jdbcType=DECIMAL}, 
+      #{balanceprice,jdbcType=DECIMAL}, #{highprice,jdbcType=DECIMAL}, #{lowprice,jdbcType=DECIMAL}, 
+      #{curprice,jdbcType=DECIMAL}, #{curamount,jdbcType=DECIMAL}, #{openamount,jdbcType=DECIMAL}, 
+      #{closeamount,jdbcType=DECIMAL}, #{reservecount,jdbcType=DECIMAL}, #{reservechange,jdbcType=DECIMAL}, 
+      #{totalmoney,jdbcType=DECIMAL}, #{totalamount,jdbcType=DECIMAL}, #{buyprice1,jdbcType=DECIMAL}, 
+      #{sellprice1,jdbcType=DECIMAL}, #{buyamount1,jdbcType=DECIMAL}, #{sellamount1,jdbcType=DECIMAL}, 
+      #{buyprice2,jdbcType=DECIMAL}, #{sellprice2,jdbcType=DECIMAL}, #{buyamount2,jdbcType=DECIMAL}, 
+      #{sellamount2,jdbcType=DECIMAL}, #{buyprice3,jdbcType=DECIMAL}, #{sellprice3,jdbcType=DECIMAL}, 
+      #{buyamount3,jdbcType=DECIMAL}, #{sellamount3,jdbcType=DECIMAL}, #{buyprice4,jdbcType=DECIMAL}, 
+      #{sellprice4,jdbcType=DECIMAL}, #{buyamount4,jdbcType=DECIMAL}, #{sellamount4,jdbcType=DECIMAL}, 
+      #{buyprice5,jdbcType=DECIMAL}, #{sellprice5,jdbcType=DECIMAL}, #{buyamount5,jdbcType=DECIMAL}, 
+      #{sellamount5,jdbcType=DECIMAL}, #{outamount,jdbcType=DECIMAL}, #{inamount,jdbcType=DECIMAL}, 
+      #{tradecue,jdbcType=DECIMAL}, #{no,jdbcType=DECIMAL}, #{tradeno,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yrdce.ipo.hq.entity.Currentdata" >
+    update CURRENTDATA
+    set TIME = #{time,jdbcType=DATE},
+      YESTERBALANCEPRICE = #{yesterbalanceprice,jdbcType=DECIMAL},
+      CLOSEPRICE = #{closeprice,jdbcType=DECIMAL},
+      OPENPRICE = #{openprice,jdbcType=DECIMAL},
+      BALANCEPRICE = #{balanceprice,jdbcType=DECIMAL},
+      HIGHPRICE = #{highprice,jdbcType=DECIMAL},
+      LOWPRICE = #{lowprice,jdbcType=DECIMAL},
+      CURPRICE = #{curprice,jdbcType=DECIMAL},
+      CURAMOUNT = #{curamount,jdbcType=DECIMAL},
+      OPENAMOUNT = #{openamount,jdbcType=DECIMAL},
+      CLOSEAMOUNT = #{closeamount,jdbcType=DECIMAL},
+      RESERVECOUNT = #{reservecount,jdbcType=DECIMAL},
+      RESERVECHANGE = #{reservechange,jdbcType=DECIMAL},
+      TOTALMONEY = #{totalmoney,jdbcType=DECIMAL},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      BUYPRICE1 = #{buyprice1,jdbcType=DECIMAL},
+      SELLPRICE1 = #{sellprice1,jdbcType=DECIMAL},
+      BUYAMOUNT1 = #{buyamount1,jdbcType=DECIMAL},
+      SELLAMOUNT1 = #{sellamount1,jdbcType=DECIMAL},
+      BUYPRICE2 = #{buyprice2,jdbcType=DECIMAL},
+      SELLPRICE2 = #{sellprice2,jdbcType=DECIMAL},
+      BUYAMOUNT2 = #{buyamount2,jdbcType=DECIMAL},
+      SELLAMOUNT2 = #{sellamount2,jdbcType=DECIMAL},
+      BUYPRICE3 = #{buyprice3,jdbcType=DECIMAL},
+      SELLPRICE3 = #{sellprice3,jdbcType=DECIMAL},
+      BUYAMOUNT3 = #{buyamount3,jdbcType=DECIMAL},
+      SELLAMOUNT3 = #{sellamount3,jdbcType=DECIMAL},
+      BUYPRICE4 = #{buyprice4,jdbcType=DECIMAL},
+      SELLPRICE4 = #{sellprice4,jdbcType=DECIMAL},
+      BUYAMOUNT4 = #{buyamount4,jdbcType=DECIMAL},
+      SELLAMOUNT4 = #{sellamount4,jdbcType=DECIMAL},
+      BUYPRICE5 = #{buyprice5,jdbcType=DECIMAL},
+      SELLPRICE5 = #{sellprice5,jdbcType=DECIMAL},
+      BUYAMOUNT5 = #{buyamount5,jdbcType=DECIMAL},
+      SELLAMOUNT5 = #{sellamount5,jdbcType=DECIMAL},
+      OUTAMOUNT = #{outamount,jdbcType=DECIMAL},
+      INAMOUNT = #{inamount,jdbcType=DECIMAL},
+      TRADECUE = #{tradecue,jdbcType=DECIMAL},
+      NO = #{no,jdbcType=DECIMAL},
+      TRADENO = #{tradeno,jdbcType=DECIMAL}
+    where MARKETID = #{marketid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select MARKETID, COMMODITYID, TIME, YESTERBALANCEPRICE, CLOSEPRICE, OPENPRICE, BALANCEPRICE, 
+    HIGHPRICE, LOWPRICE, CURPRICE, CURAMOUNT, OPENAMOUNT, CLOSEAMOUNT, RESERVECOUNT, 
+    RESERVECHANGE, TOTALMONEY, TOTALAMOUNT, BUYPRICE1, SELLPRICE1, BUYAMOUNT1, SELLAMOUNT1, 
+    BUYPRICE2, SELLPRICE2, BUYAMOUNT2, SELLAMOUNT2, BUYPRICE3, SELLPRICE3, BUYAMOUNT3, 
+    SELLAMOUNT3, BUYPRICE4, SELLPRICE4, BUYAMOUNT4, SELLAMOUNT4, BUYPRICE5, SELLPRICE5, 
+    BUYAMOUNT5, SELLAMOUNT5, OUTAMOUNT, INAMOUNT, TRADECUE, NO, TRADENO
+    from CURRENTDATA
+    where MARKETID = #{marketid,jdbcType=VARCHAR}
+      and COMMODITYID = #{commodityid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select MARKETID, COMMODITYID, TIME, YESTERBALANCEPRICE, CLOSEPRICE, OPENPRICE, BALANCEPRICE, 
+    HIGHPRICE, LOWPRICE, CURPRICE, CURAMOUNT, OPENAMOUNT, CLOSEAMOUNT, RESERVECOUNT, 
+    RESERVECHANGE, TOTALMONEY, TOTALAMOUNT, BUYPRICE1, SELLPRICE1, BUYAMOUNT1, SELLAMOUNT1, 
+    BUYPRICE2, SELLPRICE2, BUYAMOUNT2, SELLAMOUNT2, BUYPRICE3, SELLPRICE3, BUYAMOUNT3, 
+    SELLAMOUNT3, BUYPRICE4, SELLPRICE4, BUYAMOUNT4, SELLAMOUNT4, BUYPRICE5, SELLPRICE5, 
+    BUYAMOUNT5, SELLAMOUNT5, OUTAMOUNT, INAMOUNT, TRADECUE, NO, TRADENO
+    from CURRENTDATA
+  </select>
+    <select id="selectTransferPrice" resultMap="BaseResultMap" parameterType="map">
+    select  t.* from CURRENTDATA t where   t.COMMODITYID=#{commodityid,jdbcType=VARCHAR}
+   and trunc(t.TIME)  &gt;= trunc(sysdate - #{days,jdbcType=DECIMAL})  and trunc(t.TIME)  &lt; trunc(sysdate)
+  </select>
+</mapper>
