@@ -148,6 +148,9 @@
 	<if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
 	and r.firmid = #{IpoSpoComm.firmid,jdbcType=VARCHAR}
 	</if>
+	<if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId != ''">
+	and c.COMMODITY_ID = #{IpoSpoComm.commodityId,jdbcType=VARCHAR}
+	</if>
 	
      ) a where a.TNO between  #{beginnum} and  #{endnum} order by a.spoid
   </select>
@@ -158,6 +161,9 @@
   	 WHERE c.ration_type ='1'
      <if test="IpoSpoComm.firmid != null and IpoSpoComm.firmid != ''">
      	and r.FIRMID = #{IpoSpoComm.firmid}
+     </if>
+     <if test="IpoSpoComm.commodityId != null and IpoSpoComm.commodityId != ''">
+     	and c.COMMODITY_ID = #{IpoSpoComm.commodityId}
      </if>
   </select>
   
@@ -226,7 +232,7 @@
   </update>
   
   <select id="findBySpoidAndStatu" resultMap="BaseResultMap" parameterType="map">
-  	select RATIONID, SPOID,nvl(RATIONCOUNTS,0), FIRMID, OPERATIONDATE,
+  	select RATIONID, SPOID,nvl(RATIONCOUNTS,0) as RATIONCOUNTS, FIRMID, OPERATIONDATE,
 	RATIONLOAN,  SERVICEFEE,SALES_ALLOCATIONRATIO,SALES_REBATERATIO,
 	FIRMNAME,SALESID, RATION_SATE from IPO_SPO_RATION 
 	where SPOID = #{spoid,jdbcType=VARCHAR}

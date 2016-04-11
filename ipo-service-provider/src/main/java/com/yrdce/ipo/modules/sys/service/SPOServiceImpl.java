@@ -121,11 +121,11 @@ public class SPOServiceImpl implements SPOService {
 				: new BigDecimal(0);
 		BigDecimal fee = ipoSpoRation.getServicefee() != null ? ipoSpoRation.getServicefee()
 				: new BigDecimal(0);
-		String spoid = ipoSpoRation.getSpoid();
-		IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
-		String commodityid = ipoSpoComm.getCommodityId();
-		IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commodityid);
-		String pubmemberid = ipoCommodityConf.getPubmemberid();
+		//String spoid = ipoSpoRation.getSpoid();
+		//IpoSpoCommoditymanmaagement ipoSpoComm = ipoSPOCommMapper.selectByPrimaryKey(spoid);
+		//String commodityid = ipoSpoComm.getCommodityId();
+		//IpoCommodityConf ipoCommodityConf = ipoCommMapper.selectCommUnit(commodityid);
+		//String pubmemberid = ipoCommodityConf.getPubmemberid();
 		// 总费用
 		BigDecimal allMoney = money.add(fee);
 		logger.debug("总费用allMonery：" + allMoney);

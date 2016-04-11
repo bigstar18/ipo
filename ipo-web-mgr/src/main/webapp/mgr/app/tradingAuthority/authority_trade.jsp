@@ -30,6 +30,7 @@
 				success : function(data){
 					if(data == "error"){
 						alert("交易商不存在");
+						$("#firmid").val("");
 					}else{
 						$(":checkbox").attr("checked",false);
 						if (data) {
@@ -68,7 +69,14 @@
 		 $('#frm').submit();
 	}
 	
+	function verification(){
+		if(event.keyCode == 32)event.returnValue = false;
+	}
 	
+	function enter_down()
+	{
+	   if(event.keyCode=="13")event.returnValue = false;
+	  }
 </script>
 </head>
 <body>
@@ -87,7 +95,7 @@
 							<tr>
 								<td align="right">交易商账号：</td>
 								<td>
-									<input id="firmid" name="firmid" type="text" size=10 maxlength=8 onblur="getModel(value);" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
+									<input id="firmid" name="firmid" type="text" size=15 onblur="getModel(value);" onKeypress="verification();" onKeydown="enter_down();"/>
 									<span class="req">*</span>
 								</td>
 							</tr> 

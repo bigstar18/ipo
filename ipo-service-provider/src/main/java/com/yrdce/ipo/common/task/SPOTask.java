@@ -152,7 +152,7 @@ public class SPOTask {
 					// 增发量?????????????
 					long num = 0;
 					long count = 0;
-					if (i == tFirmholdsumslist.size()) {
+					if (i + 1 == tFirmholdsumslist.size()) {
 						num = otration - count;
 						//num = (long) (otration * value);
 					} else {

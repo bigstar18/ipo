@@ -444,22 +444,35 @@ public class TaskServiceImpl implements TaskService {
 				logger.debug(">>>>>>>>>>>>>>>>>>sum:" + sum);
 				// 现货持仓信息
 				List<TFirmHoldSum> tFirmholdsumslist = tFirmHoldSumMaper.selectPositionList(commodityid);
-				for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
-					String firmid = tFirmholdsums.getFirmId();
+				for (int i = 0; i < tFirmholdsumslist.size(); i++) {
+					//for (TFirmHoldSum tFirmholdsums : tFirmholdsumslist) {
+					//String firmid = tFirmholdsums.getFirmId();
+					String firmid = tFirmholdsumslist.get(i).getFirmId();
 					logger.debug(">>>>>>>>>>>>>>>>>>firmid:" + firmid);
-					double position = tFirmholdsums.getHoldqty();
+					//double position = tFirmholdsums.getHoldqty();
+					double position = tFirmholdsumslist.get(i).getHoldqty();
 					logger.debug(">>>>>>>>>>>>>>>>>>position:" + position);
 					double value = position / (double) sum;
 					logger.debug(">>>>>>>>>>>>>>>>>>value:" + value);
-					// 增发量
-					long num = (long) (otration * value);
+					// 增发量?????????????
+					long num = 0;
+					long count = 0;
+					logger.debug(">>>>>>>>>>>>>>>>>>分配循环次数:" + i + "共数组长度:" + tFirmholdsumslist.size());
+					if (i + 1 == tFirmholdsumslist.size()) {
+						num = otration - count;
+						logger.debug(">>>>>>>>>>>>>>>>>>最后一次分配{}:", num);
+						//num = (long) (otration * value);
+					} else {
+						num = (long) (otration * value);
+						count = count + num;
+					}
 					BigDecimal counts1 = new BigDecimal(num);
 					logger.debug("数量counts1：" + counts1);
 					// 货款
 					BigDecimal money = price.multiply(counts1);
 					logger.debug("商品费用Monery：" + money);
 					IpoSpecialcounterfee ipoSpecialcounterfee = ipoSpecialcounterfeeMapper.selectInfo(firmid,
-							commodityid, ChargeConstant.BusinessType.PUBLISH.getCode());
+							commodityid, "1");
 					BigDecimal fee = new BigDecimal(0);
 					BigDecimal buy = new BigDecimal(0);
 					short tradealgr = 0;

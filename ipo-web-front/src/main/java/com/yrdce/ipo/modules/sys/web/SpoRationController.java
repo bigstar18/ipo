@@ -32,8 +32,8 @@ public class SpoRationController {
 			SpoCommoditymanmaagement spo, HttpSession session) {
 		logger.info("配售信息");
 		try {
-			String firmId = (String) session.getAttribute("currentFirmId");
-			spo.setFirmid(firmId);//dealerId
+			//String firmId = (String) session.getAttribute("currentFirmId");
+			spo.setFirmid("SC");//firmId
 			List<SpoRation> spoList = spoService.getMyRationInfo(spo, page, rows);
 			int counts = spoService.getRationInfoCounts(spo);
 			logger.info(String.valueOf(counts));
@@ -54,8 +54,8 @@ public class SpoRationController {
 	public String UpdateRationType(@RequestParam("rationId") String rationId, HttpSession session) {
 		logger.info("确认配售");
 		try {
-			String firmId = (String) session.getAttribute("currentFirmId");
-			//String dealerId = "hl";
+			//String firmId = (String) session.getAttribute("currentFirmId");
+			String firmId = "SC";
 			int result = spoService.updateRationType(Long.parseLong(rationId), firmId);
 			if (result == 1) {
 				return "success";
