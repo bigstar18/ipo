@@ -9,8 +9,12 @@
 	</head>
 	<frameset id="middle" cols="220,*" frameborder="NO" border="0"
 		framespacing="0">
-		<frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
-			scrolling="yes" marginwidth="0" marginheight="0" noresize APPLICATION="yes">
+		<frame src="<%=basePath%>/menu/menuList.action" name="leftFrame"
+			scrolling="NO" noresize APPLICATION="yes">
+		<frame src="<%=framePath%>/shrinkbar.jsp" name="mainSwitch"
+			scrolling="NO" noresize APPLICATION="yes" id="mainSwitch">
+		<%-- <frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
+			scrolling="yes" marginwidth="0" marginheight="0" noresize APPLICATION="yes"> --%>
 		<frame src="<%=framePath%>/rightframe.jsp"
 			name="workspace" APPLICATION="yes">
 	</frameset>
