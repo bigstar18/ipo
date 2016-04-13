@@ -7,7 +7,7 @@
 	<% response.addHeader("P3P","CP=CAO PSA OUR"); %>
 		<title>交易管理系统</title>
 	</head>
-	<frameset id="middle" cols="220, *" frameborder="NO" border="0"
+	<frameset id="middle" cols="200, *" frameborder="NO" border="0"
 		framespacing="0">
 		<frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
 			scrolling="yes"  marginwidth="0" marginheight="0" noresize APPLICATION="yes">
