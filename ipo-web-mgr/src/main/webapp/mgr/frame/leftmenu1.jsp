@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
-
+<%@page import="gnnt.MEBS.common.mgr.common.Global"%>
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
 <link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css"/>
 <html>
@@ -13,7 +13,7 @@ var promptTime = 60;
 			var screenAvailHeight = window.screen.availHeight;
 			function regInput(str){  
 			      reg=/^[a-z]*$/;
-			      return reg.test(str)
+			      return  reg.test(str);
 		      }
 	      
       		function goto(pathRrl,node,parentNode){

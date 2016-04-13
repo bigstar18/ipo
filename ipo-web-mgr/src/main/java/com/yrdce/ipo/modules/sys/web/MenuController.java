@@ -26,6 +26,13 @@ public class MenuController {
 	public String menuList(HttpServletRequest request) {
 		MenuAction menu = new MenuAction();
 		menu.menuList();
+
+		Object menulist = request.getAttribute("myMenuList");
+		if (menulist != null) {
+			logger.info(menulist.toString());
+		} else {
+			logger.info("**********************************************");
+		}
 		return "frame/leftmenu1";
 	}
 
