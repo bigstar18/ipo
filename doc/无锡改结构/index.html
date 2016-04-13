@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<!-- <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate"> -->
+<title>导航页</title>
+<style type="text/css">
+body {
+	font-family: 微软雅黑; color: #333; font-size: 13px;
+}
+
+.zuiwai {
+	width: 950px; margin: auto;
+}
+
+.top {
+	width: 950px; padding-left: 0px; color: #ffffff; font-size: 32px; text-align: center; Vertical-align: top; padding-top: 30px; background-color: #5767BE; padding-right: 0px; padding-bottom: 30px;
+}
+
+.xia {
+	width: 950px; height: 320px; background-color: #EDEDED;
+}
+
+.xia_1 {
+	width: 950px; height: 325px;
+}
+
+.xia_2 {
+	width: 940px; margin: auto; height: 84px; border-top: solid 1px #D7D7D7;
+}
+
+.xia_1_1 {
+	width: 890px; height: 222px; padding-top: 45px; margin: auto;
+}
+
+.xia_1_1_k {
+	width: 187px; height: 222px; margin-left: 30px; float: left; background-color: #ffffff; -moz-box-shadow: 0px 0px 12px #999; /*firefox*/ -webkit-box-shadow: 0px 0px 12px #999; /*safari或chrome*/ box-shadow: 0px 0px 12px #999; /*opera或ie9*/
+}
+
+.xia_top {
+	height: 70px; line-height: 70px; text-align: center; font-size: 19px; font-weight: 600; color: #555555;
+}
+
+.xia_mid {
+	height: 80px; width: 80px; margin: auto;
+}
+
+.xia_dow {
+	height: 37px; margin-top: 35px; width: 187px; background-color: #777777;
+}
+
+.zuo {
+	height: 37px; width: 93px; float: left; line-height: 37px; text-align: center; color: #FFFFFF;
+}
+
+.outWeb {
+	height: 37px; width: 93px;  line-height: 37px; text-align: center; color: #FFFFFF;margin-left: auto;margin-right: auto;
+}
+.outWeb a{
+	color: #FFFFFF;
+}
+.you {
+	height: 37px; width: 93px; border-left: solid 1px #F2F2F2; float: right; line-height: 37px; text-align: center; color: #ffffff;
+}
+
+.you a {
+	height: 37px; width: 93px; border-left: solid 1px #F2F2F2; float: right; line-height: 37px; text-align: center; color: #ffffff;
+}
+
+a:link {
+	text-decoration: none;
+} /* 未被访问的链接 */
+a:visited {
+	text-decoration: none;
+} /* 已被访问的链接 */
+a:hover {
+	text-decoration: underline;
+} /* 鼠标指针移动到链接上 */
+a:active {
+	text-decoration: underline;
+} /* 正在被点击的链接 */
+.zuo a {
+	color: #FFFFFF;
+}
+
+
+
+.xia_2_1 {
+	height: 60px; float: left; margin-left: 325px; width: 300px;
+}
+
+.xia_2_2 {
+	height: 30px; float: right;
+}
+
+.shang {
+	height: 30px; line-height: 30px; width: 300px; text-align: center;
+}
+
+.dow_you {
+	height: 30px; width: 190px;; line-height: 30px; text-align: right; padding-right: 10px; color: #0F50A0;
+}
+
+.top span {
+	padding: 0px 2px;
+}
+
+.hid_xp {
+	text-align: center; display: none; float: left; width: 93px; height: 40px; z-index: 200; position: relative; top: -35%; -moz-box-shadow: -2px -2px 15px #333; /*firefox*/ -webkit-box-shadow: -2px -2px 15px #333; /*safari或chrome*/ box-shadow: -2px -2px 15px #333; /*opera或ie9*/
+}
+
+.hid_win7 {
+	text-align: center; display: none; float: right; width: 93px; height: 40px; z-index: 100; position: relative; top: -35%; -moz-box-shadow: -2px -2px 15px #333; /*firefox*/ -webkit-box-shadow: -2px -2px 15px #333; /*safari或chrome*/ box-shadow: -2px -2px 15px #333; /*opera或ie9*/
+}
+
+.hid_div {
+	width: 93px; height: 20px; background-color: #ffffff;
+}
+
+.hid_div a {
+	color: #F07D31;
+}
+</style>
+<script>
+	var xp;
+    var win7;
+    function hidClientDownX ()
+    {
+	    xp = setTimeout (hidClientDownX1, 500);
+    }
+    function hidClientDownW ()
+    {
+	    win7 = setTimeout (hidClientDownW1, 500);
+    }
+
+    function showClientDownX ()
+    {
+	    var hid_xp = document.getElementById ("hid_xp");
+	    hid_xp.style.display = 'block';
+	    clearTimeout (xp);
+    }
+    function hidClientDownX1 ()
+    {
+	    var hid_xp = document.getElementById ("hid_xp");
+	    hid_xp.style.display = 'none';
+    }
+    function showClientDownW ()
+    {
+	    var hid_win7 = document.getElementById ("hid_win7");
+	    hid_win7.style.display = 'block';
+	    clearTimeout (win7);
+    }
+    function hidClientDownW1 ()
+    {
+	    var hid_win7 = document.getElementById ("hid_win7");
+	    hid_win7.style.display = 'none';
+    }
+</script>
+</head>
+<body>
+	<div class="zuiwai">
+		<div class="top">长三角商品交易所交易系统导航页</div>
+		<div class="xia">
+			<div class="xia_1">
+				<div class="xia_1_1">
+					<div class="xia_1_1_k">
+						<div class="xia_top">客户端</div>
+						<div class="xia_mid">
+							<img src="images/u47.png" />
+						</div>
+						<div class="xia_dow">
+							<div class="zuo" onmouseover="showClientDownX();" onmouseout="hidClientDownX();">XP</div>
+							<div class="you" onmouseover="showClientDownW();" onmouseout="hidClientDownW();">Win7</div>
+						</div>
+						<div class="hid_xp" id="hid_xp" onmouseover="showClientDownX();" onmouseout="hidClientDownX();">
+								<div class="hid_div" align="center">
+								<a href="/web/down/YrdceTradeApp_XP_Public.exe">外网</a>
+							</div>
+							<!--  <div class="hid_div" align="center">
+								<a href="/web/down/YrdceTradeApp_XP.exe">内网</a>
+							</div>  -->
+						
+						</div>
+						<div class="hid_win7" id="hid_win7" onmouseover="showClientDownW();" onmouseout="hidClientDownW();">
+							<!--  <div class="hid_div" align="center">
+								<a href="/web/down/YrdceTradeApp.exe">内网</a>
+							</div>  -->
+							<div class="hid_div" align="center">
+								<a href="/web/down/YrdceTradeApp_Public.exe">外网</a>
+							</div>
+						</div>
+					</div>
+					<div class="xia_1_1_k">
+						<div class="xia_top">会员端</div>
+						<div class="xia_mid">
+							<img src="images/u25.png" />
+						</div>
+						<div class="xia_dow">
+							<!--  <div class="zuo">
+								<a href="http://10.0.100.182:10068/member-user" target="_blank">内网</a>
+							</div> -->
+							<div class="outWeb"> 
+								<a href="http://172.17.12.24:10008/member-user" target="_blank">外网</a>
+							 </div> 
+						</div>
+					</div>
+					<div class="xia_1_1_k">
+						<div class="xia_top">业务管理后台</div>
+						<div class="xia_mid">
+							<img src="images/u14.png" />
+						</div>
+						<div class="xia_dow">
+							<!--<div class="zuo">
+							 	<a href="http://10.0.100.182:10061/mgr-user" target="_blank">内网</a>
+							</div> -->
+							<div class="outWeb">
+								<a href="http://172.17.12.25:10001/mgr-user" target="_blank">外网</a>
+							</div>
+						</div>
+					</div>
+					<div class="xia_1_1_k">
+						<div class="xia_top">仓库端</div>
+						<div class="xia_mid">
+							<img src="images/u36.png" />
+						</div>
+						<div class="xia_dow">
+							<!--<div class="zuo">
+							 	<a href="http://10.0.100.182:10069/warehouse-user" target="_blank">内网</a>
+							</div> -->
+							<div class="outWeb">
+								<a href="http://172.17.12.24:10009/warehouse-user" target="_blank">外网</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
