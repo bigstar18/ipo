@@ -10,7 +10,7 @@
 	<frameset id="middle" cols="200,*" frameborder="NO" border="0"
 		framespacing="0">
 		<frame src="<%=basePath%>/mgr/frame/leftmenu.jsp" name="leftFrame"
-			scrolling="NO" noresize APPLICATION="yes">
+			scrolling="yes" noresize APPLICATION="yes">
 		<frame src="<%=framePath%>/rightframe.jsp"
 			name="workspace" APPLICATION="yes">
 	</frameset>
