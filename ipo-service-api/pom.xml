@@ -10,6 +10,15 @@
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<dependencies>
+
+        <dependency>
+			<groupId>com.yrdce</groupId>
+			<artifactId>common-mgr</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/common_mgr.jar</systemPath>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
