@@ -156,6 +156,7 @@ function addComm(){
 	var nonissuereg=$("#nonissuereg").val();
 	var flag= $('#frm').form('validate');
 	if(nonissuereg!=''&&curstatus!=''&&publishalgr!=''&&tradealgr!=''&&mapperid!=''&&pubmemberid!=''&&flag==true){
+
 		var units=$("#units").val();
 		var contractfactor=$("#contractfactor").val();
 		var counts=$("#counts").val();
@@ -198,9 +199,25 @@ function addComm(){
 			           }
 			        }
 				});
-	}else{
-					alert("请检查所有参数必填！");
-		}
+	}else if(mapperid ==''){
+		alert("请选择对应现货商品！");
+		return;
+	}else if(curstatus ==''){
+		alert("请选择当前状态！");
+		return;
+	}else if(nonissuereg ==''){
+		alert("请选择是否发行注册！");
+		return;
+	}else if(pubmemberid ==''){
+		alert("请选择发行会员编号！");
+		return;
+	}else if(publishalgr ==''){
+		alert("请选择发行手续费算法！");
+		return;
+	}else if(tradealgr ==''){
+		alert("请选择申购手续费算法！");
+		return;
+	}
 }
 
 function returntoList(){
@@ -269,7 +286,9 @@ function setSortName(value) {
 <div class="warning">
 		<div class="title font_orange_14b">温馨提示 : 商品增加</div>
 		<div class="content" style="color: red">    
-		手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费              提货单费用价格提前天数：仓单交收费用计算平均价取前n天的平均价  </div>
+			手续费算法：百分比按货款计算手续费，绝对值按数量计算手续费 <br>
+			提货单费用价格提前天数：仓单交收费用计算平均价取前n天的平均价  
+		</div>
 	</div>
 	<table border="0"  width="100%">
 		<tr>
@@ -328,7 +347,7 @@ function setSortName(value) {
             							<td align="right">当前状态：</td>
 										<td>
 										<select id="currstatus" name="currstatus" style="width:100">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="0">有效</option>
 												<option value="2">暂停交易</option>
 										   </select>
@@ -397,11 +416,12 @@ function setSortName(value) {
 										</td>
             							<td align="right">是否非发行注册</td>
             							<td>
-            							<select id="nonissuereg" name="nonissuereg" style="width:100">
-												<option value=""></option>
+            								<select id="nonissuereg" name="nonissuereg" style="width:100">
+												<option value="">请选择</option>
 											    <option value="0">是</option>
 												<option value="1">否</option>
 										   </select>
+										   </span><span class="required">*</span>
             							</td>
         							</tr>
 	 							</table >
@@ -470,7 +490,7 @@ function setSortName(value) {
 							            <td align="right" >发行手续费算法：</td>
 							            <td >
 											<select id="publishalgr" name="publishalgr" style="width:100" onchange="on_change()">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="1" <c:if test="${entity.publishalgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.publishalgr==2 }">selected</c:if>>按绝对值</option>
 										   </select> <span class="required">*</span>
@@ -540,7 +560,7 @@ function setSortName(value) {
         	  							<td align="right">申购手续费算法：</td>
             							<td>
             							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="1" <c:if test="${entity.tradealgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.tradealgr==2 }">selected</c:if>>按绝对值</option>
 										   </select> <span class="required">*</span>

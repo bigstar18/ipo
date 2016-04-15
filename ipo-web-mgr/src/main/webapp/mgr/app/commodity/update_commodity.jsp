@@ -199,8 +199,21 @@ function updateComm(){
           	   }
              }
          }); 
-	}else{
-		alert("请检查所有参数必填！");
+	}else if(mapperid ==''){
+		alert("请选择对应现货商品！");
+		return;
+	}else if(curstatus ==''){
+		alert("请选择当前状态！");
+		return;
+	}else if(pubmemberid ==''){
+		alert("请选择发行会员编号！");
+		return;
+	}else if(publishalgr ==''){
+		alert("请选择发行手续费算法！");
+		return;
+	}else if(tradealgr ==''){
+		alert("请选择申购手续费算法！");
+		return;
 	}
 }
 
@@ -311,7 +324,7 @@ function on_tchange(){
 							            <td align="right">当前状态：</td>
 										<td>
 										<select id="currstatus" name="currstatus" style="width:100">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="0" <c:if test="${entity.currstatus==0 }">selected</c:if>>有效</option>
 												<option value="1" <c:if test="${entity.currstatus==2 }">selected</c:if>>暂停交易</option>
 										   </select>
@@ -381,10 +394,11 @@ function on_tchange(){
 										<td align="right">是否非发行注册</td>
             							<td>
             							<select id="nonissuereg" name="nonissuereg" style="width:100">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="0" <c:if test="${entity.nonissuereg==0 }">selected</c:if>>是</option>
 												<option value="1" <c:if test="${entity.nonissuereg==1 }">selected</c:if>>否</option>
 										   </select>
+										   <span class="required">*</span>
             							</td>
         							</tr>
 	 							</table >
@@ -454,7 +468,7 @@ function on_tchange(){
 							            <td align="right" >发行手续费算法：</td>
 							            <td >
 											<select id="publishalgr" name="publishalgr" style="width:100" onchange="on_change()">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="1" <c:if test="${entity.publishalgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.publishalgr==2 }">selected</c:if>>按绝对值</option>
 										   </select> <span class="required">*</span>            
@@ -524,7 +538,7 @@ function on_tchange(){
         	  							<td align="right">申购手续费算法：</td>
             							<td>
             							<select id="tradealgr" name="tradealgr" style="width:100" onchange="on_tchange()">
-												<option value=""></option>
+												<option value="">请选择</option>
 											    <option value="1" <c:if test="${entity.tradealgr==1 }">selected</c:if>>按百分比</option>
 												<option value="2" <c:if test="${entity.tradealgr==2 }">selected</c:if>>按绝对值</option>
 										   </select> <span class="required">*</span>  
