@@ -75,7 +75,8 @@
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.StatisticsReportService" ref="statisticsReportService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.StockFreezeService" ref="stockFreezeService" protocol="dubbo" />
 	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.FirmAuthorityService" ref="firmAuthorityService" protocol="dubbo" />
-	
+	<dubbo:service interface="com.yrdce.ipo.modules.sys.service.MenuService" ref="menuService" protocol="dubbo" />
+
 
 	<bean id="commodityService" class="com.yrdce.ipo.modules.sys.service.CommodityServiceImpl" />
 	<bean id="displayService" class="com.yrdce.ipo.modules.sys.service.DisplayServiceImpl" />
@@ -124,7 +125,7 @@
     <bean id="statisticsReportService" class="com.yrdce.ipo.modules.sys.service.StatisticsReportImpl" />
 	<bean id="stockFreezeService" class="com.yrdce.ipo.modules.sys.service.StockFreezeServiceImpl" />
 	<bean id="firmAuthorityService" class="com.yrdce.ipo.modules.sys.service.FirmAuthorityServiceImpl" />
-     
+     <bean id="menuService" class="com.yrdce.ipo.modules.sys.service.MenuServiceImpl" />
 	<!-- 	当一个接口有多种实现时，可以用group区分。 
 	从 dubbo 2.2.0 开始，每个服务默认都会在本地暴露；在引用服务的时候，默认优先引用本地服务；如果希望引用远程服务可以使用一下配置强制引用远程服务。
 	读写分离：

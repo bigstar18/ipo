@@ -5,6 +5,7 @@ import gnnt.MEBS.common.mgr.common.Page;
 import gnnt.MEBS.common.mgr.common.PageRequest;
 import gnnt.MEBS.common.mgr.model.Menu;
 import gnnt.MEBS.common.mgr.model.MyMenu;
+import gnnt.MEBS.common.mgr.model.Right;
 import gnnt.MEBS.common.mgr.model.StandardModel;
 import gnnt.MEBS.common.mgr.model.User;
 import gnnt.MEBS.common.mgr.service.StandardService;
@@ -48,65 +49,64 @@ public class MenuController {
 				.getAttribute("CurrentUser");
 
 		if (localUser != null) {
-			Object localObject1;
-			Object localObject2;
-			Object localObject3;
-			Object localObject4;
-			Object localObject5;
-			boolean bool = false;
-			bool = ((Boolean) request.getSession().getAttribute("IsSuperAdmin"))
-					.booleanValue();
-			Menu localMenu = Global.getRootMenu();
-			Map localMap = null;
-			if (bool) {
-				request.setAttribute("HaveRightMenu", localMenu);// 所有权限目录
-				localMap = getMenuMap(localMenu, localMap);// 当前用户的权限列表
-			} else {
-				localObject1 = localUser.getRightMap();
-				localObject2 = menuService.getHaveRightMenu(localMenu,
-						(Map) localObject1);
-				request.setAttribute("HaveRightMenu", localObject2);
-				localMap = getMenuMap((Menu) localObject2, localMap);
+			boolean isSuperAdminRole = false;
+			isSuperAdminRole = (Boolean) request.getSession().getAttribute(
+					Global.ISSUPERADMIN);
+
+			Menu allMenu = Global.getRootMenu();
+
+			// 保存当前用户有权限的菜单 Map key：菜单编号，value 菜单
+			Map<Long, Menu> menuMap = null;
+			// 如果是超级管理员则拥有所有菜单
+			if (isSuperAdminRole) {
+				request.setAttribute(Global.HAVERIGHTMENU, allMenu);
+				menuMap = getMenuMap(allMenu, menuMap);
 			}
-			localObject1 = Global.getModuleIDList();
-			localObject2 = " and primary.user.userId='" + localUser.getUserId()
-					+ "' ";
-			if (localObject1 != null) {
-				localObject3 = "" + Global.COMMONMODULEID;
-				localObject4 = ((List) localObject1).iterator();
-				while (((Iterator) localObject4).hasNext()) {
-					localObject5 = (Integer) ((Iterator) localObject4).next();
-					if (((Integer) localObject5).intValue() != Global.COMMONMODULEID)
-						localObject3 = (String) localObject3 + ","
-								+ localObject5;
+			// 不是超级管理员获取自己有权限的菜单
+			else {
+				Map<Long, Right> rightMap = localUser.getRightMap();
+				Menu menu = menuService.getHaveRightMenu(allMenu, rightMap);
+				request.setAttribute(Global.HAVERIGHTMENU, menu);
+				menuMap = getMenuMap(menu, menuMap);
+			}
+
+			// 当前系统所加载的菜单模块
+			List<Integer> moduleIDList = Global.getModuleIDList();
+			String filter = " and primary.user.userId='"
+					+ localUser.getUserId() + "' ";
+			if (moduleIDList != null) {
+				String modules = "" + Global.COMMONMODULEID;
+				for (Integer moduleID : moduleIDList) {
+					if (moduleID != Global.COMMONMODULEID) {
+						modules += "," + moduleID;
+					}
 				}
-				localObject2 = (String) localObject2
-						+ " and primary.right.moduleId in ("
-						+ (String) localObject3 + ") ";
+				filter += " and primary.right.moduleId in (" + modules + ") ";
 			}
-			localObject3 = new PageRequest(localObject2);
+
+			// 获取该登录用户下的快捷菜单中菜单ID的集合并存入数组中
+			PageRequest<String> pageRequest = new PageRequest<String>(filter);
 			StandardService standardService = new StandardService();
-			localObject4 = standardService.getPage((PageRequest) localObject3,
+			Page<StandardModel> page = standardService.getPage(pageRequest,
 					new MyMenu());
-			localObject5 = new ArrayList();
-			if ((localObject4 != null)
-					&& (((Page) localObject4).getResult() != null)
-					&& (localMap != null)) {
-				Iterator localIterator = ((Page) localObject4).getResult()
-						.iterator();
-				while (localIterator.hasNext()) {
-					StandardModel localStandardModel = (StandardModel) localIterator
-							.next();
-					MyMenu localMyMenu = (MyMenu) localStandardModel;
-					if (localMap.get(localMyMenu.getRight().getId()) != null)
-						((List) localObject5).add(localMyMenu);
+			List<MyMenu> myMenuList = new ArrayList<MyMenu>();
+
+			// 遍历查看我的菜单中菜单权限，防止设置我的菜单后，管理员撤销了本用户的权限
+			if (page != null && page.getResult() != null && menuMap != null) {
+				for (StandardModel standardModel : page.getResult()) {
+					MyMenu myMenu = (MyMenu) standardModel;
+					if (menuMap.get(myMenu.getRight().getId()) != null) {
+						myMenuList.add(myMenu);
+					}
 				}
 			}
-			request.setAttribute("myMenuList",
-					((Page) localObject4).getResult());
-			return "success";
+
+			request.setAttribute("myMenuList", page.getResult());
+			return "frame/leftmenu1";
+		} else {
+			return "error/500";
 		}
-		return "error";
+
 	}
 
 	private Map<Long, Menu> getMenuMap(Menu paramMenu, Map<Long, Menu> paramMap) {

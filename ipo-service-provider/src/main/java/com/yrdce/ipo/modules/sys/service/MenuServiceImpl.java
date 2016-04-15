@@ -2,7 +2,6 @@ package com.yrdce.ipo.modules.sys.service;
 
 import gnnt.MEBS.common.mgr.model.Menu;
 import gnnt.MEBS.common.mgr.model.Right;
-import gnnt.MEBS.common.mgr.service.StandardService;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -14,10 +13,10 @@ import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yrdce.ipo.modules.sys.dao.CRightMapper;
+import com.yrdce.ipo.common.dao.CRightMapper;
 
 @Service("menuService")
-public class MenuServiceImpl extends StandardService implements MenuService {
+public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private CRightMapper menuDao;
 

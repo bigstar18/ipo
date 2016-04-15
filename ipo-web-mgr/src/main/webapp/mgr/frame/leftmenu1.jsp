@@ -202,7 +202,7 @@ var promptTime = 60;
 			<div style="clear: both;"></div>
 			<div id="div_Container" align="left">
 				<c:set var="pictureLayerNumber" value="0" />
-			 <div class="leftMenu_div">
+			 <%-- <div class="leftMenu_div">
 					<div id="div_drw_Panel" align="left" curDrwNo="0"
 						onClick="drwSwitch();">
 						&nbsp;
@@ -234,7 +234,7 @@ var promptTime = 60;
         				</script>
 						</c:forEach>
 					</div>
-				</div>
+				</div> --%>
 				<c:set var="RootRightID" value="<%=Global.ROOTRIGHTID%>"></c:set>
 				<c:forEach var="menu" items="${HaveRightMenu.childMenuSet}">
 					<c:set var="mainMenu" value="${menu}"></c:set>
@@ -247,7 +247,7 @@ var promptTime = 60;
 									align="top" curDrwNo="${pictureLayerNumber }" />
 							</a> &nbsp;${mainMenu.name }
 						</div>
-						<c:if test="${fn:length(myMenuList)>0}">
+						<%-- <c:if test="${fn:length(myMenuList)>0}">
 							<div id="div_drw_Content" style="display: none;">
 						</c:if>
 						<c:if test="${fn:length(myMenuList)==0}">
@@ -259,7 +259,7 @@ var promptTime = 60;
 										<div id="div_drw_Content" style="display: none;">
 									</c:otherwise>
 								</c:choose>
-						</c:if>
+						</c:if> --%>
 						<div id="tree">
 							<c:set var="firstMenu" value="${mainMenu.childMenuSet}"></c:set>
 							<c:forEach var="firstMenu" items="${firstMenu}">
@@ -303,7 +303,7 @@ var promptTime = 60;
 					style="display: none;"></div>
 			</div>
 		</c:if>
-		<c:if test="${fn:length(myMenuList)>0}"><span id="span_curstatus" curNo="0" style="display: none;"></span></c:if>
-		<c:if test="${fn:length(myMenuList)==0}"><span id="span_curstatus" curNo="1" style="display: none;"></span></c:if>
+	<%-- 	<c:if test="${fn:length(myMenuList)>0}"><span id="span_curstatus" curNo="0" style="display: none;"></span></c:if>
+		<c:if test="${fn:length(myMenuList)==0}"><span id="span_curstatus" curNo="1" style="display: none;"></span></c:if> --%>
 	</body>
 </html>

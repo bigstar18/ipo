@@ -1,4 +1,4 @@
-package com.yrdce.ipo.modules.sys.dao;
+package com.yrdce.ipo.common.dao;
 
 import gnnt.MEBS.common.mgr.model.Menu;
 
