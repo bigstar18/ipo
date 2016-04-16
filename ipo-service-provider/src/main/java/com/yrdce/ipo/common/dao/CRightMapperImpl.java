@@ -1,11 +1,12 @@
 package com.yrdce.ipo.common.dao;
 
-import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.logonService.dao.BaseDAOJdbc;
-
 import java.util.List;
 
-public class CRightMapperImpl extends BaseDAOJdbc implements CRightMapper {
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
+import gnnt.MEBS.common.mgr.model.Menu;
+
+public class CRightMapperImpl extends JdbcDaoSupport implements CRightMapper {
 
 	@Override
 	public Menu selectByPrimaryKey(Long id) {
@@ -13,8 +14,7 @@ public class CRightMapperImpl extends BaseDAOJdbc implements CRightMapper {
 		String sql = " select ID, PARENTID, NAME, ICON, VISITURL, MODULEID, SEQ, VISIBLE,  TYPE  from C_RIGHT  where ID = ?";
 		Object[] params = { id };
 		try {
-			menu = (Menu) this.getJdbcTemplate().queryForObject(sql, params,
-					Menu.class);
+			menu = (Menu) this.getJdbcTemplate().queryForObject(sql, params, Menu.class);
 		} catch (Exception e) {
 			menu = null;
 			e.printStackTrace();
@@ -36,14 +36,12 @@ public class CRightMapperImpl extends BaseDAOJdbc implements CRightMapper {
 	}
 
 	@Override
-	public List<Menu> getMenuByFilter(int paramInt1, int paramInt2,
-			int paramInt3) {
+	public List<Menu> getMenuByFilter(int paramInt1, int paramInt2, int paramInt3) {
 		List<Menu> menuDetails;
 		String sql = "select * from C_RIGHT   where  (TYPE = ? or TYPE = ?) and VISIBLE =? order by MODULEID,SEQ";
 		Object[] params = { paramInt1, paramInt2, paramInt3 };
 		try {
-			menuDetails = this.getJdbcTemplate().queryForList(sql, params,
-					Menu.class);
+			menuDetails = this.getJdbcTemplate().queryForList(sql, params, Menu.class);
 		} catch (Exception e) {
 			menuDetails = null;
 			e.printStackTrace();
@@ -52,14 +50,12 @@ public class CRightMapperImpl extends BaseDAOJdbc implements CRightMapper {
 	}
 
 	@Override
-	public List<Menu> getMenuBySubFilter(int paramInt1, int paramInt2,
-			int paramInt3) {
+	public List<Menu> getMenuBySubFilter(int paramInt1, int paramInt2, int paramInt3) {
 		List<Menu> menuDetails;
 		String sql = "select * from C_RIGHT where PARENTID!=-1   and (TYPE = ? or TYPE = ?) and VISIBLE =? order by MODULEID,SEQ";
 		Object[] params = { paramInt1, paramInt2, paramInt3 };
 		try {
-			menuDetails = this.getJdbcTemplate().queryForList(sql, params,
-					Menu.class);
+			menuDetails = this.getJdbcTemplate().queryForList(sql, params, Menu.class);
 		} catch (Exception e) {
 			menuDetails = null;
 			e.printStackTrace();
@@ -68,14 +64,11 @@ public class CRightMapperImpl extends BaseDAOJdbc implements CRightMapper {
 	}
 
 	@Override
-	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2,
-			int paramInt3, List<Integer> paramList) {
+	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2, int paramInt3, List<Integer> paramList) {
 		String sql = "select * from C_RIGHT  where ID = ? and  PARENTID != -1  and (TYPE = ? or TYPE = ?) and VISIBLE =? and MODULEID in(?) order by SEQ";
-		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3,
-				paramList };
+		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3, paramList };
 		try {
-			List<Menu> menuDetails = this.getJdbcTemplate().queryForList(sql,
-					params, Menu.class);
+			List<Menu> menuDetails = this.getJdbcTemplate().queryForList(sql, params, Menu.class);
 			if (menuDetails.size() > 0) {
 				return (Menu) menuDetails.get(0);
 			}
