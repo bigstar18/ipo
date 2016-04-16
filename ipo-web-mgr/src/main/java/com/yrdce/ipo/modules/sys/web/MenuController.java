@@ -1,30 +1,22 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.common.mgr.common.Global;
-import gnnt.MEBS.common.mgr.common.Page;
-import gnnt.MEBS.common.mgr.common.PageRequest;
-import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.common.mgr.model.MyMenu;
-import gnnt.MEBS.common.mgr.model.Right;
-import gnnt.MEBS.common.mgr.model.StandardModel;
-import gnnt.MEBS.common.mgr.model.User;
-import gnnt.MEBS.common.mgr.service.StandardService;
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.yrdce.ipo.modules.sys.service.MenuService;
+import com.yrdce.ipo.integrate.Global;
+
+import gnnt.MEBS.common.mgr.model.Menu;
+import gnnt.MEBS.common.mgr.model.Right;
+import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 菜单权限
@@ -36,23 +28,15 @@ import com.yrdce.ipo.modules.sys.service.MenuService;
 @RequestMapping("MenuController")
 public class MenuController {
 
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
-			.getLogger(MenuController.class);
-
-	@Autowired
-	private MenuService menuService;
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MenuController.class);
 
 	@RequestMapping(value = "/menuList", method = RequestMethod.GET)
 	public String menuList(HttpServletRequest request) {
 
-		String userId = this.getLoginUserId(request);
-		User localUser = (User) request.getSession()
-				.getAttribute("CurrentUser");
+		String userId = getLoginUserId(request);
 
-		if (localUser != null) {
-			boolean isSuperAdminRole = false;
-			isSuperAdminRole = (Boolean) request.getSession().getAttribute(
-					Global.ISSUPERADMIN);
+		if (userId != null) {
+			boolean isSuperAdminRole = (Boolean) request.getSession().getAttribute(Global.ISSUPERADMIN);
 
 			Menu allMenu = Global.getRootMenu();
 
@@ -65,44 +49,12 @@ public class MenuController {
 			}
 			// 不是超级管理员获取自己有权限的菜单
 			else {
-				Map<Long, Right> rightMap = localUser.getRightMap();
-				Menu menu = menuService.getHaveRightMenu(allMenu, rightMap);
+				Map<Long, Right> rightMap = getRightMap();
+				Menu menu = getHaveRightMenu(allMenu, rightMap);
 				request.setAttribute(Global.HAVERIGHTMENU, menu);
 				menuMap = getMenuMap(menu, menuMap);
 			}
 
-			// 当前系统所加载的菜单模块
-			List<Integer> moduleIDList = Global.getModuleIDList();
-			String filter = " and primary.user.userId='"
-					+ localUser.getUserId() + "' ";
-			if (moduleIDList != null) {
-				String modules = "" + Global.COMMONMODULEID;
-				for (Integer moduleID : moduleIDList) {
-					if (moduleID != Global.COMMONMODULEID) {
-						modules += "," + moduleID;
-					}
-				}
-				filter += " and primary.right.moduleId in (" + modules + ") ";
-			}
-
-			// 获取该登录用户下的快捷菜单中菜单ID的集合并存入数组中
-			PageRequest<String> pageRequest = new PageRequest<String>(filter);
-			StandardService standardService = new StandardService();
-			Page<StandardModel> page = standardService.getPage(pageRequest,
-					new MyMenu());
-			List<MyMenu> myMenuList = new ArrayList<MyMenu>();
-
-			// 遍历查看我的菜单中菜单权限，防止设置我的菜单后，管理员撤销了本用户的权限
-			if (page != null && page.getResult() != null && menuMap != null) {
-				for (StandardModel standardModel : page.getResult()) {
-					MyMenu myMenu = (MyMenu) standardModel;
-					if (menuMap.get(myMenu.getRight().getId()) != null) {
-						myMenuList.add(myMenu);
-					}
-				}
-			}
-
-			request.setAttribute("myMenuList", page.getResult());
 			return "frame/leftmenu1";
 		} else {
 			return "error/500";
@@ -110,29 +62,97 @@ public class MenuController {
 
 	}
 
-	private Map<Long, Menu> getMenuMap(Menu paramMenu, Map<Long, Menu> paramMap) {
-		if (paramMenu == null)
-			return paramMap;
-		if (paramMap == null)
-			paramMap = new LinkedHashMap();
-		paramMap.put(paramMenu.getId(), paramMenu);
-		if (paramMenu.getChildMenuSet() != null) {
-			Iterator localIterator = paramMenu.getChildMenuSet().iterator();
-			while (localIterator.hasNext()) {
-				Menu localMenu = (Menu) localIterator.next();
-				getMenuMap(localMenu, paramMap);
+	/**
+	 * 遍历 menu 将子 menu 添加到 map 中<br/>
+	 * key：菜单编号，value 菜单
+	 * 
+	 * @param menu
+	 * @param map
+	 * @return
+	 */
+	private Map<Long, Menu> getMenuMap(Menu menu, Map<Long, Menu> map) {
+		if (menu == null)
+			return map;
+		if (map == null)
+			map = new LinkedHashMap<Long, Menu>();
+		map.put(menu.getId(), menu);
+		if (menu.getChildMenuSet() != null) {
+			for (Menu child : menu.getChildMenuSet()) {
+				getMenuMap(child, map);
 			}
 		}
-		return paramMap;
+		return map;
+	}
+
+	/**
+	 * 根据菜单树和权限 获取有权限的菜单集合
+	 * 
+	 * @param allMenu
+	 *            所有菜单
+	 * @param rightMap
+	 *            权限
+	 * @return 有权限的菜单树
+	 */
+	public Menu getHaveRightMenu(Menu allMenu, Map<Long, Right> rightMap) {
+		// 新菜单对象 将有权限的菜单复制到新菜单对象
+		Menu newMenu = (Menu) allMenu.clone();
+
+		// 因为是克隆过来的所以 子菜单有内容，清空子菜单;子菜单使用seq排序
+		newMenu.setChildMenuSet(new TreeSet<Menu>(new Comparator<Menu>() {
+			public int compare(Menu menu1, Menu menu2) {
+				if (menu1.getSeq() == menu2.getSeq()) {
+					return 0;
+				} else if (menu1.getSeq() > menu2.getSeq()) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+		}));
+
+		// 源菜单的子菜单集合
+		Set<Menu> childMenuSet = allMenu.getChildMenuSet();
+
+		// 新菜单子菜单集合
+		Set<Menu> newChildMenuSet = newMenu.getChildMenuSet();
+
+		// 遍历子菜单 查看是否有权限 有权限则添加到新菜单
+		for (Menu childMenu : childMenuSet) {
+			// 权限中是否包含菜单权限标志
+			boolean includeFlag = false;
+			for (Long rightID : rightMap.keySet()) {
+				if (childMenu.getId().longValue() == rightID.longValue()) {
+					includeFlag = true;
+					break;
+				}
+			}
+			// 如果有权限
+			if (includeFlag) {
+				// 新子菜单对象
+				Menu newChildMenu = (Menu) childMenu.clone();
+				// 递归判断子菜单是否还有子菜单 如果有递归
+				if (newChildMenu.getChildMenuSet() != null && newChildMenu.getChildMenuSet().size() > 0) {
+					newChildMenu = getHaveRightMenu(newChildMenu, rightMap);
+				}
+				newChildMenuSet.add(newChildMenu);
+			}
+
+		}
+
+		return newMenu;
+	}
+
+	private Map<Long, Right> getRightMap() {
+
+		return null;
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
-				"CurrentUser");
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
 			return user.getUserID();
 		}
-		return "nologin";
+		return null;
 	}
 
 }

@@ -35,6 +35,7 @@ public class SecurityFilter implements Filter {
 	int moduleId = 40;
 	String sysType = "front";
 	QueryDao queryDao;
+	Global global;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		String tmp = filterConfig.getInitParameter("sysType");
@@ -48,7 +49,9 @@ public class SecurityFilter implements Filter {
 		tmp = filterConfig.getInitParameter("moduleId");
 		if (tmp != null) {
 			moduleId = Integer.valueOf(tmp);
+			Global.selfModuleID = moduleId;
 		}
+		Global.selfLogonType = "web";
 
 		try {
 			wac = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
@@ -60,24 +63,26 @@ public class SecurityFilter implements Filter {
 			queryDao = new QueryDao();
 			queryDao.setDataSource(ds);
 
+			global = new Global();
+			global.queryDao = queryDao;
+			global.contextInitialized(null);
+
 			LogonActualize.createInstance(moduleId, 0, ds, auExpireTimeMap, 200, 3, sysType);
 		} catch (Exception e) {
 			logger.error("error", e);
 		}
 	}
 
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		if ((request.getHeader("X-Requested-With") != null)
-				&& (request.getHeader("X-Requested-With").equalsIgnoreCase("XMLHttpRequest"))) {
+		if ((request.getHeader("X-Requested-With") != null) && (request.getHeader("X-Requested-With").equalsIgnoreCase("XMLHttpRequest"))) {
 			request.setCharacterEncoding("UTF-8");
 		} else {
 			request.setCharacterEncoding("GBK");
 		}
-		logger.debug("FromModuleID={}, FromLogonType={},LogonType={}", request.getParameter("FromModuleID"),
-				request.getParameter("FromLogonType"), request.getParameter("LogonType"));
+		logger.debug("FromModuleID={}, FromLogonType={},LogonType={}", request.getParameter("FromModuleID"), request.getParameter("FromLogonType"),
+				request.getParameter("LogonType"));
 
 		String url = request.getServletPath();
 		request.setAttribute("currenturl", url);
@@ -119,12 +124,10 @@ public class SecurityFilter implements Filter {
 
 					ActiveUserManager.configId = configId;
 					ActiveUserManager.ds = ds;
-					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID,
-							selfLogonType, fromLogonType, selfModuleID);
+					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 					user = au.getUserManageVO();
 					if (user != null) {
-						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID,
-								selfLogonType, selfModuleID);
+						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID, selfLogonType, selfModuleID);
 						if (logonSuccess) {
 							request.getSession().setAttribute("CurrentUser", user);
 							if ("front".equals(sysType)) {
@@ -151,8 +154,7 @@ public class SecurityFilter implements Filter {
 			String loginURL = "/" + sysType + "/error/403.jsp";
 			logger.info("user is null, forward to : {}", loginURL);
 
-			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl)
-					.forward(request, response);
+			request.getSession().getServletContext().getRequestDispatcher(loginURL + "?preUrl" + "=" + preUrl).forward(request, response);
 		}
 	}
 

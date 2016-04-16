@@ -3,9 +3,11 @@ package com.yrdce.ipo.common.dao;
 import java.util.List;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Component;
 
 import gnnt.MEBS.common.mgr.model.Menu;
 
+@Component
 public class CRightMapperImpl extends JdbcDaoSupport implements CRightMapper {
 
 	@Override
