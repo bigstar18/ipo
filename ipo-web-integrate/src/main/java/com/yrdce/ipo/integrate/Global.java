@@ -1,5 +1,13 @@
 package com.yrdce.ipo.integrate;
 
+import gnnt.MEBS.common.mgr.model.Menu;
+import gnnt.MEBS.common.mgr.model.Right;
+import gnnt.MEBS.common.mgr.model.StandardModel;
+import gnnt.MEBS.common.mgr.model.TradeModule;
+import gnnt.MEBS.common.mgr.service.RightService;
+import gnnt.MEBS.common.mgr.statictools.ApplicationContextInit;
+import gnnt.MEBS.common.mgr.statictools.Tools;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +20,6 @@ import java.util.Set;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
-
-import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.common.mgr.model.Right;
-import gnnt.MEBS.common.mgr.model.StandardModel;
-import gnnt.MEBS.common.mgr.model.TradeModule;
-import gnnt.MEBS.common.mgr.service.RightService;
-import gnnt.MEBS.common.mgr.statictools.ApplicationContextInit;
-import gnnt.MEBS.common.mgr.statictools.Tools;
 
 /**
  * 全局对象 系统启动时加载；包含菜单等信息
@@ -153,11 +153,13 @@ public class Global implements ServletContextListener {
 	@SuppressWarnings("unchecked")
 	public void contextInitialized(ServletContextEvent arg0) {
 		// 获取市场信息
-		List<Map<Object, Object>> listMap = queryDao.getListBySql("select * from c_marketInfo");
+		List<Map<String, Object>> listMap = queryDao
+				.getMarketInfosBySql("select * from c_marketInfo");
 		marketInfoMap = new LinkedHashMap<String, String>();
 		if (listMap != null && listMap.size() > 0) {
-			for (Map<Object, Object> map : listMap) {
-				marketInfoMap.put((String) map.get("INFONAME"), (String) map.get("INFOVALUE"));
+			for (Map<String, Object> map : listMap) {
+				marketInfoMap.put((String) map.get("INFONAME"),
+						(String) map.get("INFOVALUE"));
 			}
 		}
 
@@ -166,21 +168,26 @@ public class Global implements ServletContextListener {
 		// 通过模块编号集合获取菜单
 		rootMenu = getMenuById();
 
-		RightService rightService = (RightService) ApplicationContextInit.getBean("com_rightService");
+		RightService rightService = (RightService) ApplicationContextInit
+				.getBean("com_rightService");
 
 		rightTree = rightService.loadRightTree();
 
 		// 访问模式 0：rmi访问登录管理 1：本地访问登录管理
-		int callMode = Tools.strToInt(ApplicationContextInit.getConfig("CallMode"), 0);
+		int callMode = Tools.strToInt(
+				ApplicationContextInit.getConfig("CallMode"), 0);
 
 		// 获取数据源
-		DataSource dataSource = (DataSource) ApplicationContextInit.getBean("dataSource");
+		DataSource dataSource = (DataSource) ApplicationContextInit
+				.getBean("dataSource");
 
 		// 用户超时线程睡眠时间，以毫秒为单位
-		long timeSpace = Tools.strToLong(ApplicationContextInit.getConfig("timeSpace"), 200);
+		long timeSpace = Tools.strToLong(
+				ApplicationContextInit.getConfig("timeSpace"), 200);
 
 		// 重置 RMI 连接次数后重新到数据库中获取连接地址的次数
-		int clearRMITimes = Tools.strToInt(ApplicationContextInit.getConfig("clearRMITimes"), -1);
+		int clearRMITimes = Tools.strToInt(
+				ApplicationContextInit.getConfig("clearRMITimes"), -1);
 
 	}
 
@@ -188,7 +195,8 @@ public class Global implements ServletContextListener {
 	 * 获取根菜单
 	 */
 	public Menu getMenuById() {
-		Menu rootMenu = queryDao.getMenuById(ROOTRIGHTID, -1, 0, 0, getModuleIDList());
+		Menu rootMenu = queryDao.getMenuById(ROOTRIGHTID, -1, 0, 0,
+				getModuleIDList());
 
 		// 将根菜单的子菜单按照模块号的顺序进行排序
 		if (modelContextMap != null && modelContextMap.size() > 0) {
@@ -251,31 +259,36 @@ public class Global implements ServletContextListener {
 		// 从数据库c_deploy_config表中获取系统配置信息
 		Map<Integer, Map<Object, Object>> springTradeModuleMap = new LinkedHashMap<Integer, Map<Object, Object>>();
 		try {
-			List<Map<Object, Object>> listMap = queryDao
-					.getListBySql("select * from c_deploy_config t where t.systype='mgr' order by t.sortno,t.moduleid asc");
-			for (Map<Object, Object> map : listMap) {
+			List<Map<String, Object>> listMap = queryDao
+					.getConfigListBySql("select * from c_deploy_config t where t.systype='mgr' order by t.sortno,t.moduleid asc");
+			for (Map<String, Object> map : listMap) {
 				Map<Object, Object> mapClone = new HashMap<Object, Object>();
 				for (Object key : map.keySet()) {
 					mapClone.put(key, map.get(key));
 				}
-				springTradeModuleMap.put(Tools.strToInt((BigDecimal) (mapClone.get("MODULEID")) + ""), mapClone);
+				springTradeModuleMap.put(
+						Tools.strToInt((BigDecimal) (mapClone.get("MODULEID"))
+								+ ""), mapClone);
 			}
 		} catch (Exception e) {
 		}
 		if (springTradeModuleMap != null && springTradeModuleMap.size() > 0) {
 			// 查询系统中部署了哪几个系统
-			List<StandardModel> list = queryDao.getListBySql("select * from c_trademodule where 1=1", new TradeModule());
+			List<StandardModel> list = queryDao.getTradeModulesBySql(
+					"select * from c_trademodule where 1=1", new TradeModule());
 			if (list != null) {
 				for (Integer moduleID : springTradeModuleMap.keySet()) {// 外层循环配置文件中的配置，以使得页面展示按钮时有顺序性
 					for (StandardModel model : list) {
 						TradeModule tm = (TradeModule) model;
-						if (moduleID != null && moduleID.equals(tm.getModuleId())) {
-							Map<Object, Object> value = springTradeModuleMap.get(moduleID);
+						if (moduleID != null
+								&& moduleID.equals(tm.getModuleId())) {
+							Map<Object, Object> value = springTradeModuleMap
+									.get(moduleID);
 							/*
 							 * 由于 Spring 配置文件中配置的多个地方引用同一个ID号时，
 							 * 认为本ID号所引用的实体对象是同一个实体对象，操作的是同一块内存。
-							 * 所以：如果配置文件中错误的将两个 moduleID 配置成一个 Map 对象
-							 * 则两个 moduleID 中保存的模块信息完全相同，导致页面上展示的信息也是完全相同的。
+							 * 所以：如果配置文件中错误的将两个 moduleID 配置成一个 Map 对象 则两个
+							 * moduleID 中保存的模块信息完全相同，导致页面上展示的信息也是完全相同的。
 							 */
 							if (value != null) {
 								value.put("enName", tm.getEnName());
