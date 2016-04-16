@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gnnt.MEBS.common.mgr.model.User;
 import gnnt.MEBS.logonServerUtil.au.AUConnectManager;
 import gnnt.MEBS.logonServerUtil.au.LogonActualize;
 import gnnt.MEBS.logonService.dao.LogonManagerDAO;
@@ -27,6 +28,7 @@ public abstract class ActiveUserManager {
 	private static Map<Integer, RemoteLogonServerVO> logonManagerMap = new HashMap<Integer, RemoteLogonServerVO>();
 	public static DataSource ds;
 	static int configId = 223001;
+	static QueryDao queryDao;
 
 	public static CheckUserResultVO checkUser(String userID, long sessionID, int fromModuleID, String selfLogonType, String fromLogonType,
 			int selfModuleID) {
@@ -106,15 +108,39 @@ public abstract class ActiveUserManager {
 	 * @param selfModuleID
 	 * @return
 	 */
-	public static boolean logon(String traderID, HttpServletRequest request, long sessionID, String logonType, int selfModuleID) {
+	public static boolean logon(String sysType, String traderID, HttpServletRequest request, long sessionID, String logonType, int selfModuleID) {
 		boolean result = true;
 
-		// request.getSession().setAttribute("IsSuperAdmin", Boolean.valueOf(isSuperAdminRole));
+		if ("mgr".equals(sysType))
+			mgrLogon(traderID, request, sessionID, logonType, selfModuleID);
+
 		request.getSession().setAttribute("sessionID", Long.valueOf(sessionID));
 		request.getSession().setAttribute("LogonType", logonType);
 		request.getSession().setMaxInactiveInterval(120 * 60);
 
 		return result;
+	}
+
+	private static void mgrLogon(String traderID, HttpServletRequest request, long sessionID, String logonType, int selfModuleID) {
+		// 获取登录用户信息
+		User user = (User) queryDao.getUserByID(traderID).clone();
+
+		// 记录 AU Session
+		user.setSessionId(sessionID);
+		// 记录登录地址
+		user.setIpAddress(request.getRemoteAddr());
+		user.setLogonType(logonType);
+		user.setModuleID(selfModuleID);
+		// 是否超级/高级管理员
+		boolean isSuperAdminRole = false;
+		if ("DEFAULT_SUPER_ADMIN".equals(user.getType())// 超级管理员
+				|| "DEFAULT_ADMIN".equals(user.getType())) {// 高级管理员
+			isSuperAdminRole = true;
+			user.setRoleSet(queryDao.getAllRole());
+			user.setRightSet(queryDao.getAllRight());
+		}
+		request.getSession().setAttribute("IsSuperAdmin", Boolean.valueOf(isSuperAdminRole));
+		request.getSession().setAttribute("mgrUser", user);
 	}
 
 	public static void logoff(HttpServletRequest request) throws Exception {

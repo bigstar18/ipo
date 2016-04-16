@@ -63,6 +63,8 @@ public class SecurityFilter implements Filter {
 			queryDao = new QueryDao();
 			queryDao.setDataSource(ds);
 
+			ActiveUserManager.queryDao = queryDao;
+
 			global = new Global();
 			global.queryDao = queryDao;
 			global.contextInitialized(null);
@@ -127,7 +129,7 @@ public class SecurityFilter implements Filter {
 					CheckUserResultVO au = ActiveUserManager.checkUser(userID, sessionID, fromModuleID, selfLogonType, fromLogonType, selfModuleID);
 					user = au.getUserManageVO();
 					if (user != null) {
-						boolean logonSuccess = ActiveUserManager.logon(userID, request, sessionID, selfLogonType, selfModuleID);
+						boolean logonSuccess = ActiveUserManager.logon(sysType, userID, request, sessionID, selfLogonType, selfModuleID);
 						if (logonSuccess) {
 							request.getSession().setAttribute("CurrentUser", user);
 							if ("front".equals(sysType)) {

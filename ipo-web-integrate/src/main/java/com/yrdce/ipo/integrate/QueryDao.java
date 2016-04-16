@@ -1,10 +1,14 @@
 package com.yrdce.ipo.integrate;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 
+import gnnt.MEBS.common.mgr.common.PageRequest;
 import gnnt.MEBS.common.mgr.model.Menu;
+import gnnt.MEBS.common.mgr.model.Right;
 import gnnt.MEBS.common.mgr.model.StandardModel;
 import gnnt.MEBS.common.mgr.model.TradeModule;
 import gnnt.MEBS.logonService.dao.BaseDAOJdbc;
@@ -24,6 +28,13 @@ public class QueryDao extends BaseDAOJdbc {
 
 		return currentPhase;
 	}
+
+	getUserByID
+	
+	getAllRole
+
+	getAllRight() {
+				" and type!=-2 ");
 
 	getListBySql("select * from c_marketInfo");
 	
