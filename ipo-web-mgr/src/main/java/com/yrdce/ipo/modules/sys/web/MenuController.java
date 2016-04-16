@@ -44,6 +44,7 @@ public class MenuController {
 
 	@RequestMapping(value = "/menuList", method = RequestMethod.GET)
 	public String menuList(HttpServletRequest request) {
+
 		String userId = this.getLoginUserId(request);
 		User localUser = (User) request.getSession()
 				.getAttribute("CurrentUser");

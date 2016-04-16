@@ -10,40 +10,36 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yrdce.ipo.common.dao.CRightMapper;
+import com.yrdce.ipo.common.dao.CRightMapperImpl;
 
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
-	@Autowired
-	private CRightMapper menuDao;
 
 	@Override
 	public List<Menu> getMenuByFilter(int paramInt1, int paramInt2,
 			int paramInt3) {
+		CRightMapperImpl menuDao = new CRightMapperImpl();
 		return menuDao.getMenuByFilter(paramInt1, paramInt2, paramInt3);
 	}
 
 	@Override
 	public Menu getMenuById(long paramLong, List<Integer> paramList) {
-		List<Menu> localList = menuDao.getMenuById(paramLong, -1, 0, 0,
-				paramList);
-		if (localList.size() > 0) {
-			return (Menu) localList.get(0);
-		}
-		return null;
+		CRightMapperImpl menuDao = new CRightMapperImpl();
+		return menuDao.getMenuById(paramLong, -1, 0, 0, paramList);
 	}
 
 	@Override
 	public List<Menu> getMenuBySubFilter(int paramInt1, int paramInt2,
 			int paramInt3) {
+		CRightMapperImpl menuDao = new CRightMapperImpl();
 		return menuDao.getMenuBySubFilter(paramInt1, paramInt2, paramInt3);
 	}
 
 	@Override
 	public Menu getHaveRightMenu(Menu paramMenu, Map<Long, Right> paramMap) {
+		CRightMapperImpl menuDao = new CRightMapperImpl();
 		Menu localMenu1 = (Menu) paramMenu.clone();
 		localMenu1.setChildMenuSet(new TreeSet(new Comparator() {
 			public int compare(Menu paramAnonymousMenu1,

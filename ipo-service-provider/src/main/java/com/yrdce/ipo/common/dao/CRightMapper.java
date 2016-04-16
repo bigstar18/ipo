@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.yrdce.ipo.common.dao.MyBatisDao;
-
-@MyBatisDao
 public interface CRightMapper {
 
 	Menu selectByPrimaryKey(Long id);
@@ -21,7 +18,7 @@ public interface CRightMapper {
 	List<Menu> getMenuBySubFilter(@Param("paramInt1") int paramInt1,
 			@Param("paramInt2") int paramInt2, @Param("paramInt3") int paramInt3);
 
-	List<Menu> getMenuById(@Param("id") long paramLong,
+	Menu getMenuById(@Param("id") long paramLong,
 			@Param("paramInt1") int paramInt1,
 			@Param("paramInt2") int paramInt2,
 			@Param("paramInt3") int paramInt3,
