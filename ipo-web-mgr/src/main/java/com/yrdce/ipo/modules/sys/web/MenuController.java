@@ -1,9 +1,5 @@
 package com.yrdce.ipo.modules.sys.web;
 
-import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.common.mgr.model.Right;
-import gnnt.MEBS.logonService.vo.UserManageVO;
-
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yrdce.ipo.integrate.Global;
 
+import gnnt.MEBS.common.mgr.model.Menu;
+import gnnt.MEBS.common.mgr.model.Right;
+import gnnt.MEBS.common.mgr.model.User;
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 /**
  * 菜单权限
  * 
@@ -29,18 +30,15 @@ import com.yrdce.ipo.integrate.Global;
 @RequestMapping("MenuController")
 public class MenuController {
 
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
-			.getLogger(MenuController.class);
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MenuController.class);
 
 	@RequestMapping(value = "/menuList", method = RequestMethod.GET)
-	public String menuList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String menuList(HttpServletRequest request, HttpServletResponse response) {
 
 		String userId = getLoginUserId(request);
 
 		if (userId != null) {
-			boolean isSuperAdminRole = (Boolean) request.getSession()
-					.getAttribute(Global.ISSUPERADMIN);
+			boolean isSuperAdminRole = (Boolean) request.getSession().getAttribute(Global.ISSUPERADMIN);
 
 			Menu allMenu = Global.getRootMenu();
 
@@ -53,7 +51,7 @@ public class MenuController {
 			}
 			// 不是超级管理员获取自己有权限的菜单
 			else {
-				Map<Long, Right> rightMap = getRightMap();
+				Map<Long, Right> rightMap = getRightMap(request);
 				Menu menu = getHaveRightMenu(allMenu, rightMap);
 				request.setAttribute(Global.HAVERIGHTMENU, menu);
 				menuMap = getMenuMap(menu, menuMap);
@@ -135,8 +133,7 @@ public class MenuController {
 				// 新子菜单对象
 				Menu newChildMenu = (Menu) childMenu.clone();
 				// 递归判断子菜单是否还有子菜单 如果有递归
-				if (newChildMenu.getChildMenuSet() != null
-						&& newChildMenu.getChildMenuSet().size() > 0) {
+				if (newChildMenu.getChildMenuSet() != null && newChildMenu.getChildMenuSet().size() > 0) {
 					newChildMenu = getHaveRightMenu(newChildMenu, rightMap);
 				}
 				newChildMenuSet.add(newChildMenu);
@@ -147,14 +144,13 @@ public class MenuController {
 		return newMenu;
 	}
 
-	private Map<Long, Right> getRightMap() {
-
-		return null;
+	private Map<Long, Right> getRightMap(HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("mgrUser");
+		return user.getRightMap();
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
-				"CurrentUser");
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
 		if (user != null) {
 			return user.getUserID();
 		}

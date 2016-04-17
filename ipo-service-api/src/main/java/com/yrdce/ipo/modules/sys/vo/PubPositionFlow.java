@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * ·¢ĞĞÉÌ ipo ³Ö²ÖÁ÷Ë®
+ * å‘è¡Œå•† ipo æŒä»“æµæ°´
  * 
  * @author chenj 2016-2-16
  *
@@ -15,80 +15,80 @@ public class PubPositionFlow implements Serializable {
 	private static final long serialVersionUID = -1112459142599339841L;
 
 	/**
-	 * ³Ö²Öµ¥ºÅ
+	 * æŒä»“å•å·
 	 */
 	private Long id;
 
 	/**
-	 * ·¢ĞĞÉÌ»áÔ±´úÂë
+	 * å‘è¡Œå•†ä¼šå‘˜ä»£ç 
 	 */
 	private String publisherId;
 
 	/**
-	 * ½»Ò×ÉÌid
+	 * äº¤æ˜“å•†id
 	 */
 	private String firmId;
 
 	/**
-	 * ³Ö²ÖÁ¿
+	 * æŒä»“é‡
 	 */
 	private Long holdqty;
 	/**
-	 * ¶³½áÊıÁ¿
+	 * å†»ç»“æ•°é‡
 	 */
 	private Long frozenqty;
 	/**
-	 * ÊÍ·ÅÊıÁ¿
+	 * é‡Šæ”¾æ•°é‡
 	 */
 	private Long freeqty;
 
 	/**
-	 * ÒµÎñÀàĞÍ
+	 * ä¸šåŠ¡ç±»å‹
 	 */
 	private String businessCode;
 	/**
-	 * ½ÇÉ«ÀàĞÍ
+	 * è§’è‰²ç±»å‹
 	 */
 	private String roleCode;
 	/**
-	 * ÉÌÆ·±àÂë
+	 * å•†å“ç¼–ç 
 	 */
 	private String commodityId;
 	/**
-	 * ÉÌÆ·Ãû³Æ
+	 * å•†å“åç§°
 	 */
 	private String commodityName;
 	/**
-	 * ³Ö²Ö¼Û
+	 * æŒä»“ä»·
 	 */
 	private BigDecimal price;
 
 	/**
-	 * ×´Ì¬ 1:´ı×ªÏÖ»õ 2:ÒÑ×ªÏÖ»õ
+	 * çŠ¶æ€ 1:å¾…è½¬ç°è´§ 2:å·²è½¬ç°è´§
 	 */
 	private int state;
 	/**
-	 * ×´Ì¬ 1:´ı×ªÏÖ»õ 2:ÒÑ×ªÏÖ»õ
+	 * çŠ¶æ€ 1:å¾…è½¬ç°è´§ 2:å·²è½¬ç°è´§
 	 */
 	private String stateName;
 	/**
-	 * ´´½¨ÈË
+	 * åˆ›å»ºäºº
 	 */
 	private String createUser;
 	/**
-	 * ´´½¨Ê±¼ä
+	 * åˆ›å»ºæ—¶é—´
 	 */
 	private Date createDate;
 	/**
-	 * ĞŞ¸ÄÈË
+	 * ä¿®æ”¹äºº
 	 */
 	private String updateUser;
 	/**
-	 * ĞŞ¸ÄÊ±¼ä
+	 * ä¿®æ”¹æ—¶é—´
 	 */
 	private Date updateDate;
 	/**
-	 * ±¸×¢
+	 * å¤‡æ³¨
 	 */
 	private String remark;
 

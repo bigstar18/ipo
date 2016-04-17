@@ -177,7 +177,7 @@ public class QueryDao extends BaseDAOJdbc {
 		return rightInfos;
 	}
 
-	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2, int paramInt3, List<Integer> paramList) {
+	public List<Menu> getMenuById(long paramLong, int paramInt1, int paramInt2, int paramInt3, List<Integer> paramList) {
 		try {
 			String sql = "select * from C_RIGHT  where ID = :paramLong and  (TYPE = :paramInt1 or TYPE = :paramInt2) and VISIBLE =:paramInt3 and MODULEID in(:param) order by SEQ";
 			Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -195,7 +195,7 @@ public class QueryDao extends BaseDAOJdbc {
 					rightInfo.setId(rs.getLong("id"));
 					rightInfo.setName(rs.getString("name"));
 					rightInfo.setIcon(rs.getString("icon"));
-					rightInfo.setUrl(rs.getString("url"));
+					rightInfo.setUrl(rs.getString("VISITURL"));
 					rightInfo.setModuleId(rs.getInt("moduleId"));
 					rightInfo.setVisible(rs.getInt("visible"));
 					rightInfo.setSeq(rs.getInt("seq"));
@@ -203,10 +203,42 @@ public class QueryDao extends BaseDAOJdbc {
 					return rightInfo;
 				}
 			});
-			if (menulist.size() > 0) {
-				return menulist.get(0);
-			}
-			return new Menu();
+
+			return menulist;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Menu> getMenuByParentId(long paramLong, int paramInt1, int paramInt2, int paramInt3, List<Integer> paramList) {
+		try {
+			String sql = "select * from C_RIGHT  where parentID = :paramLong and  (TYPE = :paramInt1 or TYPE = :paramInt2) and VISIBLE =:paramInt3 and MODULEID in(:param) order by SEQ";
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("paramLong", paramLong);
+			paramMap.put("paramInt1", paramInt1);
+			paramMap.put("paramInt2", paramInt2);
+			paramMap.put("paramInt3", paramInt3);
+			paramMap.put("param", paramList);
+			NamedParameterJdbcTemplate jdbc = new NamedParameterJdbcTemplate(this.getJdbcTemplate());
+			List<Menu> menulist = jdbc.query(sql, paramMap, new RowMapper<Menu>() {
+
+				@Override
+				public Menu mapRow(ResultSet rs, int index) throws SQLException {
+					Menu rightInfo = new Menu();
+					rightInfo.setId(rs.getLong("id"));
+					rightInfo.setName(rs.getString("name"));
+					rightInfo.setIcon(rs.getString("icon"));
+					rightInfo.setUrl(rs.getString("VISITURL"));
+					rightInfo.setModuleId(rs.getInt("moduleId"));
+					rightInfo.setVisible(rs.getInt("visible"));
+					rightInfo.setSeq(rs.getInt("seq"));
+					rightInfo.setParentID(rs.getLong("parentID"));
+					return rightInfo;
+				}
+			});
+
+			return menulist;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
