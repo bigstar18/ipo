@@ -138,13 +138,24 @@ public class QueryDao extends BaseDAOJdbc {
 
 	public List<StandardModel> getTradeModulesBySql() {
 		String sql = "select * from c_trademodule where 1=1";
-		List<TradeModule> list = this.getJdbcTemplate().queryForList(sql,
-				TradeModule.class);
-		List<StandardModel> result = new ArrayList<StandardModel>();
-		for (TradeModule temp : list) {
-			result.add(temp);
+		List<Map<String, Object>> trademoduleList = this.getJdbcTemplate()
+				.queryForList(sql);
+		List<StandardModel> rightInfos = new ArrayList<StandardModel>();
+		for (Map<String, Object> map : trademoduleList) {
+			TradeModule rightInfo = new TradeModule();
+			rightInfo.setModuleId((Integer) map.get("moduleId"));
+			rightInfo.setAddFirmFn((String) map.get("addFirmFn"));
+			rightInfo.setCnName((String) map.get("cnName"));
+			rightInfo.setDelFirmFn((String) map.get("delFirmFn"));
+			rightInfo.setEnName((String) map.get("enName"));
+			rightInfo.setIsFirmSet((String) map.get("isFirmSet"));
+			rightInfo.setIsNeedBreed((String) map.get("isNeedBreed"));
+			rightInfo.setShortName((String) map.get("shortName"));
+			rightInfo.setUpdateFirmStatusFn((String) map
+					.get("updateFirmStatusFn"));
+			rightInfos.add(rightInfo);
 		}
-		return result;
+		return rightInfos;
 	}
 
 	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2,
