@@ -1,53 +1,64 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
-
-<script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
-<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />
 <html>
 <head>
 <style type="text/css">
 body{
-	background: #2553a0;
+	background:#576a85;
 }
 .left_body{
 	padding-left: 0px;
 }
 .main_Menu{
-	background: url(<%=framePath %>/leftmenupic/left_main.png) no-repeat;
 }
 .first_Menu{
-	/*background: url(<%=framePath %>/leftmenupic/left_first.png) no-repeat;*/
 }
 .second_Menu{
-	/*background: black;*/
-	display: none;
+		border-top: 1px solid #7d92af;
+		color: #fff;
+		font-size: 12px;
+		font-family: "微软雅黑";
+		text-align: left;
+		display: none;
+		padding-left: 45px;
+		cursor: hand;
+		background:#576a85;
 }
 .main_Span{
-	color: #fff;
-	line-height: 30px;
-	padding-left: 10px;
+		background-color:#4f627c;
+		height: 35px;
+		line-height: 35px;
+		border-top:1px solid #617591;
+		border-bottom: 1px solid #3d4e68;
+		color: #fffbbd;
+		font-size: 14px;
+		font-family: "微软雅黑";
+		text-align: left;
+		padding-left: 20px;
+		cursor: hand;
 }
 .first_li{
-	background: url(<%=framePath %>/leftmenupic/left_first.png) no-repeat;
 }
 .first_li_change{
-	background: url(<%=framePath %>/leftmenupic/left_first2.png) no-repeat;
 }
 .first_Span{
-	cursor: hand;
-	color: #fff;
-	line-height: 26px;
-	padding-left: 25px;
+		background-color:#6c809c;
+		color: #fff;
+		font-size: 13px;
+		font-family: "微软雅黑";
+		border-bottom: 1px solid #5e728e;
+		border-top: 1px solid #7d92af;
+		text-align: left;
+		padding-left: 30px;
+		cursor: hand;
+		height:28px;
+		line-height: 28px;
 }
-.second_li{
-	color: #fff;
-	background: url(<%=framePath %>/leftmenupic/left_second.png) no-repeat;
-}
+
 .second_Span{
-	cursor: hand;
-	margin-left: 25px;
-	line-height: 27px;
-	color: #fff;
+		height: 25px;
+		line-height: 25px;
+		font-family:"微软雅黑";
 }
 
 </style>
