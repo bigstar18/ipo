@@ -1,5 +1,9 @@
 package com.yrdce.ipo.modules.sys.web;
 
+import gnnt.MEBS.common.mgr.model.Menu;
+import gnnt.MEBS.common.mgr.model.Right;
+import gnnt.MEBS.logonService.vo.UserManageVO;
+
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,16 +11,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yrdce.ipo.integrate.Global;
-
-import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.common.mgr.model.Right;
-import gnnt.MEBS.logonService.vo.UserManageVO;
 
 /**
  * 菜单权限
@@ -28,15 +29,18 @@ import gnnt.MEBS.logonService.vo.UserManageVO;
 @RequestMapping("MenuController")
 public class MenuController {
 
-	static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MenuController.class);
+	static org.slf4j.Logger logger = org.slf4j.LoggerFactory
+			.getLogger(MenuController.class);
 
 	@RequestMapping(value = "/menuList", method = RequestMethod.GET)
-	public String menuList(HttpServletRequest request) {
+	public String menuList(HttpServletRequest request,
+			HttpServletResponse response) {
 
 		String userId = getLoginUserId(request);
 
 		if (userId != null) {
-			boolean isSuperAdminRole = (Boolean) request.getSession().getAttribute(Global.ISSUPERADMIN);
+			boolean isSuperAdminRole = (Boolean) request.getSession()
+					.getAttribute(Global.ISSUPERADMIN);
 
 			Menu allMenu = Global.getRootMenu();
 
@@ -131,7 +135,8 @@ public class MenuController {
 				// 新子菜单对象
 				Menu newChildMenu = (Menu) childMenu.clone();
 				// 递归判断子菜单是否还有子菜单 如果有递归
-				if (newChildMenu.getChildMenuSet() != null && newChildMenu.getChildMenuSet().size() > 0) {
+				if (newChildMenu.getChildMenuSet() != null
+						&& newChildMenu.getChildMenuSet().size() > 0) {
 					newChildMenu = getHaveRightMenu(newChildMenu, rightMap);
 				}
 				newChildMenuSet.add(newChildMenu);
@@ -148,7 +153,8 @@ public class MenuController {
 	}
 
 	private String getLoginUserId(HttpServletRequest request) {
-		UserManageVO user = (UserManageVO) request.getSession().getAttribute("CurrentUser");
+		UserManageVO user = (UserManageVO) request.getSession().getAttribute(
+				"CurrentUser");
 		if (user != null) {
 			return user.getUserID();
 		}

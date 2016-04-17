@@ -51,7 +51,7 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Role> roleInfos = new ArrayList<Role>();
 		for (Map<String, Object> map : roleList) {
 			Role roleInfo = new Role();
-			roleInfo.setId((Long) map.get("id"));
+			roleInfo.setId(((BigDecimal) map.get("id")).longValue());
 			roleInfo.setName((String) map.get("name"));
 			roleInfo.setDescription((String) map.get("description"));
 			roleInfos.add(roleInfo);
@@ -69,7 +69,7 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Role> roleInfos = new ArrayList<Role>();
 		for (Map<String, Object> map : roleList) {
 			Role roleInfo = new Role();
-			roleInfo.setId((Long) map.get("id"));
+			roleInfo.setId(((BigDecimal) map.get("id")).longValue());
 			roleInfo.setName((String) map.get("name"));
 			roleInfo.setDescription((String) map.get("description"));
 			roleInfos.add(roleInfo);
@@ -87,15 +87,16 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Right> rightInfos = new ArrayList<Right>();
 		for (Map<String, Object> map : rightList) {
 			Right rightInfo = new Right();
-			rightInfo.setId((Long) map.get("id"));
+			rightInfo.setId(((BigDecimal) map.get("id")).longValue());
 			rightInfo.setName((String) map.get("name"));
 			rightInfo.setIcon((String) map.get("icon"));
 			rightInfo.setUrl((String) map.get("url"));
 			rightInfo.setVisiturl((String) map.get("visiturl"));
-			rightInfo.setModuleId((Integer) map.get("moduleId"));
-			rightInfo.setVisible((Integer) map.get("visible"));
-			rightInfo.setSeq((Integer) map.get("seq"));
-			rightInfo.setType((Integer) map.get("type"));
+			rightInfo
+					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
+			rightInfo.setVisible(((BigDecimal) map.get("visible")).intValue());
+			rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
+			rightInfo.setType(((BigDecimal) map.get("type")).intValue());
 			rightInfos.add(rightInfo);
 		}
 		Set<Right> result = new HashSet<Right>();
@@ -111,15 +112,16 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Right> rightInfos = new ArrayList<Right>();
 		for (Map<String, Object> map : rightList) {
 			Right rightInfo = new Right();
-			rightInfo.setId((Long) map.get("id"));
+			rightInfo.setId(((BigDecimal) map.get("id")).longValue());
 			rightInfo.setName((String) map.get("name"));
 			rightInfo.setIcon((String) map.get("icon"));
 			rightInfo.setUrl((String) map.get("url"));
 			rightInfo.setVisiturl((String) map.get("visiturl"));
-			rightInfo.setModuleId((Integer) map.get("moduleId"));
-			rightInfo.setVisible((Integer) map.get("visible"));
-			rightInfo.setSeq((Integer) map.get("seq"));
-			rightInfo.setType((Integer) map.get("type"));
+			rightInfo
+					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
+			rightInfo.setVisible(((BigDecimal) map.get("visible")).intValue());
+			rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
+			rightInfo.setType(((BigDecimal) map.get("type")).intValue());
 			rightInfos.add(rightInfo);
 		}
 		Set<Right> result = new HashSet<Right>();
