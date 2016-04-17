@@ -8,6 +8,7 @@ import gnnt.MEBS.common.mgr.model.TradeModule;
 import gnnt.MEBS.common.mgr.model.User;
 import gnnt.MEBS.logonService.dao.BaseDAOJdbc;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,16 @@ public class QueryDao extends BaseDAOJdbc {
 		return result;
 	}
 
+	public Set<Role> getUserRole(String id) {
+		String sql = "select r.* from c_user_role t left join c_role r on t.roleid=r.id where t.userid=?  ";
+		Object[] o = { id };
+		List<Role> roleList = this.getJdbcTemplate().queryForList(sql, o,
+				Role.class);
+		Set<Role> result = new HashSet<Role>();
+		result.addAll(roleList);
+		return result;
+	}
+
 	public Set<Right> getAllRight() {
 		String sql = "select * from C_RIGHT where type!=-2 ";
 		List<Right> roleList = this.getJdbcTemplate().queryForList(sql,
@@ -56,17 +67,35 @@ public class QueryDao extends BaseDAOJdbc {
 		return result;
 	}
 
-	public List<Map<String, Object>> getMarketInfosBySql(String sql) {
+	public Set<Right> getUserRight(String id) {
+		String sql = "select r.* from c_user_right t left join c_right r on t.rightid=r.id where t.userid=? and type!=-2 ";
+		Object[] o = { id };
+		List<Right> roleList = this.getJdbcTemplate().queryForList(sql, o,
+				Right.class);
+		Set<Right> result = new HashSet<Right>();
+		result.addAll(roleList);
+		return result;
+	}
+
+	public List<Map<String, Object>> getMarketInfosBySql() {
+		String sql = "select * from c_marketInfo";
 		return this.getJdbcTemplate().queryForList(sql);
 	}
 
-	public List<Map<String, Object>> getConfigListBySql(String sql) {
+	public List<Map<String, Object>> getConfigListBySql() {
+		String sql = "select * from c_deploy_config t where t.systype='mgr' order by t.sortno,t.moduleid asc";
 		return this.getJdbcTemplate().queryForList(sql);
 	}
 
-	public List<StandardModel> getTradeModulesBySql(String sql,
-			TradeModule module) {
-		return this.getJdbcTemplate().queryForList(sql, StandardModel.class);
+	public List<StandardModel> getTradeModulesBySql() {
+		String sql = "select * from c_trademodule where 1=1";
+		List<TradeModule> list = this.getJdbcTemplate().queryForList(sql,
+				TradeModule.class);
+		List<StandardModel> result = new ArrayList<StandardModel>();
+		for (TradeModule temp : list) {
+			result.add(temp);
+		}
+		return result;
 	}
 
 	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2,

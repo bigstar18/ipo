@@ -153,8 +153,7 @@ public class Global implements ServletContextListener {
 	@SuppressWarnings("unchecked")
 	public void contextInitialized(ServletContextEvent arg0) {
 		// 获取市场信息
-		List<Map<String, Object>> listMap = queryDao
-				.getMarketInfosBySql("select * from c_marketInfo");
+		List<Map<String, Object>> listMap = queryDao.getMarketInfosBySql();
 		marketInfoMap = new LinkedHashMap<String, String>();
 		if (listMap != null && listMap.size() > 0) {
 			for (Map<String, Object> map : listMap) {
@@ -259,8 +258,7 @@ public class Global implements ServletContextListener {
 		// 从数据库c_deploy_config表中获取系统配置信息
 		Map<Integer, Map<Object, Object>> springTradeModuleMap = new LinkedHashMap<Integer, Map<Object, Object>>();
 		try {
-			List<Map<String, Object>> listMap = queryDao
-					.getConfigListBySql("select * from c_deploy_config t where t.systype='mgr' order by t.sortno,t.moduleid asc");
+			List<Map<String, Object>> listMap = queryDao.getConfigListBySql();
 			for (Map<String, Object> map : listMap) {
 				Map<Object, Object> mapClone = new HashMap<Object, Object>();
 				for (Object key : map.keySet()) {
@@ -274,8 +272,7 @@ public class Global implements ServletContextListener {
 		}
 		if (springTradeModuleMap != null && springTradeModuleMap.size() > 0) {
 			// 查询系统中部署了哪几个系统
-			List<StandardModel> list = queryDao.getTradeModulesBySql(
-					"select * from c_trademodule where 1=1", new TradeModule());
+			List<StandardModel> list = queryDao.getTradeModulesBySql();
 			if (list != null) {
 				for (Integer moduleID : springTradeModuleMap.keySet()) {// 外层循环配置文件中的配置，以使得页面展示按钮时有顺序性
 					for (StandardModel model : list) {

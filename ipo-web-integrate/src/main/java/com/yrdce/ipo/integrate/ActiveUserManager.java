@@ -151,9 +151,9 @@ public abstract class ActiveUserManager {
 			user.setRoleSet(queryDao.getAllRole());
 			user.setRightSet(queryDao.getAllRight());
 		} else {
-			// TODO
-			// user.setRoleSet(queryDao.getRole());
-			// user.setRightSet(queryDao.getRight());
+
+			user.setRoleSet(queryDao.getUserRole(traderID));
+			user.setRightSet(queryDao.getUserRight(traderID));
 		}
 		request.getSession().setAttribute("IsSuperAdmin",
 				Boolean.valueOf(isSuperAdminRole));
