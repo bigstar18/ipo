@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
 public class QueryDao extends BaseDAOJdbc {
 
@@ -34,9 +36,11 @@ public class QueryDao extends BaseDAOJdbc {
 	}
 
 	public User getUserByID(String id) {
+		RowMapper<User> rm = ParameterizedBeanPropertyRowMapper
+				.newInstance(User.class);
 		String sql = "select * from C_USER t where t.id=?";
 		Object[] o = { id };
-		return this.getJdbcTemplate().queryForObject(sql, o, User.class);
+		return this.getJdbcTemplate().queryForObject(sql, o, rm);
 	}
 
 	public Set<Role> getAllRole() {
