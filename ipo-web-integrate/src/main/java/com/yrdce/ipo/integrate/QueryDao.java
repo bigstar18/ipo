@@ -192,10 +192,34 @@ public class QueryDao extends BaseDAOJdbc {
 		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3,
 				paramList };
 		try {
-			List<Menu> menuDetails = this.getJdbcTemplate().queryForList(sql,
-					params, Menu.class);
+			List<Map<String, Object>> menuDetails = this.getJdbcTemplate()
+					.queryForList(sql, params);
 			if (menuDetails.size() > 0) {
-				return (Menu) menuDetails.get(0);
+				Menu rightInfo = new Menu();
+				Map<String, Object> map = menuDetails.get(0);
+				if ((BigDecimal) map.get("id") != null) {
+					rightInfo.setId(((BigDecimal) map.get("id")).longValue());
+				}
+				rightInfo.setName((String) map.get("name"));
+				rightInfo.setIcon((String) map.get("icon"));
+				rightInfo.setUrl((String) map.get("url"));
+
+				if ((BigDecimal) map.get("moduleId") != null) {
+					rightInfo.setModuleId(((BigDecimal) map.get("moduleId"))
+							.intValue());
+				}
+				if ((BigDecimal) map.get("visible") != null) {
+					rightInfo.setVisible(((BigDecimal) map.get("visible"))
+							.intValue());
+				}
+				if ((BigDecimal) map.get("seq") != null) {
+					rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
+				}
+				if ((BigDecimal) map.get("parentID") != null) {
+					rightInfo.setParentID(((BigDecimal) map.get("parentID"))
+							.longValue());
+				}
+				return rightInfo;
 			}
 			return null;
 		} catch (Exception e) {
@@ -203,5 +227,4 @@ public class QueryDao extends BaseDAOJdbc {
 			return null;
 		}
 	}
-
 }
