@@ -1,22 +1,16 @@
 package com.yrdce.ipo.modules.sys.service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yrdce.ipo.common.dao.CRightMapperImpl;
 
 import gnnt.MEBS.common.mgr.model.Menu;
-import gnnt.MEBS.common.mgr.model.Right;
 
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
-	@Autowired
+	//@Autowired
 	CRightMapperImpl menuDao;
 
 	@Override
@@ -39,6 +33,7 @@ public class MenuServiceImpl implements MenuService {
 	 *            子菜单只保留moduleList中所包含的模块菜单
 	 * @return 菜单
 	 */
+
 	public Menu getMenuById(long paramLong, List<Integer> paramList) {
 		return menuDao.getMenuById(paramLong, -1, 0, 0, paramList);
 	}
@@ -59,11 +54,11 @@ public class MenuServiceImpl implements MenuService {
 	 *            菜单可见性 0 可见 其它不可见
 	 * @return 菜单列表
 	 */
+
 	public List<Menu> getMenuBySubFilter(int paramInt1, int paramInt2, int paramInt3) {
 		return menuDao.getMenuBySubFilter(paramInt1, paramInt2, paramInt3);
 	}
 
-	@Override
 	/**
 	 * 根据菜单树和权限 获取有权限的菜单集合
 	 * 
@@ -73,10 +68,11 @@ public class MenuServiceImpl implements MenuService {
 	 *            权限
 	 * @return 有权限的菜单树
 	 */
+	/*@Override
 	public Menu getHaveRightMenu(Menu allMenu, Map<Long, Right> rightMap) {
 		// 新菜单对象 将有权限的菜单复制到新菜单对象
 		Menu newMenu = (Menu) allMenu.clone();
-
+	
 		// 因为是克隆过来的所以 子菜单有内容，清空子菜单;子菜单使用seq排序
 		newMenu.setChildMenuSet(new TreeSet<Menu>(new Comparator<Menu>() {
 			public int compare(Menu menu1, Menu menu2) {
@@ -89,13 +85,13 @@ public class MenuServiceImpl implements MenuService {
 				}
 			}
 		}));
-
+	
 		// 源菜单的子菜单集合
 		Set<Menu> childMenuSet = allMenu.getChildMenuSet();
-
+	
 		// 新菜单子菜单集合
 		Set<Menu> newChildMenuSet = newMenu.getChildMenuSet();
-
+	
 		// 遍历子菜单 查看是否有权限 有权限则添加到新菜单
 		for (Menu childMenu : childMenuSet) {
 			// 权限中是否包含菜单权限标志
@@ -116,10 +112,10 @@ public class MenuServiceImpl implements MenuService {
 				}
 				newChildMenuSet.add(newChildMenu);
 			}
-
+	
 		}
-
+	
 		return newMenu;
-	}
+	}*/
 
 }

@@ -109,4 +109,6 @@ public interface BrBrokerMapper {
 	 */
 	int getUnderscribeFundsCount(@Param("broker") VBrBroker broker, @Param("type") String type);
 
+	BrBroker findByFirmid(String firmid);
+
 }

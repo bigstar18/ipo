@@ -534,6 +534,9 @@
       group by b.brokerid)g 
   </select>
   
+  <select id="findByFirmid" resultMap="BaseResultMap" parameterType="String">
+  	 select <include refid="Base_Column_List" /> from BR_BROKER where  FIRMID = #{firmid,jdbcType=VARCHAR}
+  </select>
   
   
 </mapper>

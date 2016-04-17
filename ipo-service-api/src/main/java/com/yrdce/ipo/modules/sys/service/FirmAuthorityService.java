@@ -20,4 +20,12 @@ public interface FirmAuthorityService {
 
 	public Integer insert(String firmId, String moudel);
 
+	/**
+	 * @Title: findCommodity
+	 * @Description: 交易商不同的运营中心查看的商品
+	 * @param firmId
+	 * @return 商品id集合
+	 */
+	public List<String> findCommodity(String firmId);
+
 }

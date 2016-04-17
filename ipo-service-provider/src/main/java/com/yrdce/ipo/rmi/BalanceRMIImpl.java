@@ -1,8 +1,5 @@
 package com.yrdce.ipo.rmi;
 
-import gnnt.MEBS.common.communicate.IBalanceRMI;
-import gnnt.MEBS.common.communicate.model.BalanceVO;
-
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,6 +14,9 @@ import com.yrdce.ipo.modules.sys.dao.CTradeModuleMapper;
 import com.yrdce.ipo.modules.sys.dao.IpoSysStatusMapper;
 import com.yrdce.ipo.modules.sys.entity.CTradeModule;
 import com.yrdce.ipo.modules.sys.entity.IpoSysStatus;
+
+import gnnt.MEBS.common.communicate.IBalanceRMI;
+import gnnt.MEBS.common.communicate.model.BalanceVO;
 
 /**
  * 财务结算
@@ -34,7 +34,7 @@ public class BalanceRMIImpl extends UnicastRemoteObject implements IBalanceRMI {
 	private IpoSysStatusMapper sysStatusMapper;
 	@Autowired
 	private CTradeModuleMapper tradeModuleMapper;
-    //IPO 模块
+	//IPO 模块
 	public static final Long MODULEID = 40L;
 
 	protected BalanceRMIImpl() throws RemoteException {
@@ -64,27 +64,24 @@ public class BalanceRMIImpl extends UnicastRemoteObject implements IBalanceRMI {
 		return true;
 	}
 
-	
-	
 	public void init() {
-	   
+
 		logger.info("RMI服务(balanceRMI)开始启动");
 		CTradeModule tradeModule = tradeModuleMapper.findById(MODULEID);
-		String host=tradeModule.getHostIp();
-		int registryPort=tradeModule.getPort();
-		int servicePort=tradeModule.getRmiDataPort();
-		String url="rmi://" + host + ":" + registryPort+ "/balanceRMI";
+		String host = tradeModule.getHostIp();
+		int registryPort = tradeModule.getPort();
+		int servicePort = tradeModule.getRmiDataPort();
+		String url = "rmi://" + host + ":" + registryPort + "/balanceRMI";
 		try {
 			RMISocketFactory.setSocketFactory(new RMIDataSocket(servicePort));
 			LocateRegistry.createRegistry(tradeModule.getPort());
 			Naming.rebind(url, this);
-			logger.info("RMI服务(balanceRMI)启动成功:"+url);
+			logger.info("RMI服务(balanceRMI)启动成功:" + url);
 		} catch (Exception e) {
-			logger.error("RMI服务(balanceRMI)启动失败:{},原因:{}",url,e); 
-			throw new RuntimeException(e); 
+			logger.error("RMI服务(balanceRMI)启动失败:{},原因:{}", url, e);
+			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
 
 }

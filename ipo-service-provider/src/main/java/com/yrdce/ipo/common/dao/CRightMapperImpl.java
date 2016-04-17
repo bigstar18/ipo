@@ -66,7 +66,8 @@ public class CRightMapperImpl extends JdbcDaoSupport implements CRightMapper {
 	}
 
 	@Override
-	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2, int paramInt3, List<Integer> paramList) {
+	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2, int paramInt3,
+			List<Integer> paramList) {
 		String sql = "select * from C_RIGHT  where ID = ? and  PARENTID != -1  and (TYPE = ? or TYPE = ?) and VISIBLE =? and MODULEID in(?) order by SEQ";
 		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3, paramList };
 		try {

@@ -202,5 +202,14 @@
   		<servlet-name>ModularServlet</servlet-name>
   		<url-pattern>/ModularServlet</url-pattern>
  	</servlet-mapping>
+ 	
+ 	<servlet>
+  		<servlet-name>CommodityHqServlet</servlet-name>
+  		<servlet-class>com.yrdce.ipo.modules.sys.web.CommodityHqServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>CommodityHqServlet</servlet-name>
+  		<url-pattern>/CommodityHqServlet</url-pattern>
+ 	</servlet-mapping>
 
 </web-app>

@@ -6,7 +6,19 @@
 <title>查询条件</title>
 <script type="text/javascript">
 	
-
+$(function () {
+    $("#payables").datebox({
+   	 editable: false,
+        required: true,
+        missingMessage: "必填项",
+        formatter: function (date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+        }
+      });
+    });
 
 	function setFirmid(value){
 		$("#firm").val(value);
@@ -21,24 +33,10 @@
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
 		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-		      window.open("<%=request.getContextPath()%>/brokerageReportController/purchaseincomeinfo?time="+time+","报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/purchaseincomeinfo?time="+time,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
  	
-	$(function () {
-	     $("#payables").datebox({
-	    	 editable: false,
-	         required: true,
-	         missingMessage: "必填项",
-	         formatter: function (date) {
-	         var y = date.getFullYear();
-	         var m = date.getMonth() + 1;
-	         var d = date.getDate();
-	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
-	         }
-	       });
-	     });
-	
 </script>
 </head>
 <body>

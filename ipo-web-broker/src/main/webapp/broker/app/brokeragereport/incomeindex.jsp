@@ -5,13 +5,50 @@
 <head>
 <title>查询条件</title>
 <script type="text/javascript">
-<%-- $(document).ready(function(){
-	$.ajax({
-		type: "GET",
-        url: "<%=request.getContextPath()%>/brokerageReportController/ibrokerid"
-	})
-	}); --%>
 
+	$(function () {
+	     $("#startTime").datebox({
+	    	 editable: false,
+	         required: true,
+	         missingMessage: "必填项",
+	         formatter: function (date) {
+	         var y = date.getFullYear();
+	         var m = date.getMonth() + 1;
+	         var d = date.getDate();
+	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	         },
+	         onSelect:function (date){
+                var stime=parseISO8601($('#starttime').datebox('getValue'));
+ 		          var etime=parseISO8601($('#endtime').datebox('getValue'));
+ 		    	   if (etime < stime) {
+ 		               alert('结束日期小于开始日期');
+ 		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+ 		           }
+ 	     	}
+	       });
+	     
+	     $("#endTime").datebox({
+	    	 editable: false,
+	         required: true,
+	         missingMessage: "必填项",
+	         formatter: function (date) {
+	         var y = date.getFullYear();
+	         var m = date.getMonth() + 1;
+	         var d = date.getDate();
+	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
+	         },
+	         onSelect:function (date){
+                var stime=parseISO8601($('#starttime').datebox('getValue'));
+ 		          var etime=parseISO8601($('#endtime').datebox('getValue'));
+ 		    	   if (etime < stime) {
+ 		               alert('结束日期小于开始日期');
+ 		               $('#starttime').datebox('setValue', '').datebox('showPanel');
+ 		           }
+ 	     	}
+	       });
+	     }
+	);
+	
 	function parseISO8601(dateStringInRange) {
 	        var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
 	            date = new Date(NaN), month,
@@ -44,53 +81,10 @@
 		      var iHeight = 700; //弹出窗口的高度;
 		      var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
 		      var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-		      window.open("<%=request.getContextPath()%>/brokerageReportController/incomeForward?starttime="+time+"&&endtime="+endtime+","报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
+		      window.open("<%=request.getContextPath()%>/brokerageReportController/incomeForward?starttime="+time+"&&endtime="+endtime,"报表页面",'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth +  ',top=' + iTop + ',left=' + iLeft+",scrollbars=yes,location=no"); 
 		  }
 	}
  	
-	$(function () {
-	     $("#startTime").datebox({
-	    	 editable: false,
-	         required: true,
-	         missingMessage: "必填项",
-	         formatter: function (date) {
-	         var y = date.getFullYear();
-	         var m = date.getMonth() + 1;
-	         var d = date.getDate();
-	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
-	         },
-	         onSelect:function (date){
-                 var stime=parseISO8601($('#starttime').datebox('getValue'));
-  		          var etime=parseISO8601($('#endtime').datebox('getValue'));
-  		    	   if (etime < stime) {
-  		               alert('结束日期小于开始日期');
-  		               $('#starttime').datebox('setValue', '').datebox('showPanel');
-  		           }
-  	     	}
-	       });
-	     
-	     $("#endTime").datebox({
-	    	 editable: false,
-	         required: true,
-	         missingMessage: "必填项",
-	         formatter: function (date) {
-	         var y = date.getFullYear();
-	         var m = date.getMonth() + 1;
-	         var d = date.getDate();
-	         return y + "-" + (m < 10 ? ("0" + m) : m) + "-" + (d < 10 ? ("0" + d) : d);
-	         },
-	         onSelect:function (date){
-                 var stime=parseISO8601($('#starttime').datebox('getValue'));
-  		          var etime=parseISO8601($('#endtime').datebox('getValue'));
-  		    	   if (etime < stime) {
-  		               alert('结束日期小于开始日期');
-  		               $('#starttime').datebox('setValue', '').datebox('showPanel');
-  		           }
-  	     	}
-	       });
-	     }
-	);
-	
 </script>
 </head>
 <body>
