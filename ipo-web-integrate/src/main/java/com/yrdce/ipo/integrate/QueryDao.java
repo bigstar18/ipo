@@ -87,16 +87,27 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Right> rightInfos = new ArrayList<Right>();
 		for (Map<String, Object> map : rightList) {
 			Right rightInfo = new Right();
-			rightInfo.setId(((BigDecimal) map.get("id")).longValue());
+			if ((BigDecimal) map.get("id") != null) {
+				rightInfo.setId(((BigDecimal) map.get("id")).longValue());
+			}
 			rightInfo.setName((String) map.get("name"));
 			rightInfo.setIcon((String) map.get("icon"));
 			rightInfo.setUrl((String) map.get("url"));
 			rightInfo.setVisiturl((String) map.get("visiturl"));
-			rightInfo
-					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
-			rightInfo.setVisible(((BigDecimal) map.get("visible")).intValue());
-			rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
-			rightInfo.setType(((BigDecimal) map.get("type")).intValue());
+			if ((BigDecimal) map.get("moduleId") != null) {
+				rightInfo.setModuleId(((BigDecimal) map.get("moduleId"))
+						.intValue());
+			}
+			if ((BigDecimal) map.get("visible") != null) {
+				rightInfo.setVisible(((BigDecimal) map.get("visible"))
+						.intValue());
+			}
+			if ((BigDecimal) map.get("seq") != null) {
+				rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
+			}
+			if ((BigDecimal) map.get("type") != null) {
+				rightInfo.setType(((BigDecimal) map.get("type")).intValue());
+			}
 			rightInfos.add(rightInfo);
 		}
 		Set<Right> result = new HashSet<Right>();
@@ -112,16 +123,27 @@ public class QueryDao extends BaseDAOJdbc {
 		List<Right> rightInfos = new ArrayList<Right>();
 		for (Map<String, Object> map : rightList) {
 			Right rightInfo = new Right();
-			rightInfo.setId(((BigDecimal) map.get("id")).longValue());
+			if ((BigDecimal) map.get("id") != null) {
+				rightInfo.setId(((BigDecimal) map.get("id")).longValue());
+			}
 			rightInfo.setName((String) map.get("name"));
 			rightInfo.setIcon((String) map.get("icon"));
 			rightInfo.setUrl((String) map.get("url"));
 			rightInfo.setVisiturl((String) map.get("visiturl"));
-			rightInfo
-					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
-			rightInfo.setVisible(((BigDecimal) map.get("visible")).intValue());
-			rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
-			rightInfo.setType(((BigDecimal) map.get("type")).intValue());
+			if ((BigDecimal) map.get("moduleId") != null) {
+				rightInfo.setModuleId(((BigDecimal) map.get("moduleId"))
+						.intValue());
+			}
+			if ((BigDecimal) map.get("visible") != null) {
+				rightInfo.setVisible(((BigDecimal) map.get("visible"))
+						.intValue());
+			}
+			if ((BigDecimal) map.get("seq") != null) {
+				rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
+			}
+			if ((BigDecimal) map.get("type") != null) {
+				rightInfo.setType(((BigDecimal) map.get("type")).intValue());
+			}
 			rightInfos.add(rightInfo);
 		}
 		Set<Right> result = new HashSet<Right>();
@@ -146,8 +168,10 @@ public class QueryDao extends BaseDAOJdbc {
 		List<StandardModel> rightInfos = new ArrayList<StandardModel>();
 		for (Map<String, Object> map : trademoduleList) {
 			TradeModule rightInfo = new TradeModule();
-			rightInfo
-					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
+			if ((BigDecimal) map.get("moduleId") != null) {
+				rightInfo.setModuleId(((BigDecimal) map.get("moduleId"))
+						.intValue());
+			}
 			rightInfo.setAddFirmFn((String) map.get("addFirmFn"));
 			rightInfo.setCnName((String) map.get("cnName"));
 			rightInfo.setDelFirmFn((String) map.get("delFirmFn"));
