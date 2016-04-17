@@ -9,7 +9,10 @@ import gnnt.MEBS.common.mgr.model.User;
 import gnnt.MEBS.logonService.dao.BaseDAOJdbc;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 
 public class QueryDao extends BaseDAOJdbc {
@@ -188,42 +192,36 @@ public class QueryDao extends BaseDAOJdbc {
 
 	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2,
 			int paramInt3, List<Integer> paramList) {
-		String sql = "select * from C_RIGHT  where ID = ? and  PARENTID != -1  and (TYPE = ? or TYPE = ?) and VISIBLE =? and MODULEID in(?) order by SEQ";
-		StringBuffer paramStr = new StringBuffer("");
-		for (Integer temp : paramList) {
-			paramStr.append(temp).append(",");
-		}
-		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3,
-				paramStr.substring(0, paramStr.length() - 1) };
 		try {
-			List<Map<String, Object>> menuDetails = this.getJdbcTemplate()
-					.queryForList(sql, params);
-			if (menuDetails.size() > 0) {
-				Menu rightInfo = new Menu();
-				Map<String, Object> map = menuDetails.get(0);
-				if ((BigDecimal) map.get("id") != null) {
-					rightInfo.setId(((BigDecimal) map.get("id")).longValue());
-				}
-				rightInfo.setName((String) map.get("name"));
-				rightInfo.setIcon((String) map.get("icon"));
-				rightInfo.setUrl((String) map.get("url"));
+			String sql = "select * from C_RIGHT  where ID = :paramLong and  PARENTID != -1  and (TYPE = :paramInt1 or TYPE = :paramInt2) and VISIBLE =:paramInt3 and MODULEID in(:param) order by SEQ";
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("paramLong", paramLong);
+			paramMap.put("paramInt1", paramInt1);
+			paramMap.put("paramInt2", paramInt2);
+			paramMap.put("paramInt3", paramInt3);
+			paramMap.put("param", paramList);
+			NamedParameterJdbcTemplate jdbc = new NamedParameterJdbcTemplate(
+					this.getJdbcTemplate());
+			List<Menu> menulist = jdbc.query(sql, paramMap,
+					new RowMapper<Menu>() {
 
-				if ((BigDecimal) map.get("moduleId") != null) {
-					rightInfo.setModuleId(((BigDecimal) map.get("moduleId"))
-							.intValue());
-				}
-				if ((BigDecimal) map.get("visible") != null) {
-					rightInfo.setVisible(((BigDecimal) map.get("visible"))
-							.intValue());
-				}
-				if ((BigDecimal) map.get("seq") != null) {
-					rightInfo.setSeq(((BigDecimal) map.get("seq")).intValue());
-				}
-				if ((BigDecimal) map.get("parentID") != null) {
-					rightInfo.setParentID(((BigDecimal) map.get("parentID"))
-							.longValue());
-				}
-				return rightInfo;
+						@Override
+						public Menu mapRow(ResultSet rs, int index)
+								throws SQLException {
+							Menu rightInfo = new Menu();
+							rightInfo.setId(rs.getLong("id"));
+							rightInfo.setName(rs.getString("name"));
+							rightInfo.setIcon(rs.getString("icon"));
+							rightInfo.setUrl(rs.getString("url"));
+							rightInfo.setModuleId(rs.getInt("moduleId"));
+							rightInfo.setVisible(rs.getInt("visible"));
+							rightInfo.setSeq(rs.getInt("seq"));
+							rightInfo.setParentID(rs.getLong("parentID"));
+							return rightInfo;
+						}
+					});
+			if (menulist.size() > 0) {
+				return menulist.get(0);
 			}
 			return null;
 		} catch (Exception e) {
