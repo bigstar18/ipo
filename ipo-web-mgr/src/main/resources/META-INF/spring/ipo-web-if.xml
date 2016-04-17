@@ -69,7 +69,7 @@
     <dubbo:reference id="statisticsReportService" interface="com.yrdce.ipo.modules.sys.service.StatisticsReportService" />
 	<dubbo:reference id="stockFreezeService" interface="com.yrdce.ipo.modules.sys.service.StockFreezeService" />
 	<dubbo:reference id="firmAuthorityService" interface="com.yrdce.ipo.modules.sys.service.FirmAuthorityService" />
-    <dubbo:reference id="menuService" interface="com.yrdce.ipo.modules.sys.service.MenuService" />
+   <!-- <dubbo:reference id="menuService" interface="com.yrdce.ipo.modules.sys.service.MenuService" />-->
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
     <!--<dubbo:reference id="anotherUserRestService" interface="com.yrdce.ipo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
 </beans>
