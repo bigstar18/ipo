@@ -189,6 +189,6 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-	</bean>
-	-->
+	</bean>-->
+	
 </beans>

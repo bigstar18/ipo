@@ -45,39 +45,84 @@ public class QueryDao extends BaseDAOJdbc {
 
 	public Set<Role> getAllRole() {
 		String sql = "select * from C_ROLE  ";
-		List<Role> roleList = this.getJdbcTemplate().queryForList(sql,
-				Role.class);
+		List<Map<String, Object>> roleList = this.getJdbcTemplate()
+				.queryForList(sql);
+		List<Role> roleInfos = new ArrayList<Role>();
+		for (Map<String, Object> map : roleList) {
+			Role roleInfo = new Role();
+			roleInfo.setId((Long) map.get("id"));
+			roleInfo.setName((String) map.get("name"));
+			roleInfo.setDescription((String) map.get("description"));
+			roleInfos.add(roleInfo);
+		}
 		Set<Role> result = new HashSet<Role>();
-		result.addAll(roleList);
+		result.addAll(roleInfos);
 		return result;
 	}
 
 	public Set<Role> getUserRole(String id) {
 		String sql = "select r.* from c_user_role t left join c_role r on t.roleid=r.id where t.userid=?  ";
 		Object[] o = { id };
-		List<Role> roleList = this.getJdbcTemplate().queryForList(sql, o,
-				Role.class);
+		List<Map<String, Object>> roleList = this.getJdbcTemplate()
+				.queryForList(sql, o);
+		List<Role> roleInfos = new ArrayList<Role>();
+		for (Map<String, Object> map : roleList) {
+			Role roleInfo = new Role();
+			roleInfo.setId((Long) map.get("id"));
+			roleInfo.setName((String) map.get("name"));
+			roleInfo.setDescription((String) map.get("description"));
+			roleInfos.add(roleInfo);
+		}
 		Set<Role> result = new HashSet<Role>();
-		result.addAll(roleList);
+		result.addAll(roleInfos);
 		return result;
+
 	}
 
 	public Set<Right> getAllRight() {
 		String sql = "select * from C_RIGHT where type!=-2 ";
-		List<Right> roleList = this.getJdbcTemplate().queryForList(sql,
-				Right.class);
+		List<Map<String, Object>> rightList = this.getJdbcTemplate()
+				.queryForList(sql);
+		List<Right> rightInfos = new ArrayList<Right>();
+		for (Map<String, Object> map : rightList) {
+			Right rightInfo = new Right();
+			rightInfo.setId((Long) map.get("id"));
+			rightInfo.setName((String) map.get("name"));
+			rightInfo.setIcon((String) map.get("icon"));
+			rightInfo.setUrl((String) map.get("url"));
+			rightInfo.setVisiturl((String) map.get("visiturl"));
+			rightInfo.setModuleId((Integer) map.get("moduleId"));
+			rightInfo.setVisible((Integer) map.get("visible"));
+			rightInfo.setSeq((Integer) map.get("seq"));
+			rightInfo.setType((Integer) map.get("type"));
+			rightInfos.add(rightInfo);
+		}
 		Set<Right> result = new HashSet<Right>();
-		result.addAll(roleList);
+		result.addAll(rightInfos);
 		return result;
 	}
 
 	public Set<Right> getUserRight(String id) {
 		String sql = "select r.* from c_user_right t left join c_right r on t.rightid=r.id where t.userid=? and type!=-2 ";
 		Object[] o = { id };
-		List<Right> roleList = this.getJdbcTemplate().queryForList(sql, o,
-				Right.class);
+		List<Map<String, Object>> rightList = this.getJdbcTemplate()
+				.queryForList(sql, o);
+		List<Right> rightInfos = new ArrayList<Right>();
+		for (Map<String, Object> map : rightList) {
+			Right rightInfo = new Right();
+			rightInfo.setId((Long) map.get("id"));
+			rightInfo.setName((String) map.get("name"));
+			rightInfo.setIcon((String) map.get("icon"));
+			rightInfo.setUrl((String) map.get("url"));
+			rightInfo.setVisiturl((String) map.get("visiturl"));
+			rightInfo.setModuleId((Integer) map.get("moduleId"));
+			rightInfo.setVisible((Integer) map.get("visible"));
+			rightInfo.setSeq((Integer) map.get("seq"));
+			rightInfo.setType((Integer) map.get("type"));
+			rightInfos.add(rightInfo);
+		}
 		Set<Right> result = new HashSet<Right>();
-		result.addAll(roleList);
+		result.addAll(rightInfos);
 		return result;
 	}
 
