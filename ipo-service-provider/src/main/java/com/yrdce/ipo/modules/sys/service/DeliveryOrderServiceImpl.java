@@ -173,6 +173,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 				.getApprovalStatus())) {
 			if (deorder.getApprovalStatus().equals(
 					DeliveryConstant.StatusType.MARKETPASS.getCode())) {
+				BeanUtils.copyProperties(deorder, record);
 				record.setApproveDate(new Date());
 				record.setApprovers(managerId);
 				deliveryordermapper.updateByPrimaryKey(record);
@@ -181,6 +182,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 			}
 			if (deorder.getApprovalStatus().equals(
 					DeliveryConstant.StatusType.MARKETNOPASS.getCode())) {
+				BeanUtils.copyProperties(deorder, record);
 				record.setApproveDate(new Date());
 				record.setApprovers(managerId);
 				deliveryordermapper.updateByPrimaryKey(record);
