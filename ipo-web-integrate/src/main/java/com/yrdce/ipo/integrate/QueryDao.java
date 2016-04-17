@@ -189,8 +189,12 @@ public class QueryDao extends BaseDAOJdbc {
 	public Menu getMenuById(long paramLong, int paramInt1, int paramInt2,
 			int paramInt3, List<Integer> paramList) {
 		String sql = "select * from C_RIGHT  where ID = ? and  PARENTID != -1  and (TYPE = ? or TYPE = ?) and VISIBLE =? and MODULEID in(?) order by SEQ";
+		StringBuffer paramStr = new StringBuffer("");
+		for (Integer temp : paramList) {
+			paramStr.append(temp).append(",");
+		}
 		Object[] params = { paramLong, paramInt1, paramInt2, paramInt3,
-				paramList };
+				paramStr.substring(0, paramStr.length() - 1) };
 		try {
 			List<Map<String, Object>> menuDetails = this.getJdbcTemplate()
 					.queryForList(sql, params);
