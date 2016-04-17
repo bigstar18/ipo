@@ -8,6 +8,7 @@ import gnnt.MEBS.common.mgr.model.TradeModule;
 import gnnt.MEBS.common.mgr.model.User;
 import gnnt.MEBS.logonService.dao.BaseDAOJdbc;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -143,7 +144,8 @@ public class QueryDao extends BaseDAOJdbc {
 		List<StandardModel> rightInfos = new ArrayList<StandardModel>();
 		for (Map<String, Object> map : trademoduleList) {
 			TradeModule rightInfo = new TradeModule();
-			rightInfo.setModuleId((Integer) map.get("moduleId"));
+			rightInfo
+					.setModuleId(((BigDecimal) map.get("moduleId")).intValue());
 			rightInfo.setAddFirmFn((String) map.get("addFirmFn"));
 			rightInfo.setCnName((String) map.get("cnName"));
 			rightInfo.setDelFirmFn((String) map.get("delFirmFn"));
