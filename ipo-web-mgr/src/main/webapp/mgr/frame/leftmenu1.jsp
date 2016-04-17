@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/mgr/public/includefiles/allincludefiles.jsp"%>
-<%@page import="gnnt.MEBS.common.mgr.common.Global"%>
 <script type="text/javascript" src="<%=publicPath%>/js/xtree.js"></script>
-<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css"/>
+<link rel="stylesheet" href="<%=skinPath%>/css/xtree.css" type="text/css" />
 <html>
-	<head>
-		<script type="text/javascript">
+<head>
+<script type="text/javascript">
 var oldTradeNo = -1;
 var oldSystemStatus = "";
 var promptTime = 60;
@@ -13,7 +12,7 @@ var promptTime = 60;
 			var screenAvailHeight = window.screen.availHeight;
 			function regInput(str){  
 			      reg=/^[a-z]*$/;
-			      return  reg.test(str);
+			      return reg.test(str)
 		      }
 	      
       		function goto(pathRrl,node,parentNode){
@@ -116,8 +115,12 @@ var promptTime = 60;
                  }
             	if ( lastNo != curNo )
             	{
-            		objDrwContent[lastNo].style.display = "none";
-            		objDrwContent[curNo].style.display = "inline";
+            		if(objDrwContent[lastNo] && objDrwContent[lastNo].style){
+            			objDrwContent[lastNo].style.display = "none";
+            		}
+            		if(objDrwContent[curNo] && objDrwContent[curNo].style){
+	            		objDrwContent[curNo].style.display = "inline";
+            		}
             		objMem.curNo = curNo;
             	}
             	else
@@ -158,7 +161,7 @@ var promptTime = 60;
 				};
 				}
 </script>
-		<style>
+<style>
 .a {
 	font-weight: bold;
 }
@@ -168,142 +171,166 @@ var promptTime = 60;
 }
 
 .webfx-tree-item1 {
-	font-size: 13px;
-	line-height: 25px;
-	color: #26548B;
+	font-size: 13px; line-height: 25px; color: #26548B;
 }
 </style>
-	</head>
-	<body class="leftframe" onLoad="start();" onselectstart="return false">
-		<form action="" method="post" name="frm" id="frm"></form>
-		<div id="div_BackGround">
-			<table width="100%" height="100%" border="0" cellspacing="0"
-				cellpadding="0" align="right">
-				<tr height="100%">
-					<td></td>
-				</tr>
-				<tr height="25">
-					<td>
-						<table border="0" cellspacing="0" cellpadding="0" width="100%"
-							height="100%">
-							<tr>
-								<td align="center" valign="middle"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+</head>
+<body class="leftframe" onLoad="start();" onselectstart="return false">
+	<form action="" method="post" name="frm" id="frm"></form>
+	<div id="div_BackGround">
+		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" align="right">
+			<tr height="100%">
+				<td></td>
+			</tr>
+			<tr height="25">
+				<td>
+					<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
+						<tr>
+							<td align="center" valign="middle"></td>
+						</tr>
+					</table>
+			</td>
+			</tr>
+		</table>
+	</div>
+	<div id="div_Drawer">
+		<div id="div_entry" align="left" onClick="collaspe();" curstatus="hide">
+			<img src="${skinPath}/image/frame/menu/menu_top.gif" />
 		</div>
-		<div id="div_Drawer">
-			<div id="div_entry" align="left" onClick="collaspe();"
-				curstatus="hide">
-				<img src="${skinPath}/image/frame/menu/menu_top.gif" />
-			</div>
-			<div style="clear: both;"></div>
-			<div id="div_Container" align="left">
-				<c:set var="pictureLayerNumber" value="0" />
-			 <%-- <div class="leftMenu_div">
-					<div id="div_drw_Panel" align="left" curDrwNo="0"
-						onClick="drwSwitch();">
-						&nbsp;
-						<a><img src="<%=skinPath%>/image/frame/menu/06.gif"
-								align="top" curDrwNo="0" />
-						</a> &nbsp;我的菜单&nbsp;&nbsp;
-						<a href="#" onclick="setFastMenu();"><span
-							style="font-size: 12; text-decoration: none;" curDrwNo="0">修改设置</span>
-						</a>
-					</div>
-					<c:if test="${fn:length(myMenuList)>0}">
-						<div id="div_drw_Content" style="display: inline;">
-					</c:if>
-					<c:if test="${fn:length(myMenuList)==0}">
-						<div id="div_drw_Content" style="display: none;">
-					</c:if>
-					<div id="tree">
-						<c:forEach items="${myMenuList}" var="myMenu">
-							<c:set var="icoPath" value="${menuPicPath }${myMenu.right.icon }" />
-							<c:set var="urlPath"
-								value="${basePath}${myMenu.right.visiturl }" />
-							<script type="text/javascript">
+		<div style="clear: both;"></div>
+		<div id="div_Container" align="left">
+			<c:set var="pictureLayerNumber" value="0" />
+			<div class="leftMenu_div">
+				<div id="div_drw_Panel" align="left" curDrwNo="0" onClick="drwSwitch();">
+					&nbsp; <a><img src="<%=skinPath%>/image/frame/menu/06.gif" align="top" curDrwNo="0" /> </a> &nbsp;我的菜单&nbsp;&nbsp; <a href="#" onclick="setFastMenu();"><span style="font-size: 12; text-decoration: none; color: #336699;" curDrwNo="0">修改设置</span> </a>
+				</div>
+				<c:if test="${fn:length(myMenuList)>0}">
+					<div id="div_drw_Content" style="display: inline;">
+				</c:if>
+				<c:if test="${fn:length(myMenuList)==0}">
+					<div id="div_drw_Content" style="display: none;">
+				</c:if>
+				<div id="tree">
+					<c:forEach items="${myMenuList}" var="myMenu">
+						<c:set var="icoPath" value="${skinPath}/image/frame/menu/29_29.gif" />
+						<%
+							//设置我的菜单默认图片路径
+						%>
+						<c:if test="${not empty myMenu.right.icon}">
+							<c:set var="icoPath" value="${menuPicPath}${myMenu.right.icon}" />
+							<%
+								//如果数据库中配置了本菜单的图标，则采用数据库中配置的图标名称
+							%>
+						</c:if>
+						<c:set var="urlPath" value="${basePath}${myMenu.right.visiturl }" />
+						<script type="text/javascript">
 									var M01;
 									var M0101;
 									M01 = new WebFXTree("<img>","");
-									M0101 = new WebFXTreeItem("${myMenu.right.name},${skinPath}/image/frame/menu/29_29.gif","${urlPath}");
+									M0101 = new WebFXTreeItem("${myMenu.right.name},${icoPath}","${urlPath}");
 									M01.add(M0101);
         							document.write(M0101);
         				</script>
+					</c:forEach>
+				</div>
+			</div>
+			<c:set var="RootRightID" value="<%=com.yrdce.ipo.integrate.Global.ROOTRIGHTID%>"></c:set>
+			<c:forEach var="menu" items="${HaveRightMenu.childMenuSet}">
+				<%
+					//遍历抽屉菜单
+				%>
+				<c:set var="mainMenu" value="${menu}"></c:set>
+				<c:if test="${mainMenu.parentID==RootRightID}">
+					<c:set var="pictureLayerNumber" value="${pictureLayerNumber+1 }" />
+					<div id="div_drw_Panel" align="left" curDrwNo="${pictureLayerNumber }" onClick="drwSwitch();">
+						&nbsp;
+						<c:set var="icoPath" value="${skinPath}/image/frame/menu/06.gif" />
+						<%
+							//设置抽屉菜单默认图标
+						%>
+						<c:if test="${not empty mainMenu.icon}">
+							<c:set var="icoPath" value="${menuPicPath}${mainMenu.icon}" />
+							<%
+								//如果数据库中配置了抽屉菜单的图标，则采用数据库中配置的图标名称
+							%>
+						</c:if>
+						<a><img src="${icoPath}" align="top" curDrwNo="${pictureLayerNumber }" /> </a> &nbsp;${mainMenu.name }
+					</div>
+					<c:if test="${fn:length(myMenuList)>0}">
+						<div id="div_drw_Content" style="display: none;">
+					</c:if>
+					<c:if test="${fn:length(myMenuList)==0}">
+						<c:choose>
+							<c:when test="${pictureLayerNumber==1 }">
+								<div id="div_drw_Content" style="display: inline;">
+							</c:when>
+							<c:otherwise>
+								<div id="div_drw_Content" style="display: none;">
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+					<div id="tree">
+						<c:set var="firstMenu" value="${mainMenu.childMenuSet}"></c:set>
+						<c:forEach var="firstMenu" items="${firstMenu}">
+							<%
+								//循环遍历抽屉菜单下的一级菜单
+							%>
+							<c:set var="currentMenuIoc" value="${skinPath}/image/frame/menu/42_42.gif" />
+							<%
+								//设置一级菜单默认图标
+							%>
+							<c:if test="${not empty firstMenu.icon}">
+								<c:set var="currentMenuIoc" value="${menuPicPath}${firstMenu.icon}" />
+								<%
+									//如果数据库中配置了一级菜单的图标，则采用数据库中配置的图标名称
+								%>
+							</c:if>
+							<script type="text/javascript">
+								var M01;
+								var M0101;
+								M01 = new WebFXTree("<img src='${currentMenuIoc }'> ${firstMenu.name }","");<%// 用 js 生成一级菜单%>
+							</script>
+							<c:set value="${firstMenu.childMenuSet}" var="secondMenu"></c:set>
+							<c:forEach var="secondMenu" items="${secondMenu}">
+								<%
+									//遍历一级菜单下的二级菜单
+								%>
+								<c:set var="currentMenuIoc" value="${skinPath}/image/frame/menu/gif_07.gif" />
+								<%
+									//设置二级菜单默认图标
+								%>
+								<c:if test="${not empty secondMenu.icon }">
+									<c:set var="currentMenuIoc" value="${menuPicPath }${secondMenu.icon}" />
+									<%
+										//如果数据库中配置了二级菜单的图标，则采用数据库中配置的图标名称
+									%>
+								</c:if>
+								<script type="text/javascript">
+									M0101 = new WebFXTreeItem("${secondMenu.name },${currentMenuIoc }","${basePath}${secondMenu.url}");<%// 用 js 生成二级菜单%>
+									M01.add(M0101);<%//将二级菜单添加到一级菜单中%>
+								</script>
+							</c:forEach>
+							<script type="text/javascript">
+						        	document.write(M01);<%//写出一级菜单%>
+						        </script>
 						</c:forEach>
 					</div>
-				</div> --%>
-				<c:set var="RootRightID" value="<%=Global.ROOTRIGHTID%>"></c:set>
-				<c:forEach var="menu" items="${HaveRightMenu.childMenuSet}">
-					<c:set var="mainMenu" value="${menu}"></c:set>
-					<c:if test="${mainMenu.parentID==RootRightID}">
-						<c:set var="pictureLayerNumber" value="${pictureLayerNumber+1 }" />
-						<div id="div_drw_Panel" align="left"
-							curDrwNo="${pictureLayerNumber }" onClick="drwSwitch();">
-							&nbsp;
-							<a><img src="<%=skinPath%>/image/frame/menu/06.gif"
-									align="top" curDrwNo="${pictureLayerNumber }" />
-							</a> &nbsp;${mainMenu.name }
-						</div>
-						<%-- <c:if test="${fn:length(myMenuList)>0}">
-							<div id="div_drw_Content" style="display: none;">
-						</c:if>
-						<c:if test="${fn:length(myMenuList)==0}">
-								<c:choose>
-									<c:when test="${pictureLayerNumber==1 }">
-										<div id="div_drw_Content" style="display: inline;">
-									</c:when>
-									<c:otherwise>
-										<div id="div_drw_Content" style="display: none;">
-									</c:otherwise>
-								</c:choose>
-						</c:if> --%>
-						<div id="tree">
-							<c:set var="firstMenu" value="${mainMenu.childMenuSet}"></c:set>
-							<c:forEach var="firstMenu" items="${firstMenu}">
-								<c:set var="currentMenuIoc"
-									value="${menuPicPath }${firstMenu.icon }" />
-								<script type="text/javascript">
-							var M01;
-							var M0101;
-							M01 = new WebFXTree("<img src='${currentMenuIoc }'> ${firstMenu.name }","");
-							</script>
-								<c:set value="${firstMenu.childMenuSet}" var="secondMenu"></c:set>
-								<c:forEach var="secondMenu" items="${secondMenu}">
-									<c:set var="currentMenuIoc"
-										value="${skinPath}/image/frame/menu/gif_07.gif" />
-									<c:if test="${not empty secondMenu.icon }">
-										<c:set var="currentMenuIoc"
-											value="${menuPicPath }${secondMenu.icon }" />
-									</c:if>
-									<c:set var="currentMenuUrl"
-										value="${basePath }${secondMenu.url }" />
-									<script type="text/javascript">
-									M0101 = new WebFXTreeItem("${secondMenu.name },${currentMenuIoc }","${currentMenuUrl}");
-									M01.add(M0101);
-								</script>
-								</c:forEach>
-								<script type="text/javascript">
-        document.write(M01);
-        </script>
-							</c:forEach>
-						</div>
-			</div>
-			</c:if>
-			</c:forEach>
-			<div class="menu_bottom"></div>
 		</div>
-		<c:if test="${pictureLayerNumber==0 }">
-			<div>
-				<div id="div_drw_Content" align="center" class="div_drwContent"
-					style="display: none;"></div>
-				<div id="div_drw_Panel" align="center" class="div_drwContent"
-					style="display: none;"></div>
-			</div>
 		</c:if>
-	<%-- 	<c:if test="${fn:length(myMenuList)>0}"><span id="span_curstatus" curNo="0" style="display: none;"></span></c:if>
-		<c:if test="${fn:length(myMenuList)==0}"><span id="span_curstatus" curNo="1" style="display: none;"></span></c:if> --%>
-	</body>
+		</c:forEach>
+		<div class="menu_bottom"></div>
+	</div>
+	<c:if test="${pictureLayerNumber==0 }">
+		<div>
+			<div id="div_drw_Content" align="center" class="div_drwContent" style="display: none;"></div>
+			<div id="div_drw_Panel" align="center" class="div_drwContent" style="display: none;"></div>
+		</div>
+	</c:if>
+	<c:if test="${fn:length(myMenuList)>0}">
+		<span id="span_curstatus" curNo="0" style="display: none;"></span>
+	</c:if>
+	<c:if test="${fn:length(myMenuList)==0}">
+		<span id="span_curstatus" curNo="1" style="display: none;"></span>
+	</c:if>
+</body>
 </html>
