@@ -53,6 +53,7 @@ public class MenuController {
 			else {
 				Map<Long, Right> rightMap = getRightMap(request);
 				Menu menu = getHaveRightMenu(allMenu, rightMap);
+
 				request.setAttribute(Global.HAVERIGHTMENU, menu);
 				menuMap = getMenuMap(menu, menuMap);
 			}
